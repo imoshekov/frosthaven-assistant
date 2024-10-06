@@ -11,7 +11,7 @@
             margin: 20px;
             font-size: large;
             color: #FCF7F8;
-            background-color: #355169;
+            background-color: #000000;
         }
 
         input,
@@ -43,7 +43,10 @@
         }
 
         input[type="number"] {
-            width: 60px;
+            width: 70px;
+            font-size: 65px;
+            width: 150px;
+            height: 150px;
         }
 
         /* Color-coding for stats */
@@ -75,7 +78,7 @@
             align-items: stretch;
             gap: 10px 20px;
             flex-wrap: wrap;
-            width: 50%;
+            width: 70%;
         }
 
         .add-char.modify-char {
@@ -109,9 +112,7 @@
 
         .add-stats {
             align-items: stretch;
-            width: 100%;
-            display: flex;
-            align-items: stretch;
+            width: 30%;
             gap: 10px 10px;
             align-items: end;
             justify-content: space-between;
@@ -139,15 +140,19 @@
         .creature-row.boneshaper-row {
             color: #49a967;
         }
+
         .creature-row.drifter-row {
             color: #a28b7c;
         }
+
         .creature-row.banner-spear-row {
             color: #edbc47;
         }
+
         .creature-row.deathwalker-row {
             color: #8c97a9;
         }
+
         .creature-row {
             color: #AC3931;
         }
@@ -220,7 +225,7 @@
     </table>
 
     <h3>Modify by Type</h3>
-    <div class="add-char modify-char">
+    <div class="add-char">
         <div class="row">
             <div class="add-stats">
                 <label for="typeModifier">Type: </label>
@@ -229,23 +234,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="add-stats">
+            <div class="default-stats">
                 <label for="initiativeModifier">Initiative Modifier: </label>
                 <input class="initiative" type="number" id="initiativeModifier" value="0" />
             </div>
-            <div class="add-stats">
+            <div class="default-stats">
                 <label for="hpModifier">HP Modifier: </label>
                 <input class="hp" type="number" id="hpModifier" value="0" />
             </div>
-            <div class="add-stats">
+            <div class="default-stats">
                 <label for="attackModifier">Attack Modifier: </label>
                 <input class="attack" type="number" id="attackModifier" value="0" />
             </div>
-            <div class="add-stats">
+            <div class="default-stats">
                 <label for="movementModifier">Movement Modifier: </label>
                 <input class="movement" type="number" id="movementModifier" value="0" />
             </div>
-            <div class="add-stats">
+            <div class="default-stats">
                 <label for="rangeModifier">Range Modifier: </label>
                 <input class="range" type="number" id="rangeModifier" value="0" />
             </div>
@@ -297,7 +302,8 @@
             const tableBody = document.getElementById('creaturesTable');
             tableBody.innerHTML = '';
             creatures.forEach((creature, index) => {
-                const charType = creature.aggressive ? `character` : `monster`;
+                const charType = creature.aggressive ? 'monster' : 'character';
+                const icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
                 const row = `<tr class='${creature.type}-row creature-row'>
                     <td>
                         <div>
@@ -307,7 +313,7 @@
                     </td>
                     <td>
                         <div class='creature-type'>
-                            <img src=' https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg'>
+                            <img src='${icon}'>
                             <span>${creature.type}</span>
                         <div>
                     </td>
@@ -352,7 +358,7 @@
                     creature.attack += attackModifier;
                     creature.movement += movementModifier;
                     creature.range += rangeModifier;
-                    creature.initiative += initiativeModifier;
+                    creature.initiative = initiativeModifier;
                 }
             });
 
