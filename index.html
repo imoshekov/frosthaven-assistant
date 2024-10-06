@@ -272,7 +272,7 @@
 
         function addCharacter() {
             const name = document.getElementById('name').value;
-            const type = document.getElementById('type').value;
+            const type = document.getElementById('type').value.toLowerCase();
             const initiative = parseInt(document.getElementById('initiative-base').value);
             const defaultAttack = parseInt(document.getElementById('attack-base').value);
             const defaultMovement = parseInt(document.getElementById('movement-base').value);
