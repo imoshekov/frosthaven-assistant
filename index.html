@@ -1,1 +1,381 @@
-<h1>hello world</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frosthaven Creature Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            font-size: large;
+            color: #FCF7F8;
+            background-color: #355169;
+        }
+
+        input,
+        label,
+        button {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        img {
+            width: 100px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #FCF7F8;
+            text-align: center;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+        }
+
+        input[type="number"] {
+            width: 60px;
+        }
+
+        /* Color-coding for stats */
+        .hp {
+            background-color: #49a967;
+        }
+
+        .attack {
+            background-color: #AC3931;
+        }
+
+        .movement {
+            background-color: #a28b7c;
+        }
+
+        .range {
+            background-color: #edbc47;
+        }
+
+        .initiative {
+            background-color: #8c97a9;
+        }
+
+        .add-char {
+            margin-bottom: 20px;
+            justify-content: space-between;
+            display: flex;
+            flex-flow: row;
+            align-items: stretch;
+            gap: 10px 20px;
+            flex-wrap: wrap;
+            width: 50%;
+        }
+
+        .add-char.modify-char {
+            width: 30%;
+        }
+
+        .row {
+            margin-bottom: 20px;
+            justify-content: space-between;
+            display: flex;
+            flex-flow: row;
+            align-items: stretch;
+            gap: 10px 20px;
+            flex-wrap: wrap;
+            width: 100%;
+            align-items: baseline;
+        }
+
+        .row:last-child {
+            margin-top: 20px;
+        }
+
+        .default-stats {
+            align-items: stretch;
+            height: 100%;
+            display: flex;
+            align-items: stretch;
+            gap: 10px 10px;
+            align-items: end;
+        }
+
+        .add-stats {
+            align-items: stretch;
+            width: 100%;
+            display: flex;
+            align-items: stretch;
+            gap: 10px 10px;
+            align-items: end;
+            justify-content: space-between;
+        }
+
+        .add-char>.row>button {
+            margin: 10px;
+        }
+
+        .creature-type {
+            width: 250px;
+            display: flex;
+        }
+
+        .creature-type>span {
+            font-size: 30px;
+            padding: 10px 10px;
+            float: right;
+        }
+
+        .creature-type>img {
+            width: 50px;
+        }
+
+        .creature-row.boneshaper-row {
+            color: #49a967;
+        }
+        .creature-row.drifter-row {
+            color: #a28b7c;
+        }
+        .creature-row.banner-spear-row {
+            color: #edbc47;
+        }
+        .creature-row.deathwalker-row {
+            color: #8c97a9;
+        }
+        .creature-row {
+            color: #AC3931;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Frosthaven Creature & Character Tracker</h1>
+
+    <div class="add-char">
+        <div class="row">
+            <div class="default-stats">
+                <label for="name">Name: </label>
+                <input type="text" id="name" placeholder="Enter name" />
+            </div>
+            <div class="default-stats">
+                <label for="type">Type: </label>
+                <input type="text" id="type" placeholder="Enter type" />
+            </div>
+            <div class="default-stats">
+                <label for="aggressive">Is Agressive: </label>
+                <input type="checkbox" id="aggressive" checked="true" />
+            </div>
+            <button class="initiative" onclick="addCharacter()">Add Character/Creature</button>
+        </div>
+        <div class="row">
+            <div class="default-stats">
+                <label for="initiative">Initiative: </label>
+                <input type="number" id="initiative-base" value="0" />
+            </div>
+            <div class="default-stats">
+                <label for="hp-base">HP: </label>
+                <input class="hp" type="number" id="hp-base" value="0" />
+            </div>
+            <div class="default-stats">
+                <label for="attack-base">Attack: </label>
+                <input class="attack" type="number" id="attack-base" value="0" />
+            </div>
+            <div class="default-stats">
+                <label for="movement-base">Movement: </label>
+                <input class="movement" type="number" id="movement-base" value="0" />
+            </div>
+            <div class="default-stats">
+                <label for="range-base">Range: </label>
+                <input class="range" type="number" id="range-base" value="0" />
+            </div>
+        </div>
+
+    </div>
+
+    <h3>Characters & Creatures</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="initiative">Initiative</th>
+                <th class="hp">HP</th>
+                <th class="attack">Attack</th>
+                <th class="movement">Movement</th>
+                <th class="range">Range</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="creaturesTable">
+            <!-- Dynamic content will go here -->
+        </tbody>
+    </table>
+
+    <h3>Modify by Type</h3>
+    <div class="add-char modify-char">
+        <div class="row">
+            <div class="add-stats">
+                <label for="typeModifier">Type: </label>
+                <input type="text" id="typeModifier" placeholder="Type to modify" />
+                <button class="initiative" onclick="modifyByType()">Apply Modifiers</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="add-stats">
+                <label for="initiativeModifier">Initiative Modifier: </label>
+                <input class="initiative" type="number" id="initiativeModifier" value="0" />
+            </div>
+            <div class="add-stats">
+                <label for="hpModifier">HP Modifier: </label>
+                <input class="hp" type="number" id="hpModifier" value="0" />
+            </div>
+            <div class="add-stats">
+                <label for="attackModifier">Attack Modifier: </label>
+                <input class="attack" type="number" id="attackModifier" value="0" />
+            </div>
+            <div class="add-stats">
+                <label for="movementModifier">Movement Modifier: </label>
+                <input class="movement" type="number" id="movementModifier" value="0" />
+            </div>
+            <div class="add-stats">
+                <label for="rangeModifier">Range Modifier: </label>
+                <input class="range" type="number" id="rangeModifier" value="0" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let creatures = [
+            { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
+            { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
+            { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
+            { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } }
+        ];
+
+        function addCharacter() {
+            const name = document.getElementById('name').value;
+            const type = document.getElementById('type').value;
+            const initiative = parseInt(document.getElementById('initiative-base').value);
+            const defaultAttack = parseInt(document.getElementById('attack-base').value);
+            const defaultMovement = parseInt(document.getElementById('movement-base').value);
+            const defaultHP = parseInt(document.getElementById('hp-base').value);
+            const defaultRange = parseInt(document.getElementById('range-base').value);
+            const isAgressive = document.getElementById('aggressive').checked;
+
+            const newCreature = {
+                name,
+                type,
+                aggressive: isAgressive,
+                hp: defaultHP,
+                attack: defaultAttack,
+                movement: defaultMovement,
+                range: defaultRange,
+                initiative,
+                defaultStats: {
+                    hp: defaultHP,
+                    attack: defaultAttack,
+                    movement: defaultMovement,
+                    range: defaultRange,
+                    initiative
+                }
+            };
+
+            creatures.push(newCreature);
+            sortCreaturesByInitiative();
+            renderTable();
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('creaturesTable');
+            tableBody.innerHTML = '';
+            creatures.forEach((creature, index) => {
+                const charType = creature.aggressive ? `character` : `monster`;
+                const row = `<tr class='${creature.type}-row creature-row'>
+                    <td>
+                        <div>
+                            <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
+                        <div>
+                        <b>${creature.name}</b>
+                    </td>
+                    <td>
+                        <div class='creature-type'>
+                            <img src=' https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg'>
+                            <span>${creature.type}</span>
+                        <div>
+                    </td>
+                    <td><input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" /></td>
+                    <td><input type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
+                    <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
+                    <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
+                    <td><input type="number" class="range" value="${creature.range}" onchange="updateStat(${index}, 'range', this.value)" /></td>
+                    <td>
+                        <button class="initiative" onclick="resetToDefault(${index})">Reset</button>
+                        <button class="attack" onclick="removeCreature(${index})">X</button>
+                    </td>
+                </tr>`;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        function updateStat(index, stat, value) {
+            creatures[index][stat] = parseInt(value);
+        }
+
+        function removeCreature(index) {
+            creatures.splice(index, 1);
+            renderTable();
+        }
+
+        function sortCreaturesByInitiative() {
+            creatures.sort((a, b) => a.initiative - b.initiative);
+        }
+
+        function modifyByType() {
+            const type = document.getElementById('typeModifier').value;
+            const hpModifier = parseInt(document.getElementById('hpModifier').value);
+            const attackModifier = parseInt(document.getElementById('attackModifier').value);
+            const movementModifier = parseInt(document.getElementById('movementModifier').value);
+            const rangeModifier = parseInt(document.getElementById('rangeModifier').value);
+            const initiativeModifier = parseInt(document.getElementById('initiativeModifier').value);
+
+            creatures.forEach(creature => {
+                if (creature.type === type) {
+                    creature.hp += hpModifier;
+                    creature.attack += attackModifier;
+                    creature.movement += movementModifier;
+                    creature.range += rangeModifier;
+                    creature.initiative += initiativeModifier;
+                }
+            });
+
+            sortCreaturesByInitiative();
+            renderTable();
+        }
+
+        function resetToDefault(index) {
+            const defaultStats = creatures[index].defaultStats;
+            creatures[index].hp = defaultStats.hp;
+            creatures[index].attack = defaultStats.attack;
+            creatures[index].movement = defaultStats.movement;
+            creatures[index].range = defaultStats.range;
+            creatures[index].initiative = defaultStats.initiative;
+
+            renderTable();
+        }
+
+        // Render default characters when page loads
+        window.onload = function () {
+            renderTable();
+        };
+    </script>
+</body>
+
+</html>
