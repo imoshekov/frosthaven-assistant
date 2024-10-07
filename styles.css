@@ -1,35 +1,35 @@
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    font-size: 24px;
-    color: #FFFFFF;
-    background-color: #1C1C1C;
-    line-height: 1.5;
+    padding: 10px; /* Reduced padding */
+    font-size: 22px; /* Slightly smaller font */
+    color: #F0F0F0;
+    background-color: #2B2B2B; /* Softer background */
+    line-height: 1.4;
 }
 
 /* Universal styling for input, labels, and buttons */
 input,
 label,
 button {
-    font-size: 24px;
-    color: #FFFFFF;
+    font-size: 22px; /* Reduced font size */
+    color: #F0F0F0;
     background-color: transparent;
     border: none;
-    padding: 10px;
-    margin: 10px;
+    padding: 8px; /* Smaller padding */
+    margin: 5px; /* Reduced margin */
 }
 
-/* Metro-style input and button */
+/* Compact input and button */
 input[type="text"],
 input[type="number"],
 button {
-    border: none; /* Flat design */
-    background-color: #617687; /* Bright metro color */
-    color: #FFFFFF;
-    padding: 15px 20px;
+    border: none;
+    background-color: #445566; /* Softer color */
+    color: #F0F0F0;
+    padding: 10px 15px; /* Reduced padding */
     font-size: 18px;
-    text-transform: uppercase; /* Uppercase for buttons */
+    text-transform: uppercase;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
@@ -37,78 +37,82 @@ button {
 input[type="text"]:focus,
 input[type="number"]:focus,
 button:hover {
-    background-color: #005A9E; /* Slightly darker hover effect */
+    background-color: #56677A; /* Lighter hover effect */
 }
 
 input[type="checkbox"] {
-    width: 30px;
-    height: 30px;
-    margin: 10px;
-    background-color: #617687;
+    width: 25px; /* Smaller checkbox */
+    height: 25px;
+    margin: 5px; /* Reduced margin */
+    background-color: #445566;
     border: none;
     cursor: pointer;
 }
 
 input[type="number"] {
-    width: 100px;
-    height: 50px;
-    font-size: 40px;
+    width: 80px;
+    height: 40px; /* Adjusted size */
+    font-size: 22px;
     text-align: center;
 }
 
-/* Flat, clean table style */
+/* Compact table styling */
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
+    table-layout: fixed; /* Ensure even column widths */
+    max-height: 400px; /* Fixed height for 7-8 items */
+    overflow-y: auto;
 }
 
 img {
-    width: 80px;
+    width: 60px; /* Smaller image */
+    border-radius: 3px;
 }
 
 th,
 td {
-    padding: 20px;
+    padding: 10px; /* Reduced padding */
     text-align: center;
-    background-color: #2C2C2C;
-    color: #FFFFFF;
-    font-size: 20px;
-    border-bottom: 2px solid #1C1C1C; /* Flat border */
+    background-color: #3A3A3A;
+    color: #F0F0F0;
+    font-size: 18px; /* Reduced font size */
+    border-bottom: 1px solid #444;
 }
 
 button {
-    padding: 15px 20px;
-    background-color: #0078D7;
+    padding: 10px 15px;
+    background-color: #445566;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #005A9E;
-    transform: scale(1.05); /* Slightly bigger on hover */
+    background-color: #56677A;
+    transform: scale(1.02);
 }
 
-/* Color-coding for stats (bold and flat colors) */
+/* Color-coding for stats */
 .hp {
-    background-color: #60A917; /* Metro green */
+    background-color: #4CAF50; /* Softer green */
 }
 
 .attack {
-    background-color: #FA6800; /* Metro orange */
+    background-color: #E57373; /* Softer red */
 }
 
 .movement {
-    background-color: #6A00FF; /* Metro purple */
+    background-color: #8E44AD; /* Softer purple */
 }
 
 .range {
-    background-color: #F0A30A; /* Metro yellow */
+    background-color: #F1C40F; /* Yellow */
 }
 
 .initiative {
-    background-color: #1BA1E2; /* Metro blue */
+    background-color: #3498DB; /* Blue */
 }
 
 /* Flexbox layout for characters and stats */
@@ -116,37 +120,30 @@ button:hover {
 .row,
 .default-stats {
     display: flex;
-    gap: 20px;
+    gap: 10px; /* Reduced gap */
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 20px;
-}
-
-/* Grid-based alignment for Metro style */
-.add-char,
-.row,
-.default-stats {
-    gap: 15px; /* Maintain even spacing for a grid feel */
+    margin-bottom: 10px; /* Reduced bottom margin */
 }
 
 input,
 label,
 button {
     flex: 1;
-    max-width: 100%; /* Ensures even alignment */
+    max-width: 100%;
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
     body {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     input,
     label,
     button {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     input[type="checkbox"] {
@@ -155,38 +152,7 @@ button {
     }
 
     input[type="number"] {
-        width: 80px;
-        height: 40px;
-    }
-
-    img {
-        width: 60px;
-    }
-
-    th,
-    td {
-        padding: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 18px;
-    }
-
-    input,
-    label,
-    button {
-        font-size: 18px;
-    }
-
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-    }
-
-    input[type="number"] {
-        width: 60px;
+        width: 70px;
         height: 30px;
     }
 
@@ -200,19 +166,51 @@ button {
     }
 }
 
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+
+    input,
+    label,
+    button {
+        font-size: 16px;
+    }
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    input[type="number"] {
+        width: 60px;
+        height: 30px;
+    }
+
+    img {
+        width: 40px;
+    }
+
+    th,
+    td {
+        padding: 6px;
+    }
+}
+
 select {
     width: 100%;
-    height: 50px;
-    font-size: 20px;
-    color: #FFFFFF;
-    background-color: #617687;
+    height: 40px;
+    font-size: 18px;
+    color: #F0F0F0;
+    background-color: #445566;
     border: none;
     padding: 10px;
     outline: none;
 }
 
 option {
-    font-size: 20px;
-    color: #FFFFFF;
+    font-size: 18px;
+    color: #F0F0F0;
+    background-color: #445566;
     border: none;
 }
