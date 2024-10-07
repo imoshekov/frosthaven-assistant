@@ -1,0 +1,214 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    font-size: 40px;
+    color: #FCF7F8;
+    background-color: #000000;
+}
+
+/* Universal styling for input, labels, and buttons */
+input,
+label,
+button {
+    text-align: center;
+    font-size: 40px;
+}
+
+/* Larger checkbox and number input */
+input[type="checkbox"] {
+    width: 100px;
+    height: 100px;
+}
+
+input[type="number"] {
+    width: 150px;
+    height: 150px;
+    font-size: 65px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+img {
+    width: 100px;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #FCF7F8;
+    text-align: center;
+}
+
+button {
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+/* Color-coding for stats */
+.hp {
+    background-color: #49a967;
+}
+
+.attack {
+    background-color: #AC3931;
+}
+
+.movement {
+    background-color: #a28b7c;
+}
+
+.range {
+    background-color: #edbc47;
+}
+
+.initiative {
+    background-color: #8c97a9;
+}
+
+/* Flexbox layout for characters and stats */
+.add-char {
+    margin-bottom: 20px;
+    justify-content: space-between;
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    gap: 10px 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.row {
+    margin-bottom: 20px;
+    justify-content: space-between;
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    gap: 10px 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: baseline;
+}
+
+.default-stats {
+    display: flex;
+    align-items: stretch;
+    gap: 10px 10px;
+    align-items: end;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and smaller devices (width 768px and below) */
+@media (max-width: 768px) {
+    body {
+        font-size: 30px;
+        /* Reduce font size */
+    }
+
+    input,
+    label,
+    button {
+        font-size: 30px;
+        /* Smaller input/button size */
+    }
+
+    input[type="checkbox"] {
+        width: 90px;
+        height: 90px;
+        /* Adjust checkbox size */
+    }
+
+    input[type="number"] {
+        width: 120px;
+        height: 120px;
+        font-size: 50px;
+        /* Adjust input size */
+    }
+
+    .creature-type {
+        width: 100%;
+        /* Full width for smaller screens */
+    }
+
+    .creature-type>span {
+        font-size: 30px;
+    }
+
+    img {
+        width: 70px;
+        /* Smaller image */
+    }
+}
+
+/* For mobile phones (width 480px and below) */
+@media (max-width: 480px) {
+    body {
+        font-size: 20px;
+        /* Further reduce font size */
+    }
+
+    input,
+    label,
+    button {
+        font-size: 20px;
+        /* Adjust input/button size */
+    }
+
+    input[type="checkbox"] {
+        width: 60px;
+        height: 60px;
+        /* Smaller checkboxes */
+    }
+
+    input[type="number"] {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+        /* Smaller number input */
+    }
+
+    img {
+        width: 50px;
+        /* Further reduce image size */
+    }
+
+    th,
+    td {
+        padding: 5px;
+        /* Smaller padding in table cells */
+    }
+
+    button {
+        padding: 3px 5px;
+        /* Smaller buttons */
+    }
+
+    .creature-type {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+select {
+    width: 500px;
+    height: 65px;
+    font-size: 40px;
+    text-align: center;
+    padding: 5px;
+    background-color: #FCF7F8;
+    color: #000000;
+    border: 1px solid #FCF7F8;
+    border-radius: 5px;
+    outline: none;
+
+}
+
+/* Style the options inside the dropdown */
+option {
+    font-size: 40px;
+    color: #000000;
+    background-color: #FCF7F8;
+}
