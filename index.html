@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frosthaven Creature Tracker</title>
+    <title>Frosthaven Assist</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,17 +14,25 @@
             background-color: #000000;
         }
 
+        /* Universal styling for input, labels, and buttons */
         input,
         label,
         button {
             text-align: center;
             font-size: 40px;
         }
+
+        /* Larger checkbox and number input */
         input[type="checkbox"] {
-            width: 130px;
-            height: 130px;
+            width: 100px;
+            height: 100px;
         }
 
+        input[type="number"] {
+            width: 150px;
+            height: 150px;
+            font-size: 65px;
+        }
 
         table {
             border-collapse: collapse;
@@ -45,13 +53,6 @@
         button {
             padding: 5px 10px;
             margin: 5px;
-        }
-
-        input[type="number"] {
-            width: 70px;
-            font-size: 65px;
-            width: 150px;
-            height: 150px;
         }
 
         /* Color-coding for stats */
@@ -75,6 +76,7 @@
             background-color: #8c97a9;
         }
 
+        /* Flexbox layout for characters and stats */
         .add-char {
             margin-bottom: 20px;
             justify-content: space-between;
@@ -83,10 +85,6 @@
             align-items: stretch;
             gap: 10px 20px;
             flex-wrap: wrap;
-            width: 100%;
-        }
-
-        .add-char.modify-char {
             width: 100%;
         }
 
@@ -102,72 +100,133 @@
             align-items: baseline;
         }
 
-        .row:last-child {
-            margin-top: 20px;
-        }
-
         .default-stats {
-            align-items: stretch;
-            height: 100%;
             display: flex;
             align-items: stretch;
             gap: 10px 10px;
             align-items: end;
         }
 
-        .add-stats {
-            align-items: stretch;
-            width: 30%;
-            gap: 10px 10px;
-            align-items: end;
-            justify-content: space-between;
+        /* Media Queries for Responsiveness */
+
+        /* For tablets and smaller devices (width 768px and below) */
+        @media (max-width: 768px) {
+            body {
+                font-size: 30px;
+                /* Reduce font size */
+            }
+
+            input,
+            label,
+            button {
+                font-size: 30px;
+                /* Smaller input/button size */
+            }
+
+            input[type="checkbox"] {
+                width: 90px;
+                height: 90px;
+                /* Adjust checkbox size */
+            }
+
+            input[type="number"] {
+                width: 120px;
+                height: 120px;
+                font-size: 50px;
+                /* Adjust input size */
+            }
+
+            .creature-type {
+                width: 100%;
+                /* Full width for smaller screens */
+            }
+
+            .creature-type>span {
+                font-size: 30px;
+            }
+
+            img {
+                width: 70px;
+                /* Smaller image */
+            }
         }
 
-        .add-char>.row>button {
-            margin: 10px;
+        /* For mobile phones (width 480px and below) */
+        @media (max-width: 480px) {
+            body {
+                font-size: 20px;
+                /* Further reduce font size */
+            }
+
+            input,
+            label,
+            button {
+                font-size: 20px;
+                /* Adjust input/button size */
+            }
+
+            input[type="checkbox"] {
+                width: 60px;
+                height: 60px;
+                /* Smaller checkboxes */
+            }
+
+            input[type="number"] {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+                /* Smaller number input */
+            }
+
+            img {
+                width: 50px;
+                /* Further reduce image size */
+            }
+
+            th,
+            td {
+                padding: 5px;
+                /* Smaller padding in table cells */
+            }
+
+            button {
+                padding: 3px 5px;
+                /* Smaller buttons */
+            }
+
+            .creature-type {
+                flex-direction: column;
+                align-items: center;
+            }
         }
 
-        .creature-type {
-            width: 250px;
-            display: flex;
-        }
-
-        .creature-type>span {
+        select {
+            width: 500px;
+            height: 65px;
             font-size: 40px;
-            padding: 10px 10px;
-            float: right;
+            text-align: center;
+            padding: 5px;
+            background-color: #FCF7F8;
+            color: #000000;
+            border: 1px solid #FCF7F8;
+            border-radius: 5px;
+            outline: none;
+
         }
 
-        .creature-type>img {
-            width: 50px;
-        }
-
-        .creature-row.boneshaper-row {
-            color: #49a967;
-        }
-
-        .creature-row.drifter-row {
-            color: #a28b7c;
-        }
-
-        .creature-row.banner-spear-row {
-            color: #edbc47;
-        }
-
-        .creature-row.deathwalker-row {
-            color: #8c97a9;
-        }
-
-        .creature-row {
-            color: #AC3931;
+        /* Style the options inside the dropdown */
+        option {
+            font-size: 40px;
+            color: #000000;
+            background-color: #FCF7F8;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Frosthaven Creature & Character Tracker</h1>
-
+    <h1>Frosthaven Assist</h1>
+    <hr>
     <div class="add-char">
         <div class="row">
             <div class="default-stats">
@@ -179,10 +238,10 @@
                 <input type="text" id="type" placeholder="Enter type" />
             </div>
             <div class="default-stats">
-                <label for="aggressive">Is Agressive: </label>
+                <label for="aggressive">Monster?: </label>
                 <input type="checkbox" id="aggressive" checked="true" />
             </div>
-            <button class="initiative" onclick="addCharacter()">Add Character/Creature</button>
+            <button class="initiative" onclick="addCharacter()">Add</button>
         </div>
         <div class="row">
             <div class="default-stats">
@@ -208,8 +267,9 @@
         </div>
 
     </div>
-
+    <hr>
     <h3>Characters & Creatures</h3>
+
 
     <table>
         <thead>
@@ -228,35 +288,36 @@
             <!-- Dynamic content will go here -->
         </tbody>
     </table>
-
+   
     <h3>Modify by Type</h3>
     <div class="add-char">
         <div class="row">
             <div class="add-stats">
                 <label for="typeModifier">Type: </label>
-                <input type="text" id="typeModifier" placeholder="Type to modify" />
+                <select id="typeModifier">
+                </select>
                 <button class="initiative" onclick="modifyByType()">Apply Modifiers</button>
             </div>
         </div>
         <div class="row">
             <div class="default-stats">
-                <label for="initiativeModifier">Initiative Modifier: </label>
+                <label for="initiativeModifier">Initiative: </label>
                 <input class="initiative" type="number" id="initiativeModifier" value="0" />
             </div>
             <div class="default-stats">
-                <label for="hpModifier">HP Modifier: </label>
+                <label for="hpModifier">HP: </label>
                 <input class="hp" type="number" id="hpModifier" value="0" />
             </div>
             <div class="default-stats">
-                <label for="attackModifier">Attack Modifier: </label>
+                <label for="attackModifier">Attack: </label>
                 <input class="attack" type="number" id="attackModifier" value="0" />
             </div>
             <div class="default-stats">
-                <label for="movementModifier">Movement Modifier: </label>
+                <label for="movementModifier">Movement: </label>
                 <input class="movement" type="number" id="movementModifier" value="0" />
             </div>
             <div class="default-stats">
-                <label for="rangeModifier">Range Modifier: </label>
+                <label for="rangeModifier">Range: </label>
                 <input class="range" type="number" id="rangeModifier" value="0" />
             </div>
         </div>
@@ -301,6 +362,7 @@
             creatures.push(newCreature);
             sortCreaturesByInitiative();
             renderTable();
+            populateTypeDropdown();
         }
 
         function renderTable() {
@@ -343,6 +405,7 @@
         function removeCreature(index) {
             creatures.splice(index, 1);
             renderTable();
+            populateTypeDropdown();
         }
 
         function sortCreaturesByInitiative() {
@@ -378,13 +441,30 @@
             creatures[index].movement = defaultStats.movement;
             creatures[index].range = defaultStats.range;
             creatures[index].initiative = defaultStats.initiative;
-
+            a
             renderTable();
+        }
+
+        function populateTypeDropdown() {
+            const typeDropdown = document.getElementById('typeModifier');
+            typeDropdown.innerHTML = ''; // Clear existing options
+
+            // Get unique creature types
+            const uniqueTypes = [...new Set(creatures.filter(creature => creature.aggressive).map(creature => creature.type))];
+
+            // Create and append option elements to the dropdown
+            uniqueTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.text = type.charAt(0) + type.slice(1); // Capitalize first letter
+                typeDropdown.appendChild(option);
+            });
         }
 
         // Render default characters when page loads
         window.onload = function () {
             renderTable();
+            populateTypeDropdown();
         };
     </script>
 </body>
