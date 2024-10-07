@@ -1,9 +1,9 @@
 var data;
 let characters = [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
-    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
-    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } }
+    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } }
 ];
 
 function addCharacter() {
@@ -17,11 +17,14 @@ function addCharacter() {
         name = 'ELITE ' + name;
         selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
     }
+    let initMovement = monsterData.baseStat?.movement;
+    if (!initMovement) {
+        initMovement = selectedMonster.movement;
+    }
     const initiative = 0;
     const defaultAttack = selectedMonster.attack;
-    const defaultMovement = elite ? selectedMonster.movement : monsterData.baseStat?.movement;
+    const defaultMovement = elite ? selectedMonster.movement : initMovement;
     const defaultHP = selectedMonster.health;
-    const defaultRange = 0;
     const isAgressive = true;
 
     const newCreature = {
@@ -31,13 +34,11 @@ function addCharacter() {
         hp: defaultHP,
         attack: defaultAttack,
         movement: defaultMovement,
-        range: defaultRange,
         initiative,
         defaultStats: {
             hp: defaultHP,
             attack: defaultAttack,
             movement: defaultMovement,
-            range: defaultRange,
             initiative
         }
     };
@@ -63,10 +64,10 @@ function renderTable() {
                         <b>${creature.name}</b>
                     </td>
                     <td>
-                        <div class='creature-type'>
-                            <img src='${icon}'>
-                            <span>${creature.type}</span>
                         <div>
+                             <img src='${icon}'>
+                        <div>
+                        <b>${creature.type}</b>
                     </td>
                     <td><input type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
@@ -148,24 +149,9 @@ function loadData() {
 
 }
 
-function initValues() {
-    // Get the select element
-    const selectElement = document.getElementById('type');
-
-    // Attach a change event listener to the select element
-    selectElement.addEventListener('change', function () {
-        // Get the selected option value
-        const selectedValue = this.value;
-
-        // Run some JavaScript code when an option is selected
-        console.log(`You selected: ${selectedValue}`);
-    });
-}
-
 // Render default characters when page loads
 window.onload = function () {
     loadData();
     renderTable();
     populateModifyByTypeDropdown();
-    initValues();
 };
