@@ -17,7 +17,7 @@ function addCharacter() {
         name = 'ELITE ' + name;
         selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
     }
-    const initiative = 0; 
+    const initiative = 0;
     const defaultAttack = selectedMonster.attack;
     const defaultMovement = elite ? selectedMonster.movement : monsterData.baseStat?.movement;
     const defaultHP = selectedMonster.health;
@@ -72,7 +72,6 @@ function renderTable() {
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
                     <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
                     <td>
-                        <button class="initiative" onclick="resetToDefault(${index})">Reset</button>
                         <button class="attack" onclick="removeCreature(${index})">X</button>
                     </td>
                 </tr>`;
@@ -108,18 +107,6 @@ function modifyByType() {
     renderTable();
 }
 
-function resetToDefault(index) {
-    const defaultStats = characters[index].defaultStats;
-    characters[index].hp = defaultStats.hp;
-    characters[index].attack = defaultStats.attack;
-    characters[index].movement = defaultStats.movement;
-    characters[index].range = defaultStats.range;
-    characters[index].initiative = defaultStats.initiative;
-    a
-    renderTable();
-}
-
-
 function populateModifyByTypeDropdown() {
     const typeDropdown = document.getElementById('typeModifier');
     typeDropdown.innerHTML = ''; // Clear existing options
@@ -147,7 +134,7 @@ function populateMonsterTypeDropdown() {
         option.text = type.name
         typeDropdown.appendChild(option);
     });
-    typeDropdown.value = ''; 
+    typeDropdown.value = '';
 }
 
 function loadData() {
