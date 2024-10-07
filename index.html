@@ -288,7 +288,7 @@
             <!-- Dynamic content will go here -->
         </tbody>
     </table>
-   
+
     <h3>Modify by Type</h3>
     <div class="add-char">
         <div class="row">
@@ -461,10 +461,23 @@
             });
         }
 
+        function loadData() {
+            const apiEndpoint = 'https://gloomhaven-secretariat.de/assets/data/fh.json';
+            fetch(apiEndpoint)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.monsters.length);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
         // Render default characters when page loads
         window.onload = function () {
             renderTable();
             populateTypeDropdown();
+            loadData();
         };
     </script>
 </body>
