@@ -234,8 +234,11 @@
                 <input type="text" id="name" placeholder="Enter name" />
             </div>
             <div class="default-stats">
-                <label for="type">Type: </label>
-                <input type="text" id="type" placeholder="Enter type" />
+                <!-- <label for="type">Type: </label> -->
+                <!-- <input type="text" id="type" placeholder="Enter type" /> -->
+                <label for="typeModifier">Type: </label>
+                <select id="type">
+                </select>
             </div>
             <div class="default-stats">
                 <label for="aggressive">Monster?: </label>
@@ -296,7 +299,7 @@
                 <label for="typeModifier">Type: </label>
                 <select id="typeModifier">
                 </select>
-                <button class="initiative" onclick="modifyByType()">Apply Modifiers</button>
+                <button class="initiative" onclick="modifyByType()">Apply</button>
             </div>
         </div>
         <div class="row">
@@ -362,7 +365,7 @@
             creatures.push(newCreature);
             sortCreaturesByInitiative();
             renderTable();
-            populateTypeDropdown();
+            populateModifyByTypeDropdown();
         }
 
         function renderTable() {
@@ -405,7 +408,7 @@
         function removeCreature(index) {
             creatures.splice(index, 1);
             renderTable();
-            populateTypeDropdown();
+            populateModifyByTypeDropdown();
         }
 
         function sortCreaturesByInitiative() {
@@ -445,7 +448,8 @@
             renderTable();
         }
 
-        function populateTypeDropdown() {
+
+        function populateModifyByTypeDropdown() {
             const typeDropdown = document.getElementById('typeModifier');
             typeDropdown.innerHTML = ''; // Clear existing options
 
@@ -456,27 +460,34 @@
             uniqueTypes.forEach(type => {
                 const option = document.createElement('option');
                 option.value = type;
-                option.text = type.charAt(0) + type.slice(1); // Capitalize first letter
+                option.text = type.charAt(0) + type.slice(1); 
                 typeDropdown.appendChild(option);
             });
         }
 
         function loadData() {
-            const apiEndpoint = 'https://gloomhaven-secretariat.de/assets/data/fh.json';
-            fetch(apiEndpoint)
+            fetch('https://raw.githubusercontent.com/imoshekov/frosthaven-assistant/refs/heads/main/data.json')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.monsters.length);
+                    //populate monster types
+                    const typeDropdown = document.getElementById('type');
+                    typeDropdown.innerHTML = '';
+
+                    data.monsters.forEach(type => {
+                        const option = document.createElement('option');
+                        option.value = type.name;
+                        option.text = type.name
+                        typeDropdown.appendChild(option);
+                    });
                 })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+                .catch(error => console.error('Error fetching data:', error));
+
         }
 
         // Render default characters when page loads
         window.onload = function () {
             renderTable();
-            populateTypeDropdown();
+            populateModifyByTypeDropdown();
             loadData();
         };
     </script>
