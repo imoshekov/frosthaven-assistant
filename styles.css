@@ -1,212 +1,219 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    font-size: 40px;
-    color: #FCF7F8;
-    background-color: #000000;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    font-size: 24px;
+    color: #FFFFFF;
+    background-color: #1C1C1C;
+    line-height: 1.5;
 }
 
 /* Universal styling for input, labels, and buttons */
 input,
 label,
 button {
-    text-align: center;
-    font-size: 40px;
+    font-size: 24px;
+    color: #FFFFFF;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    margin: 10px;
 }
 
-/* Larger checkbox and number input */
+/* Metro-style input and button */
+input[type="text"],
+input[type="number"],
+button {
+    border: none; /* Flat design */
+    background-color: #617687; /* Bright metro color */
+    color: #FFFFFF;
+    padding: 15px 20px;
+    font-size: 18px;
+    text-transform: uppercase; /* Uppercase for buttons */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+button:hover {
+    background-color: #005A9E; /* Slightly darker hover effect */
+}
+
 input[type="checkbox"] {
-    width: 100px;
-    height: 100px;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    background-color: #617687;
+    border: none;
+    cursor: pointer;
 }
 
 input[type="number"] {
-    width: 150px;
-    height: 150px;
-    font-size: 65px;
+    width: 100px;
+    height: 50px;
+    font-size: 40px;
+    text-align: center;
 }
 
+/* Flat, clean table style */
 table {
     border-collapse: collapse;
     width: 100%;
+    margin-top: 20px;
 }
 
 img {
-    width: 100px;
+    width: 80px;
 }
 
 th,
 td {
-    padding: 10px;
-    border: 1px solid #FCF7F8;
+    padding: 20px;
     text-align: center;
+    background-color: #2C2C2C;
+    color: #FFFFFF;
+    font-size: 20px;
+    border-bottom: 2px solid #1C1C1C; /* Flat border */
 }
 
 button {
-    padding: 5px 10px;
-    margin: 5px;
+    padding: 15px 20px;
+    background-color: #0078D7;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Color-coding for stats */
+button:hover {
+    background-color: #005A9E;
+    transform: scale(1.05); /* Slightly bigger on hover */
+}
+
+/* Color-coding for stats (bold and flat colors) */
 .hp {
-    background-color: #49a967;
+    background-color: #60A917; /* Metro green */
 }
 
 .attack {
-    background-color: #AC3931;
+    background-color: #FA6800; /* Metro orange */
 }
 
 .movement {
-    background-color: #a28b7c;
+    background-color: #6A00FF; /* Metro purple */
 }
 
 .range {
-    background-color: #edbc47;
+    background-color: #F0A30A; /* Metro yellow */
 }
 
 .initiative {
-    background-color: #8c97a9;
+    background-color: #1BA1E2; /* Metro blue */
 }
 
 /* Flexbox layout for characters and stats */
-.add-char {
-    margin-bottom: 20px;
-    justify-content: space-between;
-    display: flex;
-    flex-flow: row;
-    align-items: stretch;
-    gap: 10px 20px;
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.row {
-    margin-bottom: 20px;
-    justify-content: space-between;
-    display: flex;
-    flex-flow: row;
-    align-items: stretch;
-    gap: 10px 20px;
-    flex-wrap: wrap;
-}
-
+.add-char,
+.row,
 .default-stats {
     display: flex;
-    align-items: stretch;
-    gap: 10px 10px;
-    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Grid-based alignment for Metro style */
+.add-char,
+.row,
+.default-stats {
+    gap: 15px; /* Maintain even spacing for a grid feel */
+}
+
+input,
+label,
+button {
+    flex: 1;
+    max-width: 100%; /* Ensures even alignment */
 }
 
 /* Media Queries for Responsiveness */
-
-/* For tablets and smaller devices (width 768px and below) */
 @media (max-width: 768px) {
     body {
-        font-size: 30px;
-        /* Reduce font size */
-    }
-
-    input,
-    label,
-    button {
-        font-size: 30px;
-        /* Smaller input/button size */
-    }
-
-    input[type="checkbox"] {
-        width: 50px;
-        height: 90px;
-        /* Adjust checkbox size */
-    }
-
-    input[type="number"] {
-        width: 120px;
-        height: 120px;
-        font-size: 50px;
-        /* Adjust input size */
-    }
-
-    .creature-type {
-        width: 100%;
-        /* Full width for smaller screens */
-    }
-
-    .creature-type>span {
-        font-size: 30px;
-    }
-
-    img {
-        width: 70px;
-        /* Smaller image */
-    }
-}
-
-/* For mobile phones (width 480px and below) */
-@media (max-width: 480px) {
-    body {
         font-size: 20px;
-        /* Further reduce font size */
     }
 
     input,
     label,
     button {
         font-size: 20px;
-        /* Adjust input/button size */
     }
 
     input[type="checkbox"] {
-        width: 50px;
-        height: 50px;
-        /* Smaller checkboxes */
+        width: 20px;
+        height: 20px;
     }
 
     input[type="number"] {
-        width: 100px;
-        height: 100px;
-        font-size: 40px;
-        /* Smaller number input */
+        width: 80px;
+        height: 40px;
     }
 
     img {
-        width: 50px;
-        /* Further reduce image size */
+        width: 60px;
     }
 
     th,
     td {
-        padding: 5px;
-        /* Smaller padding in table cells */
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 18px;
     }
 
+    input,
+    label,
     button {
-        padding: 3px 5px;
-        /* Smaller buttons */
+        font-size: 18px;
     }
 
-    .creature-type {
-        flex-direction: column;
-        align-items: center;
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    input[type="number"] {
+        width: 60px;
+        height: 30px;
+    }
+
+    img {
+        width: 50px;
+    }
+
+    th,
+    td {
+        padding: 8px;
     }
 }
 
 select {
-    width: 500px;
-    height: 65px;
-    font-size: 40px;
-    text-align: center;
-    padding: 5px;
-    background-color: #FCF7F8;
-    color: #000000;
-    border: 1px solid #FCF7F8;
-    border-radius: 5px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    color: #FFFFFF;
+    background-color: #617687;
+    border: none;
+    padding: 10px;
     outline: none;
-
 }
 
-/* Style the options inside the dropdown */
 option {
-    font-size: 40px;
-    color: #000000;
-    background-color: #FCF7F8;
+    font-size: 20px;
+    background-color: #0078D7;
+    color: #FFFFFF;
+    border: none;
 }
