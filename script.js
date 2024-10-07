@@ -1,5 +1,5 @@
 var data;
-let creatures = [
+let characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, range: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, range: 0, initiative: 0 } },
@@ -7,14 +7,22 @@ let creatures = [
 ];
 
 function addCharacter() {
-    const name = document.getElementById('name').value;
     const type = document.getElementById('type').value.toLowerCase();
-    const initiative = parseInt(document.getElementById('initiative-base').value);
-    const defaultAttack = parseInt(document.getElementById('attack-base').value);
-    const defaultMovement = parseInt(document.getElementById('movement-base').value);
-    const defaultHP = parseInt(document.getElementById('hp-base').value);
-    const defaultRange = parseInt(document.getElementById('range-base').value);
-    const isAgressive = document.getElementById('aggressive').checked;
+    const level = parseInt(document.getElementById('level').value);
+    const elite = document.getElementById('elite-monster').checked;
+    let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
+    let monsterData = data.monsters.find(monster => monster.name === type);
+    let selectedMonster = monsterData.stats[level];
+    if (elite) {
+        name = 'ELITE ' + name;
+        selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
+    }
+    const initiative = 0; 
+    const defaultAttack = selectedMonster.attack;
+    const defaultMovement = elite ? selectedMonster.movement : monsterData.baseStat?.movement;
+    const defaultHP = selectedMonster.health;
+    const defaultRange = 0;
+    const isAgressive = true;
 
     const newCreature = {
         name,
@@ -34,7 +42,7 @@ function addCharacter() {
         }
     };
 
-    creatures.push(newCreature);
+    characters.push(newCreature);
     sortCreaturesByInitiative();
     renderTable();
     populateModifyByTypeDropdown();
@@ -43,7 +51,7 @@ function addCharacter() {
 function renderTable() {
     const tableBody = document.getElementById('creaturesTable');
     tableBody.innerHTML = '';
-    creatures.forEach((creature, index) => {
+    characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
         const icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
         const row = `<tr class='${creature.type}-row creature-row'>
@@ -63,7 +71,6 @@ function renderTable() {
                     <td><input type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
                     <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
-                    <td><input type="number" class="range" value="${creature.range}" onchange="updateStat(${index}, 'range', this.value)" /></td>
                     <td>
                         <button class="initiative" onclick="resetToDefault(${index})">Reset</button>
                         <button class="attack" onclick="removeCreature(${index})">X</button>
@@ -74,33 +81,25 @@ function renderTable() {
 }
 
 function updateStat(index, stat, value) {
-    creatures[index][stat] = parseInt(value);
+    characters[index][stat] = parseInt(value);
 }
 
 function removeCreature(index) {
-    creatures.splice(index, 1);
+    characters.splice(index, 1);
     renderTable();
     populateModifyByTypeDropdown();
 }
 
 function sortCreaturesByInitiative() {
-    creatures.sort((a, b) => a.initiative - b.initiative);
+    characters.sort((a, b) => a.initiative - b.initiative);
 }
 
 function modifyByType() {
     const type = document.getElementById('typeModifier').value;
-    const hpModifier = parseInt(document.getElementById('hpModifier').value);
-    const attackModifier = parseInt(document.getElementById('attackModifier').value);
-    const movementModifier = parseInt(document.getElementById('movementModifier').value);
-    const rangeModifier = parseInt(document.getElementById('rangeModifier').value);
     const initiativeModifier = parseInt(document.getElementById('initiativeModifier').value);
 
-    creatures.forEach(creature => {
+    characters.forEach(creature => {
         if (creature.type === type) {
-            creature.hp += hpModifier;
-            creature.attack += attackModifier;
-            creature.movement += movementModifier;
-            creature.range += rangeModifier;
             creature.initiative = initiativeModifier;
         }
     });
@@ -110,12 +109,12 @@ function modifyByType() {
 }
 
 function resetToDefault(index) {
-    const defaultStats = creatures[index].defaultStats;
-    creatures[index].hp = defaultStats.hp;
-    creatures[index].attack = defaultStats.attack;
-    creatures[index].movement = defaultStats.movement;
-    creatures[index].range = defaultStats.range;
-    creatures[index].initiative = defaultStats.initiative;
+    const defaultStats = characters[index].defaultStats;
+    characters[index].hp = defaultStats.hp;
+    characters[index].attack = defaultStats.attack;
+    characters[index].movement = defaultStats.movement;
+    characters[index].range = defaultStats.range;
+    characters[index].initiative = defaultStats.initiative;
     a
     renderTable();
 }
@@ -126,7 +125,7 @@ function populateModifyByTypeDropdown() {
     typeDropdown.innerHTML = ''; // Clear existing options
 
     // Get unique creature types
-    const uniqueTypes = [...new Set(creatures.filter(creature => creature.aggressive).map(creature => creature.type))];
+    const uniqueTypes = [...new Set(characters.filter(creature => creature.aggressive).map(creature => creature.type))];
 
     // Create and append option elements to the dropdown
     uniqueTypes.forEach(type => {
@@ -148,6 +147,7 @@ function populateMonsterTypeDropdown() {
         option.text = type.name
         typeDropdown.appendChild(option);
     });
+    typeDropdown.value = ''; 
 }
 
 function loadData() {
@@ -161,9 +161,24 @@ function loadData() {
 
 }
 
+function initValues() {
+    // Get the select element
+    const selectElement = document.getElementById('type');
+
+    // Attach a change event listener to the select element
+    selectElement.addEventListener('change', function () {
+        // Get the selected option value
+        const selectedValue = this.value;
+
+        // Run some JavaScript code when an option is selected
+        console.log(`You selected: ${selectedValue}`);
+    });
+}
+
 // Render default characters when page loads
 window.onload = function () {
     loadData();
     renderTable();
     populateModifyByTypeDropdown();
+    initValues();
 };

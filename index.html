@@ -14,42 +14,23 @@
     <div class="add-char">
         <div class="row">
             <div class="default-stats">
-                <label for="name">Name: </label>
-                <input type="text" id="name" placeholder="Enter name" />
-            </div>
-            <div class="default-stats">
-                <label for="typeModifier">Type: </label>
+                <label for="Type">Type: </label>
                 <select id="type"></select>
             </div>
             <div class="default-stats">
-                <label for="aggressive">Monster?: </label>
-                <input type="checkbox" id="aggressive" checked="true" />
+                <label for="Level">Level: </label>
+                <input type="text" id="level" placeholder="Enter level" value="1" />
             </div>
-            <button class="initiative" onclick="addCharacter()">Add</button>
+            <div class="default-stats">
+                <label for="Standee">Standee: </label>
+                <input type="text" id="standee-number" placeholder="Enter standee #"/>
+            </div>
+            <div class="default-stats">
+                <label for="Elite">Elite: </label>
+                <input type="checkbox" id="elite-monster" />
+            </div>
+            <button class="initiative" onclick="addCharacter()">Add (+)</button>
         </div>
-        <div class="row">
-            <div class="default-stats">
-                <label for="initiative">Initiative: </label>
-                <input type="number" id="initiative-base" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="hp-base">HP: </label>
-                <input class="hp" type="number" id="hp-base" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="attack-base">Attack: </label>
-                <input class="attack" type="number" id="attack-base" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="movement-base">Movement: </label>
-                <input class="movement" type="number" id="movement-base" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="range-base">Range: </label>
-                <input class="range" type="number" id="range-base" value="0" />
-            </div>
-        </div>
-
     </div>
     <hr>
     <h3>Characters & Creatures</h3>
@@ -64,7 +45,7 @@
                 <th class="hp">HP</th>
                 <th class="attack">Attack</th>
                 <th class="movement">Movement</th>
-                <th class="range">Range</th>
+                <!-- <th class="range">Range</th> -->
                 <th>Actions</th>
             </tr>
         </thead>
@@ -86,23 +67,7 @@
             <div class="default-stats">
                 <label for="initiativeModifier">Initiative: </label>
                 <input class="initiative" type="number" id="initiativeModifier" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="hpModifier">HP: </label>
-                <input class="hp" type="number" id="hpModifier" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="attackModifier">Attack: </label>
-                <input class="attack" type="number" id="attackModifier" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="movementModifier">Movement: </label>
-                <input class="movement" type="number" id="movementModifier" value="0" />
-            </div>
-            <div class="default-stats">
-                <label for="rangeModifier">Range: </label>
-                <input class="range" type="number" id="rangeModifier" value="0" />
-            </div>
+            </div>           
         </div>
     </div>
     <script src="script.js"></script>
