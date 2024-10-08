@@ -1,5 +1,4 @@
-var data;
-let characters = [
+const characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -146,20 +145,9 @@ function resetAll() {
     renderTable();
 }
 
-function loadData() {
-    fetch('https://raw.githubusercontent.com/imoshekov/frosthaven-assistant/refs/heads/main/data.json')
-        .then(response => response.json())
-        .then(fetchedData => {
-            data = fetchedData;
-            populateMonsterTypeDropdown();
-        })
-        .catch(error => console.error('Error fetching data:', error));
-
-}
-
 // Render default characters when page loads
 window.onload = function () {
-    loadData();
+    populateMonsterTypeDropdown();
     renderTable();
     populateModifyByTypeDropdown();
 };
