@@ -93,7 +93,12 @@ function handleAttack(buttonElement) {
     // First click: switch to target.svg
     if (attacker === null) {
         document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
-            img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+            let parentButton = img.parentElement.parentElement;
+            if (characters[parentButton.dataset.creatureIdx].hp <= 0) {
+                parentButton.style.visibility = 'hidden';
+            } else {
+                img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+            }
         });
 
         buttonElement.style.visibility = 'hidden';
@@ -121,6 +126,7 @@ function closeModal() {
 
 function applyDamage(dmgInput) {
     characters[defender].hp -= parseInt(dmgInput.value);
+    if (characters[defender].hp < 0) { characters[defender].hp = 0; }
     console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
     document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
     closeModal();
