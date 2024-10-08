@@ -126,7 +126,7 @@ function closeModal() {
 
 function applyDamage(dmgInput) {
     characters[defender].hp -= parseInt(dmgInput.value);
-    if (characters[defender].hp < 0) {
+    if (characters[defender].hp <= 0) {
         characters[defender].hp = 0;
         removeCreature(defender);
     }
