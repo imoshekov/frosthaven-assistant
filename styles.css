@@ -71,9 +71,12 @@ img {
     border-radius: 3px;
 }
 
+th{
+    padding: 10px; /* Reduced padding */
+}
+
 th,
 td {
-    padding: 10px; /* Reduced padding */
     text-align: center;
     background-color: #3A3A3A;
     color: #F0F0F0;

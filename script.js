@@ -138,6 +138,17 @@ function populateMonsterTypeDropdown() {
     typeDropdown.value = '';
 }
 
+function resetAll() {
+    const initiativeModifier = 0;
+
+    characters.forEach(creature => {
+        creature.initiative = 0;
+    });
+
+    sortCreaturesByInitiative();
+    renderTable();
+}
+
 function loadData() {
     fetch('https://raw.githubusercontent.com/imoshekov/frosthaven-assistant/refs/heads/main/data.json')
         .then(response => response.json())
