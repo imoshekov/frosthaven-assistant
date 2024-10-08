@@ -1,23 +1,42 @@
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 10px; /* Reduced padding */
-    font-size: 22px; /* Slightly smaller font */
+    padding: 10px;
+    /* Reduced padding */
+    font-size: 22px;
+    /* Slightly smaller font */
     color: #F0F0F0;
-    background-color: #2B2B2B; /* Softer background */
+    background-color: #2B2B2B;
+    /* Softer background */
     line-height: 1.4;
+    -ms-overflow-style: none;
+    /* for Internet Explorer, Edge */
+    scrollbar-width: 1px;
+    /* for Firefox */
+    overflow-y: scroll;
 }
+
+
+body::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+}
+
+
 
 /* Universal styling for input, labels, and buttons */
 input,
 label,
 button {
-    font-size: 22px; /* Reduced font size */
+    font-size: 22px;
+    /* Reduced font size */
     color: #F0F0F0;
     background-color: transparent;
     border: none;
-    padding: 8px; /* Smaller padding */
-    margin: 5px; /* Reduced margin */
+    padding: 8px;
+    /* Smaller padding */
+    margin: 5px;
+    /* Reduced margin */
 }
 
 /* Compact input and button */
@@ -25,9 +44,11 @@ input[type="text"],
 input[type="number"],
 button {
     border: none;
-    background-color: #445566; /* Softer color */
+    background-color: #445566;
+    /* Softer color */
     color: #F0F0F0;
-    padding: 10px 15px; /* Reduced padding */
+    padding: 10px 15px;
+    /* Reduced padding */
     font-size: 18px;
     text-transform: uppercase;
     cursor: pointer;
@@ -37,13 +58,16 @@ button {
 input[type="text"]:focus,
 input[type="number"]:focus,
 button:hover {
-    background-color: #56677A; /* Lighter hover effect */
+    background-color: #56677A;
+    /* Lighter hover effect */
 }
 
 input[type="checkbox"] {
-    width: 25px; /* Smaller checkbox */
+    width: 25px;
+    /* Smaller checkbox */
     height: 25px;
-    margin: 5px; /* Reduced margin */
+    margin: 5px;
+    /* Reduced margin */
     background-color: #445566;
     border: none;
     cursor: pointer;
@@ -51,7 +75,8 @@ input[type="checkbox"] {
 
 input[type="number"] {
     width: 80px;
-    height: 40px; /* Adjusted size */
+    height: 40px;
+    /* Adjusted size */
     font-size: 22px;
     text-align: center;
 }
@@ -61,18 +86,22 @@ table {
     border-collapse: collapse;
     width: 100%;
     margin-top: 10px;
-    table-layout: fixed; /* Ensure even column widths */
-    max-height: 400px; /* Fixed height for 7-8 items */
+    table-layout: fixed;
+    /* Ensure even column widths */
+    max-height: 400px;
+    /* Fixed height for 7-8 items */
     overflow-y: auto;
 }
 
 img {
-    width: 60px; /* Smaller image */
+    width: 60px;
+    /* Smaller image */
     border-radius: 3px;
 }
 
-th{
-    padding: 10px; /* Reduced padding */
+th {
+    padding: 10px;
+    /* Reduced padding */
 }
 
 th,
@@ -80,7 +109,8 @@ td {
     text-align: center;
     background-color: #3A3A3A;
     color: #F0F0F0;
-    font-size: 18px; /* Reduced font size */
+    font-size: 18px;
+    /* Reduced font size */
     border-bottom: 1px solid #444;
 }
 
@@ -99,23 +129,28 @@ button:hover {
 
 /* Color-coding for stats */
 .hp {
-    background-color: #4CAF50; /* Softer green */
+    background-color: #4CAF50;
+    /* Softer green */
 }
 
 .attack {
-    background-color: #E57373; /* Softer red */
+    background-color: #E57373;
+    /* Softer red */
 }
 
 .movement {
-    background-color: #8E44AD; /* Softer purple */
+    background-color: #8E44AD;
+    /* Softer purple */
 }
 
 .range {
-    background-color: #F1C40F; /* Yellow */
+    background-color: #F1C40F;
+    /* Yellow */
 }
 
 .initiative {
-    background-color: #3498DB; /* Blue */
+    background-color: #3498DB;
+    /* Blue */
 }
 
 /* Flexbox layout for characters and stats */
@@ -123,11 +158,13 @@ button:hover {
 .row,
 .default-stats {
     display: flex;
-    gap: 10px; /* Reduced gap */
+    gap: 10px;
+    /* Reduced gap */
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 10px; /* Reduced bottom margin */
+    margin-bottom: 10px;
+    /* Reduced bottom margin */
 }
 
 input,
