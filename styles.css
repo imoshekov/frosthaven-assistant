@@ -133,10 +133,6 @@ button:hover {
     transform: scale(1.02);
 }
 
-.big-icon {
-    width:60px;
-}
-
 /* Color-coding for stats */
 .hp {
     background-color: #4CAF50;
