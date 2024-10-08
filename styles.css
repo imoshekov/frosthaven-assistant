@@ -163,7 +163,7 @@ input[type="number"] {
 .attack-modal {
     display: none; /* Hidden by default */
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
@@ -172,12 +172,13 @@ input[type="number"] {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #3A3A3A;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 220px;
     text-align: center;
+    z-index: 101;
 }
 
 .close {
@@ -329,7 +330,7 @@ button {
 
     table input[type="number"] {
         width: 20px; /* Adjust the width for small screens */
-        height: 40px; /* Adjust the height for small screens */
+        height: 20px; /* Adjust the height for small screens */
         font-size: 14px; /* Adjust the font size */
         padding: 10px 10px;
     }

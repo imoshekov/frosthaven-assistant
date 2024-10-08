@@ -72,27 +72,13 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Damage</h2>
 
-            <input type="number" id="modal-input" min="0" max="3" value="0">
+            <input type="number" id="attack-input" min="0" value="0">
 
-<!--            &lt;!&ndash; Icons (0-3) &ndash;&gt;-->
-<!--            <div class="icons">-->
-<!--                <div class="icon" data-value="0" onclick="selectValue(0)">-->
-<!--                    <img src="https://via.placeholder.com/50">-->
-<!--                    <p>0</p>-->
-<!--                </div>-->
-<!--                <div class="icon" data-value="1" onclick="selectValue(1)">-->
-<!--                    <img src="https://via.placeholder.com/50">-->
-<!--                    <p>1</p>-->
-<!--                </div>-->
-<!--                <div class="icon" data-value="2" onclick="selectValue(2)">-->
-<!--                    <img src="https://via.placeholder.com/50">-->
-<!--                    <p>2</p>-->
-<!--                </div>-->
-<!--                <div class="icon" data-value="3" onclick="selectValue(3)">-->
-<!--                    <img src="https://via.placeholder.com/50">-->
-<!--                    <p>3</p>-->
-<!--                </div>-->
-<!--            </div>-->
+            <button class="attack" onclick="applyDamage(this.previousElementSibling)">OK</button>
+            <!-- Icons (0-3) -->
+            <div class="conditions">
+                <!-- Conditions on target, if any -->
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

@@ -5,6 +5,7 @@ const characters = [
     { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } }
 ];
 let attacker = null;
+let defender = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
@@ -75,7 +76,7 @@ function renderTable() {
                              <img src='${icon}'>
                         <div>
                     </td>
-                    <td><input type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
+                    <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
                     <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
                     <td>
@@ -86,32 +87,44 @@ function renderTable() {
     });
 }
 
-// function handleAttack(buttonElement) {
-//     const imgElement = buttonElement.querySelector('#attack-img');
-//
-//     // First click: switch to target.svg
-//     if (attacker === null) {
-//         document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
-//             img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
-//         });
-//
-//         imgElement.style.display = 'none';
-//         attacker = buttonElement.dataset.creatureIdx;
-//     }
-//     // Second click: show modal
-//     else {
-//         openModal();
-//         attacker = null; // Reset after showing modal
-//     }
-// }
-//
-// function openModal() {
-//     document.getElementById('modal').style.display = 'block';
-// }
-//
-// function closeModal() {
-//     document.getElementById('modal').style.display = 'none';
-// }
+function handleAttack(buttonElement) {
+    const imgElement = buttonElement.querySelector('#attack-img');
+
+    // First click: switch to target.svg
+    if (attacker === null) {
+        document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
+            img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+        });
+
+        buttonElement.style.visibility = 'hidden';
+        attacker = buttonElement.dataset.creatureIdx;
+    }
+    // Second click: show modal
+    else {
+        defender = buttonElement.dataset.creatureIdx;
+        openModal();
+    }
+}
+
+function openModal() {
+    document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+    attacker = defender = null;
+    document.querySelectorAll('.attack-btn').forEach(function(button) {
+        button.style.visibility = '';
+        button.querySelector('#attack-img').src = 'https://gloomhaven-secretariat.de/assets/images/action/attack.svg';
+    });
+    document.getElementById('modal').style.display = 'none';
+}
+
+function applyDamage(dmgInput) {
+    characters[defender].hp -= parseInt(dmgInput.value);
+    console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
+    document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
+    closeModal();
+}
 
 function updateStat(index, stat, value) {
     characters[index][stat] = parseInt(value);
