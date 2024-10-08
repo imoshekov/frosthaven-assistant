@@ -233,7 +233,8 @@ button {
         height: 30px;
     }
 
-    img {
+    img,
+    .big-icon {
         width: 40px;
     }
 
@@ -252,6 +253,11 @@ button {
         height: 40px; /* Adjust the height for small screens */
         font-size: 14px; /* Adjust the font size */
         padding: 10px 10px;
+    }
+
+    table button{
+        width: 40px;
+        height: 40px;
     }
 }
 
