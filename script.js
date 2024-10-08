@@ -4,6 +4,7 @@ const characters = [
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } }
 ];
+let attacker = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
@@ -55,10 +56,17 @@ function renderTable() {
         const charType = creature.aggressive ? 'monster' : 'character';
         const icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
         const row = `<tr class='${creature.type}-row creature-row'>
-                    <td><input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" /></td>
+                    <td>
+						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
+						<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
+							<button>
+							  <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
+							</button>
+						</span>
+					</td>
                     <td>
                         <div>
-                            <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
+                           <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
                         <div>
                         <b>${creature.name}</b>
                     </td>
@@ -77,6 +85,33 @@ function renderTable() {
         tableBody.insertAdjacentHTML('beforeend', row);
     });
 }
+
+// function handleAttack(buttonElement) {
+//     const imgElement = buttonElement.querySelector('#attack-img');
+//
+//     // First click: switch to target.svg
+//     if (attacker === null) {
+//         document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
+//             img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+//         });
+//
+//         imgElement.style.display = 'none';
+//         attacker = buttonElement.dataset.creatureIdx;
+//     }
+//     // Second click: show modal
+//     else {
+//         openModal();
+//         attacker = null; // Reset after showing modal
+//     }
+// }
+//
+// function openModal() {
+//     document.getElementById('modal').style.display = 'block';
+// }
+//
+// function closeModal() {
+//     document.getElementById('modal').style.display = 'none';
+// }
 
 function updateStat(index, stat, value) {
     characters[index][stat] = parseInt(value);

@@ -133,6 +133,85 @@ button:hover {
     transform: scale(1.02);
 }
 
+.attack-btn {
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.attack-btn button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.attack-btn button img {
+    height: 30px;
+    width: 30px;
+}
+
+input[type="number"] {
+    height: 40px;
+    font-size: 22px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.attack-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.icon {
+    text-align: center;
+}
+
+.icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.icon p {
+    margin-top: 5px;
+}
+
 /* Color-coding for stats */
 .hp {
     background-color: #4CAF50;
