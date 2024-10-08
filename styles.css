@@ -240,8 +240,21 @@ button {
     th,
     td {
         padding: 6px;
+        font-size: 14px;
+    }
+
+    table b {
+        font-size: 12px; /* Shrink to a smaller font size */
+    }
+
+    table input[type="number"] {
+        width: 20px; /* Adjust the width for small screens */
+        height: 40px; /* Adjust the height for small screens */
+        font-size: 14px; /* Adjust the font size */
+        padding: 10px 10px;
     }
 }
+
 
 select {
     width: 100%;
