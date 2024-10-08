@@ -133,6 +133,99 @@ button:hover {
     transform: scale(1.02);
 }
 
+.attack-btn {
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.attack-btn button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.attack-btn button img {
+    height: 30px;
+    width: 30px;
+}
+
+input[type="number"] {
+    height: 40px;
+    font-size: 22px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.remove-btn {
+    right: 10px; /* Align it 10px from the right side */
+    top: 50%; /* Align vertically */
+
+    font-size: 12px; /* Smaller font size */
+    padding: 5px 10px; /* Smaller button padding */
+    background-color: red; /* Optional: Red background for the "X" button */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.attack-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: #3A3A3A;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 220px;
+    text-align: center;
+    z-index: 101;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.icon {
+    text-align: center;
+}
+
+.icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.icon p {
+    margin-top: 5px;
+}
+
 /* Color-coding for stats */
 .hp {
     background-color: #4CAF50;
@@ -250,7 +343,7 @@ button {
 
     table input[type="number"] {
         width: 20px; /* Adjust the width for small screens */
-        height: 40px; /* Adjust the height for small screens */
+        height: 20px; /* Adjust the height for small screens */
         font-size: 14px; /* Adjust the font size */
         padding: 10px 10px;
     }

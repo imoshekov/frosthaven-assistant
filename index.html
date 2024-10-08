@@ -65,6 +65,22 @@
             </div>
         </div>
     </div>
+
+    <!-- Attack Modal -->
+    <div id="modal" class="attack-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Damage</h2>
+
+            <input type="number" id="attack-input" min="0" value="0">
+
+            <button class="attack" onclick="applyDamage(this.previousElementSibling)">OK</button>
+            <!-- Icons (0-3) -->
+            <div class="conditions">
+                <!-- Conditions on target, if any -->
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
     <script src="data.js"></script>
 </body>
