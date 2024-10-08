@@ -65,9 +65,8 @@ function renderTable() {
                     </td>
                     <td>
                         <div>
-                             <img src='${icon}'>
+                             <img src='${icon}' class="big-icon">
                         <div>
-                        <b>${creature.type}</b>
                     </td>
                     <td><input type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>

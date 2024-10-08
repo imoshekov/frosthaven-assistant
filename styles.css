@@ -94,7 +94,7 @@ table {
 }
 
 img {
-    width: 60px;
+    width: 40px;
     /* Smaller image */
     border-radius: 3px;
 }
@@ -112,9 +112,8 @@ td {
     text-align: center;
     background-color: #3A3A3A;
     color: #F0F0F0;
-    font-size: 18px;
-    /* Reduced font size */
-    border-bottom: 1px solid #444;
+    font-size: 20px;
+    border-bottom: 3px solid #444;
 }
 
 button {
@@ -128,6 +127,10 @@ button {
 button:hover {
     background-color: #56677A;
     transform: scale(1.02);
+}
+
+.big-icon {
+    width:60px;
 }
 
 /* Color-coding for stats */
