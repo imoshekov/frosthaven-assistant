@@ -11,7 +11,7 @@ function addCharacter() {
     const level = parseInt(document.getElementById('level').value);
     const elite = document.getElementById('elite-monster').checked;
     let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
-    let monsterData = data.monsters.find(monster => monster.name === type);
+    const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
     if (elite) {
         name = 'ELITE ' + name;
@@ -139,10 +139,8 @@ function populateMonsterTypeDropdown() {
 }
 
 function resetAll() {
-    const initiativeModifier = 0;
-
-    characters.forEach(creature => {
-        creature.initiative = 0;
+    characters.forEach(c => {
+        c.initiative = 0;
     });
 
     sortCreaturesByInitiative();
