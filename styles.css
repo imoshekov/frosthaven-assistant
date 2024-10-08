@@ -101,7 +101,10 @@ img {
 
 th {
     padding: 10px;
-    /* Reduced padding */
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #3A3A3A; /* Ensure header background remains visible */
 }
 
 th,
