@@ -59,11 +59,6 @@ function renderTable() {
         const row = `<tr class='${creature.type}-row creature-row'>
                     <td>
 						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
-						<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
-							<button>
-							  <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
-							</button>
-						</span>
 					</td>
                     <td>
                         <div>
@@ -80,7 +75,12 @@ function renderTable() {
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
                     <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
                     <td>
-                        <button class="attack" onclick="removeCreature(${index})">X</button>
+                    	<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
+							<button>
+							  <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
+							</button>
+						</span>
+                        <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
                     </td>
                 </tr>`;
         tableBody.insertAdjacentHTML('beforeend', row);
@@ -126,7 +126,10 @@ function closeModal() {
 
 function applyDamage(dmgInput) {
     characters[defender].hp -= parseInt(dmgInput.value);
-    if (characters[defender].hp < 0) { characters[defender].hp = 0; }
+    if (characters[defender].hp < 0) {
+        characters[defender].hp = 0;
+        removeCreature(defender);
+    }
     console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
     document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
     closeModal();

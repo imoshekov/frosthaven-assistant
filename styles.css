@@ -160,6 +160,19 @@ input[type="number"] {
     vertical-align: middle;
 }
 
+.remove-btn {
+    right: 10px; /* Align it 10px from the right side */
+    top: 50%; /* Align vertically */
+
+    font-size: 12px; /* Smaller font size */
+    padding: 5px 10px; /* Smaller button padding */
+    background-color: red; /* Optional: Red background for the "X" button */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 .attack-modal {
     display: none; /* Hidden by default */
     position: fixed;
