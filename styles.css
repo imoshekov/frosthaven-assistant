@@ -83,7 +83,7 @@ input[type="number"] {
 
 /* Compact table styling */
 table {
-    border-collapse: collapse;
+    border-collapse: separate;
     width: 100%;
     margin-top: 10px;
     table-layout: fixed;
@@ -91,6 +91,9 @@ table {
     max-height: 400px;
     /* Fixed height for 7-8 items */
     overflow-y: auto;
+    min-width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 img {
@@ -113,7 +116,8 @@ td {
     background-color: #3A3A3A;
     color: #F0F0F0;
     font-size: 20px;
-    border-bottom: 3px solid #444;
+    padding: 8px;
+    border-bottom: 2px solid #444; /* Adjusted border to a smaller size */
 }
 
 button {
@@ -240,7 +244,7 @@ button {
 
     th,
     td {
-        padding: 6px;
+        padding: 4px;
         font-size: 14px;
     }
 
