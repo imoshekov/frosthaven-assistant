@@ -121,17 +121,19 @@ function closeModal() {
         button.style.visibility = '';
         button.querySelector('#attack-img').src = 'https://gloomhaven-secretariat.de/assets/images/action/attack.svg';
     });
+    document.getElementById('attack-input').value = 0;
     document.getElementById('modal').style.display = 'none';
 }
 
 function applyDamage(dmgInput) {
     characters[defender].hp -= parseInt(dmgInput.value);
+    console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
     if (characters[defender].hp <= 0) {
         characters[defender].hp = 0;
         removeCreature(defender);
+    } else {
+        document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
     }
-    console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
-    document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
     closeModal();
 }
 
