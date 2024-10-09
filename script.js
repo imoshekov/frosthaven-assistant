@@ -4,6 +4,8 @@ const characters = [
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
+const conditions = [];
+let conditionTarget = null;
 let attacker = null;
 let defender = null;
 
@@ -62,10 +64,12 @@ function renderTable() {
 						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
 					</td>
                     <td>
-                        <div>
-                           <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
-                        <div>
-                        <b>${creature.name}</b>
+                        <div onclick="openConditions(event, ${index})">
+                            <div>
+                               <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
+                            <div>
+                            <b>${creature.name}</b>
+                        </div>
                     </td>
                     <td>
                         <div>
@@ -76,7 +80,7 @@ function renderTable() {
                     <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
                     <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
                     <td>
-                    	<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
+                    	<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
 							<button>
 							  <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
 							</button>
@@ -88,55 +92,150 @@ function renderTable() {
     });
 }
 
-function handleAttack(buttonElement) {
-    const imgElement = buttonElement.querySelector('#attack-img');
-
+function handleAttack(event, buttonElement) {
     // First click: switch to target.svg
     if (attacker === null) {
-        document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
-            let parentButton = img.parentElement.parentElement;
-            if (characters[parentButton.dataset.creatureIdx].hp <= 0) {
-                parentButton.style.visibility = 'hidden';
-            } else {
-                img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+        if (buttonElement.dataset.creatureIdx < 4 ) {
+            // player character, can attack only monsters
+            if (characters.every(function (char) { return !char.aggressive; })) {
+                alert('No monsters to attack');
+                return;
             }
-        });
+            document.querySelectorAll('[data-creature-idx]').forEach(function(button) {
+                if (!characters[button.dataset.creatureIdx].aggressive) {
+                    button.style.visibility = 'hidden';
+                }
+            });
+        } else {
+            // enemy monsters and potentially allies also, can attack anyone except self
+            buttonElement.style.visibility = 'hidden';
+        }
 
-        buttonElement.style.visibility = 'hidden';
+        document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
+            img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+        });
         attacker = buttonElement.dataset.creatureIdx;
     }
     // Second click: show modal
     else {
         defender = buttonElement.dataset.creatureIdx;
-        openModal();
+        openModal('modal-attack');
+        document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
+        event.stopPropagation();
     }
 }
 
-function openModal() {
-    document.getElementById('modal').style.display = 'block';
+function openConditions(event, charIdx) {
+    conditionTarget = charIdx;
+    document.getElementById('condition-armor').value = conditions[charIdx]?.armor || 0;
+    document.getElementById('condition-retaliate').value = conditions[charIdx]?.retaliate || 0;
+    document.getElementById('condition-poison').checked = conditions[charIdx]?.poison || false;
+    document.getElementById('condition-brittle').checked = conditions[charIdx]?.brittle || false;
+    document.getElementById('condition-ward').checked = conditions[charIdx]?.ward || false;
+    openModal('modal-conditions');
+    event.stopPropagation();
 }
 
-function closeModal() {
+function openModal(id) {
+    document.getElementById(id).style.display = 'block';
+}
+
+function closeAttackModal() {
     attacker = defender = null;
     document.querySelectorAll('.attack-btn').forEach(function (button) {
         button.style.visibility = '';
         button.querySelector('#attack-img').src = 'https://gloomhaven-secretariat.de/assets/images/action/attack.svg';
     });
     document.getElementById('attack-input').value = 0;
-    document.getElementById('modal').style.display = 'none';
+    document.getElementById('modal-attack').style.display = 'none';
 }
 
 function applyDamage(dmgInput) {
-    characters[defender].hp -= parseInt(dmgInput.value);
-    console.log(characters[attacker].name + " attacked " + characters[defender].name + " for " + dmgInput.value + " damage.");
-    if (characters[defender].hp <= 0) {
-        characters[defender].hp = 0;
-        removeCreature(defender);
-    } else {
-        document.getElementById(`char-hp-${defender}`).value = characters[defender].hp;
+    let dmg = parseInt(dmgInput.value);
+    let attackerDmg = 0;
+
+    if (conditions[defender]?.armor > 0) {
+        console.log(characters[defender].name + " has armor " + conditions[defender].armor);
+        dmg -= conditions[defender].armor;
     }
-    closeModal();
+    if (conditions[defender]?.poison && dmg > 0) {
+        console.log(characters[defender].name + " is poisoned");
+        dmg += 1;
+    }
+    if (conditions[defender]?.retaliate > 0) {
+        console.log(characters[defender].name + " has retaliated for " + conditions[defender].retaliate);
+        attackerDmg += conditions[defender].retaliate;
+        // shield mitigation doesn't apply to retaliate
+    }
+
+    console.log(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
+    dmg = calculateDamage(defender, dmg);
+    attackerDmg = calculateDamage(attacker, attackerDmg);
+
+    updateHpWithDamage(defender, dmg);
+    updateHpWithDamage(attacker, attackerDmg);
+    closeAttackModal();
 }
+
+function calculateDamage(charIdx, dmg)  {
+    if (conditions[charIdx]?.brittle && dmg > 0) {
+        dmg *= 2;
+        conditions[charIdx].brittle = false;
+    }
+    if (conditions[charIdx]?.ward && dmg > 0) {
+        dmg = Math.floor(dmg / 2);
+        conditions[charIdx].ward = false;
+    }
+
+    return dmg;
+}
+
+function updateHpWithDamage(charIdx, dmg) {
+    if (dmg <= 0) {
+        return;
+    }
+    characters[charIdx].hp -= dmg;
+    if (characters[charIdx].hp <= 0) {
+        characters[charIdx].hp = 0;
+        removeCreature(charIdx);
+    } else {
+        document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
+    }
+}
+
+function applyCondition() {
+    const armor = parseInt(document.getElementById('condition-armor').value);
+    const retaliate = parseInt(document.getElementById('condition-retaliate').value);
+    const poison = document.getElementById('condition-poison').checked;
+    const brittle = document.getElementById('condition-brittle').checked;
+    const ward = document.getElementById('condition-ward').checked;
+
+    conditions[conditionTarget] = {
+        armor,
+        retaliate,
+        poison,
+        brittle,
+        ward
+    };
+    closeConditionsModal();
+}
+
+function closeConditionsModal() {
+    document.getElementById('modal-conditions').style.display = 'none';
+}
+
+// Close modal if clicking outside of modal content
+window.onclick = function(event) {
+    const attackModal = document.getElementById('modal-attack');
+    const conditionModal = document.getElementById('modal-conditions');
+
+    if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
+        closeAttackModal();
+    }
+    if (conditionModal.style.display === "block" && !conditionModal.querySelector('.modal-content').contains(event.target)) {
+        closeConditionsModal();
+    }
+};
 
 function updateStat(index, stat, value) {
     characters[index][stat] = parseInt(value);

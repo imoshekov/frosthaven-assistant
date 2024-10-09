@@ -176,6 +176,46 @@ input[type="number"] {
     vertical-align: middle;
 }
 
+input[type="number"], .condition-input {
+    width: 45px;
+}
+
+#condition-retaliate {
+    margin-left: -13px;
+}
+
+.condition-img {
+    width: 32px;
+}
+
+.modal-content input[type="checkbox"] {
+    margin: 0;
+}
+
+.condition-input {
+    height: 40px; /* Adjust the input size if needed */
+    vertical-align: middle; /* Ensures inputs and images are aligned vertically */
+}
+
+.condition-number-img img {
+    height: 30px; /* Adjust image size */
+    vertical-align: middle; /* Align the image with the middle of the input */
+    margin-bottom: -6px; /* Slightly lower the image relative to the input */
+}
+
+.condition-number-img {
+    display: inline-block; /* Keep the images inline with the input */
+    margin-left: 10px; /* Add space between input and image */
+}
+
+.condition-btn {
+    margin-top: 20px;
+}
+
+.modal-content hr {
+    border: 1px solid #56677A;
+}
+
 .remove-btn {
     right: 10px; /* Align it 10px from the right side */
     top: 50%; /* Align vertically */
@@ -189,7 +229,7 @@ input[type="number"] {
     cursor: pointer;
 }
 
-.attack-modal {
+.modal {
     display: none; /* Hidden by default */
     position: fixed;
     z-index: 100;
