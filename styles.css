@@ -1,18 +1,3 @@
-:root {
-    --boneshaper-color: #49a967;
-    --banner-spear-color: #edbc47;
-    --deathwalker-color: #8c97a9;
-    --drifter-color: #a28b7c;
-    --elite-color: #400a0b;
-    --nonelite-color: #694802;
-    --friendly-color: #837ca2;
-    --hp-color: #690202;
-    --attack-color: #fbf300;
-    --movement-color: #2e00f8;
-    --stats-icons-size: 30px;
-}
-
-
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -91,7 +76,7 @@ input[type="checkbox"] {
 
 input[type="number"] {
     width: 80px;
-    height: var(--stats-icons-size);
+    height: 30px;
     /* Adjusted size */
     font-size: 22px;
     text-align: center;
@@ -138,7 +123,7 @@ img {
 }
 
 .creatures .creature-column.nameplate {
-    background-color: var(--nonelite-color);
+    background-color: #694802;
     /* background-image: url(images/creature-background.png), url(images/creature-background.png); */
     background-blend-mode: multiply, overlay;
     background-size: 100% 100%;
@@ -184,57 +169,57 @@ img {
 }
 
 .creatures .boneshaper-row.friendly img.profile {
-    color: var(--boneshaper-color);
+    color: #49a967
 }
 
 .creatures .banner-spear-row.friendly img.profile {
-    color: var(--banner-spear-color);
+    color: #edbc47
 }
 
 .creatures .deathwalker-row.friendly img.profile {
-    color: var(--deathwalker-color);
+    color: #8c97a9
 }
 
 .creatures .drifter-row.friendly img.profile {
-    color: var(--drifter-color);
+    color: #a28b7c;
 }
 
 .creatures .elite img.profile {
-    color: var(--elite-color);
+    color: #400a0b;
 }
 
 .creatures .friendly img.profile {
-    color: var(--friendly-color);
+    color: #837ca2;
 }
 
 .creatures .boneshaper-row.friendly .creature-column.nameplate,
 .creatures .boneshaper-row.friendly .creature-column.nameplate input {
-    background-color: var(--boneshaper-color);
+    background-color: #49a967;
 }
 
 .creatures .banner-spear-row.friendly .creature-column.nameplate,
 .creatures .banner-spear-row.friendly .creature-column.nameplate input {
-    background-color: var(--banner-spear-color);
+    background-color: #edbc47;
 }
 
 .creatures .deathwalker-row.friendly .creature-column.nameplate,
 .creatures .deathwalker-row.friendly .creature-column.nameplate input {
-    background-color: var(--deathwalker-color);
+    background-color: #8c97a9
 }
 
 .creatures .drifter-row.friendly .creature-column.nameplate,
 .creatures .drifter-row.friendly .creature-column.nameplate input {
-    background-color: var(--drifter-color);
+    background-color: #a28b7c;
 }
 
 .creatures .elite .creature-column.nameplate,
 .creatures .elite .creature-column.nameplate input {
-    background-color: var(--elite-color);
+    background-color: #400a0b;
 }
 
 .creatures .friendly .creature-column.nameplate,
 .creatures .friendly .creature-column.nameplate input {
-    background-color: var(--friendly-color);
+    background-color: #837ca2
 }
 
 /* Reduce row spacing */
@@ -269,9 +254,9 @@ img {
     content: '';
     position: absolute;
     top: 50%;
-    left: calc(var(--stats-icons-size) / 2);
-    width: var(--stats-icons-size);
-    height: var(--stats-icons-size);
+    left: 15px;
+    width: 30px;
+    height: 30px;
     border: .25em solid white;
     z-index: -1;
     transform: translate(-50%, -50%) rotate(45deg);
@@ -279,18 +264,18 @@ img {
 }
 
 .char-hp.stat-child::before {
-    background-color: var(--hp-color);
+    background-color: #690202;
 }
 .char-attack.stat-child::before {
-    background-color: var(--attack-color);
+    background-color: #fbf300;
 }
 .char-movement.stat-child::before {
-    background-color: var(--movement-color);
+    background-color: #2e00f8;
 }
 
 .stats .stat-child object {
-    width: var(--stats-icons-size);
-    height: var(--stats-icons-size);
+    width: 30px;
+    height: 30px;
 }
 
 .action-buttons {
