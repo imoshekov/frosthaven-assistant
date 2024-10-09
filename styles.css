@@ -1,3 +1,18 @@
+:root {
+    --boneshaper-color: #49a967;
+    --banner-spear-color: #edbc47;
+    --deathwalker-color: #8c97a9;
+    --drifter-color: #a28b7c;
+    --elite-color: #400a0b;
+    --nonelite-color: #694802;
+    --friendly-color: #837ca2;
+    --hp-color: #690202;
+    --attack-color: #fbf300;
+    --movement-color: #2e00f8;
+    --stats-icons-size: 30px;
+}
+
+
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -75,7 +90,7 @@ input[type="checkbox"] {
 
 input[type="number"] {
     width: 80px;
-    height: 40px;
+    height: var(--stats-icons-size);
     /* Adjusted size */
     font-size: 22px;
     text-align: center;
@@ -89,51 +104,197 @@ img {
 }
 
 /* Compact table styling */
-table {
-    border-collapse: collapse; /* Collapse borders for a tighter look */
+.creatures {
     width: 100%;
     margin-top: 10px;
-    table-layout: fixed; /* Ensure even column widths */
-    max-height: 500px; /* Increase height for more visible rows */
+    max-height: 500px;
     overflow-y: auto;
-    min-width: 100%;
-    max-width: 100%;
     overflow-x: auto;
 }
 
-th {
-    padding: 6px; /* Reduce padding for more compact headers */
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    background-color: #3A3A3A;
-    font-size: 18px; /* Slightly smaller font */
+.creatures .creature-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
 }
 
-th,
-td {
+.creatures .creature-column {
+    flex: 1;
+    font-size: 18px;
+    /* Slightly smaller font */
     text-align: center;
-    background-color: #3A3A3A;
     color: #F0F0F0;
-    font-size: 18px; /* Smaller font size to fit more rows */
-    padding: 6px; /* Reduce padding in cells */
-    border-bottom: 1px solid #444; /* Thinner border to save space */
+    font-size: 18px;
+    /* Smaller font size to fit more rows */
+    padding: 6px;
+    /* Reduce padding in cells */
+    border-bottom: 1px solid #444;
+    /* Thinner border to save space */
+
+}
+
+.creatures .creature-column.nameplate {
+    background-color: var(--nonelite-color);
+    background-image: url(images/creature-background.png), url(images/creature-background.png);
+    background-blend-mode: multiply, overlay;
+    background-size: 100% 100%;
+    border-radius: 9px;
+    padding: 25px;
+    filter: drop-shadow(2px 2px 2px #202830) drop-shadow(-2px -2px 2px #202830);
+    transition: background-color .15s ease-in-out, background-image .15s ease-in-out, background-blend-mode .15s ease-in-out;
+    padding: 25px 60px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.character-skin {
+    flex: 25%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0px 10px;
+}
+.character-skin .name {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.character-skin .class-icon {
+   width: 60px;
+}
+
+.character-attributes {
+    flex: 80%;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    justify-content: flex-end;
+}
+
+.creatures .creature-column.nameplate img.profile {
+    width: 100px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 5px;
+}
+
+.creatures .boneshaper-row.friendly img.profile {
+    color: var(--boneshaper-color);
+}
+
+.creatures .banner-spear-row.friendly img.profile {
+    color: var(--banner-spear-color);
+}
+
+.creatures .deathwalker-row.friendly img.profile {
+    color: var(--deathwalker-color);
+}
+
+.creatures .drifter-row.friendly img.profile {
+    color: var(--drifter-color);
+}
+
+.creatures .elite img.profile {
+    color: var(--elite-color);
+}
+
+.creatures .friendly img.profile {
+    color: var(--friendly-color);
+}
+
+.creatures .boneshaper-row.friendly .creature-column.nameplate,
+.creatures .boneshaper-row.friendly .creature-column.nameplate input {
+    background-color: var(--boneshaper-color);
+}
+
+.creatures .banner-spear-row.friendly .creature-column.nameplate,
+.creatures .banner-spear-row.friendly .creature-column.nameplate input {
+    background-color: var(--banner-spear-color);
+}
+
+.creatures .deathwalker-row.friendly .creature-column.nameplate,
+.creatures .deathwalker-row.friendly .creature-column.nameplate input {
+    background-color: var(--deathwalker-color);
+}
+
+.creatures .drifter-row.friendly .creature-column.nameplate,
+.creatures .drifter-row.friendly .creature-column.nameplate input {
+    background-color: var(--drifter-color);
+}
+
+.creatures .elite .creature-column.nameplate,
+.creatures .elite .creature-column.nameplate input {
+    background-color: var(--elite-color);
+}
+
+.creatures .friendly .creature-column.nameplate,
+.creatures .friendly .creature-column.nameplate input {
+    background-color: var(--friendly-color);
 }
 
 /* Reduce row spacing */
-tr:nth-child(even) td {
-    background-color: #3C3C3C;
-    border-bottom: 1px solid #666;
-}
-
-tr:nth-child(odd) td {
-    background-color: #2B2B2B;
-    border-bottom: 1px solid #444;
+.creature-row .creature-column:first-child {
+    max-width: 10vw;
 }
 
 /* Ensure visible vertical borders between cells */
-td {
-    border-right: 1px solid #555; /* Vertical borders between cells */
+.creature-column {
+    border-right: 1px solid #555;
+    /* Vertical borders between cells */
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0px 20px;
+    padding: 0px 50px;
+}
+
+.stats .stat-child {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0px 30px;
+    flex: 1 0 21%;
+  }
+
+  .stat-child::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(var(--stats-icons-size) / 2);
+    width: var(--stats-icons-size);
+    height: var(--stats-icons-size);
+    border: .25em solid white;
+    z-index: -1;
+    transform: translate(-50%, -50%) rotate(45deg);
+    filter: drop-shadow(1px 1px 1px gray) drop-shadow(-1px -1px 1px);
+}
+
+.char-hp.stat-child::before {
+    background-color: var(--hp-color);
+}
+.char-attack.stat-child::before {
+    background-color: var(--attack-color);
+}
+.char-movement.stat-child::before {
+    background-color: var(--movement-color);
+}
+
+.stats .stat-child object {
+    width: var(--stats-icons-size);
+    height: var(--stats-icons-size);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 button {
@@ -177,12 +338,17 @@ input[type="number"] {
 }
 
 .remove-btn {
-    right: 10px; /* Align it 10px from the right side */
-    top: 50%; /* Align vertically */
+    right: 10px;
+    /* Align it 10px from the right side */
+    top: 50%;
+    /* Align vertically */
 
-    font-size: 12px; /* Smaller font size */
-    padding: 5px 10px; /* Smaller button padding */
-    background-color: red; /* Optional: Red background for the "X" button */
+    font-size: 12px;
+    /* Smaller font size */
+    padding: 5px 10px;
+    /* Smaller button padding */
+    background-color: red;
+    /* Optional: Red background for the "X" button */
     color: white;
     border: none;
     border-radius: 3px;
@@ -190,14 +356,16 @@ input[type="number"] {
 }
 
 .attack-modal {
-    display: none; /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     position: fixed;
     z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
 }
 
 .modal-content {
@@ -217,7 +385,8 @@ input[type="number"] {
     font-weight: bold;
 }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -240,11 +409,6 @@ input[type="number"] {
 
 .icon p {
     margin-top: 5px;
-}
-
-.elite-monster-icon{
-    box-shadow: 0 0 25px 3px red;
-    background-color: rgba(197, 0, 0, 0.7);
 }
 
 /* Color-coding for stats */
@@ -320,10 +484,11 @@ button {
         width: 50px;
     }
 
-    th,
-    td {
-        font-size: 16px; /* Further reduce font size for small screens */
-        padding: 4px; /* Reduce padding further */
+    .creature-column {
+        font-size: 16px;
+        /* Further reduce font size for small screens */
+        padding: 4px;
+        /* Reduce padding further */
     }
 }
 
@@ -353,28 +518,33 @@ button {
         width: 40px;
     }
 
-    th,
-    td {
+    .creature-column {
         font-size: 14px;
-        padding: 2px; /* Even more compact for very small screens */
+        padding: 2px;
+        /* Even more compact for very small screens */
     }
 
     table {
-        max-height: 300px; /* Adjust height for small screens */
+        max-height: 300px;
+        /* Adjust height for small screens */
     }
 
     table b {
-        font-size: 10px; /* Shrink to a smaller font size */
+        font-size: 10px;
+        /* Shrink to a smaller font size */
     }
 
     table input[type="number"] {
-        width: 20px; /* Adjust the width for small screens */
-        height: 20px; /* Adjust the height for small screens */
-        font-size: 14px; /* Adjust the font size */
+        width: 20px;
+        /* Adjust the width for small screens */
+        height: 20px;
+        /* Adjust the height for small screens */
+        font-size: 14px;
+        /* Adjust the font size */
         padding: 8px 8px;
     }
 
-    table button{
+    table button {
         width: 40px;
         height: 40px;
     }
