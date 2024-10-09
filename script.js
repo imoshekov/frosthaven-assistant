@@ -74,17 +74,17 @@ function renderTable() {
                             <div class='character-attributes'>
                             <div class='stats'>
                                 <div class='char-hp stat-child'>
-                                    <object type="image/svg+xml" data="images/hp.svg"></object>
+                                    <img src='images/hp.png'>
                                     <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
                                         onchange="updateStat(${index}, 'hp', this.value)" />
                                 </div>
                                 <div class='char-attack stat-child'>
-                                    <object type="image/svg+xml" data="images/attack.svg"></object>
+                                    <img src='images/attack.png'>
                                     <input type="number" class="attack" value="${creature.attack}"
                                         onchange="updateStat(${index}, 'attack', this.value)" />
                                 </div>
                                 <div class='char-movement stat-child'>
-                                    <object type="image/svg+xml" data="images/movement.svg"></object>
+                                    <img src='images/movement.png'>
                                     <input type="number" class="movement" value="${creature.movement}"
                                         onchange="updateStat(${index}, 'movement', this.value)" />
 
