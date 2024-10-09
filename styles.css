@@ -250,6 +250,13 @@ input[type="number"], .condition-input {
     z-index: 101;
 }
 
+#attack-conditions img {
+    width: 24px;
+    margin-bottom: -5px;
+    margin-left: 3px;
+    margin-right: 10px;
+}
+
 .close {
     color: #aaa;
     float: right;
