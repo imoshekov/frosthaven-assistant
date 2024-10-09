@@ -120,6 +120,7 @@ function handleAttack(event, buttonElement) {
     else {
         defender = buttonElement.dataset.creatureIdx;
         openModal('modal-attack');
+        document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
         event.stopPropagation();
     }
 }
