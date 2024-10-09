@@ -81,6 +81,13 @@ input[type="number"] {
     text-align: center;
 }
 
+
+img {
+    width: 40px;
+    /* Smaller image */
+    border-radius: 3px;
+}
+
 /* Compact table styling */
 table {
     border-collapse: separate;
@@ -94,12 +101,6 @@ table {
     min-width: 100%;
     max-width: 100%;
     overflow-x: auto;
-}
-
-img {
-    width: 40px;
-    /* Smaller image */
-    border-radius: 3px;
 }
 
 th {
@@ -118,6 +119,22 @@ td {
     font-size: 20px;
     padding: 8px;
     border-bottom: 2px solid #444; /* Adjusted border to a smaller size */
+}
+
+/* Table row styling for cells */
+tr:nth-child(even) td {
+    background-color: #3C3C3C; /* Darker background for even rows */
+    border-bottom: 2px solid #666; /* Lighter border for even rows */
+}
+
+tr:nth-child(odd) td {
+    background-color: #2B2B2B; /* Background for odd rows */
+    border-bottom: 2px solid #444; /* Darker border for odd rows */
+}
+
+/* Ensure visible vertical borders between cells */
+td {
+    border-right: 1px solid #555; /* Vertical borders between cells */
 }
 
 button {
