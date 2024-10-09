@@ -10,11 +10,11 @@ let defender = null;
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
     const level = parseInt(document.getElementById('level').value);
-    const elite = document.getElementById('elite-monster').checked;
+    const isElite = document.getElementById('elite-monster').checked;
     let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
     const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
-    if (elite) {
+    if (isElite) {
         name = 'ELITE ' + name;
         selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
     }
@@ -32,6 +32,7 @@ function addCharacter() {
         name,
         type,
         aggressive: isAgressive,
+        eliteMonster: isElite,
         hp: defaultHP,
         attack: defaultAttack,
         movement: defaultMovement,
@@ -55,7 +56,7 @@ function renderTable() {
     tableBody.innerHTML = '';
     characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
-        const icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
+        let icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
         const row = `<tr class='${creature.type}-row creature-row'>
                     <td>
 						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
@@ -68,7 +69,7 @@ function renderTable() {
                     </td>
                     <td>
                         <div>
-                             <img src='${icon}'>
+                             <img src='${icon}' ${creature.eliteMonster ? "class=\"elite-monster-icon\"":''}>
                         <div>
                     </td>
                     <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
