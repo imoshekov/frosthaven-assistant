@@ -24,7 +24,7 @@ function addCharacter() {
     }
     const initiative = 0;
     const defaultAttack = selectedMonster.attack;
-    const defaultMovement = elite ? selectedMonster.movement : initMovement;
+    const defaultMovement = Math.max(initMovement, selectedMonster?.movement || 0);
     const defaultHP = selectedMonster.health;
     const isAgressive = true;
 
@@ -92,7 +92,7 @@ function handleAttack(buttonElement) {
 
     // First click: switch to target.svg
     if (attacker === null) {
-        document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
+        document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
             let parentButton = img.parentElement.parentElement;
             if (characters[parentButton.dataset.creatureIdx].hp <= 0) {
                 parentButton.style.visibility = 'hidden';
@@ -117,7 +117,7 @@ function openModal() {
 
 function closeModal() {
     attacker = defender = null;
-    document.querySelectorAll('.attack-btn').forEach(function(button) {
+    document.querySelectorAll('.attack-btn').forEach(function (button) {
         button.style.visibility = '';
         button.querySelector('#attack-img').src = 'https://gloomhaven-secretariat.de/assets/images/action/attack.svg';
     });
