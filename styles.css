@@ -29,6 +29,7 @@ body {
     scrollbar-width: 1px;
     /* for Firefox */
     overflow-y: scroll;
+    width: 100vw;
 }
 
 
@@ -105,7 +106,7 @@ img {
 
 /* Compact table styling */
 .creatures {
-    width: 100%;
+    width: 100vw;
     margin-top: 10px;
     max-height: 500px;
     overflow-y: auto;
@@ -138,7 +139,7 @@ img {
 
 .creatures .creature-column.nameplate {
     background-color: var(--nonelite-color);
-    background-image: url(images/creature-background.png), url(images/creature-background.png);
+    /* background-image: url(images/creature-background.png), url(images/creature-background.png); */
     background-blend-mode: multiply, overlay;
     background-size: 100% 100%;
     border-radius: 9px;
@@ -148,6 +149,7 @@ img {
     padding: 25px 60px;
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
 }
 
 .character-skin {
@@ -545,6 +547,21 @@ button {
     }
 
     table button {
+screens */
+    }
+
+    table b {
+        font-size: 10px; /* Shrink to a smaller font size */
+    }
+
+    table input[type="number"] {
+        width: 20px; /* Adjust the width for small screens */
+        height: 20px; /* Adjust the height for small screens */
+        font-size: 14px; /* Adjust the font size */
+        padding: 8px 8px;
+    }
+
+    table button{
         width: 40px;
         height: 40px;
     }
