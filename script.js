@@ -8,7 +8,7 @@ let attacker = null;
 let defender = null;
 
 function addCharacter() {
-    const type = document.getElementById('type').value.toLowerCase();
+    const type = document.getElementById('selected-monster-type').value.toLowerCase();
     const level = parseInt(document.getElementById('level').value);
     const elite = document.getElementById('elite-monster').checked;
     let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
@@ -183,16 +183,23 @@ function populateModifyByTypeDropdown() {
 
 function populateMonsterTypeDropdown() {
     //populate monster types
-    const typeDropdown = document.getElementById('type');
-    typeDropdown.innerHTML = '';
+    // const typeDropdown = document.getElementById('type');
+    // typeDropdown.innerHTML = '';
 
-    data.monsters.forEach(type => {
+    // data.monsters.forEach(type => {
+    //     const option = document.createElement('option');
+    //     option.value = type.name;
+    //     option.text = type.name
+    //     typeDropdown.appendChild(option);
+    // });
+    // typeDropdown.value = '';
+
+    const monsterList = document.getElementById('monster-select-list');
+     data.monsters.forEach(type => {
         const option = document.createElement('option');
         option.value = type.name;
-        option.text = type.name
-        typeDropdown.appendChild(option);
+        monsterList.appendChild(option);
     });
-    typeDropdown.value = '';
 }
 
 function resetAll() {

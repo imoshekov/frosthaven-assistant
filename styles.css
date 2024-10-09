@@ -50,7 +50,6 @@ button {
     padding: 10px 15px;
     /* Reduced padding */
     font-size: 18px;
-    text-transform: uppercase;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
@@ -73,7 +72,9 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-input[type="number"] {
+input[type="number"],
+input[type="text"]
+{
     width: 80px;
     height: 40px;
     /* Adjusted size */
@@ -86,6 +87,28 @@ img {
     width: 40px;
     /* Smaller image */
     border-radius: 3px;
+}
+
+/* Style the input field to mimic a select dropdown */
+input[list] {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    color: #F0F0F0;
+    background-color: #445566; /* Match your select's background */
+    border: none;
+    cursor: pointer;
+}
+
+/* Add focus effect similar to a select */
+input[list]:focus {
+    outline: none;
+    background-color: #56677A; /* Lighter effect on focus */
+}
+
+/* Style the options inside the datalist */
+input::-webkit-calendar-picker-indicator {
+    display: none !important; /* Hide the native dropdown arrow */
 }
 
 /* Compact table styling */
