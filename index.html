@@ -18,7 +18,10 @@
             <div class="row">
                 <div class="default-stats">
                     <label for="Type">Type: </label>
-                    <select id="type" autocomplete="on"></select>
+                    <input type="text" id="selected-monster-type" list="monster-select-list"
+                        placeholder="select monster" />
+                    <datalist id="monster-select-list">
+                    </datalist>
                 </div>
                 <div class="default-stats">
                     <label for="Level">Level: </label>
@@ -105,14 +108,11 @@
                 <hr>
 
                 <input type="checkbox" id="condition-poison">
-                <img id="poison-img" class="condition-img"
-                    src='images/condition/poison.svg'>
+                <img id="poison-img" class="condition-img" src='images/condition/poison.svg'>
                 <input type="checkbox" id="condition-brittle">
-                <img id="brittle-img" class="condition-img"
-                    src='images/condition/brittle.svg'>
+                <img id="brittle-img" class="condition-img" src='images/condition/brittle.svg'>
                 <input type="checkbox" id="condition-ward">
-                <img id="ward-img" class="condition-img"
-                    src='images/condition/ward.svg'>
+                <img id="ward-img" class="condition-img" src='images/condition/ward.svg'>
 
                 <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
             </div>

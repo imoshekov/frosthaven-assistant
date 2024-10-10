@@ -1,8 +1,8 @@
 const characters = [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 const conditions = [];
 let conditionTarget = null;
@@ -10,7 +10,7 @@ let attacker = null;
 let defender = null;
 
 function addCharacter() {
-    const type = document.getElementById('type').value.toLowerCase();
+    const type = document.getElementById('selected-monster-type').value.toLowerCase();
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
     let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
@@ -310,17 +310,12 @@ function populateModifyByTypeDropdown() {
 }
 
 function populateMonsterTypeDropdown() {
-    //populate monster types
-    const typeDropdown = document.getElementById('type');
-    typeDropdown.innerHTML = '';
-
+    const monsterList = document.getElementById('monster-select-list');
     data.monsters.forEach(type => {
         const option = document.createElement('option');
         option.value = type.name;
-        option.text = type.name
-        typeDropdown.appendChild(option);
+        monsterList.appendChild(option);
     });
-    typeDropdown.value = '';
 }
 
 function resetAll() {
@@ -332,20 +327,20 @@ function resetAll() {
     renderTable();
 }
 
-function handleNumberFocusEvents() {
-    const table = document.getElementById('master-container'); 
+function handleFocusEvents() {
+    const masterContainer = document.getElementById('master-container');
 
-    table.addEventListener('focusin', function(event) {
-        if (event.target.matches('input[type="number"]')) {
-            event.target.dataset.previousValue = event.target.value || '0'; 
+    masterContainer.addEventListener('focusin', function (event) {
+        if (event.target.matches('input[type="number"]') || event.target.matches('#selected-monster-type')) {
+            event.target.dataset.previousValue = event.target.value;
             event.target.value = '';
         }
     });
 
-    table.addEventListener('focusout', function(event) {
-        if (event.target.matches('input[type="number"]')) {
+    masterContainer.addEventListener('focusout', function (event) {
+        if (event.target.matches('input[type="number"]') || event.target.matches('#selected-monster-type')) {
             if (event.target.value === '') {
-                event.target.value = event.target.dataset.previousValue || '0'; 
+                event.target.value = event.target.dataset.previousValue;
             }
         }
     });
@@ -356,5 +351,5 @@ window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
     populateModifyByTypeDropdown();
-    handleNumberFocusEvents();
+    handleFocusEvents();
 };
