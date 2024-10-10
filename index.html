@@ -10,109 +10,116 @@
 </head>
 
 <body>
-    <h1>Frosthaven Assist</h1>
-    <hr>
-    <div class="add-char">
-        <div class="row">
-            <div class="default-stats">
-                <label for="Type">Type: </label>
-                <select id="type"  autocomplete="on"></select>
-            </div>
-            <div class="default-stats">
-                <label for="Level">Level: </label>
-                <input type="number" id="level" placeholder="Enter level" value="1" />
-            </div>
-            <div class="default-stats">
-                <label for="Standee">Standee: </label>
-                <input type="number" id="standee-number" placeholder="Enter #" />
-            </div>
-            <div class="default-stats">
-                <label for="Elite">Elite: </label>
-                <input type="checkbox" id="elite-monster" />
-            </div>
-            <button class="initiative" onclick="addCharacter()">Add Monster</button>
-        </div>
-    </div>
-    <h3>Characters & Monsters</h3>
-    <hr>
-    <table>
-        <thead>
-            <tr>
-                <th class="initiative">#</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="hp">HP</th>
-                <th class="attack">Attack</th>
-                <th class="movement">Move</th>
-                <th>Act</th>
-            </tr>
-        </thead>
-        <tbody id="creaturesTable">
-            <!-- Dynamic content will go here -->
-        </tbody>
-    </table>
-    
-    <h3>Type Modifications</h3>
-    <hr>
-    <div class="add-char">
-        <div class="row">
-            <div class="default-stats">
-                <label for="typeModifier">Type: </label>
-                <select id="typeModifier"  autocomplete="on"></select>
-                <label for="initiativeModifier">Initiative: </label>
-                <input class="initiative" type="number" id="initiativeModifier" value="0" />
-                <button class="initiative" onclick="modifyByType()">Apply</button>
-                <button class="attack" onclick="resetAll()">Reset</button>
+    <!-- master-container is a hacky workaround to handle the focus event on all number fields in the page -->
+    <div id="master-container">
+        <h1>Frosthaven Assist</h1>
+        <hr>
+        <div class="add-char">
+            <div class="row">
+                <div class="default-stats">
+                    <label for="Type">Type: </label>
+                    <select id="type" autocomplete="on"></select>
+                </div>
+                <div class="default-stats">
+                    <label for="Level">Level: </label>
+                    <input type="number" id="level" placeholder="Enter level" value="1" />
+                </div>
+                <div class="default-stats">
+                    <label for="Standee">Standee: </label>
+                    <input type="number" id="standee-number" placeholder="Enter #" />
+                </div>
+                <div class="default-stats">
+                    <label for="Elite">Elite: </label>
+                    <input type="checkbox" id="elite-monster" />
+                </div>
+                <button class="initiative" onclick="addCharacter()">Add Monster</button>
             </div>
         </div>
-    </div>
+        <h3>Characters & Monsters</h3>
+        <hr>
+        <table>
+            <thead>
+                <tr>
+                    <th class="initiative">#</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th class="hp">HP</th>
+                    <th class="attack">Attack</th>
+                    <th class="movement">Move</th>
+                    <th>Act</th>
+                </tr>
+            </thead>
+            <tbody id="creaturesTable">
+                <!-- Dynamic content will go here -->
+            </tbody>
+        </table>
 
-    <!-- Attack Modal -->
-    <div id="modal-attack" class="modal" >
-        <div class="modal-content">
-            <span class="close" onclick="closeAttackModal()">&times;</span>
-            <h3>Damage</h3>
-            <span id="attack-combatants"></span>
-            <br>
-
-            <input type="number" id="attack-input" min="0" value="0">
-
-            <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
-            <!-- Icons (0-3) -->
-            <div id="attack-conditions" class="conditions">
-                <!-- Conditions on target, if any -->
+        <h3>Type Modifications</h3>
+        <hr>
+        <div class="add-char">
+            <div class="row">
+                <div class="default-stats">
+                    <label for="typeModifier">Type: </label>
+                    <select id="typeModifier" autocomplete="on"></select>
+                    <label for="initiativeModifier">Initiative: </label>
+                    <input class="initiative" type="number" id="initiativeModifier" value="0" />
+                    <button class="initiative" onclick="modifyByType()">Apply</button>
+                    <button class="attack" onclick="resetAll()">Reset</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Conditions Modal -->
-    <div id="modal-conditions"  class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeConditionsModal()">&times;</span>
+        <!-- Attack Modal -->
+        <div id="modal-attack" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAttackModal()">&times;</span>
+                <h3>Damage</h3>
+                <span id="attack-combatants"></span>
+                <br>
 
-            <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
-            <div class="condition-number-img">
-                <img id="armor-img" src='https://gloomhaven-secretariat.de/assets/images/action/shield.svg'>
+                <input type="number" id="attack-input" min="0" value="0">
+
+                <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
+                <!-- Icons (0-3) -->
+                <div id="attack-conditions" class="conditions">
+                    <!-- Conditions on target, if any -->
+                </div>
             </div>
-            <div class="condition-number"></div>
-            <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
-            <div class="condition-number-img">
-                <img id="retaliate-img" src='https://gloomhaven-secretariat.de/assets/images/action/retaliate.svg'>
-            </div>
-            <br><hr>
-
-            <input type="checkbox" id="condition-poison">
-            <img id="poison-img" class="condition-img" src='https://gloomhaven-secretariat.de/assets/images/condition/poison.svg'>
-            <input type="checkbox" id="condition-brittle">
-            <img id="brittle-img" class="condition-img" src='https://gloomhaven-secretariat.de/assets/images/condition/brittle.svg'>
-            <input type="checkbox" id="condition-ward">
-            <img id="ward-img" class="condition-img" src='https://gloomhaven-secretariat.de/assets/images/condition/ward.svg'>
-
-            <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
         </div>
+
+        <!-- Conditions Modal -->
+        <div id="modal-conditions" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeConditionsModal()">&times;</span>
+
+                <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
+                <div class="condition-number-img">
+                    <img id="armor-img" src='https://gloomhaven-secretariat.de/assets/images/action/shield.svg'>
+                </div>
+                <div class="condition-number"></div>
+                <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                <div class="condition-number-img">
+                    <img id="retaliate-img" src='https://gloomhaven-secretariat.de/assets/images/action/retaliate.svg'>
+                </div>
+                <br>
+                <hr>
+
+                <input type="checkbox" id="condition-poison">
+                <img id="poison-img" class="condition-img"
+                    src='https://gloomhaven-secretariat.de/assets/images/condition/poison.svg'>
+                <input type="checkbox" id="condition-brittle">
+                <img id="brittle-img" class="condition-img"
+                    src='https://gloomhaven-secretariat.de/assets/images/condition/brittle.svg'>
+                <input type="checkbox" id="condition-ward">
+                <img id="ward-img" class="condition-img"
+                    src='https://gloomhaven-secretariat.de/assets/images/condition/ward.svg'>
+
+                <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
+            </div>
+        </div>
+        <script src="script.js"></script>
+        <script src="data.js"></script>
     </div>
-    <script src="script.js"></script>
-    <script src="data.js"></script>
 </body>
 
 </html>

@@ -29,8 +29,8 @@ function addCharacter() {
     const defaultMovement = Math.max(initMovement, selectedMonster?.movement || 0);
     const defaultHP = selectedMonster.health;
     const isAgressive = true;
-    const defaultArmor = selectedMonster?.actions?.find(x=> x.type === 'shield')?.value || 0;
-    const defaultRetaliate = selectedMonster?.actions?.find(x=> x.type === 'retaliate')?.value || 0;
+    const defaultArmor = selectedMonster?.actions?.find(x => x.type === 'shield')?.value || 0;
+    const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
 
     const newCreature = {
         name,
@@ -77,7 +77,7 @@ function renderTable() {
                     </td>
                     <td>
                         <div>
-                             <img src='${icon}' ${creature.eliteMonster ? "class=\"elite-monster-icon\"":''}>
+                             <img src='${icon}' ${creature.eliteMonster ? "class=\"elite-monster-icon\"" : ''}>
                         <div>
                     </td>
                     <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
@@ -99,13 +99,13 @@ function renderTable() {
 function handleAttack(event, buttonElement) {
     // First click: switch to target.svg
     if (attacker === null) {
-        if (buttonElement.dataset.creatureIdx < 4 ) {
+        if (buttonElement.dataset.creatureIdx < 4) {
             // player character, can attack only monsters
             if (characters.every(function (char) { return !char.aggressive; })) {
                 alert('No monsters to attack');
                 return;
             }
-            document.querySelectorAll('[data-creature-idx]').forEach(function(button) {
+            document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
                 if (!characters[button.dataset.creatureIdx].aggressive) {
                     button.style.visibility = 'hidden';
                 }
@@ -115,7 +115,7 @@ function handleAttack(event, buttonElement) {
             buttonElement.style.visibility = 'hidden';
         }
 
-        document.querySelectorAll('.attack-btn #attack-img').forEach(function(img) {
+        document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
             img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
         });
         attacker = buttonElement.dataset.creatureIdx;
@@ -132,7 +132,7 @@ function handleAttack(event, buttonElement) {
 
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
-    document.getElementById('condition-armor').value = characters[charIdx].armor;//conditions[charIdx]?.armor || 0;
+    document.getElementById('condition-armor').value = characters[charIdx].armor;
     document.getElementById('condition-retaliate').value = characters[charIdx].retaliate;
     document.getElementById('condition-poison').checked = conditions[charIdx]?.poison || false;
     document.getElementById('condition-brittle').checked = conditions[charIdx]?.brittle || false;
@@ -205,7 +205,7 @@ function applyDamage(dmgInput) {
     closeAttackModal();
 }
 
-function calculateDamage(charIdx, dmg)  {
+function calculateDamage(charIdx, dmg) {
     if (conditions[charIdx]?.brittle && dmg > 0) {
         dmg *= 2;
         conditions[charIdx].brittle = false;
@@ -253,7 +253,7 @@ function closeConditionsModal() {
 }
 
 // Close modal if clicking outside of modal content
-window.onclick = function(event) {
+window.onclick = function (event) {
     const attackModal = document.getElementById('modal-attack');
     const conditionModal = document.getElementById('modal-conditions');
 
@@ -325,11 +325,30 @@ function populateMonsterTypeDropdown() {
 
 function resetAll() {
     characters.forEach(c => {
-        c.initiative = 0;
+        c.initiative = null;
     });
 
     sortCreaturesByInitiative();
     renderTable();
+}
+
+function handleNumberFocusEvents() {
+    const table = document.getElementById('master-container'); 
+
+    table.addEventListener('focusin', function(event) {
+        if (event.target.matches('input[type="number"]')) {
+            event.target.dataset.previousValue = event.target.value || '0'; 
+            event.target.value = '';
+        }
+    });
+
+    table.addEventListener('focusout', function(event) {
+        if (event.target.matches('input[type="number"]')) {
+            if (event.target.value === '') {
+                event.target.value = event.target.dataset.previousValue || '0'; 
+            }
+        }
+    });
 }
 
 // Render default characters when page loads
@@ -337,4 +356,5 @@ window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
     populateModifyByTypeDropdown();
+    handleNumberFocusEvents();
 };
