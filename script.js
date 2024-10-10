@@ -200,9 +200,9 @@ function applyDamage(dmgInput) {
         // shield mitigation doesn't apply to retaliate
     }
 
-    console.log(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
     dmg = calculateDamage(defender, dmg);
     attackerDmg = calculateDamage(attacker, attackerDmg);
+    console.log(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
 
     updateHpWithDamage(defender, dmg);
     updateHpWithDamage(attacker, attackerDmg);
@@ -212,10 +212,12 @@ function applyDamage(dmgInput) {
 function calculateDamage(charIdx, dmg) {
     if (conditions[charIdx]?.brittle && dmg > 0) {
         dmg *= 2;
+        console.log(characters[charIdx].name + " is brittle");
         conditions[charIdx].brittle = false;
     }
     if (conditions[charIdx]?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
+        console.log(characters[charIdx].name + " has ward");
         conditions[charIdx].ward = false;
     }
 
