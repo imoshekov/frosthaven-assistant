@@ -143,7 +143,7 @@ img {
     background-size: 100% 100%;
     border-radius: 9px;
     padding: 25px;
-    filter: drop-shadow(2px 2px 2px #202830) drop-shadow(-2px -2px 2px #202830);
+    /* filter: drop-shadow(2px 2px 2px #202830) drop-shadow(-2px -2px 2px #202830); */
     /* transition: background-color .15s ease-in-out, background-image .15s ease-in-out, background-blend-mode .15s ease-in-out; */
     padding: 25px 60px;
     display: flex;
@@ -273,7 +273,7 @@ img {
     border: .25em solid white;
     z-index: -1;
     transform: translate(-50%, -50%) rotate(45deg);
-    filter: drop-shadow(1px 1px 1px gray) drop-shadow(-1px -1px 1px);
+    /* filter: drop-shadow(1px 1px 1px gray) drop-shadow(-1px -1px 1px); */
 }
 
 .char-hp.stat-child::before {
