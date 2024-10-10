@@ -252,6 +252,11 @@ function applyCondition() {
     closeConditionsModal();
 }
 
+function incrementInput(inputId) {
+    const inputElement = document.getElementById(inputId);
+    inputElement.value = parseInt(inputElement.value, 10) + 1;
+}
+
 function closeConditionsModal() {
     document.getElementById('modal-conditions').style.display = 'none';
 }
