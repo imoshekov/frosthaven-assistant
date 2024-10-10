@@ -6,13 +6,13 @@
     --elite-color: #400a0b;
     --nonelite-color: #694802;
     --friendly-color: #837ca2;
-    --boneshaper-transperant-color: #49a9677a;
-    --banner-spear-transperant-color: #edbc47;
-    --deathwalker-transperant-color: #8c97a9;
-    --drifter-transperant-color: #a28b7c;
-    --elite-transperant-color: #400a0b;
-    --nonelite-transperant-color: #694802;
-    --friendly-transperant-color: #837ca2;
+    --boneshaper-transperant-color: #49a96747;
+    --banner-spear-transperant-color: #edbb472f;
+    --deathwalker-transperant-color: #8c97a939;
+    --drifter-transperant-color: #a28b7c3c;
+    --elite-transperant-color: #400a0b3c;
+    --nonelite-transperant-color: #69480238;
+    --friendly-transperant-color: #837ca23d;
     --hp-color: #690202;
     --attack-color: #fbf300;
     --movement-color: #2e00f8;
@@ -155,7 +155,6 @@ img {
     padding: 25px 60px;
     display: flex;
     flex-wrap: nowrap;
-    background-color: rgba(255, 0, 0, 0.4);
 }
 
 img.background {
@@ -229,28 +228,45 @@ img.background {
     background-color: var(--boneshaper-color);
 }
 
-.creatures .banner-spear-row.friendly .creature-column .nameplate,
-.creatures .banner-spear-row.friendly .creature-column .nameplate input {
+.creatures .banner-spear-row.friendly .creature-column .nameplate{
+    background-color: var(--banner-spear-transperant-color);
+}
+.creatures .baner-spear-row.friendly .creature-column .nameplate input {
     background-color: var(--banner-spear-color);
 }
 
-.creatures .deathwalker-row.friendly .creature-column .nameplate,
-.creatures .deathwalker-row.friendly .creature-column .nameplate input {
-    background-color: var(--deathwalker-color);
+.creatures .drifter-row.friendly .creature-column .nameplate{
+    background-color: var(--drifter-transperant-color);
 }
-
-.creatures .drifter-row.friendly .creature-column .nameplate,
 .creatures .drifter-row.friendly .creature-column .nameplate input {
     background-color: var(--drifter-color);
 }
 
-.creatures .elite .creature-column .nameplate,
-.creatures .elite .creature-column .nameplate input {
+.creatures .deathwalker-row.friendly .creature-column .nameplate {
+    background-color: var(--deathwalker-transperant-color);
+}
+.creatures .deathwalker-row.friendly .creature-column .nameplate input {
+    background-color: var(--deathwalker-color);
+}
+
+.creatures .elite-row .creature-column .nameplate {
+    background-color: var(--elite-transperant-color);
+}
+.creatures .elite-row .creature-column .nameplate input {
     background-color: var(--elite-color);
 }
 
-.creatures .friendly .creature-column .nameplate,
-.creatures .friendly .creature-column .nameplate input {
+.creatures .nonelite-row .creature-column .nameplate {
+    background-color: var(--nonelite-transperant-color);
+}
+.creatures .nonelite-row .creature-column .nameplate input {
+    background-color: var(--nonelite-color);
+}
+
+.creatures .friendly-row.friendly .creature-column .nameplate {
+    background-color: var(--friendly-transperant-color);
+}
+.creatures .friendly-row.friendly .creature-column .nameplate input {
     background-color: var(--friendly-color);
 }
 
