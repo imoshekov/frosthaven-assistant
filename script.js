@@ -10,7 +10,7 @@ let attacker = null;
 let defender = null;
 
 function addCharacter() {
-    const type = document.getElementById('selected-monster-type').value.toLowerCase();
+    const type = document.getElementById('type').value.toLowerCase();
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
     let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
@@ -310,12 +310,16 @@ function populateModifyByTypeDropdown() {
 }
 
 function populateMonsterTypeDropdown() {
-    const monsterList = document.getElementById('monster-select-list');
+    //populate monster types
+    const typeDropdown = document.getElementById('type');
+    typeDropdown.innerHTML = '';
     data.monsters.forEach(type => {
         const option = document.createElement('option');
         option.value = type.name;
-        monsterList.appendChild(option);
+        option.text = type.name
+        typeDropdown.appendChild(option);
     });
+    typeDropdown.value = '';
 }
 
 function resetAll() {
@@ -331,14 +335,14 @@ function handleFocusEvents() {
     const masterContainer = document.getElementById('master-container');
 
     masterContainer.addEventListener('focusin', function (event) {
-        if (event.target.matches('input[type="number"]') || event.target.matches('#selected-monster-type')) {
+        if (event.target.matches('input[type="number"]')) {
             event.target.dataset.previousValue = event.target.value;
             event.target.value = '';
         }
     });
 
     masterContainer.addEventListener('focusout', function (event) {
-        if (event.target.matches('input[type="number"]') || event.target.matches('#selected-monster-type')) {
+        if (event.target.matches('input[type="number"]')) {
             if (event.target.value === '') {
                 event.target.value = event.target.dataset.previousValue;
             }
