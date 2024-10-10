@@ -67,7 +67,7 @@ button {
     font-size: 18px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    /* transition: background-color 0.2s ease, transform 0.1s ease; */
 }
 
 input[type="text"]:focus,
@@ -144,7 +144,7 @@ img {
     border-radius: 9px;
     padding: 25px;
     filter: drop-shadow(2px 2px 2px #202830) drop-shadow(-2px -2px 2px #202830);
-    transition: background-color .15s ease-in-out, background-image .15s ease-in-out, background-blend-mode .15s ease-in-out;
+    /* transition: background-color .15s ease-in-out, background-image .15s ease-in-out, background-blend-mode .15s ease-in-out; */
     padding: 25px 60px;
     display: flex;
     flex-wrap: nowrap;
@@ -302,7 +302,7 @@ button {
     background-color: #445566;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    /* transition: background-color 0.2s ease, transform 0.1s ease; */
 }
 
 button:hover {
