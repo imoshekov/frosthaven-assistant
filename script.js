@@ -62,7 +62,7 @@ function renderTable() {
     tableBody.innerHTML = '';
     characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
-        let icon = creature.aggressive ? 'https://gloomhaven-secretariat.de/assets/images/monster/enemy.png' : `https://gloomhaven-secretariat.de/assets/images/${charType}/icons/fh-${creature.type}.svg`;
+        let icon = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
         const row = `<tr class='${creature.type}-row creature-row'>
                     <td>
 						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
@@ -70,7 +70,7 @@ function renderTable() {
                     <td>
                         <div onclick="openConditions(event, ${index})">
                             <div>
-                               <img src='https://gloomhaven-secretariat.de/assets/images/${charType}/thumbnail/fh-${creature.type}.png'>
+                               <img src='images/${charType}/thumbnail/fh-${creature.type}.png'>
                             <div>
                             <b>${creature.name}</b>
                         </div>
@@ -86,7 +86,7 @@ function renderTable() {
                     <td>
                     	<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
 							<button>
-							  <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
+							  <img id="attack-img" src='images/action/attack.svg'>
 							</button>
 						</span>
                         <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
@@ -116,7 +116,7 @@ function handleAttack(event, buttonElement) {
         }
 
         document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
-            img.src = 'https://gloomhaven-secretariat.de/assets/images/action/target.svg';
+            img.src = 'images/action/target.svg';
         });
         attacker = buttonElement.dataset.creatureIdx;
     }
@@ -154,9 +154,9 @@ function loadConditionsInAttackModal() {
 
                 if (key === 'shield' || key === 'retaliate') {
                     container.appendChild(document.createTextNode(value));
-                    img.src = `https://gloomhaven-secretariat.de/assets/images/action/${key}.svg`;
+                    img.src = `images/action/${key}.svg`;
                 } else {
-                    img.src = `https://gloomhaven-secretariat.de/assets/images/condition/${key}.svg`;
+                    img.src = `images/condition/${key}.svg`;
                 }
                 container.appendChild(img);
             }
@@ -172,7 +172,7 @@ function closeAttackModal() {
     attacker = defender = null;
     document.querySelectorAll('.attack-btn').forEach(function (button) {
         button.style.visibility = '';
-        button.querySelector('#attack-img').src = 'https://gloomhaven-secretariat.de/assets/images/action/attack.svg';
+        button.querySelector('#attack-img').src = 'images/action/attack.svg';
     });
     document.getElementById('attack-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
