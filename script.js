@@ -121,6 +121,7 @@ function handleAttack(event, buttonElement) {
         defender = buttonElement.dataset.creatureIdx;
         openModal('modal-attack');
         document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
+        loadConditionsInAttackModal();
         event.stopPropagation();
     }
 }
@@ -134,6 +135,29 @@ function openConditions(event, charIdx) {
     document.getElementById('condition-ward').checked = conditions[charIdx]?.ward || false;
     openModal('modal-conditions');
     event.stopPropagation();
+}
+
+function loadConditionsInAttackModal() {
+    const container = document.getElementById('attack-conditions');
+    container.innerHTML = '';
+    if (conditions[defender]) {
+        for (let [key, value] of Object.entries(conditions[defender])) {
+            if (value > 0) {
+                const img = document.createElement('img');
+                if (key == 'armor') {
+                    key = 'shield';
+                }
+
+                if (key === 'shield' || key === 'retaliate') {
+                    container.appendChild(document.createTextNode(value));
+                    img.src = `https://gloomhaven-secretariat.de/assets/images/action/${key}.svg`;
+                } else {
+                    img.src = `https://gloomhaven-secretariat.de/assets/images/condition/${key}.svg`;
+                }
+                container.appendChild(img);
+            }
+        }
+    }
 }
 
 function openModal(id) {
