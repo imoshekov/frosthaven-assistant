@@ -63,35 +63,50 @@ function renderTable() {
     characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
         let icon = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
-        const row = `<tr class='${creature.type}-row creature-row'>
-                    <td>
-						<input type="number" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
-					</td>
-                    <td>
-                        <div onclick="openConditions(event, ${index})">
-                            <div>
-                               <img src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-                            <div>
-                            <b>${creature.name}</b>
+        const row = `<div class='creature-row ${creature.type}-row ${creature.isElite ? 'elite' : ''} ${creature.aggressive  ? '' : 'friendly'} '>
+                        <div class='creature-column'>
+                            <input type="number" class="initiative" value="${creature.initiative}"
+                            onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
                         </div>
-                    </td>
-                    <td>
-                        <div>
-                             <img src='${icon}' ${creature.eliteMonster ? "class=\"elite-monster-icon\"" : ''}>
-                        <div>
-                    </td>
-                    <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
-                    <td><input type="number" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
-                    <td><input type="number" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
-                    <td>
-                    	<span data-creature-idx="${index}" onclick="handleAttack(event, this)">
-							<button class="attack-btn">
-							  <img id="attack-img" src='images/action/attack.svg'>
-							</button>
-						</span>
-                        <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
-                    </td>
-                </tr>`;
+                        <div class='creature-column nameplate'>
+                            <div class='character-skin' onclick="openConditions(event, ${index})">
+                                <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
+                                <div class='name'>
+                                    <img class='class-icon' src='${icon}'>
+                                     <b>${creature.name}</b>
+                                </div>
+                            </div>
+
+                            <div class='character-attributes'>
+                            <div class='stats'>
+                                <div class='char-hp stat-child'>
+                                    <object type="image/svg+xml" data="images/hp.svg"></object>
+                                    <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
+                                        onchange="updateStat(${index}, 'hp', this.value)" />
+                                </div>
+                                <div class='char-attack stat-child'>
+                                    <object type="image/svg+xml" data="images/attack.svg"></object>
+                                    <input type="number" class="attack" value="${creature.attack}"
+                                        onchange="updateStat(${index}, 'attack', this.value)" />
+                                </div>
+                                <div class='char-movement stat-child'>
+                                    <object type="image/svg+xml" data="images/movement.svg"></object>
+                                    <input type="number" class="movement" value="${creature.movement}"
+                                        onchange="updateStat(${index}, 'movement', this.value)" />
+
+                                </div>
+                            </div>
+                            <div class='action-buttons'>
+                                <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
+                                    <button>
+                                    <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
+                                    </button>
+                                </span>
+                                <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
+                            </div>
+
+                        </div>
+                    </div>`;
         tableBody.insertAdjacentHTML('beforeend', row);
     });
 }
