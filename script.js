@@ -29,6 +29,8 @@ function addCharacter() {
     const defaultMovement = Math.max(initMovement, selectedMonster?.movement || 0);
     const defaultHP = selectedMonster.health;
     const isAgressive = true;
+    const defaultArmor = selectedMonster?.actions?.find(x=> x.type === 'shield')?.value || 0;
+    const defaultRetaliate = selectedMonster?.actions?.find(x=> x.type === 'retaliate')?.value || 0;
 
     const newCreature = {
         name,
@@ -39,6 +41,8 @@ function addCharacter() {
         attack: defaultAttack,
         movement: defaultMovement,
         initiative,
+        armor: defaultArmor,
+        retaliate: defaultRetaliate,
         defaultStats: {
             hp: defaultHP,
             attack: defaultAttack,
@@ -128,8 +132,8 @@ function handleAttack(event, buttonElement) {
 
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
-    document.getElementById('condition-armor').value = conditions[charIdx]?.armor || 0;
-    document.getElementById('condition-retaliate').value = conditions[charIdx]?.retaliate || 0;
+    document.getElementById('condition-armor').value = characters[charIdx].armor;//conditions[charIdx]?.armor || 0;
+    document.getElementById('condition-retaliate').value = characters[charIdx].retaliate;
     document.getElementById('condition-poison').checked = conditions[charIdx]?.poison || false;
     document.getElementById('condition-brittle').checked = conditions[charIdx]?.brittle || false;
     document.getElementById('condition-ward').checked = conditions[charIdx]?.ward || false;
