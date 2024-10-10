@@ -91,11 +91,14 @@ img {
 
 /* Compact table styling */
 table {
-    border-collapse: collapse; /* Collapse borders for a tighter look */
+    border-collapse: collapse;
+    /* Collapse borders for a tighter look */
     width: 100%;
     margin-top: 10px;
-    table-layout: fixed; /* Ensure even column widths */
-    max-height: 500px; /* Increase height for more visible rows */
+    table-layout: fixed;
+    /* Ensure even column widths */
+    max-height: 500px;
+    /* Increase height for more visible rows */
     overflow-y: auto;
     min-width: 100%;
     max-width: 100%;
@@ -103,12 +106,14 @@ table {
 }
 
 th {
-    padding: 6px; /* Reduce padding for more compact headers */
-    position: sticky;
+    padding: 6px;
+    /* Reduce padding for more compact headers */
     top: 0;
     z-index: 2;
     background-color: #3A3A3A;
-    font-size: 18px; /* Slightly smaller font */
+    font-size: 18px;
+    /* Slightly smaller font */
+    border: 2px solid #c9bebe;
 }
 
 th,
@@ -116,9 +121,10 @@ td {
     text-align: center;
     background-color: #3A3A3A;
     color: #F0F0F0;
-    font-size: 18px; /* Smaller font size to fit more rows */
-    padding: 6px; /* Reduce padding in cells */
-    border-bottom: 1px solid #444; /* Thinner border to save space */
+    font-size: 18px;
+    /* Smaller font size to fit more rows */
+    padding: 6px;
+    /* Reduce padding in cells */
 }
 
 /* Reduce row spacing */
@@ -134,7 +140,8 @@ tr:nth-child(odd) td {
 
 /* Ensure visible vertical borders between cells */
 td {
-    border-right: 1px solid #555; /* Vertical borders between cells */
+    border-right: 2px solid #555;
+    /* Vertical borders between cells */
 }
 
 button {
@@ -170,6 +177,10 @@ button:hover {
     width: 30px;
 }
 
+#attack-img {
+    filter: invert(32%) sepia(109%) saturate(1352%) hue-rotate(1deg) brightness(87%) contrast(85%)
+}
+
 input[type="number"] {
     height: 40px;
     font-size: 22px;
@@ -177,7 +188,8 @@ input[type="number"] {
     vertical-align: middle;
 }
 
-input[type="number"], .condition-input {
+input[type="number"],
+.condition-input {
     width: 45px;
 }
 
@@ -194,19 +206,26 @@ input[type="number"], .condition-input {
 }
 
 .condition-input {
-    height: 40px; /* Adjust the input size if needed */
-    vertical-align: middle; /* Ensures inputs and images are aligned vertically */
+    height: 40px;
+    /* Adjust the input size if needed */
+    vertical-align: middle;
+    /* Ensures inputs and images are aligned vertically */
 }
 
 .condition-number-img img {
-    height: 30px; /* Adjust image size */
-    vertical-align: middle; /* Align the image with the middle of the input */
-    margin-bottom: -6px; /* Slightly lower the image relative to the input */
+    height: 30px;
+    /* Adjust image size */
+    vertical-align: middle;
+    /* Align the image with the middle of the input */
+    margin-bottom: -6px;
+    /* Slightly lower the image relative to the input */
 }
 
 .condition-number-img {
-    display: inline-block; /* Keep the images inline with the input */
-    margin-left: 10px; /* Add space between input and image */
+    display: inline-block;
+    /* Keep the images inline with the input */
+    margin-left: 10px;
+    /* Add space between input and image */
 }
 
 .condition-btn {
@@ -218,12 +237,17 @@ input[type="number"], .condition-input {
 }
 
 .remove-btn {
-    right: 10px; /* Align it 10px from the right side */
-    top: 50%; /* Align vertically */
+    right: 10px;
+    /* Align it 10px from the right side */
+    top: 50%;
+    /* Align vertically */
 
-    font-size: 12px; /* Smaller font size */
-    padding: 5px 10px; /* Smaller button padding */
-    background-color: red; /* Optional: Red background for the "X" button */
+    font-size: 12px;
+    /* Smaller font size */
+    padding: 5px 10px;
+    /* Smaller button padding */
+    background-color: red;
+    /* Optional: Red background for the "X" button */
     color: white;
     border: none;
     border-radius: 3px;
@@ -231,14 +255,16 @@ input[type="number"], .condition-input {
 }
 
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     position: fixed;
     z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
 }
 
 .modal-content {
@@ -265,7 +291,8 @@ input[type="number"], .condition-input {
     font-weight: bold;
 }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -290,7 +317,7 @@ input[type="number"], .condition-input {
     margin-top: 5px;
 }
 
-.elite-monster-icon{
+.elite-monster-icon {
     box-shadow: 0 0 25px 3px red;
     background-color: rgba(197, 0, 0, 0.7);
 }
@@ -370,8 +397,10 @@ button {
 
     th,
     td {
-        font-size: 16px; /* Further reduce font size for small screens */
-        padding: 4px; /* Reduce padding further */
+        font-size: 16px;
+        /* Further reduce font size for small screens */
+        padding: 4px;
+        /* Reduce padding further */
     }
 }
 
@@ -404,25 +433,31 @@ button {
     th,
     td {
         font-size: 14px;
-        padding: 2px; /* Even more compact for very small screens */
+        padding: 2px;
+        /* Even more compact for very small screens */
     }
 
     table {
-        max-height: 300px; /* Adjust height for small screens */
+        max-height: 300px;
+        /* Adjust height for small screens */
     }
 
     table b {
-        font-size: 10px; /* Shrink to a smaller font size */
+        font-size: 10px;
+        /* Shrink to a smaller font size */
     }
 
     table input[type="number"] {
-        width: 20px; /* Adjust the width for small screens */
-        height: 20px; /* Adjust the height for small screens */
-        font-size: 14px; /* Adjust the font size */
+        width: 20px;
+        /* Adjust the width for small screens */
+        height: 20px;
+        /* Adjust the height for small screens */
+        font-size: 14px;
+        /* Adjust the font size */
         padding: 8px 8px;
     }
 
-    table button{
+    table button {
         width: 40px;
         height: 40px;
     }

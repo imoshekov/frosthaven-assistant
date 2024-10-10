@@ -65,7 +65,7 @@ function renderTable() {
         let icon = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
         const row = `<tr class='${creature.type}-row creature-row'>
                     <td>
-						<input type="number" class="initiative" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
+						<input type="number" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
 					</td>
                     <td>
                         <div onclick="openConditions(event, ${index})">
@@ -81,11 +81,11 @@ function renderTable() {
                         <div>
                     </td>
                     <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
-                    <td><input type="number" class="attack" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
-                    <td><input type="number" class="movement" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
+                    <td><input type="number" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
+                    <td><input type="number" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
                     <td>
-                    	<span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
-							<button>
+                    	<span data-creature-idx="${index}" onclick="handleAttack(event, this)">
+							<button class="attack-btn">
 							  <img id="attack-img" src='images/action/attack.svg'>
 							</button>
 						</span>
