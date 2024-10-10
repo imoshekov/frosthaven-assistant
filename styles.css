@@ -66,22 +66,13 @@ input[type="text"],
 input[type="number"],
 button {
     border: none;
-    background-color: #445566;
+    background: none;
     /* Softer color */
     color: #F0F0F0;
-    padding: 10px 15px;
     /* Reduced padding */
-    font-size: 18px;
+    font-size: 30px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-button:hover {
-    background-color: #56677A;
-    /* Lighter hover effect */
 }
 
 input[type="checkbox"] {
@@ -125,7 +116,6 @@ img {
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: stretch;
-    gap: 10px;
 }
 
 .creatures .creature-column {
@@ -137,10 +127,14 @@ img {
     font-size: 18px;
     /* Smaller font size to fit more rows */
     /* Reduce padding in cells */
-    border-bottom: 1px solid #444;
     /* Thinner border to save space */
     position: relative;
+}
 
+.creatures .initiative-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .creatures .creature-column .nameplate {
@@ -152,7 +146,7 @@ img {
     padding: 25px;
     /* filter: drop-shadow(2px 2px 2px #202830) drop-shadow(-2px -2px 2px #202830); */
     /* transition: background-color .15s ease-in-out, background-image .15s ease-in-out, background-blend-mode .15s ease-in-out; */
-    padding: 25px 60px;
+    padding: 25px 7.5%;
     display: flex;
     flex-wrap: nowrap;
 }
@@ -221,71 +215,59 @@ img.background {
     color: var(--friendly-color);
 }
 
-.creatures .boneshaper-row.friendly .creature-column .nameplate{
+.creatures .boneshaper-row.friendly .creature-column .nameplate {
     background-color: var(--boneshaper-transperant-color);
 }
-.creatures .boneshaper-row.friendly .creature-column .nameplate input {
-    background-color: var(--boneshaper-color);
+.creatures .creature-column .nameplate input {
+    color: white;
+    background: none;
+    font-size: 30px;
+    font-weight: 800;
+    width: 60px;
+    padding: 0;
 }
 
 .creatures .banner-spear-row.friendly .creature-column .nameplate{
     background-color: var(--banner-spear-transperant-color);
 }
-.creatures .baner-spear-row.friendly .creature-column .nameplate input {
-    background-color: var(--banner-spear-color);
-}
 
 .creatures .drifter-row.friendly .creature-column .nameplate{
     background-color: var(--drifter-transperant-color);
 }
-.creatures .drifter-row.friendly .creature-column .nameplate input {
-    background-color: var(--drifter-color);
-}
+
 
 .creatures .deathwalker-row.friendly .creature-column .nameplate {
     background-color: var(--deathwalker-transperant-color);
-}
-.creatures .deathwalker-row.friendly .creature-column .nameplate input {
-    background-color: var(--deathwalker-color);
 }
 
 .creatures .elite-row .creature-column .nameplate {
     background-color: var(--elite-transperant-color);
 }
-.creatures .elite-row .creature-column .nameplate input {
-    background-color: var(--elite-color);
-}
+
 
 .creatures .nonelite-row .creature-column .nameplate {
     background-color: var(--nonelite-transperant-color);
-}
-.creatures .nonelite-row .creature-column .nameplate input {
-    background-color: var(--nonelite-color);
 }
 
 .creatures .friendly-row.friendly .creature-column .nameplate {
     background-color: var(--friendly-transperant-color);
 }
-.creatures .friendly-row.friendly .creature-column .nameplate input {
-    background-color: var(--friendly-color);
-}
+
 
 /* Reduce row spacing */
 .creature-row .creature-column:first-child {
-    max-width: 10vw;
+    max-width: 70px;
 }
 
-/* Ensure visible vertical borders between cells */
-.creature-column {
-    border-right: 1px solid #555;
-    /* Vertical borders between cells */
+.initiative-column {
+    display: flex;
+    align-items: center;
 }
 
 .stats {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0px 20px;
     padding: 0px 50px;
 }
 
@@ -294,10 +276,10 @@ img.background {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0px 30px;
+    gap: 0px 10px;
     flex: 1 0 21%;
   }
-
+/* 
   .stat-child::before {
     content: '';
     position: absolute;
@@ -309,8 +291,8 @@ img.background {
     z-index: -1;
     transform: translate(-50%, -50%) rotate(45deg);
     /* filter: drop-shadow(1px 1px 1px gray) drop-shadow(-1px -1px 1px); */
-}
 
+/* 
 .char-hp.stat-child::before {
     background-color: var(--hp-color);
 }
@@ -319,7 +301,7 @@ img.background {
 }
 .char-movement.stat-child::before {
     background-color: var(--movement-color);
-}
+} */
 
 .stats .stat-child object {
     width: var(--stats-icons-size);
@@ -366,10 +348,15 @@ button:hover {
 }
 
 input[type="number"] {
-    height: 40px;
-    font-size: 22px;
-    text-align: center;
-    vertical-align: middle;
+    border: none;
+    color: #F0F0F0;
+    /* padding: 10px 15px; */
+    font-size: 30px;
+    /* text-transform: uppercase; */
+    cursor: pointer;
+    width: 60px;
+    font-weight: 800;
+    background: none;
 }
 
 .remove-btn {
@@ -467,11 +454,6 @@ input[type="number"] {
     /* Yellow */
 }
 
-.initiative {
-    background-color: #3498DB;
-    /* Blue */
-}
-
 /* Flexbox layout for characters and stats */
 .add-char,
 .row,
@@ -492,99 +474,6 @@ button {
     flex: 1;
     max-width: 100%;
 }
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    body {
-        font-size: 18px;
-    }
-
-    input,
-    label,
-    button {
-        font-size: 18px;
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    input[type="number"] {
-        width: 70px;
-        height: 30px;
-    }
-
-    img {
-        width: 50px;
-    }
-
-    .creature-column {
-        font-size: 16px;
-        /* Further reduce font size for small screens */
-        padding: 4px;
-        /* Reduce padding further */
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 16px;
-    }
-
-    input,
-    label,
-    button {
-        font-size: 16px;
-    }
-
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-    }
-
-    input[type="number"] {
-        width: 60px;
-        height: 30px;
-    }
-
-    img,
-    .big-icon {
-        width: 40px;
-    }
-
-    .creature-column {
-        font-size: 14px;
-        padding: 2px;
-        /* Even more compact for very small screens */
-    }
-
-    table {
-        max-height: 300px;
-        /* Adjust height for small screens */
-    }
-
-    table b {
-        font-size: 10px;
-        /* Shrink to a smaller font size */
-    }
-
-    table input[type="number"] {
-        width: 20px;
-        /* Adjust the width for small screens */
-        height: 20px;
-        /* Adjust the height for small screens */
-        font-size: 14px;
-        /* Adjust the font size */
-        padding: 8px 8px;
-    }
-
-    table button {
-        width: 40px;
-        height: 40px;
-    }
-}
-
 
 select {
     width: 100%;
