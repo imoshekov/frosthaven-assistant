@@ -6,6 +6,13 @@
     --elite-color: #400a0b;
     --nonelite-color: #694802;
     --friendly-color: #837ca2;
+    --boneshaper-transperant-color: #49a9677a;
+    --banner-spear-transperant-color: #edbc47;
+    --deathwalker-transperant-color: #8c97a9;
+    --drifter-transperant-color: #a28b7c;
+    --elite-transperant-color: #400a0b;
+    --nonelite-transperant-color: #694802;
+    --friendly-transperant-color: #837ca2;
     --hp-color: #690202;
     --attack-color: #fbf300;
     --movement-color: #2e00f8;
@@ -185,7 +192,7 @@ img.background {
     justify-content: flex-end;
 }
 
-.creatures .creature-column.nameplate img.profile {
+.creatures .creature-column .nameplate img.profile {
     width: 100px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px 5px;
@@ -215,33 +222,35 @@ img.background {
     color: var(--friendly-color);
 }
 
-.creatures .boneshaper-row.friendly .creature-column.nameplate,
-.creatures .boneshaper-row.friendly .creature-column.nameplate input {
+.creatures .boneshaper-row.friendly .creature-column .nameplate{
+    background-color: var(--boneshaper-transperant-color);
+}
+.creatures .boneshaper-row.friendly .creature-column .nameplate input {
     background-color: var(--boneshaper-color);
 }
 
-.creatures .banner-spear-row.friendly .creature-column.nameplate,
-.creatures .banner-spear-row.friendly .creature-column.nameplate input {
+.creatures .banner-spear-row.friendly .creature-column .nameplate,
+.creatures .banner-spear-row.friendly .creature-column .nameplate input {
     background-color: var(--banner-spear-color);
 }
 
-.creatures .deathwalker-row.friendly .creature-column.nameplate,
-.creatures .deathwalker-row.friendly .creature-column.nameplate input {
+.creatures .deathwalker-row.friendly .creature-column .nameplate,
+.creatures .deathwalker-row.friendly .creature-column .nameplate input {
     background-color: var(--deathwalker-color);
 }
 
-.creatures .drifter-row.friendly .creature-column.nameplate,
-.creatures .drifter-row.friendly .creature-column.nameplate input {
+.creatures .drifter-row.friendly .creature-column .nameplate,
+.creatures .drifter-row.friendly .creature-column .nameplate input {
     background-color: var(--drifter-color);
 }
 
-.creatures .elite .creature-column.nameplate,
-.creatures .elite .creature-column.nameplate input {
+.creatures .elite .creature-column .nameplate,
+.creatures .elite .creature-column .nameplate input {
     background-color: var(--elite-color);
 }
 
-.creatures .friendly .creature-column.nameplate,
-.creatures .friendly .creature-column.nameplate input {
+.creatures .friendly .creature-column .nameplate,
+.creatures .friendly .creature-column .nameplate input {
     background-color: var(--friendly-color);
 }
 
