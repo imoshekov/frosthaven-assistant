@@ -13,13 +13,20 @@ let defender = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
+    if(!type){
+        alert('Select monster type first')
+        return;
+    }
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
-    let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
+    const entytyName = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`;
+    let name =  entytyName.charAt(0).toUpperCase() + entytyName.slice(1);
+    name = name.replaceAll('-', ' ');
     const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
+
     if (isElite) {
-        name = 'ELITE ' + name;
+        name = '@ ' + name;
         selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
     }
     let initMovement = monsterData.baseStat?.movement;
@@ -64,8 +71,10 @@ function renderTable() {
     tableBody.innerHTML = '';
     characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
-        let icon = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
+        const iconSrc = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
+        const iconClass = creature.aggressive ? 'monster-icon' : 'character-icon';
         const row = `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? 'elite-row' : 'nonelite-row'} ${creature.aggressive ? '' : 'friendly'} '>
+                        <button class="remove-btn" onclick="removeCreature(${index})">X</button>
                         <img class='background' src="${backgroundImage}"/>
                         <div class='creature-column'>
                         <input type="number" class="initiative" value="${creature.initiative}"
@@ -74,7 +83,7 @@ function renderTable() {
                             <div class='character-skin' onclick="openConditions(event, ${index})">
                                 <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
                                 <div class='name'>
-                                    <img class='class-icon' src='${icon}'>
+                                    <img class='${iconClass}' src='${iconSrc}'>
                                      <b>${creature.name}</b>
                                 </div>
                             </div>
@@ -105,7 +114,6 @@ function renderTable() {
                                         <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
                                     </button>
                                 </span>
-                                <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
                             </div>
                         </div>
                         </div>
@@ -356,7 +364,7 @@ function populateMonsterTypeDropdown() {
 
 function resetAll() {
     characters.forEach(c => {
-        c.initiative = null;
+        c.initiative = 0;
     });
 
     sortCreaturesByInitiative();

@@ -6,13 +6,13 @@
     --elite-color: #400a0b;
     --nonelite-color: #694802;
     --friendly-color: #837ca2;
-    --boneshaper-transperant-color: #49a96747;
-    --banner-spear-transperant-color: #edbb472f;
-    --deathwalker-transperant-color: #8c97a939;
-    --drifter-transperant-color: #a28b7c3c;
-    --elite-transperant-color: #400a0b3c;
-    --nonelite-transperant-color: #69480238;
-    --friendly-transperant-color: #837ca23d;
+    --boneshaper-transperant-color: rgb(73 169 103 / 50%);
+    --banner-spear-transperant-color: rgb(237 187 71 / 50%);
+    --deathwalker-transperant-color: rgb(140 151 169 / 50%);
+    --drifter-transperant-color: rgb(162 139 124 / 50%);
+    --elite-transperant-color: rgba(153 105 0 / 50%);
+    --nonelite-transperant-color: rgb(64 10 11 / 50%);
+    --friendly-transperant-color: rgb(131 124 162 / 50%);
     --hp-color: #690202;
     --attack-color: #fbf300;
     --movement-color: #2e00f8;
@@ -152,7 +152,7 @@ img.background {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    width: 150px;
+    width: 100px;
     padding: 15% 0;
     align-items: center;
 }
@@ -168,10 +168,20 @@ img.background {
     align-items: center;
     flex-direction: column;
     margin-top: 20px;
+    min-height: 120px;
 }
 
-.character-skin .class-icon {
-    width: 60px;
+.character-skin .name b {
+    min-height: 60px;
+    align-content: center;
+}
+
+.character-skin .character-icon {
+    width: 40px;
+}
+
+.character-skin .monster-icon {
+    width: 30px;
 }
 
 .character-attributes {
@@ -181,7 +191,7 @@ img.background {
 }
 
 .creatures .creature-column .nameplate img.profile {
-    width: 100px;
+    width: 80px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px 5px;
 }
@@ -243,9 +253,9 @@ img.background {
 .creatures .creature-column .nameplate input {
     color: white;
     background: none;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 800;
-    width: 60px;
+    width: 50px;
     padding: 0;
     margin: 0px;
 }
@@ -259,7 +269,8 @@ img.background {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding: 30px 20px;
+    padding: 20px 10px;
+    width: 90px;
 }
 
 .stats .stat-child {
@@ -296,12 +307,12 @@ button:hover {
 }
 
 .attack-btn {
-    padding-right: 10px;
     vertical-align: middle;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    width: 50px;
+    height: 50px;
 }
 
 .attack-btn button {
@@ -309,17 +320,20 @@ button:hover {
     justify-content: center;
     align-items: center;
     border: none;
+    background: none;
 }
 
 .attack-btn button img {
     height: 30px;
     width: 30px;
+    background: #a94949;
+    padding: 5px;
 }
 
 input[type="number"] {
     border: none;
     color: #F0F0F0;
-    font-size: 30px;
+    font-size: 25px;
     cursor: pointer;
     width: 50px;
     font-weight: 800;
@@ -328,15 +342,21 @@ input[type="number"] {
 }
 
 .remove-btn {
-    right: 10px;
-    top: 50%;
-    font-size: 12px;
-    padding: 5px 10px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 3px;
+    font-size: 20px;
+    padding: 0;
+    color: #dadada;
     cursor: pointer;
+    position: absolute;
+    right: calc(50% - 11px);
+    bottom: 6px;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+}
+
+.remove-btn:hover {
+    color: #400a0b
 }
 
 div#modal-attack,
@@ -346,6 +366,10 @@ div#modal-conditions {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+#attack-conditions{
+    border-top: 1px solid white;
 }
 
 .attack-modal {
@@ -429,30 +453,38 @@ div#modal-conditions {
     /* Yellow */
 }
 
-/* Flexbox layout for characters and stats */
+.add-char {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 100px;
+}
+
+.add-char .row {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 .add-char,
 .row,
 .default-stats {
     display: flex;
-    gap: 10px;
-    /* Reduced gap */
-    flex-wrap: wrap;
+    flex-direction: row;
     justify-content: flex-start;
-    width: 100%;
-    margin-bottom: 10px;
-    /* Reduced bottom margin */
 }
 
-input,
-label,
-button {
-    flex: 1;
-    max-width: 100%;
+.add-char .row .default-stats.type-buttons {
+    position: absolute;
+    bottom: 0;
+}
+
+.row.middle-line {
+    border: 1px solid white;
 }
 
 select {
     width: 100%;
-    height: 40px;
     font-size: 18px;
     color: #F0F0F0;
     background-color: #445566;
