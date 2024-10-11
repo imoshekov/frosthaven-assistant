@@ -2,9 +2,7 @@ const characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
-    // ,{ name: "elite priest 1", type: "algox-priest", aggressive: true, eliteMonster: true, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 2, retaliate: 0 },
-    // { name: "priest 2", type: "algox-priest", aggressive: true, hp: 5, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 const conditions = [];
 let conditionTarget = null;
@@ -19,9 +17,7 @@ function addCharacter() {
     }
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
-    let name = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`;
-    // let name =  entytyName.charAt(0).toUpperCase() + entytyName.slice(1);
-    // name = name.replaceAll('-', ' ');
+    let name = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`.replaceAll('-',' ');
     const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
 
