@@ -19,8 +19,8 @@ function addCharacter() {
     }
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
-    const entytyName = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`;
-    let name =  entytyName.charAt(0).toUpperCase() + entytyName.slice(1);
+    let name = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`;
+    // let name =  entytyName.charAt(0).toUpperCase() + entytyName.slice(1);
     // name = name.replaceAll('-', ' ');
     const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
