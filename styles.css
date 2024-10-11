@@ -338,7 +338,7 @@ input[type="number"] {
     width: 50px;
     font-weight: 800;
     background: none;
-    margin-left: 16px;
+    margin-left: 10px;
 }
 
 .remove-btn {
@@ -347,7 +347,7 @@ input[type="number"] {
     color: #dadada;
     cursor: pointer;
     position: absolute;
-    right: calc(50% - 11px);
+    right: calc(50%);
     bottom: 6px;
     font-weight: 800;
     width: 20px;
