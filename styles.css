@@ -111,7 +111,7 @@ img {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .creatures .creature-row {
@@ -370,7 +370,7 @@ div#modal-conditions {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 220px;
+    width: 75%;
     text-align: center;
     z-index: 101;
 }
