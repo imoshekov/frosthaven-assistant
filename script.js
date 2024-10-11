@@ -2,7 +2,9 @@ const characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
+    { name: "elite priest 1", type: "algox-priest", aggressive: true, eliteMonster: true, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 2, retaliate: 0 },
+    { name: "priest 2", type: "algox-priest", aggressive: true, hp: 5, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 const conditions = [];
 let conditionTarget = null;
@@ -99,9 +101,10 @@ function renderTable() {
                                 </div>
                             </div>
                             <div class='action-buttons'>
-                                <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(this)">
+                                <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
                                     <button>
-                                    <img id="attack-img" src='https://gloomhaven-secretariat.de/assets/images/action/attack.svg'>
+                                        <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
+                                        <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
                                     </button>
                                 </span>
                                 <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
@@ -114,37 +117,37 @@ function renderTable() {
 }
 
 function handleAttack(event, buttonElement) {
-    // First click: switch to target.svg
+    const creatureIdx = buttonElement.dataset.creatureIdx;
     if (attacker === null) {
-        if (buttonElement.dataset.creatureIdx < 4) {
-            // player character, can attack only monsters
-            if (characters.every(function (char) { return !char.aggressive; })) {
-                alert('No monsters to attack');
-                return;
-            }
-            document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
-                if (!characters[button.dataset.creatureIdx].aggressive) {
-                    button.style.visibility = 'hidden';
-                }
-            });
-        } else {
-            // enemy monsters and potentially allies also, can attack anyone except self
-            buttonElement.style.visibility = 'hidden';
+        // player character, can attack only monsters
+        if (characters.every(function (char) { return !char.aggressive; })) {
+            alert('No monsters to attack');
+            return;
         }
-
-        document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
-            img.src = 'images/action/target.svg';
-        });
-        attacker = buttonElement.dataset.creatureIdx;
+        const isAggressive = characters[creatureIdx].aggressive;
+        hideFriends(isAggressive);
+        attacker = creatureIdx;
+        return;
     }
     // Second click: show modal
-    else {
-        defender = buttonElement.dataset.creatureIdx;
-        openModal('modal-attack');
-        document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
-        loadConditionsInAttackModal();
-        event.stopPropagation();
-    }
+
+    defender = creatureIdx;
+    openModal('modal-attack');
+    document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
+    loadConditionsInAttackModal();
+    event.stopPropagation();
+
+}
+
+function hideFriends(isMonster) {
+    document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
+        const isTargetAggressive = characters[button.dataset.creatureIdx].aggressive;
+        const targetIcon = button.getElementsByClassName('target-image')[0];
+        const attackIcon = button.getElementsByClassName('attack-image')[0];
+        attackIcon.style.display = 'none';
+        const isFriendlyToSelf = (isMonster && isTargetAggressive) || (!isMonster && !isTargetAggressive);
+        targetIcon.style.display = isFriendlyToSelf ? 'none' : 'block';
+    });
 }
 
 function openConditions(event, charIdx) {
@@ -190,10 +193,13 @@ function openModal(id) {
 }
 
 function closeAttackModal() {
-    attacker = defender = null;
+    attacker = null;
+    defender = null;
     document.querySelectorAll('.attack-btn').forEach(function (button) {
-        button.parentElement.style.visibility = '';
-        button.querySelector('#attack-img').src = 'images/action/attack.svg';
+        const targetIcon = button.getElementsByClassName('target-image')[0];
+        const attackIcon = button.getElementsByClassName('attack-image')[0];
+        targetIcon.style.display = 'none';
+        attackIcon.style.display = 'block';
     });
     document.getElementById('attack-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';

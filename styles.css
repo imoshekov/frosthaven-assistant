@@ -378,6 +378,14 @@ input[type="number"] {
     cursor: pointer;
 }
 
+div#modal-attack, div#modal-conditions {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .attack-modal {
     display: none;
     /* Hidden by default */
@@ -389,6 +397,10 @@ input[type="number"] {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     /* Semi-transparent background */
+}
+
+.target-image {
+    display: none;
 }
 
 .modal-content {
