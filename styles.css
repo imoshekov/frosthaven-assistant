@@ -328,6 +328,7 @@ button:hover {
 }
 
 .attack-btn {
+    padding-right: 10px;
     vertical-align: middle;
     display: inline-flex;
     justify-content: center;
