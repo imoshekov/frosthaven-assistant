@@ -1,3 +1,25 @@
+:root {
+    --boneshaper-color: #49a967;
+    --banner-spear-color: #edbc47;
+    --deathwalker-color: #8c97a9;
+    --drifter-color: #a28b7c;
+    --elite-color: #400a0b;
+    --nonelite-color: #694802;
+    --friendly-color: #837ca2;
+    --boneshaper-transperant-color: rgb(73 169 103 / 50%);
+    --banner-spear-transperant-color: rgb(237 187 71 / 50%);
+    --deathwalker-transperant-color: rgb(140 151 169 / 50%);
+    --drifter-transperant-color: rgb(162 139 124 / 50%);
+    --elite-transperant-color: rgba(153 105 0 / 50%);
+    --nonelite-transperant-color: rgb(64 10 11 / 50%);
+    --friendly-transperant-color: rgb(131 124 162 / 50%);
+    --hp-color: #690202;
+    --attack-color: #fbf300;
+    --movement-color: #2e00f8;
+    --stats-icons-size: 30px;
+}
+
+
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -44,23 +66,13 @@ input[type="text"],
 input[type="number"],
 button {
     border: none;
-    background-color: #445566;
+    background: none;
     /* Softer color */
     color: #F0F0F0;
-    padding: 10px 15px;
     /* Reduced padding */
-    font-size: 18px;
+    font-size: 30px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    text-align: center;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-button:hover {
-    background-color: #56677A;
-    /* Lighter hover effect */
 }
 
 input[type="checkbox"] {
@@ -76,7 +88,7 @@ input[type="checkbox"] {
 
 input[type="number"] {
     width: 80px;
-    height: 40px;
+    height: var(--stats-icons-size);
     /* Adjusted size */
     font-size: 22px;
     text-align: center;
@@ -90,58 +102,195 @@ img {
 }
 
 /* Compact table styling */
-table {
-    border-collapse: collapse;
-    /* Collapse borders for a tighter look */
+.creatures {
     width: 100%;
-    margin-top: 10px;
-    table-layout: fixed;
-    /* Ensure even column widths */
-    max-height: 500px;
-    /* Increase height for more visible rows */
-    overflow-y: auto;
-    min-width: 100%;
-    max-width: 100%;
     overflow-x: auto;
 }
 
-th {
-    padding: 6px;
-    /* Reduce padding for more compact headers */
-    top: 0;
-    z-index: 2;
-    background-color: #3A3A3A;
-    font-size: 18px;
-    /* Slightly smaller font */
-    border: 2px solid #c9bebe;
+.creatures .creature-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-start;
 }
 
-th,
-td {
+.creatures .creature-row {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.creatures .creature-column {
+    flex: 10%;
+    font-size: 18px;
     text-align: center;
-    background-color: #3A3A3A;
     color: #F0F0F0;
     font-size: 18px;
-    /* Smaller font size to fit more rows */
-    padding: 6px;
-    /* Reduce padding in cells */
+    position: relative;
+    margin: 15px 10px;
 }
 
-/* Reduce row spacing */
-tr:nth-child(even) td {
-    background-color: #3C3C3C;
-    border-bottom: 1px solid #666;
+img.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
 }
 
-tr:nth-child(odd) td {
-    background-color: #2B2B2B;
-    border-bottom: 1px solid #444;
+
+.creatures .initiative-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Ensure visible vertical borders between cells */
-td {
-    border-right: 2px solid #555;
-    /* Vertical borders between cells */
+.creatures .creature-column .nameplate {
+    border-radius: 9px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100px;
+    padding: 15% 0;
+    align-items: center;
+}
+
+.character-skin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.character-skin .name {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    min-height: 120px;
+}
+
+.character-skin .name b {
+    min-height: 60px;
+    align-content: center;
+}
+
+.character-skin .character-icon {
+    width: 40px;
+}
+
+.character-skin .monster-icon {
+    width: 30px;
+}
+
+.character-attributes {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.creatures .creature-column .nameplate img.profile {
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 5px;
+}
+
+.creatures .boneshaper-row.friendly img.profile {
+    color: var(--boneshaper-color);
+}
+
+.creatures .banner-spear-row.friendly img.profile {
+    color: var(--banner-spear-color);
+}
+
+.creatures .deathwalker-row.friendly img.profile {
+    color: var(--deathwalker-color);
+}
+
+.creatures .drifter-row.friendly img.profile {
+    color: var(--drifter-color);
+}
+
+.creatures .elite img.profile {
+    color: var(--elite-color);
+}
+
+.creatures .friendly img.profile {
+    color: var(--friendly-color);
+}
+
+.creatures .boneshaper-row.friendly {
+    background-color: var(--boneshaper-transperant-color);
+}
+
+.creatures .banner-spear-row.friendly {
+    background-color: var(--banner-spear-transperant-color);
+}
+
+.creatures .drifter-row.friendly {
+    background-color: var(--drifter-transperant-color);
+}
+
+
+.creatures .deathwalker-row.friendly {
+    background-color: var(--deathwalker-transperant-color);
+}
+
+.creatures .elite-row {
+    background-color: var(--elite-transperant-color);
+}
+
+
+.creatures .nonelite-row {
+    background-color: var(--nonelite-transperant-color);
+}
+
+.creatures .friendly-row.friendly {
+    background-color: var(--friendly-transperant-color);
+}
+
+.creatures .creature-column .nameplate input {
+    color: white;
+    background: none;
+    font-size: 25px;
+    font-weight: 800;
+    width: 50px;
+    padding: 0;
+    margin: 0px;
+}
+
+.initiative-column {
+    display: flex;
+    align-items: center;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px 10px;
+    width: 90px;
+}
+
+.stats .stat-child {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0px 10px;
+    flex: 1 0 20%;
+}
+
+.stats .stat-child object {
+    width: var(--stats-icons-size);
+    height: var(--stats-icons-size);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
@@ -158,12 +307,12 @@ button:hover {
 }
 
 .attack-btn {
-    padding-right: 10px;
     vertical-align: middle;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    width: 50px;
+    height: 50px;
 }
 
 .attack-btn button {
@@ -171,91 +320,59 @@ button:hover {
     justify-content: center;
     align-items: center;
     border: none;
+    background: none;
 }
 
 .attack-btn button img {
     height: 30px;
     width: 30px;
-}
-
-#attack-img {
-    filter: invert(32%) sepia(109%) saturate(1352%) hue-rotate(1deg) brightness(87%) contrast(85%)
+    background: #a94949;
+    padding: 5px;
 }
 
 input[type="number"] {
-    height: 40px;
-    font-size: 22px;
-    text-align: center;
-    vertical-align: middle;
-}
-
-input[type="number"],
-.condition-input {
-    width: 45px;
-}
-
-#condition-retaliate {
-    margin-left: -13px;
-}
-
-.condition-img {
-    width: 32px;
-}
-
-.modal-content input[type="checkbox"] {
-    margin: 0;
-}
-
-.condition-input {
-    height: 40px;
-    /* Adjust the input size if needed */
-    vertical-align: middle;
-    /* Ensures inputs and images are aligned vertically */
-}
-
-.condition-number-img img {
-    height: 30px;
-    /* Adjust image size */
-    vertical-align: middle;
-    /* Align the image with the middle of the input */
-    margin-bottom: -6px;
-    /* Slightly lower the image relative to the input */
-}
-
-.condition-number-img {
-    display: inline-block;
-    /* Keep the images inline with the input */
-    margin-left: 10px;
-    /* Add space between input and image */
-}
-
-.condition-btn {
-    margin-top: 20px;
-}
-
-.modal-content hr {
-    border: 1px solid #56677A;
+    border: none;
+    color: #F0F0F0;
+    font-size: 25px;
+    cursor: pointer;
+    width: 50px;
+    font-weight: 800;
+    background: none;
+    margin-left: 20px;
 }
 
 .remove-btn {
-    right: 10px;
-    /* Align it 10px from the right side */
-    top: 50%;
-    /* Align vertically */
-
-    font-size: 12px;
-    /* Smaller font size */
-    padding: 5px 10px;
-    /* Smaller button padding */
-    background-color: red;
-    /* Optional: Red background for the "X" button */
-    color: white;
-    border: none;
-    border-radius: 3px;
+    font-size: 20px;
+    padding: 0;
+    color: #dadada;
     cursor: pointer;
+    position: absolute;
+    right: calc(50% - 11px);
+    bottom: 6px;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
 }
 
-.modal {
+.remove-btn:hover {
+    color: #400a0b
+}
+
+div#modal-attack,
+div#modal-conditions {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#attack-conditions{
+    border-top: 1px solid white;
+}
+
+.attack-modal {
     display: none;
     /* Hidden by default */
     position: fixed;
@@ -268,21 +385,18 @@ input[type="number"],
     /* Semi-transparent background */
 }
 
+.target-image {
+    display: none;
+}
+
 .modal-content {
     background-color: #3A3A3A;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 220px;
+    width: 75%;
     text-align: center;
     z-index: 101;
-}
-
-#attack-conditions img {
-    width: 24px;
-    margin-bottom: -5px;
-    margin-left: 3px;
-    margin-right: 10px;
 }
 
 .close {
@@ -318,11 +432,6 @@ input[type="number"],
     margin-top: 5px;
 }
 
-.elite-monster-icon {
-    box-shadow: 0 0 25px 3px red;
-    background-color: rgba(197, 0, 0, 0.7);
-}
-
 /* Color-coding for stats */
 .hp {
     background-color: #4CAF50;
@@ -344,130 +453,38 @@ input[type="number"],
     /* Yellow */
 }
 
-.initiative {
-    background-color: #3498DB;
-    /* Blue */
+.add-char {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 100px;
 }
 
-/* Flexbox layout for characters and stats */
+.add-char .row {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 .add-char,
 .row,
 .default-stats {
     display: flex;
-    gap: 10px;
-    /* Reduced gap */
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 10px;
-    /* Reduced bottom margin */
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
-input,
-label,
-button {
-    flex: 1;
-    max-width: 100%;
+.add-char .row .default-stats.type-buttons {
+    position: absolute;
+    bottom: 0;
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    body {
-        font-size: 18px;
-    }
-
-    input,
-    label,
-    button {
-        font-size: 18px;
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    input[type="number"] {
-        width: 70px;
-        height: 30px;
-    }
-
-    img {
-        width: 50px;
-    }
-
-    th,
-    td {
-        font-size: 16px;
-        /* Further reduce font size for small screens */
-        padding: 4px;
-        /* Reduce padding further */
-    }
+.row.middle-line {
+    border: 1px solid white;
 }
-
-@media (max-width: 480px) {
-    body {
-        font-size: 16px;
-    }
-
-    input,
-    label,
-    button {
-        font-size: 16px;
-    }
-
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-    }
-
-    input[type="number"] {
-        width: 60px;
-        height: 30px;
-    }
-
-    img,
-    .big-icon {
-        width: 40px;
-    }
-
-    th,
-    td {
-        font-size: 14px;
-        padding: 2px;
-        /* Even more compact for very small screens */
-    }
-
-    table {
-        max-height: 300px;
-        /* Adjust height for small screens */
-    }
-
-    table b {
-        font-size: 10px;
-        /* Shrink to a smaller font size */
-    }
-
-    table input[type="number"] {
-        width: 20px;
-        /* Adjust the width for small screens */
-        height: 20px;
-        /* Adjust the height for small screens */
-        font-size: 14px;
-        /* Adjust the font size */
-        padding: 8px 8px;
-    }
-
-    table button {
-        width: 40px;
-        height: 40px;
-    }
-}
-
 
 select {
     width: 100%;
-    height: 40px;
     font-size: 18px;
     color: #F0F0F0;
     background-color: #445566;

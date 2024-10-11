@@ -3,6 +3,8 @@ const characters = [
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Петра Скуъртенщайн", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    // ,{ name: "elite priest 1", type: "algox-priest", aggressive: true, eliteMonster: true, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 2, retaliate: 0 },
+    // { name: "priest 2", type: "algox-priest", aggressive: true, hp: 5, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 const conditions = [];
 let conditionTarget = null;
@@ -11,13 +13,20 @@ let defender = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
+    if(!type){
+        alert('Select monster type first')
+        return;
+    }
     const level = parseInt(document.getElementById('level').value);
     const isElite = document.getElementById('elite-monster').checked;
-    let name = `${type} (${document.getElementById('standee-number').value.toLowerCase()})`;
+    const entytyName = `${type} ${document.getElementById('standee-number').value.toLowerCase()}`;
+    let name =  entytyName.charAt(0).toUpperCase() + entytyName.slice(1);
+    name = name.replaceAll('-', ' ');
     const monsterData = data.monsters.find(monster => monster.name === type);
     let selectedMonster = monsterData.stats[level];
+
     if (isElite) {
-        name = 'ELITE ' + name;
+        name = '@ ' + name;
         selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
     }
     let initMovement = monsterData.baseStat?.movement;
@@ -62,72 +71,89 @@ function renderTable() {
     tableBody.innerHTML = '';
     characters.forEach((creature, index) => {
         const charType = creature.aggressive ? 'monster' : 'character';
-        let icon = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
-        const row = `<tr class='${creature.type}-row creature-row'>
-                    <td>
-						<input type="number" value="${creature.initiative}" onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
-					</td>
-                    <td>
-                        <div onclick="openConditions(event, ${index})">
-                            <div>
-                               <img src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-                            <div>
-                            <b>${creature.name}</b>
+        const iconSrc = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
+        const iconClass = creature.aggressive ? 'monster-icon' : 'character-icon';
+        const row = `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? 'elite-row' : 'nonelite-row'} ${creature.aggressive ? '' : 'friendly'} '>
+                        <button class="remove-btn" onclick="removeCreature(${index})">X</button>
+                        <img class='background' src="${backgroundImage}"/>
+                        <div class='creature-column'>
+                        <input type="number" class="initiative" value="${creature.initiative}"
+                            onchange="updateStat(${index}, 'initiative', this.value); sortCreaturesByInitiative(); renderTable();" />
+                        <div class='nameplate'>
+                            <div class='character-skin' onclick="openConditions(event, ${index})">
+                                <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
+                                <div class='name'>
+                                    <img class='${iconClass}' src='${iconSrc}'>
+                                     <b>${creature.name}</b>
+                                </div>
+                            </div>
+
+                            <div class='character-attributes'>
+                            <div class='stats'>
+                                <div class='char-hp stat-child'>
+                                    <img src="images/life-bar.png"/>
+                                    <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
+                                        onchange="updateStat(${index}, 'hp', this.value)" />
+                                </div>
+                                <div class='char-attack stat-child'>
+                                    <img src="images/battle.png"/>
+                                    <input type="number" class="attack" value="${creature.attack}"
+                                        onchange="updateStat(${index}, 'attack', this.value)" />
+                                </div>
+                                <div class='char-movement stat-child'>
+                                    <img src="images/footprint.png"/>
+                                    <input type="number" class="movement" value="${creature.movement}"
+                                        onchange="updateStat(${index}, 'movement', this.value)" />
+
+                                </div>
+                            </div>
+                            <div class='action-buttons'>
+                                <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
+                                    <button>
+                                        <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
+                                        <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <div>
-                             <img src='${icon}' ${creature.eliteMonster ? "class=\"elite-monster-icon\"" : ''}>
-                        <div>
-                    </td>
-                    <td><input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}" onchange="updateStat(${index}, 'hp', this.value)" /></td>
-                    <td><input type="number" value="${creature.attack}" onchange="updateStat(${index}, 'attack', this.value)" /></td>
-                    <td><input type="number" value="${creature.movement}" onchange="updateStat(${index}, 'movement', this.value)" /></td>
-                    <td>
-                    	<span data-creature-idx="${index}" onclick="handleAttack(event, this)">
-							<button class="attack-btn">
-							  <img id="attack-img" src='images/action/attack.svg'>
-							</button>
-						</span>
-                        <button class="attack remove-btn" onclick="removeCreature(${index})">X</button>
-                    </td>
-                </tr>`;
+                        </div>
+                    </div>`;
         tableBody.insertAdjacentHTML('beforeend', row);
     });
 }
 
 function handleAttack(event, buttonElement) {
-    // First click: switch to target.svg
+    const creatureIdx = buttonElement.dataset.creatureIdx;
     if (attacker === null) {
-        if (buttonElement.dataset.creatureIdx < 4) {
-            // player character, can attack only monsters
-            if (characters.every(function (char) { return !char.aggressive; })) {
-                alert('No monsters to attack');
-                return;
-            }
-            document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
-                if (!characters[button.dataset.creatureIdx].aggressive) {
-                    button.style.visibility = 'hidden';
-                }
-            });
-        } else {
-            // enemy monsters and potentially allies also, can attack anyone except self
-            buttonElement.style.visibility = 'hidden';
+        // player character, can attack only monsters
+        if (characters.every(function (char) { return !char.aggressive; })) {
+            alert('No monsters to attack');
+            return;
         }
-
-        document.querySelectorAll('.attack-btn #attack-img').forEach(function (img) {
-            img.src = 'images/action/target.svg';
-        });
-        attacker = buttonElement.dataset.creatureIdx;
+        const isAggressive = characters[creatureIdx].aggressive;
+        hideFriends(isAggressive);
+        attacker = creatureIdx;
+        return;
     }
     // Second click: show modal
-    else {
-        defender = buttonElement.dataset.creatureIdx;
-        openModal('modal-attack');
-        document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
-        loadConditionsInAttackModal();
-        event.stopPropagation();
-    }
+
+    defender = creatureIdx;
+    openModal('modal-attack');
+    document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
+    loadConditionsInAttackModal();
+    event.stopPropagation();
+
+}
+
+function hideFriends(isMonster) {
+    document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
+        const isTargetAggressive = characters[button.dataset.creatureIdx].aggressive;
+        const targetIcon = button.getElementsByClassName('target-image')[0];
+        const attackIcon = button.getElementsByClassName('attack-image')[0];
+        attackIcon.style.display = 'none';
+        const isFriendlyToSelf = (isMonster && isTargetAggressive) || (!isMonster && !isTargetAggressive);
+        targetIcon.style.display = isFriendlyToSelf ? 'none' : 'block';
+    });
 }
 
 function openConditions(event, charIdx) {
@@ -173,10 +199,13 @@ function openModal(id) {
 }
 
 function closeAttackModal() {
-    attacker = defender = null;
+    attacker = null;
+    defender = null;
     document.querySelectorAll('.attack-btn').forEach(function (button) {
-        button.parentElement.style.visibility = '';
-        button.querySelector('#attack-img').src = 'images/action/attack.svg';
+        const targetIcon = button.getElementsByClassName('target-image')[0];
+        const attackIcon = button.getElementsByClassName('attack-image')[0];
+        targetIcon.style.display = 'none';
+        attackIcon.style.display = 'block';
     });
     document.getElementById('attack-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
@@ -335,7 +364,7 @@ function populateMonsterTypeDropdown() {
 
 function resetAll() {
     characters.forEach(c => {
-        c.initiative = null;
+        c.initiative = 0;
     });
 
     sortCreaturesByInitiative();
