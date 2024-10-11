@@ -347,7 +347,7 @@ input[type="number"] {
     color: #dadada;
     cursor: pointer;
     position: absolute;
-    right: calc(50%);
+    right: calc(50% - 15px);
     bottom: 6px;
     font-weight: 800;
     width: 20px;
