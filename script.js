@@ -1,10 +1,9 @@
 const characters = [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 6, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
-const conditions = [];
 let conditionTarget = null;
 let attacker = null;
 let defender = null;
@@ -48,6 +47,7 @@ function addCharacter() {
         initiative,
         armor: defaultArmor,
         retaliate: defaultRetaliate,
+        conditions: {},
         defaultStats: {
             hp: defaultHP,
             attack: defaultAttack,
@@ -153,12 +153,12 @@ function hideFriends(isMonster) {
 }
 
 function openConditions(event, charIdx) {
-    conditionTarget = charIdx;
-    document.getElementById('condition-armor').value = characters[charIdx].armor;
-    document.getElementById('condition-retaliate').value = characters[charIdx].retaliate;
-    document.getElementById('condition-poison').checked = conditions[charIdx]?.poison || false;
-    document.getElementById('condition-brittle').checked = conditions[charIdx]?.brittle || false;
-    document.getElementById('condition-ward').checked = conditions[charIdx]?.ward || false;
+    let target = characters[charIdx];
+    document.getElementById('condition-armor').value = target.armor;
+    document.getElementById('condition-retaliate').value = target.retaliate;
+    document.getElementById('condition-poison').checked = target.conditions?.poison || false;
+    document.getElementById('condition-brittle').checked = target.conditions?.brittle || false;
+    document.getElementById('condition-ward').checked = target.conditions?.ward || false;
     openModal('modal-conditions');
     event.stopPropagation();
 }
@@ -166,14 +166,16 @@ function openConditions(event, charIdx) {
 function loadConditionsInAttackModal() {
     const container = document.getElementById('attack-conditions');
     container.innerHTML = '';
-    if (characters[defender].armor > 0) {
-        addImg(container, 'shield', characters[defender].armor);
+    let target = characters[defender];
+    if (target.armor > 0) {
+        addImg(container, 'shield', target.armor);
     }
-    if (characters[defender].retaliate > 0) {
-        addImg(container, 'retaliate', characters[defender].retaliate);
+    if (target.retaliate > 0) {
+        addImg(container, 'retaliate', target.retaliate);
     }
-    if (conditions[defender]) {
-        for (let [key, value] of Object.entries(conditions[defender])) {
+
+    if (Object.keys(target.conditions).length === 0) {
+        for (let [key, value] of Object.entries(target.conditions)) {
             if (value) {
                 const img = document.createElement('img');
                 img.src = `images/condition/${key}.svg`;
@@ -215,7 +217,7 @@ function applyDamage(dmgInput) {
         console.log(characters[defender].name + " has armor " + characters[defender].armor);
         dmg -= characters[defender].armor;
     }
-    if (conditions[defender]?.poison && dmg > 0) {
+    if (characters[defender].conditions?.poison && dmg > 0) {
         console.log(characters[defender].name + " is poisoned");
         dmg += 1;
     }
@@ -235,15 +237,16 @@ function applyDamage(dmgInput) {
 }
 
 function calculateDamage(charIdx, dmg) {
-    if (conditions[charIdx]?.brittle && dmg > 0) {
+    let charConditions = characters[charIdx].conditions;
+    if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
         console.log(characters[charIdx].name + " is brittle");
-        conditions[charIdx].brittle = false;
+        charConditions.brittle = false;
     }
-    if (conditions[charIdx]?.ward && dmg > 0) {
+    if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
         console.log(characters[charIdx].name + " has ward");
-        conditions[charIdx].ward = false;
+        charConditions.ward = false;
     }
 
     return dmg;
@@ -271,7 +274,7 @@ function applyCondition() {
 
     characters[conditionTarget].armor = armor;
     characters[conditionTarget].retaliate = retaliate;
-    conditions[conditionTarget] = {
+    characters[conditionTarget].conditions = {
         poison,
         brittle,
         ward
