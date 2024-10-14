@@ -153,6 +153,7 @@ function hideFriends(isMonster) {
 }
 
 function openConditions(event, charIdx) {
+    conditionTarget = charIdx;
     let target = characters[charIdx];
     document.getElementById('condition-armor').value = target.armor;
     document.getElementById('condition-retaliate').value = target.retaliate;
