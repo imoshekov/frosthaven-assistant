@@ -53,63 +53,61 @@
             </div>
 
         </div>
-    </div>
-    <h3>Characters & Monsters</h3>
-    <div class="creatures">
-        <div class='creature-container' id="creaturesTable">
-            <!-- Dynamic content will go here -->
-        </div>
-    </div>
-
-    <!-- Attack Modal -->
-    <div id="modal-attack" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAttackModal()">&times;</span>
-            <h3>Damage</h3>
-            <span id="attack-combatants"></span>
-            <br>
-
-            <input type="number" id="attack-input" min="0" value="0">
-
-            <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
-            <!-- Icons (0-3) -->            
-            <div id="attack-conditions" class="conditions">
-                <!-- Conditions on target, if any -->
+        <h3>Characters & Monsters</h3>
+        <div class="creatures">
+            <div class='creature-container' id="creaturesTable">
+                <!-- Dynamic content will go here -->
             </div>
         </div>
-    </div>
 
-    <!-- Conditions Modal -->
-    <div id="modal-conditions" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeConditionsModal()">&times;</span>
-            <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
-            <div class="condition-number-img">
-                <img id="armor-img" onclick="incrementInput('condition-armor')" src='images/action/shield.svg'>
+        <!-- Attack Modal -->
+        <div id="modal-attack" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAttackModal()">&times;</span>
+                <h3>Damage</h3>
+                <span id="attack-combatants"></span>
+                <br>
+
+                <input type="number" id="attack-input" min="0" value="0">
+
+                <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
+                <!-- Icons (0-3) -->
+                <div id="attack-conditions" class="conditions">
+                    <!-- Conditions on target, if any -->
+                </div>
             </div>
-            <div class="condition-number"></div>
-            <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
-            <div class="condition-number-img">
-                <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
-                    src='images/action/retaliate.svg'>
-            </div>
-            <br>
-            <hr>
-
-            <input type="checkbox" id="condition-poison">
-            <img id="poison-img" class="condition-img" src='images/condition/poison.svg'>
-            <input type="checkbox" id="condition-brittle">
-            <img id="brittle-img" class="condition-img" src='images/condition/brittle.svg'>
-            <input type="checkbox" id="condition-ward">
-            <img id="ward-img" class="condition-img" src='images/condition/ward.svg'>
-
-            <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
         </div>
-    </div>
-    <script src="data.js"></script>
-    <script src="images.js"></script>
-    <script src="script.js"></script>
+
+        <!-- Conditions Modal -->
+        <div id="modal-conditions" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeConditionsModal()">&times;</span>
+                <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
+                <div class="condition-number-img">
+                    <img id="armor-img" onclick="incrementInput('condition-armor')" src='images/action/shield.svg'>
+                </div>
+                <div class="condition-number"></div>
+                <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                <div class="condition-number-img">
+                    <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
+                        src='images/action/retaliate.svg'>
+                </div>
+                <br>
+                <hr>
+
+                <input type="checkbox" id="condition-poison">
+                <img id="poison-img" class="condition-img" src='images/condition/poison.svg'>
+                <input type="checkbox" id="condition-brittle">
+                <img id="brittle-img" class="condition-img" src='images/condition/brittle.svg'>
+                <input type="checkbox" id="condition-ward">
+                <img id="ward-img" class="condition-img" src='images/condition/ward.svg'>
+
+                <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
+            </div>
+        </div>
+        <script src="data.js"></script>
+        <script src="images.js"></script>
+        <script src="script.js"></script>
     </div>
 </body>
-
 </html>
