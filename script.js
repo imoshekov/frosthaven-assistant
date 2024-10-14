@@ -85,6 +85,17 @@ function renderTable() {
                             </div>
 
                             <div class='character-attributes'>
+                            <div class='conditions'>
+                                <!-- TODO: Add poison, brittle, ward icons dynamically here -->
+                                <div id='char-armor-${index}' class='condition-child'>
+                                    <img src="images/action/shield.svg" />
+                                    <div class="condition-number armor-number"><!-- dynamic content --></div>
+                                </div>
+                                <div id='char-retaliate-${index}' class='condition-child'>
+                                    <img src="images/fist-outline.svg" />
+                                    <div class="condition-number retaliate-number"><!-- dynamic content --></div>
+                                </div>
+                            </div>
                             <div class='stats'>
                                 <div class='char-hp stat-child'>
                                     <img src="images/life-bar.png"/>
@@ -115,6 +126,7 @@ function renderTable() {
                         </div>
                     </div>`;
         tableBody.insertAdjacentHTML('beforeend', row);
+        showConditions(index);
     });
 }
 
@@ -276,7 +288,27 @@ function applyCondition() {
         brittle,
         ward
     };
+    showConditions(conditionTarget);
     closeConditionsModal();
+}
+
+function showConditions(charIdx) {
+    const target = characters[charIdx];
+    const armorContainer = document.getElementById(`char-armor-${charIdx}`);
+    const retaliateContainer = document.getElementById(`char-retaliate-${charIdx}`);
+
+    if (target.armor > 0) {
+        armorContainer.style.display = 'block';
+        armorContainer.querySelector('.armor-number').innerText = target.armor;
+    } else {
+        armorContainer.style.display = 'none';
+    }
+    if (target.retaliate > 0) {
+        retaliateContainer.style.display = 'block';
+        retaliateContainer.querySelector('.retaliate-number').innerText = target.retaliate;
+    } else {
+        retaliateContainer.style.display = 'none';
+    }
 }
 
 function incrementInput(inputId) {
