@@ -128,6 +128,17 @@ const UIController = {
                                 </div>
     
                                 <div class='character-attributes'>
+                                <div class='conditions'>
+                                    <!-- TODO: Add poison, brittle, ward icons dynamically here -->
+                                    <div id='char-armor-${index}' class='condition-child'>
+                                        <img src="images/shield-outline.svg" />
+                                        <div class="condition-number armor-number"><!-- dynamic content --></div>
+                                    </div>
+                                    <div id='char-retaliate-${index}' class='condition-child'>
+                                        <img src="images/fist-outline.svg" />
+                                        <div class="condition-number retaliate-number"><!-- dynamic content --></div>
+                                    </div>
+                                </div>
                                 <div class='stats'>
                                     <div class='char-hp stat-child'>
                                         <img src="images/life-bar.png"/>
@@ -158,6 +169,7 @@ const UIController = {
                             <button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>
                         </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
+            showConditions(index);
         });
     },
     populateMonsterTypeDropdown() {

@@ -211,7 +211,6 @@ function updateHpWithDamage(charIdx, dmg) {
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
-
 }
 
 function applyCondition() {
@@ -228,8 +227,27 @@ function applyCondition() {
         brittle,
         ward
     };
+    showConditions(conditionTarget);
     closeConditionsModal();
+}
 
+function showConditions(charIdx) {
+    const target = characters[charIdx];
+    const armorContainer = document.getElementById(`char-armor-${charIdx}`);
+    const retaliateContainer = document.getElementById(`char-retaliate-${charIdx}`);
+
+    if (target.armor > 0) {
+        armorContainer.style.visibility = 'visible';
+        armorContainer.querySelector('.armor-number').innerText = target.armor;
+    } else {
+        armorContainer.style.visibility = 'hidden';
+    }
+    if (target.retaliate > 0) {
+        retaliateContainer.style.visibility = 'visible';
+        retaliateContainer.querySelector('.retaliate-number').innerText = target.retaliate;
+    } else {
+        retaliateContainer.style.visibility = 'hidden';
+    }
 }
 
 function incrementInput(inputId) {

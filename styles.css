@@ -281,6 +281,32 @@ img.background {
     height: var(--stats-icons-size);
 }
 
+.conditions {
+    display: flex;
+}
+
+.condition-child {
+    position: relative;
+    margin-left: 10px;
+}
+
+.condition-number {
+    position: absolute;
+    top: -2px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.char-retaliate img {
+    margin: -2px;
+}
+
 .action-buttons {
     display: flex;
     flex-direction: column;
