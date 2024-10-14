@@ -70,7 +70,6 @@ function renderTable() {
         const iconSrc = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
         const iconClass = creature.aggressive ? 'monster-icon' : 'character-icon';
         const row = `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? 'elite-row' : 'nonelite-row'} ${creature.aggressive ? '' : 'friendly'} '>
-                        <button class="remove-btn" onclick="removeCreature(${index})">X</button>
                         <img class='background' src="${backgroundImage}"/>
                         <div class='creature-column'>
                         <input type="number" class="initiative" value="${creature.initiative}"
@@ -112,7 +111,7 @@ function renderTable() {
                                 </span>
                             </div>
                         </div>
-                        </div>
+                        <button class="remove-btn" onclick="removeCreature(${index})">X</button>
                     </div>`;
         tableBody.insertAdjacentHTML('beforeend', row);
     });
