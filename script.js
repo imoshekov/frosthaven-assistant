@@ -298,16 +298,16 @@ function showConditions(charIdx) {
     const retaliateContainer = document.getElementById(`char-retaliate-${charIdx}`);
 
     if (target.armor > 0) {
-        armorContainer.style.display = 'block';
+        armorContainer.style.visibility = 'visible';
         armorContainer.querySelector('.armor-number').innerText = target.armor;
     } else {
-        armorContainer.style.display = 'none';
+        armorContainer.style.visibility = 'hidden';
     }
     if (target.retaliate > 0) {
-        retaliateContainer.style.display = 'block';
+        retaliateContainer.style.visibility = 'visible';
         retaliateContainer.querySelector('.retaliate-number').innerText = target.retaliate;
     } else {
-        retaliateContainer.style.display = 'none';
+        retaliateContainer.style.visibility = 'hidden';
     }
 }
 
