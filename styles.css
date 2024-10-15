@@ -311,6 +311,7 @@ button:hover {
     width: 30px;
     background: #a94949;
     padding: 5px;
+    border: 2px solid black;
 }
 
 input[type="number"] {
@@ -325,25 +326,25 @@ input[type="number"] {
 }
 
 .remove-btn {
-    font-size: 20px;
-    padding: 10px 20px;
-    color: white;
+    font-size: 14px;
+    padding: 5px;
+    color: #999;
     cursor: pointer;
-    background-color: #720f0f;
-    border: none;
-    font-weight: 800;
-    height: auto;
+    background-color: transparent;
+    border: 1px solid black;
+    font-weight: normal;
     display: inline-block;
     text-align: center;
-    border-radius: 5px;
-    width: 75px;
-    margin-top: 10px;
+    width: auto;
+    margin-top: 5px;
 }
 
 .remove-btn:hover {
-    background-color: #bc0303; 
+    background-color: #ff0000;
+    transform: scale(1.02);
     color: white;
 }
+
 
 div#modal-attack,
 div#modal-conditions {
