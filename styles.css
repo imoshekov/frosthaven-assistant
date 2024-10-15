@@ -326,17 +326,17 @@ input[type="number"] {
 }
 
 .remove-btn {
-    font-size: 14px;
+    font-size: 18px;
     padding: 5px;
     color: #999;
     cursor: pointer;
     background-color: transparent;
-    border: 1px solid black;
     font-weight: normal;
     display: inline-block;
     text-align: center;
     width: auto;
     margin-top: 5px;
+    width: 50px;
 }
 
 .remove-btn:hover {
