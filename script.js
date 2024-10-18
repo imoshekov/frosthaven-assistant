@@ -215,22 +215,22 @@ function applyDamage(dmgInput) {
     let attackerDmg = 0;
 
     if (characters[defender].armor > 0) {
-        console.log(characters[defender].name + " has armor " + characters[defender].armor);
+        addLog(characters[defender].name + " has armor " + characters[defender].armor);
         dmg -= characters[defender].armor;
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
-        console.log(characters[defender].name + " is poisoned");
+        addLog(characters[defender].name + " is poisoned");
         dmg += 1;
     }
     if (characters[defender].retaliate > 0) {
-        console.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
+        addLog(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
         attackerDmg += characters[defender].retaliate;
         // shield mitigation doesn't apply to retaliate
     }
 
     dmg = calculateDamage(defender, dmg);
     attackerDmg = calculateDamage(attacker, attackerDmg);
-    console.log(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
+    addLog(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + " (retaliate: " + attackerDmg + ")");
 
     updateHpWithDamage(defender, dmg);
     updateHpWithDamage(attacker, attackerDmg);
@@ -241,12 +241,12 @@ function calculateDamage(charIdx, dmg) {
     let charConditions = characters[charIdx].conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        console.log(characters[charIdx].name + " is brittle");
+        addLog(characters[charIdx].name + " is brittle");
         charConditions.brittle = false;
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        console.log(characters[charIdx].name + " has ward");
+        addLog(characters[charIdx].name + " has ward");
         charConditions.ward = false;
     }
 
@@ -388,6 +388,47 @@ function handleFocusEvents() {
             }
         }
     });
+}
+
+function addLog(event) {
+    const logLimit = 25;
+    const li = document.createElement('li');
+
+    const timeSpan = document.createElement('span');
+    const eventSpan = document.createElement('span');
+
+    timeSpan.classList.add('log-time');
+    eventSpan.classList.add('log-event');
+
+    timeSpan.textContent = new Date().toLocaleTimeString();
+
+    const damageMatch = event.match(/(\d+ damage)/); // Match the "X damage" pattern (e.g., 50 damage)
+    
+    if (damageMatch) {
+        const parts = event.split(damageMatch[0]); // Split the event around the "X damage" part
+        const beforeDamage = parts[0]; // Text before "X damage"
+        const afterDamage = parts[1] || ''; // Text after "X damage" (if any)
+
+        const damageSpan = document.createElement('span');
+        damageSpan.textContent = damageMatch[0];
+        damageSpan.classList.add('log-damage'); 
+
+        eventSpan.textContent = beforeDamage;
+        eventSpan.appendChild(damageSpan);
+        eventSpan.appendChild(document.createTextNode(afterDamage));
+    } else {
+        eventSpan.textContent = ` - ${event}`;
+    }
+
+    li.appendChild(timeSpan);
+    li.appendChild(eventSpan);
+
+    const logContainer = document.getElementById('battle-log');
+    logContainer.insertBefore(li, logContainer.firstChild);
+
+    if (logContainer.childElementCount > logLimit) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
 }
 
 // Render default characters when page loads
