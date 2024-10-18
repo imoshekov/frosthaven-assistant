@@ -260,6 +260,7 @@ function updateHpWithDamage(charIdx, dmg) {
     characters[charIdx].hp -= dmg;
     if (characters[charIdx].hp <= 0) {
         characters[charIdx].hp = 0;
+        addLog(`${characters[charIdx].name} has been killed and removed from the game.`);
         removeCreature(charIdx);
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
