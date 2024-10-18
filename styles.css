@@ -485,3 +485,26 @@ option {
     background-color: #445566;
     border: none;
 }
+
+#battle-log-container {
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* If the content overflows horizontally, allow scrolling */
+}
+
+#battle-log {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#battle-log li {
+    margin-bottom: 10px;
+    word-wrap: break-word; /* Ensure long text wraps inside the box */
+}

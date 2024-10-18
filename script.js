@@ -215,22 +215,22 @@ function applyDamage(dmgInput) {
     let attackerDmg = 0;
 
     if (characters[defender].armor > 0) {
-        console.log(characters[defender].name + " has armor " + characters[defender].armor);
+        addLog(characters[defender].name + " has armor " + characters[defender].armor);
         dmg -= characters[defender].armor;
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
-        console.log(characters[defender].name + " is poisoned");
+        addLog(characters[defender].name + " is poisoned");
         dmg += 1;
     }
     if (characters[defender].retaliate > 0) {
-        console.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
+        addLog(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
         attackerDmg += characters[defender].retaliate;
         // shield mitigation doesn't apply to retaliate
     }
 
     dmg = calculateDamage(defender, dmg);
     attackerDmg = calculateDamage(attacker, attackerDmg);
-    console.log(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
+    addLog(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
 
     updateHpWithDamage(defender, dmg);
     updateHpWithDamage(attacker, attackerDmg);
@@ -241,12 +241,12 @@ function calculateDamage(charIdx, dmg) {
     let charConditions = characters[charIdx].conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        console.log(characters[charIdx].name + " is brittle");
+        addLog(characters[charIdx].name + " is brittle");
         charConditions.brittle = false;
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        console.log(characters[charIdx].name + " has ward");
+        addLog(characters[charIdx].name + " has ward");
         charConditions.ward = false;
     }
 
@@ -389,6 +389,20 @@ function handleFocusEvents() {
         }
     });
 }
+
+function addLog(event) {
+    const logLimit = 25;
+    const li = document.createElement('li');
+    li.textContent = `${new Date().toLocaleTimeString()}/ ${event}`;
+    
+    const logContainer = document.getElementById('battle-log');
+    logContainer.insertBefore(li, logContainer.firstChild);
+
+    if (logContainer.childElementCount > logLimit) {
+        logContainer.removeChild(logContainer.lastChild);
+    }
+}
+
 
 // Render default characters when page loads
 window.onload = function () {
