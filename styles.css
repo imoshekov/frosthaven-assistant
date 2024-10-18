@@ -486,7 +486,7 @@ option {
     border: none;
 }
 
-#battle-log-container {
+#battle-log-container { 
     background-color: #222;
     color: white;
     padding: 20px;
@@ -494,17 +494,23 @@ option {
     width: auto;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* If the content overflows horizontally, allow scrolling */
+    overflow-x: hidden; /* hide horizontal scrollbar */
 }
 
 #battle-log {
     list-style: none;
     padding: 0;
     max-height: 200px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+}
+
+/* WebKit browsers (Chrome, Safari, Edge) */
+#battle-log::-webkit-scrollbar {
+    display: none;
 }
 
 #battle-log li {
     margin-bottom: 10px;
-    word-wrap: break-word; /* Ensure long text wraps inside the box */
+    word-wrap: break-word; 
 }

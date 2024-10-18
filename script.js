@@ -230,7 +230,7 @@ function applyDamage(dmgInput) {
 
     dmg = calculateDamage(defender, dmg);
     attackerDmg = calculateDamage(attacker, attackerDmg);
-    addLog(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + "(retaliate: " + attackerDmg + ")");
+    addLog(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + " (retaliate: " + attackerDmg + ")");
 
     updateHpWithDamage(defender, dmg);
     updateHpWithDamage(attacker, attackerDmg);
