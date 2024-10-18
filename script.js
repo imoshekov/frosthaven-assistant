@@ -393,16 +393,49 @@ function handleFocusEvents() {
 function addLog(event) {
     const logLimit = 25;
     const li = document.createElement('li');
-    li.textContent = `${new Date().toLocaleTimeString()}/ ${event}`;
+
+    // Create span elements to separate time and event for better readability
+    const timeSpan = document.createElement('span');
+    const eventSpan = document.createElement('span');
+
+    // Format the time
+    timeSpan.textContent = new Date().toLocaleTimeString();
+    timeSpan.style.fontWeight = 'bold'; // Bold the time
+    timeSpan.style.marginRight = '5px'; // Add a little space between time and event
     
+    // Check if the event contains 'X damage' and highlight it
+    const damageMatch = event.match(/(\d+ damage)/); // Match the "X damage" pattern (e.g., 50 damage)
+    
+    if (damageMatch) {
+        const beforeDamage = event.slice(0, damageMatch.index); // Text before "X damage"
+        const damageText = damageMatch[0]; // The "X damage" part
+        const afterDamage = event.slice(damageMatch.index + damageText.length); // Text after "X damage"
+        
+        // Create a span for the damage part and style it red
+        const damageSpan = document.createElement('span');
+        damageSpan.textContent = damageText;
+        damageSpan.style.color = '#cd0404'; // Highlight damage part in red
+        
+        // Set the content before, around, and after the damage text
+        eventSpan.textContent = beforeDamage;
+        eventSpan.appendChild(damageSpan);
+        eventSpan.appendChild(document.createTextNode(afterDamage));
+    } else {
+        eventSpan.textContent = ` - ${event}`;
+    }
+
+    // Append the time and event spans to the list item
+    li.appendChild(timeSpan);
+    li.appendChild(eventSpan);
+
     const logContainer = document.getElementById('battle-log');
     logContainer.insertBefore(li, logContainer.firstChild);
 
+    // Limit the number of log entries
     if (logContainer.childElementCount > logLimit) {
         logContainer.removeChild(logContainer.lastChild);
     }
 }
-
 
 // Render default characters when page loads
 window.onload = function () {
