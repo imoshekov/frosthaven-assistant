@@ -394,29 +394,25 @@ function addLog(event) {
     const logLimit = 25;
     const li = document.createElement('li');
 
-    // Create span elements to separate time and event for better readability
     const timeSpan = document.createElement('span');
     const eventSpan = document.createElement('span');
 
-    // Format the time
+    timeSpan.classList.add('log-time');
+    eventSpan.classList.add('log-event');
+
     timeSpan.textContent = new Date().toLocaleTimeString();
-    timeSpan.style.fontWeight = 'bold'; // Bold the time
-    timeSpan.style.marginRight = '5px'; // Add a little space between time and event
-    
-    // Check if the event contains 'X damage' and highlight it
+
     const damageMatch = event.match(/(\d+ damage)/); // Match the "X damage" pattern (e.g., 50 damage)
     
     if (damageMatch) {
-        const beforeDamage = event.slice(0, damageMatch.index); // Text before "X damage"
-        const damageText = damageMatch[0]; // The "X damage" part
-        const afterDamage = event.slice(damageMatch.index + damageText.length); // Text after "X damage"
-        
-        // Create a span for the damage part and style it red
+        const parts = event.split(damageMatch[0]); // Split the event around the "X damage" part
+        const beforeDamage = parts[0]; // Text before "X damage"
+        const afterDamage = parts[1] || ''; // Text after "X damage" (if any)
+
         const damageSpan = document.createElement('span');
-        damageSpan.textContent = damageText;
-        damageSpan.style.color = '#cd0404'; // Highlight damage part in red
-        
-        // Set the content before, around, and after the damage text
+        damageSpan.textContent = damageMatch[0];
+        damageSpan.classList.add('log-damage'); 
+
         eventSpan.textContent = beforeDamage;
         eventSpan.appendChild(damageSpan);
         eventSpan.appendChild(document.createTextNode(afterDamage));
@@ -424,14 +420,12 @@ function addLog(event) {
         eventSpan.textContent = ` - ${event}`;
     }
 
-    // Append the time and event spans to the list item
     li.appendChild(timeSpan);
     li.appendChild(eventSpan);
 
     const logContainer = document.getElementById('battle-log');
     logContainer.insertBefore(li, logContainer.firstChild);
 
-    // Limit the number of log entries
     if (logContainer.childElementCount > logLimit) {
         logContainer.removeChild(logContainer.lastChild);
     }
