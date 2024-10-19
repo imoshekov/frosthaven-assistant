@@ -30,9 +30,10 @@ function addCharacter() {
         initMovement = selectedMonster.movement;
     }
     const initiative = 0;
-    const defaultAttack = selectedMonster.attack;
+    const defaultAttack = parseInt(selectedMonster?.attack) || 0;
     const defaultMovement = Math.max(initMovement, selectedMonster?.movement || 0);
-    const defaultHP = selectedMonster.health;
+    const defaultHP = parseInt(selectedMonster?.health) || 0;
+    //by default currently supported only adding monsters
     const isAgressive = true;
     const defaultArmor = selectedMonster?.actions?.find(x => x.type === 'shield')?.value || 0;
     const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
