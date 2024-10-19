@@ -420,6 +420,7 @@ function saveData() {
     if (currentData !== previoslySavedData) {
         localStorage.setItem('characters', currentData);
         previoslySavedData = currentData;
+        document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
     }
 }
 

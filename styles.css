@@ -529,3 +529,7 @@ option {
     margin-bottom: 10px;
     word-wrap: break-word;
 }
+
+#last-saved-timestamp{
+    font-size: 14px;
+}
