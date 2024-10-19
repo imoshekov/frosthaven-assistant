@@ -60,7 +60,6 @@ function addCharacter() {
     characters.push(newCreature);
     sortCreaturesByInitiative();
     renderTable();
-    populateModifyByTypeDropdown();
 }
 
 function renderTable() {
@@ -293,61 +292,30 @@ function closeConditionsModal() {
     document.getElementById('modal-conditions').style.display = 'none';
 }
 
-// Close modal if clicking outside of modal content
-window.onclick = function (event) {
-    const attackModal = document.getElementById('modal-attack');
-    const conditionModal = document.getElementById('modal-conditions');
-
-    if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
-        closeAttackModal();
-    }
-    if (conditionModal.style.display === "block" && !conditionModal.querySelector('.modal-content').contains(event.target)) {
-        closeConditionsModal();
-    }
-};
-
 function updateStat(index, stat, value) {
-    characters[index][stat] = parseInt(value);
+    const parsedValue = parseInt(value);
+
+    if (stat !== 'initiative') {
+        characters[index][stat] = parsedValue;
+        return;
+    }
+    //changing initiative is applied to all monsters of the selected type
+    const typeToUpdate = characters[index].type;
+    characters.forEach(character => {
+        if (character.type === typeToUpdate) {
+            character.initiative = parsedValue;
+        }
+    });
 }
+
 
 function removeCreature(index) {
     characters.splice(index, 1);
     renderTable();
-    populateModifyByTypeDropdown();
 }
 
 function sortCreaturesByInitiative() {
     characters.sort((a, b) => a.initiative - b.initiative);
-}
-
-function modifyByType() {
-    const type = document.getElementById('typeModifier').value;
-    const initiativeModifier = parseInt(document.getElementById('initiativeModifier').value);
-
-    characters.forEach(creature => {
-        if (creature.type === type) {
-            creature.initiative = initiativeModifier;
-        }
-    });
-
-    sortCreaturesByInitiative();
-    renderTable();
-}
-
-function populateModifyByTypeDropdown() {
-    const typeDropdown = document.getElementById('typeModifier');
-    typeDropdown.innerHTML = ''; // Clear existing options
-
-    // Get unique creature types
-    const uniqueTypes = [...new Set(characters.filter(creature => creature.aggressive).map(creature => creature.type))];
-
-    // Create and append option elements to the dropdown
-    uniqueTypes.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.text = type.charAt(0) + type.slice(1);
-        typeDropdown.appendChild(option);
-    });
 }
 
 function populateMonsterTypeDropdown() {
@@ -437,6 +405,18 @@ function addLog(event) {
 window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
-    populateModifyByTypeDropdown();
     handleFocusEvents();
+};
+
+// Close modal if clicking outside of modal content
+window.onclick = function (event) {
+    const attackModal = document.getElementById('modal-attack');
+    const conditionModal = document.getElementById('modal-conditions');
+
+    if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
+        closeAttackModal();
+    }
+    if (conditionModal.style.display === "block" && !conditionModal.querySelector('.modal-content').contains(event.target)) {
+        closeConditionsModal();
+    }
 };

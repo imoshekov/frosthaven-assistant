@@ -34,24 +34,8 @@
                     <input type="checkbox" id="elite-monster" />
                 </div>
                 <button class="initiative" onclick="addCharacter()">Add Monster</button>
+                <button class="attack" onclick="resetAll()">Next Round</button>
             </div>
-            <div class="row middle-line"></div>
-            <div class="row">
-                <h3>Type Modifications</h3>
-                <div class="default-stats">
-                    <label for="typeModifier">Type: </label>
-                    <select id="typeModifier" autocomplete="on"></select>
-                </div>
-                <div class="default-stats">
-                    <label for="initiativeModifier">Initiative: </label>
-                    <input class="initiative" type="number" id="initiativeModifier" value="0" />
-                </div>
-                <div class="default-stats type-buttons">
-                    <button class="initiative" onclick="modifyByType()">Apply</button>
-                    <button class="attack" onclick="resetAll()">Next Round</button>
-                </div>
-            </div>
-
         </div>
         <h3>Characters & Monsters</h3>
         <div class="creatures">
