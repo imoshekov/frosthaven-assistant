@@ -345,6 +345,9 @@ input[type="number"] {
     color: white;
 }
 
+#elite-monster{
+    margin-top: 15px;
+}
 
 div#modal-attack,
 div#modal-conditions {
