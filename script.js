@@ -293,22 +293,23 @@ function closeConditionsModal() {
     document.getElementById('modal-conditions').style.display = 'none';
 }
 
-// Close modal if clicking outside of modal content
-window.onclick = function (event) {
-    const attackModal = document.getElementById('modal-attack');
-    const conditionModal = document.getElementById('modal-conditions');
-
-    if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
-        closeAttackModal();
-    }
-    if (conditionModal.style.display === "block" && !conditionModal.querySelector('.modal-content').contains(event.target)) {
-        closeConditionsModal();
-    }
-};
-
 function updateStat(index, stat, value) {
-    characters[index][stat] = parseInt(value);
+    if (stat === 'initiative') {
+        const typeToUpdate = characters[index].type; // Get the type of the character at the given index
+        const parsedValue = parseInt(value); // Parse the new initiative value
+
+        // Update initiative for all characters of the same type
+        characters.forEach(character => {
+            if (character.type === typeToUpdate) {
+                character.initiative = parsedValue; // Update initiative
+            }
+        });
+    } else {
+        // Update the specific character's stat
+        characters[index][stat] = parseInt(value);
+    }
 }
+
 
 function removeCreature(index) {
     characters.splice(index, 1);
@@ -439,4 +440,17 @@ window.onload = function () {
     renderTable();
     populateModifyByTypeDropdown();
     handleFocusEvents();
+};
+
+// Close modal if clicking outside of modal content
+window.onclick = function (event) {
+    const attackModal = document.getElementById('modal-attack');
+    const conditionModal = document.getElementById('modal-conditions');
+
+    if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
+        closeAttackModal();
+    }
+    if (conditionModal.style.display === "block" && !conditionModal.querySelector('.modal-content').contains(event.target)) {
+        closeConditionsModal();
+    }
 };
