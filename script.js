@@ -414,13 +414,19 @@ function resetSaved(){
 }
 
 function saveData() {
+    document.getElementById('loading-spinner').style.visibility = 'visible';
+
     const currentCharacterData = JSON.stringify(characters);
     localStorage.setItem('characters', currentCharacterData);
-    
+
     const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
     localStorage.setItem('battle-log', battleLogInnerHtml);
 
-    document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
+    //totally useless timeout, it is just to please merx3 as he requested a loading spinner
+    setTimeout(() => {
+        document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
+        document.getElementById('loading-spinner').style.visibility = 'hidden';
+    }, 1000);
 }
 
 // Render default characters when page loads
@@ -429,7 +435,7 @@ window.onload = function () {
     renderTable();
     handleFocusEvents();
     //saving to local storage every X seconds.
-    setInterval(saveData, 20000); 
+    setInterval(saveData, 10000); 
 };
 
 // Close modal if clicking outside of modal content
