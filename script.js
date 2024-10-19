@@ -1,4 +1,4 @@
-const characters = loadData() 
+const characters = JSON.parse(loadData('characters')) 
 || [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -361,18 +361,20 @@ function removeCreature(index) {
 function sortCreaturesByInitiative() {
     characters.sort((a, b) => a.initiative - b.initiative);
 }
+const logContainer = document.getElementById('battle-log');
+logContainer.innerHTML = loadData('battle-log');
 
 function addLog(event) {
-    const logLimit = 25;
+    const logLimit = 50;
     const li = document.createElement('li');
 
     const timeSpan = document.createElement('span');
-    const eventSpan = document.createElement('span');
-
     timeSpan.classList.add('log-time');
+    timeSpan.textContent = `${new Date().toLocaleTimeString()} - `;
+    
+    const eventSpan = document.createElement('span');
     eventSpan.classList.add('log-event');
 
-    timeSpan.textContent = `${new Date().toLocaleTimeString()} - `;
     const hashMatch = event.match(/#(.*?)#/); 
 
     if (hashMatch) {
@@ -395,33 +397,36 @@ function addLog(event) {
     li.appendChild(timeSpan);
     li.appendChild(eventSpan);
 
-    const logContainer = document.getElementById('battle-log');
     logContainer.insertBefore(li, logContainer.firstChild);
 
     if (logContainer.childElementCount > logLimit) {
         logContainer.removeChild(logContainer.lastChild);
-    }
+    }  
 }
 
-function loadData() {
-    const charactersData = localStorage.getItem('characters');
-    return charactersData ? JSON.parse(charactersData) : null;
+function loadData(key) {
+    return localStorage.getItem(key); 
 }
 
 function resetSaved(){
-    localStorage.removeItem('characters');
+    localStorage.clear();
     location.reload();
 }
 
-let previoslySavedData = '';
-
 function saveData() {
-    const currentData = JSON.stringify(characters);
-    if (currentData !== previoslySavedData) {
-        localStorage.setItem('characters', currentData);
-        previoslySavedData = currentData;
+    document.getElementById('loading-spinner').style.visibility = 'visible';
+
+    const currentCharacterData = JSON.stringify(characters);
+    localStorage.setItem('characters', currentCharacterData);
+
+    const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
+    localStorage.setItem('battle-log', battleLogInnerHtml);
+
+    //totally useless timeout, it is just to please merx3 as he requested a loading spinner
+    setTimeout(() => {
         document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
-    }
+        document.getElementById('loading-spinner').style.visibility = 'hidden';
+    }, 1000);
 }
 
 // Render default characters when page loads
