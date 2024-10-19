@@ -401,7 +401,7 @@ function addLog(event) {
     timeSpan.classList.add('log-time');
     eventSpan.classList.add('log-event');
 
-    timeSpan.textContent = new Date().toLocaleTimeString();
+    timeSpan.textContent = `${new Date().toLocaleTimeString()} - `;
     const hashMatch = event.match(/#(.*?)#/); 
 
     if (hashMatch) {
@@ -418,7 +418,7 @@ function addLog(event) {
         eventSpan.appendChild(document.createTextNode(afterHash));
     // Fallback if no hash-wrapped text
     } else {
-        eventSpan.textContent = ` - ${event}`; 
+        eventSpan.textContent = event;
     }
 
     li.appendChild(timeSpan);
