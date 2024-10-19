@@ -1,4 +1,5 @@
-const characters = [
+const characters = loadData() 
+|| [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -115,6 +116,47 @@ function renderTable() {
                         <button class="remove-btn" onclick="removeCreature(${index})">X</button>
                     </div>`;
         tableBody.insertAdjacentHTML('beforeend', row);
+    });
+}
+
+function populateMonsterTypeDropdown() {
+    //populate monster types
+    const typeDropdown = document.getElementById('type');
+    typeDropdown.innerHTML = '';
+    data.monsters.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type.name;
+        option.text = type.name
+        typeDropdown.appendChild(option);
+    });
+    typeDropdown.value = '';
+}
+
+function nextRound() {
+    characters.forEach(c => {
+        c.initiative = 0;
+    });
+
+    sortCreaturesByInitiative();
+    renderTable();
+}
+
+function handleFocusEvents() {
+    const masterContainer = document.getElementById('master-container');
+
+    masterContainer.addEventListener('focusin', function (event) {
+        if (event.target.matches('input[type="number"]')) {
+            event.target.dataset.previousValue = event.target.value;
+            event.target.value = '';
+        }
+    });
+
+    masterContainer.addEventListener('focusout', function (event) {
+        if (event.target.matches('input[type="number"]')) {
+            if (event.target.value === '') {
+                event.target.value = event.target.dataset.previousValue;
+            }
+        }
     });
 }
 
@@ -265,6 +307,7 @@ function updateHpWithDamage(charIdx, dmg) {
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
+     
 }
 
 function applyCondition() {
@@ -282,6 +325,7 @@ function applyCondition() {
         ward
     };
     closeConditionsModal();
+     
 }
 
 function incrementInput(inputId) {
@@ -309,55 +353,13 @@ function updateStat(index, stat, value) {
     });
 }
 
-
 function removeCreature(index) {
     characters.splice(index, 1);
-    renderTable();
+    renderTable();   
 }
 
 function sortCreaturesByInitiative() {
     characters.sort((a, b) => a.initiative - b.initiative);
-}
-
-function populateMonsterTypeDropdown() {
-    //populate monster types
-    const typeDropdown = document.getElementById('type');
-    typeDropdown.innerHTML = '';
-    data.monsters.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type.name;
-        option.text = type.name
-        typeDropdown.appendChild(option);
-    });
-    typeDropdown.value = '';
-}
-
-function resetAll() {
-    characters.forEach(c => {
-        c.initiative = 0;
-    });
-
-    sortCreaturesByInitiative();
-    renderTable();
-}
-
-function handleFocusEvents() {
-    const masterContainer = document.getElementById('master-container');
-
-    masterContainer.addEventListener('focusin', function (event) {
-        if (event.target.matches('input[type="number"]')) {
-            event.target.dataset.previousValue = event.target.value;
-            event.target.value = '';
-        }
-    });
-
-    masterContainer.addEventListener('focusout', function (event) {
-        if (event.target.matches('input[type="number"]')) {
-            if (event.target.value === '') {
-                event.target.value = event.target.dataset.previousValue;
-            }
-        }
-    });
 }
 
 function addLog(event) {
@@ -401,12 +403,34 @@ function addLog(event) {
     }
 }
 
+function loadData() {
+    const charactersData = localStorage.getItem('characters');
+    return charactersData ? JSON.parse(charactersData) : null;
+}
+
+function resetSaved(){
+    localStorage.removeItem('characters');
+    location.reload();
+}
+
+let previoslySavedData = '';
+
+function saveData() {
+    const currentData = JSON.stringify(characters);
+    if (currentData !== previoslySavedData) {
+        localStorage.setItem('characters', currentData);
+        previoslySavedData = currentData;
+        document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
+    }
+}
 
 // Render default characters when page loads
 window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
     handleFocusEvents();
+    //saving to local storage every X seconds.
+    setInterval(saveData, 10000); 
 };
 
 // Close modal if clicking outside of modal content

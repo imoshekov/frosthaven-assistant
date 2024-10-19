@@ -345,6 +345,9 @@ input[type="number"] {
     color: white;
 }
 
+#elite-monster{
+    margin-top: 15px;
+}
 
 div#modal-attack,
 div#modal-conditions {
@@ -525,4 +528,8 @@ option {
 #battle-log li {
     margin-bottom: 10px;
     word-wrap: break-word;
+}
+
+#last-saved-timestamp{
+    font-size: 14px;
 }
