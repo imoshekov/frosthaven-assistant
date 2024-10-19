@@ -230,7 +230,7 @@ function applyDamage(dmgInput) {
 
     dmg = calculateDamage(defender, dmg);
     attackerDmg = calculateDamage(attacker, attackerDmg);
-    addLog(characters[attacker].name + " dealt " + dmg + " damage to " + characters[defender].name + " (retaliate: " + attackerDmg + ")");
+    addLog(`${characters[attacker].name} dealt #${dmg} damage to ${characters[defender].name}# (retaliate: ${attackerDmg})`);
 
     updateHpWithDamage(defender, dmg);
     updateHpWithDamage(attacker, attackerDmg);
@@ -238,7 +238,7 @@ function applyDamage(dmgInput) {
 }
 
 function calculateDamage(charIdx, dmg) {
-    let charConditions = characters[charIdx].conditions;
+    let charConditions = characters[charIdx]?.conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
         addLog(characters[charIdx].name + " is brittle");
@@ -402,23 +402,23 @@ function addLog(event) {
     eventSpan.classList.add('log-event');
 
     timeSpan.textContent = new Date().toLocaleTimeString();
+    const hashMatch = event.match(/#(.*?)#/); 
 
-    const damageMatch = event.match(/(\d+ damage)/); // Match the "X damage" pattern (e.g., 50 damage)
-    
-    if (damageMatch) {
-        const parts = event.split(damageMatch[0]); // Split the event around the "X damage" part
-        const beforeDamage = parts[0]; // Text before "X damage"
-        const afterDamage = parts[1] || ''; // Text after "X damage" (if any)
+    if (hashMatch) {
+        const parts = event.split(hashMatch[0]); 
+        const beforeHash = parts[0]; 
+        const afterHash = parts[1] || ''; 
 
-        const damageSpan = document.createElement('span');
-        damageSpan.textContent = damageMatch[0];
-        damageSpan.classList.add('log-damage'); 
+        const hashSpan = document.createElement('span');
+        hashSpan.textContent = hashMatch[1]; 
+        hashSpan.classList.add('log-bold'); 
 
-        eventSpan.textContent = beforeDamage;
-        eventSpan.appendChild(damageSpan);
-        eventSpan.appendChild(document.createTextNode(afterDamage));
+        eventSpan.textContent = beforeHash;
+        eventSpan.appendChild(hashSpan);
+        eventSpan.appendChild(document.createTextNode(afterHash));
+    // Fallback if no hash-wrapped text
     } else {
-        eventSpan.textContent = ` - ${event}`;
+        eventSpan.textContent = ` - ${event}`; 
     }
 
     li.appendChild(timeSpan);
@@ -431,6 +431,7 @@ function addLog(event) {
         logContainer.removeChild(logContainer.lastChild);
     }
 }
+
 
 // Render default characters when page loads
 window.onload = function () {
