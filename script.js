@@ -60,7 +60,6 @@ function addCharacter() {
     characters.push(newCreature);
     sortCreaturesByInitiative();
     renderTable();
-    populateModifyByTypeDropdown();
 }
 
 function renderTable() {
@@ -294,61 +293,29 @@ function closeConditionsModal() {
 }
 
 function updateStat(index, stat, value) {
-    if (stat === 'initiative') {
-        const typeToUpdate = characters[index].type; // Get the type of the character at the given index
-        const parsedValue = parseInt(value); // Parse the new initiative value
+    const parsedValue = parseInt(value);
 
-        // Update initiative for all characters of the same type
-        characters.forEach(character => {
-            if (character.type === typeToUpdate) {
-                character.initiative = parsedValue; // Update initiative
-            }
-        });
-    } else {
-        // Update the specific character's stat
-        characters[index][stat] = parseInt(value);
+    if (stat !== 'initiative') {
+        characters[index][stat] = parsedValue;
+        return;
     }
+    //changing initiative is applied to all monsters of the selected type
+    const typeToUpdate = characters[index].type;
+    characters.forEach(character => {
+        if (character.type === typeToUpdate) {
+            character.initiative = parsedValue;
+        }
+    });
 }
 
 
 function removeCreature(index) {
     characters.splice(index, 1);
     renderTable();
-    populateModifyByTypeDropdown();
 }
 
 function sortCreaturesByInitiative() {
     characters.sort((a, b) => a.initiative - b.initiative);
-}
-
-function modifyByType() {
-    const type = document.getElementById('typeModifier').value;
-    const initiativeModifier = parseInt(document.getElementById('initiativeModifier').value);
-
-    characters.forEach(creature => {
-        if (creature.type === type) {
-            creature.initiative = initiativeModifier;
-        }
-    });
-
-    sortCreaturesByInitiative();
-    renderTable();
-}
-
-function populateModifyByTypeDropdown() {
-    const typeDropdown = document.getElementById('typeModifier');
-    typeDropdown.innerHTML = ''; // Clear existing options
-
-    // Get unique creature types
-    const uniqueTypes = [...new Set(characters.filter(creature => creature.aggressive).map(creature => creature.type))];
-
-    // Create and append option elements to the dropdown
-    uniqueTypes.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.text = type.charAt(0) + type.slice(1);
-        typeDropdown.appendChild(option);
-    });
 }
 
 function populateMonsterTypeDropdown() {
@@ -438,7 +405,6 @@ function addLog(event) {
 window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
-    populateModifyByTypeDropdown();
     handleFocusEvents();
 };
 
