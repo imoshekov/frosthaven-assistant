@@ -1,10 +1,10 @@
-const characters = JSON.parse(loadData('characters')) 
-|| [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
-];
+const characters = JSON.parse(loadData('characters'))
+    || [
+        { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
+        { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+        { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+        { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
+    ];
 
 let conditionTarget = null;
 let attacker = null;
@@ -12,7 +12,7 @@ let defender = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
-    if(!type){
+    if (!type) {
         alert('Select monster type first')
         return;
     }
@@ -307,7 +307,7 @@ function updateHpWithDamage(charIdx, dmg) {
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
-     
+
 }
 
 function applyCondition() {
@@ -325,7 +325,7 @@ function applyCondition() {
         ward
     };
     closeConditionsModal();
-     
+
 }
 
 function incrementInput(inputId) {
@@ -355,7 +355,7 @@ function updateStat(index, stat, value) {
 
 function removeCreature(index) {
     characters.splice(index, 1);
-    renderTable();   
+    renderTable();
 }
 
 function sortCreaturesByInitiative() {
@@ -371,25 +371,25 @@ function addLog(event) {
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('log-time');
     timeSpan.textContent = `${new Date().toLocaleTimeString()} - `;
-    
+
     const eventSpan = document.createElement('span');
     eventSpan.classList.add('log-event');
 
-    const hashMatch = event.match(/#(.*?)#/); 
+    const hashMatch = event.match(/#(.*?)#/);
 
     if (hashMatch) {
-        const parts = event.split(hashMatch[0]); 
-        const beforeHash = parts[0]; 
-        const afterHash = parts[1] || ''; 
+        const parts = event.split(hashMatch[0]);
+        const beforeHash = parts[0];
+        const afterHash = parts[1] || '';
 
         const hashSpan = document.createElement('span');
-        hashSpan.textContent = hashMatch[1]; 
-        hashSpan.classList.add('log-bold'); 
+        hashSpan.textContent = hashMatch[1];
+        hashSpan.classList.add('log-bold');
 
         eventSpan.textContent = beforeHash;
         eventSpan.appendChild(hashSpan);
         eventSpan.appendChild(document.createTextNode(afterHash));
-    // Fallback if no hash-wrapped text
+        // Fallback if no hash-wrapped text
     } else {
         eventSpan.textContent = event;
     }
@@ -401,14 +401,14 @@ function addLog(event) {
 
     if (logContainer.childElementCount > logLimit) {
         logContainer.removeChild(logContainer.lastChild);
-    }  
+    }
 }
 
 function loadData(key) {
-    return localStorage.getItem(key); 
+    return localStorage.getItem(key);
 }
 
-function resetSaved(){
+function resetSaved() {
     localStorage.clear();
     location.reload();
 }
@@ -429,13 +429,34 @@ function saveData() {
     }, 1000);
 }
 
+function toggleDone(checkbox) {
+    if (checkbox.checked) {
+        checkbox.parentElement.classList.add('done');
+    } else {
+        checkbox.parentElement.classList.remove('done');
+    }
+
+    const allItems = document.querySelectorAll('#todoList li label');
+    const allDone = Array.from(allItems).every(item => item.classList.contains('done'));
+
+    const todoList = document.getElementById('todoList');
+    if (allDone) {
+        todoList.style.display = 'none';
+        const heading = document.getElementById('setup-todos-heading');
+        heading.style.display = 'none'
+    } else {
+        todoList.style.display = 'block';
+    }
+}
+
+
 // Render default characters when page loads
 window.onload = function () {
     populateMonsterTypeDropdown();
     renderTable();
     handleFocusEvents();
     //saving to local storage every X seconds.
-    setInterval(saveData, 10000); 
+    setInterval(saveData, 10000);
 };
 
 // Close modal if clicking outside of modal content
