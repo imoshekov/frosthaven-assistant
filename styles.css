@@ -591,3 +591,19 @@ option {
     color: gray;
 }
 
+
+.icon-wrapper {
+    display: inline-block;
+}
+
+.clickable-icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.bg {
+    fill: #8f8f8f; 
+}
+
+

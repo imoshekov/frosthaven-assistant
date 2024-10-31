@@ -456,6 +456,19 @@ function toggleTodoVisibility(){
     todoList.style.display = (todoList.style.display === "none" || todoList.style.display === '') ? "block" : "none";
 }
 
+let clickCount = 0;
+
+function toggleColor(element) {
+    const elementId = element.id;
+    const path = element.querySelector('path'); 
+    switch(elementId){
+        case "svg-fire":
+            path.style.fill = '#e2421f'
+            return;
+    }
+}
+
+
 
 // Render default characters when page loads
 window.onload = function () {
