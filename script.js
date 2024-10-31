@@ -451,24 +451,31 @@ function toggleDone(event) {
     }
 }
 
-function toggleTodoVisibility(){
+function toggleTodoVisibility() {
     const todoList = document.getElementById('todoList');
     todoList.style.display = (todoList.style.display === "none" || todoList.style.display === '') ? "block" : "none";
 }
 
-let clickCount = 0;
 
 function toggleColor(element) {
     const elementId = element.id;
-    const path = element.querySelector('path'); 
-    switch(elementId){
-        case "svg-fire":
-            path.style.fill = '#e2421f'
-            return;
+    const path = element.querySelector('path');
+    const pathFill = path.getAttribute('fill');
+
+    if (!pathFill || pathFill === `url(#${elementId}-bw)`) {
+        path.setAttribute('fill', `url(#${elementId}-color)`);
+        return;
     }
+    if (pathFill === `url(#${elementId}-color)`) {
+        path.setAttribute('fill', `url(#${elementId}-half)`);
+        return;
+    }
+    if (pathFill === `url(#${elementId}-half)`) {
+        path.setAttribute('fill', `url(#${elementId}-bw)`);
+        return;
+    }
+    return;
 }
-
-
 
 // Render default characters when page loads
 window.onload = function () {
