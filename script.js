@@ -429,7 +429,11 @@ function saveData() {
     }, 1000);
 }
 
-function toggleDone(checkbox) {
+function toggleDone(event) {
+    if (event.target.type !== "checkbox") {
+        return;
+    }
+    const checkbox = event.target;
     if (checkbox.checked) {
         checkbox.parentElement.classList.add('done');
     } else {
@@ -442,11 +446,14 @@ function toggleDone(checkbox) {
     const todoList = document.getElementById('todoList');
     if (allDone) {
         todoList.style.display = 'none';
-        const heading = document.getElementById('setup-todos-heading');
-        heading.style.display = 'none'
     } else {
         todoList.style.display = 'block';
     }
+}
+
+function toggleTodoVisibility(){
+    const todoList = document.getElementById('todoList');
+    todoList.style.display = (todoList.style.display === "none" || todoList.style.display === '') ? "block" : "none";
 }
 
 

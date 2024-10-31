@@ -85,6 +85,10 @@ img {
     border-radius: 3px;
 }
 
+.initiative{
+    width: 375px;
+} 
+
 .creatures {
     width: 100%;
     overflow-x: auto;
@@ -556,8 +560,7 @@ option {
     color: gray;
 }
 
-.add-char, .game-setup {
-    padding: 10px;
+.game-setup {
     width: 50%;
 }
 .game-setup #todoList {
@@ -565,6 +568,10 @@ option {
     margin-top: 0;
     list-style: none;
 }
+#todoList{
+    display: none;
+}
+
 #todoList li {
     margin: 0;
     padding: 0;

@@ -14,21 +14,21 @@
     <!-- master-container is a workaround to handle the focus event on all number fields in the page -->
     <div id="master-container">
         <h1> <img src="favicon.ico" /> Frosthaven Assistant</h1>
-        <div class="game-setup">
-            <h3 id="setup-todos-heading">Setup todos</h3>
-            <div class="row">
-                <ul id="todoList">
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> map tiles</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> map overlays</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> monsters</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> monster attack modifiers</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> monster conditional modifiers</label>
+        <div class="row">
+            <div class="game-setup">
+                <button class="initiative" onclick="toggleTodoVisibility()">Setup todos</button>
+                <ul id="todoList" onchange="toggleDone(event)">
+                    <li><label><input type="checkbox">map tiles</label></li>
+                    <li><label><input type="checkbox">map overlays</label></li>
+                    <li><label><input type="checkbox">monsters</label></li>
+                    <li><label><input type="checkbox">monster attack modifiers</label></li>
+                    <li><label><input type="checkbox">monster conditional modifiers</label>
                     </li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> player conditional modifiers</label>
+                    <li><label><input type="checkbox">player conditional modifiers</label>
                     </li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> player boxes</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> battle goals</label></li>
-                    <li><label><input type="checkbox" onchange="toggleDone(this)"> setup website</label></li>
+                    <li><label><input type="checkbox">player boxes</label></li>
+                    <li><label><input type="checkbox">battle goals</label></li>
+                    <li><label><input type="checkbox">setup website</label></li>
                 </ul>
             </div>
         </div>
