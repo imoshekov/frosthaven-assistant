@@ -468,7 +468,7 @@ function toggleTodoVisibility() {
 }
 
 
-function toggleColor(element) {
+function toggleColor(element, event) {
     const elementId = element.id;
     const path = element.querySelector('path');
     const pathFill = path.getAttribute('fill');
@@ -478,6 +478,10 @@ function toggleColor(element) {
         return;
     }
     if (pathFill === `url(#${elementId}-color)`) {
+        if(event?.type === 'click'){
+            path.setAttribute('fill', `url(#${elementId}-bw)`);
+            return;
+        }
         path.setAttribute('fill', `url(#${elementId}-half)`);
         return;
     }

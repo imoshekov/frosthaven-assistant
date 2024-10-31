@@ -20,10 +20,10 @@
     --element-greyed-out-color: #8f8f8f; 
     --element-fire-color: #e73710;
     --element-ice-color: #56c8ef;
-    --element-air-color: #565a5a;
+    --element-air-color: #3b3636;
     --element-earth-color: #7da82a;
     --element-light-color: #da9c16;
-    --element-dark-color: #040922;
+    --element-dark-color: #041463;
 }
 
 
@@ -598,7 +598,6 @@ option {
     color: gray;
 }
 
-
 .elements-wrapper {
     display: inline-block;
 }
@@ -606,11 +605,12 @@ option {
 .element-icon {
     width: 50px;
     height: 50px;
+    fill: var(--element-greyed-out-color);
     cursor: pointer;
 }
 
-.greyed-out {
-    fill: var(--element-greyed-out-color);
+.element-icon:hover{
+    transform: scale(1.1);
 }
 
 
