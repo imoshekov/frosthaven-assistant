@@ -139,6 +139,17 @@ function nextRound() {
 
     sortCreaturesByInitiative();
     renderTable();
+
+    const elements = document.querySelectorAll('.elements-wrapper svg');
+    elements.forEach(e => {
+        const fill = e.querySelector('path')?.getAttribute('fill');
+        if (!fill) {
+            return;
+        }
+        if (fill.includes('half') || fill.includes('color')) {
+            toggleColor(e);
+        }
+    });
 }
 
 function handleFocusEvents() {
