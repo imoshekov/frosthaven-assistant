@@ -17,6 +17,13 @@
     --attack-color: #fbf300;
     --movement-color: #2e00f8;
     --stats-icons-size: 30px;
+    --element-greyed-out-color: #8f8f8f; 
+    --element-fire-color: #e73710;
+    --element-ice-color: #56c8ef;
+    --element-air-color: #565a5a;
+    --element-earth-color: #7da82a;
+    --element-light-color: #da9c16;
+    --element-dark-color: #040922;
 }
 
 
@@ -590,4 +597,20 @@ option {
     text-decoration: line-through;
     color: gray;
 }
+
+
+.elements-wrapper {
+    display: inline-block;
+}
+
+.element-icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.greyed-out {
+    fill: var(--element-greyed-out-color);
+}
+
 

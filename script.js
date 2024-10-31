@@ -139,6 +139,17 @@ function nextRound() {
 
     sortCreaturesByInitiative();
     renderTable();
+
+    const elements = document.querySelectorAll('.elements-wrapper svg');
+    elements.forEach(e => {
+        const fill = e.querySelector('path')?.getAttribute('fill');
+        if (!fill) {
+            return;
+        }
+        if (fill.includes('half') || fill.includes('color')) {
+            toggleColor(e);
+        }
+    });
 }
 
 function handleFocusEvents() {
@@ -451,11 +462,31 @@ function toggleDone(event) {
     }
 }
 
-function toggleTodoVisibility(){
+function toggleTodoVisibility() {
     const todoList = document.getElementById('todoList');
     todoList.style.display = (todoList.style.display === "none" || todoList.style.display === '') ? "block" : "none";
 }
 
+
+function toggleColor(element) {
+    const elementId = element.id;
+    const path = element.querySelector('path');
+    const pathFill = path.getAttribute('fill');
+
+    if (!pathFill || pathFill === `url(#${elementId}-bw)`) {
+        path.setAttribute('fill', `url(#${elementId}-color)`);
+        return;
+    }
+    if (pathFill === `url(#${elementId}-color)`) {
+        path.setAttribute('fill', `url(#${elementId}-half)`);
+        return;
+    }
+    if (pathFill === `url(#${elementId}-half)`) {
+        path.setAttribute('fill', `url(#${elementId}-bw)`);
+        return;
+    }
+    return;
+}
 
 // Render default characters when page loads
 window.onload = function () {
