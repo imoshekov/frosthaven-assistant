@@ -16,8 +16,8 @@
         <h1> <img src="favicon.ico" /> Frosthaven Assistant</h1>
         <div class="row">
             <div class="game-setup">
-                <button class="initiative" onclick="toggleTodoVisibility()">Setup todos<span>&#9660;</span></button>
-                <ul id="todoList" onchange="toggleDone(event)">
+                <button class="initiative" onclick="UIController.toggleTodoVisibility()">Setup todos<span>&#9660;</span></button>
+                <ul id="todoList" onchange="UIController.toggleDone(event)">
                     <li><label><input type="checkbox">map tiles</label></li>
                     <li><label><input type="checkbox">map overlays</label></li>
                     <li><label><input type="checkbox">monsters</label></li>
@@ -34,7 +34,7 @@
         </div>
         <div class="add-char">
             <div class="row">
-                <button class="initiative" onclick="resetSaved()">New Game</button>
+                <button class="initiative" onclick="DataManager.reset()">New Game</button>
                 <h3>Add Monster</h3>
                 <div class="default-stats">
                     <label for="Type">Type: </label>
@@ -53,13 +53,13 @@
                     <input type="checkbox" id="elite-monster" />
                 </div>
                 <button class="initiative" onclick="addCharacter()">Add Monster</button>
-                <button class="attack" onclick="nextRound()">Next Round</button>
+                <button class="attack" onclick="UIController.nextRound()">Next Round</button>
             </div>
         </div>
         <h3>Elements</h3>
         <span class="elements-wrapper">
             <!-- fire -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="fire" sodipodi:docname="fire.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@
                 </g>
             </svg>
             <!-- ice -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="ice" sodipodi:docname="ice.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@
                 </g>
             </svg>
             <!-- air -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="air" sodipodi:docname="air.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +165,7 @@
                 </g>
             </svg>
             <!-- earth -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="earth" sodipodi:docname="earth.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +198,7 @@
                 </g>
             </svg>
             <!-- light -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="light" sodipodi:docname="light.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +231,7 @@
                 </g>
             </svg>
             <!-- dark -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="toggleColor(this,event)" version="1.1"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
                 id="dark" sodipodi:docname="dark.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -326,9 +326,11 @@
                 <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
             </div>
         </div>
-        <script src="data.js"></script>
-        <script src="images.js"></script>
-        <script src="script.js"></script>
+        <script src="scripts/storage.js"></script>
+        <script src="scripts/uiController.js"></script>
+        <script src="data/data.js"></script>
+        <script src="data/images.js"></script>
+        <script src="scripts/main.js"></script>
     </div>
 </body>
 
