@@ -62,7 +62,7 @@ function addCharacter() {
     characters.push(newCreature);
     UIController.sortCreatures();
     UIController.renderTable();
-} 
+}
 
 function handleAttack(event, buttonElement) {
     const creatureIdx = buttonElement.dataset.creatureIdx;
@@ -121,7 +121,7 @@ function loadConditionsInAttackModal() {
         addImg(container, 'retaliate', target.retaliate);
     }
 
-    if (Object.keys(target.conditions).length === 0) {
+    if (Object.keys(target.conditions).length > 0) {
         for (let [key, value] of Object.entries(target.conditions)) {
             if (value) {
                 const img = document.createElement('img');
@@ -135,7 +135,9 @@ function loadConditionsInAttackModal() {
 function addImg(container, name, value) {
     const img = document.createElement('img');
     img.src = `images/action/${name}.svg`;
-    container.appendChild(document.createTextNode(value));
+    const paragraph = document.createElement("p");
+    paragraph.textContent = value;
+    container.appendChild(paragraph);
     container.appendChild(img);
 }
 
@@ -154,19 +156,29 @@ function closeAttackModal() {
     });
     document.getElementById('attack-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
+    document.getElementById('attack-result').innerHTML = '';
 }
 
-function applyDamage(dmgInput) {
-    let dmg = parseInt(dmgInput.value);
+function updateAttackResult() {
+    let dmg = getAttackResult();
+    let resultElement = document.getElementById('attack-result');
+
+    if (dmg <= 0) {
+        resultElement.innerHTML = '';
+    } else {
+        resultElement.innerHTML = 'Total: ' + dmg;
+    }
+}
+
+function applyDamage() {
+    let dmg = getAttackResult();
     let attackerDmg = 0;
 
     if (characters[defender].armor > 0) {
         DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
-        dmg -= characters[defender].armor;
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
         DataManager.log(characters[defender].name + " is poisoned");
-        dmg += 1;
     }
     if (characters[defender].retaliate > 0) {
         DataManager.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
@@ -174,8 +186,7 @@ function applyDamage(dmgInput) {
         // shield mitigation doesn't apply to retaliate
     }
 
-    dmg = calculateDamage(defender, dmg);
-    attackerDmg = calculateDamage(attacker, attackerDmg);
+    attackerDmg = calculateDmgMultipliers(attacker, attackerDmg);
     DataManager.log(`${characters[attacker].name} dealt #${dmg} damage to ${characters[defender].name}# (retaliate: ${attackerDmg})`);
 
     updateHpWithDamage(defender, dmg);
@@ -183,8 +194,21 @@ function applyDamage(dmgInput) {
     closeAttackModal();
 }
 
-function calculateDamage(charIdx, dmg) {
-    let charConditions = characters[charIdx]?.conditions;
+function getAttackResult() {
+    let dmg = parseInt(document.getElementById('attack-input').value);
+
+    if (characters[defender].armor > 0) {
+        dmg -= characters[defender].armor;
+    }
+    if (characters[defender].conditions?.poison && dmg > 0) {
+        dmg += 1;
+    }
+
+    return calculateDmgMultipliers(defender, dmg);
+}
+
+function calculateDmgMultipliers(charIdx, dmg) {
+    let charConditions = characters[charIdx].conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
         DataManager.log(characters[charIdx].name + " is brittle");
@@ -240,7 +264,7 @@ function incrementInput(inputId) {
 function closeConditionsModal() {
     document.getElementById('modal-conditions').style.display = 'none';
 }
- 
+
 
 // Render default characters when page loads
 window.onload = function () {
