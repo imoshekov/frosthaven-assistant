@@ -173,16 +173,11 @@ function updateAttackResult() {
 function applyDamage() {
     let dmg = getAttackResult();
     let attackerDmg = 0;
-    let defenderConditions = characters[defender].conditions;
 
     if (characters[defender].retaliate > 0) {
         DataManager.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
         attackerDmg += characters[defender].retaliate;
         // shield mitigation doesn't apply to retaliate
-    }
-    if (defenderConditions?.brittle || defenderConditions?.ward) {
-        defenderConditions.brittle = false;
-        defenderConditions.ward = false;
     }
 
     attackerDmg = calculateDmgMultipliers(attacker, attackerDmg);
@@ -235,6 +230,11 @@ function updateHpWithDamage(charIdx, dmg) {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
 
+    let characterConditions = characters[charIdx].conditions;
+    if (characterConditions?.brittle || characterConditions?.ward) {
+        characterConditions.brittle = false;
+        characterConditions.ward = false;
+    }
 }
 
 function applyCondition() {
