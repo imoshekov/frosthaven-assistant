@@ -60,8 +60,8 @@ function addCharacter() {
     };
 
     characters.push(newCreature);
-    EventManager.sortCreatures();
-    UIControls.renderTable();
+    UIController.sortCreatures();
+    UIController.renderTable();
 } 
 
 function handleAttack(event, buttonElement) {
@@ -207,7 +207,7 @@ function updateHpWithDamage(charIdx, dmg) {
     if (characters[charIdx].hp <= 0) {
         characters[charIdx].hp = 0;
         DataManager.log(`${characters[charIdx].name} has been killed and removed from the game.`);
-        EventManager.removeCreature(charIdx);
+        UIController.removeCreature(charIdx);
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
@@ -244,9 +244,9 @@ function closeConditionsModal() {
 
 // Render default characters when page loads
 window.onload = function () {
-    UIControls.populateMonsterTypeDropdown();
-    UIControls.renderTable();
-    EventManager.handleFocusEvents();
+    UIController.populateMonsterTypeDropdown();
+    UIController.renderTable();
+    UIController.handleFocusEvents();
     //saving to local storage every X seconds.
     setInterval(() => DataManager.save(), 10000);
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
