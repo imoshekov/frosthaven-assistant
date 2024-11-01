@@ -1,8 +1,10 @@
+
+
 const DataManager = {
-    loadData(key) {
+    load(key) {
         return localStorage.getItem(key);
     },
-    saveData() {
+    save() {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
         const currentCharacterData = JSON.stringify(characters);
@@ -17,11 +19,53 @@ const DataManager = {
             document.getElementById('loading-spinner').style.visibility = 'hidden';
         }, 1000);
     },
-    clearData() {
+    clear() {
         localStorage.clear();
     },
-    resetSaved() {
+    reset() {
         localStorage.clear();
         location.reload();
+    },
+    log(event) {
+        const logLimit = 50;
+        const li = document.createElement('li');
+    
+        const timeSpan = document.createElement('span');
+        timeSpan.classList.add('log-time');
+        timeSpan.textContent = `${new Date().toLocaleTimeString()} - `;
+    
+        const eventSpan = document.createElement('span');
+        eventSpan.classList.add('log-event');
+    
+        const hashMatch = event.match(/#(.*?)#/);
+    
+        if (hashMatch) {
+            const parts = event.split(hashMatch[0]);
+            const beforeHash = parts[0];
+            const afterHash = parts[1] || '';
+    
+            const hashSpan = document.createElement('span');
+            hashSpan.textContent = hashMatch[1];
+            hashSpan.classList.add('log-bold');
+    
+            eventSpan.textContent = beforeHash;
+            eventSpan.appendChild(hashSpan);
+            eventSpan.appendChild(document.createTextNode(afterHash));
+            // Fallback if no hash-wrapped text
+        } else {
+            eventSpan.textContent = event;
+        }
+    
+        li.appendChild(timeSpan);
+        li.appendChild(eventSpan);
+        
+        const logContainer = document.getElementById('battle-log');
+        logContainer.insertBefore(li, logContainer.firstChild);
+    
+        if (logContainer.childElementCount > logLimit) {
+            logContainer.removeChild(logContainer.lastChild);
+        }
     }
 };
+
+
