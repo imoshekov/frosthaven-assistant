@@ -160,7 +160,7 @@ function closeAttackModal() {
 }
 
 function updateAttackResult() {
-    let dmg = getAttackResult();
+    let dmg = getAttackResult(false);
     let resultElement = document.getElementById('attack-result');
 
     if (dmg <= 0) {
@@ -173,17 +173,16 @@ function updateAttackResult() {
 function applyDamage() {
     let dmg = getAttackResult();
     let attackerDmg = 0;
+    let defenderConditions = characters[defender].conditions;
 
-    if (characters[defender].armor > 0) {
-        DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
-    }
-    if (characters[defender].conditions?.poison && dmg > 0) {
-        DataManager.log(characters[defender].name + " is poisoned");
-    }
     if (characters[defender].retaliate > 0) {
         DataManager.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
         attackerDmg += characters[defender].retaliate;
         // shield mitigation doesn't apply to retaliate
+    }
+    if (defenderConditions?.brittle || defenderConditions?.ward) {
+        defenderConditions.brittle = false;
+        defenderConditions.ward = false;
     }
 
     attackerDmg = calculateDmgMultipliers(attacker, attackerDmg);
@@ -194,30 +193,30 @@ function applyDamage() {
     closeAttackModal();
 }
 
-function getAttackResult() {
+function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
     if (characters[defender].armor > 0) {
         dmg -= characters[defender].armor;
+        showLog && DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
         dmg += 1;
+        showLog && DataManager.log(characters[defender].name + " is poisoned");
     }
 
-    return calculateDmgMultipliers(defender, dmg);
+    return calculateDmgMultipliers(defender, dmg, showLog);
 }
 
-function calculateDmgMultipliers(charIdx, dmg) {
+function calculateDmgMultipliers(charIdx, dmg, showLog = true) {
     let charConditions = characters[charIdx].conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        DataManager.log(characters[charIdx].name + " is brittle");
-        charConditions.brittle = false;
+        showLog && DataManager.log(characters[charIdx].name + " is brittle");
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        DataManager.log(characters[charIdx].name + " has ward");
-        charConditions.ward = false;
+        showLog && DataManager.log(characters[charIdx].name + " has ward");
     }
 
     return dmg;
