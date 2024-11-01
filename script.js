@@ -1,4 +1,4 @@
-const characters = JSON.parse(loadData('characters'))
+const characters = JSON.parse(DataManager.loadData('characters'))
     || [
         { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
         { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -373,7 +373,7 @@ function sortCreaturesByInitiative() {
     characters.sort((a, b) => a.initiative - b.initiative);
 }
 const logContainer = document.getElementById('battle-log');
-logContainer.innerHTML = loadData('battle-log');
+logContainer.innerHTML = DataManager.loadData('battle-log');
 
 function addLog(event) {
     const logLimit = 50;
@@ -413,31 +413,6 @@ function addLog(event) {
     if (logContainer.childElementCount > logLimit) {
         logContainer.removeChild(logContainer.lastChild);
     }
-}
-
-function loadData(key) {
-    return localStorage.getItem(key);
-}
-
-function resetSaved() {
-    localStorage.clear();
-    location.reload();
-}
-
-function saveData() {
-    document.getElementById('loading-spinner').style.visibility = 'visible';
-
-    const currentCharacterData = JSON.stringify(characters);
-    localStorage.setItem('characters', currentCharacterData);
-
-    const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
-    localStorage.setItem('battle-log', battleLogInnerHtml);
-
-    //totally useless timeout, it is just to please merx3 as he requested a loading spinner
-    setTimeout(() => {
-        document.getElementById('last-saved-timestamp').innerHTML = `Last saved: ${new Date().toLocaleTimeString()}`;
-        document.getElementById('loading-spinner').style.visibility = 'hidden';
-    }, 1000);
 }
 
 function toggleDone(event) {
@@ -498,7 +473,7 @@ window.onload = function () {
     renderTable();
     handleFocusEvents();
     //saving to local storage every X seconds.
-    setInterval(saveData, 10000);
+    setInterval(() => DataManager.saveData(), 10000);
 };
 
 // Close modal if clicking outside of modal content
