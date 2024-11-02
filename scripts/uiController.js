@@ -123,8 +123,7 @@ const UIController = {
     <div class='nameplate'>
         <div class='character-skin' onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-            <div class='name'>
-                <img class='${iconClass}' src='${iconSrc}'>
+            <div class='name'>               
                 <b>${creature.name}</b>
             </div>
         </div>
