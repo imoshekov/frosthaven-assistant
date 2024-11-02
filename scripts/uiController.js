@@ -128,7 +128,23 @@ const UIController = {
                 <b>${creature.name}</b>
             </div>
         </div>
-
+        <div class='stats'>
+            <div class='char-hp stat-child'>
+                <img src="images/life-bar.png" />
+                <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
+                    onchange="UIController.updateStat(${index}, 'hp', this.value)" />
+            </div>
+            <div class='char-attack stat-child'>
+                <img src="images/battle.png" />
+                <input type="number" class="attack" value="${creature.attack}"
+                    onchange="UIController.updateStat(${index}, 'attack', this.value)" />
+            </div>
+            <div class='char-movement stat-child'>
+                <img src="images/footprint.png" />
+                <input type="number" class="movement" value="${creature.movement}"
+                    onchange="UIController.updateStat(${index}, 'movement', this.value)" />
+            </div>
+        </div>
         <div class='character-attributes'>
             <div class="condition-row">
                 <!-- TODO: Add poison, brittle, ward icons dynamically here -->
@@ -147,24 +163,6 @@ const UIController = {
                     <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'>
                     <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'>
                 </div>
-            </div>
-        </div>
-        <div class='stats'>
-            <div class='char-hp stat-child'>
-                <img src="images/life-bar.png" />
-                <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
-                    onchange="UIController.updateStat(${index}, 'hp', this.value)" />
-            </div>
-            <div class='char-attack stat-child'>
-                <img src="images/battle.png" />
-                <input type="number" class="attack" value="${creature.attack}"
-                    onchange="UIController.updateStat(${index}, 'attack', this.value)" />
-            </div>
-            <div class='char-movement stat-child'>
-                <img src="images/footprint.png" />
-                <input type="number" class="movement" value="${creature.movement}"
-                    onchange="UIController.updateStat(${index}, 'movement', this.value)" />
-
             </div>
         </div>
         <div class='action-buttons'>
