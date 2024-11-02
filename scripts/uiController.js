@@ -9,10 +9,10 @@ const UIController = {
         } else {
             checkbox.parentElement.classList.remove('done');
         }
-    
+
         const allItems = document.querySelectorAll('#todoList li label');
         const allDone = Array.from(allItems).every(item => item.classList.contains('done'));
-    
+
         const todoList = document.getElementById('todoList');
         if (allDone) {
             todoList.style.display = 'none';
@@ -24,13 +24,13 @@ const UIController = {
         const elementId = element.id;
         const path = element.querySelector('path');
         const pathFill = path.getAttribute('fill');
-    
+
         if (!pathFill || pathFill === `url(#${elementId}-bw)`) {
             path.setAttribute('fill', `url(#${elementId}-color)`);
             return;
         }
         if (pathFill === `url(#${elementId}-color)`) {
-            if(event?.type === 'click'){
+            if (event?.type === 'click') {
                 path.setAttribute('fill', `url(#${elementId}-bw)`);
                 return;
             }
@@ -49,14 +49,14 @@ const UIController = {
     },
     handleFocusEvents() {
         const masterContainer = document.getElementById('master-container');
-    
+
         masterContainer.addEventListener('focusin', function (event) {
             if (event.target.matches('input[type="number"]')) {
                 event.target.dataset.previousValue = event.target.value;
                 event.target.value = '';
             }
         });
-    
+
         masterContainer.addEventListener('focusout', function (event) {
             if (event.target.matches('input[type="number"]')) {
                 if (event.target.value === '') {
@@ -69,10 +69,10 @@ const UIController = {
         characters.forEach(c => {
             c.initiative = 0;
         });
-    
+
         this.sortCreatures();
         this.renderTable();
-    
+
         const elements = document.querySelectorAll('.elements-wrapper svg');
         elements.forEach(e => {
             const fill = e.querySelector('path')?.getAttribute('fill');
@@ -93,7 +93,7 @@ const UIController = {
     },
     updateStat(index, stat, value) {
         const parsedValue = parseInt(value);
-    
+
         if (stat !== 'initiative') {
             characters[index][stat] = parsedValue;
             return;
@@ -113,51 +113,73 @@ const UIController = {
             const charType = creature.aggressive ? 'monster' : 'character';
             const iconSrc = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
             const iconClass = creature.aggressive ? 'monster-icon' : 'character-icon';
-            const row = `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? 'elite-row' : 'nonelite-row'} ${creature.aggressive ? '' : 'friendly'} '>
-                            <img class='background' src="${backgroundImage}"/>
-                            <div class='creature-column'>
-                            <input type="number" class="initiative" value="${creature.initiative}"
-                                onchange="UIController.updateStat(${index}, 'initiative', this.value); UIController.sortCreatures(); UIController.renderTable();" />
-                            <div class='nameplate'>
-                                <div class='character-skin' onclick="openConditions(event, ${index})">
-                                    <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-                                    <div class='name'>
-                                        <img class='${iconClass}' src='${iconSrc}'>
-                                         <b>${creature.name}</b>
-                                    </div>
-                                </div>
-    
-                                <div class='character-attributes'>
-                                <div class='stats'>
-                                    <div class='char-hp stat-child'>
-                                        <img src="images/life-bar.png"/>
-                                        <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
-                                            onchange="UIController.updateStat(${index}, 'hp', this.value)" />
-                                    </div>
-                                    <div class='char-attack stat-child'>
-                                        <img src="images/battle.png"/>
-                                        <input type="number" class="attack" value="${creature.attack}"
-                                            onchange="UIController.updateStat(${index}, 'attack', this.value)" />
-                                    </div>
-                                    <div class='char-movement stat-child'>
-                                        <img src="images/footprint.png"/>
-                                        <input type="number" class="movement" value="${creature.movement}"
-                                            onchange="UIController.updateStat(${index}, 'movement', this.value)" />
-    
-                                    </div>
-                                </div>
-                                <div class='action-buttons'>
-                                    <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
-                                        <button>
-                                            <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
-                                            <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                            <button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>
-                        </div>`;
+            const row = 
+`<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
+    ${creature.aggressive ? '' : 'friendly' } '>
+                            <img class=' background' src="${backgroundImage}" />
+<div class='creature-column'>
+    <input type="number" class="initiative" value="${creature.initiative}"
+        onchange="UIController.updateStat(${index}, 'initiative', this.value); UIController.sortCreatures(); UIController.renderTable();" />
+    <div class='nameplate'>
+        <div class='character-skin' onclick="openConditions(event, ${index})">
+            <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
+            <div class='name'>
+                <img class='${iconClass}' src='${iconSrc}'>
+                <b>${creature.name}</b>
+            </div>
+        </div>
+
+        <div class='character-attributes'>
+            <div class="condition-row">
+                <!-- TODO: Add poison, brittle, ward icons dynamically here -->
+                <div id='char-armor-${index}' class='condition-child'>
+                    <img class="condition-image" src="images/fh/action/shield.svg" />
+                    <div class="condition-number armor-number"><!-- dynamic content --></div>
+                </div>
+                <div id='char-retaliate-${index}' class='condition-child'>
+                    <img class="condition-image" src="images/fh/action/retaliate.svg" />
+                    <div class="condition-number retaliate-number"><!-- dynamic content --></div>
+                </div>
+            </div>
+            <div class="condition-row">
+                <div id="char-condition-${index}" class="condition-images">
+                    <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg'>
+                    <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'>
+                    <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'>
+                </div>
+            </div>
+        </div>
+        <div class='stats'>
+            <div class='char-hp stat-child'>
+                <img src="images/life-bar.png" />
+                <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
+                    onchange="UIController.updateStat(${index}, 'hp', this.value)" />
+            </div>
+            <div class='char-attack stat-child'>
+                <img src="images/battle.png" />
+                <input type="number" class="attack" value="${creature.attack}"
+                    onchange="UIController.updateStat(${index}, 'attack', this.value)" />
+            </div>
+            <div class='char-movement stat-child'>
+                <img src="images/footprint.png" />
+                <input type="number" class="movement" value="${creature.movement}"
+                    onchange="UIController.updateStat(${index}, 'movement', this.value)" />
+
+            </div>
+        </div>
+        <div class='action-buttons'>
+            <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
+                <button>
+                    <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
+                    <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
+                </button>
+            </span>
+        </div>
+    </div>
+    <button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>
+</div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
+            showConditions(index);
         });
     },
     populateMonsterTypeDropdown() {
@@ -171,5 +193,5 @@ const UIController = {
             typeDropdown.appendChild(option);
         });
         typeDropdown.value = '';
-    } 
+    }
 }
