@@ -289,9 +289,11 @@
                 <span id="attack-combatants"></span>
                 <br>
 
-                <input type="number" id="attack-input" min="0" value="0">
+                <input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0"><br>
+                <span id="attack-result"></span>
 
-                <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
+                <br>
+                <button class="initiative" onclick="applyDamage()">OK</button>
                 <!-- Icons (0-3) -->
                 <div id="attack-conditions" class="conditions">
                     <!-- Conditions on target, if any -->

@@ -369,8 +369,21 @@ div#modal-conditions {
     transform: translate(-50%, -50%);
 }
 
-#attack-conditions{
+#attack-conditions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     border-top: 1px solid white;
+}
+
+#attack-conditions img {
+    margin-right: 14px;
+}
+
+#attack-conditions p {
+    margin-right: 4px;
 }
 
 .attack-modal {
