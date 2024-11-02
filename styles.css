@@ -370,7 +370,21 @@ div#modal-conditions {
 }
 
 #attack-conditions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     border-top: 1px solid white;
+}
+
+
+#attack-conditions img {
+    margin-right: 14px;
+}
+
+#attack-conditions p {
+    margin-right: 4px;
 }
 
 .attack-modal {
@@ -394,7 +408,6 @@ div#modal-conditions {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 75%;
     text-align: center;
     z-index: 101;
 }
@@ -616,6 +629,7 @@ option {
 .element-icon:hover {
     transform: scale(1.1);
 }
+
 
 .condition-row {
     display: flex;

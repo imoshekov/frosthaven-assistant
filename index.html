@@ -16,7 +16,8 @@
         <h1> <img src="favicon.ico" /> Frosthaven Assistant</h1>
         <div class="row">
             <div class="game-setup">
-                <button class="initiative" onclick="UIController.toggleTodoVisibility()">Setup todos<span>&#9660;</span></button>
+                <button class="initiative" onclick="UIController.toggleTodoVisibility()">Setup
+                    todos<span>&#9660;</span></button>
                 <ul id="todoList" onchange="UIController.toggleDone(event)">
                     <li><label><input type="checkbox">map tiles</label></li>
                     <li><label><input type="checkbox">map overlays</label></li>
@@ -59,27 +60,27 @@
         <h3>Elements</h3>
         <span class="elements-wrapper">
             <!-- fire -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="fire" sodipodi:docname="fire.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="fire" sodipodi:docname="fire.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="fire-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-fire-color); stop-opacity:1;" /> 
-                        <animate attributeName="stop-color" values="grey;orange;red" dur="0.5s" begin="click" fill="freeze" />
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-fire-color); stop-opacity:1;" />
+                        <animate attributeName="stop-color" values="grey;orange;red" dur="0.5s" begin="click"
+                            fill="freeze" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="fire-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-fire-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-fire-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="fire-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path id="fire"
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="outline" transform="matrix(0.35277777,0,0,-0.35277777,98.77778,1.9e-6)">
                     <path
@@ -93,26 +94,25 @@
                 </g>
             </svg>
             <!-- ice -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="ice" sodipodi:docname="ice.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="ice" sodipodi:docname="ice.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="ice-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-ice-color); stop-opacity:1;" /> 
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-ice-color); stop-opacity:1;" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="ice-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-ice-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-ice-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="ice-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="outline" transform="matrix(0.35277777,0,0,-0.35277777,98.77778,1.9e-6)">
                     <path
@@ -126,26 +126,25 @@
                 </g>
             </svg>
             <!-- air -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="air" sodipodi:docname="air.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="air" sodipodi:docname="air.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="air-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-air-color); stop-opacity:1;" /> 
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-air-color); stop-opacity:1;" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="air-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-air-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-air-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="air-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="symbol">
                     <path style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.352778"
@@ -165,26 +164,25 @@
                 </g>
             </svg>
             <!-- earth -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="earth" sodipodi:docname="earth.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="earth" sodipodi:docname="earth.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="earth-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-earth-color); stop-opacity:1;" /> 
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-earth-color); stop-opacity:1;" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="earth-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-earth-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-earth-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="earth-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="outline" transform="matrix(0.35277777,0,0,-0.35277777,98.77778,1.9e-6)">
                     <path
@@ -198,26 +196,25 @@
                 </g>
             </svg>
             <!-- light -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="light" sodipodi:docname="light.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="light" sodipodi:docname="light.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="light-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-light-color); stop-opacity:1;" /> 
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-light-color); stop-opacity:1;" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="light-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-light-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-light-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="light-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="outline" transform="matrix(0.35277777,0,0,-0.35277777,98.77778,1.9e-6)">
                     <path
@@ -231,26 +228,25 @@
                 </g>
             </svg>
             <!-- dark -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)" version="1.1"
-                id="dark" sodipodi:docname="dark.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+                version="1.1" id="dark" sodipodi:docname="dark.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
                 xmlns:svg="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="dark-half" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="50%" style="stop-color:var(--element-dark-color); stop-opacity:1;" /> 
-                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="50%" style="stop-color:var(--element-dark-color); stop-opacity:1;" />
+                        <stop offset="50%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="dark-color" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-dark-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-dark-color); stop-opacity:1;" />
                     </linearGradient>
                     <linearGradient id="dark-bw" x1="0%" y1="100%">
-                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" /> 
+                        <stop offset="190%" style="stop-color:var(--element-default-color); stop-opacity:1;" />
                     </linearGradient>
                 </defs>
                 <path
-                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475"
-                >
+                    d="m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475">
                 </path>
                 <g id="outline" transform="matrix(0.35277777,0,0,-0.35277777,98.77778,1.9e-6)">
                     <path
@@ -285,17 +281,18 @@
         <div id="modal-attack" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeAttackModal()">&times;</span>
-                <h3>Damage</h3>
+                <h3>Attack</h3>
                 <span id="attack-combatants"></span>
                 <br>
 
-                <input type="number" id="attack-input" min="0" value="0">
-
-                <button class="initiative" onclick="applyDamage(this.previousElementSibling)">OK</button>
+                <span>Damage</span><input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0"><br>
+                <span id="attack-result"></span>
+                <br>
                 <!-- Icons (0-3) -->
                 <div id="attack-conditions" class="conditions">
                     <!-- Conditions on target, if any -->
                 </div>
+                <button class="initiative" onclick="applyDamage()">OK</button>
             </div>
         </div>
 
@@ -307,15 +304,11 @@
                 <div class="condition-number-img">
                     <img id="armor-img" onclick="incrementInput('condition-armor')" src='images/fh/action/shield.svg'>
                 </div>
-                <div class="condition-number"></div>
                 <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
-                <div class="condition-number-img">
+                <div>
                     <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
                         src='images/fh/action/retaliate.svg'>
                 </div>
-                <br>
-                <hr>
-
                 <input type="checkbox" id="condition-poison">
                 <img id="poison-img" src='images/condition/poison.svg'>
                 <input type="checkbox" id="condition-brittle">

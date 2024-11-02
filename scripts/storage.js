@@ -19,9 +19,6 @@ const DataManager = {
             document.getElementById('loading-spinner').style.visibility = 'hidden';
         }, 1000);
     },
-    clear() {
-        localStorage.clear();
-    },
     reset() {
         localStorage.clear();
         location.reload();
