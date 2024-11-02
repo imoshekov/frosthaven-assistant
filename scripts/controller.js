@@ -154,13 +154,16 @@ const UIController = {
                     <div class="condition-number retaliate-number"><!-- dynamic content --></div>
                 </div>
             </div>
-            <div class="condition-row">
-                <div id="char-condition-${index}" class="condition-images">
-                    <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg'>
-                    <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'>
-                    <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'>
-                </div>
-            </div>
+             <div class="condition-row">
+        <div id="char-condition-${index}" class="condition-images">
+            <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg' 
+                 onclick="UIController.handleConditionClick(${index}, 'poison')">
+            <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg' 
+                 onclick="UIController.handleConditionClick(${index}, 'brittle')">
+            <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg' 
+                 onclick="UIController.handleConditionClick(${index}, 'ward')">
+        </div>
+    </div>
         </div>
         <div class='action-buttons'>
             <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
@@ -188,5 +191,10 @@ const UIController = {
             typeDropdown.appendChild(option);
         });
         typeDropdown.value = '';
+    },
+    handleConditionClick(index, conditionType) {
+        const character = characters[index];
+        character.conditions[conditionType] = !character.conditions[conditionType];
+        document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
     }
 }

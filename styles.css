@@ -674,5 +674,11 @@ option {
 .condition-image {
     width: 30px;
     height: 35px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.condition-image:hover {
+    transform: scale(1.1);
 }
 
