@@ -283,6 +283,8 @@ img.background {
 
 .conditions {
     display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    align-items: center;
 }
 
 .condition-child {
@@ -301,6 +303,10 @@ img.background {
     color: white;
     font-weight: bold;
     font-size: 20px;
+}
+
+.condition-images img {
+    margin-top: 10px; /* Optional: Adds some space between the divs and the images */
 }
 
 .char-retaliate img {

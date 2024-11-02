@@ -138,6 +138,11 @@ const UIController = {
                                         <img src="images/fist-outline.svg" />
                                         <div class="condition-number retaliate-number"><!-- dynamic content --></div>
                                     </div>
+                                    <div id="char-condition-${index}" class="condition-images">
+                                        <img id="char-poison-${index}" src='images/condition/poison.svg'>
+                                        <img id="char-brittle-${index}" src='images/condition/brittle.svg'>
+                                        <img id="char-ward-${index}" src='images/condition/ward.svg'>
+                                    </div>
                                 </div>
                                 <div class='stats'>
                                     <div class='char-hp stat-child'>

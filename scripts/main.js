@@ -248,6 +248,15 @@ function showConditions(charIdx) {
     } else {
         retaliateContainer.style.visibility = 'hidden';
     }
+    if (Object.keys(target.conditions).length === 0){
+        document.getElementById(`char-condition-${charIdx}`).style.visibility = 'hidden';
+    }
+    for (const condition in target.conditions) {
+        const conditionImg = document.getElementById(`char-${condition}-${charIdx}`);
+        if (conditionImg) {
+            conditionImg.style.visibility = target.conditions[condition] ? 'visible' : 'hidden';
+        }
+    }
 }
 
 function incrementInput(inputId) {
