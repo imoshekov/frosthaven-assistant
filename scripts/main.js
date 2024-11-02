@@ -272,7 +272,7 @@ function showConditions(charIdx) {
     } else {
         retaliateContainer.style.visibility = 'hidden';
     }
-    if (Object.keys(target.conditions).length === 0){
+    if (Object.keys(target.conditions).length === 0) {
         document.getElementById(`char-condition-${charIdx}`).style.visibility = 'hidden';
     }
     for (const condition in target.conditions) {
@@ -303,11 +303,11 @@ window.onload = function () {
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
 };
 
+const attackModal = document.getElementById('modal-attack');
+const conditionModal = document.getElementById('modal-conditions');
+
 // Close modal if clicking outside of modal content
 window.onclick = function (event) {
-    const attackModal = document.getElementById('modal-attack');
-    const conditionModal = document.getElementById('modal-conditions');
-
     if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {
         closeAttackModal();
     }
@@ -315,3 +315,11 @@ window.onclick = function (event) {
         closeConditionsModal();
     }
 };
+
+// Close modal with Escape
+window.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        closeAttackModal();
+        closeConditionsModal();
+    }
+});
