@@ -81,7 +81,7 @@ function handleAttack(event, buttonElement) {
 
     defender = creatureIdx;
     openModal('modal-attack');
-    document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &gt; ${characters[defender].name}`;
+    document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &rarr; ${characters[defender].name}`;
     loadConditionsInAttackModal();
     event.stopPropagation();
 

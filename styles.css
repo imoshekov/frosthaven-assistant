@@ -407,7 +407,6 @@ div#modal-conditions {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 75%;
     text-align: center;
     z-index: 101;
 }
@@ -625,5 +624,6 @@ option {
 .element-icon:hover{
     transform: scale(1.1);
 }
+
 
 
