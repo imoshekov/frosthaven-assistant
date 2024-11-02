@@ -211,6 +211,12 @@ function updateHpWithDamage(charIdx, dmg) {
     } else {
         document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
     }
+
+    let characterConditions = characters[charIdx].conditions;
+    if (characterConditions?.brittle || characterConditions?.ward) {
+        characterConditions.brittle = false;
+        characterConditions.ward = false;
+    }
 }
 
 function applyCondition() {
