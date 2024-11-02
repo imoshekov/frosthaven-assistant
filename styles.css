@@ -306,6 +306,7 @@ button:hover {
     align-items: center;
     width: 50px;
     height: 50px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .attack-btn button {
@@ -314,6 +315,8 @@ button:hover {
     align-items: center;
     border: none;
     background: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .attack-btn button img {
@@ -322,6 +325,11 @@ button:hover {
     background: #a94949;
     padding: 5px;
     border: 2px solid black;
+}
+
+.attack-btn:hover {
+    transform: scale(1.2); 
+    border-radius: 8px; 
 }
 
 input[type="number"] {
@@ -667,3 +675,4 @@ option {
     width: 30px;
     height: 35px;
 }
+

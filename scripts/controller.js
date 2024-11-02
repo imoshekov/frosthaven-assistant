@@ -111,8 +111,6 @@ const UIController = {
         tableBody.innerHTML = '';
         characters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
-            const iconSrc = creature.aggressive ? 'images/monster/enemy.png' : `images/${charType}/icons/fh-${creature.type}.svg`;
-            const iconClass = creature.aggressive ? 'monster-icon' : 'character-icon';
             const row = 
 `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
     ${creature.aggressive ? '' : 'friendly' } '>
