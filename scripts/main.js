@@ -244,8 +244,8 @@ function applyCondition() {
     const brittle = document.getElementById('condition-brittle').checked;
     const ward = document.getElementById('condition-ward').checked;
 
-    characters[conditionTarget].armor = armor;
-    characters[conditionTarget].retaliate = retaliate;
+    applyConditionForType('armor', armor);
+    applyConditionForType('retaliate', retaliate);
     characters[conditionTarget].conditions = {
         poison,
         brittle,
@@ -255,23 +255,20 @@ function applyCondition() {
     closeConditionsModal();
 }
 
+function applyConditionForType(condition, value) {
+    const typeToUpdate = characters[conditionTarget].type;
+    characters.forEach(character => {
+        if (character.type === typeToUpdate) {
+            character[condition] = value;
+        }
+    });
+}
+
 function showConditions(charIdx) {
     const target = characters[charIdx];
-    const armorContainer = document.getElementById(`char-armor-${charIdx}`);
-    const retaliateContainer = document.getElementById(`char-retaliate-${charIdx}`);
 
-    if (target.armor > 0) {
-        armorContainer.style.visibility = 'visible';
-        armorContainer.querySelector('.armor-number').innerText = target.armor;
-    } else {
-        armorContainer.style.visibility = 'hidden';
-    }
-    if (target.retaliate > 0) {
-        retaliateContainer.style.visibility = 'visible';
-        retaliateContainer.querySelector('.retaliate-number').innerText = target.retaliate;
-    } else {
-        retaliateContainer.style.visibility = 'hidden';
-    }
+    showConditionsForType(target.type, 'armor');
+    showConditionsForType(target.type, 'retaliate');
     if (Object.keys(target.conditions).length === 0) {
         document.getElementById(`char-condition-${charIdx}`).style.visibility = 'hidden';
     }
@@ -281,6 +278,20 @@ function showConditions(charIdx) {
             conditionImg.style.visibility = target.conditions[condition] ? 'visible' : 'hidden';
         }
     }
+}
+
+function showConditionsForType(typeToUpdate, condition) {
+    characters.forEach(((character, index) => {
+        if (character.type === typeToUpdate) {
+            const container = document.getElementById(`char-${condition}-${index}`);
+            if (character[condition] > 0) {
+                container.style.visibility = 'visible';
+                container.querySelector(`.${condition}-number`).innerText = character[condition];
+            } else if (container) {
+                container.style.visibility = 'hidden';
+            }
+        }
+    }));
 }
 
 function incrementInput(inputId) {
