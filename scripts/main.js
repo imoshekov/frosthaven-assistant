@@ -284,7 +284,7 @@ function showConditionsForType(typeToUpdate, condition) {
     characters.forEach(((character, index) => {
         if (character.type === typeToUpdate) {
             const container = document.getElementById(`char-${condition}-${index}`);
-            if (character[condition] > 0) {
+            if (container && character[condition] > 0) {
                 container.style.visibility = 'visible';
                 container.querySelector(`.${condition}-number`).innerText = character[condition];
             } else if (container) {

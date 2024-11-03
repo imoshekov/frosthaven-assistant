@@ -144,7 +144,6 @@ const UIController = {
         </div>
         <div class='character-attributes'>
             <div class="condition-row">
-                <!-- TODO: Add poison, brittle, ward icons dynamically here -->
                 <div id='char-armor-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/shield.svg" />
                     <div class="condition-number armor-number"><!-- dynamic content --></div>
