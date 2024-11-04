@@ -2,9 +2,9 @@ name: Run Selenium Tests
 
 # Run this workflow when a pull request is created or updated
 on:
-  pull_request:
-    branches:
-      - main  # Or specify other branches you'd like to run tests on
+  # pull_request:
+  #   branches:
+  #     - main  
   workflow_dispatch:  # Allows manual run
 
 jobs:

@@ -40,6 +40,11 @@ async function openAttackModal(attackerId = 0, defenderId = 4) {
     await targetButton.click();
 }
 
+async function openConditionsModal(characterIndex){
+    const characterProfile = await driver.findElement(By.id(`character-skin-${characterIndex}`)); // Corrected line
+    await characterProfile.click();
+}
+
 async function testCreatureContainerHasContent() {
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
 
@@ -91,7 +96,7 @@ async function testAddMonster() {
     console.log("Test passed: a new monster was successfully added.");
 }
 
-async function testAttackModalDisplay() {
+async function testAttackModalDisplayed() {
     await driver.get(sourceHTML);
 
     await addMonster(driver, {
@@ -112,7 +117,7 @@ async function testAttackModalDisplay() {
     console.log('Test passed: attack modal is displayed as expected.');
 }
 
-async function testDamageApplication() {
+async function testBaseDamageApplication() {
     await driver.get(sourceHTML);
     await addMonster(driver, {
         type: 'algox-guard',
@@ -137,8 +142,7 @@ async function testDamageApplication() {
     const updatedHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
     assert.ok((originalHPValue - updatedHPValue) === 3, "damage is not applied correctly.");
-    console.log('Test passed: damage is applied correctly.');
-
+    console.log('Test passed: base damage is applied correctly.');
 }
 
 async function testMonsterIsKilled() {
@@ -171,7 +175,104 @@ async function testMonsterIsKilled() {
 
     assert.ok((initialMonstersCount - updatedMonstersCount) === 1, "monster has not been removed upon a kill");
     console.log('Test passed: monster has successfully been killed and removed from the game.');
+}
 
+async function testConditionsModalDisplayed() {
+    await driver.get(sourceHTML);
+
+    await addMonster(driver, {
+        type: 'algox-priest',
+        level: '1',
+        standee: '1'
+    });
+
+    await openConditionsModal(4);
+
+    // Wait for the modal to be displayed
+    const modal = await driver.wait(until.elementLocated(By.id('modal-conditions')), 5000);
+
+    // Validate that the modal is displayed
+    let isModalDisplayed = await modal.isDisplayed();
+
+    assert.ok(isModalDisplayed, "condition modal is NOT displayed.");
+    console.log('Test passed: condition modal is displayed as expected.');
+}
+
+async function testConditionalDamageApplication() {
+    await driver.get(sourceHTML);
+    await addMonster(driver, {
+        type: 'algox-priest',
+        level: '1',
+        standee: '1'
+    });
+
+    let characterHPStat = await driver.findElement(By.id('char-hp-4'));
+    const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
+
+    await openAttackModal(0, 4);
+
+    const damageInput = await driver.findElement(By.id('attack-input'));
+    await damageInput.clear();
+    await damageInput.sendKeys('3');
+
+    // Click the "OK" button to apply damage
+    const applyDamageButton = await driver.findElement(By.css('#modal-attack .modal-content .initiative'));
+    await applyDamageButton.click();
+
+    // Retrieve the updated HP after damage is applied
+    const updatedHPValue = parseInt(await characterHPStat.getAttribute('value'));
+
+    assert.ok((originalHPValue - updatedHPValue) === 2, "damage is not applied correctly.");
+    console.log('Test passed: conditional damage is applied correctly.');
+}
+
+async function testConditionAdded() {
+    await driver.get(sourceHTML);
+
+    await addMonster(driver, {
+        type: 'algox-guard',
+        level: '1',
+        standee: '1'
+    });
+
+    await openConditionsModal(4);
+
+    // Wait for the modal to be fully visible
+    const modal = await driver.wait(until.elementLocated(By.id('modal-conditions')), 10000);
+    await driver.wait(until.elementIsVisible(modal), 10000); // Ensure the modal is visible
+
+    // Wait for the armor input field to be visible and enabled
+    const armorInput = await driver.wait(until.elementLocated(By.id('condition-armor')), 10000);
+    await driver.wait(until.elementIsVisible(armorInput), 10000);
+    await driver.wait(until.elementIsEnabled(armorInput), 10000); // Ensure it can be interacted with
+
+    // Use JavaScript to set the value directly
+    await driver.executeScript("arguments[0].value = '1';", armorInput);
+
+    // Click the OK button with retry logic
+    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'OK')]"));
+    await okButton.click();
+
+    // Wait for the condition to be applied and verify the changes
+    await driver.wait(until.elementLocated(By.id('char-armor-4')), 10000); // Wait for the condition to be visible
+
+    // Verify the visibility of the armor condition
+    const charArmorDiv = await driver.findElement(By.id('char-armor-4'));
+    const isVisible = await charArmorDiv.isDisplayed();
+    assert.ok(isVisible, "charArmorDiv is not visible.");
+
+    // Verify the image source
+    const armorImageElement = await charArmorDiv.findElement(By.css('img.condition-image'));
+    const imgSrc = await armorImageElement.getAttribute('src');
+    assert.ok(imgSrc.includes('shield.svg'), "shield image source is incorrect.");
+ 
+
+    // Verify the condition number
+    const conditionNumberElement = await charArmorDiv.findElement(By.css('div.condition-number.armor-number'));
+    const conditionNumber = await conditionNumberElement.getText();
+
+    assert.ok(conditionNumber === '1', "Condition number is incorrect.");
+    console.log("Test passed: new condition added successfully.");
 }
 
 async function runAllTests() {
@@ -181,9 +282,12 @@ async function runAllTests() {
         await testAlertForMissingType();
         await testCreatureContainerHasContent();
         await testAddMonster();
-        await testAttackModalDisplay();
-        await testDamageApplication();
+        await testAttackModalDisplayed();
+        await testBaseDamageApplication();
         await testMonsterIsKilled();
+        await testConditionsModalDisplayed();
+        await testConditionalDamageApplication();
+        await testConditionAdded();
     } catch (error) {
         console.error("Test failed:", error);
     } finally {
