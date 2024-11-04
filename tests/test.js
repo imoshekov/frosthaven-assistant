@@ -14,10 +14,10 @@ async function tearDown() {
 }
 
 async function addMonster(driver, monster) {
-    await driver.findElement(By.id('type')).sendKeys(monster.type); // Set type
+    await driver.findElement(By.id('type')).sendKeys(monster.type); 
     await driver.findElement(By.id('level')).clear();
-    await driver.findElement(By.id('level')).sendKeys(monster.level); // Set level
-    await driver.findElement(By.id('standee-number')).sendKeys(monster.standee); // Set standee number
+    await driver.findElement(By.id('level')).sendKeys(monster.level); 
+    await driver.findElement(By.id('standee-number')).sendKeys(monster.standee); 
 
     // Click the "Add Monster" button
     const addMonsterButton = await driver.findElement(By.css('.add-char button.initiative:nth-of-type(2)'));
@@ -42,7 +42,7 @@ async function testCreatureContainerHasContent() {
 
     const content = await creatureContainer.getAttribute('innerHTML');
     assert.ok(content.trim().length > 0, "The 'creaturesTable' div is empty");
-    console.log("Test passed: 'creaturesTable' div has content");
+    console.log("Test passed: 'creaturesTable' div has content.");
 }
 
 async function testAlertForMissingType() {
@@ -80,12 +80,8 @@ async function testAddMonster() {
         const finalMonsters = await driver.findElements(By.css('.creature-row'));
         const finalCount = finalMonsters.length;
 
-        if (finalCount > initialCount) {
-            console.log("Test passed: a new monster was successfully added.");
-
-        } else {
-            console.log("Test failed: no new monster was added.");
-        }
+        assert.ok(finalCount > initialCount, "no new monster was added.");
+        console.log("Test passed: a new monster was successfully added.");
 
     } catch (error) {
         console.error("Error:", error);
@@ -109,11 +105,9 @@ async function testAttackModalDisplay() {
 
         // Validate that the modal is displayed
         let isModalDisplayed = await modal.isDisplayed();
-        if (isModalDisplayed) {
-            console.log('Test passed: attack modal is displayed as expected.');
-        } else {
-            console.log('Test failed: attack modal is NOT displayed.');
-        }
+
+        assert.ok(isModalDisplayed, "attack modal is NOT displayed.");
+        console.log('Test passed: attack modal is displayed as expected.');
     } catch (error) {
         console.error('Test failed:', error);
     }
@@ -144,11 +138,8 @@ async function testDamageApplication() {
         // Retrieve the updated HP after damage is applied
         const updatedHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-        if ((originalHPValue - updatedHPValue) === 3) {
-            console.log('Test passed: damage is applied correctly.');
-        } else {
-            console.log('Test failed: damage is not applied correctly.');
-        }
+        assert.ok((originalHPValue - updatedHPValue) === 3, "damage is not applied correctly.");
+        console.log('Test passed: damage is applied correctly.');
     } catch (error) {
         console.error('Test failed:', error);
     } 
