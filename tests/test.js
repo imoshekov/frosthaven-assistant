@@ -25,6 +25,15 @@ async function addMonster(driver, monster) {
     await addMonsterButton.click();
 }
 
+async function openAttackModal(attackerId=0, defenderId=4) {
+    // Find the 'attack-image' button for the non-aggressive character
+    const attackButton = await driver.findElement(By.id(`attack-img-${attackerId}`)); // Adjust index as needed
+    await attackButton.click();
+
+    const targetButton = await driver.findElement(By.id(`target-img-${defenderId}`)); // Adjust index as needed
+    await targetButton.click();
+}
+
 async function testCreatureContainerHasContent() {
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
 
@@ -87,23 +96,18 @@ async function testAddMonster() {
     }
 }
 
+
 async function testAttackModalDisplay() {
     try {
-        // Navigate to the page containing the HTML
         await driver.get(sourceHTML); // Update this with the correct path
-        // Wait for the page to load
+
         await addMonster(driver, {
             type: 'algox-guard',
             level: '2',
             standee: '1'
         });
 
-        // Find the 'attack-image' button for the non-aggressive character
-        const attackButton = await driver.findElement(By.id('attack-img-0')); // Adjust index as needed
-        await attackButton.click();
-
-        const targetButton = await driver.findElement(By.id('target-img-4')); // Adjust index as needed
-        await targetButton.click();
+        await openAttackModal();
 
         // Wait for the modal to be displayed
         const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 5000);
@@ -111,14 +115,53 @@ async function testAttackModalDisplay() {
         // Validate that the modal is displayed
         let isModalDisplayed = await modal.isDisplayed();
         if (isModalDisplayed) {
-            console.log('Test passed: attack Modal is displayed as expected.');
+            console.log('Test passed: attack modal is displayed as expected.');
         } else {
-            console.log('Test failed: attack Modal is NOT displayed.');
+            console.log('Test failed: attack modal is NOT displayed.');
         }
     } catch (error) {
         console.error('Test failed:', error);
     }
 }
+
+async function testDamageApplication() {
+    try {
+        await driver.get(sourceHTML); // Update this with the correct path
+        await addMonster(driver, {
+            type: 'algox-guard',
+            level: '2',
+            standee: '1'
+        });
+
+        let characterHP = await driver.findElement(By.id('char-hp-4'));
+        const originalHP = parseInt(await characterHP.getAttribute('value'));
+
+        await openAttackModal(0, 4);
+
+        const damageInput = await driver.findElement(By.id('attack-input'));
+        await damageInput.clear(); // Clear any existing value
+        await damageInput.sendKeys('3'); // Input damage of 3
+
+        // Click the "OK" button to apply damage
+        const applyDamageButton = await driver.findElement(By.css('#modal-attack .modal-content .initiative'));
+        await applyDamageButton.click();
+
+        // Wait for the HP to be updated (use a better waiting strategy if needed)
+        await driver.sleep(1000); // Consider replacing this with a more dynamic wait
+
+        // Retrieve the updated HP after damage is applied
+        const updatedHP = parseInt(await characterHP.getAttribute('value'));
+
+        if ((originalHP - updatedHP) === 3) {
+            console.log('Test passed: damage is applied correctly.');
+        } else {
+            console.log('Test failed: damage is not applied correctly.');
+        }
+    } catch (error) {
+        console.error('Test failed:', error);
+    } 
+}
+
 
 // Main function to run all tests sequentially
 async function runAllTests() {
@@ -129,6 +172,7 @@ async function runAllTests() {
         await testCreatureContainerHasContent();
         await testAddMonster();
         await testAttackModalDisplay();
+        await testDamageApplication();
     } catch (error) {
         console.error("Test failed:", error);
     } finally {
