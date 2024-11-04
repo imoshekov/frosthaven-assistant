@@ -12,7 +12,7 @@ const UIController = {
     <input type="number" class="initiative" value="${creature.initiative}"
         onchange="UIController.updateStat(${index}, 'initiative', this.value); UIController.sortCreatures(); UIController.renderTable();" />
     <div class='nameplate'>
-        <div class='character-skin' onclick="openConditions(event, ${index})">
+        <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
             <div class='name'>               
                 <b>${creature.name}</b>
