@@ -1,18 +1,18 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
+const sourceHTML = 'file:///' + __dirname + '/../index.html'; 
 
 let driver;
 
 async function setup() {
     driver = await new Builder().forBrowser('chrome').build();
-    await driver.get('file:///' + __dirname + '/../index.html');
+    await driver.get(sourceHTML);
 }
 
 async function tearDown() {
     await driver.quit();
 }
 
-// Test function 1: Check if 'creaturesTable' div has content
 async function testCreatureContainerHasContent() {
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
 
@@ -26,7 +26,6 @@ async function testCreatureContainerHasContent() {
     console.log("Test passed: 'creaturesTable' div has content");
 }
 
-// Test function 2: Example of another test (e.g., Check if an alert is shown)
 async function testAlertForMissingType() {
     const addButton = await driver.findElement(By.xpath("//button[contains(@class, 'initiative') and text()='Add Monster']"));
     await addButton.click();
@@ -39,14 +38,56 @@ async function testAlertForMissingType() {
     console.log("Test passed: Correct alert is shown for missing monster type");
 }
 
+async function testAddMonster() {
+    let driver = await new Builder().forBrowser('chrome').build();
+
+    try {
+        // Load your local HTML file
+        await driver.get(sourceHTML); // Adjust this path if needed
+
+        // Wait for the type select element to be located
+        await driver.wait(until.elementLocated(By.id('type')), 5000, "Type select element not found.");
+
+        // Set up the inputs
+        await driver.findElement(By.id('type')).sendKeys('algox-guard'); // Set type
+        await driver.findElement(By.id('level')).clear();
+        await driver.findElement(By.id('level')).sendKeys('2'); // Set level
+        await driver.findElement(By.id('standee-number')).sendKeys('1'); // Set standee number
+
+        // Click the "Add Monster" button
+        let addMonsterButton = await driver.findElement(By.css('.add-char button.initiative:nth-of-type(2)'));
+        await addMonsterButton.click();
+
+        // Wait until a new creature is added to the DOM
+        await driver.wait(async () => {
+            let currentMonsters = await driver.findElements(By.css('.creature-row'));
+            return currentMonsters.length > 0; // Assuming you expect at least one monster to be present
+        }, 10000, "Timeout waiting for new monster to be added.");
+
+        // Verify if a new creature has been added
+        let finalMonsters = await driver.findElements(By.css('.creature-row'));
+        let finalCount = finalMonsters.length;
+
+        if (finalCount > 0) {
+            console.log("Test passed: A new monster was successfully added.");
+        } else {
+            console.log("Test failed: No new monster was added.");
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+    } finally {
+        await driver.quit(); // Ensure the browser closes after the test
+    }
+}
 // Main function to run all tests sequentially
 async function runAllTests() {
     await setup();
 
     try {
-        await testCreatureContainerHasContent();
         await testAlertForMissingType();
-        // Add more test functions here as needed
+        await testCreatureContainerHasContent();
+        await testAddMonster();
     } catch (error) {
         console.error("Test failed:", error);
     } finally {
