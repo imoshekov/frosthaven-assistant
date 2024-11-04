@@ -5,8 +5,16 @@ const sourceHTML = 'file:///' + __dirname + '/../index.html';
 let driver;
 
 async function setup() {
-    driver = await new Builder().forBrowser('chrome').build();
-    await driver.get(sourceHTML);
+    if (process.env.GITHUB_ACTIONS) {
+        driver = await new Builder()
+            .forBrowser('chrome')
+            .usingServer('http://localhost:4444/wd/hub')  // Use GitHub Actions server if specified
+            .build();
+    }
+    else {
+        driver = await new Builder().forBrowser('chrome').build();
+        await driver.get(sourceHTML);
+    }
 }
 
 async function tearDown() {

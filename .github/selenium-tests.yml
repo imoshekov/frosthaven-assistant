@@ -1,0 +1,36 @@
+name: Run Selenium Tests
+
+# Run this workflow when a pull request is created or updated
+on:
+  pull_request:
+    branches:
+      - main  # or specify other branches you'd like to run tests on
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+
+    # Set up necessary services
+    services:
+      selenium:
+        image: selenium/standalone-chrome  # Use Selenium Standalone Chrome container
+        ports:
+          - 4444:4444
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Specify the Node.js version
+
+      - name: Install dependencies
+        run: npm install  # Assumes you have a package.json with your test dependencies
+
+      - name: Run Selenium tests
+        env:
+          SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
+        run: |
+          node tests/test.js  # Adjusted path to the test.js file
