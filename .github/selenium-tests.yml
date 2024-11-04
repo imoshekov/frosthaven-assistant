@@ -4,7 +4,8 @@ name: Run Selenium Tests
 on:
   pull_request:
     branches:
-      - main  # or specify other branches you'd like to run tests on
+      - main  # Or specify other branches you'd like to run tests on
+  workflow_dispatch:  # Allows manual run
 
 jobs:
   selenium-tests:
