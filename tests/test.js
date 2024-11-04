@@ -45,8 +45,8 @@ async function testAddMonster() {
         // Load your local HTML file
         await driver.get(sourceHTML); // Adjust this path if needed
 
-        // Wait for the type select element to be located
-        await driver.wait(until.elementLocated(By.id('type')), 5000, "Type select element not found.");
+        const initialMonsters = await driver.findElements(By.css('.creature-row'));
+        const initialCount = initialMonsters.length;
 
         // Set up the inputs
         await driver.findElement(By.id('type')).sendKeys('algox-guard'); // Set type
@@ -65,10 +65,10 @@ async function testAddMonster() {
         }, 10000, "Timeout waiting for new monster to be added.");
 
         // Verify if a new creature has been added
-        let finalMonsters = await driver.findElements(By.css('.creature-row'));
-        let finalCount = finalMonsters.length;
+        const finalMonsters = await driver.findElements(By.css('.creature-row'));
+        const finalCount = finalMonsters.length;
 
-        if (finalCount > 0) {
+        if (finalCount > initialCount) {
             console.log("Test passed: A new monster was successfully added.");
         } else {
             console.log("Test failed: No new monster was added.");
