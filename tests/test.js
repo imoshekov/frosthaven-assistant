@@ -14,7 +14,6 @@ async function tearDown() {
 }
 
 async function addMonster(driver, monster) {
-    // Set up the inputs
     await driver.findElement(By.id('type')).sendKeys(monster.type); // Set type
     await driver.findElement(By.id('level')).clear();
     await driver.findElement(By.id('level')).sendKeys(monster.level); // Set level
@@ -25,12 +24,11 @@ async function addMonster(driver, monster) {
     await addMonsterButton.click();
 }
 
-async function openAttackModal(attackerId=0, defenderId=4) {
-    // Find the 'attack-image' button for the non-aggressive character
-    const attackButton = await driver.findElement(By.id(`attack-img-${attackerId}`)); // Adjust index as needed
+async function openAttackModal(attackerId = 0, defenderId = 4) {
+    const attackButton = await driver.findElement(By.id(`attack-img-${attackerId}`));
     await attackButton.click();
 
-    const targetButton = await driver.findElement(By.id(`target-img-${defenderId}`)); // Adjust index as needed
+    const targetButton = await driver.findElement(By.id(`target-img-${defenderId}`));
     await targetButton.click();
 }
 
@@ -60,14 +58,12 @@ async function testAlertForMissingType() {
 }
 
 async function testAddMonster() {
-    // let driver = await new Builder().forBrowser('chrome').build();
-
     try {
-        // Load your local HTML file
-        await driver.get(sourceHTML); // Adjust this path if needed
+        await driver.get(sourceHTML); 
 
         const initialMonsters = await driver.findElements(By.css('.creature-row'));
         const initialCount = initialMonsters.length;
+
         await addMonster(driver, {
             type: 'algox-guard',
             level: '2',
@@ -77,7 +73,7 @@ async function testAddMonster() {
         // Wait until a new creature is added to the DOM
         await driver.wait(async () => {
             let currentMonsters = await driver.findElements(By.css('.creature-row'));
-            return currentMonsters.length > 0; // Assuming you expect at least one monster to be present
+            return currentMonsters.length > 0; 
         }, 10000, "Timeout waiting for new monster to be added.");
 
         // Verify if a new creature has been added
@@ -96,10 +92,9 @@ async function testAddMonster() {
     }
 }
 
-
 async function testAttackModalDisplay() {
     try {
-        await driver.get(sourceHTML); // Update this with the correct path
+        await driver.get(sourceHTML); 
 
         await addMonster(driver, {
             type: 'algox-guard',
@@ -126,33 +121,30 @@ async function testAttackModalDisplay() {
 
 async function testDamageApplication() {
     try {
-        await driver.get(sourceHTML); // Update this with the correct path
+        await driver.get(sourceHTML); 
         await addMonster(driver, {
             type: 'algox-guard',
             level: '2',
             standee: '1'
         });
 
-        let characterHP = await driver.findElement(By.id('char-hp-4'));
-        const originalHP = parseInt(await characterHP.getAttribute('value'));
+        let characterHPStat = await driver.findElement(By.id('char-hp-4'));
+        const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
         await openAttackModal(0, 4);
 
         const damageInput = await driver.findElement(By.id('attack-input'));
-        await damageInput.clear(); // Clear any existing value
-        await damageInput.sendKeys('3'); // Input damage of 3
+        await damageInput.clear(); 
+        await damageInput.sendKeys('3'); 
 
         // Click the "OK" button to apply damage
         const applyDamageButton = await driver.findElement(By.css('#modal-attack .modal-content .initiative'));
         await applyDamageButton.click();
 
-        // Wait for the HP to be updated (use a better waiting strategy if needed)
-        await driver.sleep(1000); // Consider replacing this with a more dynamic wait
-
         // Retrieve the updated HP after damage is applied
-        const updatedHP = parseInt(await characterHP.getAttribute('value'));
+        const updatedHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-        if ((originalHP - updatedHP) === 3) {
+        if ((originalHPValue - updatedHPValue) === 3) {
             console.log('Test passed: damage is applied correctly.');
         } else {
             console.log('Test failed: damage is not applied correctly.');
@@ -162,8 +154,6 @@ async function testDamageApplication() {
     } 
 }
 
-
-// Main function to run all tests sequentially
 async function runAllTests() {
     await setup();
 
@@ -180,5 +170,4 @@ async function runAllTests() {
     }
 }
 
-// Run the tests
 runAllTests();
