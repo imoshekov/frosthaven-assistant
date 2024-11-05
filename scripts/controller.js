@@ -192,7 +192,6 @@ const UIController = {
                 character[stat] = parsedValue;
             }
         });
-        this.renderTable();
     },
     handleConditionClick(index, conditionType) {
         const character = characters[index];
