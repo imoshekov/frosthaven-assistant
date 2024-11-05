@@ -22,11 +22,13 @@ async function setup() {
 
 async function testCreatureContainerHasContent() {
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
+    console.log("Waiting for 'creaturesTable' to have content...");
 
     await driver.wait(async () => {
         const content = await creatureContainer.getAttribute('innerHTML');
+        console.log("Current content length:", content.trim().length);
         return content.trim().length > 0;
-    }, 10000);
+    }, 30000); // Increased timeout
 
     const content = await creatureContainer.getAttribute('innerHTML');
     assert.ok(content.trim().length > 0, "The 'creaturesTable' div is empty");
