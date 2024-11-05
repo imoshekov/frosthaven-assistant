@@ -10,7 +10,7 @@ const UIController = {
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
     <input type="number" class="initiative" value="${creature.initiative}"
-        onchange="UIController.updateStat(${index}, 'initiative', this.value); UIController.sortCreatures(); UIController.renderTable();" />
+        onchange="UIController.updateStat(${index}, 'initiative', this.value, true); UIController.sortCreatures(); UIController.renderTable();" />
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
@@ -39,11 +39,11 @@ const UIController = {
             <div class="condition-row">
                 <div id='char-armor-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/shield.svg" />
-                    <div class="condition-number armor-number"><!-- dynamic content --></div>
+                    <input type"number" class="condition-number armor-number" onchange="UIController.updateStat(${index}, 'armor', this.value);"><!-- dynamic content --></input>
                 </div>
                 <div id='char-retaliate-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/retaliate.svg" />
-                    <div class="condition-number retaliate-number"><!-- dynamic content --></div>
+                    <input type"number" class="condition-number retaliate-number" onchange="UIController.updateStat(${index}, 'retaliate', this.value);"><!-- dynamic content --></input>
                 </div>
             </div>
              <div class="condition-row">
@@ -176,20 +176,21 @@ const UIController = {
     sortCreatures() {
         characters.sort((a, b) => a.initiative - b.initiative);
     },
-    updateStat(index, stat, value) {
+    updateStat(index, stat, value, massApply=false) {
         const parsedValue = parseInt(value);
 
-        if (stat !== 'initiative') {
+        if(!massApply){
             characters[index][stat] = parsedValue;
             return;
         }
-        //changing initiative is applied to all monsters of the selected type
+        
         const typeToUpdate = characters[index].type;
         characters.forEach(character => {
             if (character.type === typeToUpdate) {
-                character.initiative = parsedValue;
+                character[stat] = parsedValue;
             }
         });
+        this.renderTable();
     },
     handleConditionClick(index, conditionType) {
         const character = characters[index];

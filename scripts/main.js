@@ -238,14 +238,14 @@ function updateHpWithDamage(charIdx, dmg) {
 }
 
 function applyCondition() {
-    const armor = parseInt(document.getElementById('condition-armor').value);
-    const retaliate = parseInt(document.getElementById('condition-retaliate').value);
+    const armorValue = parseInt(document.getElementById('condition-armor').value);
+    const retaliateValue = parseInt(document.getElementById('condition-retaliate').value);
     const poison = document.getElementById('condition-poison').checked;
     const brittle = document.getElementById('condition-brittle').checked;
     const ward = document.getElementById('condition-ward').checked;
 
-    applyConditionForType('armor', armor);
-    applyConditionForType('retaliate', retaliate);
+    UIController.updateStat(conditionTarget, 'armor', armorValue, true);
+    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, true);
     characters[conditionTarget].conditions = {
         poison,
         brittle,
@@ -253,15 +253,6 @@ function applyCondition() {
     };
     showConditions(conditionTarget);
     closeConditionsModal();
-}
-
-function applyConditionForType(condition, value) {
-    const typeToUpdate = characters[conditionTarget].type;
-    characters.forEach(character => {
-        if (character.type === typeToUpdate) {
-            character[condition] = value;
-        }
-    });
 }
 
 function showConditions(charIdx) {
@@ -286,7 +277,7 @@ function showConditionsForType(typeToUpdate, condition) {
             const container = document.getElementById(`char-${condition}-${index}`);
             if (container && character[condition] > 0) {
                 container.style.visibility = 'visible';
-                container.querySelector(`.${condition}-number`).innerText = character[condition];
+                container.querySelector(`.${condition}-number`).value = character[condition];
             } else if (container) {
                 container.style.visibility = 'hidden';
             }
