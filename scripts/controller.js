@@ -14,7 +14,7 @@ const UIController = {
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-            <div class='name'>               
+            <div class='name'>
                 <b>${creature.name}</b>
             </div>
         </div>
@@ -39,23 +39,25 @@ const UIController = {
             <div class="condition-row">
                 <div id='char-armor-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/shield.svg" />
-                    <input type"number" class="condition-number armor-number" onchange="UIController.updateStat(${index}, 'armor', this.value);"><!-- dynamic content --></input>
+                    <input type="number" class="condition-number armor-number"
+                        onchange="UIController.updateStat(${index}, 'armor', this.value);"></input>
                 </div>
                 <div id='char-retaliate-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/retaliate.svg" />
-                    <input type"number" class="condition-number retaliate-number" onchange="UIController.updateStat(${index}, 'retaliate', this.value);"><!-- dynamic content --></input>
+                    <input type="number" class="condition-number retaliate-number"
+                        onchange="UIController.updateStat(${index}, 'retaliate', this.value);"></input>
                 </div>
             </div>
-             <div class="condition-row">
-        <div id="char-condition-${index}" class="condition-images">
-            <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg' 
-                 onclick="UIController.handleConditionClick(${index}, 'poison')">
-            <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg' 
-                 onclick="UIController.handleConditionClick(${index}, 'brittle')">
-            <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg' 
-                 onclick="UIController.handleConditionClick(${index}, 'ward')">
-        </div>
-    </div>
+            <div class="condition-row">
+                <div id="char-condition-${index}" class="condition-images">
+                    <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg'
+                        onclick="UIController.handleConditionClick(${index}, 'poison')">
+                    <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'
+                        onclick="UIController.handleConditionClick(${index}, 'brittle')">
+                    <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'
+                        onclick="UIController.handleConditionClick(${index}, 'ward')">
+                </div>
+            </div>
         </div>
         <div class='action-buttons'>
             <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">

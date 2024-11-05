@@ -86,6 +86,12 @@ input[type="number"] {
     text-align: center;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
 
 img {
     width: 40px;
@@ -667,8 +673,6 @@ option {
     transform: translate(-50%, -50%);
     font-size: 25px;
     color: white;
-    font-weight: bold;
-    text-align: center;
 }
 
 .condition-image {
