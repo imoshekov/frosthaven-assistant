@@ -268,8 +268,8 @@ async function testConditionAdded() {
  
 
     // Verify the condition number
-    const conditionNumberElement = await charArmorDiv.findElement(By.css('div.condition-number.armor-number'));
-    const conditionNumber = await conditionNumberElement.getText();
+    const conditionNumberElement = await charArmorDiv.findElement(By.css('.armor-number'));
+    const conditionNumber = await conditionNumberElement.getAttribute('value');
 
     assert.ok(conditionNumber === '1', "Condition number is incorrect.");
     console.log("Test passed: new condition added successfully.");
