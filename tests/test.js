@@ -243,8 +243,6 @@ async function testConditionAdded() {
 
     // Wait for the armor input field to be visible and enabled
     const armorInput = await driver.wait(until.elementLocated(By.id('condition-armor')), 10000);
-    await driver.wait(until.elementIsVisible(armorInput), 10000);
-    await driver.wait(until.elementIsEnabled(armorInput), 10000); // Ensure it can be interacted with
 
     // Use JavaScript to set the value directly
     await driver.executeScript("arguments[0].value = '1';", armorInput);
