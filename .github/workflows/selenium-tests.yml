@@ -1,11 +1,10 @@
-name: Run Selenium Tests
+name: run-ui-tests
 
-# Run this workflow when a pull request is created or updated
 on:
-  # pull_request:
-  #   branches:
-  #     - main  
-  workflow_dispatch:  # Allows manual run
+  pull_request:
+    branches:
+      - main  
+  workflow_dispatch:  
 
 jobs:
   selenium-tests:
@@ -14,24 +13,24 @@ jobs:
     # Set up necessary services
     services:
       selenium:
-        image: selenium/standalone-chrome  # Use Selenium Standalone Chrome container
+        image: selenium/standalone-chrome  
         ports:
           - 4444:4444
 
     steps:
-      - name: Checkout repository
+      - name: checkout-repo
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: setup-node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'  # Specify the Node.js version
+          node-version: 'lts/*'  
 
-      - name: Install dependencies
-        run: npm install  # Assumes you have a package.json with your test dependencies
+      - name: install-dependencies
+        run: npm install 
 
-      - name: Run Selenium tests
+      - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
         run: |
-          node tests/test.js  # Adjusted path to the test.js file
+          node tests/test.js 

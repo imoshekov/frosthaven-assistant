@@ -2,9 +2,13 @@ const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 
 const TestUtils  = require('./test-utils.js');
-const sourceHTML = 'file:///' + __dirname + '/../index.html';
+// const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
+
+const sourceHTML = process.env.GITHUB_ACTIONS ? 
+    'https://imoshekov.github.io/frosthaven-assistant/index.html' : 
+    'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
     if (process.env.GITHUB_ACTIONS) {
@@ -15,12 +19,12 @@ async function setup() {
     }
     else {
         driver = await new Builder().forBrowser('chrome').build();
-        await driver.get(sourceHTML);
     }
 }
 
 
 async function testCreatureContainerHasContent() {
+    await driver.get(sourceHTML);
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
 
     await driver.wait(async () => {
