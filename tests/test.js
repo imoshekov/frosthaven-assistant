@@ -2,9 +2,13 @@ const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 
 const TestUtils  = require('./test-utils.js');
-const sourceHTML = 'file:///' + __dirname + '/../index.html';
+// const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
+
+const sourceHTML = process.env.GITHUB_ACTIONS ? 
+    'https://imoshekov.github.io/frosthaven-assistant/index.html' : 
+    'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
     if (process.env.GITHUB_ACTIONS) {
@@ -15,20 +19,18 @@ async function setup() {
     }
     else {
         driver = await new Builder().forBrowser('chrome').build();
-        await driver.get(sourceHTML);
     }
 }
 
 
 async function testCreatureContainerHasContent() {
+    await driver.get(sourceHTML);
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
-    console.log("Waiting for 'creaturesTable' to have content...");
 
     await driver.wait(async () => {
         const content = await creatureContainer.getAttribute('innerHTML');
-        console.log("Current content length:", content.trim().length);
         return content.trim().length > 0;
-    }, 30000); // Increased timeout
+    }, 10000);
 
     const content = await creatureContainer.getAttribute('innerHTML');
     assert.ok(content.trim().length > 0, "The 'creaturesTable' div is empty");
@@ -285,15 +287,15 @@ async function runAllTests() {
 
     try {
         await testCreatureContainerHasContent();
-        // await testAlertForMissingType();
-        // await testAddMonster();
-        // await testAttackModalDisplayed();
-        // await testBaseDamageApplication();
-        // await testMonsterIsKilled();
-        // await testConditionsModalDisplayed();
-        // await testConditionalDamageApplication();
-        // await testConditionAdded();
-        // await testInitiativeReset();
+        await testAlertForMissingType();
+        await testAddMonster();
+        await testAttackModalDisplayed();
+        await testBaseDamageApplication();
+        await testMonsterIsKilled();
+        await testConditionsModalDisplayed();
+        await testConditionalDamageApplication();
+        await testConditionAdded();
+        await testInitiativeReset();
     } catch (error) {
         console.error("Test failed:", error);
     } finally {
