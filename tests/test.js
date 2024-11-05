@@ -1,5 +1,7 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
+
+const TestUtils  = require('./test-utils.js');
 const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
@@ -17,33 +19,6 @@ async function setup() {
     }
 }
 
-async function tearDown() {
-    await driver.quit();
-}
-
-async function addMonster(driver, monster) {
-    await driver.findElement(By.id('type')).sendKeys(monster.type);
-    await driver.findElement(By.id('level')).clear();
-    await driver.findElement(By.id('level')).sendKeys(monster.level);
-    await driver.findElement(By.id('standee-number')).sendKeys(monster.standee);
-
-    // Click the "Add Monster" button
-    const addMonsterButton = await driver.findElement(By.css('.add-char button.initiative:nth-of-type(2)'));
-    await addMonsterButton.click();
-}
-
-async function openAttackModal(attackerId = 0, defenderId = 4) {
-    const attackButton = await driver.findElement(By.id(`attack-img-${attackerId}`));
-    await attackButton.click();
-
-    const targetButton = await driver.findElement(By.id(`target-img-${defenderId}`));
-    await targetButton.click();
-}
-
-async function openConditionsModal(characterIndex){
-    const characterProfile = await driver.findElement(By.id(`character-skin-${characterIndex}`)); // Corrected line
-    await characterProfile.click();
-}
 
 async function testCreatureContainerHasContent() {
     const creatureContainer = await driver.findElement(By.id('creaturesTable'));
@@ -76,7 +51,7 @@ async function testAddMonster() {
     const initialMonsters = await driver.findElements(By.css('.creature-row'));
     const initialCount = initialMonsters.length;
 
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-guard',
         level: '2',
         standee: '1'
@@ -99,13 +74,13 @@ async function testAddMonster() {
 async function testAttackModalDisplayed() {
     await driver.get(sourceHTML);
 
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-guard',
         level: '2',
         standee: '1'
     });
 
-    await openAttackModal();
+    await TestUtils.openAttackModal(driver);
 
     // Wait for the modal to be displayed
     const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 5000);
@@ -119,7 +94,7 @@ async function testAttackModalDisplayed() {
 
 async function testBaseDamageApplication() {
     await driver.get(sourceHTML);
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-guard',
         level: '2',
         standee: '1'
@@ -128,7 +103,7 @@ async function testBaseDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await openAttackModal(0, 4);
+    await TestUtils.openAttackModal(driver, 0, 4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -147,7 +122,7 @@ async function testBaseDamageApplication() {
 
 async function testMonsterIsKilled() {
     await driver.get(sourceHTML);
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-guard',
         level: '1',
         standee: '1'
@@ -159,7 +134,7 @@ async function testMonsterIsKilled() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await openAttackModal(0, 4);
+    await TestUtils.openAttackModal(driver, 0, 4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -180,13 +155,13 @@ async function testMonsterIsKilled() {
 async function testConditionsModalDisplayed() {
     await driver.get(sourceHTML);
 
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-priest',
         level: '1',
         standee: '1'
     });
 
-    await openConditionsModal(4);
+    await TestUtils.openConditionsModal(driver, 4);
 
     // Wait for the modal to be displayed
     const modal = await driver.wait(until.elementLocated(By.id('modal-conditions')), 5000);
@@ -200,7 +175,7 @@ async function testConditionsModalDisplayed() {
 
 async function testConditionalDamageApplication() {
     await driver.get(sourceHTML);
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-priest',
         level: '1',
         standee: '1'
@@ -209,7 +184,7 @@ async function testConditionalDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await openAttackModal(0, 4);
+    await TestUtils.openAttackModal(driver, 0, 4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -229,13 +204,13 @@ async function testConditionalDamageApplication() {
 async function testConditionAdded() {
     await driver.get(sourceHTML);
 
-    await addMonster(driver, {
+    await TestUtils.addMonster(driver, {
         type: 'algox-guard',
         level: '1',
         standee: '1'
     });
 
-    await openConditionsModal(4);
+    await TestUtils.openConditionsModal(driver, 4);
 
     // Wait for the modal to be fully visible
     const modal = await driver.wait(until.elementLocated(By.id('modal-conditions')), 10000);
@@ -273,12 +248,42 @@ async function testConditionAdded() {
     console.log("Test passed: new condition added successfully.");
 }
 
+async function testInitiativeReset() {
+    // Navigate to the page where your test is located
+    await driver.get(sourceHTML);
+    await driver.wait(until.elementLocated(By.css('.add-char .row .attack')), 10000);
+    
+    const nextRoundButton = await driver.findElement(By.css('.add-char .row .attack'));
+    await nextRoundButton.click();
+
+    const initiativeInputs = await driver.wait(
+        until.elementsLocated(By.css('.creature-column input[type="number"].initiative')),
+        10000
+    );
+
+    for (let input of initiativeInputs) {
+        await driver.wait(async () => {
+            const value = await input.getAttribute('value');
+            return value === '0';
+        }, 5000, 'Initiative did not reset to 0 within the expected time');
+
+        const resetValue = await input.getAttribute('value');
+        assert.strictEqual(resetValue, '0', 'Initiative input was not reset to 0');
+    }
+
+    console.log("Test passed: all initiative inputs reset to 0 after clicking 'Next Round'");
+}
+
+async function tearDown() {
+    await driver.quit();
+}
+
 async function runAllTests() {
     await setup();
 
     try {
-        await testAlertForMissingType();
         await testCreatureContainerHasContent();
+        await testAlertForMissingType();
         await testAddMonster();
         await testAttackModalDisplayed();
         await testBaseDamageApplication();
@@ -286,6 +291,7 @@ async function runAllTests() {
         await testConditionsModalDisplayed();
         await testConditionalDamageApplication();
         await testConditionAdded();
+        await testInitiativeReset();
     } catch (error) {
         console.error("Test failed:", error);
     } finally {
