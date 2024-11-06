@@ -135,10 +135,6 @@ const UIController = {
             return;
         }
         if (pathFill === `url(#${elementId}-color)`) {
-            if (event?.type === 'click') {
-                path.setAttribute('fill', `url(#${elementId}-bw)`);
-                return;
-            }
             path.setAttribute('fill', `url(#${elementId}-half)`);
             return;
         }
