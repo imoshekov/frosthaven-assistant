@@ -19,17 +19,19 @@
                 <button class="initiative" onclick="UIController.toggleTodoVisibility()">Setup
                     todos<span>&#9660;</span></button>
                 <ul id="todoList" onchange="UIController.toggleDone(event)">
-                    <li><label><input type="checkbox">map tiles</label></li>
-                    <li><label><input type="checkbox">map overlays</label></li>
-                    <li><label><input type="checkbox">monsters</label></li>
-                    <li><label><input type="checkbox">monster attack modifiers</label></li>
-                    <li><label><input type="checkbox">monster conditional modifiers</label>
-                    </li>
-                    <li><label><input type="checkbox">player conditional modifiers</label>
-                    </li>
-                    <li><label><input type="checkbox">player boxes</label></li>
-                    <li><label><input type="checkbox">battle goals</label></li>
-                    <li><label><input type="checkbox">setup website</label></li>
+                    <li><label><input type="checkbox">карта: плочки</label></li>
+                    <li><label><input type="checkbox">карта: допълнения</label></li>
+                    <li><label><input type="checkbox">животни</label></li>
+                    <li><label><input type="checkbox">животни: карти атака</label></li>
+                    <li><label><input type="checkbox">животни: плочки</label></li>
+                    <li><label><input type="checkbox">животни: специални карти </label></li>
+                    <li><label><input type="checkbox">животни: поставяне на карта</label></li>
+                    <li><label><input type="checkbox">герои: карти атака</label></li>
+                    <li><label><input type="checkbox">герои: специални карти</label></li>
+                    <li><label><input type="checkbox">герои: кутии</label></li>
+                    <li><label><input type="checkbox">бойни мисии</label></li>
+                    <li><label><input type="checkbox">loot</label></li>
+                    <li><label><input type="checkbox">конфигурация сайт</label></li>
                 </ul>
             </div>
         </div>
@@ -59,7 +61,7 @@
         </div>
         <span class="elements-wrapper">
             <!-- fire -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="fire" sodipodi:docname="fire.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +95,7 @@
                 </g>
             </svg>
             <!-- ice -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="ice" sodipodi:docname="ice.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +127,7 @@
                 </g>
             </svg>
             <!-- air -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="air" sodipodi:docname="air.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +165,7 @@
                 </g>
             </svg>
             <!-- earth -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="earth" sodipodi:docname="earth.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +197,7 @@
                 </g>
             </svg>
             <!-- light -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="light" sodipodi:docname="light.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +229,7 @@
                 </g>
             </svg>
             <!-- dark -->
-            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this,event)"
+            <svg class="element-icon" viewBox="0 0 197.55556 197.55556" onclick="UIController.toggleColor(this)"
                 version="1.1" id="dark" sodipodi:docname="dark.svg" inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                 xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"

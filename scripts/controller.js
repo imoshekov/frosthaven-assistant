@@ -125,7 +125,7 @@ const UIController = {
             todoList.style.display = 'block';
         }
     },
-    toggleColor(element, event) {
+    toggleColor(element) {
         const elementId = element.id;
         const path = element.querySelector('path');
         const pathFill = path.getAttribute('fill');
@@ -135,10 +135,6 @@ const UIController = {
             return;
         }
         if (pathFill === `url(#${elementId}-color)`) {
-            if (event?.type === 'click') {
-                path.setAttribute('fill', `url(#${elementId}-bw)`);
-                return;
-            }
             path.setAttribute('fill', `url(#${elementId}-half)`);
             return;
         }
