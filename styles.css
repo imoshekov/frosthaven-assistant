@@ -84,7 +84,16 @@ input[type="number"] {
     height: var(--stats-icons-size);
     font-size: 22px;
     text-align: center;
+    border: none;
+    color: #F0F0F0;
+    font-size: 25px;
+    cursor: pointer;
+    width: 50px;
+    font-weight: 800;
+    background: none;
 }
+
+
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -338,16 +347,7 @@ button:hover {
     border-radius: 8px; 
 }
 
-input[type="number"] {
-    border: none;
-    color: #F0F0F0;
-    font-size: 25px;
-    cursor: pointer;
-    width: 50px;
-    font-weight: 800;
-    background: none;
-    margin-left: 10px;
-}
+
 
 .remove-btn {
     font-size: 18px;
@@ -686,3 +686,27 @@ option {
     transform: scale(1.1);
 }
 
+.condition-row {
+    display: flex;
+    gap: 16px; /* Space between the two condition items, adjust as needed */
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.condition-item {
+    display: flex;
+    align-items: center;
+}
+
+.condition-item img {
+    width: 40px; /* Adjust image size as needed */
+    height: 40px;
+    cursor: pointer;
+}
+
+.condition-input {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures padding doesn't affect input size */
+}

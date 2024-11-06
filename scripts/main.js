@@ -236,15 +236,15 @@ function updateHpWithDamage(charIdx, dmg) {
     }
 }
 
-function applyCondition() {
+function applyCondition(allTypesAffected) {
     const armorValue = parseInt(document.getElementById('condition-armor').value);
     const retaliateValue = parseInt(document.getElementById('condition-retaliate').value);
     const poison = document.getElementById('condition-poison').checked;
     const brittle = document.getElementById('condition-brittle').checked;
     const ward = document.getElementById('condition-ward').checked;
 
-    UIController.updateStat(conditionTarget, 'armor', armorValue);
-    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue);
+    UIController.updateStat(conditionTarget, 'armor', armorValue, allTypesAffected);
+    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, allTypesAffected);
     characters[conditionTarget].conditions = {
         poison,
         brittle,

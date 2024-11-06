@@ -285,7 +285,8 @@
                 <span id="attack-combatants"></span>
                 <br>
 
-                <span>Damage</span><input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0"><br>
+                <span>Damage</span><input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0"
+                    value="0"><br>
                 <span id="attack-result"></span>
                 <br>
                 <!-- Icons (0-3) -->
@@ -300,24 +301,31 @@
         <div id="modal-conditions" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeConditionsModal()">&times;</span>
-                <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
-                <div class="condition-number-img">
-                    <img id="armor-img" onclick="incrementInput('condition-armor')" src='images/fh/action/shield.svg'>
+                <span><b>Conditions</b></span>
+                <div class="condition-row">
+                    <div class="condition-item">
+                        <img id="armor-img" onclick="incrementInput('condition-armor')"
+                            src='images/fh/action/shield.svg'>
+                        <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
+                    </div>
+                    <div class="condition-item">
+                        <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
+                            src='images/fh/action/retaliate.svg'>
+                        <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                    </div>
                 </div>
-                <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
-                <div>
-                    <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
-                        src='images/fh/action/retaliate.svg'>
-                </div>
+
                 <input type="checkbox" id="condition-poison">
                 <img id="poison-img" src='images/condition/poison.svg'>
                 <input type="checkbox" id="condition-brittle">
                 <img id="brittle-img" src='images/condition/brittle.svg'>
                 <input type="checkbox" id="condition-ward">
                 <img id="ward-img" class="condition-img" src='images/condition/ward.svg'>
+
                 <hr>
                 <div class="row">
-                    <button class="initiative condition-btn" onclick="applyCondition()">OK</button>
+                    <button class="condition-btn" onclick="applyCondition()">Single</button>
+                    <button class="condition-btn" onclick="applyCondition(true)">All</button>
                 </div>
             </div>
         </div>
