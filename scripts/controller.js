@@ -75,7 +75,7 @@ const UIController = {
             </span>
         </div>
     </div>
-    <button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>
+    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>` : ''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);

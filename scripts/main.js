@@ -1,8 +1,8 @@
 const characters = JSON.parse(DataManager.load('characters'))
     || [
         { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
-        { name: "Spaghetti", type: "drifter", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
-        { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+        { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
+        { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
         { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
     ];
 
@@ -221,16 +221,15 @@ function updateHpWithDamage(charIdx, dmg) {
     if (dmg <= 0) {
         return;
     }
-    characters[charIdx].hp -= dmg;
-    if (characters[charIdx].hp <= 0) {
-        characters[charIdx].hp = 0;
-        DataManager.log(`${characters[charIdx].name} has been killed and removed from the game.`);
-        UIController.removeCreature(charIdx);
-    } else {
-        document.getElementById(`char-hp-${charIdx}`).value = characters[charIdx].hp;
-    }
 
-    let characterConditions = characters[charIdx].conditions;
+    const character = characters[charIdx];
+    character.hp -= dmg;
+    document.getElementById(`char-hp-${charIdx}`).value = character.hp;
+    if (character.aggressive && character.hp <= 0) {
+        DataManager.log(`${character.name} has been killed and removed from the game.`);
+        UIController.removeCreature(charIdx);
+    }
+    let characterConditions = character.conditions;
     if (characterConditions?.brittle || characterConditions?.ward) {
         characterConditions.brittle = false;
         characterConditions.ward = false;
