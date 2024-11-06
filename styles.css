@@ -690,8 +690,6 @@ option {
     display: flex;
     gap: 16px; /* Space between the two condition items, adjust as needed */
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .condition-item {
