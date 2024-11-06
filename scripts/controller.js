@@ -10,7 +10,14 @@ const UIController = {
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
     <input type="number" class="initiative" value="${creature.initiative}"
-        onchange="UIController.updateStat(${index}, 'initiative', this.value, true); UIController.sortCreatures(); UIController.renderTable();" />
+    onchange="
+        UIController.updateStat(${index}, 'initiative', this.value, true);
+        UIController.renderInitiative();
+        if (UIController.allIniativeSet()) {
+            UIController.sortCreatures();
+            UIController.renderTable();
+        }
+    " />
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
@@ -85,6 +92,17 @@ const UIController = {
             typeDropdown.appendChild(option);
         });
         typeDropdown.value = '';
+    },
+    allIniativeSet() {
+        return characters.every(creature => creature.initiative !== 0);
+    },
+    renderInitiative() {
+        characters.forEach(character => {
+            const initiativeInputs = document.querySelectorAll(`.creature-row.${character.type}-row .initiative`);
+            initiativeInputs.forEach(input => {
+                input.value = character.initiative; 
+            });
+        });
     },
     toggleDone(event) {
         if (event.target.type !== "checkbox") {
