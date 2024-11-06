@@ -243,8 +243,8 @@ function applyCondition() {
     const brittle = document.getElementById('condition-brittle').checked;
     const ward = document.getElementById('condition-ward').checked;
 
-    UIController.updateStat(conditionTarget, 'armor', armorValue, true);
-    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, true);
+    UIController.updateStat(conditionTarget, 'armor', armorValue);
+    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue);
     characters[conditionTarget].conditions = {
         poison,
         brittle,
