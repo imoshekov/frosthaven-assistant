@@ -125,7 +125,7 @@ const UIController = {
             todoList.style.display = 'block';
         }
     },
-    toggleColor(element, event) {
+    toggleColor(element) {
         const elementId = element.id;
         const path = element.querySelector('path');
         const pathFill = path.getAttribute('fill');
