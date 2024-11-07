@@ -114,8 +114,17 @@ function loadConditionsInAttackModal() {
     const container = document.getElementById('attack-conditions');
     container.innerHTML = '';
     let target = characters[defender];
+    const pierceImg = document.getElementById("pierce-img");
+    const pierceInput = document.getElementById("pierce-input");
+    
     if (target.armor > 0) {
-        addImg(container, 'shield', target.armor);
+        addImg(container, 'shield', target.armor); 
+        pierceImg.style.display = "inline-block"; 
+        pierceInput.style.display = "inline-block"; 
+    }
+    else{
+        pierceImg.style.display = "none"; 
+        pierceInput.style.display = "none"; 
     }
     if (target.retaliate > 0) {
         addImg(container, 'retaliate', target.retaliate);
@@ -155,6 +164,7 @@ function closeAttackModal() {
         attackIcon.style.display = 'block';
     });
     document.getElementById('attack-input').value = 0;
+    document.getElementById('pierce-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
     document.getElementById('attack-result').innerHTML = '';
 }
@@ -191,9 +201,20 @@ function applyDamage() {
 function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
-    if (characters[defender].armor > 0) {
-        dmg -= characters[defender].armor;
-        showLog && DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
+    if (characters[defender].armor > 0 ) {
+        let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
+        let effectiveArmor = Math.max(characters[defender].armor - pierce, 0);
+
+        if (effectiveArmor > 0) {
+            dmg -= effectiveArmor;
+        }
+
+        if (showLog) {
+            const message = effectiveArmor
+                ? `${characters[defender].name} has effective armor ${effectiveArmor} after ${pierce} pierce`
+                : `${characters[defender].name}'s armor was fully pierced`;
+            DataManager.log(message);
+        }
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
         dmg += 1;

@@ -91,6 +91,7 @@ input[type="number"] {
     width: 50px;
     font-weight: 800;
     background: none;
+    vertical-align: middle;
 }
 
 
@@ -708,3 +709,15 @@ option {
     padding: 0;
     box-sizing: border-box; /* Ensures padding doesn't affect input size */
 }
+
+.stat-container {
+    display: flex;
+    align-items: center; /* Vertically centers items */
+    justify-content: center; /* Horizontally centers the whole line */
+    gap: 5px; /* Adjust spacing between elements */
+}
+
+.damage-icon {
+    margin-right:-10px;
+}
+
