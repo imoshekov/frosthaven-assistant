@@ -164,6 +164,7 @@ function closeAttackModal() {
         attackIcon.style.display = 'block';
     });
     document.getElementById('attack-input').value = 0;
+    document.getElementById('pierce-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
     document.getElementById('attack-result').innerHTML = '';
 }
@@ -201,8 +202,17 @@ function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
     if (characters[defender].armor > 0 ) {
-        dmg -= characters[defender].armor;
-        showLog && DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
+        let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
+        let effectiveArmor = Math.max(characters[defender].armor - pierce, 0);
+
+        if (effectiveArmor > 0) {
+            dmg -= effectiveArmor;
+            if (showLog) {
+                DataManager.log(`${characters[defender].name} has effective armor ${effectiveArmor} after pierce`);
+            }
+        } else if (showLog && characters[defender].armor > 0) {
+            DataManager.log(`${characters[defender].name}'s armor was fully pierced`);
+        }
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
         dmg += 1;
