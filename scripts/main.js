@@ -207,11 +207,13 @@ function getAttackResult(showLog = true) {
 
         if (effectiveArmor > 0) {
             dmg -= effectiveArmor;
-            if (showLog) {
-                DataManager.log(`${characters[defender].name} has effective armor ${effectiveArmor} after pierce`);
-            }
-        } else if (showLog && characters[defender].armor > 0) {
-            DataManager.log(`${characters[defender].name}'s armor was fully pierced`);
+        }
+
+        if (showLog) {
+            const message = effectiveArmor
+                ? `${characters[defender].name} has effective armor ${effectiveArmor} after ${pierce} pierce`
+                : `${characters[defender].name}'s armor was fully pierced`;
+            DataManager.log(message);
         }
     }
     if (characters[defender].conditions?.poison && dmg > 0) {
