@@ -1,5 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const assert = require('assert');
+const chrome = require('selenium-webdriver/chrome');
 
 const TestUtils  = require('./test-utils.js');
 // const sourceHTML = 'file:///' + __dirname + '/../index.html';
@@ -11,14 +12,21 @@ const sourceHTML = process.env.GITHUB_ACTIONS ?
     'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
+    let options = new chrome.Options();
+    options.addArguments('headless'); // Enables headless mode
+    options.addArguments('disable-gpu'); // Disables GPU acceleration (not necessary but recommended in headless mode)
+    options.addArguments('window-size=1280x1024'); // Optional: set a window size for consistent rendering
     if (process.env.GITHUB_ACTIONS) {
         driver = await new Builder()
             .forBrowser('chrome')
+            .setChromeOptions(options)
             .usingServer('http://localhost:4444/wd/hub')  // Use GitHub Actions server if specified
             .build();
     }
     else {
-        driver = await new Builder().forBrowser('chrome').build();
+        driver = await new Builder().forBrowser('chrome')
+            .setChromeOptions(options)
+            .build();
     }
 }
 
@@ -88,6 +96,7 @@ async function testAttackModalDisplayed() {
 
     // Wait for the modal to be displayed
     const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 5000);
+    await driver.wait(until.elementIsVisible(modal), 5000);
 
     // Validate that the modal is displayed
     let isModalDisplayed = await modal.isDisplayed();
