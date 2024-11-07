@@ -169,7 +169,7 @@ function getAttackResult(showLog = true) {
 
         if (showLog && dmg > 0) {
             const message = effectiveArmor
-                ? `${characters[attackTarget].name} has ${effectiveArmor} armor` + (pierce ? `after ${pierce} pierce` : '')
+                ? `${characters[attackTarget].name} has ${effectiveArmor} armor` + (pierce ? ` after ${pierce} pierce` : '')
                 : `${characters[attackTarget].name}'s armor was fully pierced`;
             DataManager.log(message);
         }
