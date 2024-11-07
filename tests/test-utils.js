@@ -10,11 +10,8 @@ const TestUtils = {
         const addMonsterButton = await driver.findElement(By.css('.add-char button.initiative:nth-of-type(2)'));
         await addMonsterButton.click();
     },
-    async openAttackModal(driver, attackerId = 0, defenderId = 4) {
-        const attackButton = await driver.findElement(By.id(`attack-img-${attackerId}`));
-        await attackButton.click();
-    
-        const targetButton = await driver.findElement(By.id(`target-img-${defenderId}`));
+    async openAttackModal(driver, attackTargetId = 0) {
+        const targetButton = await driver.findElement(By.id(`attack-img-${attackTargetId}`));
         await targetButton.click();
     },
     async openConditionsModal(driver, characterIndex){

@@ -107,7 +107,7 @@ async function testBaseDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver,  4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -138,7 +138,7 @@ async function testMonsterIsKilled() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver,  4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -188,7 +188,7 @@ async function testConditionalDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver, 4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -227,7 +227,7 @@ async function testConditionAdded() {
     await driver.executeScript("arguments[0].value = '1';", armorInput);
 
     // Click the OK button with retry logic
-    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'OK')]"));
+    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'Single')]"));
     await okButton.click();
 
     // Wait for the condition to be applied and verify the changes
