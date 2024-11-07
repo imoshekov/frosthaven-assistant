@@ -114,8 +114,17 @@ function loadConditionsInAttackModal() {
     const container = document.getElementById('attack-conditions');
     container.innerHTML = '';
     let target = characters[defender];
+    const pierceImg = document.getElementById("pierce-img");
+    const pierceInput = document.getElementById("pierce-input");
+    
     if (target.armor > 0) {
-        addImg(container, 'shield', target.armor);
+        addImg(container, 'shield', target.armor); 
+        pierceImg.style.display = "inline-block"; 
+        pierceInput.style.display = "inline-block"; 
+    }
+    else{
+        pierceImg.style.display = "none"; 
+        pierceInput.style.display = "none"; 
     }
     if (target.retaliate > 0) {
         addImg(container, 'retaliate', target.retaliate);
