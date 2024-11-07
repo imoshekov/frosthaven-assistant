@@ -3,6 +3,6 @@
     "selenium-webdriver": "^4.26.0"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "node tests/test.js"
   }
 }
