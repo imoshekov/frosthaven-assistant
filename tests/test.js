@@ -283,6 +283,7 @@ async function tearDown() {
 }
 
 async function runAllTests() {
+    let hasFailed = false;
     await setup();
 
     try {
@@ -298,8 +299,12 @@ async function runAllTests() {
         await testInitiativeReset();
     } catch (error) {
         console.error("Test failed:", error);
+        hasFailed = true;
     } finally {
         await tearDown();
+        if (hasFailed) {
+            process.exit(1); // failure exit code to trigger failed workflow
+        }
     }
 }
 

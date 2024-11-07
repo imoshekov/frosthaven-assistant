@@ -32,5 +32,4 @@ jobs:
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-        run: |
-          node tests/test.js 
+        run: npm test
