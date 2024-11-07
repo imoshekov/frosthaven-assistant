@@ -7,8 +7,7 @@ const characters = JSON.parse(DataManager.load('characters'))
     ];
 
 let conditionTarget = null;
-let attacker = null;
-let defender = null;
+let attackTarget = null;
 
 function addCharacter() {
     const type = document.getElementById('type').value.toLowerCase();
@@ -65,37 +64,11 @@ function addCharacter() {
 }
 
 function handleAttack(event, buttonElement) {
-    const creatureIdx = buttonElement.dataset.creatureIdx;
-    if (attacker === null) {
-        // player character, can attack only monsters
-        if (characters.every(function (char) { return !char.aggressive; })) {
-            alert('No monsters to attack');
-            return;
-        }
-        const isAggressive = characters[creatureIdx].aggressive;
-        hideFriends(isAggressive);
-        attacker = creatureIdx;
-        return;
-    }
-    // Second click: show modal
-
-    defender = creatureIdx;
+    attackTarget = buttonElement.dataset.creatureIdx;
     openModal('modal-attack');
-    document.getElementById('attack-combatants').innerHTML = `${characters[attacker].name} &rarr; ${characters[defender].name}`;
+    document.getElementById('attack-combatants').innerHTML = `&#9876;&#65039; ${characters[attackTarget].name}`;
     loadConditionsInAttackModal();
     event.stopPropagation();
-
-}
-
-function hideFriends(isMonster) {
-    document.querySelectorAll('[data-creature-idx]').forEach(function (button) {
-        const isTargetAggressive = characters[button.dataset.creatureIdx].aggressive;
-        const targetIcon = button.getElementsByClassName('target-image')[0];
-        const attackIcon = button.getElementsByClassName('attack-image')[0];
-        attackIcon.style.display = 'none';
-        const isFriendlyToSelf = (isMonster && isTargetAggressive) || (!isMonster && !isTargetAggressive);
-        targetIcon.style.display = isFriendlyToSelf ? 'none' : 'block';
-    });
 }
 
 function openConditions(event, charIdx) {
@@ -106,6 +79,7 @@ function openConditions(event, charIdx) {
     document.getElementById('condition-poison').checked = target.conditions?.poison || false;
     document.getElementById('condition-brittle').checked = target.conditions?.brittle || false;
     document.getElementById('condition-ward').checked = target.conditions?.ward || false;
+    preventExclusiveConditions();
     openModal('modal-conditions');
     event.stopPropagation();
 }
@@ -113,7 +87,7 @@ function openConditions(event, charIdx) {
 function loadConditionsInAttackModal() {
     const container = document.getElementById('attack-conditions');
     container.innerHTML = '';
-    let target = characters[defender];
+    let target = characters[attackTarget];
     const pierceImg = document.getElementById("pierce-img");
     const pierceInput = document.getElementById("pierce-input");
     
@@ -155,14 +129,7 @@ function openModal(id) {
 }
 
 function closeAttackModal() {
-    attacker = null;
-    defender = null;
-    document.querySelectorAll('.attack-btn').forEach(function (button) {
-        const targetIcon = button.getElementsByClassName('target-image')[0];
-        const attackIcon = button.getElementsByClassName('attack-image')[0];
-        targetIcon.style.display = 'none';
-        attackIcon.style.display = 'block';
-    });
+    attackTarget = null;
     document.getElementById('attack-input').value = 0;
     document.getElementById('pierce-input').value = 0;
     document.getElementById('modal-attack').style.display = 'none';
@@ -182,46 +149,37 @@ function updateAttackResult() {
 
 function applyDamage() {
     let dmg = getAttackResult();
-    let attackerDmg = 0;
-
-    if (characters[defender].retaliate > 0) {
-        DataManager.log(characters[defender].name + " has retaliated for " + characters[defender].retaliate);
-        attackerDmg += characters[defender].retaliate;
-        // shield mitigation doesn't apply to retaliate
+    if (dmg > 0) {
+        DataManager.log(`${characters[attackTarget].name}# was attacked for #${dmg} damage`);
     }
-
-    attackerDmg = calculateDmgMultipliers(attacker, attackerDmg);
-    DataManager.log(`${characters[attacker].name} dealt #${dmg} damage to ${characters[defender].name}# (retaliate: ${attackerDmg})`);
-
-    updateHpWithDamage(defender, dmg);
-    updateHpWithDamage(attacker, attackerDmg);
+    updateHpWithDamage(attackTarget, dmg);
     closeAttackModal();
 }
 
 function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
-    if (characters[defender].armor > 0 ) {
+    if (characters[attackTarget].armor > 0 ) {
         let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
-        let effectiveArmor = Math.max(characters[defender].armor - pierce, 0);
+        let effectiveArmor = Math.max(characters[attackTarget].armor - pierce, 0);
 
         if (effectiveArmor > 0) {
             dmg -= effectiveArmor;
         }
 
-        if (showLog) {
+        if (showLog && dmg > 0) {
             const message = effectiveArmor
-                ? `${characters[defender].name} has effective armor ${effectiveArmor} after ${pierce} pierce`
-                : `${characters[defender].name}'s armor was fully pierced`;
+                ? `${characters[attackTarget].name} has ${effectiveArmor} armor` + (pierce ? `after ${pierce} pierce` : '')
+                : `${characters[attackTarget].name}'s armor was fully pierced`;
             DataManager.log(message);
         }
     }
-    if (characters[defender].conditions?.poison && dmg > 0) {
+    if (characters[attackTarget].conditions?.poison && dmg > 0) {
         dmg += 1;
-        showLog && DataManager.log(characters[defender].name + " is poisoned");
+        showLog && DataManager.log(characters[attackTarget].name + " is poisoned");
     }
 
-    return calculateDmgMultipliers(defender, dmg, showLog);
+    return calculateDmgMultipliers(attackTarget, dmg, showLog);
 }
 
 function calculateDmgMultipliers(charIdx, dmg, showLog = true) {
@@ -244,7 +202,7 @@ function updateHpWithDamage(charIdx, dmg) {
     }
 
     const character = characters[charIdx];
-    character.hp -= dmg;
+    character.hp = Math.max(0, character.hp - dmg);
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
     if (character.aggressive && character.hp <= 0) {
         DataManager.log(`${character.name} has been killed and removed from the game.`);
@@ -314,6 +272,12 @@ function closeConditionsModal() {
     document.getElementById('modal-conditions').style.display = 'none';
 }
 
+function preventExclusiveConditions() {
+    const brittle = document.getElementById("condition-brittle");
+    const ward = document.getElementById("condition-ward");
+    brittle.addEventListener("change", () => brittle.checked && (ward.checked = false));
+    ward.addEventListener("change", () => ward.checked && (brittle.checked = false));
+}
 
 // Render default characters when page loads
 window.onload = function () {

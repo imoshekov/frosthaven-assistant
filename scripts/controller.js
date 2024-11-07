@@ -70,7 +70,6 @@ const UIController = {
             <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
                 <button>
                     <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
-                    <img class='target-image' id="target-img-${index}" src='images/action/target.svg'>
                 </button>
             </span>
         </div>
