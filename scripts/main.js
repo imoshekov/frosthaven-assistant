@@ -191,7 +191,7 @@ function applyDamage() {
 function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
-    if (characters[defender].armor > 0) {
+    if (characters[defender].armor > 0 ) {
         dmg -= characters[defender].armor;
         showLog && DataManager.log(characters[defender].name + " has armor " + characters[defender].armor);
     }

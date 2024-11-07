@@ -284,9 +284,13 @@
                 <h3>Attack</h3>
                 <span id="attack-combatants"></span>
                 <br>
-
-                <span>Damage</span><input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0"
-                    value="0"><br>
+                <div class="stat-container">
+                    <img id="damage-img" class="damage-icon" src="images/action/damage.svg">
+                    <input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0">
+                    <img id="pierce-img" class="damage-icon" src="images/fh/action/pierce.svg">
+                    <input type="number" id="pierce-input" min="0" value="0">
+                </div>
+                <br>
                 <span id="attack-result"></span>
                 <br>
                 <!-- Icons (0-3) -->
