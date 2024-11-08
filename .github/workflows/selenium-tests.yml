@@ -27,16 +27,19 @@ jobs:
           node-version: 'lts/*'  
 
       - name: install-dependencies
-        run: npm install 
+        run: npm install
+
+      - name: start-http-server
+        run: npx http-server -p 8080 &
 
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
         run: npm test
 
-      - name: Upload screenshot as artifact
+      - name: Upload failure screenshot as artifact
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: screenshot
           path: fail_screenshot.png
