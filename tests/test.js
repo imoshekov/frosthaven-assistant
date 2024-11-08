@@ -94,20 +94,21 @@ async function testAttackModalDisplayed() {
 
     await TestUtils.openAttackModal(driver);
 
-    // Testing driver, deleteMe
-    const modal1 = await driver.wait(until.elementLocated(By.id('battle-log-container')), 10000);
-    await driver.wait(until.elementIsVisible(modal1), 10000, "battle-log-container is not visible");
-    // end deleteMe
+    try {
+        // Wait for the modal to be displayed
+        const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 10000);
+        await driver.wait(until.elementIsVisible(modal), 10000, "modal-attack is not visible");
+        // Validate that the modal is displayed
+        let isModalDisplayed = await modal.isDisplayed();
 
-    // Wait for the modal to be displayed
-    const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 10000);
-    await driver.wait(until.elementIsVisible(modal), 10000, "modal-attack is not visible");
-
-    // Validate that the modal is displayed
-    let isModalDisplayed = await modal.isDisplayed();
-
-    assert.ok(isModalDisplayed, "attack modal is NOT displayed.");
-    console.log('Test passed: attack modal is displayed as expected.');
+        assert.ok(isModalDisplayed, "attack modal is NOT displayed.");
+        console.log('Test passed: attack modal is displayed as expected.');
+    } catch (error) {
+        console.error("Modal visibility error:", error);
+        let screenshot = await driver.takeScreenshot();
+        require('fs').writeFileSync('screenshot.png', screenshot, 'base64');
+        throw error;
+    }
 }
 
 async function testBaseDamageApplication() {
