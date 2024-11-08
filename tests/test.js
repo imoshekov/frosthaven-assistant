@@ -7,7 +7,7 @@ const TestUtils  = require('./test-utils.js');
 let driver;
 
 const sourceHTML = !process.env.GITHUB_ACTIONS ?
-    'http://localhost:8080/index.html' :
+    'http://127.0.0.1:8080/index.html' :
     'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {

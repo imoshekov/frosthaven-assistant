@@ -4,5 +4,8 @@
   },
   "scripts": {
     "test": "node tests/test.js"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }
