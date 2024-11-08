@@ -1,5 +1,7 @@
-const { Builder, By, until } = require('selenium-webdriver');
+const { Builder, Browser, By, until } = require('selenium-webdriver');
 const assert = require('assert');
+const chrome = require('selenium-webdriver/chrome');
+
 
 const TestUtils  = require('./test-utils.js');
 // const sourceHTML = 'file:///' + __dirname + '/../index.html';
@@ -7,13 +9,18 @@ const TestUtils  = require('./test-utils.js');
 let driver;
 
 const sourceHTML = process.env.GITHUB_ACTIONS ?
-    'http://127.0.0.1:8080/index.html' :
+    'http://localhost:8099/index.html' :
     'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
+    let options = new chrome.Options();
+    options.addArguments('headless'); // Enables headless mode
+    options.addArguments('disable-gpu'); // Disables GPU acceleration (not necessary but recommended in headless mode)
+    options.addArguments('window-size=1280x1024');
     if (process.env.GITHUB_ACTIONS) {
         driver = await new Builder()
-            .forBrowser('chrome')
+            .forBrowser(Browser.CHROME)
+            .setChromeOptions(options)
             .usingServer('http://localhost:4444/wd/hub')  // Use GitHub Actions server if specified
             .build();
     }
@@ -303,8 +310,8 @@ async function runAllTests() {
         hasFailed = true;
         let screenshot = await driver.takeScreenshot();
         require('fs').writeFileSync('fail_screenshot.png', screenshot, 'base64');
-        const pageSource = await driver.getPageSource();
-        console.log(pageSource);  // Logs the page source for analysis
+        // const pageSource = await driver.getPageSource();
+        // console.log(pageSource);  // Logs the page source for analysis
     } finally {
         await tearDown();
         if (hasFailed) {

@@ -5,7 +5,7 @@
   "scripts": {
     "start-server": "http-server -c-1 .",
     "test": "node tests/test.js",
-    "e2e-test": "start-server-and-test start-server 8080 test"
+    "e2e-test": "start-server-and-test start-server 8099 test"
   },
   "devDependencies": {
     "http-server": "^14.1.1",
