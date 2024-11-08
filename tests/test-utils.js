@@ -1,4 +1,4 @@
-const { By } = require('selenium-webdriver');
+const { By, until} = require('selenium-webdriver');
 
 const TestUtils = {
     async  addMonster(driver, monster) {
@@ -12,10 +12,12 @@ const TestUtils = {
     },
     async openAttackModal(driver, attackTargetId = 0) {
         const targetButton = await driver.findElement(By.id(`attack-img-${attackTargetId}`));
+        await driver.wait(until.elementIsVisible(targetButton), 10000, "attack-img is not visible");
         await targetButton.click();
     },
     async openConditionsModal(driver, characterIndex){
         const characterProfile = await driver.findElement(By.id(`character-skin-${characterIndex}`)); // Corrected line
+        await driver.wait(until.elementIsVisible(characterProfile), 10000, "character-skin is not visible");
         await characterProfile.click();
     }
 }

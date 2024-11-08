@@ -314,9 +314,9 @@ async function runAllTests() {
     } catch (error) {
         console.error("Test failed:", error);
         hasFailed = true;
+      //  const pageSource = await driver.getPageSource();
+      //  console.log(pageSource);  // Logs the page source for analysis
     } finally {
-        const pageSource = await driver.getPageSource();
-        console.log(pageSource);  // Logs the page source for analysis
         await tearDown();
         if (hasFailed) {
             process.exit(1); // failure exit code to trigger failed workflow
