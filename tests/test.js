@@ -96,12 +96,12 @@ async function testAttackModalDisplayed() {
 
     // Testing driver, deleteMe
     const modal1 = await driver.wait(until.elementLocated(By.id('battle-log-container')), 5000);
-    await driver.wait(until.elementIsVisible(modal1), 5000);
+    await driver.wait(until.elementIsVisible(modal1), 5000, "battle-log-container is not visible");
     // end deleteMe
 
     // Wait for the modal to be displayed
     const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 5000);
-    await driver.wait(until.elementIsVisible(modal), 5000);
+    await driver.wait(until.elementIsVisible(modal), 5000, "modal-attack is not visible");
 
     // Validate that the modal is displayed
     let isModalDisplayed = await modal.isDisplayed();
