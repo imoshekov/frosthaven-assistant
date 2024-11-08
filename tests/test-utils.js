@@ -11,7 +11,7 @@ const TestUtils = {
         await addMonsterButton.click();
     },
     async openAttackModal(driver, attackTargetId = 0) {
-        const targetButton = await driver.findElement(By.id(`attack-img-${attackTargetId}`));
+        const targetButton = await driver.findElement(By.css(`.attack-image:nth-of-type(${attackTargetId})`));
         await driver.wait(until.elementIsVisible(targetButton), 10000, "attack-img is not visible");
         await targetButton.click();
     },
