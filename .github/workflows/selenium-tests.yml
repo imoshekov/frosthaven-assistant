@@ -33,3 +33,10 @@ jobs:
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
         run: npm test
+
+      - name: Upload screenshot as artifact
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshot
+          path: fail_screenshot.png
