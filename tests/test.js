@@ -312,6 +312,8 @@ async function runAllTests() {
     } finally {
         await tearDown();
         if (hasFailed) {
+            const pageSource = await driver.getPageSource();
+            console.log(pageSource);  // Logs the page source for analysis
             process.exit(1); // failure exit code to trigger failed workflow
         }
     }
