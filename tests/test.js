@@ -19,13 +19,13 @@ async function setup() {
     if (process.env.GITHUB_ACTIONS) {
         driver = await new Builder()
             .forBrowser('chrome')
-            .setChromeOptions(options)
+           // .setChromeOptions(options)
             .usingServer('http://localhost:4444/wd/hub')  // Use GitHub Actions server if specified
             .build();
     }
     else {
         driver = await new Builder().forBrowser('chrome')
-            .setChromeOptions(options)
+           // .setChromeOptions(options)
             .build();
     }
 }

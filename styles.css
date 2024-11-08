@@ -376,7 +376,7 @@ button:hover {
 
 div#modal-attack,
 div#modal-conditions {
-    display: none;
+    /*display: none;*/
     position: fixed;
     left: 50%;
     top: 50%;
