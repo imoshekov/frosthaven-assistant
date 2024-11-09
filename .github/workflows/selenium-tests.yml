@@ -45,7 +45,7 @@ jobs:
       - name: Check Selenium Server Status
         run: |
           echo "Waiting for Selenium server at http://localhost:4444..."
-          for i in {1..5}; do
+          for i in {1..10}; do
             if curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; then
               echo "Selenium server is ready!"
               break
