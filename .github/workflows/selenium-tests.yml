@@ -14,7 +14,7 @@ jobs:
     services:
       selenium:
         image: selenium/standalone-chrome
-        options: --shm-size=2gb
+        options: --shm-size=2gb --add-host=host.docker.internal:host-gateway
         ports:
           - 4444:4444
 
@@ -78,7 +78,7 @@ jobs:
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-          SERVER_URL: http://172.17.0.1:8099            # Host mapping of github actions
+          SERVER_URL: http://host.docker.internal:8099            # Host mapping of github actions
         run: npm test
 
       - name: Upload failure screenshot as artifact
