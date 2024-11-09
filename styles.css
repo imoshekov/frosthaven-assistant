@@ -413,14 +413,10 @@ div#modal-conditions {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.target-image {
-    display: none;
-}
-
 .modal-content {
     background-color: #3A3A3A;
     margin: 15% auto;
-    padding: 20px;
+    padding: 25px;
     border: 1px solid #888;
     text-align: center;
     z-index: 101;
@@ -431,6 +427,7 @@ div#modal-conditions {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-top: -14px;
 }
 
 .close:hover,
@@ -715,6 +712,11 @@ option {
     align-items: center; /* Vertically centers items */
     justify-content: center; /* Horizontally centers the whole line */
     gap: 5px; /* Adjust spacing between elements */
+    padding-top: 15px;
+}
+
+#attack-result {
+    display: inline-block;
 }
 
 .damage-icon {

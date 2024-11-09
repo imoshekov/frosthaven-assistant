@@ -1,24 +1,33 @@
-const { Builder, By, until } = require('selenium-webdriver');
+const { Builder, Browser, By, until } = require('selenium-webdriver');
 const assert = require('assert');
+const chrome = require('selenium-webdriver/chrome');
+
 
 const TestUtils  = require('./test-utils.js');
 // const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
 
-const sourceHTML = process.env.GITHUB_ACTIONS ? 
-    'https://imoshekov.github.io/frosthaven-assistant/index.html' : 
+const sourceHTML = process.env.GITHUB_ACTIONS ?
+    process.env.SERVER_URL || 'https://imoshekov.github.io/frosthaven-assistant/index.html' :
     'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
+    let options = new chrome.Options();
+    options.addArguments('headless'); // Enables headless mode
+    options.addArguments('disable-gpu'); // Disables GPU acceleration (not necessary but recommended in headless mode)
+    options.addArguments('window-size=1280x1024');
+    console.log("Running tests on: " + sourceHTML);
     if (process.env.GITHUB_ACTIONS) {
         driver = await new Builder()
-            .forBrowser('chrome')
+            .forBrowser(Browser.CHROME)
+            .setChromeOptions(options)
             .usingServer('http://localhost:4444/wd/hub')  // Use GitHub Actions server if specified
             .build();
     }
     else {
-        driver = await new Builder().forBrowser('chrome').build();
+        driver = await new Builder().forBrowser('chrome')
+            .build();
     }
 }
 
@@ -88,7 +97,7 @@ async function testAttackModalDisplayed() {
 
     // Wait for the modal to be displayed
     const modal = await driver.wait(until.elementLocated(By.id('modal-attack')), 5000);
-
+    await driver.wait(until.elementIsVisible(modal), 5000, "modal-attack is not visible");
     // Validate that the modal is displayed
     let isModalDisplayed = await modal.isDisplayed();
 
@@ -107,7 +116,7 @@ async function testBaseDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver,  4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -138,7 +147,7 @@ async function testMonsterIsKilled() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver,  4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -188,7 +197,7 @@ async function testConditionalDamageApplication() {
     let characterHPStat = await driver.findElement(By.id('char-hp-4'));
     const originalHPValue = parseInt(await characterHPStat.getAttribute('value'));
 
-    await TestUtils.openAttackModal(driver, 0, 4);
+    await TestUtils.openAttackModal(driver, 4);
 
     const damageInput = await driver.findElement(By.id('attack-input'));
     await damageInput.clear();
@@ -227,7 +236,7 @@ async function testConditionAdded() {
     await driver.executeScript("arguments[0].value = '1';", armorInput);
 
     // Click the OK button with retry logic
-    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'OK')]"));
+    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'Single')]"));
     await okButton.click();
 
     // Wait for the condition to be applied and verify the changes
@@ -283,6 +292,7 @@ async function tearDown() {
 }
 
 async function runAllTests() {
+    let hasFailed = false;
     await setup();
 
     try {
@@ -298,8 +308,16 @@ async function runAllTests() {
         await testInitiativeReset();
     } catch (error) {
         console.error("Test failed:", error);
+        hasFailed = true;
+        let screenshot = await driver.takeScreenshot();
+        require('fs').writeFileSync('fail_screenshot.png', screenshot, 'base64');
+        // const pageSource = await driver.getPageSource();
+        // console.log(pageSource);  // Logs the page source for analysis
     } finally {
         await tearDown();
+        if (hasFailed) {
+            process.exit(1); // failure exit code to trigger failed workflow
+        }
     }
 }
 
