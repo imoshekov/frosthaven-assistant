@@ -8,13 +8,16 @@ const TestUtils  = require('./test-utils.js');
 
 let driver;
 
-const sourceHTML = process.env.SERVER_URL || ('file:///' + __dirname + '/../index.html'); // Adjust this path as needed
+const sourceHTML = process.env.GITHUB_ACTIONS ?
+    process.env.SERVER_URL || 'https://imoshekov.github.io/frosthaven-assistant/index.html' :
+    'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
     let options = new chrome.Options();
     options.addArguments('headless'); // Enables headless mode
     options.addArguments('disable-gpu'); // Disables GPU acceleration (not necessary but recommended in headless mode)
     options.addArguments('window-size=1280x1024');
+    console.log("Running tests on: " + sourceHTML);
     if (process.env.GITHUB_ACTIONS) {
         driver = await new Builder()
             .forBrowser(Browser.CHROME)

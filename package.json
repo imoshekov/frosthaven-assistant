@@ -3,12 +3,6 @@
     "selenium-webdriver": "^4.26.0"
   },
   "scripts": {
-    "start-server": "http-server -p 8099 -c-1 .",
-    "test": "node tests/test.js",
-    "e2e-test": "start-server-and-test start-server 8099 test"
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1",
-    "start-server-and-test": "^2.0.8"
+    "test": "node tests/test.js"
   }
 }
