@@ -3,8 +3,8 @@ name: run-ui-tests
 on:
   pull_request:
     branches:
-      - main  
-  workflow_dispatch:  
+      - main
+  workflow_dispatch:
 
 jobs:
   selenium-tests:
@@ -25,21 +25,25 @@ jobs:
       - name: setup-node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'  
+          node-version: 'lts/*'
 
       - name: install-dependencies
         run: npm install
 
+      # Start HTTP server to serve the project files
       - name: Start HTTP server
-        run: http-server -p 8099 -c-1 . &
+        run: |
+          npm install -g http-server
+          nohup http-server -p 8099 -c-1 . &
 
+      # Wait until the HTTP server is available
       - name: Wait for server to be ready
         run: npx wait-on http://127.0.0.1:8099
 
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-          SERVER_URL: http://127.0.0.1:8099  # Application URL
+          SERVER_URL: http://127.0.0.1:8099  # HTTP server URL
         run: npm run test
 
       - name: Upload failure screenshot as artifact
