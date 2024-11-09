@@ -34,11 +34,14 @@ jobs:
       - name: Start HTTP server
         run: |
           npm install -g http-server
-          nohup http-server -a 127.0.0.1 -p 8099 -c-1 . &
+          nohup http-server -a 0.0.0.0 -p 8099 -c-1 . &
 
-      # Wait for server to be ready
-      - name: Wait for server to be available
-        run: npx wait-on --timeout 15000 http://127.0.0.1:8099
+      - name: Wait for HTTP Server
+        run: |
+          echo "Waiting for HTTP server at http://host.docker.internal:8099..."
+          npx wait-on --timeout 60000 http://host.docker.internal:8099
+          curl -I http://host.docker.internal:8099
+
 
       - name: Confirm server status
         run: |
@@ -75,7 +78,7 @@ jobs:
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-          SERVER_URL: http://127.0.0.1:8099            # HTTP server URL
+          SERVER_URL: http://host.docker.internal:8099            # HTTP server URL
         run: npm test
 
       - name: Upload failure screenshot as artifact
