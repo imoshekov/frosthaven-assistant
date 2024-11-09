@@ -36,14 +36,18 @@ jobs:
           npm install -g http-server
           nohup http-server -p 8099 -c-1 . &
 
-      # Wait until the HTTP server is available
-      - name: Wait for server to be ready
-        run: npx wait-on http://127.0.0.1:8099
+      # Wait for server to be ready
+      - name: Wait for server to be available
+        run: npx wait-on --timeout 15000 http://localhost:8099
+
+      # Confirm the server is still running
+      - name: Confirm server status
+        run: curl -I http://localhost:8099
 
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-          SERVER_URL: http://127.0.0.1:8099  # HTTP server URL
+          SERVER_URL: http://localhost:8099  # HTTP server URL
         run: npm run test
 
       - name: Upload failure screenshot as artifact
