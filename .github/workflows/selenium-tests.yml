@@ -13,7 +13,8 @@ jobs:
     # Set up necessary services
     services:
       selenium:
-        image: selenium/standalone-chrome  
+        image: selenium/standalone-chrome
+        options: --shm-size=2gb
         ports:
           - 4444:4444
 
@@ -32,7 +33,7 @@ jobs:
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-        run: npm run e2e-test
+        run: npm run test
 
       - name: Upload failure screenshot as artifact
         if: failure()

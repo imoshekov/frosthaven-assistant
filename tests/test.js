@@ -7,9 +7,10 @@ const TestUtils  = require('./test-utils.js');
 // const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
+const host = process.env.SELENIUM_URL || 'http://127.0.0.1:8080';
 
 const sourceHTML = process.env.GITHUB_ACTIONS ?
-    'http://localhost:8099/index.html' :
+    host + '/index.html' :
     'file:///' + __dirname + '/../index.html'; // Adjust this path as needed
 
 async function setup() {
