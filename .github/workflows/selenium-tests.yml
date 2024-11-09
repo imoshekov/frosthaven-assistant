@@ -30,11 +30,17 @@ jobs:
       - name: install-dependencies
         run: npm install
 
+      - name: Start HTTP server
+        run: http-server -p 8099 -c-1 . &
+
+      - name: Wait for server to be ready
+        run: wait-on http://127.0.0.1:8099
+
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
           SERVER_URL: http://127.0.0.1:8099  # Application URL
-        run: npm run e2e-test
+        run: npm run test
 
       - name: Upload failure screenshot as artifact
         if: failure()
