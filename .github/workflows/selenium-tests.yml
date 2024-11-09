@@ -34,7 +34,7 @@ jobs:
         run: http-server -p 8099 -c-1 . &
 
       - name: Wait for server to be ready
-        run: wait-on http://127.0.0.1:8099
+        run: npx wait-on http://127.0.0.1:8099
 
       - name: run-tests
         env:
