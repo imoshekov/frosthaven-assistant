@@ -52,6 +52,26 @@ jobs:
             fi
           done
 
+      - name: Check Selenium Server Status
+        run: |
+          echo "Waiting for Selenium server at http://localhost:4444..."
+          for i in {1..5}; do
+            if curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; then
+              echo "Selenium server is ready!"
+              break
+            else
+              echo "Waiting for Selenium server..."
+              sleep 5
+            fi
+          done
+          curl -s http://localhost:4444/wd/hub/status
+
+      - name: DEBUG - Check Running Processes
+        run: ps aux
+
+      - name: DEBUG - List Open Network Ports
+        run: netstat -tuln
+
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
