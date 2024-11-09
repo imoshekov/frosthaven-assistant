@@ -33,7 +33,8 @@ jobs:
       - name: run-tests
         env:
           SELENIUM_URL: http://localhost:4444/wd/hub  # Selenium server URL
-        run: npm run test
+          SERVER_URL: http://127.0.0.1:8099  # Application URL
+        run: npm run e2e-test
 
       - name: Upload failure screenshot as artifact
         if: failure()
