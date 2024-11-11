@@ -184,7 +184,7 @@ const UIController = {
             }
         });
         const roundNumberElement = document.getElementById("round-number");
-        roundNumberElement.textContent = (parseInt(roundNumberElement.textContent) + 1);
+        roundNumberElement.value = (parseInt(roundNumberElement.value) + 1);
 
     },
     removeCreature(index) {

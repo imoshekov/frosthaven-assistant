@@ -508,7 +508,6 @@ div#modal-conditions {
 }
 
 select {
-    width: 100%;
     font-size: 18px;
     color: #F0F0F0;
     background-color: #445566;
@@ -759,4 +758,6 @@ option {
     font-size: 24px;
     font-weight: bold;
     color: #e74c3c;
+    margin:0;
+    padding: 0;
   }
