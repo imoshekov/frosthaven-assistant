@@ -183,6 +183,9 @@ const UIController = {
                 UIController.toggleColor(e);
             }
         });
+        const roundNumberElement = document.getElementById("round-number");
+        roundNumberElement.textContent = (parseInt(roundNumberElement.textContent) + 1);
+
     },
     removeCreature(index) {
         characters.splice(index, 1);
