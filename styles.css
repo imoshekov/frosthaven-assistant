@@ -62,9 +62,7 @@ input[type="number"],
 button {
     border: none;
     background: none;
-    /* Softer color */
     color: #F0F0F0;
-    /* Reduced padding */
     font-size: 30px;
     text-transform: uppercase;
     cursor: pointer;
@@ -344,8 +342,8 @@ button:hover {
 }
 
 .attack-btn:hover {
-    transform: scale(1.2); 
-    border-radius: 8px; 
+    transform: scale(1.2);
+    border-radius: 8px;
 }
 
 
@@ -403,7 +401,6 @@ div#modal-conditions {
 
 .attack-modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
     z-index: 100;
     left: 0;
@@ -456,25 +453,20 @@ div#modal-conditions {
     margin-top: 5px;
 }
 
-/* Color-coding for stats */
 .hp {
     background-color: #4CAF50;
-    /* Softer green */
 }
 
 .attack {
     background-color: #E57373;
-    /* Softer red */
 }
 
 .movement {
     background-color: #8E44AD;
-    /* Softer purple */
 }
 
 .range {
     background-color: #F1C40F;
-    /* Yellow */
 }
 
 .add-char {
@@ -647,7 +639,6 @@ option {
     display: flex;
     align-items: center;
     gap: 1px;
-    /* Adjust spacing between the condition items as needed */
 }
 
 .condition-row,
@@ -685,7 +676,7 @@ option {
 
 .condition-row {
     display: flex;
-    gap: 16px; /* Space between the two condition items, adjust as needed */
+    gap: 16px;
     align-items: center;
 }
 
@@ -695,7 +686,7 @@ option {
 }
 
 .condition-item img {
-    width: 40px; /* Adjust image size as needed */
+    width: 40px;
     height: 40px;
     cursor: pointer;
 }
@@ -703,14 +694,24 @@ option {
 .condition-input {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Ensures padding doesn't affect input size */
+    box-sizing: border-box;
+}
+
+.condition-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.condition-btn{
+    width: 100%;
 }
 
 .stat-container {
     display: flex;
-    align-items: center; /* Vertically centers items */
-    justify-content: center; /* Horizontally centers the whole line */
-    gap: 5px; /* Adjust spacing between elements */
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     padding-top: 15px;
 }
 
@@ -719,45 +720,45 @@ option {
 }
 
 .damage-icon {
-    margin-right:-10px;
+    margin-right: -10px;
 }
 
 .button-group {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  /* Styling for round tracker */
-  .round-tracker {
+}
+
+.round-tracker {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #34495e;
-    border-radius: 50%; /* Makes it circular */
+    border-radius: 50%;
     width: 80px;
     height: 80px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     color: #ecf0f1;
     text-align: center;
-  }
-  
-  .round-display {
+}
+
+.round-display {
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #ecf0f1;
-  }
-  
-  .round-display span {
+}
+
+.round-display span {
     font-size: 14px;
     opacity: 0.8;
-  }
-  
-  #round-number {
+}
+
+#round-number {
     font-size: 24px;
     font-weight: bold;
     color: #e74c3c;
-    margin:0;
+    margin: 0;
     padding: 0;
-  }
+}
+
