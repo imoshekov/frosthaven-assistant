@@ -289,7 +289,6 @@ async function tearDown() {
 }
 
 async function runAllTests() {
-    let hasFailed = false;
     await setup();
 
     try {
@@ -308,11 +307,10 @@ async function runAllTests() {
         hasFailed = true;
         let screenshot = await driver.takeScreenshot();
         require('fs').writeFileSync('fail_screenshot.png', screenshot, 'base64');
+        // failure exit code to trigger failed workflow
+        process.exit(1); 
     } finally {
         await tearDown();
-        if (hasFailed) {
-            process.exit(1); // failure exit code to trigger failed workflow
-        }
     }
 }
 
