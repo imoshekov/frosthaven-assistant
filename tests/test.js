@@ -1,10 +1,7 @@
 const { Builder, Browser, By, until } = require('selenium-webdriver');
 const assert = require('assert');
 const chrome = require('selenium-webdriver/chrome');
-
-
 const TestUtils  = require('./test-utils.js');
-// const sourceHTML = 'file:///' + __dirname + '/../index.html';
 
 let driver;
 
@@ -311,8 +308,6 @@ async function runAllTests() {
         hasFailed = true;
         let screenshot = await driver.takeScreenshot();
         require('fs').writeFileSync('fail_screenshot.png', screenshot, 'base64');
-        // const pageSource = await driver.getPageSource();
-        // console.log(pageSource);  // Logs the page source for analysis
     } finally {
         await tearDown();
         if (hasFailed) {
