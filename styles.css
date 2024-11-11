@@ -508,7 +508,6 @@ div#modal-conditions {
 }
 
 select {
-    width: 100%;
     font-size: 18px;
     color: #F0F0F0;
     background-color: #445566;
@@ -723,3 +722,42 @@ option {
     margin-right:-10px;
 }
 
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Styling for round tracker */
+  .round-tracker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #34495e;
+    border-radius: 50%; /* Makes it circular */
+    width: 80px;
+    height: 80px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    color: #ecf0f1;
+    text-align: center;
+  }
+  
+  .round-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ecf0f1;
+  }
+  
+  .round-display span {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  #round-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin:0;
+    padding: 0;
+  }
