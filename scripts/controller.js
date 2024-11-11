@@ -47,22 +47,22 @@ const UIController = {
                 <div id='char-armor-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/shield.svg" />
                     <input type="number" class="condition-number armor-number"
-                        onchange="UIController.updateStat(${index}, 'armor', this.value);"></input>
+                        onchange="UIController.updateStat(${index}, 'armor', this.value); showConditions(${index});"></input>
                 </div>
                 <div id='char-retaliate-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/retaliate.svg" />
                     <input type="number" class="condition-number retaliate-number"
-                        onchange="UIController.updateStat(${index}, 'retaliate', this.value);"></input>
+                        onchange="UIController.updateStat(${index}, 'retaliate', this.value); showConditions(${index});"></input>
                 </div>
             </div>
             <div class="condition-row">
                 <div id="char-condition-${index}" class="condition-images">
                     <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg'
-                        onclick="UIController.handleConditionClick(${index}, 'poison')">
+                        onclick="UIController.toggleConditionVisibility(${index}, 'poison')">
                     <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'
-                        onclick="UIController.handleConditionClick(${index}, 'brittle')">
+                        onclick="UIController.toggleConditionVisibility(${index}, 'brittle')">
                     <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'
-                        onclick="UIController.handleConditionClick(${index}, 'ward')">
+                        onclick="UIController.toggleConditionVisibility(${index}, 'ward')">
                 </div>
             </div>
         </div>
@@ -209,7 +209,7 @@ const UIController = {
             }
         });
     },
-    handleConditionClick(index, conditionType) {
+    toggleConditionVisibility(index, conditionType) {
         const character = characters[index];
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
