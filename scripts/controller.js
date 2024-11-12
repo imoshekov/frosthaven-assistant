@@ -201,7 +201,6 @@ const UIController = {
             characters[index][stat] = parsedValue;
             return;
         }
-        
         const typeToUpdate = characters[index].type;
         characters.forEach(character => {
             if (character.type === typeToUpdate) {

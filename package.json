@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "selenium-webdriver": "^4.26.0",
+    "uuid": "^11.0.3",
     "ws": "^8.18.0"
   },
   "scripts": {
