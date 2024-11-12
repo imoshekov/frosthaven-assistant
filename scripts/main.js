@@ -1,3 +1,22 @@
+const ws = new WebSocket('ws://localhost:8080');
+ws.onopen = () => {
+    const sessionId = prompt("Enter session ID or leave blank to create a new one:");
+    ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
+};
+
+// Listen for incoming WebSocket messages to handle session join confirmation
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === 'session-joined') {
+        alert(`Joined session: ${data.sessionId}`);
+    }
+    if (data.type === 'characters-update') {
+        characters = data.characters;
+        UIController.renderTable();
+    }
+};
+
 let characters = JSON.parse(DataManager.load('characters'))
     || [
         { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
@@ -290,16 +309,17 @@ window.onload = function () {
     setInterval(() => DataManager.save(), 10000);
     setInterval(() => {
         const currentCharacters = JSON.stringify(characters);
-    
+
         if (currentCharacters !== previousCharactersSnapshot) {
             // Update the snapshot to the current state
             previousCharactersSnapshot = currentCharacters;
-    
-            // Send the updated characters data
-            ws.send(JSON.stringify({
-                type: 'characters-update',
-                characters: characters
-            }));
+
+            if (UIController.allIniativeSet()) {
+                ws.send(JSON.stringify({
+                    type: 'characters-update',
+                    characters: characters
+                }));
+            }
         }
     }, 1000);
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
@@ -308,26 +328,6 @@ window.onload = function () {
 const attackModal = document.getElementById('modal-attack');
 const conditionModal = document.getElementById('modal-conditions');
 
-
-const ws = new WebSocket('ws://localhost:8080');
-ws.onopen = () => {
-    const sessionId = prompt("Enter session ID or leave blank to create a new one:");
-    ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
-};
-
-// Listen for incoming WebSocket messages to handle session join confirmation
-ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-
-    if (data.type === 'session-joined') {
-        // Display alert with the session ID when the session is joined or created
-        alert(`Joined session: ${data.sessionId}`);
-    } 
-    if (data.type === 'characters-update') {
-        characters = data.characters;
-        UIController.renderTable();
-    }
-};
 
 // Close modal if clicking outside of modal content
 window.onclick = function (event) {
