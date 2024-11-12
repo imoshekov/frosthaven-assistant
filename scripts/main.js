@@ -1,23 +1,5 @@
-const ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
 
-ws.onopen = () => {
-    const sessionId = prompt("Enter session ID or leave blank to create a new one:");
-    ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
-};
-
-// Listen for incoming WebSocket messages to handle session join confirmation
-ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-
-    if (data.type === 'session-joined') {
-        // alert(`Joined session: ${data.sessionId}`);
-        document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
-    }
-    if (data.type === 'characters-update') {
-        characters = data.characters;
-        UIController.renderTable();
-    }
-};
+WebSocketHandler.initialize();
 
 let characters = JSON.parse(DataManager.load('characters'))
     || [
@@ -317,7 +299,7 @@ window.onload = function () {
             previousCharactersSnapshot = currentCharacters;
 
             if (UIController.allIniativeSet()) {
-                ws.send(JSON.stringify({
+                WebSocketHandler.getInstance().send(JSON.stringify({
                     type: 'characters-update',
                     characters: characters
                 }));
