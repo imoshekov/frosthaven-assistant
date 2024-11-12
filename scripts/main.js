@@ -1,6 +1,4 @@
 
-// WebSocketHandler.initialize();
-
 let characters = JSON.parse(DataManager.load('characters'))
     || [
         { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },

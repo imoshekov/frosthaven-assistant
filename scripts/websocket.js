@@ -5,7 +5,7 @@ const WebSocketHandler = {
     isConnected: false,
 
     initialize: function() {
-        // if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
+         if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
             this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
             
             this.ws.onopen = () => {
@@ -37,7 +37,7 @@ const WebSocketHandler = {
                     UIController.renderTable();
                 }
             };
-        //}
+        }
     },
 
     getInstance: function() {
