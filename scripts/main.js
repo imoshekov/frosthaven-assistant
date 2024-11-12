@@ -1,4 +1,5 @@
-const ws = new WebSocket('ws://localhost:8080');
+const ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+
 ws.onopen = () => {
     const sessionId = prompt("Enter session ID or leave blank to create a new one:");
     ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
