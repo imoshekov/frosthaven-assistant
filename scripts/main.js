@@ -1,5 +1,5 @@
 
-WebSocketHandler.initialize();
+// WebSocketHandler.initialize();
 
 let characters = JSON.parse(DataManager.load('characters'))
     || [

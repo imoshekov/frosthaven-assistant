@@ -1,16 +1,31 @@
+// websocket.js
+
 const WebSocketHandler = {
     ws: null,
+    isConnected: false,
 
     initialize: function() {
-        if (!this.ws) {
+        // if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
             this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
             
             this.ws.onopen = () => {
+                this.isConnected = true;
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
                 this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
             };
 
-            // Listen for incoming WebSocket messages to handle session join confirmation
+            this.ws.onerror = () => {
+                alert("Unable to connect to the server. It might be asleep. Please try again in a few seconds.");
+                this.isConnected = false;
+            };
+
+            this.ws.onclose = () => {
+                if (this.isConnected) {
+                    alert("The connection was closed. Please try reconnecting.");
+                }
+                this.isConnected = false;
+            };
+
             this.ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
 
@@ -22,7 +37,7 @@ const WebSocketHandler = {
                     UIController.renderTable();
                 }
             };
-        }
+        //}
     },
 
     getInstance: function() {
