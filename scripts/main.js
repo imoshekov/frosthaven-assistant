@@ -10,7 +10,8 @@ ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     if (data.type === 'session-joined') {
-        alert(`Joined session: ${data.sessionId}`);
+        // alert(`Joined session: ${data.sessionId}`);
+        document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
     }
     if (data.type === 'characters-update') {
         characters = data.characters;
