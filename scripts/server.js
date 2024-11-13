@@ -1,13 +1,29 @@
+const http = require('http');
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
-const sessions = {}; // Store sessions and connected clients
+const PORT = 8080;
 
+const sessions = {}; // Store sessions and connected clients
 let characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
+
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/ping') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Server is awake and running');
+    } else {
+        res.writeHead(404);
+        res.end();
+    }
+});
+
+// Attach WebSocket server to the same HTTP server
+const wss = new WebSocket.Server({ server });
+
 wss.on('connection', (ws) => {
     let currentSessionId = null;
 
@@ -15,22 +31,19 @@ wss.on('connection', (ws) => {
         const data = JSON.parse(message);
 
         if (data.type === 'join-session') {
-            // If sessionId is provided, join it; otherwise, create a new one
             let sessionId = data.sessionId;
             let isNewSession = false;
-            // Generate a new session ID if none was provided
+
             if (!sessionId) {
                 sessionId = Math.floor(Math.random() * 100);
-                sessions[sessionId] = []; // Create a new session with no clients
+                sessions[sessionId] = [];
                 isNewSession = true;
             }
 
-            // Assign this client to the session
             currentSessionId = sessionId;
             sessions[sessionId].push(ws);
-            console.log(`new client joined session ${sessionId}, total amount of clients connected: ${sessions[sessionId].length}`);
+            console.log(`new client joined session ${sessionId}, total clients: ${sessions[sessionId].length}`);
 
-            // Notify the client of the session they've joined
             ws.send(JSON.stringify({
                 type: 'session-joined',
                 sessionId: sessionId,
@@ -38,17 +51,14 @@ wss.on('connection', (ws) => {
                 isNewSession: isNewSession
             }));
 
-            // Send the latest characters state to the client when they join
             if (sessions[sessionId].length > 1) {
                 ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
             }
         }
 
         if (data.type === 'characters-update') {
-            // Update the server's characters array with the latest from a client
             characters = data.characters;
 
-            // Broadcast the updated characters array to all clients in the same session
             if (currentSessionId && sessions[currentSessionId]) {
                 sessions[currentSessionId].forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
@@ -59,7 +69,6 @@ wss.on('connection', (ws) => {
         }
     });
 
-    // Cleanup when a client disconnects
     ws.on('close', () => {
         if (currentSessionId && sessions[currentSessionId]) {
             const index = sessions[currentSessionId].indexOf(ws);
@@ -70,4 +79,7 @@ wss.on('connection', (ws) => {
     });
 });
 
-console.log(`server running...`);
+// Start the HTTP & WebSocket server
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
