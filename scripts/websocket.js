@@ -6,7 +6,8 @@ const WebSocketHandler = {
 
     initialize: async function () {
         try {
-            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            // this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
                 this.isConnected = true;

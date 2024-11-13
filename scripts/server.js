@@ -27,14 +27,16 @@ wss.on('connection', (ws) => {
 
             // Assign this client to the session
             currentSessionId = sessionId;
-            console.log(`client joined session ${sessionId}`);
             sessions[sessionId].push(ws);
+            console.log(`new client joined session ${sessionId}, total amount of clients connected: ${sessions[sessionId].length}`);
 
             // Notify the client of the session they've joined
             ws.send(JSON.stringify({ type: 'session-joined', sessionId }));
 
             // Send the latest characters state to the client when they join
-            ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
+            if (sessions[sessionId].length > 1) {
+                ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
+            }
         }
 
         if (data.type === 'characters-update') {
