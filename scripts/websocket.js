@@ -6,8 +6,7 @@ const WebSocketHandler = {
 
     initialize: function() {
          if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
-            const isLocal = window.location.origin.includes('file')
-            this.ws = new WebSocket(isLocal ? 'ws://localhost:8080' : 'wss://frosthaven-assistant.onrender.com');
+            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
 
             this.ws.onopen = () => {
                 this.isConnected = true;
