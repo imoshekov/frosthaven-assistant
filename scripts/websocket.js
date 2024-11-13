@@ -30,6 +30,7 @@ const WebSocketHandler = {
                 const data = JSON.parse(event.data);
 
                 if (data.type === 'session-joined') {
+                    alert(`joined session ${data.sessionId}`);
                     document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
                 }
                 if (data.type === 'characters-update') {
@@ -39,8 +40,13 @@ const WebSocketHandler = {
             };
         }
     },
-
     getInstance: function() {
         return this.ws;
+    },
+    sendCharactersUpdate: function(){
+        this.getInstance().send(JSON.stringify({
+            type: 'characters-update',
+            characters: characters
+        }))
     }
 };

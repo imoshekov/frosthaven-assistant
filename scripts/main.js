@@ -289,20 +289,17 @@ window.onload = function () {
     UIController.handleFocusEvents();
     //saving to local storage every X seconds.
     setInterval(() => DataManager.save(), 10000);
+    //sending the complete characters array every second. 
     setInterval(() => {
         const currentCharacters = JSON.stringify(characters);
-
-        if (currentCharacters !== previousCharactersSnapshot) {
-            // Update the snapshot to the current state
-            previousCharactersSnapshot = currentCharacters;
-
-            if (UIController.allIniativeSet()) {
-                WebSocketHandler.getInstance().send(JSON.stringify({
-                    type: 'characters-update',
-                    characters: characters
-                }));
-            }
+        if(currentCharacters === previousCharactersSnapshot){
+            return;
         }
+        if (!UIController.allIniativeSet()){
+            return;
+        }
+        previousCharactersSnapshot = currentCharacters;
+        WebSocketHandler.sendCharactersUpdate();
     }, 1000);
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
 };
