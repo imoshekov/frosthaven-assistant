@@ -6,8 +6,9 @@ const WebSocketHandler = {
 
     initialize: function() {
          if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
-            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
-            
+            const isLocal = window.location.origin.includes('file')
+            this.ws = new WebSocket(isLocal ? 'ws://localhost:8080' : 'wss://frosthaven-assistant.onrender.com');
+
             this.ws.onopen = () => {
                 this.isConnected = true;
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
@@ -30,7 +31,7 @@ const WebSocketHandler = {
                 const data = JSON.parse(event.data);
 
                 if (data.type === 'session-joined') {
-                    alert(`joined session ${data.sessionId}`);
+                    alert(`Joined session ${data.sessionId}`);
                     document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
                 }
                 if (data.type === 'characters-update') {
@@ -38,6 +39,10 @@ const WebSocketHandler = {
                     UIController.renderTable();
                 }
             };
+        }
+        else{
+            alert('WebSocket is not connected. Please check your connection.');
+            return;
         }
     },
     getInstance: function() {
