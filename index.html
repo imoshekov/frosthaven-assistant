@@ -14,7 +14,6 @@
     <!-- master-container is a workaround to handle the focus event on all number fields in the page -->
     <div id="master-container">
         <h1> <img src="favicon.ico" /> Frosthaven Assistant</h1>
-        <span id="session-id"></span>
         <div class="row">
             <div class="game-setup">
                 <button class="initiative" onclick="UIController.toggleTodoVisibility()">Setup
@@ -288,11 +287,11 @@
         </div>
         <div>
             <span id="last-saved-timestamp"></span>
-            <span id="loading-spinner"></span>
+            <span id="loading-spinner"></span>          
+            <a href="https://frosthaven-assistant.onrender.com/ping" target="_blank" style="color: white; font-size: 14px;">wake up server</a>
+            <span id="session-id"></span>
         </div>
-        <a href="https://frosthaven-assistant.onrender.com/ping" target="_blank"><span style="color: white">Wake up server</span></a>
-
-        <!-- Attack Modal -->
+        
         <div id="modal-attack" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeAttackModal()">&times;</span>
