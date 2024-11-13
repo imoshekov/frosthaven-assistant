@@ -4,6 +4,7 @@
     "ws": "^8.18.0"
   },
   "scripts": {
-    "test": "node tests/test.js"
+    "test": "node tests/test.js",
+    "server": "node scripts/server.js"
   }
 }

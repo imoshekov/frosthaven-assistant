@@ -8,7 +8,6 @@ let characters = [
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
-
 wss.on('connection', (ws) => {
     let currentSessionId = null;
 
@@ -18,11 +17,12 @@ wss.on('connection', (ws) => {
         if (data.type === 'join-session') {
             // If sessionId is provided, join it; otherwise, create a new one
             let sessionId = data.sessionId;
-
+            let isNewSession = false;
             // Generate a new session ID if none was provided
             if (!sessionId) {
                 sessionId = Math.floor(Math.random() * 100);
                 sessions[sessionId] = []; // Create a new session with no clients
+                isNewSession = true;
             }
 
             // Assign this client to the session
@@ -31,7 +31,12 @@ wss.on('connection', (ws) => {
             console.log(`new client joined session ${sessionId}, total amount of clients connected: ${sessions[sessionId].length}`);
 
             // Notify the client of the session they've joined
-            ws.send(JSON.stringify({ type: 'session-joined', sessionId }));
+            ws.send(JSON.stringify({
+                type: 'session-joined',
+                sessionId: sessionId,
+                clientsCount: sessions[sessionId].length,
+                isNewSession: isNewSession
+            }));
 
             // Send the latest characters state to the client when they join
             if (sessions[sessionId].length > 1) {
@@ -65,5 +70,4 @@ wss.on('connection', (ws) => {
     });
 });
 
-
-console.log('server running...');
+console.log(`server running...`);

@@ -6,8 +6,8 @@ const WebSocketHandler = {
 
     initialize: async function () {
         try {
-            // this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
-            this.ws = new WebSocket('ws://localhost:8080');
+            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            // this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
                 this.isConnected = true;
@@ -31,7 +31,7 @@ const WebSocketHandler = {
                 const data = JSON.parse(event.data);
 
                 if (data.type === 'session-joined') {
-                    alert(`Joined session ${data.sessionId}`);
+                    alert(`Joined session ${data.sessionId}. Clients connected ${data.clientsCount}.`);
                     document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
                 }
                 if (data.type === 'characters-update') {
