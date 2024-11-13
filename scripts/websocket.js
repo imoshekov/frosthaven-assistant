@@ -4,8 +4,8 @@ const WebSocketHandler = {
     ws: null,
     isConnected: false,
 
-    initialize: function() {
-         if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
+    initialize: async function () {
+        try {
             this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
 
             this.ws.onopen = () => {
@@ -38,16 +38,15 @@ const WebSocketHandler = {
                     UIController.renderTable();
                 }
             };
-        }
-        else{
-            alert('WebSocket is not connected. Please check your connection.');
-            return;
+
+        } catch (error) {
+            console.error("Error waking up the server:", error.message);
         }
     },
-    getInstance: function() {
+    getInstance: function () {
         return this.ws;
     },
-    sendCharactersUpdate: function(){
+    sendCharactersUpdate: function () {
         this.getInstance().send(JSON.stringify({
             type: 'characters-update',
             characters: characters
