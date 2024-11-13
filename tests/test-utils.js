@@ -1,9 +1,6 @@
 const { By, until} = require('selenium-webdriver');
 
 const TestUtils = {
-    async mockSessionPrompt(driver){
-        driver.executeScript('window.prompt = function() { return "15"; }');
-    },
     async addMonster(driver, monster) {
         await driver.findElement(By.id('type')).sendKeys(monster.type);
         await driver.findElement(By.id('level')).clear();

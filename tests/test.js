@@ -294,7 +294,6 @@ async function runAllTests() {
     try {
         await testCreatureContainerHasContent();
         await testAlertForMissingType();
-        TestUtils.mockSessionPrompt(driver);
         await testAddMonster();
         await testAttackModalDisplayed();
         await testBaseDamageApplication();
