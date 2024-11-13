@@ -176,6 +176,7 @@ img.background {
     align-items: center;
     flex-direction: column;
     margin-top: 20px;
+    min-height: 75px;
 }
 
 .character-skin .name b {
