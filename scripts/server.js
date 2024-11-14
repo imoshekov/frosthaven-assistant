@@ -1,6 +1,6 @@
 const http = require('http');
 const WebSocket = require('ws');
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const sessions = {}; // Store sessions and connected clients
 let characters = [
@@ -32,8 +32,16 @@ const server = http.createServer((req, res) => {
 // Attach WebSocket server to the same HTTP server
 const wss = new WebSocket.Server({ server });
 
+// Set up the ping-pong mechanism to keep WebSocket connections alive
+const heartbeatInterval = 30000; 
 wss.on('connection', (ws) => {
     let currentSessionId = null;
+
+    // Mark the connection as alive and listen for pongs
+    ws.isAlive = true;
+    ws.on('pong', () => {
+        ws.isAlive = true; 
+    });
 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
@@ -69,7 +77,7 @@ wss.on('connection', (ws) => {
                 });
             }
         }
-     });
+    });
 
     ws.on('close', () => {
         if (currentSessionId && sessions[currentSessionId]) {
@@ -80,6 +88,18 @@ wss.on('connection', (ws) => {
         }
     });
 });
+
+// Set up a regular interval to check if clients are still alive
+setInterval(() => {
+    wss.clients.forEach((ws) => {
+        if (!ws.isAlive) {
+            return ws.terminate(); 
+        }
+
+        ws.isAlive = false; 
+        ws.ping(); 
+    });
+}, heartbeatInterval);
 
 // Start the HTTP & WebSocket server
 server.listen(PORT, () => {
