@@ -280,10 +280,14 @@ window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
     UIController.handleFocusEvents();
+    document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
     //saving to local storage every X seconds.
     setInterval(() => DataManager.save(), 10000);
     //sending the complete characters array every second. 
     setInterval(() => {
+        if(!WebSocketHandler.getInstance()){
+            return;
+        }
         const currentCharacters = JSON.stringify(characters);
         if(currentCharacters === previousCharactersSnapshot){
             return;
@@ -294,7 +298,17 @@ window.onload = function () {
         previousCharactersSnapshot = currentCharacters;
         WebSocketHandler.sendCharactersUpdate();
     }, 1000);
-    document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
+    //ping the server every X seconds to keep it alive
+    setInterval(() => {
+        fetch('https://frosthaven-assistant.onrender.com/ping')
+          .then(response => {
+            if (!response.ok) {
+              console.error('Server ping failed:', response.status);
+            }
+          })
+          .catch(error => console.error('Error pinging server:', error));
+      }, 300000); 
+    }
 };
 
 const attackModal = document.getElementById('modal-attack');
