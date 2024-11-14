@@ -275,30 +275,32 @@ function preventExclusiveConditions() {
 
 let previousCharactersSnapshot = JSON.stringify(characters);
 
-// Render default characters when page loads
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
     UIController.handleFocusEvents();
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
-    //saving to local storage every X seconds.
+    
+    // Saving to local storage every X seconds.
     setInterval(() => DataManager.save(), 10000);
-    //sending the complete characters array every second. 
+
+    // Sending the complete characters array every second.
     setInterval(() => {
-        if(!WebSocketHandler.getInstance()){
+        if (!WebSocketHandler.getInstance()) {
             return;
         }
         const currentCharacters = JSON.stringify(characters);
-        if(currentCharacters === previousCharactersSnapshot){
+        if (currentCharacters === previousCharactersSnapshot) {
             return;
         }
-        if (!UIController.allIniativeSet()){
+        if (!UIController.allIniativeSet()) {
             return;
         }
         previousCharactersSnapshot = currentCharacters;
         WebSocketHandler.sendCharactersUpdate();
     }, 1000);
-    //ping the server every X seconds to keep it alive
+
+    // Ping the server every X seconds to keep it alive.
     setInterval(() => {
         fetch('https://frosthaven-assistant.onrender.com/ping')
           .then(response => {
@@ -307,8 +309,7 @@ window.onload = function () {
             }
           })
           .catch(error => console.error('Error pinging server:', error));
-      }, 300000); 
-    }
+      }, 300000);
 };
 
 const attackModal = document.getElementById('modal-attack');
