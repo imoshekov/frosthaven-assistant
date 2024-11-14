@@ -9,8 +9,7 @@ const UIController = {
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
-    <input type="number" class="initiative" value="${creature.initiative}"
-    onchange="
+    <input type="number" class="initiative" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
@@ -21,8 +20,8 @@ const UIController = {
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-            <div class='name'>
-                <b>${creature.name}</b>
+            <div class="name ${creature.aggressive ? 'standee-only' : ''}">
+                <b>${creature.aggressive ? creature.standee : creature.name}</b>
             </div>
         </div>
         <div class='stats'>
@@ -74,7 +73,8 @@ const UIController = {
             </span>
         </div>
     </div>
-    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>` : ''}
+    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>` :
+    ''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
