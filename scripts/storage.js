@@ -15,7 +15,7 @@ const DataManager = {
 
         //totally useless timeout, it is just to please merx3 as he requested a loading spinner (merx3 is pleased ;])
         setTimeout(() => {
-            document.getElementById('last-saved-timestamp').innerHTML = `Last local saved: ${new Date().toLocaleTimeString()}`;
+            document.getElementById('last-saved-timestamp').innerHTML = `Last local save: ${new Date().toLocaleTimeString()}`;
             document.getElementById('loading-spinner').style.visibility = 'hidden';
         }, 1000);
     },

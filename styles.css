@@ -559,7 +559,7 @@ option {
     word-wrap: break-word;
 }
 
-#last-saved-timestamp, #session-id {
+.technical-log {
     font-size: 14px;
 }
 
