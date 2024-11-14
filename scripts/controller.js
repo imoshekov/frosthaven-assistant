@@ -186,7 +186,7 @@ const UIController = {
         const roundNumberElement = document.getElementById("round-number");
         const nextRound = (parseInt(roundNumberElement.value) + 1);
         roundNumberElement.value = nextRound;
-        if(WebSocketHandler.getInstance()){
+        if(WebSocketHandler.isConnected){
             WebSocketHandler.sendRoundNumber(nextRound);
         }
 

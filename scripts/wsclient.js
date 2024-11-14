@@ -56,7 +56,7 @@ const WebSocketHandler = {
         return this.ws;
     },
     sendCharactersUpdate: function () {
-        this.getInstance().send(JSON.stringify({
+        this.ws.send(JSON.stringify({
             type: 'characters-update',
             characters: characters
         }))
