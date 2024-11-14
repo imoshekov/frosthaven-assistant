@@ -164,6 +164,9 @@ img.background {
     padding: 15% 0;
     align-items: center;
 }
+.standee-only{
+    font-size: 35px;
+}
 
 .character-skin {
     display: flex;
