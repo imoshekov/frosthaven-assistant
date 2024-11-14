@@ -4,13 +4,16 @@ const WebSocketHandler = {
 
     initialize: async function () {
         try {
-            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
-            // this.ws = new WebSocket('ws://localhost:8080');
+            // this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
-                this.isConnected = true;
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
+                // if (sessionId === null) {
+                //     return;
+                // }
                 this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
+                this.isConnected = true;
             };
 
             this.ws.onerror = () => {
@@ -29,8 +32,15 @@ const WebSocketHandler = {
                 const data = JSON.parse(event.data);
 
                 if (data.type === 'session-joined') {
-                    alert(`Joined session ${data.sessionId}. Clients connected ${data.clientsCount}.`);
-                    document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
+                    const message = `session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
+                    document.getElementById('session-id').textContent = message;
+                    const toast = document.getElementById('toast-notification');
+                    toast.textContent = message;
+                    toast.classList.add('show');
+
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 5000);
                 }
                 if (data.type === 'characters-update') {
                     characters = data.characters;
