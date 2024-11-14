@@ -8,9 +8,9 @@ const WebSocketHandler = {
             // this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
-                this.isConnected = true;
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
                 this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
+                this.isConnected = true;
             };
 
             this.ws.onerror = () => {
@@ -29,12 +29,32 @@ const WebSocketHandler = {
                 const data = JSON.parse(event.data);
 
                 if (data.type === 'session-joined') {
-                    alert(`Joined session ${data.sessionId}. Clients connected ${data.clientsCount}.`);
-                    document.getElementById('session-id').textContent = `session: ${data.sessionId}`;
+                    const message = `session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
+                    document.getElementById('session-id').textContent = message;
+                    const toast = document.getElementById('toast-notification');
+                    toast.textContent = message;
+                    toast.classList.add('show');
+
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 5000);
                 }
                 if (data.type === 'characters-update') {
                     characters = data.characters;
                     UIController.renderTable();
+                }
+                if (data.type === 'round-update') {
+                    document.getElementById('round-number').value = data.roundNumber;
+                }
+                if (data.type === 'element-update') {
+                    const elementState = JSON.parse(data.elementState)
+                    const element = document.getElementById(elementState.elementId);
+
+                    if (element) {
+                        const pathElement = element.querySelector('path');
+                        pathElement.setAttribute('d', elementState.path); 
+                        pathElement.setAttribute('fill', elementState.fill); 
+                    }
                 }
             };
 
@@ -46,9 +66,21 @@ const WebSocketHandler = {
         return this.ws;
     },
     sendCharactersUpdate: function () {
-        this.getInstance().send(JSON.stringify({
+        this.ws.send(JSON.stringify({
             type: 'characters-update',
             characters: characters
         }))
+    },
+    sendRoundNumber: function (roundNumberValue) {
+        this.ws.send(JSON.stringify({
+            type: 'round-update',
+            roundNumber: roundNumberValue
+        }));
+    },
+    sendElementState: function (elementState) {
+        this.ws.send(JSON.stringify({
+            type: 'element-update',
+            elementState: elementState,
+        }));
     }
 };

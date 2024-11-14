@@ -286,7 +286,7 @@ window.onload = function () {
 
     // Sending the complete characters array every second.
     setInterval(() => {
-        if (!WebSocketHandler.getInstance()) {
+        if (!WebSocketHandler.isConnected) {
             return;
         }
         const currentCharacters = JSON.stringify(characters);
