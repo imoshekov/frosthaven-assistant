@@ -306,6 +306,8 @@ window.onload = function () {
           .then(response => {
             if (!response.ok) {
               console.error('Server ping failed:', response.status);
+            }else{
+                document.getElementById('server-last-pinged').innerHTML = `Last server ping: ${new Date().toLocaleTimeString()}`;
             }
           })
           .catch(error => console.error('Error pinging server:', error));
