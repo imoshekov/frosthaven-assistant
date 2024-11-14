@@ -21,7 +21,7 @@ const UIController = {
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
             <div class="name ${creature.aggressive ? 'standee-only' : ''}">
-                <b>${creature.aggressive ? creature.standee : creature.name}</b>
+                <b>${creature.aggressive ? `#${creature.standee}` : creature.name}</b>
             </div>
         </div>
         <div class='stats'>
