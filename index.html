@@ -37,7 +37,8 @@
         </div>
         <div class="add-char">
             <div class="row">
-                <button class="initiative" onclick="DataManager.reset()">New Game</button>
+                <button class="initiative" onclick="DataManager.reset(); UIController.renderTable();">New Game</button>
+                <button class="initiative" onclick="WebSocketHandler.initialize()">Create/Join Session</button>
                 <h3>Add Monster</h3>
                 <div class="default-stats">
                     <label for="Type">Type: </label>
@@ -286,10 +287,11 @@
         </div>
         <div>
             <span id="last-saved-timestamp"></span>
-            <span id="loading-spinner"></span>
+            <span id="session-id"></span>
+            <span id="loading-spinner"></span>          
+            <a href="https://frosthaven-assistant.onrender.com/ping" target="_blank" style="color: white; font-size: 14px;">wake up server</a>
         </div>
-
-        <!-- Attack Modal -->
+        
         <div id="modal-attack" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeAttackModal()">&times;</span>
@@ -346,6 +348,7 @@
             </div>
         </div>
         <script src="scripts/storage.js"></script>
+        <script src="scripts/websocket.js"></script>
         <script src="scripts/controller.js"></script>
         <script src="data/data.js"></script>
         <script src="data/images.js"></script>

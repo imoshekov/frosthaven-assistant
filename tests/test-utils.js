@@ -1,7 +1,7 @@
 const { By, until} = require('selenium-webdriver');
 
 const TestUtils = {
-    async  addMonster(driver, monster) {
+    async addMonster(driver, monster) {
         await driver.findElement(By.id('type')).sendKeys(monster.type);
         await driver.findElement(By.id('level')).clear();
         await driver.findElement(By.id('level')).sendKeys(monster.level);
