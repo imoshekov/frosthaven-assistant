@@ -92,6 +92,19 @@ wss.on('connection', (ws) => {
                 });
             }
         }
+        if (data.type === 'element-update') {
+            // Broadcast the color update to all clients in the same session
+            if (currentSessionId && sessions[currentSessionId]) {
+                sessions[currentSessionId].forEach(client => {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                            type: 'element-update',
+                            elementState: data.elementState
+                        }));
+                    }
+                });
+            }
+        }
     });
 
     ws.on('close', () => {

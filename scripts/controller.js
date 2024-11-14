@@ -127,21 +127,31 @@ const UIController = {
     toggleColor(element) {
         const elementId = element.id;
         const path = element.querySelector('path');
+        const pathData = path.getAttribute('d');
         const pathFill = path.getAttribute('fill');
 
+        // Determine the new fill based on the current state
+        let newFill;
         if (!pathFill || pathFill === `url(#${elementId}-bw)`) {
-            path.setAttribute('fill', `url(#${elementId}-color)`);
-            return;
+            newFill = `url(#${elementId}-color)`;
+        } else if (pathFill === `url(#${elementId}-color)`) {
+            newFill = `url(#${elementId}-half)`;
+        } else if (pathFill === `url(#${elementId}-half)`) {
+            newFill = `url(#${elementId}-bw)`;
         }
-        if (pathFill === `url(#${elementId}-color)`) {
-            path.setAttribute('fill', `url(#${elementId}-half)`);
-            return;
+
+        // Update the path fill on the client
+        path.setAttribute('fill', newFill);
+
+        // Send the updated color state to the server via WebSocket
+        if (WebSocketHandler.isConnected) {
+            const elementState = {
+                elementId: elementId,
+                path: pathData,
+                fill: newFill
+            };
+            WebSocketHandler.sendElementState(JSON.stringify(elementState));
         }
-        if (pathFill === `url(#${elementId}-half)`) {
-            path.setAttribute('fill', `url(#${elementId}-bw)`);
-            return;
-        }
-        return;
     },
     toggleTodoVisibility() {
         const todoList = document.getElementById('todoList');
@@ -170,7 +180,6 @@ const UIController = {
             c.initiative = 0;
         });
 
-        this.sortCreatures();
         this.renderTable();
 
         const elements = document.querySelectorAll('.elements-wrapper svg');

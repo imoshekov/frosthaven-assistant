@@ -46,6 +46,16 @@ const WebSocketHandler = {
                 if (data.type === 'round-update') {
                     document.getElementById('round-number').value = data.roundNumber;
                 }
+                if (data.type === 'element-update') {
+                    const elementState = JSON.parse(data.elementState)
+                    const element = document.getElementById(elementState.elementId);
+
+                    if (element) {
+                        const pathElement = element.querySelector('path');
+                        pathElement.setAttribute('d', elementState.path); // Set the path data
+                        pathElement.setAttribute('fill', elementState.fill); // Set the new fill color
+                    }
+                }
             };
 
         } catch (error) {
@@ -65,6 +75,12 @@ const WebSocketHandler = {
         this.ws.send(JSON.stringify({
             type: 'round-update',
             roundNumber: roundNumberValue
+        }));
+    },
+    sendElementState: function (elementState) {
+        this.ws.send(JSON.stringify({
+            type: 'element-update',
+            elementState: elementState,
         }));
     }
 };
