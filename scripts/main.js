@@ -275,26 +275,43 @@ function preventExclusiveConditions() {
 
 let previousCharactersSnapshot = JSON.stringify(characters);
 
-// Render default characters when page loads
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
     UIController.handleFocusEvents();
-    //saving to local storage every X seconds.
+    document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
+    
+    // Saving to local storage every X seconds.
     setInterval(() => DataManager.save(), 10000);
-    //sending the complete characters array every second. 
+
+    // Sending the complete characters array every second.
     setInterval(() => {
-        const currentCharacters = JSON.stringify(characters);
-        if(currentCharacters === previousCharactersSnapshot){
+        if (!WebSocketHandler.getInstance()) {
             return;
         }
-        if (!UIController.allIniativeSet()){
+        const currentCharacters = JSON.stringify(characters);
+        if (currentCharacters === previousCharactersSnapshot) {
+            return;
+        }
+        if (!UIController.allIniativeSet()) {
             return;
         }
         previousCharactersSnapshot = currentCharacters;
         WebSocketHandler.sendCharactersUpdate();
     }, 1000);
-    document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
+
+    // Ping the server every X seconds to keep it alive.
+    setInterval(() => {
+        fetch('https://frosthaven-assistant.onrender.com/ping')
+          .then(response => {
+            if (!response.ok) {
+              console.error('Server ping failed:', response.status);
+            }else{
+                document.getElementById('server-last-pinged').innerHTML = `Last server ping: ${new Date().toLocaleTimeString()}`;
+            }
+          })
+          .catch(error => console.error('Error pinging server:', error));
+      }, 300000);
 };
 
 const attackModal = document.getElementById('modal-attack');

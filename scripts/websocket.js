@@ -1,5 +1,3 @@
-// websocket.js
-
 const WebSocketHandler = {
     ws: null,
     isConnected: false,
