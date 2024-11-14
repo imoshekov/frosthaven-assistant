@@ -2,7 +2,7 @@ const http = require('http');
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080;
 
-const sessions = {}; // Store sessions and connected clients
+const sessions = {}; 
 let characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -10,6 +10,8 @@ let characters = [
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 let roundNumber = 1;
+let elementStates = {};
+
 
 // Create an HTTP server
 const server = http.createServer((req, res) => {
@@ -67,6 +69,13 @@ wss.on('connection', (ws) => {
             if (sessions[sessionId].length > 1) {
                 ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
                 ws.send(JSON.stringify({ type: 'round-update', roundNumber: roundNumber }));
+                Object.keys(elementStates).forEach(elementId => {
+                    ws.send(JSON.stringify({
+                        type: 'element-update',
+                        elementId: elementId,
+                        elementState: elementStates[elementId]
+                    }));
+                });
             }
         }
         if (data.type === 'characters-update') {
@@ -93,6 +102,8 @@ wss.on('connection', (ws) => {
             }
         }
         if (data.type === 'element-update') {
+            const { elementId, elementState } = data;
+            elementStates[elementId] = elementState;
             // Broadcast the color update to all clients in the same session
             if (currentSessionId && sessions[currentSessionId]) {
                 sessions[currentSessionId].forEach(client => {

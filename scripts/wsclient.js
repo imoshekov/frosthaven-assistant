@@ -4,8 +4,8 @@ const WebSocketHandler = {
 
     initialize: async function () {
         try {
-            // this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
-            this.ws = new WebSocket('ws://localhost:8080');
+            this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            // this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
@@ -52,8 +52,8 @@ const WebSocketHandler = {
 
                     if (element) {
                         const pathElement = element.querySelector('path');
-                        pathElement.setAttribute('d', elementState.path); // Set the path data
-                        pathElement.setAttribute('fill', elementState.fill); // Set the new fill color
+                        pathElement.setAttribute('d', elementState.path); 
+                        pathElement.setAttribute('fill', elementState.fill); 
                     }
                 }
             };
