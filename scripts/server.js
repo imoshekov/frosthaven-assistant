@@ -9,6 +9,7 @@ let characters = [
     { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
+let roundNumber = 1;
 
 // Create an HTTP server
 const server = http.createServer((req, res) => {
@@ -33,14 +34,14 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocket.Server({ server });
 
 // Set up the ping-pong mechanism to keep WebSocket connections alive
-const heartbeatInterval = 30000; 
+const heartbeatInterval = 30000;
 wss.on('connection', (ws) => {
     let currentSessionId = null;
 
     // Mark the connection as alive and listen for pongs
     ws.isAlive = true;
     ws.on('pong', () => {
-        ws.isAlive = true; 
+        ws.isAlive = true;
     });
 
     ws.on('message', (message) => {
@@ -65,6 +66,7 @@ wss.on('connection', (ws) => {
             }));
             if (sessions[sessionId].length > 1) {
                 ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
+                ws.send(JSON.stringify({ type: 'round-update', roundNumber: roundNumber }));
             }
         }
         if (data.type === 'characters-update') {
@@ -73,6 +75,19 @@ wss.on('connection', (ws) => {
                 sessions[currentSessionId].forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({ type: 'characters-update', characters: characters }));
+                    }
+                });
+            }
+        }
+        if (data.type === 'round-update') {
+            roundNumber = data.roundNumber; 
+            if (currentSessionId && sessions[currentSessionId]) {
+                sessions[currentSessionId].forEach(client => {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                            type: 'round-update',
+                            roundNumber: data.roundNumber
+                        }));
                     }
                 });
             }
@@ -93,11 +108,11 @@ wss.on('connection', (ws) => {
 setInterval(() => {
     wss.clients.forEach((ws) => {
         if (!ws.isAlive) {
-            return ws.terminate(); 
+            return ws.terminate();
         }
 
-        ws.isAlive = false; 
-        ws.ping(); 
+        ws.isAlive = false;
+        ws.ping();
     });
 }, heartbeatInterval);
 

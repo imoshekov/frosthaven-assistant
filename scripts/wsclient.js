@@ -9,9 +9,6 @@ const WebSocketHandler = {
 
             this.ws.onopen = () => {
                 const sessionId = prompt("Enter session ID or leave blank to create a new one:");
-                // if (sessionId === null) {
-                //     return;
-                // }
                 this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
                 this.isConnected = true;
             };
@@ -46,6 +43,9 @@ const WebSocketHandler = {
                     characters = data.characters;
                     UIController.renderTable();
                 }
+                if (data.type === 'round-update') {
+                    document.getElementById('round-number').value = data.roundNumber;
+                }
             };
 
         } catch (error) {
@@ -60,5 +60,11 @@ const WebSocketHandler = {
             type: 'characters-update',
             characters: characters
         }))
+    },
+    sendRoundNumber: function (roundNumberValue) {
+        this.ws.send(JSON.stringify({
+            type: 'round-update',
+            roundNumber: roundNumberValue
+        }));
     }
 };

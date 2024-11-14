@@ -184,7 +184,11 @@ const UIController = {
             }
         });
         const roundNumberElement = document.getElementById("round-number");
-        roundNumberElement.value = (parseInt(roundNumberElement.value) + 1);
+        const nextRound = (parseInt(roundNumberElement.value) + 1);
+        roundNumberElement.value = nextRound;
+        if(WebSocketHandler.getInstance()){
+            WebSocketHandler.sendRoundNumber(nextRound);
+        }
 
     },
     removeCreature(index) {
