@@ -29,36 +29,30 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-
         if (data.type === 'join-session') {
             let sessionId = data.sessionId;
             let isNewSession = false;
-
-            if (!sessionId) {
-                sessionId = Math.floor(Math.random() * 100);
+            // Initialize session if it doesn't exist
+            if (!sessionId || !sessions[sessionId]) {
+                sessionId = sessionId || Math.floor(Math.random() * 100);
                 sessions[sessionId] = [];
                 isNewSession = true;
             }
-
             currentSessionId = sessionId;
             sessions[sessionId].push(ws);
-            console.log(`new client joined session ${sessionId}, total clients: ${sessions[sessionId].length}`);
-
+            console.log(`New client joined session ${sessionId}, total clients: ${sessions[sessionId].length}`);
             ws.send(JSON.stringify({
                 type: 'session-joined',
                 sessionId: sessionId,
                 clientsCount: sessions[sessionId].length,
                 isNewSession: isNewSession
             }));
-
             if (sessions[sessionId].length > 1) {
                 ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
             }
         }
-
         if (data.type === 'characters-update') {
             characters = data.characters;
-
             if (currentSessionId && sessions[currentSessionId]) {
                 sessions[currentSessionId].forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
@@ -67,7 +61,7 @@ wss.on('connection', (ws) => {
                 });
             }
         }
-    });
+     });
 
     ws.on('close', () => {
         if (currentSessionId && sessions[currentSessionId]) {
