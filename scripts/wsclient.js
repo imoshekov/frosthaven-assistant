@@ -94,7 +94,7 @@ const WebSocketHandler = {
         this.ws.send(JSON.stringify({
             type: 'element-update',
             elementId: elementId,
-            elementState: elementState, // Send as an object
+            elementState: elementState,
         }));
     },
     handleSessionJoined: function (data) {
