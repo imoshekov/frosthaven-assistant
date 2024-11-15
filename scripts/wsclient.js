@@ -5,6 +5,7 @@ const WebSocketHandler = {
     initialize: async function () {
         try {
             this.ws = new WebSocket('wss://frosthaven-assistant.onrender.com');
+            //local debug, todo to change this dynamically
             // this.ws = new WebSocket('ws://localhost:8080');
 
             this.ws.onopen = () => {
@@ -36,8 +37,9 @@ const WebSocketHandler = {
                     toast.classList.add('show');
 
                     setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 5000);
+                        toast.classList.remove("show");
+                        toast.classList.add("hide");        
+                    }, 3000);
                 }
                 if (data.type === 'characters-update') {
                     characters = data.characters;

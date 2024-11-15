@@ -10,8 +10,8 @@
     --banner-spear-transperant-color: rgb(237 187 71 / 50%);
     --deathwalker-transperant-color: rgb(140 151 169 / 50%);
     --drifter-transperant-color: rgb(162 139 124 / 50%);
-    --elite-transperant-color: rgba(153 105 0 / 50%);
-    --nonelite-transperant-color: rgb(64 10 11 / 50%);
+    --elite-transperant-color: rgb(245 169 2 / 50%);
+    --nonelite-transperant-color: rgb(70 14 15 / 50%);
     --friendly-transperant-color: rgb(131 124 162 / 50%);
     --hp-color: #690202;
     --attack-color: #fbf300;
@@ -729,32 +729,6 @@ option {
     margin-right: -10px;
 }
 
-.round-tracker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #34495e;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    color: #ecf0f1;
-    text-align: center;
-    margin-top: 30px;
-}
-
-.round-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #ecf0f1;
-}
-
-.round-display span {
-    font-size: 14px;
-    opacity: 0.8;
-}
-
 #round-number {
     font-size: 24px;
     font-weight: bold;
@@ -770,7 +744,7 @@ option {
     background-color: #333;
     color: #fff;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 5px;
     padding: 16px;
     position: fixed;
     z-index: 1;
@@ -778,21 +752,31 @@ option {
     bottom: 30px;
     transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
 }
 
 .toast.show {
     visibility: visible;
     opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.button-container {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+.toast.hide {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; 
 }
 
 .buttons-column {
     display: flex;
     flex-direction: column;
+    align-items: center; 
+}
+
+.round-info {
+     display: flex; 
+    align-items: center;   
+}
+
+.round-info span {
+    font-size: 16px; 
 }

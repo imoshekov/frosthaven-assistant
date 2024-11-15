@@ -40,7 +40,7 @@
             <div class="row">
                 <button class="initiative" onclick="DataManager.reset(); UIController.renderTable();">New Game</button>
                 <button class="initiative" onclick="WebSocketHandler.initialize()">Start/Join Session</button>
-                <h3>Add Monster</h3>
+                <h3 style="padding-left: 10px">Add Monster</h3>
                 <div class="default-stats">
                     <label for="Type">Type: </label>
                     <select id="type" autocomplete="on"></select>
@@ -57,16 +57,13 @@
                     <label for="Elite">Elite: </label>
                     <input type="checkbox" id="elite-monster" />
                 </div>
-                <div class="button-container">
-                    <div class="buttons-column">
-                        <button id="add-monster" class="initiative" onclick="UIController.addCharacter()">Add Monster</button>
-                        <button class="attack" onclick="UIController.nextRound()">Next Round</button>
-                    </div>
-                    <div class="round-tracker">
-                        <div class="round-display">
-                            <span>Round</span>
-                            <input type="number" id="round-number" value="1">
-                        </div>
+
+                <div class="buttons-column">
+                    <button id="add-monster" class="initiative" onclick="UIController.addCharacter()">Add
+                        Monster</button>
+                    <button class="attack" style="width:375px" onclick="UIController.nextRound()">Next Round</button>
+                    <div class="round-info">
+                        <span>ROUND<input type="number" id="round-number" value="1"></span> 
                     </div>
                 </div>
             </div>
