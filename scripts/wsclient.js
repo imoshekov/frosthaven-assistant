@@ -98,7 +98,7 @@ const WebSocketHandler = {
                     }
                 })
                 .catch(error => console.error('Error pinging server:', error));
-        }, 300000);
+        }, 180000);
     },
     sendCharactersUpdate: function () {
         this.ws.send(JSON.stringify({
