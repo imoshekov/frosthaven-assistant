@@ -82,17 +82,14 @@ wss.on('connection', (ws) => {
         if (data.type === 'characters-update') {
             characters = data.characters;
             broadcastToSession(currentSessionId, 'characters-update', { characters });
-        }
-        
+        }       
         if (data.type === 'round-update') {
             roundNumber = data.roundNumber;
             broadcastToSession(currentSessionId,'round-update', { roundNumber: data.roundNumber });
-        }
-        
+        }       
         if (data.type === 'element-update') {
-            const { elementId, elementState } = data;
-            elementStates[elementId] = elementState;
-            broadcastToSession(currentSessionId,'element-update', { elementState });
+            elementStates[data.elementId] = data.elementState;
+            broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState });
         }
     });
 

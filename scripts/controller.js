@@ -210,7 +210,7 @@ const UIController = {
                 path: pathData,
                 fill: newFill
             };
-            WebSocketHandler.sendElementState(JSON.stringify(elementState));
+            WebSocketHandler.sendElementState(elementId, JSON.stringify(elementState));
         }
     },
     toggleTodoVisibility() {

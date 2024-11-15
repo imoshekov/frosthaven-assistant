@@ -69,10 +69,11 @@ const WebSocketHandler = {
             roundNumber: roundNumberValue
         }));
     },
-    sendElementState: function (elementState) {
+    sendElementState: function (elementId, elementState) {
         this.ws.send(JSON.stringify({
             type: 'element-update',
-            elementState: elementState,
+            elementId: elementId,
+            elementState: elementState, // Send as an object
         }));
     },
     handleSessionJoined: function (data) {
