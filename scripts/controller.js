@@ -289,6 +289,7 @@ const UIController = {
     showToastNotification(message) {
         const toast = document.getElementById('toast-notification');
         toast.textContent = message;
+        toast.classList.remove("hide");
         toast.classList.add('show');
     },
     hideToastNotification(timeout) {
