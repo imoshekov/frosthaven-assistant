@@ -7,7 +7,7 @@ const TestUtils = {
         await driver.findElement(By.id('level')).sendKeys(monster.level);
         await driver.findElement(By.id('standee-number')).sendKeys(monster.standee);
     
-        const addMonsterButton = await driver.findElement(By.css('.add-char .button-group .initiative[onclick="addCharacter()"]'));
+        const addMonsterButton = await driver.findElement(By.id('add-monster'));
         await addMonsterButton.click();
     },
     async openAttackModal(driver, attackTargetId = 0) {
