@@ -33,8 +33,7 @@ const server = http.createServer((req, res) => {
 // Attach WebSocket server to the same HTTP server
 const wss = new WebSocket.Server({ server });
 
-// Set up the ping-pong mechanism to keep WebSocket connections alive
-const heartbeatInterval = 30000;
+
 wss.on('connection', (ws) => {
     ws.clientId = Math.random().toString(36).slice(2, 10); 
     let currentSessionId = null;
@@ -119,6 +118,8 @@ function broadcastToSession(sessionId, type, data) {
     }
 }
 
+// Set up the ping-pong mechanism to keep WebSocket connections alive
+const heartbeatInterval = 30000;
 // Set up a regular interval to check if clients are still alive
 setInterval(() => {
     wss.clients.forEach((ws) => {
