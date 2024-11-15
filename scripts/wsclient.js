@@ -79,14 +79,8 @@ const WebSocketHandler = {
     handleSessionJoined: function (data) {
         const message = `session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
         document.getElementById('session-id').textContent = message;
-        const toast = document.getElementById('toast-notification');
-        toast.textContent = message;
-        toast.classList.add('show');
-
-        setTimeout(() => {
-            toast.classList.remove("show");
-            toast.classList.add("hide");
-        }, 3000);
+        UIController.showToastNotification(message);
+        UIController.hideToastNotification(3000);
     },
     handleCharacterUpdate: function (data) {
         characters = data.characters;
