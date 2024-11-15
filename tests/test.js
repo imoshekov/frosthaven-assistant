@@ -44,7 +44,7 @@ async function testCreatureContainerHasContent() {
 }
 
 async function testAlertForMissingType() {
-    const addButton = await driver.findElement(By.xpath("//button[contains(@class, 'initiative') and text()='Add Monster']"));
+    const addButton = await driver.findElement(By.id('add-monster'));
     await addButton.click();
 
     await driver.wait(until.alertIsPresent(), 5000);
