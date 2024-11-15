@@ -3,7 +3,7 @@ const WebSocketHandler = {
     isConnected: false,
     sessionId: null,
     reconnectAttempts: 0,
-    maxReconnectAttempts: 3,
+    maxReconnectAttempts: 5,
 
     initialize: async function () {
         try {
@@ -66,10 +66,13 @@ const WebSocketHandler = {
     tryReconnect: function () {
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
             this.reconnectAttempts++;
+            //3 seconds it base delay, try up to 30 seconds
+            const delay = Math.min(3000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
+
             console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
             setTimeout(() => {
                 this.connect();
-            }, 3000); 
+            }, delay); 
         } else {
             UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
             UIController.hideToastNotification(5000);
