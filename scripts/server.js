@@ -2,7 +2,7 @@ const http = require('http');
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080;
 
-const sessions = {}; 
+const sessions = {};
 let characters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -67,6 +67,7 @@ wss.on('connection', (ws) => {
                 isNewSession: isNewSession
             }));
             if (sessions[sessionId].length > 1) {
+                //update clients with current state of synced elemenets
                 ws.send(JSON.stringify({ type: 'characters-update', characters: characters }));
                 ws.send(JSON.stringify({ type: 'round-update', roundNumber: roundNumber }));
                 Object.keys(elementStates).forEach(elementId => {
@@ -80,41 +81,15 @@ wss.on('connection', (ws) => {
         }
         if (data.type === 'characters-update') {
             characters = data.characters;
-            if (currentSessionId && sessions[currentSessionId]) {
-                sessions[currentSessionId].forEach(client => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({ type: 'characters-update', characters: characters }));
-                    }
-                });
-            }
-        }
+            broadcastToSession(currentSessionId, 'characters-update', { characters });
+        }       
         if (data.type === 'round-update') {
-            roundNumber = data.roundNumber; 
-            if (currentSessionId && sessions[currentSessionId]) {
-                sessions[currentSessionId].forEach(client => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({
-                            type: 'round-update',
-                            roundNumber: data.roundNumber
-                        }));
-                    }
-                });
-            }
-        }
+            roundNumber = data.roundNumber;
+            broadcastToSession(currentSessionId,'round-update', { roundNumber: data.roundNumber });
+        }       
         if (data.type === 'element-update') {
-            const { elementId, elementState } = data;
-            elementStates[elementId] = elementState;
-            // Broadcast the color update to all clients in the same session
-            if (currentSessionId && sessions[currentSessionId]) {
-                sessions[currentSessionId].forEach(client => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({
-                            type: 'element-update',
-                            elementState: data.elementState
-                        }));
-                    }
-                });
-            }
+            elementStates[data.elementId] = data.elementState;
+            broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState });
         }
     });
 
@@ -127,6 +102,16 @@ wss.on('connection', (ws) => {
         }
     });
 });
+
+function broadcastToSession(sessionId, type, data) {
+    if (sessionId && sessions[sessionId]) {
+        sessions[sessionId].forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({ type, ...data }));
+            }
+        });
+    }
+}
 
 // Set up a regular interval to check if clients are still alive
 setInterval(() => {
