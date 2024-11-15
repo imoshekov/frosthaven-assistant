@@ -3,66 +3,6 @@ let characters = JSON.parse(DataManager.load('characters')) || data.defaultChara
 let conditionTarget = null;
 let attackTarget = null;
 
-function addCharacter() {
-    const type = document.getElementById('type').value.toLowerCase();
-    if (!type) {
-        alert('Select monster type first')
-        return;
-    }
-    const standee = document.getElementById('standee-number').value;
-    if (!standee) {
-        alert('Select standee # first')
-        return;
-    }
-    const level = parseInt(document.getElementById('level').value);
-    const isElite = document.getElementById('elite-monster').checked;  
-    let name = `${type} ${standee}`;
-    const monsterData = data.monsters.find(monster => monster.name === type);
-    let selectedMonster = monsterData.stats[level];
-
-    if (isElite) {
-        name = '* ' + name;
-        selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
-    }
-    let initMovement = monsterData.baseStat?.movement;
-    if (!initMovement) {
-        initMovement = selectedMonster.movement;
-    }
-    const initiative = 0;
-    const defaultAttack = parseInt(selectedMonster?.attack) || 0;
-    const defaultMovement = Math.max(initMovement, selectedMonster?.movement || 0);
-    const defaultHP = parseInt(selectedMonster?.health) || 0;
-    //by default currently supported only adding monsters
-    const isAgressive = true;
-    const defaultArmor = selectedMonster?.actions?.find(x => x.type === 'shield')?.value || 0;
-    const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
-
-    const newCreature = {
-        name,
-        type,
-        standee: standee,
-        aggressive: isAgressive,
-        eliteMonster: isElite,
-        hp: defaultHP,
-        attack: defaultAttack,
-        movement: defaultMovement,
-        initiative,
-        armor: defaultArmor,
-        retaliate: defaultRetaliate,
-        conditions: {},
-        defaultStats: {
-            hp: defaultHP,
-            attack: defaultAttack,
-            movement: defaultMovement,
-            initiative
-        }
-    };
-
-    characters.push(newCreature);
-    UIController.sortCreatures();
-    UIController.renderTable();
-}
-
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
     openModal('modal-attack');

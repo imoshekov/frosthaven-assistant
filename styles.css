@@ -164,7 +164,8 @@ img.background {
     padding: 15% 0;
     align-items: center;
 }
-.standee-only{
+
+.standee-only {
     font-size: 30px;
 }
 
@@ -280,7 +281,7 @@ img.background {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding: 20px 10px;
+    padding: 10px 10px;
     width: 90px;
 }
 
@@ -708,7 +709,7 @@ option {
     gap: 10px;
 }
 
-.condition-btn{
+.condition-btn {
     width: 100%;
 }
 
@@ -728,12 +729,6 @@ option {
     margin-right: -10px;
 }
 
-.button-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .round-tracker {
     display: flex;
     align-items: center;
@@ -745,6 +740,7 @@ option {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     color: #ecf0f1;
     text-align: center;
+    margin-top: 30px;
 }
 
 .round-display {
@@ -783,9 +779,20 @@ option {
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-  }
-  
-  .toast.show {
+}
+
+.toast.show {
     visibility: visible;
     opacity: 1;
-  }
+}
+
+.button-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.buttons-column {
+    display: flex;
+    flex-direction: column;
+}

@@ -57,17 +57,15 @@
                     <label for="Elite">Elite: </label>
                     <input type="checkbox" id="elite-monster" />
                 </div>
-
-                <!-- Button Group for Horizontal Alignment -->
-                <div class="button-group">
-                    <button class="initiative" onclick="addCharacter()">Add Monster</button>
-                    <button class="attack" onclick="UIController.nextRound()">Next Round</button>
-
-                    <!-- Round Tracker Element -->
+                <div class="button-container">
+                    <div class="buttons-column">
+                        <button id="add-monster" class="initiative" onclick="UIController.addCharacter()">Add Monster</button>
+                        <button class="attack" onclick="UIController.nextRound()">Next Round</button>
+                    </div>
                     <div class="round-tracker">
                         <div class="round-display">
                             <span>Round</span>
-                            <input type="number" id="round-number" value="1"></input>
+                            <input type="number" id="round-number" value="1">
                         </div>
                     </div>
                 </div>
@@ -287,13 +285,14 @@
             </ul>
         </div>
         <div>
-            <span id="loading-spinner"></span>          
+            <span id="loading-spinner"></span>
             <span class="technical-log" id="last-saved-timestamp"></span>
-            <span class="technical-log"id="session-id"></span>
+            <span class="technical-log" id="session-id"></span>
             <span class="technical-log" id="server-last-pinged"></span>
-            <a href="https://frosthaven-assistant.onrender.com/ping" target="_blank" style="color: white; font-size: 14px;">wake up server</a>
+            <a href="https://frosthaven-assistant.onrender.com/ping" target="_blank"
+                style="color: white; font-size: 14px;">wake up server</a>
         </div>
-        
+
         <div id="modal-attack" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeAttackModal()">&times;</span>
