@@ -64,15 +64,22 @@ const WebSocketHandler = {
         };
     },
     tryReconnect: function () {
+        if (this.reconnecting) return; // If a reconnect attempt is in progress, do nothing
+    
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
+            this.reconnecting = true; // Mark the reconnect attempt as in progress
             this.reconnectAttempts++;
-            //3 seconds it base delay, try up to 30 seconds
+    
+            // 3 seconds is the base delay, with exponential backoff, capped at 30 seconds
             const delay = Math.min(3000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
-
-            console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
+    
+            console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts} in ${delay / 1000} seconds`);
+    
             setTimeout(() => {
+                // Try reconnecting and reset the reconnecting flag when done
                 this.connect();
-            }, delay); 
+                this.reconnecting = false; // Reset reconnecting flag after the attempt
+            }, delay);
         } else {
             UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
             UIController.hideToastNotification(5000);
@@ -101,9 +108,9 @@ const WebSocketHandler = {
         }));
     },
     handleSessionJoined: function (data) {
-        const message = `Session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
+        const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
-        document.getElementById('session-id').textContent = `${message} Client id: ${data.clientId}`;
+        document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
         UIController.showToastNotification(message);
         UIController.hideToastNotification(3000);
     },
