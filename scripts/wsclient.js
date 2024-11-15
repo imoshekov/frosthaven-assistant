@@ -100,7 +100,7 @@ const WebSocketHandler = {
     handleSessionJoined: function (data) {
         const message = `Session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
         this.sessionId = data.sessionId;
-        document.getElementById('session-id').textContent = message;
+        document.getElementById('session-id').textContent = `${message} Client id: ${data.clientId}`;
         UIController.showToastNotification(message);
         UIController.hideToastNotification(3000);
     },
