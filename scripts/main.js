@@ -247,17 +247,7 @@ window.onload = function () {
     }, 1000);
 
     // Ping the server every X seconds to keep it alive.
-    setInterval(() => {
-        fetch('https://frosthaven-assistant.onrender.com/ping')
-          .then(response => {
-            if (!response.ok) {
-              console.error('Server ping failed:', response.status);
-            }else{
-                document.getElementById('server-last-pinged').innerHTML = `Last server ping: ${new Date().toLocaleTimeString()}`;
-            }
-          })
-          .catch(error => console.error('Error pinging server:', error));
-      }, 300000);
+    WebSocketHandler.keepServerAlive();
 };
 
 const attackModal = document.getElementById('modal-attack');

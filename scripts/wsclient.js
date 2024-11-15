@@ -31,7 +31,7 @@ const WebSocketHandler = {
         this.ws.onerror = () => {
             this.isConnected = false;
             UIController.showToastNotification("Unable to connect to the server. Retrying...");
-            UIController.hideToastNotification(3000);
+            UIController.hideToastNotification(2000);
             this.tryReconnect();
         };
 
@@ -67,7 +67,7 @@ const WebSocketHandler = {
         if (this.reconnecting) return; // If a reconnect attempt is in progress, do nothing
     
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
-            this.reconnecting = true; // Mark the reconnect attempt as in progress
+            this.reconnecting = true; 
             this.reconnectAttempts++;
     
             // 3 seconds is the base delay, with exponential backoff, capped at 30 seconds
@@ -76,17 +76,29 @@ const WebSocketHandler = {
             console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts} in ${delay / 1000} seconds`);
     
             setTimeout(() => {
-                // Try reconnecting and reset the reconnecting flag when done
                 this.connect();
                 this.reconnecting = false; // Reset reconnecting flag after the attempt
             }, delay);
         } else {
             UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
-            UIController.hideToastNotification(5000);
+            UIController.hideToastNotification(3000);
         }
     },
     getInstance: function () {
         return this.ws;
+    },
+    keepServerAlive: function () {
+        setInterval(() => {
+            fetch('https://frosthaven-assistant.onrender.com/ping')
+                .then(response => {
+                    if (!response.ok) {
+                        console.error('Server ping failed:', response.status);
+                    } else {
+                        document.getElementById('server-last-pinged').innerHTML = `Last server ping: ${new Date().toLocaleTimeString()}`;
+                    }
+                })
+                .catch(error => console.error('Error pinging server:', error));
+        }, 300000);
     },
     sendCharactersUpdate: function () {
         this.ws.send(JSON.stringify({
