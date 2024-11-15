@@ -38,6 +38,7 @@ const wss = new WebSocket.Server({ server });
 // Set up the ping-pong mechanism to keep WebSocket connections alive
 const heartbeatInterval = 30000;
 wss.on('connection', (ws) => {
+    ws.clientId = Math.random().toString(36).slice(2, 10); 
     let currentSessionId = null;
 
     // Mark the connection as alive and listen for pongs
@@ -59,12 +60,13 @@ wss.on('connection', (ws) => {
             }
             currentSessionId = sessionId;
             sessions[sessionId].push(ws);
-            console.log(`New client joined session ${sessionId}, total clients: ${sessions[sessionId].length}`);
+            console.log(`New client ${ws.clientId} joined session ${sessionId}, total clients: ${sessions[sessionId].length}`);
             ws.send(JSON.stringify({
                 type: 'session-joined',
                 sessionId: sessionId,
                 clientsCount: sessions[sessionId].length,
-                isNewSession: isNewSession
+                isNewSession: isNewSession,
+                clientId: ws.clientId
             }));
             if (sessions[sessionId].length > 1) {
                 //update clients with current state of synced elemenets
@@ -95,10 +97,11 @@ wss.on('connection', (ws) => {
 
     ws.on('close', () => {
         if (currentSessionId && sessions[currentSessionId]) {
-            const index = sessions[currentSessionId].indexOf(ws);
+            const index = sessions[currentSessionId].indexOf(ws); 
             if (index !== -1) {
                 sessions[currentSessionId].splice(index, 1);
             }
+            console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${sessions[currentSessionId].length}`);
         }
     });
 });

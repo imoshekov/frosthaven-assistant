@@ -1,57 +1,81 @@
 const WebSocketHandler = {
     ws: null,
     isConnected: false,
+    sessionId: null,
+    reconnectAttempts: 0,
+    maxReconnectAttempts: 5,
 
     initialize: async function () {
         try {
-            this.ws = new WebSocket(
-                window.location.hostname.includes('github.io') ?
-                    'wss://frosthaven-assistant.onrender.com'
-                    : 'ws://localhost:8080'
-            );
-
-            this.ws.onopen = () => {
-                const sessionId = prompt("Enter session ID or leave blank to create a new one:");
-                this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId || null }));
-                this.isConnected = true;
-            };
-
-            this.ws.onerror = () => {
-                alert("Unable to connect to the server. It might be asleep. Please try again in a few seconds.");
-                this.isConnected = false;
-            };
-
-            this.ws.onclose = () => {
-                if (this.isConnected) {
-                    alert("The connection was closed. Please try reconnecting.");
-                }
-                this.isConnected = false;
-            };
-
-            this.ws.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                switch (data.type) {
-                    case "session-joined": {
-                        this.handleSessionJoined(data);
-                        break;
-                    }
-                    case "characters-update": {
-                        this.handleCharacterUpdate(data);
-                        break;
-                    }
-                    case "round-update": {
-                        this.handleRoundUpdate(data);
-                        break;
-                    }
-                    case "element-update": {
-                        this.handleElementUpdate(data);
-                        break;
-                    }
-                }
-            };
-
+            this.connect();
         } catch (error) {
-            console.error("WebSocketHandler error", error.message);
+            console.error("WebSocketHandler initialization error:", error.message);
+        }
+    },
+    connect: function () {
+        this.ws = new WebSocket(
+            window.location.hostname.includes('github.io') ?
+                'wss://frosthaven-assistant.onrender.com'
+                : 'ws://localhost:8080'
+        );
+
+        this.ws.onopen = () => {
+            if (!this.sessionId) {
+                this.sessionId = prompt("Enter session ID or leave blank to create a new one:") || null;
+            }
+            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: this.sessionId }));
+            this.isConnected = true;
+            this.reconnectAttempts = 0; 
+        };
+
+        this.ws.onerror = () => {
+            this.isConnected = false;
+            UIController.showToastNotification("Unable to connect to the server. Retrying...");
+            UIController.hideToastNotification(3000);
+            this.tryReconnect();
+        };
+
+        this.ws.onclose = () => {
+            if (this.isConnected) {
+                UIController.showToastNotification("The connection was closed. Trying to reconnect.");
+            }
+            this.isConnected = false;
+            this.tryReconnect();
+        };
+
+        this.ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            switch (data.type) {
+                case "session-joined":
+                    this.handleSessionJoined(data);
+                    break;
+                case "characters-update":
+                    this.handleCharacterUpdate(data);
+                    break;
+                case "round-update":
+                    this.handleRoundUpdate(data);
+                    break;
+                case "element-update":
+                    this.handleElementUpdate(data);
+                    break;
+                default:
+                    console.warn("Unknown message type:", data.type);
+            }
+        };
+    },
+    tryReconnect: function () {
+        if (this.reconnectAttempts < this.maxReconnectAttempts) {
+            this.reconnectAttempts++;
+            //3 seconds it base delay, try up to 30 seconds
+            const delay = Math.min(3000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
+
+            console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
+            setTimeout(() => {
+                this.connect();
+            }, delay); 
+        } else {
+            UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
+            UIController.hideToastNotification(5000);
         }
     },
     getInstance: function () {
@@ -73,20 +97,15 @@ const WebSocketHandler = {
         this.ws.send(JSON.stringify({
             type: 'element-update',
             elementId: elementId,
-            elementState: elementState, // Send as an object
+            elementState: elementState,
         }));
     },
     handleSessionJoined: function (data) {
-        const message = `session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
-        document.getElementById('session-id').textContent = message;
-        const toast = document.getElementById('toast-notification');
-        toast.textContent = message;
-        toast.classList.add('show');
-
-        setTimeout(() => {
-            toast.classList.remove("show");
-            toast.classList.add("hide");
-        }, 3000);
+        const message = `Session: ${data.sessionId}, ${data.clientsCount} client(s) connected.`;
+        this.sessionId = data.sessionId;
+        document.getElementById('session-id').textContent = `${message} Client id: ${data.clientId}`;
+        UIController.showToastNotification(message);
+        UIController.hideToastNotification(3000);
     },
     handleCharacterUpdate: function (data) {
         characters = data.characters;
