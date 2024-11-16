@@ -2,8 +2,12 @@ const http = require('http');
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080;
 
+const HEARTBEAT_INTERVAL = 15000; // 15 seconds
+
+// Store active sessions
 const sessions = {};
 
+// Default characters for each session
 const defaultCharacters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
     { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 10, attack: 0, movement: 0, initiative: 0 } },
@@ -11,7 +15,7 @@ const defaultCharacters = [
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } }
 ];
 
-// Create an HTTP server
+// Create HTTP server
 const server = http.createServer((req, res) => {
     // Add CORS headers
     res.setHeader('Access-Control-Allow-Origin', 'https://imoshekov.github.io');
@@ -30,15 +34,14 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Attach WebSocket server to the same HTTP server
+// Attach WebSocket server to HTTP server
 const wss = new WebSocket.Server({ server });
 
-
 wss.on('connection', (ws) => {
-    ws.clientId = Math.random().toString(36).slice(2, 10); 
+    ws.clientId = Math.random().toString(36).slice(2, 10);
     let currentSessionId = null;
 
-    // Mark the connection as alive and listen for pongs
+    // Mark connection as alive and listen for pongs
     ws.isAlive = true;
     ws.on('pong', () => {
         ws.isAlive = true;
@@ -47,70 +50,104 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         const data = JSON.parse(message);
         if (data.type === 'join-session') {
-            let sessionId = data.sessionId;
-            let isNewSession = false;
-            // Initialize session if it doesn't exist
-            if (!sessionId || !sessions[sessionId]) {
-                sessionId = sessionId || Math.floor(Math.random() * 100);
-                sessions[sessionId] = {
-                    clients: [],
-                    characters: [...defaultCharacters],
-                    roundNumber: 1,
-                    elementStates: {}
-                };
-                isNewSession = true;
+            let sessionId = data.sessionId || Math.floor(Math.random() * 100);
+            let session = getSession(sessionId);
+            if (!session) {
+                createSession(sessionId);
+                session = getSession(sessionId);
             }
+
             currentSessionId = sessionId;
-            sessions[sessionId].clients.push(ws);
-            console.log(`New client ${ws.clientId} joined session ${sessionId}, total clients: ${sessions[sessionId].clients.length}`);
+            session.clients.push(ws);
+            session.lastActivity = Date.now();
+
+            console.log(`Client ${ws.clientId} joined session ${sessionId}. Total clients: ${session.clients.length}`);
+
             ws.send(JSON.stringify({
                 type: 'session-joined',
-                sessionId: sessionId,
-                clientsCount: sessions[sessionId].clients.length,
-                isNewSession: isNewSession,
+                sessionId,
+                clientsCount: session.clients.length,
+                isNewSession: session.clients.length === 1,
                 clientId: ws.clientId
             }));
-            if (sessions[sessionId].clients.length > 1) {
-                //update clients with current state of synced elements
-                ws.send(JSON.stringify({ type: 'characters-update', characters: sessions[sessionId].characters }));
-                ws.send(JSON.stringify({ type: 'round-update', roundNumber: sessions[sessionId].roundNumber }));
-                Object.keys(sessions[sessionId].elementStates).forEach(elementId => {
-                    ws.send(JSON.stringify({
-                        type: 'element-update',
-                        elementId: elementId,
-                        elementState: sessions[sessionId].elementStates[elementId]
-                    }));
-                });
+
+            ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
+            ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
+            Object.keys(session.elementStates).forEach((elementId) => {
+                ws.send(JSON.stringify({
+                    type: 'element-update',
+                    elementId,
+                    elementState: session.elementStates[elementId]
+                }));
+            });
+        } else if (data.type === 'characters-update') {
+            const session = getSession(currentSessionId);
+            if (session) {
+                session.characters = data.characters;
+                session.lastActivity = Date.now();
+                broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters });
             }
-        }
-        if (data.type === 'characters-update') {
-            sessions[currentSessionId].characters = data.characters;
-            broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters });
-        }       
-        if (data.type === 'round-update') {
-            sessions[currentSessionId].roundNumber = data.roundNumber;
-            broadcastToSession(currentSessionId,'round-update', { roundNumber: data.roundNumber });
-        }       
-        if (data.type === 'element-update') {
-            sessions[currentSessionId].elementStates[data.elementId] = data.elementState;
-            broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState });
+        } else if (data.type === 'round-update') {
+            const session = getSession(currentSessionId);
+            if (session) {
+                session.roundNumber = data.roundNumber;
+                session.lastActivity = Date.now();
+                broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber });
+            }
+        } else if (data.type === 'element-update') {
+            const session = getSession(currentSessionId);
+            if (session) {
+                session.elementStates[data.elementId] = data.elementState;
+                session.lastActivity = Date.now();
+                broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState });
+            }
         }
     });
 
     ws.on('close', () => {
-        if (currentSessionId && sessions[currentSessionId]) {
-            const index = sessions[currentSessionId].clients.indexOf(ws); 
-            if (index !== -1) {
-                sessions[currentSessionId].clients.splice(index, 1);
+        if (currentSessionId) {
+            const session = getSession(currentSessionId);
+            if (session) {
+                const index = session.clients.indexOf(ws);
+                if (index !== -1) session.clients.splice(index, 1);
+                session.lastActivity = Date.now();
+                console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${session.clients.length}`);
             }
-            console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${sessions[currentSessionId].clients.length}`);
         }
     });
 });
 
+// Ping-Pong mechanism to keep connections alive
+setInterval(() => {
+    wss.clients.forEach((ws) => {
+        if (!ws.isAlive) {
+            ws.terminate();
+        } else {
+            ws.isAlive = false;
+            ws.ping();
+        }
+    });
+}, HEARTBEAT_INTERVAL);
+
+function createSession(sessionId) {
+    sessions[sessionId] = {
+        clients: [],
+        characters: JSON.parse(JSON.stringify(defaultCharacters)), 
+        roundNumber: 1,
+        elementStates: {},
+        lastActivity: Date.now(),
+    };
+    console.log(`Session ${sessionId} created.`);
+}
+
+function getSession(sessionId) {
+    return sessions[sessionId] || null;
+}
+
 function broadcastToSession(sessionId, type, data) {
-    if (sessionId && sessions[sessionId]) {
-        sessions[sessionId].clients.forEach(client => {
+    const session = getSession(sessionId);
+    if (session) {
+        session.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({ type, ...data }));
             }
@@ -118,21 +155,7 @@ function broadcastToSession(sessionId, type, data) {
     }
 }
 
-// Set up the ping-pong mechanism to keep WebSocket connections alive
-const heartbeatInterval = 30000;
-// Set up a regular interval to check if clients are still alive
-setInterval(() => {
-    wss.clients.forEach((ws) => {
-        if (!ws.isAlive) {
-            return ws.terminate();
-        }
-
-        ws.isAlive = false;
-        ws.ping();
-    });
-}, heartbeatInterval);
-
-// Start the HTTP & WebSocket server
+// Start the server
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
