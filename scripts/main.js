@@ -6,7 +6,7 @@ let attackTarget = null;
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
     openModal('modal-attack');
-    document.getElementById('attack-combatants').innerHTML = `${characters[attackTarget].name}`;
+    document.getElementById('attack-combatants').innerHTML = `⚔ ${characters[attackTarget].name}`;
     loadConditionsInAttackModal();
     event.stopPropagation();
 }
@@ -21,6 +21,7 @@ function openConditions(event, charIdx) {
     document.getElementById('condition-ward').checked = target.conditions?.ward || false;
     preventExclusiveConditions();
     openModal('modal-conditions');
+    document.getElementById('condition-target').innerHTML = `⏳${target.name}`;
     event.stopPropagation();
 }
 
