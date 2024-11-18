@@ -254,11 +254,6 @@ window.onload = function () {
 const attackModal = document.getElementById('modal-attack');
 const conditionModal = document.getElementById('modal-conditions');
 
-document.getElementById('load-file').addEventListener('click', () => {
-    const fileNumber = document.getElementById('file-number').value; 
-    DataManager.loadFile(fileNumber); // Call loadFile when the button is clicked
-});
-
 // Close modal if clicking outside of modal content
 window.onclick = function (event) {
     if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {

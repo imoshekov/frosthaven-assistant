@@ -1,17 +1,17 @@
 const UIController = {
-    addCharacter() {
-        const type = document.getElementById('type').value.toLowerCase();
+    addCharacter(autoInput) {
+        const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         if (!type) {
             alert('Select monster type first')
             return;
         }
-        const standee = document.getElementById('standee-number').value;
+        const standee = autoInput?.standee || document.getElementById('standee-number').value;
         if (!standee) {
             alert('Select standee # first')
             return;
         }
-        const level = parseInt(document.getElementById('level').value);
-        const isElite = document.getElementById('elite-monster').checked;
+        const level = autoInput?.level || parseInt(document.getElementById('level').value);
+        const isElite = autoInput?.elite || document.getElementById('elite-monster').checked;
         let baseName = `${type} ${standee}`;
         const monsterData = data.monsters.find(monster => monster.name === type);
         let selectedMonster = monsterData.stats[level];
@@ -289,13 +289,20 @@ const UIController = {
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
     },
-    showToastNotification(message) {
+    showToastNotification(message, timeout = null) {
         const toast = document.getElementById('toast-notification');
         toast.textContent = message;
-        toast.classList.remove("hide");
+        toast.classList.remove('hide');
         toast.classList.add('show');
+    
+        if (timeout) {
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+            }, timeout);
+        }
     },
-    hideToastNotification(timeout) {
+    hideToastNotification(timeout = null) {
         const toast = document.getElementById('toast-notification');
         const hideAction = () => {
             toast.classList.remove("show");

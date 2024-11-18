@@ -39,9 +39,8 @@
         <div class="add-char">
             <div class="row">
                 <button class="initiative" onclick="DataManager.reset(); UIController.renderTable();">New Game</button>
+                <button class="initiative" onclick="DataManager.loadFile()">Load Scenario</button>
                 <button class="initiative" onclick="WebSocketHandler.initialize()">Start/Join Session</button>
-                <input type="number" id="file-number" placeholder="Enter file number" min="1" max="999">
-                <button id="load-file" onclick="DataManager.loadFile()">Load File</button>
                 <div id="content"></div>
                 <h3 style="padding-left: 10px">Add Monster</h3>
                 <div class="default-stats">

@@ -72,65 +72,44 @@ const DataManager = {
         }
     },
     loadFile: function () {
-        const fileNumber = document.getElementById('file-number').value; // Get value from input
+        const fileNumber = prompt("Enter the file number (e.g., 2 for 002):");
         if (!fileNumber) {
             alert('Please enter a valid file number');
             return;
         }
 
-        // Ensure the file number is padded correctly to 3 digits
+        //currently set as 1, the code below will soon follow
+        const level = 1;/*prompt("Enter the level for the scenario (e.g., 1):");
+        if (!level || isNaN(level)) {
+            alert("Please enter a valid level");
+            return;
+        }*/
         const formattedFileNumber = String(fileNumber).padStart(3, '0');
         const filePath = `scenarios/${formattedFileNumber}.json`; // Corrected relative path
 
         fetch(filePath)
-            .then((response) => {
+            .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Failed to load ${filePath}`);
+                    throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
                 }
                 return response.json();
             })
-            .then((data) => {
+            .then(data => {
                 console.log('Loaded scenario data:', data);
                 data.rooms[0].monster.forEach(monster => {
-                    // Check if the monster has player-specific properties, e.g., player2, player3, etc.
-                    let newCharacter = { name: monster.name, type: monster.type || 'normal' };
+                    let newCreature = {
+                        type: monster.name,
+                        standee: 'X',
+                        level: level,
+                        elite: monster.player4 || monster.type || 'normal'
+                    };
 
-                    // Iterate over the player properties dynamically
-                    Object.keys(monster).forEach(key => {
-                        if (key.startsWith('player')) {
-                            newCharacter[key] = monster[key]; // Add player-specific properties to the character
-                        }
-                    });
-
-                    const newCreature = {
-                        name: newCharacter.name,
-                        displayName: newCharacter.name,
-                        type:newCharacter.type,
-                        standee: 0,
-                        aggressive: true,
-                        eliteMonster: true,
-                        hp: 2,
-                        attack: 2,
-                        movement: 2,
-                        initiative: 0,
-                        armor: defaultArmor,
-                        retaliate: defaultRetaliate,
-                        conditions: {},
-                        defaultStats: {
-                            hp: defaultHP,
-                            attack: defaultAttack,
-                            movement: defaultMovement,
-                            initiative
-                        }
-                    }
-
-                    // Push the new character to the characters array
-                    characters.push(newCreature);
-                })
-                UIController.renderTable();
+                    UIController.addCharacter(newCreature);
+                });
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Error loading file:', error);
+                UIController.showToastNotification('Error loading scenario', 3000);
             });
     }
 };
