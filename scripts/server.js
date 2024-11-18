@@ -70,16 +70,20 @@ wss.on('connection', (ws) => {
                 isNewSession: session.clients.length === 1,
                 clientId: ws.clientId
             }));
-
-            ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
-            ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
-            Object.keys(session.elementStates).forEach((elementId) => {
-                ws.send(JSON.stringify({
-                    type: 'element-update',
-                    elementId,
-                    elementState: session.elementStates[elementId]
-                }));
-            });
+            if (session.clients.length > 1) {
+                ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
+                ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
+                Object.keys(session.elementStates).forEach((elementId) => {
+                    ws.send(JSON.stringify({
+                        type: 'element-update',
+                        elementId,
+                        elementState: session.elementStates[elementId]
+                    }));
+                })
+            }
+            else {
+                console.log(`Session ${sessionId} has only one client. Not sending default data to avoid overwriting client state.`);
+            };
         } else if (data.type === 'characters-update') {
             const session = getSession(currentSessionId);
             if (session) {
@@ -132,7 +136,7 @@ setInterval(() => {
 function createSession(sessionId) {
     sessions[sessionId] = {
         clients: [],
-        characters: JSON.parse(JSON.stringify(defaultCharacters)), 
+        characters: JSON.parse(JSON.stringify(defaultCharacters)),
         roundNumber: 1,
         elementStates: {},
         lastActivity: Date.now(),
