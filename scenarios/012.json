@@ -1,0 +1,70 @@
+{
+  "index": "12",
+  "name": "Temple Entrance",
+  "flowChartGroup": "algox-2",
+  "coordinates": {
+    "x": 1105.5,
+    "y": 1157.5,
+    "width": 104,
+    "height": 103,
+    "gridLocation": "K8"
+  },
+  "edition": "fh",
+  "complexity": 1,
+  "unlocks": [
+    "20"
+  ],
+  "rewards": {
+    "experience": 15
+  },
+  "monsters": [
+    "ancient-artillery"
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 4,
+    "metal": 4,
+    "rockroot": 2,
+    "corpsecap": 1,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "16-C",
+      "initial": true,
+      "monster": [
+        {
+          "name": "ancient-artillery",
+          "type": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "type": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

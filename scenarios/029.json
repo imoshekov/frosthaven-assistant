@@ -1,0 +1,182 @@
+{
+  "index": "29",
+  "name": "War of the Spire A",
+  "flowChartGroup": "algox-1",
+  "coordinates": {
+    "x": 1679.75,
+    "y": 1062,
+    "width": 109,
+    "height": 99,
+    "gridLocation": "F8"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "blocks": [
+    "28"
+  ],
+  "rewards": {
+    "events": [
+      "winter-outpost:WO-68"
+    ],
+    "custom": "Remove all %game.action.custom.fh-algox% events from all outpost event decks",
+    "morale": 3,
+    "campaignSticker": [
+      "destroyer-of-the-icespeakers"
+    ],
+    "calendarSection": [
+      "46.3-5"
+    ]
+  },
+  "monsters": [
+    "algox-icespeaker",
+    "algox-priest",
+    "algox-scout"
+  ],
+  "allies": [
+    "algox-archer",
+    "algox-guard"
+  ],
+  "objectives": [
+    {
+      "name": "Ice Pillar",
+      "health": "[(L+2)xC/2{$math.floor}]"
+    },
+    {
+      "name": "Ice Core",
+      "health": "[(L+2)xC/2{$math.floor}]"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 12,
+    "lumber": 2,
+    "hide": 2,
+    "snowthistle": 2,
+    "arrowvine": 1,
+    "axenut": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "brittle",
+          "scenarioEffect": true
+        }
+      ]
+    },
+    {
+      "round": "R == 1",
+      "start": true,
+      "once": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "algox-archer",
+            "type": "normal"
+          },
+          "manual": true
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "type": "normal"
+          },
+          "manual": true
+        }
+      ],
+      "noteTop": "Spawn 6-C Algox Guards or Algox Archers at any empty starting hex"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "treasures": [
+        45
+      ],
+      "monster": [
+        {
+          "name": "algox-icespeaker",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-icespeaker",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-icespeaker",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-icespeaker",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-priest",
+          "type": "normal"
+        },
+        {
+          "name": "algox-priest",
+          "type": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "type": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "type": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-scout",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-scout",
+          "player2": "normal",
+          "player3": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "player2": "normal"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2
+      ]
+    }
+  ]
+}

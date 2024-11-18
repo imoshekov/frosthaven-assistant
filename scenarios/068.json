@@ -1,0 +1,160 @@
+{
+  "index": "68",
+  "name": "The Face of Torment",
+  "flowChartGroup": "personal-quests",
+  "coordinates": {
+    "x": 1042,
+    "y": 538,
+    "width": 106,
+    "height": 124,
+    "gridLocation": "L3"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "custom": "\"Aesther Outpost\" quest complete",
+    "calendarSection": [
+      "133.1-2"
+    ]
+  },
+  "monsters": [
+    "chaos-demon",
+    "earth-demon",
+    "flame-demon",
+    "frost-demon",
+    "night-demon",
+    "sun-demon",
+    "tormentor",
+    "wind-demon"
+  ],
+  "lootDeckConfig": {
+    "lumber": 5,
+    "metal": 5,
+    "hide": 5,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:2",
+          "scenarioEffect": true
+        },
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "muddle",
+          "scenarioEffect": true
+        }
+      ]
+    },
+    {
+      "round": "C < 3 && R > 2 && R % 6 == 3",
+      "start": true,
+      "note": "Spawn one normal demon at %game.mapMarker.a%"
+    },
+    {
+      "round": "C > 2 && R > 2 && R % 6 == 3",
+      "start": true,
+      "note": "Spawn one elite demon at %game.mapMarker.a%"
+    },
+    {
+      "round": "C < 4 && R > 2 && R % 6 == 4",
+      "start": true,
+      "note": "Spawn one normal demon at %game.mapMarker.b%"
+    },
+    {
+      "round": "C > 3 && R > 2 && R % 6 == 4",
+      "start": true,
+      "note": "Spawn one elite demon at %game.mapMarker.b%"
+    },
+    {
+      "round": "R > 2 && R % 6 == 5",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "chaos-demon",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "c"
+        }
+      ]
+    },
+    {
+      "round": "C < 4 && R > 2 && R % 6 == 0",
+      "start": true,
+      "note": "Spawn one normal demon at %game.mapMarker.a%"
+    },
+    {
+      "round": "C > 3 && R > 2 && R % 6 == 0",
+      "start": true,
+      "note": "Spawn one elite demon at %game.mapMarker.a%"
+    },
+    {
+      "round": "C < 3 && R > 2 && R % 6 == 1",
+      "start": true,
+      "note": "Spawn one normal demon at %game.mapMarker.b%"
+    },
+    {
+      "round": "C > 2 && R > 2 && R % 6 == 1",
+      "start": true,
+      "note": "Spawn one elite demon at %game.mapMarker.b%"
+    },
+    {
+      "round": "R > 2 && R % 6 == 2",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "chaos-demon",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "treasures": [
+        59
+      ],
+      "monster": [
+        {
+          "name": "chaos-demon",
+          "type": "normal"
+        },
+        {
+          "name": "chaos-demon",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "chaos-demon",
+          "player4": "normal"
+        },
+        {
+          "name": "tormentor",
+          "type": "boss"
+        }
+      ]
+    }
+  ]
+}

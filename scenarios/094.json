@@ -1,0 +1,143 @@
+{
+  "index": "94",
+  "name": "A Grand View",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 2057.5,
+    "y": 910.5,
+    "width": 101,
+    "height": 89,
+    "gridLocation": "B6"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "requirements": [
+    {
+      "buildings": [
+        "sled"
+      ]
+    }
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "monsters": [
+    "ancient-artillery",
+    "ruined-machine"
+  ],
+  "objectives": [
+    {
+      "name": "Flaming Bladespinner",
+      "initiative": "1",
+      "actions": [
+        {
+          "type": "custom",
+          "value": "%game.action.fly% Move 1 hex clockwise around adjacent obstacle %game.mapMarker.a%"
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 9,
+    "lumber": 3,
+    "metal": 5,
+    "rockroot": 1,
+    "arrowvine": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "true",
+      "note": "one for each character adjacent to a Flaming Bladespinner in any empty starting hex.",
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "count": "0",
+          "manual": true
+        }
+      ]
+    },
+    {
+      "round": "R % 6 == 3",
+      "start": true,
+      "note": "at any starting empty hex",
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "R % 6 == 0",
+      "start": true,
+      "note": "at any starting empty hex",
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          }
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        "1:4"
+      ]
+    }
+  ]
+}

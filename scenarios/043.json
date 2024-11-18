@@ -1,0 +1,83 @@
+{
+  "index": "43",
+  "name": "Overrun Barricade",
+  "flowChartGroup": "unfettered",
+  "coordinates": {
+    "x": 1918,
+    "y": 1238.5,
+    "width": 117,
+    "height": 54,
+    "gridLocation": "C9"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "unlocks": [
+    "51"
+  ],
+  "forcedLinks": [
+    "51"
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "monsters": [
+    "robotic-boltshooter",
+    "ruined-machine",
+    "steel-automaton"
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 2,
+    "metal": 4,
+    "rockroot": 1,
+    "arrowvine": 2,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "robotic-boltshooter",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "robotic-boltshooter",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "type": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "steel-automaton",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

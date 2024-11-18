@@ -1,0 +1,30 @@
+{
+  "index": "122",
+  "name": "The Eternal Crave",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 1348.25,
+    "y": 1335.75,
+    "width": 87,
+    "height": 83,
+    "gridLocation": "H10"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "lootDeckConfig": {
+    "money": 6,
+    "lumber": 3,
+    "metal": 3,
+    "hide": 4,
+    "rockroot": 2,
+    "axenut": 1,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": []
+    }
+  ]
+}

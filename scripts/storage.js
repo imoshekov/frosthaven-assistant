@@ -28,7 +28,7 @@ const DataManager = {
         // Render the log locally
         this.renderLog(event, timestamp);
 
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendLogUpdate(event, timestamp);
         }
     },
@@ -70,6 +70,32 @@ const DataManager = {
         if (logContainer.childElementCount > logLimit) {
             logContainer.removeChild(logContainer.lastChild);
         }
+    },
+    loadFile: function() {
+        const fileNumber = document.getElementById('file-number').value; // Get value from input
+        if (!fileNumber) {
+            alert('Please enter a valid file number');
+            return;
+        }
+
+        // Ensure the file number is padded correctly to 3 digits
+        const formattedFileNumber = String(fileNumber).padStart(3, '0');
+        const filePath = `scenarios/${formattedFileNumber}.json`; // Corrected relative path
+
+        fetch(filePath)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${filePath}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Loaded scenario data:', data);
+                // Handle the loaded data here
+            })
+            .catch((error) => {
+                console.error('Error loading file:', error);
+            });
     }
 };
 
