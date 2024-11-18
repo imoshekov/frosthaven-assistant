@@ -94,7 +94,7 @@ const UIController = {
                             type="number" 
                             class="standee-only" 
                             value="${creature.standee}" 
-                            onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index})" 
+                            onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});" 
                             placeholder="#" 
                         />` 
                     : ''
@@ -290,7 +290,7 @@ const UIController = {
         if (creature.eliteMonster) {
             baseName = '★ ' + baseName;
         }
-        const displayName = creature.eliteMonster ? `★ ${type}` : `${type}`;
+        const displayName = creature.eliteMonster ? `★ ${creature.type}` : `${creature.type}`;
         characters[index].name = baseName;
         characters[index].displayName = displayName;
     },
