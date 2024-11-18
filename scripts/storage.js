@@ -71,7 +71,7 @@ const DataManager = {
             logContainer.removeChild(logContainer.lastChild);
         }
     },
-    loadFile: function() {
+    loadFile: function () {
         const fileNumber = document.getElementById('file-number').value; // Get value from input
         if (!fileNumber) {
             alert('Please enter a valid file number');
@@ -91,7 +91,43 @@ const DataManager = {
             })
             .then((data) => {
                 console.log('Loaded scenario data:', data);
-                // Handle the loaded data here
+                data.rooms[0].monster.forEach(monster => {
+                    // Check if the monster has player-specific properties, e.g., player2, player3, etc.
+                    let newCharacter = { name: monster.name, type: monster.type || 'normal' };
+
+                    // Iterate over the player properties dynamically
+                    Object.keys(monster).forEach(key => {
+                        if (key.startsWith('player')) {
+                            newCharacter[key] = monster[key]; // Add player-specific properties to the character
+                        }
+                    });
+
+                    const newCreature = {
+                        name: newCharacter.name,
+                        displayName: newCharacter.name,
+                        type:newCharacter.type,
+                        standee: 0,
+                        aggressive: true,
+                        eliteMonster: true,
+                        hp: 2,
+                        attack: 2,
+                        movement: 2,
+                        initiative: 0,
+                        armor: defaultArmor,
+                        retaliate: defaultRetaliate,
+                        conditions: {},
+                        defaultStats: {
+                            hp: defaultHP,
+                            attack: defaultAttack,
+                            movement: defaultMovement,
+                            initiative
+                        }
+                    }
+
+                    // Push the new character to the characters array
+                    characters.push(newCreature);
+                })
+                UIController.renderTable();
             })
             .catch((error) => {
                 console.error('Error loading file:', error);
