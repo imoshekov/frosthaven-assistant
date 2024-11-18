@@ -113,6 +113,15 @@ wss.on('connection', (ws) => {
                 }
                 break;
             }
+            case 'battle-log-update': {
+                const session = getSession(currentSessionId);
+                if (session) {
+                    session.lastActivity = Date.now();
+                    const originatingClientId = ws.clientId;
+                    broadcastToSession(currentSessionId, 'battle-log-update', { event: data.event, timestamp: data.timestamp, originatingClientId: originatingClientId });
+                }
+                break;
+            }
             default: {
                 console.log(`Unknown message type: ${data.type}`);
                 break;
