@@ -12,10 +12,12 @@ const UIController = {
         }
         const level = autoInput?.level || parseInt(document.getElementById('level').value);
         const isElite = autoInput?.elite || document.getElementById('elite-monster').checked;
+        
+        //todo: the name logic is used here and in renameCreature
         let baseName = `${type} ${standee}`;
         const monsterData = data.monsters.find(monster => monster.name === type);
         let selectedMonster = monsterData.stats[level];
-
+        
         if (isElite) {
             baseName = '★ ' + baseName;
             selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
@@ -82,9 +84,21 @@ const UIController = {
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-            <div class="name">
+            
+        </div>
+        <div class='character-skin'>
+        <div class="name">
                 <b>${creature.aggressive ? `${creature.displayName}` : `${creature.name}`}</b>
-                <b class="standee-only">${creature.aggressive ? `#${creature.standee}` : ''}</b>
+                <b>${creature.aggressive 
+                    ? `<input 
+                            type="number" 
+                            class="standee-only" 
+                            value="${creature.standee}" 
+                            onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index})" 
+                            placeholder="#" 
+                        />` 
+                    : ''
+                }</b>
             </div>
         </div>
         <div class='stats'>
@@ -269,6 +283,16 @@ const UIController = {
     },
     sortCreatures() {
         characters.sort((a, b) => a.initiative - b.initiative);
+    },
+    renameCreature(index){
+        let creature = characters[index];
+        let baseName = `${creature.type} ${creature.standee}`;
+        if (creature.eliteMonster) {
+            baseName = '★ ' + baseName;
+        }
+        const displayName = creature.eliteMonster ? `★ ${type}` : `${type}`;
+        characters[index].name = baseName;
+        characters[index].displayName = displayName;
     },
     updateStat(index, stat, value, massApply = false) {
         const parsedValue = parseInt(value);
