@@ -1,0 +1,197 @@
+{
+  "index": "116",
+  "name": "Caravan Guards",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 648.25,
+    "y": 1144.5,
+    "width": 143,
+    "height": 64,
+    "gridLocation": "O8"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "monsters": [
+    "algox-archer",
+    "algox-guard",
+    "algox-icespeaker",
+    "algox-scout"
+  ],
+  "objectives": [
+    {
+      "name": "Caravan Wagon",
+      "health": "Cx2+L",
+      "escort": true,
+      "initiative": 50,
+      "tags": [
+        "caravan-wagon"
+      ],
+      "actions": [
+        {
+          "type": "move",
+          "value": "3",
+          "subActions": [
+            {
+              "type": "custom",
+              "value": "Focus on moving towards %game.mapMarker.b%"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 5,
+    "lumber": 4,
+    "metal": 4,
+    "hide": 4,
+    "rockroot": 1,
+    "arrowvine": 1,
+    "axenut": 1
+  },
+  "rules": [
+    {
+      "round": "R > 1 && R < 6",
+      "start": true,
+      "objectiveSpawns": [
+        {
+          "objective": {
+            "index": 1,
+            "name": "Caravan Wagon",
+            "tags": [
+              "caravan-wagon"
+            ],
+            "escort": true
+          },
+          "marker": "a"
+        }
+      ]
+    },
+    {
+      "round": "R == 3",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "algox-icespeaker",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "algox-icespeaker",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "algox-archer",
+            "player3": "elite",
+            "player4": "normal"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "algox-archer",
+            "player3": "elite",
+            "player4": "normal"
+          },
+          "marker": "d"
+        }
+      ]
+    },
+    {
+      "round": "R == 6",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "algox-archer",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "algox-archer",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "algox-icespeaker",
+            "type": "normal"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "algox-icespeaker",
+            "type": "normal"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player3": "normal",
+            "player4": "normal"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player3": "normal",
+            "player4": "normal"
+          },
+          "marker": "d"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "algox-archer",
+          "type": "normal"
+        },
+        {
+          "name": "algox-archer",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "type": "normal"
+        },
+        {
+          "name": "algox-scout",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

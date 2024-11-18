@@ -1,0 +1,60 @@
+{
+  "index": "91",
+  "name": "Shoreline Scramble",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 1169,
+    "y": 716.75,
+    "width": 114,
+    "height": 92,
+    "gridLocation": "J4"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "morale": 1,
+    "collectiveResources": [
+      {
+        "type": "lumber",
+        "value": 2
+      }
+    ]
+  },
+  "monsters": [
+    "lightning-eel",
+    "lurker-clawcrusher",
+    "lurker-mindsnipper",
+    "lurker-wavethrower"
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "lumber": 4,
+    "hide": 4,
+    "flamefruit": 1,
+    "snowthistle": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "damage",
+          "value": "3",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": []
+    }
+  ]
+}

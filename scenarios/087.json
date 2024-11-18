@@ -1,0 +1,62 @@
+{
+  "index": "87",
+  "name": "The Collection",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 1203.25,
+    "y": 1009,
+    "width": 93,
+    "height": 69,
+    "gridLocation": "J7"
+  },
+  "edition": "fh",
+  "complexity": 1,
+  "unlocks": [
+    "88"
+  ],
+  "links": [
+    "88"
+  ],
+  "rewards": {
+    "custom": "Or 2 inspiration if both brothers survived",
+    "inspiration": 1
+  },
+  "monsters": [
+    "algox-archer",
+    "algox-guard"
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 2,
+    "metal": 4,
+    "hide": 3,
+    "rockroot": 1,
+    "arrowvine": 1,
+    "corpsecap": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "algox-archer",
+          "type": "elite"
+        },
+        {
+          "name": "algox-archer",
+          "player4": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

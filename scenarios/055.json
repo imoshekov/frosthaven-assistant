@@ -1,0 +1,80 @@
+{
+  "index": "55",
+  "name": "Change of Heart",
+  "flowChartGroup": "algox-3",
+  "coordinates": {
+    "x": 1004,
+    "y": 1009.5,
+    "width": 124,
+    "height": 97,
+    "gridLocation": "M8"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "prosperity": 2,
+    "events": [
+      "winter-outpost:WO-66",
+      "winter-outpost:WO-67"
+    ],
+    "custom": "Remove all %game.action.custom.fh-algox% events from all outpost event decks",
+    "morale": 2,
+    "campaignSticker": [
+      "friend-of-the-frostspeakers"
+    ],
+    "chooseUnlockCharacter": [
+      "fist",
+      "snowflake"
+    ],
+    "townGuardAm": [
+      "fh-tg-add-plus50-algox"
+    ]
+  },
+  "monsters": [
+    "algox-archer",
+    "algox-guard",
+    "algox-priest"
+  ],
+  "lootDeckConfig": {
+    "money": 3,
+    "lumber": 2,
+    "metal": 4,
+    "hide": 2,
+    "rockroot": 2,
+    "corpsecap": 1,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "algox-archer",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-priest",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

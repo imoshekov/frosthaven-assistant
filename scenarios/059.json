@@ -1,0 +1,324 @@
+{
+  "index": "59",
+  "name": "Automaton Uprising",
+  "flowChartGroup": "unfettered",
+  "coordinates": {
+    "x": 2048.75,
+    "y": 1400.75,
+    "width": 125,
+    "height": 104,
+    "gridLocation": "A11"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "blocks": [
+    "58"
+  ],
+  "rewards": {
+    "prosperity": 2,
+    "items": [
+      "246"
+    ],
+    "events": [
+      "summer-outpost:SO-49",
+      "winter-outpost:WO-63"
+    ],
+    "custom": "Remove all %game.action.custom.fh-unfettered% events from all outpost event decks",
+    "morale": 2,
+    "campaignSticker": [
+      "unfettered-allies"
+    ],
+    "unlockCharacter": "prism",
+    "townGuardAm": [
+      "fh-tg-add-plus50-unfettered"
+    ]
+  },
+  "monsters": [
+    "flaming-bladespinner",
+    "robotic-boltshooter",
+    "ruined-machine"
+  ],
+  "objectives": [
+    {
+      "name": "Orphan",
+      "escort": true,
+      "health": "(L+C)x2",
+      "initiative": 1,
+      "marker": "a",
+      "actions": [
+        {
+          "type": "move",
+          "value": 3
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 11,
+    "metal": 4,
+    "rockroot": 1,
+    "snowthistle": 2,
+    "axenut": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Orphan"
+          },
+          "type": "dead"
+        }
+      ],
+      "finish": "lost"
+    },
+    {
+      "round": "R == 3",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "b"
+        },
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "d"
+        }
+      ]
+    },
+    {
+      "round": "R == 4",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "robotic-boltshooter",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "robotic-boltshooter",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "e"
+        }
+      ]
+    },
+    {
+      "round": "R == 5",
+      "start": true,
+      "note": "at any starting hex",
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player4": "elite"
+          },
+          "count": "2"
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player3": "normal"
+          }
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player3": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "R == 7",
+      "start": true,
+      "note": "at any starting hex",
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player4": "elite"
+          },
+          "count": "2"
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player3": "normal"
+          }
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player3": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "R == 9",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "b"
+        },
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "d"
+        }
+      ]
+    },
+    {
+      "round": "R == 10",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "robotic-boltshooter",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "robotic-boltshooter",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "e"
+        }
+      ]
+    },
+    {
+      "round": "R == 11",
+      "start": true,
+      "note": "at any starting hex",
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player4": "elite"
+          },
+          "count": "2"
+        },
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player3": "normal"
+          }
+        },
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player3": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "R > 11",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "b"
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "e"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "robotic-boltshooter",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "robotic-boltshooter",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

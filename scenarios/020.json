@@ -1,0 +1,223 @@
+{
+  "index": "20",
+  "name": "Temple of Liberation",
+  "flowChartGroup": "algox-2",
+  "coordinates": {
+    "x": 1045.25,
+    "y": 1249.375,
+    "width": 118,
+    "height": 81,
+    "gridLocation": "L9"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "rewards": {
+    "gold": 15
+  },
+  "monsters": [
+    "flaming-bladespinner",
+    "ruined-machine",
+    "steel-automaton"
+  ],
+  "objectives": [
+    {
+      "name": "Cabinet",
+      "health": "Cx(L+2)",
+      "initiative": 1,
+      "marker": "a"
+    },
+    {
+      "name": "Cabinet",
+      "health": "Cx(L+2)",
+      "initiative": 1,
+      "marker": "b"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "lumber": 2,
+    "metal": 5,
+    "rockroot": 1,
+    "arrowvine": 2
+  },
+  "rules": [
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet"
+          },
+          "type": "dead",
+          "value": "3"
+        }
+      ],
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet"
+          },
+          "type": "dead",
+          "value": "2"
+        }
+      ],
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet"
+          },
+          "type": "dead",
+          "value": "1"
+        }
+      ],
+      "spawns": [
+        {
+          "monster": {
+            "name": "flaming-bladespinner",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          }
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "sections": [
+        "14.3"
+      ],
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet"
+          },
+          "type": "dead",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "round": "R % 2 == 0",
+      "start": true,
+      "figures": [
+        {
+          "type": "present",
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet",
+            "marker": "a"
+          }
+        }
+      ],
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "a",
+          "count": "F"
+        }
+      ]
+    },
+    {
+      "round": "R % 2 == 0",
+      "start": true,
+      "figures": [
+        {
+          "type": "present",
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Cabinet",
+            "marker": "b"
+          }
+        }
+      ],
+      "spawns": [
+        {
+          "monster": {
+            "name": "ruined-machine",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "b",
+          "count": "F"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "15-C",
+      "initial": true,
+      "monster": [
+        {
+          "name": "steel-automaton",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "steel-automaton",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        2,
+        2
+      ]
+    }
+  ]
+}

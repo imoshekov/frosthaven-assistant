@@ -1,0 +1,123 @@
+{
+  "index": "58",
+  "name": "Orphan's Core",
+  "flowChartGroup": "unfettered",
+  "coordinates": {
+    "x": 2128.25,
+    "y": 1297.25,
+    "width": 88,
+    "height": 64,
+    "gridLocation": "A10"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "blocks": [
+    "59"
+  ],
+  "rewards": {
+    "items": [
+      "246"
+    ],
+    "events": [
+      "winter-outpost:WO-64",
+      "winter-outpost:WO-65"
+    ],
+    "custom": "Remove all %game.action.custom.fh-unfettered% events from all outpost event decks",
+    "morale": 1,
+    "collectiveResources": [
+      {
+        "type": "lumber",
+        "value": 3
+      },
+      {
+        "type": "metal",
+        "value": 3
+      },
+      {
+        "type": "hide",
+        "value": 3
+      }
+    ],
+    "campaignSticker": [
+      "unfettered-deactivated"
+    ],
+    "unlockCharacter": "prism",
+    "townGuardAm": [
+      "fh-tg-add-plus50-unfettered"
+    ]
+  },
+  "monsters": [
+    "flaming-bladespinner",
+    "orphan",
+    "steel-automaton"
+  ],
+  "objectives": [
+    {
+      "name": "Glowing Orb",
+      "health": "(L+3)x2xC"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 6,
+    "lumber": 2,
+    "metal": 4,
+    "corpsecap": 1,
+    "flamefruit": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "sections": [
+        "61.1"
+      ],
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Glowing Orb"
+          },
+          "type": "dead"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "flaming-bladespinner",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "flaming-bladespinner",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "orphan",
+          "type": "boss"
+        },
+        {
+          "name": "steel-automaton",
+          "type": "normal"
+        },
+        {
+          "name": "steel-automaton",
+          "player4": "normal"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

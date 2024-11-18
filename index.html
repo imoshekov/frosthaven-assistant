@@ -39,7 +39,9 @@
         <div class="add-char">
             <div class="row">
                 <button class="initiative" onclick="DataManager.reset(); UIController.renderTable();">New Game</button>
+                <button class="initiative" onclick="DataManager.loadFile()">Load Scenario</button>
                 <button class="initiative" onclick="WebSocketHandler.initialize()">Start/Join Session</button>
+                <div id="content"></div>
                 <h3 style="padding-left: 10px">Add Monster</h3>
                 <div class="default-stats">
                     <label for="Type">Type: </label>
@@ -63,7 +65,7 @@
                         Monster</button>
                     <button class="attack" style="width:375px" onclick="UIController.nextRound()">Next Round</button>
                     <div class="round-info">
-                        <span>ROUND<input type="number" id="round-number" value="1"></span> 
+                        <span>ROUND<input type="number" id="round-number" value="1"></span>
                     </div>
                 </div>
             </div>
@@ -314,7 +316,8 @@
         <div id="modal-conditions" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeConditionsModal()">&times;</span>
-                <span id="condition-target" style="display: block; margin-bottom: 20px;"></span> <!-- Added margin-bottom -->
+                <span id="condition-target" style="display: block; margin-bottom: 20px;"></span>
+                <!-- Added margin-bottom -->
                 <div class="condition-row">
                     <div class="condition-item">
                         <img id="armor-img" onclick="incrementInput('condition-armor')"

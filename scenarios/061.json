@@ -1,0 +1,138 @@
+{
+  "index": "61",
+  "name": "Life and Death",
+  "flowChartGroup": "puzzle-book",
+  "coordinates": {
+    "x": 1363,
+    "y": 1451.25,
+    "width": 107,
+    "height": 78,
+    "gridLocation": "I11"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "unlockCharacter": "shards",
+    "calendarSection": [
+      "140.3-1"
+    ]
+  },
+  "monsters": [
+    "deep-terror",
+    "harrower-infester"
+  ],
+  "objectives": [
+    {
+      "name": "Moonshard",
+      "escort": true,
+      "allyDeck": true,
+      "health": "(L+(2xC))x2",
+      "initiative": 50,
+      "marker": "a",
+      "actions": [
+        {
+          "type": "move",
+          "value": 3
+        },
+        {
+          "type": "attack",
+          "value": "L+1",
+          "subActions": [
+            {
+              "type": "custom",
+              "small": true,
+              "value": "Attacks are unaffected by %game.action.retaliate%"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 5,
+    "lumber": 4,
+    "metal": 4,
+    "hide": 4,
+    "rockroot": 2,
+    "corpsecap": 2,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:2",
+          "scenarioEffect": true
+        },
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "muddle",
+          "scenarioEffect": true
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Moonshard"
+          },
+          "type": "dead"
+        }
+      ],
+      "finish": "lost"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "deep-terror",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "deep-terror",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "harrower-infester",
+          "type": "elite"
+        },
+        {
+          "name": "harrower-infester",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "harrower-infester",
+          "player4": "normal"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "index": "123",
+  "name": "The Titan",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 1116.25,
+    "y": 791,
+    "width": 76,
+    "height": 88,
+    "gridLocation": "K5"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "rewards": {
+    "morale": 1,
+    "inspiration": 1
+  },
+  "monsters": [
+    "ancient-artillery"
+  ],
+  "lootDeckConfig": {
+    "money": 9,
+    "lumber": 2,
+    "metal": 6,
+    "flamefruit": 1,
+    "snowthistle": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "disarm",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

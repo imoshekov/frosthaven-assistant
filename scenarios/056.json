@@ -1,0 +1,101 @@
+{
+  "index": "56",
+  "name": "Call of the Harbinger",
+  "flowChartGroup": "algox-1",
+  "coordinates": {
+    "x": 321.25,
+    "y": 639.75,
+    "width": 125,
+    "height": 67,
+    "gridLocation": "R4"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "rewards": {
+    "events": [
+      "summer-outpost:SO-51"
+    ],
+    "morale": 1,
+    "inspiration": 1,
+    "campaignSticker": [
+      "friend-of-the-icespeakers"
+    ],
+    "unlockCharacter": "fist",
+    "townGuardAm": [
+      "fh-tg-add-plus50"
+    ]
+  },
+  "monsters": [
+    "black-imp",
+    "harbinger-of-shadow-2",
+    "harrower-infester"
+  ],
+  "objectives": [
+    {
+      "name": "Altar 1",
+      "health": "(L+1)xC"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 6,
+    "lumber": 5,
+    "metal": 2,
+    "hide": 2,
+    "rockroot": 2,
+    "flamefruit": 2
+  },
+  "rules": [
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "sections": [
+        "3.2"
+      ],
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Altar 1"
+          },
+          "type": "dead"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "black-imp",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "black-imp",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "harbinger-of-shadow-2",
+          "type": "boss",
+          "marker": "2"
+        },
+        {
+          "name": "harrower-infester",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

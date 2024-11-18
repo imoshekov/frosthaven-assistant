@@ -1,0 +1,83 @@
+{
+  "index": "5",
+  "name": "Frozen Crypt",
+  "flowChartGroup": "algox-1",
+  "coordinates": {
+    "x": 1293.5,
+    "y": 961.75,
+    "width": 127,
+    "height": 77,
+    "gridLocation": "I6"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "unlocks": [
+    "9",
+    "10"
+  ],
+  "blocks": [
+    "6"
+  ],
+  "rewards": {
+    "collectiveResources": [
+      {
+        "type": "lumber",
+        "value": 2
+      }
+    ]
+  },
+  "monsters": [
+    "ice-wraith"
+  ],
+  "lootDeckConfig": {
+    "money": 6,
+    "lumber": 4,
+    "metal": 3,
+    "hide": 1,
+    "rockroot": 2,
+    "corpsecap": 2
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "damage",
+          "value": "2",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "07-A",
+      "initial": true,
+      "monster": [
+        {
+          "name": "ice-wraith",
+          "type": "normal"
+        },
+        {
+          "name": "ice-wraith",
+          "type": "elite"
+        },
+        {
+          "name": "ice-wraith",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ice-wraith",
+          "player4": "normal"
+        }
+      ]
+    }
+  ]
+}

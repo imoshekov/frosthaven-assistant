@@ -28,7 +28,7 @@ const DataManager = {
         // Render the log locally
         this.renderLog(event, timestamp);
 
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendLogUpdate(event, timestamp);
         }
     },
@@ -70,6 +70,49 @@ const DataManager = {
         if (logContainer.childElementCount > logLimit) {
             logContainer.removeChild(logContainer.lastChild);
         }
+    },
+    loadFile: function () {
+        const fileNumber = prompt("Enter the file number (e.g., 2 for 002):");
+        if (!fileNumber) {
+            alert('Please enter a valid file number');
+            return;
+        }
+
+        //currently set as 1, the code below will soon follow
+        const level = 1;/*prompt("Enter the level for the scenario (e.g., 1):");
+        if (!level || isNaN(level)) {
+            alert("Please enter a valid level");
+            return;
+        }*/
+        const formattedFileNumber = String(fileNumber).padStart(3, '0');
+        const filePath = `scenarios/${formattedFileNumber}.json`; // Corrected relative path
+
+        fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Loaded scenario data:', data);
+                data.rooms[0].monster.forEach(monster => {
+                    let newCreature = {
+                        type: monster.name,
+                        standee: 'X',
+                        level: level,
+                        isElite: false
+                    };
+                    if (monster?.player4 === 'elite') {
+                        newCreature.isElite = true;
+                    }
+                    UIController.addCharacter(newCreature);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading file:', error);
+                UIController.showToastNotification('Error loading scenario', 3000);
+            });
     }
 };
 

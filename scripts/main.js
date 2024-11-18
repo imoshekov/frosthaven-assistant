@@ -254,7 +254,6 @@ window.onload = function () {
 const attackModal = document.getElementById('modal-attack');
 const conditionModal = document.getElementById('modal-conditions');
 
-
 // Close modal if clicking outside of modal content
 window.onclick = function (event) {
     if (attackModal.style.display === "block" && !attackModal.querySelector('.modal-content').contains(event.target)) {

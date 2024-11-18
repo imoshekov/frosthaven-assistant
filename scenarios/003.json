@@ -1,0 +1,133 @@
+{
+  "index": "3",
+  "name": "Algox Offensive",
+  "flowChartGroup": "intro",
+  "coordinates": {
+    "x": 1049.5,
+    "y": 989.5,
+    "width": 136,
+    "height": 75,
+    "gridLocation": "L7"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "unlocks": [
+    "4A"
+  ],
+  "blocks": [
+    "2",
+    "4B"
+  ],
+  "forcedLinks": [
+    "4A"
+  ],
+  "rewards": {
+    "battleGoals": 1,
+    "overlaySticker": {
+      "name": "W",
+      "location": "M7",
+      "coordinates": {
+        "x": 784.5,
+        "y": 933.5,
+        "width": 288,
+        "height": 274
+      }
+    }
+  },
+  "monsters": [
+    "algox-archer",
+    "algox-guard",
+    "algox-priest",
+    "hound"
+  ],
+  "allied": [
+    "algox-priest",
+    "hound"
+  ],
+  "lootDeckConfig": {
+    "money": 4,
+    "lumber": 4,
+    "metal": 4,
+    "hide": 4,
+    "rockroot": 1,
+    "arrowvine": 2,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "13-A",
+      "initial": true,
+      "treasures": [
+        18
+      ],
+      "monster": [
+        {
+          "name": "algox-archer",
+          "type": "elite"
+        },
+        {
+          "name": "algox-archer",
+          "type": "elite"
+        },
+        {
+          "name": "algox-archer",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "algox-archer",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "type": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-priest",
+          "type": "normal"
+        },
+        {
+          "name": "algox-priest",
+          "type": "elite"
+        },
+        {
+          "name": "algox-priest",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-priest",
+          "player4": "normal"
+        },
+        {
+          "name": "hound",
+          "type": "normal"
+        },
+        {
+          "name": "hound",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "normal"
+        },
+        {
+          "name": "hound",
+          "player3": "normal",
+          "player4": "normal"
+        }
+      ]
+    }
+  ]
+}

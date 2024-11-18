@@ -1,0 +1,194 @@
+{
+  "index": "128",
+  "name": "A Tall Drunken Tale",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 1416,
+    "y": 2373,
+    "width": 113,
+    "height": 99,
+    "gridLocation": "FR"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "monsters": [
+    "abael-scout",
+    "lurker-wavethrower",
+    "steel-automaton"
+  ],
+  "lootDeckConfig": {
+    "money": 2,
+    "lumber": 3,
+    "metal": 1,
+    "hide": 8,
+    "snowthistle": 1,
+    "arrowvine": 1,
+    "flamefruit": 2
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "curse:2",
+          "scenarioEffect": true
+        },
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "muddle",
+          "scenarioEffect": true
+        }
+      ]
+    },
+    {
+      "round": "R == 2",
+      "start": true,
+      "sections": [
+        "170.1"
+      ]
+    },
+    {
+      "round": "R == 3",
+      "start": true,
+      "sections": [
+        "152.2"
+      ]
+    },
+    {
+      "round": "R == 4",
+      "start": true,
+      "sections": [
+        "176.3"
+      ]
+    },
+    {
+      "round": "R == 5",
+      "start": true,
+      "sections": [
+        "124.3"
+      ]
+    },
+    {
+      "round": "R == 6",
+      "start": true,
+      "sections": [
+        "139.1"
+      ]
+    },
+    {
+      "round": "R == 7",
+      "start": true,
+      "sections": [
+        "166.2"
+      ]
+    },
+    {
+      "round": "R == 8",
+      "start": true,
+      "sections": [
+        "132.4"
+      ]
+    },
+    {
+      "round": "R == 9",
+      "start": true,
+      "sections": [
+        "186.4"
+      ]
+    },
+    {
+      "round": "R == 9",
+      "finish": "won"
+    },
+    {
+      "round": "true",
+      "always": true,
+      "alwaysApply": true,
+      "statEffects": [
+        {
+          "identifier": {
+            "type": "monster",
+            "edition": "fh",
+            "name": "steel-automaton"
+          },
+          "statEffect": {
+            "deck": "imp",
+            "absolute": true
+          },
+          "note": "%data.scenario.rules.fh.128.1%"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "alwaysApply": true,
+      "statEffects": [
+        {
+          "identifier": {
+            "type": "monster",
+            "edition": "fh",
+            "name": "lurker-wavethrower"
+          },
+          "statEffect": {
+            "deck": "lurker-wavethrower-scenario-128",
+            "absolute": true
+          },
+          "note": "%data.scenario.rules.fh.128.2%"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "abael-scout",
+          "type": "normal"
+        },
+        {
+          "name": "abael-scout",
+          "type": "normal"
+        },
+        {
+          "name": "abael-scout",
+          "player3": "elite",
+          "player4": "normal"
+        },
+        {
+          "name": "abael-scout",
+          "player4": "normal"
+        },
+        {
+          "name": "lurker-wavethrower",
+          "type": "normal"
+        },
+        {
+          "name": "lurker-wavethrower",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "steel-automaton",
+          "type": "normal"
+        },
+        {
+          "name": "steel-automaton",
+          "player4": "normal"
+        }
+      ]
+    }
+  ]
+}
