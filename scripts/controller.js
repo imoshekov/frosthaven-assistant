@@ -11,7 +11,7 @@ const UIController = {
             return;
         }
         const level = autoInput?.level || parseInt(document.getElementById('level').value);
-        const isElite = autoInput?.elite || document.getElementById('elite-monster').checked;
+        const isElite = autoInput?.isElite || document.getElementById('elite-monster').checked;
         
         //todo: the name logic is used here and in renameCreature
         let baseName = `${type} ${standee}`;
