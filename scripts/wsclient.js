@@ -64,7 +64,7 @@ const WebSocketHandler = {
         };
     },
     tryReconnect: function () {
-        if (this.reconnecting) return; // If a reconnect attempt is in progress, do nothing
+        if (this.reconnecting) return;
     
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
             this.reconnecting = true; 
@@ -77,7 +77,7 @@ const WebSocketHandler = {
     
             setTimeout(() => {
                 this.connect();
-                this.reconnecting = false; // Reset reconnecting flag after the attempt
+                this.reconnecting = false; 
             }, delay);
         } else {
             UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
