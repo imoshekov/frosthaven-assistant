@@ -343,7 +343,7 @@ button:hover {
     width: 30px;
     background: #a94949;
     padding: 5px;
-    border: 2px solid black;
+    border: 3px solid #902a2a;
 }
 
 .attack-btn:hover {

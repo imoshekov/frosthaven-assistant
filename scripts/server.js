@@ -50,11 +50,11 @@ wss.on('connection', (ws) => {
 
         switch (data.type) {
             case 'join-session': {
-                let sessionId = data.sessionId || Math.floor(Math.random() * 100);
+                let sessionId = data.sessionId || generateUniqueSessionId(); // Generate a unique session ID if not provided
                 let session = getSession(sessionId);
+
                 if (!session) {
-                    createSession(sessionId);
-                    session = getSession(sessionId);
+                    session = createSession(sessionId); // Pass the sessionId to create a session
                 }
 
                 currentSessionId = sessionId;
@@ -143,6 +143,14 @@ wss.on('connection', (ws) => {
     });
 });
 
+function generateUniqueSessionId() {
+    let newSessionId;
+    do {
+        newSessionId = (Math.floor(Math.random() * 100))+1; //+1 because I don't like session 0
+    } while (sessions[newSessionId]); 
+    return newSessionId;
+}
+
 function createSession(sessionId) {
     sessions[sessionId] = {
         clients: [],
@@ -152,6 +160,7 @@ function createSession(sessionId) {
         lastActivity: Date.now(),
     };
     console.log(`Session ${sessionId} created.`);
+    return sessions[sessionId];
 }
 
 function getSession(sessionId) {
