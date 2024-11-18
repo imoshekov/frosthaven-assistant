@@ -1,8 +1,10 @@
 const http = require('http');
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080;
-
 const HEARTBEAT_INTERVAL = 15000; 
+const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
+const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
+
 const sessions = {};
 const defaultCharacters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 7, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, defaultStats: { hp: 6, attack: 0, movement: 0, initiative: 0 } },
@@ -40,6 +42,7 @@ wss.on('connection', (ws) => {
     ws.isAlive = true;
     ws.on('pong', () => {
         ws.isAlive = true;
+        console.log(`Client ${ws.clientId} sent a pong response.`);
     });
 
     ws.on('message', (message) => {
@@ -131,18 +134,6 @@ wss.on('connection', (ws) => {
     });
 });
 
-// Ping-Pong mechanism to keep connections alive
-setInterval(() => {
-    wss.clients.forEach((ws) => {
-        if (!ws.isAlive) {
-            ws.terminate();
-        } else {
-            ws.isAlive = false;
-            ws.ping();
-        }
-    });
-}, HEARTBEAT_INTERVAL);
-
 function createSession(sessionId) {
     sessions[sessionId] = {
         clients: [],
@@ -160,16 +151,62 @@ function getSession(sessionId) {
 
 function broadcastToSession(sessionId, type, data) {
     const session = getSession(sessionId);
-    if (session) {
-        session.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({ type, ...data }));
-            }
-        });
+    if (!session) {
+        return;
     }
+    session.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            const payload = { type, ...data };
+            client.send(JSON.stringify(payload));
+
+            console.log(
+                `Client ${client.clientId} in session ${sessionId} received update of type ${type}`
+            );
+        }
+    });
+
 }
+
+// Ping-Pong mechanism to keep connections alive
+setInterval(() => {
+    wss.clients.forEach((ws) => {
+        if (!ws.isAlive) {
+            console.log(`Client ${ws.clientId} did not respond to the ping and will be terminated.`);
+            ws.terminate();
+        } else {
+            ws.isAlive = false;
+            ws.ping(() => {
+                console.log(`Ping sent to client ${ws.clientId}`);
+            });
+        }
+    });
+}, HEARTBEAT_INTERVAL);
+
+// Periodic cleanup of inactive sessions
+setInterval(() => {
+    const now = Date.now();
+
+    Object.keys(sessions).forEach((sessionId) => {
+        const session = sessions[sessionId];
+
+        if (now - session.lastActivity > SESSION_TIMEOUT) {
+            console.log(`Session ${sessionId} has been inactive beyound the session timeout limit. Cleaning up.`);
+            
+            // Close all WebSocket connections in this session
+            session.clients.forEach((client) => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.close(1001, "Session expired due to inactivity.");
+                }
+            });
+
+            delete sessions[sessionId];
+        }
+    });
+}, CLEANUP_INTERVAL);
+
 
 // Start the server
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
