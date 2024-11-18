@@ -4,6 +4,8 @@ const WebSocketHandler = {
     sessionId: null,
     reconnectAttempts: 0,
     maxReconnectAttempts: 5,
+    pingServerInterval: 300000,
+    clientId: null,
 
     initialize: async function () {
         try {
@@ -58,6 +60,9 @@ const WebSocketHandler = {
                 case "element-update":
                     this.handleElementUpdate(data);
                     break;
+                case "battle-log-update":
+                    this.handleBattleLogUpdate(data);
+                    break;
                 default:
                     console.warn("Unknown message type:", data.type);
             }
@@ -98,7 +103,7 @@ const WebSocketHandler = {
                     }
                 })
                 .catch(error => console.error('Error pinging server:', error));
-        }, 180000);
+        }, this.pingServerInterval);
     },
     sendCharactersUpdate: function () {
         this.ws.send(JSON.stringify({
@@ -119,9 +124,17 @@ const WebSocketHandler = {
             elementState: elementState,
         }));
     },
+    sendLogUpdate: function(event, timestamp){
+        this.ws.send(JSON.stringify({
+            type: 'battle-log-update',
+            event,
+            timestamp
+        }));
+    },
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
+        this.clientId = data.clientId;
         document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
         UIController.showToastNotification(message);
         UIController.hideToastNotification(3000);
@@ -142,5 +155,12 @@ const WebSocketHandler = {
             pathElement.setAttribute('d', elementState.path);
             pathElement.setAttribute('fill', elementState.fill);
         }
+    },
+    handleBattleLogUpdate: function (data){
+        if (data.originatingClientId === WebSocketHandler.clientId) {
+            console.log(`Ignoring own battle log event: "${data.event}"`);
+            return; 
+        }
+        DataManager.renderLog(data.event, data.timestamp);
     }
 };

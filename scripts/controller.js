@@ -12,14 +12,16 @@ const UIController = {
         }
         const level = parseInt(document.getElementById('level').value);
         const isElite = document.getElementById('elite-monster').checked;
-        let name = `${type} ${standee}`;
+        let baseName = `${type} ${standee}`;
         const monsterData = data.monsters.find(monster => monster.name === type);
         let selectedMonster = monsterData.stats[level];
 
         if (isElite) {
-            name = '* ' + name;
+            baseName = '★ ' + baseName;
             selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
         }
+
+        const displayName = isElite ? `★ ${type}` : `${type}`;
         let initMovement = monsterData.baseStat?.movement;
         if (!initMovement) {
             initMovement = selectedMonster.movement;
@@ -34,7 +36,8 @@ const UIController = {
         const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
 
         const newCreature = {
-            name,
+            name: baseName,
+            displayName: displayName,
             type,
             standee: standee,
             aggressive: isAgressive,
@@ -80,7 +83,7 @@ const UIController = {
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
             <div class="name">
-                <b>${creature.aggressive ? `${creature.type}` : `${creature.name}`}</b>
+                <b>${creature.aggressive ? `${creature.displayName}` : `${creature.name}`}</b>
                 <b class="standee-only">${creature.aggressive ? `#${creature.standee}` : ''}</b>
             </div>
         </div>
