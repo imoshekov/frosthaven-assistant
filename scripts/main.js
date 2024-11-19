@@ -246,9 +246,6 @@ window.onload = function () {
         previousCharactersSnapshot = currentCharacters;
         WebSocketHandler.sendCharactersUpdate();
     }, 1000);
-
-    // Ping the server every X seconds to keep it alive.
-    WebSocketHandler.keepServerAlive();
 };
 
 const attackModal = document.getElementById('modal-attack');
