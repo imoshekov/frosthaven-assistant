@@ -193,9 +193,7 @@ setInterval(() => {
             ws.terminate();
         } else {
             ws.isAlive = false;
-            ws.ping(() => {
-                console.log(`Ping sent to client ${ws.clientId}`);
-            });
+            ws.ping();
         }
     });
 }, HEARTBEAT_INTERVAL);

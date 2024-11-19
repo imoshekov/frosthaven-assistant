@@ -136,8 +136,7 @@ const WebSocketHandler = {
         this.sessionId = data.sessionId;
         this.clientId = data.clientId;
         document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
-        UIController.showToastNotification(message);
-        UIController.hideToastNotification(3000);
+        UIController.showToastNotification(message, 3000);
     },
     handleCharacterUpdate: function (data) {
         characters = data.characters;
@@ -149,12 +148,9 @@ const WebSocketHandler = {
     handleElementUpdate: function (data) {
         const elementState = JSON.parse(data.elementState)
         const element = document.getElementById(elementState.elementId);
+        const pathElement = element.querySelector('path');
+        pathElement.setAttribute('d', elementState.path);     pathElement.setAttribute('fill', elementState.fill);
 
-        if (element) {
-            const pathElement = element.querySelector('path');
-            pathElement.setAttribute('d', elementState.path);
-            pathElement.setAttribute('fill', elementState.fill);
-        }
     },
     handleBattleLogUpdate: function (data){
         if (data.originatingClientId === WebSocketHandler.clientId) {

@@ -72,21 +72,16 @@ const DataManager = {
         }
     },
     loadFile: function () {
-        const fileNumber = prompt("Enter the file number (e.g., 2 for 002):");
+        const fileNumber = prompt("Enter the session number:");
         if (!fileNumber) {
-            alert('Please enter a valid file number');
+            UIController.showToastNotification('Enter a valid session number', 3000);
             return;
         }
-
-        //currently set as 1, the code below will soon follow
-        const level = 1;/*prompt("Enter the level for the scenario (e.g., 1):");
-        if (!level || isNaN(level)) {
-            alert("Please enter a valid level");
-            return;
-        }*/
+    
+        const level = 1; // Default level, can be modified as needed
         const formattedFileNumber = String(fileNumber).padStart(3, '0');
-        const filePath = `scenarios/${formattedFileNumber}.json`; // Corrected relative path
-
+        const filePath = `scenarios/${formattedFileNumber}.json`;
+    
         fetch(filePath)
             .then(response => {
                 if (!response.ok) {
@@ -94,26 +89,23 @@ const DataManager = {
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('Loaded scenario data:', data);
-                data.rooms[0].monster.forEach(monster => {
-                    let newCreature = {
-                        type: monster.name,
-                        standee: 'X',
-                        level: level,
-                        isElite: false
-                    };
-                    if (monster?.player4 === 'elite') {
-                        newCreature.isElite = true;
-                    }
-                    UIController.addCharacter(newCreature);
-                });
-            })
+            .then(data => this.processScenarioData(data, level))
             .catch(error => {
                 console.error('Error loading file:', error);
                 UIController.showToastNotification('Error loading scenario', 3000);
             });
-    }
+    }, 
+    processScenarioData: function (data, level = 1) {
+        data.rooms[0].monster.forEach(monster => {
+            const newCreature = {
+                type: monster.name,
+                standee: 'X',
+                level: level,
+                isElite: monster?.player4 === 'elite',
+            };
+            UIController.addCharacter(newCreature);
+        });
+    }   
 };
 
 

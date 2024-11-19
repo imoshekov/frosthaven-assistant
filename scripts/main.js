@@ -6,7 +6,7 @@ let attackTarget = null;
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
     openModal('modal-attack');
-    document.getElementById('attack-combatants').innerHTML = `⚔ ${characters[attackTarget].name}`;
+    document.getElementById('attack-combatants').innerHTML = `◉ ${characters[attackTarget].name}`;
     loadConditionsInAttackModal();
     event.stopPropagation();
 }
