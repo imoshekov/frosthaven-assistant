@@ -1,53 +1,43 @@
 const UIController = {
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
-        if (!type) {
-            alert('Select monster type first')
-            return;
-        }
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
-        if (!standee) {
-            alert('Select standee # first')
-            return;
-        }
         const level = autoInput?.level || parseInt(document.getElementById('level').value);
         const isElite = autoInput?.isElite || document.getElementById('elite-monster').checked;
-        
-        //todo: the name logic is used here and in renameCreature
-        let baseName = `${type} ${standee}`;
+    
+        // Validate required inputs
+        if (!type) return alert('Select monster type first');
+        if (!standee) return alert('Select standee # first');
+    
+        // Fetch monster data
         const monsterData = data.monsters.find(monster => monster.name === type);
-        let selectedMonster = monsterData.stats[level];
-        
-        if (isElite) {
-            baseName = '★ ' + baseName;
-            selectedMonster = monsterData.stats.find(x => x.type === 'elite' && x.level === level);
-        }
-
-        const displayName = isElite ? `★ ${type}` : `${type}`;
-        let initMovement = monsterData.baseStat?.movement;
-        if (!initMovement) {
-            initMovement = selectedMonster.movement;
-        }
-        const initiative = 0;
+        const selectedMonster = isElite
+            ? monsterData.stats.find(x => x.type === 'elite' && x.level === level)
+            : monsterData.stats[level];
+    
+        // Generate creature names
+        const { baseName, displayName } = this.generateCreatureName({ isElite, type, standee });
+    
+        // Derive default stats
+        const initMovement = monsterData.baseStat?.movement || selectedMonster.movement;
         const defaultAttack = parseInt(selectedMonster?.attack) || 0;
         const defaultMovement = Math.max(initMovement ?? 0, selectedMonster?.movement ?? 0);
         const defaultHP = parseInt(selectedMonster?.health) || 0;
-        //by default currently supported only adding monsters
-        const isAgressive = true;
         const defaultArmor = selectedMonster?.actions?.find(x => x.type === 'shield')?.value || 0;
         const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
-
+    
+        // Create new creature object
         const newCreature = {
             name: baseName,
-            displayName: displayName,
+            displayName,
             type,
-            standee: standee,
-            aggressive: isAgressive,
+            standee,
+            aggressive: true, 
             eliteMonster: isElite,
             hp: defaultHP,
             attack: defaultAttack,
             movement: defaultMovement,
-            initiative,
+            initiative: 0, 
             armor: defaultArmor,
             retaliate: defaultRetaliate,
             conditions: {},
@@ -55,14 +45,15 @@ const UIController = {
                 hp: defaultHP,
                 attack: defaultAttack,
                 movement: defaultMovement,
-                initiative
-            }
+                initiative: 0,
+            },
         };
-
+    
         characters.push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
-    },
+    }
+    ,
     renderTable() {
         const tableBody = document.getElementById('creaturesTable');
         tableBody.innerHTML = '';
@@ -89,14 +80,14 @@ const UIController = {
         <div class='character-skin'>
         <div class="name">
                 <b>${creature.aggressive ? `${creature.displayName}` : `${creature.name}`}</b>
-                <b>${creature.aggressive 
+                <b>${creature.aggressive
                     ? `<input 
                             type="number" 
                             class="standee-only" 
                             value="${creature.standee}" 
                             onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});" 
                             placeholder="#" 
-                        />` 
+                        />`
                     : ''
                 }</b>
             </div>
@@ -178,6 +169,43 @@ const UIController = {
             initiativeInputs.forEach(input => {
                 input.value = character.initiative;
             });
+        });
+    },
+    removeCreature(index) {
+        characters.splice(index, 1);
+        this.renderTable();
+    },
+    sortCreatures() {
+        characters.sort((a, b) => a.initiative - b.initiative);
+    },
+    renameCreature(index) {
+        let creature = characters[index];
+        const { baseName, displayName } = this.generateCreatureName({
+            isElite: creature.isElite,
+            type: creature.type,
+            standee: creature.standee,
+        });
+        characters[index].name = baseName;
+        characters[index].displayName = displayName;
+    },
+    generateCreatureName(input) {
+        const prefix = input.isElite ? '★ ' : '';
+        const baseName = `${prefix}${input.type} ${input.standee}`;
+        const displayName = `${prefix}${input.type}`;
+        return { baseName, displayName };
+    },
+    updateStat(index, stat, value, massApply = false) {
+        const parsedValue = parseInt(value);
+
+        if (!massApply) {
+            characters[index][stat] = parsedValue;
+            return;
+        }
+        const typeToUpdate = characters[index].type;
+        characters.forEach(character => {
+            if (character.type === typeToUpdate) {
+                character[stat] = parsedValue;
+            }
         });
     },
     toggleDone(event) {
@@ -277,37 +305,6 @@ const UIController = {
         }
 
     },
-    removeCreature(index) {
-        characters.splice(index, 1);
-        this.renderTable();
-    },
-    sortCreatures() {
-        characters.sort((a, b) => a.initiative - b.initiative);
-    },
-    renameCreature(index){
-        let creature = characters[index];
-        let baseName = `${creature.type} ${creature.standee}`;
-        if (creature.eliteMonster) {
-            baseName = '★ ' + baseName;
-        }
-        const displayName = creature.eliteMonster ? `★ ${creature.type}` : `${creature.type}`;
-        characters[index].name = baseName;
-        characters[index].displayName = displayName;
-    },
-    updateStat(index, stat, value, massApply = false) {
-        const parsedValue = parseInt(value);
-
-        if (!massApply) {
-            characters[index][stat] = parsedValue;
-            return;
-        }
-        const typeToUpdate = characters[index].type;
-        characters.forEach(character => {
-            if (character.type === typeToUpdate) {
-                character[stat] = parsedValue;
-            }
-        });
-    },
     toggleConditionVisibility(index, conditionType) {
         const character = characters[index];
         character.conditions[conditionType] = !character.conditions[conditionType];
@@ -318,7 +315,7 @@ const UIController = {
         toast.textContent = message;
         toast.classList.remove('hide');
         toast.classList.add('show');
-    
+
         if (timeout) {
             setTimeout(() => {
                 toast.classList.remove('show');
