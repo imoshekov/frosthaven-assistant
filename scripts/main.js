@@ -154,6 +154,9 @@ function updateHpWithDamage(charIdx, dmg) {
         characterConditions.brittle = false;
         characterConditions.ward = false;
     }
+    if(WebSocketHandler.isConnected){
+        WebSocketHandler.sendCharactersUpdate();
+    }
 }
 
 function applyCondition(allTypesAffected) {
@@ -175,6 +178,9 @@ function applyCondition(allTypesAffected) {
     };
     for(let i = 0; i<characters.length; i++){
         showConditions(i);
+    }
+    if(WebSocketHandler.isConnected){
+        WebSocketHandler.sendCharactersUpdate();
     }
     closeConditionsModal();
 }
@@ -225,8 +231,6 @@ function preventExclusiveConditions() {
     ward.addEventListener("change", () => ward.checked && (brittle.checked = false));
 }
 
-let previousCharactersSnapshot = JSON.stringify(characters);
-
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
@@ -235,22 +239,6 @@ window.onload = function () {
     
     // Saving to local storage every X seconds.
     setInterval(() => DataManager.saveGame(), 10000);
-
-    // Sending the complete characters array every second.
-    setInterval(() => {
-        if (!WebSocketHandler.isConnected) {
-            return;
-        }
-        const currentCharacters = JSON.stringify(characters);
-        if (currentCharacters === previousCharactersSnapshot) {
-            return;
-        }
-        if (!UIController.allIniativeSet()) {
-            return;
-        }
-        previousCharactersSnapshot = currentCharacters;
-        WebSocketHandler.sendCharactersUpdate();
-    }, 1000);
 };
 
 const attackModal = document.getElementById('modal-attack');
