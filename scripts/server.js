@@ -70,24 +70,11 @@ wss.on('connection', (ws) => {
                     isNewSession: session.clients.length === 1,
                     clientId: ws.clientId
                 }));
-
-                if (session.clients.length > 1) {
-                    ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
-                    ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
-                    Object.keys(session.elementStates).forEach((elementId) => {
-                        ws.send(JSON.stringify({
-                            type: 'element-update',
-                            elementId,
-                            elementState: session.elementStates[elementId]
-                        }));
-                    });
-                } else {
-                    console.log(`Session ${sessionId} has only one client. Not sending default data to avoid overwriting client state.`);
-                }
                 break;
             }
             case 'characters-update': {
-                const session = getSession(currentSessionId);
+                const 
+                 = getSession(currentSessionId);
                 if (session) {
                     session.characters = data.characters;
                     session.lastActivity = Date.now();
@@ -119,6 +106,22 @@ wss.on('connection', (ws) => {
                     session.lastActivity = Date.now();
                     const originatingClientId = ws.clientId;
                     broadcastToSession(currentSessionId, 'battle-log-update', { event: data.event, timestamp: data.timestamp, originatingClientId: originatingClientId });
+                }
+                break;
+            }
+            case 'request-latest-state': {
+                const session = getSession(currentSessionId);
+                if (session) {
+                    session.lastActivity = Date.now();
+                    ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
+                    ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
+                    Object.keys(session.elementStates).forEach((elementId) => {
+                        ws.send(JSON.stringify({
+                            type: 'element-update',
+                            elementId,
+                            elementState: session.elementStates[elementId]
+                        }));
+                    });
                 }
                 break;
             }
