@@ -172,6 +172,7 @@ const WebSocketHandler = {
     },
     handleCharacterUpdate: function (data) {
         characters = data.characters;
+        UIController.sortCreatures();
         UIController.renderTable();
     },
     handleRoundUpdate: function (data) {
