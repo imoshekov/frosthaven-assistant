@@ -73,8 +73,7 @@ wss.on('connection', (ws) => {
                 break;
             }
             case 'characters-update': {
-                const 
-                 = getSession(currentSessionId);
+                const session = getSession(currentSessionId);
                 if (session) {
                     session.characters = data.characters;
                     session.lastActivity = Date.now();
