@@ -177,6 +177,9 @@ const UIController = {
     removeCreature(index) {
         characters.splice(index, 1);
         this.renderTable();
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
     },
     sortCreatures() {
         characters.sort((a, b) => a.initiative - b.initiative);
@@ -190,6 +193,9 @@ const UIController = {
         });
         characters[index].name = baseName;
         characters[index].displayName = displayName;
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
     },
     generateCreatureName(input) {
         const prefix = input.isElite ? '★ ' : '';
@@ -210,19 +216,24 @@ const UIController = {
             else {
                 characters[index][stat] = parsedValue;
             }
-            return;
         }
-        const typeToUpdate = characters[index].type;
-        characters.forEach(character => {
-            if (character.type === typeToUpdate) {
-                if (isCondition) {
-                    character.conditions[stat] = parsedValue;
+        else {
+            const typeToUpdate = characters[index].type;
+            characters.forEach(character => {
+                if (character.type === typeToUpdate) {
+                    if (isCondition) {
+                        character.conditions[stat] = parsedValue;
+                    }
+                    else {
+                        character[stat] = parsedValue;
+                    }
                 }
-                else {
-                    character[stat] = parsedValue;
-                }
-            }
-        });
+            });
+        }
+
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
     },
     toggleDone(event) {
         if (event.target.type !== "checkbox") {
