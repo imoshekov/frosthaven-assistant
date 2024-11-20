@@ -1,7 +1,7 @@
 const http = require('http');
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080;
-const HEARTBEAT_INTERVAL = 15000; 
+const HEARTBEAT_INTERVAL = 15000;
 const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
 const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 
@@ -47,70 +47,59 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
+        const originatingClientId = ws.clientId;
+        if (data.type === 'join-session') {
+            let sessionId = data.sessionId || generateUniqueSessionId(); // Generate a unique session ID if not provided
+            let session = getSession(sessionId);
 
-        switch (data.type) {
-            case 'join-session': {
-                let sessionId = data.sessionId || generateUniqueSessionId(); // Generate a unique session ID if not provided
-                let session = getSession(sessionId);
-
-                if (!session) {
-                    session = createSession(sessionId); // Pass the sessionId to create a session
-                }
-
-                currentSessionId = sessionId;
-                session.clients.push(ws);
-                session.lastActivity = Date.now();
-
-                console.log(`Client ${ws.clientId} joined session ${sessionId}. Total clients: ${session.clients.length}`);
-
-                ws.send(JSON.stringify({
-                    type: 'session-joined',
-                    sessionId,
-                    clientsCount: session.clients.length,
-                    isNewSession: session.clients.length === 1,
-                    clientId: ws.clientId
-                }));
-                break;
+            if (!session) {
+                session = createSession(sessionId); // Pass the sessionId to create a session
             }
-            case 'characters-update': {
-                const session = getSession(currentSessionId);
-                if (session) {
+
+            currentSessionId = sessionId;
+            session.clients.push(ws);
+            session.lastActivity = Date.now();
+
+            console.log(`Client ${ws.clientId} joined session ${sessionId}. Total clients: ${session.clients.length}`);
+
+            ws.send(JSON.stringify({
+                type: 'session-joined',
+                sessionId,
+                clientsCount: session.clients.length,
+                isNewSession: session.clients.length === 1,
+                clientId: ws.clientId
+            }));
+        }
+        else {
+            const session = getSession(currentSessionId);
+            if (!session) {
+                return;
+            }
+            switch (data.type) {
+                case 'characters-update': {
                     session.characters = data.characters;
                     session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters });
+                    broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            case 'round-update': {
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'round-update': {
                     session.roundNumber = data.roundNumber;
                     session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber });
+                    broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            case 'element-update': {
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'element-update': {
                     session.elementStates[data.elementId] = data.elementState;
                     session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState });
+                    broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            case 'battle-log-update': {
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'battle-log-update': {
                     session.lastActivity = Date.now();
-                    const originatingClientId = ws.clientId;
                     broadcastToSession(currentSessionId, 'battle-log-update', { event: data.event, timestamp: data.timestamp, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            case 'request-latest-state': {
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'request-latest-state': {
                     session.lastActivity = Date.now();
                     ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
                     ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
@@ -121,35 +110,27 @@ wss.on('connection', (ws) => {
                             elementState: session.elementStates[elementId]
                         }));
                     });
+                    break;
                 }
-                break;
-            }
-            case 'add-monster': {
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'add-monster': {
                     session.characters.push(data.monster);
                     session.lastActivity = Date.now();
-                    const originatingClientId = ws.clientId
                     broadcastToSession(currentSessionId, 'add-monster', { monster: data.monster, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            case 'initiative-reset':{
-                const session = getSession(currentSessionId);
-                if (session) {
+                case 'initiative-reset': {
                     session.characters.forEach(character => {
                         character.initiative = data.value;
                     });
-                    
+
                     session.lastActivity = Date.now();
-                    const originatingClientId = ws.clientId
                     broadcastToSession(currentSessionId, 'initiative-reset', { value: data.value, originatingClientId: originatingClientId });
+                    break;
                 }
-                break;
-            }
-            default: {
-                console.log(`Unknown message type: ${data.type}`);
-                break;
+                default: {
+                    console.log(`Unknown message type: ${data.type}`);
+                    break;
+                }
             }
         }
     });
@@ -171,8 +152,8 @@ wss.on('connection', (ws) => {
 function generateUniqueSessionId() {
     let newSessionId;
     do {
-        newSessionId = (Math.floor(Math.random() * 100))+1; //+1 because I don't like session 0
-    } while (sessions[newSessionId]); 
+        newSessionId = (Math.floor(Math.random() * 100)) + 1; //+1 because I don't like session 0
+    } while (sessions[newSessionId]);
     return newSessionId;
 }
 
@@ -232,7 +213,7 @@ setInterval(() => {
 
         if (now - session.lastActivity > SESSION_TIMEOUT) {
             console.log(`Session ${sessionId} has been inactive beyound the session timeout limit. Cleaning up.`);
-            
+
             // Close all WebSocket connections in this session
             session.clients.forEach((client) => {
                 if (client.readyState === WebSocket.OPEN) {
