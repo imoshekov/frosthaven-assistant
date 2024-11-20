@@ -25,7 +25,7 @@ const WebSocketHandler = {
         );
 
         this.ws.onopen = () => {
-            let sessionId = this.sessionId || DataManager.load('sessionId');
+            let sessionId = this.getSessionId();
             if (!sessionId) {
                 if (this.role === 'client') {
                     this.sessionId = prompt("Enter a session id");
@@ -34,7 +34,7 @@ const WebSocketHandler = {
                     this.sessionId = '';
                 }
             }
-            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId }));
+            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: this.sessionId }));
             this.isConnected = true;
             this.reconnectAttempts = 0; 
         };
@@ -77,6 +77,9 @@ const WebSocketHandler = {
                     break;
             }
         };
+    },
+    getSessionId: function(){
+        return this.sessionId || DataManager.load('sessionId');
     },
     tryReconnect: function () {
         if (this.reconnecting) return;
@@ -136,11 +139,17 @@ const WebSocketHandler = {
     sendLogUpdate: function(event, timestamp){
         this.sendUpdateMessage('battle-log-update', { event: event, timestamp: timestamp });
     },
+    requestServerState: function(sessionId){
+        this.ws.send(JSON.stringify({ type: 'request-latest-state', sessionId: this.sessionId }));
+    },
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
         DataManager.set('sessionId', data.sessionId);
+        
         this.clientId = data.clientId;
+        this.requestServerState(this.getSessionId());
+        
         document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
         UIController.showToastNotification(message, 3000);
     },
