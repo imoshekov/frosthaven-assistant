@@ -165,12 +165,17 @@ function applyCondition(allTypesAffected) {
 
     UIController.updateStat(conditionTarget, 'armor', armorValue, allTypesAffected);
     UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, allTypesAffected);
+    UIController.updateStat(conditionTarget, 'poison', poison, allTypesAffected, true);
+    UIController.updateStat(conditionTarget, 'brittle', brittle, allTypesAffected, true);
+    UIController.updateStat(conditionTarget, 'ward', ward, allTypesAffected, true);
     characters[conditionTarget].conditions = {
         poison,
         brittle,
         ward
     };
-    showConditions(conditionTarget);
+    for(let i = 0; i<characters.length; i++){
+        showConditions(i);
+    }
     closeConditionsModal();
 }
 

@@ -194,17 +194,30 @@ const UIController = {
         const displayName = `${prefix}${input.type}`;
         return { baseName, displayName };
     },
-    updateStat(index, stat, value, massApply = false) {
-        const parsedValue = parseInt(value);
+    updateStat(index, stat, value, massApply = false, isCondition = false) {
+        let parsedValue = value;
+        if (!isCondition) {
+            parsedValue = parseInt(value);
+        }
 
         if (!massApply) {
-            characters[index][stat] = parsedValue;
+            if (isCondition) {
+                characters[index].conditions[stat] = parsedValue;
+            }
+            else {
+                characters[index][stat] = parsedValue;
+            }
             return;
         }
         const typeToUpdate = characters[index].type;
         characters.forEach(character => {
             if (character.type === typeToUpdate) {
-                character[stat] = parsedValue;
+                if (isCondition) {
+                    character.conditions[stat] = parsedValue;
+                }
+                else {
+                    character[stat] = parsedValue;
+                }
             }
         });
     },
