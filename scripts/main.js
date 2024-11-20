@@ -2,7 +2,6 @@
 let characters = JSON.parse(DataManager.load('characters')) || data.defaultCharacters;
 let conditionTarget = null;
 let attackTarget = null;
-const enableHostClientStuff = true;
 
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
@@ -230,7 +229,7 @@ window.onload = function () {
     document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
     
     // Saving to local storage every X seconds.
-    setInterval(() => DataManager.save(), 10000);
+    setInterval(() => DataManager.saveGame(), 10000);
 
     // Sending the complete characters array every second.
     setInterval(() => {

@@ -1,4 +1,5 @@
 const WebSocketHandler = {
+    enableHostClientStuff: true,
     ws: null,
     isConnected: false,
     sessionId: null,
@@ -6,7 +7,7 @@ const WebSocketHandler = {
     maxReconnectAttempts: 5,
     pingServerInterval: 300000,
     clientId: null,
-    role: '',
+    role: null,
 
     initialize: async function (role) {
         try {
@@ -24,7 +25,8 @@ const WebSocketHandler = {
         );
 
         this.ws.onopen = () => {
-            if (!this.sessionId) {
+            let sessionId = this.sessionId || DataManager.load('sessionId');
+            if (!sessionId) {
                 if (this.role === 'client') {
                     this.sessionId = prompt("Enter a session id");
                 }
@@ -32,7 +34,7 @@ const WebSocketHandler = {
                     this.sessionId = '';
                 }
             }
-            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: this.sessionId }));
+            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: sessionId }));
             this.isConnected = true;
             this.reconnectAttempts = 0; 
         };
@@ -57,8 +59,7 @@ const WebSocketHandler = {
             if(data.type === "session-joined"){
                 this.handleSessionJoined(data);
             }
-            if(enableHostClientStuff && this.role === 'host'){
-                console.log('the host is ignoring updates');
+            if(this.enableHostClientStuff && this.role === 'host'){
                 return;
             }
             switch (data.type) {
@@ -114,47 +115,31 @@ const WebSocketHandler = {
                 .catch(error => console.error('Error pinging server:', error));
         }, this.pingServerInterval);
     },
-    sendCharactersUpdate: function () {
-        if(this.role === 'client'){
+    sendUpdateMessage: function(type, payload) {
+        if (this.enableHostClientStuff && this.role === 'client') {
             return;
         }
         this.ws.send(JSON.stringify({
-            type: 'characters-update',
-            characters: characters
-        }))
+            type: type,
+            ...payload 
+        }));
+    },
+    sendCharactersUpdate: function () {
+        this.sendUpdateMessage('characters-update', { characters: characters });
     },
     sendRoundNumber: function (roundNumberValue) {
-        if(this.role === 'client'){
-            return;
-        }
-        this.ws.send(JSON.stringify({
-            type: 'round-update',
-            roundNumber: roundNumberValue
-        }));
+        this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
     },
     sendElementState: function (elementId, elementState) {
-        if(this.role === 'client'){
-            return;
-        }
-        this.ws.send(JSON.stringify({
-            type: 'element-update',
-            elementId: elementId,
-            elementState: elementState,
-        }));
+        this.sendUpdateMessage('element-update', { elementId: elementId, elementState: elementState });
     },
     sendLogUpdate: function(event, timestamp){
-        if(this.role === 'client'){
-            return;
-        }
-        this.ws.send(JSON.stringify({
-            type: 'battle-log-update',
-            event,
-            timestamp
-        }));
+        this.sendUpdateMessage('battle-log-update', { event: event, timestamp: timestamp });
     },
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
+        DataManager.set('sessionId', data.sessionId);
         this.clientId = data.clientId;
         document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
         UIController.showToastNotification(message, 3000);
@@ -170,7 +155,8 @@ const WebSocketHandler = {
         const elementState = JSON.parse(data.elementState)
         const element = document.getElementById(elementState.elementId);
         const pathElement = element.querySelector('path');
-        pathElement.setAttribute('d', elementState.path);     pathElement.setAttribute('fill', elementState.fill);
+        pathElement.setAttribute('d', elementState.path);     
+        pathElement.setAttribute('fill', elementState.fill);
 
     },
     handleBattleLogUpdate: function (data){
