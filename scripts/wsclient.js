@@ -64,6 +64,9 @@ const WebSocketHandler = {
             if(this.enableHostClientStuff && this.role === 'host'){
                 return;
             }
+            if(data?.originatingClientId === this.clientId){
+                return;
+            }
             switch (data.type) {
                 case "characters-update":
                     this.handleCharacterUpdate(data);
@@ -183,23 +186,14 @@ const WebSocketHandler = {
 
     },
     handleBattleLogUpdate: function (data){
-        if (data.originatingClientId === WebSocketHandler.clientId) {
-            console.log(`Ignoring own battle log event: "${data.event}"`);
-            return; 
-        }
         DataManager.renderLog(data.event, data.timestamp);
     },
     handleMonsterAdded: function(data){
-        if (data.originatingClientId === WebSocketHandler.clientId) {
-            return;
-        }
         characters.push(data.monster);
+        UIController.sortCreatures();
         UIController.renderTable();
     },
     handleInitiativeReset: function(data){
-        if (data.originatingClientId === WebSocketHandler.clientId) {
-            return;
-        }
         characters.forEach(c => {
             c.initiative = data.value;
         });
