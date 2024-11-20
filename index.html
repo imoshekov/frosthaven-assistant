@@ -40,7 +40,8 @@
             <div class="row">
                 <button class="initiative" onclick="DataManager.reset(); UIController.renderTable();">New Game</button>
                 <button class="initiative" onclick="DataManager.loadFile()">Load Scenario</button>
-                <button class="initiative" onclick="WebSocketHandler.initialize()">Start/Join Session</button>
+                <button class="initiative" onclick="WebSocketHandler.initialize('host')">Start Session</button>
+                <button class="initiative" onclick="WebSocketHandler.initialize('client')">Join Session</button>
                 <div id="content"></div>
                 <h3 style="padding-left: 10px">Add Monster</h3>
                 <div class="default-stats">

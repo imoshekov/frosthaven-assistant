@@ -6,9 +6,11 @@ const WebSocketHandler = {
     maxReconnectAttempts: 5,
     pingServerInterval: 300000,
     clientId: null,
+    role: '',
 
-    initialize: async function () {
+    initialize: async function (role) {
         try {
+            this.role = role;
             this.connect();
         } catch (error) {
             console.error("WebSocketHandler initialization error:", error.message);
@@ -23,7 +25,12 @@ const WebSocketHandler = {
 
         this.ws.onopen = () => {
             if (!this.sessionId) {
-                this.sessionId = prompt("Enter session ID or leave blank to create a new one:") || null;
+                if (this.role === 'client') {
+                    this.sessionId = prompt("Enter a session id");
+                }
+                else if (this.role === 'host') {
+                    this.sessionId = '';
+                }
             }
             this.ws.send(JSON.stringify({ type: 'join-session', sessionId: this.sessionId }));
             this.isConnected = true;
@@ -47,10 +54,17 @@ const WebSocketHandler = {
 
         this.ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            if(data.type === "session-joined"){
+                this.handleSessionJoined(data);
+            }
+            if(this.role === 'host'){
+                console.log('the host is ignoring updates');
+                return;
+            }
             switch (data.type) {
-                case "session-joined":
-                    this.handleSessionJoined(data);
-                    break;
+                // case "session-joined":
+                //     this.handleSessionJoined(data);
+                //     break;
                 case "characters-update":
                     this.handleCharacterUpdate(data);
                     break;
@@ -63,8 +77,6 @@ const WebSocketHandler = {
                 case "battle-log-update":
                     this.handleBattleLogUpdate(data);
                     break;
-                default:
-                    console.warn("Unknown message type:", data.type);
             }
         };
     },
@@ -106,18 +118,27 @@ const WebSocketHandler = {
         }, this.pingServerInterval);
     },
     sendCharactersUpdate: function () {
+        if(this.role === 'client'){
+            return;
+        }
         this.ws.send(JSON.stringify({
             type: 'characters-update',
             characters: characters
         }))
     },
     sendRoundNumber: function (roundNumberValue) {
+        if(this.role === 'client'){
+            return;
+        }
         this.ws.send(JSON.stringify({
             type: 'round-update',
             roundNumber: roundNumberValue
         }));
     },
     sendElementState: function (elementId, elementState) {
+        if(this.role === 'client'){
+            return;
+        }
         this.ws.send(JSON.stringify({
             type: 'element-update',
             elementId: elementId,
@@ -125,6 +146,9 @@ const WebSocketHandler = {
         }));
     },
     sendLogUpdate: function(event, timestamp){
+        if(this.role === 'client'){
+            return;
+        }
         this.ws.send(JSON.stringify({
             type: 'battle-log-update',
             event,
