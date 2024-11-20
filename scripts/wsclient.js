@@ -77,6 +77,12 @@ const WebSocketHandler = {
                 case "battle-log-update":
                     this.handleBattleLogUpdate(data);
                     break;
+                case "add-monster":
+                    this.handleMonsterAdded(data);
+                    break;
+                case "initiative-reset":
+                    this.handleInitiativeReset(data);
+                    break;
             }
         };
     },
@@ -142,7 +148,13 @@ const WebSocketHandler = {
         this.sendUpdateMessage('battle-log-update', { event: event, timestamp: timestamp });
     },
     requestServerState: function(sessionId){
-        this.ws.send(JSON.stringify({ type: 'request-latest-state', sessionId: this.sessionId }));
+        this.ws.send(JSON.stringify({ type: 'request-latest-state', sessionId: sessionId }));
+    },
+    sendMonsterAdded: function(monster){
+        this.sendUpdateMessage('add-monster', { monster: monster });
+    },
+    sendInitiativeReset: function (value = 0) {
+        this.sendUpdateMessage('initiative-reset', { value: value });
     },
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
@@ -176,5 +188,21 @@ const WebSocketHandler = {
             return; 
         }
         DataManager.renderLog(data.event, data.timestamp);
+    },
+    handleMonsterAdded: function(data){
+        if (data.originatingClientId === WebSocketHandler.clientId) {
+            return;
+        }
+        characters.push(data.monster);
+        UIController.renderTable();
+    },
+    handleInitiativeReset: function(data){
+        if (data.originatingClientId === WebSocketHandler.clientId) {
+            return;
+        }
+        characters.forEach(c => {
+            c.initiative = data.value;
+        });
+        UIController.renderTable();
     }
 };

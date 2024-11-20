@@ -52,6 +52,9 @@ const UIController = {
         characters.push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendMonsterAdded(newCreature);
+        }
     }
     ,
     renderTable() {
@@ -315,6 +318,7 @@ const UIController = {
         roundNumberElement.value = nextRound;
         if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendRoundNumber(nextRound);
+            WebSocketHandler.sendInitiativeReset();
         }
 
     },
