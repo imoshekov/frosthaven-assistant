@@ -11,6 +11,8 @@ const WebSocketHandler = {
 
     initialize: async function (role) {
         try {
+            DataManager.clear('sessionId');
+            this.sessionId = null;
             this.role = role;
             this.connect();
         } catch (error) {
