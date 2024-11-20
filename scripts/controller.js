@@ -52,6 +52,9 @@ const UIController = {
         characters.push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendMonsterAdded(newCreature);
+        }
     }
     ,
     renderTable() {

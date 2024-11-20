@@ -124,6 +124,16 @@ wss.on('connection', (ws) => {
                 }
                 break;
             }
+            case 'add-monster': {
+                const session = getSession(currentSessionId);
+                if (session) {
+                    session.characters.push(data.monster);
+                    session.lastActivity = Date.now();
+                    const originatingClientId = ws.clientId
+                    broadcastToSession(currentSessionId, 'add-monster', { monster: data.monster, originatingClientId: originatingClientId });
+                }
+                break;
+            }
             default: {
                 console.log(`Unknown message type: ${data.type}`);
                 break;
