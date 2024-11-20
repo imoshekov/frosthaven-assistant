@@ -57,14 +57,11 @@ const WebSocketHandler = {
             if(data.type === "session-joined"){
                 this.handleSessionJoined(data);
             }
-            if(this.role === 'host'){
+            if(enableHostClientStuff && this.role === 'host'){
                 console.log('the host is ignoring updates');
                 return;
             }
             switch (data.type) {
-                // case "session-joined":
-                //     this.handleSessionJoined(data);
-                //     break;
                 case "characters-update":
                     this.handleCharacterUpdate(data);
                     break;

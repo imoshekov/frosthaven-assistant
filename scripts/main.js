@@ -2,6 +2,7 @@
 let characters = JSON.parse(DataManager.load('characters')) || data.defaultCharacters;
 let conditionTarget = null;
 let attackTarget = null;
+const enableHostClientStuff = true;
 
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
