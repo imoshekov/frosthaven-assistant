@@ -1,5 +1,5 @@
 const WebSocketHandler = {
-    enableHostClientStuff: true,
+    enableHostClientStuff: false,
     ws: null,
     isConnected: false,
     sessionId: null,
