@@ -134,6 +134,19 @@ wss.on('connection', (ws) => {
                 }
                 break;
             }
+            case 'initiative-reset':{
+                const session = getSession(currentSessionId);
+                if (session) {
+                    session.characters.forEach(character => {
+                        character.initiative = data.value;
+                    });
+                    
+                    session.lastActivity = Date.now();
+                    const originatingClientId = ws.clientId
+                    broadcastToSession(currentSessionId, 'initiative-reset', { value: data.value, originatingClientId: originatingClientId });
+                }
+                break;
+            }
             default: {
                 console.log(`Unknown message type: ${data.type}`);
                 break;

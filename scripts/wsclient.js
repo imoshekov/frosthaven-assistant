@@ -80,6 +80,9 @@ const WebSocketHandler = {
                 case "add-monster":
                     this.handleMonsterAdded(data);
                     break;
+                case "initiative-reset":
+                    this.handleInitiativeReset(data);
+                    break;
             }
         };
     },
@@ -150,6 +153,9 @@ const WebSocketHandler = {
     sendMonsterAdded: function(monster){
         this.sendUpdateMessage('add-monster', { monster: monster });
     },
+    sendInitiativeReset: function (value = 0) {
+        this.sendUpdateMessage('initiative-reset', { value: value });
+    },
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
@@ -188,6 +194,15 @@ const WebSocketHandler = {
             return;
         }
         characters.push(data.monster);
+        UIController.renderTable();
+    },
+    handleInitiativeReset: function(data){
+        if (data.originatingClientId === WebSocketHandler.clientId) {
+            return;
+        }
+        characters.forEach(c => {
+            c.initiative = data.value;
+        });
         UIController.renderTable();
     }
 };

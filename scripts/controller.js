@@ -318,6 +318,7 @@ const UIController = {
         roundNumberElement.value = nextRound;
         if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendRoundNumber(nextRound);
+            WebSocketHandler.sendInitiativeReset();
         }
 
     },
