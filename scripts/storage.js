@@ -4,14 +4,20 @@ const DataManager = {
     load(key) {
         return localStorage.getItem(key);
     },
-    save() {
+    set(key, value){
+        localStorage.setItem(key, value);
+    },
+    clear(key){
+        localStorage.removeItem(key);
+    },
+    saveGame() {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
         const currentCharacterData = JSON.stringify(characters);
-        localStorage.setItem('characters', currentCharacterData);
+        this.set('characters', currentCharacterData);
 
         const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
-        localStorage.setItem('battle-log', battleLogInnerHtml);
+        this.set('battle-log', battleLogInnerHtml);
 
         //totally useless timeout, it is just to please merx3 as he requested a loading spinner (merx3 is pleased ;])
         setTimeout(() => {
@@ -19,7 +25,7 @@ const DataManager = {
             document.getElementById('loading-spinner').style.visibility = 'hidden';
         }, 1000);
     },
-    reset() {
+    resetGame() {
         localStorage.clear();
         location.reload();
     },
