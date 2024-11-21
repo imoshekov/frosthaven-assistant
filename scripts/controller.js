@@ -187,7 +187,7 @@ const UIController = {
     renameCreature(index) {
         let creature = characters[index];
         const { baseName, displayName } = this.generateCreatureName({
-            isElite: creature.isElite,
+            isElite: creature.eliteMonster,
             type: creature.type,
             standee: creature.standee,
         });
@@ -204,33 +204,25 @@ const UIController = {
         return { baseName, displayName };
     },
     updateStat(index, stat, value, massApply = false, isCondition = false) {
-        let parsedValue = value;
-        if (!isCondition) {
-            parsedValue = parseInt(value);
-        }
-
         if (!massApply) {
+            const targetCharacter = characters[index];
             if (isCondition) {
-                characters[index].conditions[stat] = parsedValue;
+                targetCharacter.conditions[stat] = value;
+            } else {
+                targetCharacter[stat] = value;
             }
-            else {
-                characters[index][stat] = parsedValue;
-            }
-        }
-        else {
+        } else {
             const typeToUpdate = characters[index].type;
             characters.forEach(character => {
                 if (character.type === typeToUpdate) {
                     if (isCondition) {
-                        character.conditions[stat] = parsedValue;
-                    }
-                    else {
-                        character[stat] = parsedValue;
+                        character.conditions[stat] = value;
+                    } else {
+                        character[stat] = value;
                     }
                 }
             });
         }
-
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
@@ -337,6 +329,9 @@ const UIController = {
         const character = characters[index];
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
     },
     showToastNotification(message, timeout = null) {
         const toast = document.getElementById('toast-notification');

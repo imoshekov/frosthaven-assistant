@@ -154,6 +154,7 @@ function updateHpWithDamage(charIdx, dmg) {
         characterConditions.brittle = false;
         characterConditions.ward = false;
     }
+    showConditions(charIdx);
     if(WebSocketHandler.isConnected){
         WebSocketHandler.sendCharactersUpdate();
     }
