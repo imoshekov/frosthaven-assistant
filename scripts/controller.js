@@ -329,6 +329,9 @@ const UIController = {
         const character = characters[index];
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
     },
     showToastNotification(message, timeout = null) {
         const toast = document.getElementById('toast-notification');
