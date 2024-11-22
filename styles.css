@@ -780,9 +780,3 @@ option {
 .round-info span {
     font-size: 16px; 
 }
-
-.technical-log-container {
-    display: flex;
-    align-items: center; 
-    gap: 15px; 
-}

@@ -2,7 +2,7 @@ const UIController = {
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
-        const level = autoInput?.level || parseInt(document.getElementById('level').value);
+        const level = parseInt(autoInput?.level) || parseInt(document.getElementById('level').value);
         const isElite = autoInput?.isElite || document.getElementById('elite-monster').checked;
     
         // Validate required inputs

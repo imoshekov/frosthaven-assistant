@@ -77,29 +77,32 @@ const DataManager = {
             logContainer.removeChild(logContainer.lastChild);
         }
     },
-    loadFile: function () {
-        const fileNumber = prompt("Enter the session number:");
-        if (!fileNumber) {
+    loadFile: async function () {
+        const input = prompt("Enter a scenario #, optinally followed by level (e.g 2,1).");
+
+        if (!input) {
             UIController.showToastNotification('Enter a valid session number', 3000);
             return;
         }
+
+        const [scenarioNumber, level = 1] = input.split(',').map(value => value.trim());
     
-        const level = 1; // Default level, can be modified as needed
-        const formattedFileNumber = String(fileNumber).padStart(3, '0');
+        const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
         const filePath = `scenarios/${formattedFileNumber}.json`;
     
-        fetch(filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => this.processScenarioData(data, level))
-            .catch(error => {
-                console.error('Error loading file:', error);
-                UIController.showToastNotification('Error loading scenario', 3000);
-            });
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            this.processScenarioData(data, level);
+    
+            UIController.showToastNotification(`Scenario ${scenarioNumber}, level ${level} loaded`, 2000);
+        } catch (error) {
+            console.error('Error loading file:', error);
+            UIController.showToastNotification('Error loading scenario', 3000);
+        }
     }, 
     processScenarioData: function (data, level = 1) {
         data.rooms[0].monster.forEach(monster => {
