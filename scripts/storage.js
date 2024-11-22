@@ -78,14 +78,16 @@ const DataManager = {
         }
     },
     loadFile: async function () {
-        const fileNumber = prompt("Enter the session number:");
-        if (!fileNumber) {
+        const input = prompt("Enter a scenario #, optinally followed by level (e.g 2,1).");
+
+        if (!input) {
             UIController.showToastNotification('Enter a valid session number', 3000);
             return;
         }
+
+        const [scenarioNumber, level = 1] = input.split(',').map(value => value.trim());
     
-        const level = 1; // Default level, can be modified as needed
-        const formattedFileNumber = String(fileNumber).padStart(3, '0');
+        const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
         const filePath = `scenarios/${formattedFileNumber}.json`;
     
         try {
@@ -96,7 +98,7 @@ const DataManager = {
             const data = await response.json();
             this.processScenarioData(data, level);
     
-            UIController.showToastNotification(`Scenario ${fileNumber} loaded`, 2000);
+            UIController.showToastNotification(`Scenario ${scenarioNumber}, level ${level} loaded`, 2000);
         } catch (error) {
             console.error('Error loading file:', error);
             UIController.showToastNotification('Error loading scenario', 3000);
