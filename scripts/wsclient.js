@@ -30,7 +30,7 @@ const WebSocketHandler = {
             let sessionId = this.getSessionId();
             if (!sessionId) {
                 if (this.role === 'client') {
-                    this.sessionId = prompt("Enter a session id");
+                    this.sessionId = parseInt(document.getElementById('session-id').value);
                 }
                 else if (this.role === 'host') {
                     this.sessionId = '';

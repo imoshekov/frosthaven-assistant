@@ -780,3 +780,7 @@ option {
 .round-info span {
     font-size: 16px; 
 }
+
+#join-session-container, #load-scenario-container{
+    display: none;
+}

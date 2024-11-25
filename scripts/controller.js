@@ -277,9 +277,17 @@ const UIController = {
             WebSocketHandler.sendElementState(elementId, JSON.stringify(elementState));
         }
     },
-    toggleTodoVisibility() {
-        const todoList = document.getElementById('todoList');
-        todoList.style.display = (todoList.style.display === "none" || todoList.style.display === '') ? "block" : "none";
+    toggleControlVisibility(id, focusId) {
+        const control = document.getElementById(id);
+        if (control.style.display === "none" || control.style.display === '') {
+            control.style.display = "block";
+            if (focusId) {
+                document.getElementById(focusId).focus();
+            }
+        } else {
+            control.style.display = "none";
+        }
+
     },
     handleFocusEvents() {
         const masterContainer = document.getElementById('master-container');
