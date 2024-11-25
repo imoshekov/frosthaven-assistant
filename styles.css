@@ -781,6 +781,6 @@ option {
     font-size: 16px; 
 }
 
-#join-session-container{
+#join-session-container, #load-scenario-container{
     display: none;
 }

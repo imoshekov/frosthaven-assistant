@@ -78,14 +78,16 @@ const DataManager = {
         }
     },
     loadFile: async function () {
-        const input = prompt("Enter a scenario #, optinally followed by level (e.g 2,1).");
+        const scenarioNumber = parseInt(document.getElementById('scenario-id').value);
+        const level = parseInt(document.getElementById('scenario-level').value) 
+        || parseInt(document.getElementById('scenario-level').placeholder)
+        || 1;
 
-        if (!input) {
-            UIController.showToastNotification('Enter a valid session number', 3000);
+
+        if (!scenarioNumber) {
+            UIController.showToastNotification('Enter a valid scenario number', 3000);
             return;
         }
-
-        const [scenarioNumber, level = 1] = input.split(',').map(value => value.trim());
     
         const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
         const filePath = `scenarios/${formattedFileNumber}.json`;

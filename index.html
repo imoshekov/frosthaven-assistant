@@ -39,7 +39,16 @@
         <div class="add-char">
             <div class="row">
                 <button class="initiative" onclick="DataManager.resetGame(); UIController.renderTable();">New Game</button>
-                <button class="initiative" onclick="DataManager.loadFile()">Load Scenario</button>
+                <button class="initiative" onclick="UIController.toggleControlVisibility('load-scenario-container','scenario-id')">Load Scenario<span>&#9660;</span></button>
+                <div id="load-scenario-container">
+                    <div class="default-stats">
+                        <label for="scenario-id">Scenario:</label>
+                        <input type="number" id="scenario-id" placeholder="#"></input>
+                        <label for="scenario-level">Level:</label>
+                        <input type="number" id="scenario-level" placeholder="1"></input>
+                    </div>
+                    <button class="initiative attack" onclick="DataManager.loadFile()">Load</button>
+                </div>
                 <button class="initiative" onclick="WebSocketHandler.initialize('host')">Start Session</button>
                 <button class="initiative" onclick="UIController.toggleControlVisibility('join-session-container','session-id')">Join Session<span>&#9660;</span></button>
                 <div id="join-session-container">
