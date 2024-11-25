@@ -261,9 +261,9 @@ async function testConditionAdded() {
 async function testInitiativeReset() {
     // Navigate to the page where your test is located
     await driver.get(sourceHTML);
-    await driver.wait(until.elementLocated(By.css('.add-char .row .attack')), 10000);
+    // await driver.wait(until.elementLocated(By.id('.add-char .row .attack')), 10000);
     
-    const nextRoundButton = await driver.findElement(By.css('.add-char .row .attack'));
+    const nextRoundButton = await driver.findElement(By.id('next-round'));
     await nextRoundButton.click();
 
     const initiativeInputs = await driver.wait(
