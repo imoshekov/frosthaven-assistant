@@ -167,7 +167,7 @@ const WebSocketHandler = {
         this.clientId = data.clientId;
         this.requestServerState(this.getSessionId());
         
-        document.getElementById('session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
+        document.getElementById('joined-session-id').textContent = `${message} ${data.clientsCount} client(s) connected. Client id: ${data.clientId}`;
         UIController.showToastNotification(message, 3000);
     },
     handleCharacterUpdate: function (data) {
