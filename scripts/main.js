@@ -161,31 +161,35 @@ function updateHpWithDamage(charIdx, dmg) {
 }
 
 function applyCondition(allTypesAffected) {
-    const armorValue = parseInt(document.getElementById('condition-armor').value);
-    const retaliateValue = parseInt(document.getElementById('condition-retaliate').value);
-    const poison = document.getElementById('condition-poison').checked;
-    const wound = document.getElementById('condition-wound').checked
-    const brittle = document.getElementById('condition-brittle').checked;
-    const ward = document.getElementById('condition-ward').checked;
-
-    UIController.updateStat(conditionTarget, 'armor', armorValue, allTypesAffected);
-    UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, allTypesAffected);
-    UIController.updateStat(conditionTarget, 'poison', poison, allTypesAffected, true);
-    UIController.updateStat(conditionTarget, 'wound', poison, allTypesAffected, true);
-    UIController.updateStat(conditionTarget, 'brittle', brittle, allTypesAffected, true);
-    UIController.updateStat(conditionTarget, 'ward', ward, allTypesAffected, true);
-    characters[conditionTarget].conditions = {
-        poison,
-        wound,
-        brittle,
-        ward
-    };
-    for(let i = 0; i<characters.length; i++){
-        showConditions(i);
-    }
-    if(WebSocketHandler.isConnected){
+    const conditions = [
+        { id: 'condition-armor', stat: 'armor', isCondition: false },
+        { id: 'condition-retaliate', stat: 'retaliate', isCondition: false },
+        { id: 'condition-poison', stat: 'poison', isCondition: true },
+        { id: 'condition-wound', stat: 'wound', isCondition: true },
+        { id: 'condition-brittle', stat: 'brittle', isCondition: true },
+        { id: 'condition-ward', stat: 'ward', isCondition: true },
+    ];
+    
+    const conditionValues = {};
+    
+    conditions.forEach(({ id, stat, isCondition: isCondition }) => {
+        const value = isCondition 
+            ? document.getElementById(id).checked 
+            : parseInt(document.getElementById(id).value);
+        
+        UIController.updateStat(conditionTarget, stat, value, allTypesAffected, isCondition);
+        if (isCondition) {
+            conditionValues[stat] = value;
+        }
+    });
+    
+    characters[conditionTarget].conditions = conditionValues;
+    characters.forEach((_, index) => showConditions(index));
+    
+    if (WebSocketHandler.isConnected) {
         WebSocketHandler.sendCharactersUpdate();
     }
+    
     closeConditionsModal();
 }
 

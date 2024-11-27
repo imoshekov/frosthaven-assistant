@@ -647,6 +647,7 @@ option {
     display: flex;
     align-items: center;
     gap: 1px;
+    min-height: 35px;
 }
 
 .condition-row,
@@ -729,6 +730,10 @@ option {
 
 .damage-icon {
     margin-right: -10px;
+}
+
+.attack-image{
+    margin-top: 20px;
 }
 
 #round-number {
