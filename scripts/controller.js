@@ -102,12 +102,12 @@ const UIController = {
                     onchange="UIController.updateStat(${index}, 'hp', this.value)" />
             </div>
             <div class='char-attack stat-child'>
-                <img src="images/battle.png" />
+                <img src="images/stats/attack.svg" />
                 <input type="number" class="attack" value="${creature.attack}"
                     onchange="UIController.updateStat(${index}, 'attack', this.value)" />
             </div>
             <div class='char-movement stat-child'>
-                <img src="images/footprint.png" />
+                <img src="images/fh/stats/move.svg" />
                 <input type="number" class="movement" value="${creature.movement}"
                     onchange="UIController.updateStat(${index}, 'movement', this.value)" />
             </div>
