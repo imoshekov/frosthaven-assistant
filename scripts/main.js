@@ -147,6 +147,7 @@ function updateHpWithDamage(charIdx, dmg) {
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
     if (character.aggressive && character.hp <= 0) {
         DataManager.log(`${character.name} has been killed and removed from the game.`);
+        UIController.showToastNotification(`${character.name} has been killed`,3000);
         UIController.removeCreature(charIdx);
     }
     let characterConditions = character.conditions;
