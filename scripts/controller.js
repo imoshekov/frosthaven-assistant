@@ -141,7 +141,7 @@ const UIController = {
         <div class='action-buttons'>
             <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
                 <button>
-                    <img class='attack-image' id="attack-img-${index}" src='images/action/attack.svg'>
+                    <img class='attack-image' id="attack-img-${index}" src='images/crossed-swords.svg'>
                 </button>
             </span>
         </div>
