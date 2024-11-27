@@ -17,6 +17,7 @@ function openConditions(event, charIdx) {
     document.getElementById('condition-armor').value = target.armor;
     document.getElementById('condition-retaliate').value = target.retaliate;
     document.getElementById('condition-poison').checked = target.conditions?.poison || false;
+    document.getElementById('condition-wound').checked = target.conditions?.wound || false;
     document.getElementById('condition-brittle').checked = target.conditions?.brittle || false;
     document.getElementById('condition-ward').checked = target.conditions?.ward || false;
     preventExclusiveConditions();
@@ -49,7 +50,7 @@ function loadConditionsInAttackModal() {
         for (let [key, value] of Object.entries(target.conditions)) {
             if (value) {
                 const img = document.createElement('img');
-                img.src = `images/condition/${key}.svg`;
+                img.src = `images/fh/condition/${key}.svg`;
                 container.appendChild(img);
             }
         }
@@ -163,16 +164,19 @@ function applyCondition(allTypesAffected) {
     const armorValue = parseInt(document.getElementById('condition-armor').value);
     const retaliateValue = parseInt(document.getElementById('condition-retaliate').value);
     const poison = document.getElementById('condition-poison').checked;
+    const wound = document.getElementById('condition-wound').checked
     const brittle = document.getElementById('condition-brittle').checked;
     const ward = document.getElementById('condition-ward').checked;
 
     UIController.updateStat(conditionTarget, 'armor', armorValue, allTypesAffected);
     UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, allTypesAffected);
     UIController.updateStat(conditionTarget, 'poison', poison, allTypesAffected, true);
+    UIController.updateStat(conditionTarget, 'wound', poison, allTypesAffected, true);
     UIController.updateStat(conditionTarget, 'brittle', brittle, allTypesAffected, true);
     UIController.updateStat(conditionTarget, 'ward', ward, allTypesAffected, true);
     characters[conditionTarget].conditions = {
         poison,
+        wound,
         brittle,
         ward
     };
@@ -196,7 +200,7 @@ function showConditions(charIdx) {
     for (const condition in target.conditions) {
         const conditionImg = document.getElementById(`char-${condition}-${charIdx}`);
         if (conditionImg) {
-            conditionImg.style.visibility = target.conditions[condition] ? 'visible' : 'hidden';
+            conditionImg.style.display = target.conditions[condition] ? 'block' : 'none';
         }
     }
 }
