@@ -171,7 +171,7 @@ function applyCondition(allTypesAffected) {
     UIController.updateStat(conditionTarget, 'armor', armorValue, allTypesAffected);
     UIController.updateStat(conditionTarget, 'retaliate', retaliateValue, allTypesAffected);
     UIController.updateStat(conditionTarget, 'poison', poison, allTypesAffected, true);
-    UIController.updateStat(conditionTarget, 'wound', poison, allTypesAffected, true);
+    UIController.updateStat(conditionTarget, 'wound', wound, allTypesAffected, true);
     UIController.updateStat(conditionTarget, 'brittle', brittle, allTypesAffected, true);
     UIController.updateStat(conditionTarget, 'ward', ward, allTypesAffected, true);
     characters[conditionTarget].conditions = {
