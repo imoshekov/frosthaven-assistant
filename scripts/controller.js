@@ -127,11 +127,13 @@ const UIController = {
             </div>
             <div class="condition-row">
                 <div id="char-condition-${index}" class="condition-images">
-                    <img id="char-poison-${index}" class="condition-image" src='images/condition/poison.svg'
+                    <img id="char-poison-${index}" class="condition-image" src='images/fh/condition/poison.svg'
                         onclick="UIController.toggleConditionVisibility(${index}, 'poison')">
-                    <img id="char-brittle-${index}" class="condition-image" src='images/condition/brittle.svg'
+                    <img id="char-wound-${index}" class="condition-image" src='images/fh/condition/wound.svg'
+                        onclick="UIController.toggleConditionVisibility(${index}, 'wound')">
+                    <img id="char-brittle-${index}" class="condition-image" src='images/fh/condition/brittle.svg'
                         onclick="UIController.toggleConditionVisibility(${index}, 'brittle')">
-                    <img id="char-ward-${index}" class="condition-image" src='images/condition/ward.svg'
+                    <img id="char-ward-${index}" class="condition-image" src='images/fh/condition/ward.svg'
                         onclick="UIController.toggleConditionVisibility(${index}, 'ward')">
                 </div>
             </div>

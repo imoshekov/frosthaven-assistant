@@ -113,6 +113,7 @@ img {
 .creatures {
     width: 100%;
     overflow-x: auto;
+    user-select: none;
 }
 
 .creatures .creature-container {
@@ -627,6 +628,7 @@ option {
     display: inline-block;
     margin-top: 10px;
     margin-bottom: 10px;
+    user-select: none;
 }
 
 .element-icon {
