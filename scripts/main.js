@@ -90,9 +90,6 @@ function updateAttackResult() {
 
 function applyDamage() {
     let dmg = getAttackResult();
-    if (dmg > 0) {
-        DataManager.log(`${characters[attackTarget].name}# was attacked for #${dmg} damage`);
-    }
     updateHpWithDamage(attackTarget, dmg);
     closeAttackModal();
 }
@@ -145,17 +142,18 @@ function updateHpWithDamage(charIdx, dmg) {
     const character = characters[charIdx];
     character.hp = Math.max(0, character.hp - dmg);
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
-    if (character.aggressive && character.hp <= 0) {
-        DataManager.log(`${character.name} has been killed and removed from the game.`);
-        UIController.showToastNotification(`${character.name} has been killed`,3000);
-        UIController.removeCreature(charIdx);
-    }
+    DataManager.log(`${character.name}# was attacked for #${dmg} damage, current hp: ${character.hp}`);
     let characterConditions = character.conditions;
     if (characterConditions?.brittle || characterConditions?.ward) {
         characterConditions.brittle = false;
         characterConditions.ward = false;
     }
     showConditions(charIdx);
+    if (character.aggressive && character.hp <= 0) {
+        DataManager.log(`${character.name} has been killed and removed from the game.`);
+        UIController.showToastNotification(`${character.name} has been killed`,3000);
+        UIController.removeCreature(charIdx);
+    }
     if(WebSocketHandler.isConnected){
         WebSocketHandler.sendCharactersUpdate();
     }
