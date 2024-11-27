@@ -201,6 +201,7 @@ function showConditions(charIdx) {
         const conditionImg = document.getElementById(`char-${condition}-${charIdx}`);
         if (conditionImg) {
             conditionImg.style.visibility = target.conditions[condition] ? 'visible' : 'hidden';
+            conditionImg.style.display = target.conditions[condition] ? 'block' : 'none';
         }
     }
 }
