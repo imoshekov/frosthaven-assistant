@@ -233,7 +233,7 @@ async function testConditionAdded() {
     await driver.executeScript("arguments[0].value = '1';", armorInput);
 
     // Click the OK button with retry logic
-    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'Single')]"));
+    const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'OK')]"));
     await okButton.click();
 
     // Wait for the condition to be applied and verify the changes

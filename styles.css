@@ -293,6 +293,7 @@ img.background {
     align-items: center;
     gap: 0px 10px;
     flex: 1 0 20%;
+    margin-top: 5px;
 }
 
 .stats .stat-child object {
@@ -706,12 +707,6 @@ option {
     box-sizing: border-box;
 }
 
-.condition-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .condition-btn {
     width: 100%;
 }
@@ -791,3 +786,46 @@ option {
 #join-session-container, #load-scenario-container{
     display: none;
 }
+
+.box {
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    position: relative;
+  }
+  
+  .box span {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background-color: #ccc;
+    padding: 0 5px;
+    font-weight: bold;
+    color: #333;
+    border-radius: 10px;
+  }
+  
+  .condition-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .condition-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .condition-item img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  .condition-item input {
+    width: 50px;
+    text-align: center;
+  }
