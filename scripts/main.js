@@ -174,21 +174,21 @@ function updateHpWithDamage(charIdx, dmg) {
     }
 }
 
-function applyCondition(allTypesAffected) {
+function applyCondition() {
     const conditions = [
-        { id: 'condition-armor', stat: 'armor', isCondition: false, isTemporary: false },
-        { id: 'condition-retaliate', stat: 'retaliate', isCondition: false, isTemporary: false },
-        { id: 'condition-poison', stat: 'poison', isCondition: true, isTemporary: false },
-        { id: 'condition-wound', stat: 'wound', isCondition: true, isTemporary: false },
-        { id: 'condition-brittle', stat: 'brittle', isCondition: true, isTemporary: false  },
-        { id: 'condition-ward', stat: 'ward', isCondition: true, isTemporary: false },    
-        { id: 'temp-condition-armor', stat: 'armor', isCondition: false, isTemporary: true },
-        { id: 'temp-condition-retaliate', stat: 'retaliate', isCondition: false, isTemporary: true }   
+        { id: 'condition-armor', stat: 'armor', allTypesAffected: false, isCondition: false, isTemporary: false },
+        { id: 'condition-retaliate', stat: 'retaliate', allTypesAffected: false, isCondition: false, isTemporary: false },
+        { id: 'condition-poison', stat: 'poison', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-wound', stat: 'wound', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-brittle', stat: 'brittle', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-ward', stat: 'ward', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'temp-condition-armor', stat: 'armor', allTypesAffected: true, isCondition: false, isTemporary: true },
+        { id: 'temp-condition-retaliate', stat: 'retaliate', allTypesAffected: true, isCondition: false, isTemporary: true }   
     ];  
     
     const conditionValues = {};
     
-    conditions.forEach(({ id, stat, isCondition: isCondition, isTemporary: isTempory }) => {
+    conditions.forEach(({ id, stat, allTypesAffected, isCondition, isTemporary}) => {
         let value;
         let control = document.getElementById(id);
         if(control.type === 'checkbox'){
@@ -198,7 +198,7 @@ function applyCondition(allTypesAffected) {
             value = parseInt(control.value) || 0;
         }
         
-        UIController.updateStat(conditionTarget, stat, value, allTypesAffected, isCondition, isTempory);
+        UIController.updateStat(conditionTarget, stat, value, allTypesAffected, isCondition, isTemporary);
         if (isCondition) {
             conditionValues[stat] = value;
         }

@@ -200,30 +200,24 @@ const UIController = {
         const displayName = `${prefix}${input.type}`;
         return { baseName, displayName };
     },
-    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {
-        if (!massApply) {
-            const targetCharacter = characters[index];
+    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {        
+        const typeToUpdate = characters[index].type;
+        const targets = massApply
+        ? characters.filter(character => character.type === typeToUpdate) 
+        : [characters[index]]; 
+
+        const updateTarget = (character) => {
             if (isCondition) {
-                targetCharacter.conditions[stat] = value;
+                character.conditions[stat] = value;
             } else if (isTemporary) {
-                targetCharacter.tempStats[stat] = value;
+                character.tempStats[stat] = value;
             } else {
-                targetCharacter[stat] = value;
+                character[stat] = value;
             }
-        } else {
-            const typeToUpdate = characters[index].type;
-            characters.forEach(character => {
-                if (character.type === typeToUpdate) {
-                    if (isCondition) {
-                        character.conditions[stat] = value;
-                    } else if (isTemporary) {
-                        character.tempStats[stat] = value;
-                    } else {
-                        character[stat] = value;
-                    }
-                }
-            });
-        }
+        };
+
+        targets.forEach(updateTarget);
+
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
