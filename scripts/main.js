@@ -237,7 +237,7 @@ function showConditionsForType(typeToUpdate, condition) {
             const container = document.getElementById(`char-${condition}-${index}`);
             if (container && (character[condition] > 0 || character.tempStats[condition] > 0)) {
                 container.style.visibility = 'visible';
-                container.querySelector(`.${condition}-number`).value = character[condition] + (character.tempStats[condition] || 0);
+                container.querySelector(`.${condition}-number`).value = parseInt(character[condition]) + (parseInt(character.tempStats[condition]) || 0);
             } else if (container) {
                 container.style.visibility = 'hidden';
             }
