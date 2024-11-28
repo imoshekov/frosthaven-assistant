@@ -328,6 +328,10 @@ button:hover {
     align-items: center;
     width: 50px;
     height: 50px;
+    cursor: pointer;
+    background: #a94949;
+    border: 3px solid #902a2a;
+    margin-top: 15px;
 }
 
 .attack-btn button {
@@ -711,10 +715,6 @@ option {
 
 .damage-icon {
     margin-right: -10px;
-}
-
-.attack-image {
-    margin-top: 25px;
 }
 
 #round-number {
