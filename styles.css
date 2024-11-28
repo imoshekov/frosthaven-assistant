@@ -838,12 +838,22 @@ option {
 }
 
 @media (max-width: 768px) {
+    .creatures {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
     .creatures .creature-container {
         flex-direction: column;
     }
 
     .creatures .creature-column {
-        margin: 15px 15px;
+        flex-direction: row-reverse;
+        display: flex;
+        margin: 0px;
+        text-align: justify;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     img.background {
@@ -851,57 +861,96 @@ option {
     }
 
     .creatures .creature-column .nameplate {
-        flex-wrap: inherit;
         flex-direction: row;
+        padding: 0px;
+        width: 100%;
+        margin-top: 25px;
+        justify-content: space-around;
+        padding-left: 30px;
     }
 
     .character-skin {
         position: absolute;
-        top: 1px;
-        left: 1px;
+        top: 0;
+        left: 60px;
+        height: 20px;
+    }
+
+    .creatures .creature-column .nameplate img.profile {
+        width: 50px;
+    }
+
+    .character-skin.image {
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     .character-skin .name {
-        position: absolute;
-        top: 55px;
-        left: -15px;
+        margin: 0px;
+        max-height: 20px;
+        min-height: 1px;
+        min-width: 400px;
+        align-items: baseline;
+        flex-direction: row;
     }
 
     .character-skin .name b {
-        width: 100px;
+        min-height: 20px;
+        font-size: 20px;
+    }
+
+    .creatures .creature-column .nameplate img.profile {
+        box-shadow: 0px 0px 5px 1px;
     }
 
     .stats {
-        position: absolute;
-        left: 100px;
-        top: -25px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .stats .stat-child {
+        flex-direction: column;
+    }
+
+    .stats .stat-child img {
+        width: 30px;
+    }
+
+    .creatures .creature-column .nameplate input {
+        font-size: 20px;
+        width: 40px;
     }
 
     .attack-btn {
-        position: absolute;
-        right: 10px;
-        top: 30px;
+        width: 30px;
+        height: 30px;
+        margin-top: -20px;
     }
 
-    .character-attributes {
-        position: absolute;
-        right: 78px;
-        top: 10px;
+    .attack-btn img {
+        width: 20px;
     }
 
-    .initiative-column {
-        right: 0px;
-        bottom: 78px;
-        position: absolute
+    .creatures .initiative-column {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border: 1px solid white;
+    }
+
+    input[type="number"] {
+        width: 30px;
+        font-size: 20px;
+
+        font-weight: 800;
     }
 
     .remove-btn {
-        display: none;
-    }
-
-    .standee-only {
         position: absolute;
-        bottom: 76px;
-        left: 73px;
+        top: 0;
+        right: 0;
+        margin: 0px;
+        padding: 5px;
     }
 }
