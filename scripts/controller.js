@@ -63,7 +63,7 @@ const UIController = {
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
-    <input type="number" class="initiative" value="${creature.initiative}" onchange="
+    <input type="number" class="initiative initiative-column" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
