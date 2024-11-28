@@ -112,9 +112,9 @@ function applyDamage() {
 function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
 
-    if (characters[attackTarget].armor > 0) {
+    if (characters[attackTarget].armor > 0 || characters[attackTarget].tempStats?.armor > 0) {
         let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
-        let effectiveArmor = Math.max(characters[attackTarget].armor - pierce, 0);
+        let effectiveArmor = Math.max((characters[attackTarget].armor + (characters[attackTarget].tempStats?.armor || 0)) - pierce, 0);
 
         if (effectiveArmor > 0) {
             dmg -= effectiveArmor;
