@@ -141,7 +141,7 @@ const UIController = {
             </span>
         </div>
     </div>
-    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index})">X</button>` :
+    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index},true)">X</button>` :
                     ''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
@@ -171,7 +171,13 @@ const UIController = {
             });
         });
     },
-    removeCreature(index) {
+    removeCreature(index, confirmation = false) {
+        if(confirmation){
+            const userConfirmed = confirm(`This will permantly delete ${characters[index].name} from the game. Continue?`);
+            if(!userConfirmed){
+                return;
+            }
+        }
         characters.splice(index, 1);
         this.renderTable();
         if(WebSocketHandler.isConnected){
