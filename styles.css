@@ -842,9 +842,12 @@ option {
         flex-direction: column;
     }
 
+    .creatures .creature-column {
+        margin: 15px 15px;
+    }
+
     img.background {
-        transform: rotate(90deg);
-        visibility: hidden;
+        display: none;
     }
 
     .creatures .creature-column .nameplate {
