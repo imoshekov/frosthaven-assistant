@@ -207,6 +207,7 @@ img.background {
     width: 80px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px 5px;
+    cursor: pointer;
 }
 
 .creatures .boneshaper-row.friendly img.profile {
@@ -327,17 +328,10 @@ button:hover {
     align-items: center;
     width: 50px;
     height: 50px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .attack-btn button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
     background: none;
-    cursor: pointer;
-    padding: 0;
 }
 
 .attack-btn button img {
@@ -348,18 +342,10 @@ button:hover {
     border: 3px solid #902a2a;
 }
 
-.attack-btn:hover {
-    transform: scale(1.2);
-    border-radius: 8px;
-}
-
-
-
 .remove-btn {
     font-size: 18px;
     padding: 5px;
     color: #999;
-    cursor: pointer;
     background-color: transparent;
     font-weight: normal;
     display: inline-block;
@@ -728,7 +714,7 @@ option {
 }
 
 .attack-image{
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 #round-number {
