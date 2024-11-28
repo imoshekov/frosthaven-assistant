@@ -293,6 +293,7 @@ img.background {
     align-items: center;
     gap: 0px 10px;
     flex: 1 0 20%;
+    margin-top: 5px;
 }
 
 .stats .stat-child object {

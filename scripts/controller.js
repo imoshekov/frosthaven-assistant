@@ -326,6 +326,7 @@ const UIController = {
         if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendRoundNumber(nextRound);
             WebSocketHandler.sendInitiativeReset();
+            WebSocketHandler.sendCharactersUpdate();
         }
 
     },
