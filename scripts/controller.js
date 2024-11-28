@@ -41,12 +41,7 @@ const UIController = {
             armor: defaultArmor,
             retaliate: defaultRetaliate,
             conditions: {},
-            defaultStats: {
-                hp: defaultHP,
-                attack: defaultAttack,
-                movement: defaultMovement,
-                initiative: 0,
-            },
+            tempStats: {}
         };
     
         characters.push(newCreature);

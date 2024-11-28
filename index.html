@@ -335,22 +335,35 @@
             <div class="modal-content">
                 <span class="close" onclick="closeConditionsModal()">&times;</span>
                 <span id="condition-target" style="display: block; margin-bottom: 20px;"></span>
-                <!-- Added margin-bottom -->
-                <div class="condition-row">
-                    <div class="condition-item">
-                        <img id="armor-img" onclick="incrementInput('condition-armor')"
-                            src='images/fh/action/shield.svg'>
-                        <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
-                    </div>
-                    <div class="condition-item">
-                        <img id="retaliate-img" onclick="incrementInput('condition-retaliate')"
-                            src='images/fh/action/retaliate.svg'>
-                        <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                <div class="box">
+                    <span>base</span>
+                    <div class="condition-row">
+                        <div class="condition-item">
+                            <img src="images/fh/action/shield.svg">
+                            <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
+                        </div>
+                        <div class="condition-item">
+                            <img src="images/fh/action/retaliate.svg">
+                            <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                        </div>
                     </div>
                 </div>
-                <br />
-
-                <div class="condition-container">
+        
+                <div class="box">
+                    <span>round</span>
+                    <div class="condition-row">
+                        <div class="condition-item">
+                            <img src="images/fh/action/shield.svg">
+                            <input type="number" id="temp-condition-armor" class="condition-input" min="0" value="0">
+                        </div>
+                        <div class="condition-item">
+                            <img src="images/fh/action/retaliate.svg">
+                            <input type="number" id="temp-condition-retaliate" class="condition-input" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="condition-row">
                     <input type="checkbox" id="condition-poison">
                     <img id="poison-img" src="images/fh/condition/poison.svg" class="condition-img">
                     <input type="checkbox" id="condition-wound">
@@ -360,7 +373,7 @@
                     <input type="checkbox" id="condition-ward">
                     <img id="ward-img" src="images/fh/condition/ward.svg" class="condition-img">
                 </div>
-
+        
                 <hr>
                 <div class="row">
                     <button class="condition-btn attack" onclick="applyCondition(true)">All</button>
