@@ -294,7 +294,7 @@ img.background {
     align-items: center;
     gap: 0px 10px;
     flex: 1 0 20%;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 
 .stats .stat-child object {
@@ -348,20 +348,18 @@ button:hover {
 
 .remove-btn {
     font-size: 18px;
-    padding: 5px;
     color: #999;
     background-color: transparent;
     font-weight: normal;
     display: inline-block;
     text-align: center;
-    width: auto;
     margin-top: 5px;
     width: 50px;
+    transition: none;
 }
 
 .remove-btn:hover {
     background-color: #ff0000;
-    transform: scale(1.02);
     color: white;
 }
 

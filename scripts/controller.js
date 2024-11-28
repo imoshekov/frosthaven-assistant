@@ -58,8 +58,9 @@ const UIController = {
         characters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
             const row =
-                `<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row'}
-    ${creature.aggressive ? '' : 'friendly'} '>
+               `
+<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
+    ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
     <input type="number" class="initiative" value="${creature.initiative}" onchange="
@@ -73,28 +74,22 @@ const UIController = {
     <div class='nameplate'>
         <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-            
+
         </div>
         <div class='character-skin'>
-        <div class="name">
+            <div class="name">
                 <b>${creature.aggressive ? `${creature.displayName}` : `${creature.name}`}</b>
                 <b>${creature.aggressive
-                    ? `<input 
-                            type="number" 
-                            class="standee-only" 
-                            value="${creature.standee}" 
-                            onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});" 
-                            placeholder="#" 
-                        />`
+                    ? `<input type="number" class="standee-only" value="${creature.standee}"
+                        onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});"
+                        placeholder="#" />`
                     : ''
-                }</b>
+                    }</b>
             </div>
         </div>
         <div class='stats'>
-            <div class='char-hp stat-child'>
-                <div class="heart-container">
-                    <img id="char-heart-${index}" src="images/heart.svg" />
-                </div>
+            <div class='char-hp stat-child heart-container'>
+                <img id="char-heart-${index}" src="images/heart.svg" />
                 <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
                     onchange="UIController.updateStat(${index}, 'hp', this.value);" />
             </div>
@@ -137,12 +132,12 @@ const UIController = {
         </div>
         <div class='action-buttons'>
             <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
-                    <img class='attack-image' id="attack-img-${index}" src='images/crossed-swords.svg'>
+                <img class='attack-image' id="attack-img-${index}" src='images/crossed-swords.svg'>
             </span>
         </div>
     </div>
-    ${creature.aggressive ? `<button class="remove-btn" onclick="UIController.removeCreature(${index},true)">X</button>` :
-                    ''}
+    ${creature.aggressive ? `<button class="remove-btn"
+        onclick="UIController.removeCreature(${index},true)">X</button>`:''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
