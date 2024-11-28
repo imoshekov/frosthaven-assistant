@@ -14,12 +14,26 @@ function handleAttack(event, buttonElement) {
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
     let target = characters[charIdx];
-    document.getElementById('condition-armor').value = target.armor;
-    document.getElementById('condition-retaliate').value = target.retaliate;
-    document.getElementById('condition-poison').checked = target.conditions?.poison || false;
-    document.getElementById('condition-wound').checked = target.conditions?.wound || false;
-    document.getElementById('condition-brittle').checked = target.conditions?.brittle || false;
-    document.getElementById('condition-ward').checked = target.conditions?.ward || false;
+    const conditions = {
+        'condition-armor': target.armor,
+        'condition-retaliate': target.retaliate,
+        'condition-poison': target.conditions?.poison || false,
+        'condition-wound': target.conditions?.wound || false,
+        'condition-brittle': target.conditions?.brittle || false,
+        'condition-ward': target.conditions?.ward || false,
+        'temp-condition-retaliate': target?.tempStats?.retaliate || 0,
+        'temp-condition-armor': target?.tempStats?.armor || 0
+    };
+    Object.entries(conditions).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (element.type === 'checkbox') {
+                element.checked = value;
+            } else {
+                element.value = value;
+            }
+        }
+    });
     preventExclusiveConditions();
     openModal('modal-conditions');
     document.getElementById('condition-target').innerHTML = `${target.name}`;
@@ -33,8 +47,8 @@ function loadConditionsInAttackModal() {
     const pierceImg = document.getElementById("pierce-img");
     const pierceInput = document.getElementById("pierce-input");
 
-    if (target.armor > 0) {
-        addImg(container, 'shield', target.armor);
+    if (target.armor > 0 || (target.tempStats?.armor || 0) > 0) {
+        addImg(container, 'shield', target.armor + (target.tempStats?.armor || 0));
         pierceImg.style.display = "inline-block";
         pierceInput.style.display = "inline-block";
     }
@@ -42,8 +56,8 @@ function loadConditionsInAttackModal() {
         pierceImg.style.display = "none";
         pierceInput.style.display = "none";
     }
-    if (target.retaliate > 0) {
-        addImg(container, 'retaliate', target.retaliate);
+    if (target.retaliate > 0 || target.tempStats?.retaliate > 0) {
+        addImg(container, 'retaliate', target.retaliate + (target.tempStats?.retaliate || 0));
     }
 
     if (Object.keys(target.conditions).length > 0) {
@@ -162,22 +176,29 @@ function updateHpWithDamage(charIdx, dmg) {
 
 function applyCondition(allTypesAffected) {
     const conditions = [
-        { id: 'condition-armor', stat: 'armor', isCondition: false },
-        { id: 'condition-retaliate', stat: 'retaliate', isCondition: false },
-        { id: 'condition-poison', stat: 'poison', isCondition: true },
-        { id: 'condition-wound', stat: 'wound', isCondition: true },
-        { id: 'condition-brittle', stat: 'brittle', isCondition: true },
-        { id: 'condition-ward', stat: 'ward', isCondition: true },
-    ];
+        { id: 'condition-armor', stat: 'armor', isCondition: false, isTemporary: false },
+        { id: 'condition-retaliate', stat: 'retaliate', isCondition: false, isTemporary: false },
+        { id: 'condition-poison', stat: 'poison', isCondition: true, isTemporary: false },
+        { id: 'condition-wound', stat: 'wound', isCondition: true, isTemporary: false },
+        { id: 'condition-brittle', stat: 'brittle', isCondition: true, isTemporary: false  },
+        { id: 'condition-ward', stat: 'ward', isCondition: true, isTemporary: false },    
+        { id: 'temp-condition-armor', stat: 'armor', isCondition: false, isTemporary: true },
+        { id: 'temp-condition-retaliate', stat: 'retaliate', isCondition: false, isTemporary: true }   
+    ];  
     
     const conditionValues = {};
     
-    conditions.forEach(({ id, stat, isCondition: isCondition }) => {
-        const value = isCondition 
-            ? document.getElementById(id).checked 
-            : parseInt(document.getElementById(id).value);
+    conditions.forEach(({ id, stat, isCondition: isCondition, isTemporary: isTempory }) => {
+        let value;
+        let control = document.getElementById(id);
+        if(control.type === 'checkbox'){
+            value = control.checked;
+        }
+        if(control.type === 'number'){
+            value = parseInt(control.value) || 0;
+        }
         
-        UIController.updateStat(conditionTarget, stat, value, allTypesAffected, isCondition);
+        UIController.updateStat(conditionTarget, stat, value, allTypesAffected, isCondition, isTempory);
         if (isCondition) {
             conditionValues[stat] = value;
         }
@@ -214,9 +235,9 @@ function showConditionsForType(typeToUpdate, condition) {
     characters.forEach(((character, index) => {
         if (character.type === typeToUpdate) {
             const container = document.getElementById(`char-${condition}-${index}`);
-            if (container && character[condition] > 0) {
+            if (container && (character[condition] > 0 || character.tempStats[condition] > 0)) {
                 container.style.visibility = 'visible';
-                container.querySelector(`.${condition}-number`).value = character[condition];
+                container.querySelector(`.${condition}-number`).value = character[condition] + (character.tempStats[condition] || 0);
             } else if (container) {
                 container.style.visibility = 'hidden';
             }

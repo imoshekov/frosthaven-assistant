@@ -200,11 +200,13 @@ const UIController = {
         const displayName = `${prefix}${input.type}`;
         return { baseName, displayName };
     },
-    updateStat(index, stat, value, massApply = false, isCondition = false) {
+    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {
         if (!massApply) {
             const targetCharacter = characters[index];
             if (isCondition) {
                 targetCharacter.conditions[stat] = value;
+            } else if (isTemporary) {
+                targetCharacter.tempStats[stat] = value;
             } else {
                 targetCharacter[stat] = value;
             }
@@ -214,6 +216,8 @@ const UIController = {
                 if (character.type === typeToUpdate) {
                     if (isCondition) {
                         character.conditions[stat] = value;
+                    } else if (isTemporary) {
+                        character.tempStats[stat] = value;
                     } else {
                         character[stat] = value;
                     }
@@ -307,6 +311,7 @@ const UIController = {
     nextRound() {
         characters.forEach(c => {
             c.initiative = 0;
+            c.tempStats = {};
         });
 
         this.renderTable();
