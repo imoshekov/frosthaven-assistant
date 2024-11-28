@@ -92,9 +92,11 @@ const UIController = {
         </div>
         <div class='stats'>
             <div class='char-hp stat-child'>
-                <img src="images/life-bar.png" />
+                <div class="heart-container">
+                    <img id="char-heart-${index}" src="images/heart.svg" />
+                </div>
                 <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
-                    onchange="UIController.updateStat(${index}, 'hp', this.value)" />
+                    onchange="UIController.updateStat(${index}, 'hp', this.value);" />
             </div>
             <div class='char-attack stat-child'>
                 <img src="images/stats/attack.svg" />
@@ -227,6 +229,16 @@ const UIController = {
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
+    },
+    toggleLowHp(threshold = 2) {
+        characters.forEach((character, index) => {
+            const heartImg = document.getElementById(`char-heart-${index}`);
+            if (character.hp <= threshold) {
+                heartImg.classList.add("pulsating-heart");
+            } else {
+                heartImg.classList.remove("pulsating-heart");
+            }
+        });
     },
     toggleDone(event) {
         if (event.target.type !== "checkbox") {

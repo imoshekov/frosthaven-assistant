@@ -156,8 +156,10 @@ function updateHpWithDamage(charIdx, dmg) {
 
     const character = characters[charIdx];
     character.hp = Math.max(0, character.hp - dmg);
+    characters
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
     DataManager.log(`${character.name}# was attacked for #${dmg} damage, current hp: ${character.hp}`);
+    UIController.showToastNotification(`${character.name}'s HP: ${character.hp}`, 3000);
     let characterConditions = character.conditions;
     if (characterConditions?.brittle || characterConditions?.ward) {
         characterConditions.brittle = false;
@@ -264,6 +266,7 @@ window.onload = function () {
     
     // Saving to local storage every X seconds.
     setInterval(() => DataManager.saveGame(), 10000);
+    setInterval(() => UIController.toggleLowHp(), 2000);
 };
 
 const attackModal = document.getElementById('modal-attack');
