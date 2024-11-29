@@ -898,6 +898,7 @@ option {
     .character-skin .name b {
         min-height: 20px;
         font-size: 20px;
+        line-height: 1;
     }
 
     .creatures .creature-column .nameplate img.profile {
@@ -907,6 +908,7 @@ option {
     .stats {
         flex-direction: row;
         flex-wrap: nowrap;
+        padding: 10px 20px;
     }
 
     .stats .stat-child {
@@ -921,6 +923,12 @@ option {
         font-size: 20px;
         width: 40px;
     }
+
+
+    .character-attributes {
+        width: 25%;
+    }
+
 
     .attack-btn {
         width: 30px;
@@ -942,15 +950,18 @@ option {
     input[type="number"] {
         width: 30px;
         font-size: 20px;
-
         font-weight: 800;
     }
 
     .remove-btn {
         position: absolute;
         top: 0;
-        right: 0;
+        right: -5px;
         margin: 0px;
         padding: 5px;
+    }
+
+    .modal-content {
+        margin: none;
     }
 }
