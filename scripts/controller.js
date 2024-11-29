@@ -62,7 +62,9 @@ const UIController = {
 <div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
-<div class='creature-column'>
+<div class='creature-column'
+        onmouseenter="showBattleLog(${index})" >
+    <img id="battle-log-${index}" class='corner-image-hover' src="images/logs-side.svg">
     <input type="number" class="initiative initiative-column" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();

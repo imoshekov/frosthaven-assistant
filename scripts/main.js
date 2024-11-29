@@ -259,6 +259,19 @@ function preventExclusiveConditions() {
     ward.addEventListener("change", () => ward.checked && (brittle.checked = false));
 }
 
+function showBattleLog(index) {
+    hideBattleLogs();
+    const logElement = document.getElementById(`battle-log-${index}`);
+    if (logElement) {
+        logElement.classList.add('show');
+    }
+}
+
+function hideBattleLogs() {
+    const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-image-hover');
+    logElements.forEach(logElement => logElement.classList.remove('show'));
+}
+
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
