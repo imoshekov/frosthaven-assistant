@@ -623,10 +623,12 @@ option {
 }
 
 .elements-wrapper {
-    display: inline-block;
+    display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
     user-select: none;
+    gap: 5px;
+    justify-content: flex-start;
 }
 
 .element-icon {
@@ -993,5 +995,14 @@ option {
 
     .initiative, .attack, .condition-btn, .box span, h1, h2, h3, label, select, option, b {
         font-size: smaller;
+    }
+
+    .title{
+        justify-content: center;
+    }
+
+    .elements-wrapper {
+        align-items: center;
+        justify-content: center;
     }
 }
