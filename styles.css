@@ -969,9 +969,14 @@ option {
 
     .modal-content {
         margin: 0;
+        padding: 15px;
     }
 
     #modal-attack .modal-content .initiative{
         width: 330px;
+    }
+
+    .box span {
+        top: -20px;
     }
 }
