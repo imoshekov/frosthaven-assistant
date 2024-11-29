@@ -63,7 +63,7 @@ const UIController = {
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'>
-    <input type="number" class="initiative" value="${creature.initiative}" onchange="
+    <input type="number" class="initiative initiative-column" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
@@ -72,7 +72,7 @@ const UIController = {
         }
     " />
     <div class='nameplate'>
-        <div class='character-skin' id="character-skin-${index}" onclick="openConditions(event, ${index})">
+        <div class='character-skin image' id="character-skin-${index}" onclick="openConditions(event, ${index})">
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
 
         </div>

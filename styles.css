@@ -154,6 +154,7 @@ img.background {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 15px;
 }
 
 .creatures .creature-column .nameplate {
@@ -834,5 +835,148 @@ option {
     100% {
         transform: scale(1);
         opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .creatures {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    .creatures .creature-container {
+        flex-direction: column;
+    }
+
+    .creatures .creature-column {
+        flex-direction: row-reverse;
+        display: flex;
+        margin: 0px;
+        text-align: justify;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    img.background {
+        display: none;
+    }
+
+    .creatures .creature-column .nameplate {
+        flex-direction: row;
+        padding: 0px;
+        width: 100%;
+        margin-top: 25px;
+        justify-content: space-around;
+        padding-left: 30px;
+    }
+
+    .character-skin {
+        position: absolute;
+        top: 0;
+        left: 60px;
+        height: 20px;
+    }
+
+    .creatures .creature-column .nameplate img.profile {
+        width: 50px;
+    }
+
+    .character-skin.image {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+    }
+
+    .character-skin .name {
+        margin: 0px;
+        max-height: 20px;
+        min-height: 1px;
+        min-width: 400px;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .character-skin .name b {
+        min-height: 20px;
+        font-size: 20px;
+    }
+
+    .creatures .creature-column .nameplate img.profile {
+        box-shadow: 0px 0px 5px 1px;
+    }
+
+    .standee-only {
+        margin-left: -5px !important;
+    }
+
+    .stats {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        padding: 10px 20px;
+    }
+
+    .stats .stat-child {
+        flex-direction: column;
+    }
+
+    .stats .stat-child img {
+        width: 30px;
+    }
+
+    .creatures .creature-column .nameplate input {
+        font-size: 20px;
+        width: 40px;
+    }
+
+    .character-attributes {
+        width: 25%;
+    }
+
+    .condition-row{
+        margin: 0;
+    }
+    .attack-btn {
+        width: 30px;
+        height: 30px;
+        margin-top: -20px;
+    }
+
+    .attack-btn img {
+        width: 20px;
+    }
+
+    .creatures .initiative-column {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border: 1px solid white;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        width: 30px;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 0;
+        right: -5px;
+        margin: 0px;
+        padding: 5px;
+    }
+
+    .modal-content {
+        margin: 0;
+        padding: 15px;
+    }
+
+    #modal-attack .modal-content .initiative{
+        width: 330px;
+    }
+
+    .box span {
+        top: -20px;
     }
 }
