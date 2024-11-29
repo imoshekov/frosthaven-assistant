@@ -113,7 +113,7 @@ img {
 }
 
 .title img {
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 .initiative {
@@ -849,9 +849,10 @@ option {
 }
 
 @media (max-width: 768px) {
-    body{
+    body {
         padding: 2px;
     }
+
     .creatures {
         overflow-x: hidden;
         width: 100%;
@@ -930,6 +931,7 @@ option {
 
     .stats .stat-child {
         flex-direction: column;
+        align-items: center;
     }
 
     .stats .stat-child img {
@@ -945,13 +947,15 @@ option {
         width: 25%;
     }
 
-    .condition-row{
+    .condition-row {
         margin: 0;
     }
+
     .attack-btn {
         width: 30px;
         height: 30px;
         margin-top: -20px;
+        margin-right: 15px;
     }
 
     .attack-btn img {
@@ -964,6 +968,7 @@ option {
         bottom: 5px;
         border: 1px solid white;
         margin: 0;
+        border-radius: 50%;
     }
 
     input[type="number"] {
@@ -985,7 +990,7 @@ option {
         padding: 15px;
     }
 
-    #modal-attack .modal-content .initiative{
+    #modal-attack .modal-content .initiative {
         width: 330px;
     }
 
@@ -993,11 +998,20 @@ option {
         top: -20px;
     }
 
-    .initiative, .attack, .condition-btn, .box span, h1, h2, h3, label, select, option, b {
+    .initiative,
+    .attack,
+    .condition-btn,
+    .box span,
+    h1,
+    h2,
+    h3,
+    label,
+    select,
+    option {
         font-size: smaller;
     }
 
-    .title{
+    .title {
         justify-content: center;
     }
 
