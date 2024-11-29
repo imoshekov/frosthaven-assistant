@@ -13,7 +13,10 @@
 <body>
     <!-- master-container is a workaround to handle the focus event on all number fields in the page -->
     <div id="master-container">
-        <h1> <img src="favicon.ico" /> Frosthaven Assistant</h1>
+        <div class="title">
+            <img src="favicon.ico" />
+            <h1>Frosthaven Assistant</h1>
+        </div>
         <div id="toast-notification" class="toast"></div>
         <div class="row">
             <div class="game-setup">
@@ -38,8 +41,11 @@
         </div>
         <div class="add-char">
             <div class="row">
-                <button class="initiative" onclick="DataManager.resetGame(); UIController.renderTable();">New Game</button>
-                <button class="initiative" onclick="UIController.toggleControlVisibility('load-scenario-container','scenario-id')">Load Scenario<span>&#9660;</span></button>
+                <button class="initiative" onclick="DataManager.resetGame(); UIController.renderTable();">New
+                    Game</button>
+                <button class="initiative"
+                    onclick="UIController.toggleControlVisibility('load-scenario-container','scenario-id')">Load
+                    Scenario<span>&#9660;</span></button>
                 <div id="load-scenario-container">
                     <div class="default-stats">
                         <label for="scenario-id">Scenario:</label>
@@ -47,16 +53,20 @@
                         <label for="scenario-level">Level:</label>
                         <input type="number" id="scenario-level" placeholder="2"></input>
                     </div>
-                    <button class="initiative attack" onclick="DataManager.loadFile(); UIController.toggleControlVisibility('load-scenario-container')">Load</button>
+                    <button class="initiative attack"
+                        onclick="DataManager.loadFile(); UIController.toggleControlVisibility('load-scenario-container')">Load</button>
                 </div>
                 <button class="initiative" onclick="WebSocketHandler.initialize('host')">Start Session</button>
-                <button class="initiative" onclick="UIController.toggleControlVisibility('join-session-container','session-id')">Join Session<span>&#9660;</span></button>
+                <button class="initiative"
+                    onclick="UIController.toggleControlVisibility('join-session-container','session-id')">Join
+                    Session<span>&#9660;</span></button>
                 <div id="join-session-container">
                     <div class="default-stats">
                         <label for="session-id">Session:</label>
                         <input type="number" id="session-id" placeholder="#"></input>
                     </div>
-                    <button class="initiative attack" onclick="WebSocketHandler.initialize('client'); UIController.toggleControlVisibility('join-session-container')">Join</button>
+                    <button class="initiative attack"
+                        onclick="WebSocketHandler.initialize('client'); UIController.toggleControlVisibility('join-session-container')">Join</button>
                 </div>
                 <div id="content"></div>
                 <h3 style="padding-left: 10px">Add Monster</h3>
@@ -80,7 +90,8 @@
                 <div class="buttons-column">
                     <button id="add-monster" class="initiative" onclick="UIController.addCharacter()">Add
                         Monster</button>
-                    <button class="attack" id="next-round" style="width:375px" onclick="UIController.nextRound()">Next Round</button>
+                    <button class="attack" id="next-round" style="width:375px" onclick="UIController.nextRound()">Next
+                        Round</button>
                     <div class="round-info">
                         <span>ROUND<input type="number" id="round-number" value="1"></span>
                     </div>
@@ -304,11 +315,12 @@
             <span id="loading-spinner"></span>
             <span class="technical-log" id="last-saved-timestamp"></span>
             <span class="technical-log" id="joined-session-id"></span>
-            <span class="technical-log" id="server-last-pinged"></span>         
+            <span class="technical-log" id="server-last-pinged"></span>
         </div>
-        <a href="https://grey-astronaut-764049.postman.co/collection/1419604-3345b5ec-84d0-4b3c-9b89-30bdc88ac94a?source=rip_html&active-environment=1419604-50e897d1-5175-44ef-a5fc-6f70370eae60" target="_blank">
+        <a href="https://grey-astronaut-764049.postman.co/collection/1419604-3345b5ec-84d0-4b3c-9b89-30bdc88ac94a?source=rip_html&active-environment=1419604-50e897d1-5175-44ef-a5fc-6f70370eae60"
+            target="_blank">
             <img alt="server management" src="https://run.pstmn.io/button.svg" style="width: 100px; height: 25px;">
-        </a> 
+        </a>
 
         <div id="modal-attack" class="modal">
             <div class="modal-content">
@@ -348,7 +360,7 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="box">
                     <span>round</span>
                     <div class="condition-row">
@@ -358,11 +370,12 @@
                         </div>
                         <div class="condition-item">
                             <img src="images/fh/action/retaliate.svg">
-                            <input type="number" id="temp-condition-retaliate" class="condition-input" min="0" value="0">
+                            <input type="number" id="temp-condition-retaliate" class="condition-input" min="0"
+                                value="0">
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="condition-row">
                     <input type="checkbox" id="condition-poison">
                     <img id="poison-img" src="images/fh/condition/poison.svg" class="condition-img">
@@ -373,7 +386,7 @@
                     <input type="checkbox" id="condition-ward">
                     <img id="ward-img" src="images/fh/condition/ward.svg" class="condition-img">
                 </div>
-        
+
                 <hr>
                 <div class="row">
                     <button class="condition-btn" onclick="applyCondition()">OK</button>

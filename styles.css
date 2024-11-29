@@ -46,6 +46,7 @@ body::-webkit-scrollbar {
     /* for Chrome, Safari, and Opera */
 }
 
+
 input,
 label,
 button {
@@ -106,6 +107,15 @@ img {
     border-radius: 3px;
 }
 
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title img {
+    margin-right: 10px; 
+}
+
 .initiative {
     width: 375px;
 }
@@ -135,7 +145,6 @@ img {
     font-size: 18px;
     text-align: center;
     color: #F0F0F0;
-    font-size: 18px;
     position: relative;
     margin: 15px 10px;
 }
@@ -349,9 +358,9 @@ button:hover {
 
 .remove-btn {
     font-size: 18px;
+    font-weight: normal;
     color: #999;
     background-color: transparent;
-    font-weight: normal;
     display: inline-block;
     text-align: center;
     margin-top: 5px;
@@ -528,7 +537,6 @@ option {
     max-height: 200px;
     overflow-y: scroll;
     scrollbar-width: none;
-    /* Firefox */
 }
 
 #battle-log::-webkit-scrollbar {
@@ -839,6 +847,9 @@ option {
 }
 
 @media (max-width: 768px) {
+    body{
+        padding: 2px;
+    }
     .creatures {
         overflow-x: hidden;
         width: 100%;
@@ -898,7 +909,7 @@ option {
 
     .character-skin .name b {
         min-height: 20px;
-        font-size: 20px;
+        margin-top: 2%;
     }
 
     .creatures .creature-column .nameplate img.profile {
@@ -947,8 +958,8 @@ option {
 
     .creatures .initiative-column {
         position: absolute;
-        left: 0;
-        bottom: 0;
+        left: 2px;
+        bottom: 5px;
         border: 1px solid white;
         margin: 0;
     }
@@ -978,5 +989,9 @@ option {
 
     .box span {
         top: -20px;
+    }
+
+    .initiative, .attack, .condition-btn, .box span, h1, h2, h3, label, select, option, b {
+        font-size: smaller;
     }
 }
