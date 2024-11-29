@@ -154,6 +154,7 @@ img.background {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 15px;
 }
 
 .creatures .creature-column .nameplate {
@@ -949,6 +950,7 @@ option {
         left: 0;
         bottom: 0;
         border: 1px solid white;
+        margin: 0;
     }
 
     input[type="number"] {
