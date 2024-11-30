@@ -144,8 +144,8 @@ const WebSocketHandler = {
     sendCharactersUpdate: function () {
         this.sendUpdateMessage('characters-update', { characters: DataManager.getCharacters() });
     },
-    sendGraveyardUpdate: function (graveyardValue) {
-        this.sendUpdateMessage('graveyard-update', { graveyard: graveyardValue });
+    sendGraveyardUpdate: function () {
+        this.sendUpdateMessage('graveyard-update', { graveyard: DataManager.graveyard });
     },
     sendRoundNumber: function (roundNumberValue) {
         this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
