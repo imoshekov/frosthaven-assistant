@@ -1,6 +1,7 @@
 const DataManager = {
     // Storage keys
     CHARACTERS: 'characters',
+    GRAVEYARD: 'graveyard',
     SESSION_ID: 'sessionId',
 
     characters: null,
@@ -8,6 +9,7 @@ const DataManager = {
     getCharacters(index = null) {
         if (this.characters == null) {
             this.characters = JSON.parse(this.load(this.CHARACTERS)) || data.defaultCharacters;
+            this.graveyard = JSON.parse(this.load(this.GRAVEYARD)) || [];
         }
 
         return index == null ? this.characters : this.characters[index];
@@ -25,7 +27,9 @@ const DataManager = {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
         const currentCharacterData = JSON.stringify(this.characters);
+        const graveyardData = JSON.stringify(this.graveyard);
         this.set(this.CHARACTERS, currentCharacterData);
+        this.set(this.GRAVEYARD, graveyardData);
 
         const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
         this.set('battle-log', battleLogInnerHtml);

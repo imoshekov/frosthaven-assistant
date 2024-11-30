@@ -170,8 +170,12 @@ const UIController = {
         });
     },
     removeCreature(index, confirmation = false) {
-        const characters = DataManager.getCharacters()
+        let characters = DataManager.getCharacters()
         if(confirmation){
+            // forced delete can be from graveyard or main list
+            if (UIController.showGraveyard) {
+                characters = DataManager.graveyard;
+            }
             const userConfirmed = confirm(`This will permanantly delete ${characters[index].name} from the game. Continue?`);
             if(!userConfirmed){
                 return;
