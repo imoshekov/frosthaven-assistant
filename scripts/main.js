@@ -1,5 +1,3 @@
-let characters = JSON.parse(DataManager.load(DataManager.CHARACTERS)) || data.defaultCharacters;
-
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();

@@ -89,6 +89,12 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
                     break;
                 }
+                case 'graveyard-update': {
+                    session.graveyard = data.graveyard;
+                    session.lastActivity = Date.now();
+                    broadcastToSession(currentSessionId, 'graveyard-update', { graveyard: data.graveyard, originatingClientId: originatingClientId });
+                    break;
+                }
                 case 'element-update': {
                     session.elementStates[data.elementId] = data.elementState;
                     session.lastActivity = Date.now();
@@ -104,6 +110,7 @@ wss.on('connection', (ws) => {
                     session.lastActivity = Date.now();
                     ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
                     ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
+                    ws.send(JSON.stringify({ type: 'graveyard-update', graveyard: session.graveyard }));
                     Object.keys(session.elementStates).forEach((elementId) => {
                         ws.send(JSON.stringify({
                             type: 'element-update',

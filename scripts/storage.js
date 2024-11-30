@@ -1,6 +1,17 @@
 const DataManager = {
+    // storage keys
     CHARACTERS: 'characters',
     SESSION_ID: 'sessionId',
+
+    characters: null,
+    graveyard: [],
+    getCharacters(index = null) {
+        if (this.characters == null) {
+            this.characters = JSON.parse(this.load(this.CHARACTERS)) || data.defaultCharacters;
+        }
+
+        return index == null ? this.characters : this.characters[index];
+    },
     load(key) {
         return localStorage.getItem(key);
     },
@@ -13,7 +24,7 @@ const DataManager = {
     saveGame() {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
-        const currentCharacterData = JSON.stringify(characters);
+        const currentCharacterData = JSON.stringify(this.characters);
         this.set(this.CHARACTERS, currentCharacterData);
 
         const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;

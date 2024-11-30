@@ -526,12 +526,17 @@ div#modal-conditions {
 }
 
 .tombstone-icon {
+    margin-left: 120px;
     width: 50px;
     cursor: pointer;
 }
 
 .tombstone-icon:hover {
     transform: scale(1.1);
+}
+
+.tombstone-icon.hidden {
+    display: none;
 }
 
 .row.middle-line {

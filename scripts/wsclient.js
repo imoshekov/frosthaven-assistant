@@ -71,6 +71,9 @@ const WebSocketHandler = {
                 case "characters-update":
                     this.handleCharacterUpdate(data);
                     break;
+                case "graveyard-update":
+                    this.handleGraveyardUpdate(data);
+                    break;
                 case "round-update":
                     this.handleRoundUpdate(data);
                     break;
@@ -139,7 +142,10 @@ const WebSocketHandler = {
         }));
     },
     sendCharactersUpdate: function () {
-        this.sendUpdateMessage('characters-update', { characters: characters });
+        this.sendUpdateMessage('characters-update', { characters: DataManager.getCharacters() });
+    },
+    sendGraveyardUpdate: function (graveyardValue) {
+        this.sendUpdateMessage('graveyard-update', { graveyard: graveyardValue });
     },
     sendRoundNumber: function (roundNumberValue) {
         this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
@@ -171,7 +177,12 @@ const WebSocketHandler = {
         UIController.showToastNotification(message, 3000);
     },
     handleCharacterUpdate: function (data) {
-        characters = data.characters;
+        DataManager.characters = data.characters;
+        UIController.sortCreatures();
+        UIController.renderTable();
+    },
+    handleGraveyardUpdate: function (data) {
+        DataManager.graveyard = data.graveyard;
         UIController.sortCreatures();
         UIController.renderTable();
     },
@@ -190,12 +201,12 @@ const WebSocketHandler = {
         DataManager.renderLog(data.event, data.timestamp);
     },
     handleMonsterAdded: function(data){
-        characters.push(data.monster);
+        DataManager.getCharacters().push(data.monster);
         UIController.sortCreatures();
         UIController.renderTable();
     },
     handleInitiativeReset: function(data){
-        characters.forEach(c => {
+        DataManager.getCharacters().forEach(c => {
             c.initiative = data.value;
         });
         UIController.renderTable();

@@ -4,7 +4,7 @@ let attackTarget = null;
 //region UI controls
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
-    let target = characters[charIdx];
+    let target = DataManager.getCharacters(charIdx);
     const conditions = {
         'condition-armor': target.armor,
         'condition-retaliate': target.retaliate,
@@ -32,7 +32,7 @@ function openConditions(event, charIdx) {
 }
 
 function showConditions(charIdx) {
-    const target = characters[charIdx];
+    const target = DataManager.getCharacters(charIdx);
 
     showConditionsForType(target.type, 'armor');
     showConditionsForType(target.type, 'retaliate');
@@ -82,8 +82,8 @@ function applyCondition() {
         }
     });
 
-    characters[conditionTarget].conditions = conditionValues;
-    characters.forEach((_, index) => showConditions(index));
+    DataManager.getCharacters(conditionTarget).conditions = conditionValues;
+    DataManager.getCharacters().forEach((_, index) => showConditions(index));
 
     if (WebSocketHandler.isConnected) {
         WebSocketHandler.sendCharactersUpdate();
@@ -95,7 +95,7 @@ function applyCondition() {
 function loadConditionsInAttackModal() {
     const container = document.getElementById('attack-conditions');
     container.innerHTML = '';
-    let target = characters[attackTarget];
+    let target = DataManager.getCharacters(attackTarget);
     const pierceImg = document.getElementById("pierce-img");
     const pierceInput = document.getElementById("pierce-input");
 
@@ -150,7 +150,8 @@ function hideBattleLogs() {
 function handleAttack(event, buttonElement) {
     attackTarget = buttonElement.dataset.creatureIdx;
     openModal('modal-attack');
-    document.getElementById('attack-combatants').innerHTML = `${characters[attackTarget].name}`;
+    const character = DataManager.getCharacters(attackTarget);
+    document.getElementById('attack-combatants').innerHTML = `${character.name}`;
     loadConditionsInAttackModal();
     event.stopPropagation();
 }
@@ -190,10 +191,11 @@ function addImg(container, name, value) {
 
 function getAttackResult(showLog = true) {
     let dmg = parseInt(document.getElementById('attack-input').value);
+    const character = DataManager.getCharacters(attackTarget);
 
-    if (characters[attackTarget].armor > 0 || characters[attackTarget].tempStats?.armor > 0) {
+    if (character.armor > 0 || character.tempStats?.armor > 0) {
         let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
-        let effectiveArmor = Math.max((characters[attackTarget].armor + (characters[attackTarget].tempStats?.armor || 0)) - pierce, 0);
+        let effectiveArmor = Math.max((character.armor + (character.tempStats?.armor || 0)) - pierce, 0);
 
         if (effectiveArmor > 0) {
             dmg -= effectiveArmor;
@@ -201,28 +203,29 @@ function getAttackResult(showLog = true) {
 
         if (showLog && dmg > 0) {
             const message = effectiveArmor
-                ? `${characters[attackTarget].name} has ${effectiveArmor} armor` + (pierce ? ` after ${pierce} pierce` : '')
-                : `${characters[attackTarget].name}'s armor was fully pierced`;
+                ? `${character.name} has ${effectiveArmor} armor` + (pierce ? ` after ${pierce} pierce` : '')
+                : `${character.name}'s armor was fully pierced`;
             DataManager.log(message);
         }
     }
-    if (characters[attackTarget].conditions?.poison && dmg > 0) {
+    if (character.conditions?.poison && dmg > 0) {
         dmg += 1;
-        showLog && DataManager.log(characters[attackTarget].name + " is poisoned");
+        showLog && DataManager.log(character.name + " is poisoned");
     }
 
     return calculateDmgMultipliers(attackTarget, dmg, showLog);
 }
 
 function calculateDmgMultipliers(charIdx, dmg, showLog = true) {
-    let charConditions = characters[charIdx].conditions;
+    const character = DataManager.getCharacters(charIdx);
+    const charConditions = character.conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        showLog && DataManager.log(characters[charIdx].name + " is brittle");
+        showLog && DataManager.log(character.name + " is brittle");
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        showLog && DataManager.log(characters[charIdx].name + " has ward");
+        showLog && DataManager.log(character.name + " has ward");
     }
 
     return dmg;
@@ -233,7 +236,7 @@ function updateHpWithDamage(charIdx, dmg) {
         return;
     }
 
-    const character = characters[charIdx];
+    const character = DataManager.getCharacters(charIdx);
     let attackLogMsg = `${character.name} #was attacked for ${dmg} damage#. Was ${character.hp},`;
     character.hp = Math.max(0, character.hp - dmg);
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
@@ -257,7 +260,7 @@ function updateHpWithDamage(charIdx, dmg) {
 }
 
 function showConditionsForType(typeToUpdate, condition) {
-    characters.forEach(((character, index) => {
+    DataManager.getCharacters().forEach(((character, index) => {
         if (character.type === typeToUpdate) {
             const container = document.getElementById(`char-${condition}-${index}`);
             if (container && (character[condition] > 0 || character.tempStats[condition] > 0)) {

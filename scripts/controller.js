@@ -1,4 +1,5 @@
 const UIController = {
+    showGraveyard: false,
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
@@ -43,8 +44,8 @@ const UIController = {
             conditions: {},
             tempStats: {}
         };
-    
-        characters.push(newCreature);
+
+        DataManager.getCharacters().push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
         if(WebSocketHandler.isConnected){
@@ -54,7 +55,8 @@ const UIController = {
     renderTable() {
         const tableBody = document.getElementById('creaturesTable');
         tableBody.innerHTML = '';
-        characters.forEach((creature, index) => {
+        let renderCharacters = this.showGraveyard ? [] : DataManager.getCharacters();
+        renderCharacters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
             const row =
                `
@@ -157,10 +159,10 @@ const UIController = {
         typeDropdown.value = '';
     },
     allIniativeSet() {
-        return characters.every(creature => creature.initiative !== 0);
+        return DataManager.getCharacters().every(creature => creature.initiative !== 0);
     },
     renderInitiative() {
-        characters.forEach(character => {
+        DataManager.getCharacters().forEach(character => {
             const initiativeInputs = document.querySelectorAll(`.creature-row.${character.type}-row .initiative`);
             initiativeInputs.forEach(input => {
                 input.value = character.initiative;
@@ -168,8 +170,9 @@ const UIController = {
         });
     },
     removeCreature(index, confirmation = false) {
+        const characters = DataManager.getCharacters()
         if(confirmation){
-            const userConfirmed = confirm(`This will permantly delete ${characters[index].name} from the game. Continue?`);
+            const userConfirmed = confirm(`This will permanantly delete ${characters[index].name} from the game. Continue?`);
             if(!userConfirmed){
                 return;
             }
@@ -181,17 +184,17 @@ const UIController = {
         }
     },
     sortCreatures() {
-        characters.sort((a, b) => a.initiative - b.initiative);
+        DataManager.getCharacters().sort((a, b) => a.initiative - b.initiative);
     },
     renameCreature(index) {
-        let creature = characters[index];
+        let creature = DataManager.getCharacters(index);
         const { baseName, displayName } = this.generateCreatureName({
             isElite: creature.eliteMonster,
             type: creature.type,
             standee: creature.standee,
         });
-        characters[index].name = baseName;
-        characters[index].displayName = displayName;
+        creature.name = baseName;
+        creature.displayName = displayName;
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
@@ -202,11 +205,12 @@ const UIController = {
         const displayName = `${prefix}${input.type}`;
         return { baseName, displayName };
     },
-    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {        
+    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {
+        const characters = DataManager.getCharacters();
         const typeToUpdate = characters[index].type;
         const targets = massApply
-        ? characters.filter(character => character.type === typeToUpdate) 
-        : [characters[index]]; 
+        ? characters.filter(character => character.type === typeToUpdate)
+        : [characters[index]];
 
         const updateTarget = (character) => {
             if (isCondition) {
@@ -225,9 +229,9 @@ const UIController = {
         }
     },
     toggleLowHp(threshold = 2) {
-        characters.forEach((character, index) => {
+        DataManager.getCharacters().forEach((character, index) => {
             const heartImg = document.getElementById(`char-heart-${index}`);
-            if (character.hp <= threshold) {
+            if (character.hp <= threshold && character.hp > 0) {
                 heartImg.classList.add("pulsating-heart");
             } else {
                 heartImg.classList.remove("pulsating-heart");
@@ -315,7 +319,7 @@ const UIController = {
         });
     },
     nextRound() {
-        characters.forEach(c => {
+        DataManager.getCharacters().forEach(c => {
             c.initiative = 0;
             c.tempStats = {};
         });
@@ -342,8 +346,19 @@ const UIController = {
         }
 
     },
+    toggleGraveyard(show) {
+        const inactiveImg = document.getElementById('graveyard-img');
+        const activeImg = document.getElementById('graveyard-img-active');
+        if (show) {
+            inactiveImg.classList.add("hidden");
+            activeImg.classList.remove("hidden");
+        } else {
+            inactiveImg.classList.remove("hidden");
+            activeImg.classList.add("hidden");
+        }
+    },
     toggleConditionVisibility(index, conditionType) {
-        const character = characters[index];
+        const character = DataManager.getCharacters(index);
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
         if(WebSocketHandler.isConnected){
