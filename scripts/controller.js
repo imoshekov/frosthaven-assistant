@@ -378,7 +378,6 @@ const UIController = {
 
         if (show && !DataManager.graveyard.length) {
             creaturesContainer.innerText = 'NO CREATURES IN GRAVEYARD';
-            this.showToastNotification('Graveyard is empty', 3000);
         }
     },
     toggleConditionVisibility(index, conditionType) {

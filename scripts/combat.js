@@ -254,8 +254,11 @@ function updateHpWithDamage(charIdx, dmg) {
         UIController.showToastNotification(`${character.name} has been killed`,3000);
         UIController.removeCreature(charIdx);
         DataManager.graveyard.push(character);
+        if (WebSocketHandler.isConnected){
+            WebSocketHandler.sendGraveyardUpdate();
+        }
     }
-    if(WebSocketHandler.isConnected){
+    if (WebSocketHandler.isConnected){
         WebSocketHandler.sendCharactersUpdate();
     }
 }

@@ -1058,4 +1058,11 @@ option {
         align-items: center;
         justify-content: center;
     }
+
+    .tombstone-icon {
+        margin-left: inherit;
+        float: right;
+        margin-top: 10px;
+        margin-right: 2px;
+    }
 }
