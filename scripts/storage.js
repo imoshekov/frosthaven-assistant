@@ -1,6 +1,6 @@
-
-
 const DataManager = {
+    CHARACTERS: 'characters',
+    SESSION_ID: 'sessionId',
     load(key) {
         return localStorage.getItem(key);
     },
@@ -14,7 +14,7 @@ const DataManager = {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
         const currentCharacterData = JSON.stringify(characters);
-        this.set('characters', currentCharacterData);
+        this.set(this.CHARACTERS, currentCharacterData);
 
         const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
         this.set('battle-log', battleLogInnerHtml);

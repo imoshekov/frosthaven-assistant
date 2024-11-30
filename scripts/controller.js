@@ -50,8 +50,7 @@ const UIController = {
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendMonsterAdded(newCreature);
         }
-    }
-    ,
+    },
     renderTable() {
         const tableBody = document.getElementById('creaturesTable');
         tableBody.innerHTML = '';

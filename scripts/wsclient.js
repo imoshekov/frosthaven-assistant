@@ -11,7 +11,7 @@ const WebSocketHandler = {
 
     initialize: async function (role) {
         try {
-            DataManager.clear('sessionId');
+            DataManager.clear(DataManager.SESSION_ID);
             this.sessionId = null;
             this.role = role;
             this.connect();
@@ -90,7 +90,7 @@ const WebSocketHandler = {
         };
     },
     getSessionId: function(){
-        return this.sessionId || DataManager.load('sessionId');
+        return this.sessionId || DataManager.load(DataManager.SESSION_ID);
     },
     tryReconnect: function () {
         if (this.reconnecting) return;
@@ -162,7 +162,7 @@ const WebSocketHandler = {
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
-        DataManager.set('sessionId', data.sessionId);
+        DataManager.set(DataManager.SESSION_ID, data.sessionId);
         
         this.clientId = data.clientId;
         this.requestServerState(this.getSessionId());

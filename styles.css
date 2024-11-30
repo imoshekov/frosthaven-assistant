@@ -525,6 +525,15 @@ div#modal-conditions {
     display: block;
 }
 
+.tombstone-icon {
+    width: 50px;
+    cursor: pointer;
+}
+
+.tombstone-icon:hover {
+    transform: scale(1.1);
+}
+
 .row.middle-line {
     border: 1px solid white;
 }
