@@ -1,5 +1,5 @@
 const DataManager = {
-    // storage keys
+    // Storage keys
     CHARACTERS: 'characters',
     SESSION_ID: 'sessionId',
 

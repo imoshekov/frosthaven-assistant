@@ -55,7 +55,7 @@ const UIController = {
     renderTable() {
         const tableBody = document.getElementById('creaturesTable');
         tableBody.innerHTML = '';
-        let renderCharacters = this.showGraveyard ? [] : DataManager.getCharacters();
+        let renderCharacters = this.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
         renderCharacters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
             const row =
@@ -229,8 +229,13 @@ const UIController = {
         }
     },
     toggleLowHp(threshold = 2) {
+        if (UIController.showGraveyard) {
+            return;
+        }
+
         DataManager.getCharacters().forEach((character, index) => {
             const heartImg = document.getElementById(`char-heart-${index}`);
+
             if (character.hp <= threshold && character.hp > 0) {
                 heartImg.classList.add("pulsating-heart");
             } else {
@@ -347,6 +352,16 @@ const UIController = {
 
     },
     toggleGraveyard(show) {
+        // prevent rendering empty graveyard with different height
+        const creaturesContainer = document.getElementById('creaturesTable');
+        if (!creaturesContainer.style.minHeight) {
+            const currentHeight = window.getComputedStyle(creaturesContainer).height;
+            creaturesContainer.style.minHeight = currentHeight;
+        }
+
+        this.showGraveyard = show;
+        this.renderTable();
+
         const inactiveImg = document.getElementById('graveyard-img');
         const activeImg = document.getElementById('graveyard-img-active');
         if (show) {
@@ -355,6 +370,11 @@ const UIController = {
         } else {
             inactiveImg.classList.remove("hidden");
             activeImg.classList.add("hidden");
+        }
+
+        if (show && !DataManager.graveyard.length) {
+            creaturesContainer.innerText = 'NO CREATURES IN GRAVEYARD';
+            this.showToastNotification('Graveyard is empty', 3000);
         }
     },
     toggleConditionVisibility(index, conditionType) {
