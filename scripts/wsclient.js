@@ -60,11 +60,12 @@ const WebSocketHandler = {
             const data = JSON.parse(event.data);
             if(data.type === "session-joined"){
                 this.handleSessionJoined(data);
-            }
-            if(this.enableHostClientStuff && this.role === 'host'){
                 return;
             }
-            if(data?.originatingClientId === this.clientId){
+            if (this.enableHostClientStuff && this.role === 'host'){
+                return;
+            }
+            if (data?.originatingClientId === this.clientId){
                 return;
             }
             switch (data.type) {

@@ -66,7 +66,7 @@ const UIController = {
 <div class='creature-column'
         onmouseenter="showBattleLog(${index})" >
     <img id="battle-log-${index}" class='corner-image-hover' src="images/logs-side.svg">
-    <input type="number" class="initiative initiative-column" value="${creature.initiative}" onchange="
+    <input type="number" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
@@ -75,9 +75,8 @@ const UIController = {
         }
     " />
     <div class='nameplate'>
-        <div class='character-skin image' id="character-skin-${index}" onclick="openConditions(event, ${index})">
+        <div class='character-skin image' id="character-skin-${index}" ${this.showGraveyard ? '' : `onclick="openConditions(event, ${index})"`}>
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-
         </div>
         <div class='character-skin'>
             <div class="name">
@@ -134,7 +133,7 @@ const UIController = {
             </div>
         </div>
         <div class='action-buttons'>
-            <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
+            <span class="attack-btn ${this.showGraveyard ? 'hidden' : ''}" data-creature-idx="${index}" onclick="handleAttack(event, this)">
                 <img class='attack-image' id="attack-img-${index}" src='images/crossed-swords.svg'>
             </span>
         </div>
@@ -173,7 +172,7 @@ const UIController = {
         let characters = DataManager.getCharacters()
         if(confirmation){
             // forced delete can be from graveyard or main list
-            if (UIController.showGraveyard) {
+            if (this.showGraveyard) {
                 characters = DataManager.graveyard;
             }
             const userConfirmed = confirm(`This will permanantly delete ${characters[index].name} from the game. Continue?`);
@@ -182,7 +181,7 @@ const UIController = {
             }
         }
         characters.splice(index, 1);
-        this.renderTable();
+        this.showGraveyard ? this.toggleGraveyard(true) : this.renderTable();
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
@@ -210,11 +209,11 @@ const UIController = {
         return { baseName, displayName };
     },
     updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {
-        const characters = DataManager.getCharacters();
+        const characters = this.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
         const typeToUpdate = characters[index].type;
         const targets = massApply
-        ? characters.filter(character => character.type === typeToUpdate)
-        : [characters[index]];
+            ? characters.filter(character => character.type === typeToUpdate)
+            : [characters[index]];
 
         const updateTarget = (character) => {
             if (isCondition) {
@@ -228,8 +227,21 @@ const UIController = {
 
         targets.forEach(updateTarget);
 
-        if(WebSocketHandler.isConnected){
-            WebSocketHandler.sendCharactersUpdate();
+        // revive character if hp is set to more than 0
+        if (this.showGraveyard && stat == 'hp' && value > 0) {
+            DataManager.getCharacters().push(characters[index]);
+            characters.splice(index, 1);
+            this.sortCreatures();
+            this.toggleGraveyard(true);
+            if (WebSocketHandler.isConnected){
+                WebSocketHandler.sendCharactersUpdate();
+            }
+        }
+
+        if (WebSocketHandler.isConnected){
+            this.showGraveyard
+                ? WebSocketHandler.sendGraveyardUpdate()
+                : WebSocketHandler.sendCharactersUpdate();
         }
     },
     toggleLowHp(threshold = 2) {

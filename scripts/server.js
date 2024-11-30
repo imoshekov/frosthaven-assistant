@@ -83,16 +83,16 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters, originatingClientId: originatingClientId });
                     break;
                 }
-                case 'round-update': {
-                    session.roundNumber = data.roundNumber;
-                    session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
-                    break;
-                }
                 case 'graveyard-update': {
                     session.graveyard = data.graveyard;
                     session.lastActivity = Date.now();
                     broadcastToSession(currentSessionId, 'graveyard-update', { graveyard: data.graveyard, originatingClientId: originatingClientId });
+                    break;
+                }
+                case 'round-update': {
+                    session.roundNumber = data.roundNumber;
+                    session.lastActivity = Date.now();
+                    broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'element-update': {

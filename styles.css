@@ -289,6 +289,18 @@ img.background {
     align-items: center;
 }
 
+.initiative-column.hidden {
+    visibility: hidden;
+}
+
+.initiative-column.hidden + .nameplate img.profile {
+    cursor: inherit;
+}
+
+.attack-btn.hidden {
+    visibility: hidden;
+}
+
 .stats {
     display: flex;
     flex-direction: column;
