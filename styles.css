@@ -549,15 +549,39 @@ div#modal-conditions {
     position: absolute;
     top: 0;
     width: 300px;
-    height: 100%;
-    background-color: #f4f4f4;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+    height: 670px;
+    background-color: #222;
+    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.2);
     /*transition: transform 0.3s ease, clip-path 0.3s ease;*/
     /*transform: translateX(-100%); !* Initially hidden *!*/
     z-index: 1000;
     display: flex;
     flex-direction: column;
     padding: 10px;
+}
+
+#battle-log-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #555 #8a8989;
+}
+
+/* Dunno, chatGPT said this is for compatibility styling */
+#battle-log-content::-webkit-scrollbar {
+    width: 6px;
+}
+#battle-log-content::-webkit-scrollbar-track {
+    background: #8a8989;
+}
+#battle-log-content::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 3px;
+}
+#battle-log-content::-webkit-scrollbar-thumb:hover {
+    background-color: #333;
 }
 
 @keyframes left-enter {
@@ -576,18 +600,18 @@ div#modal-conditions {
 
 /* Close button */
 .log-close-button {
-    background-color: #d9534f;
+    background-color: rgb(229, 115, 115);
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px 11px 3px 11px;
     cursor: pointer;
     margin-bottom: 10px;
     align-self: flex-end;
 }
 
 .log-close-button:hover {
-    background-color: #c9302c;
+    background-color: #d9534f;
 }
 
 .tombstone-icon {
@@ -641,6 +665,10 @@ option {
     max-height: 200px;
     overflow-y: scroll;
     scrollbar-width: none;
+}
+
+.flipped-image {
+    transform: scaleX(-1);
 }
 
 #battle-log::-webkit-scrollbar {
@@ -1129,5 +1157,11 @@ option {
         float: right;
         margin-top: 10px;
         margin-right: 2px;
+    }
+
+    .corner-log-image,
+    .corner-log-image.show {
+        display: none;
+        pointer-events: none;
     }
 }
