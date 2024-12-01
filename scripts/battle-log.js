@@ -1,5 +1,6 @@
 class Log {
     static ACTION = Object.freeze({
+        hp: 'hp',
         init: 'init',
         attack: 'attack',
         shield: 'shield',
@@ -24,6 +25,14 @@ class Log {
 
     static #logBuilder = {
         logParts: {},
+        hp(value) {
+            this.logParts[Log.ACTION.hp] = value;
+            return this;
+        },
+        init(value) {
+            this.logParts[Log.ACTION.init] = value;
+            return this;
+        },
         attack(value) {
             this.logParts[Log.ACTION.attack] = value;
             return this;
@@ -32,6 +41,35 @@ class Log {
             this.logParts[Log.ACTION.shield] = value;
             return this;
         },
+        brittle(value) {
+            this.logParts[Log.ACTION.brittle] = value;
+            return this;
+        },
+        retaliate(value) {
+            this.logParts[Log.ACTION.retaliate] = value;
+            return this;
+        },
+        poison(value) {
+            this.logParts[Log.ACTION.poison] = value;
+            return this;
+        },
+        wound(value) {
+            this.logParts[Log.ACTION.wound] = value;
+            return this;
+        },
+        ward(value) {
+            this.logParts[Log.ACTION.ward] = value;
+            return this;
+        },
+        heal(value) {
+            this.logParts[Log.ACTION.heal] = value;
+            return this;
+        },
+        die(value) {
+            this.logParts[Log.ACTION.die] = value;
+            return this;
+        },
+
         build() {
             return new Log(this.logParts);
         }
