@@ -177,7 +177,7 @@ class Log {
             logElement.classList.add('show');
 
             const rect = logElement.getBoundingClientRect();
-            if (rect.right + 300 > window.innerWidth) {
+            if (rect.right + 350 > window.innerWidth) {
                 // log modal out of window bounds
                 logElement.classList.add('flipped-image');
                 const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
@@ -210,7 +210,7 @@ class Log {
             sidebar.style.animation = '0.5s left-enter';
             sidebar.classList.remove('inverted-transition');
         } else {
-            sidebar.style.left = `${imgRect.left + scrollLeft - 282}px`;
+            sidebar.style.left = `${imgRect.left + scrollLeft - 332}px`;
             sidebar.classList.remove('hidden');
             sidebar.style.animation = '0.5s right-enter';
             sidebar.classList.add('inverted-transition');
