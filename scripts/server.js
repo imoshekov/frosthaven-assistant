@@ -7,10 +7,10 @@ const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 
 const sessions = {};
 const defaultCharacters = [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {} },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}},
-    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}},
-    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 9, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {} }
+    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
+    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: []},
+    { name: "Bufalina", type: "banner-spear", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: []},
+    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 9, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] }
 ];
 
 // Create HTTP server
@@ -99,11 +99,6 @@ wss.on('connection', (ws) => {
                     session.elementStates[data.elementId] = data.elementState;
                     session.lastActivity = Date.now();
                     broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState, originatingClientId: originatingClientId });
-                    break;
-                }
-                case 'battle-log-update': {
-                    session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'battle-log-update', { event: data.event, timestamp: data.timestamp, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'request-latest-state': {

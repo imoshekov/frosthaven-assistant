@@ -42,8 +42,10 @@ const UIController = {
             armor: defaultArmor,
             retaliate: defaultRetaliate,
             conditions: {},
-            tempStats: {}
+            tempStats: {},
+            log: []
         };
+        newCreature.log.push(Log.builder().add(1).hp(defaultHP).build());
 
         DataManager.getCharacters().push(newCreature);
         UIController.sortCreatures();
@@ -64,8 +66,8 @@ const UIController = {
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'
-        onmouseenter="showBattleLog(${index})" >
-    <img id="battle-log-${index}" class='corner-log-image' src="images/logs-side.svg" onclick="Log.openSidebar(this)">
+        onmouseenter="Log.showBattleLog(${index})" >
+    <img id="battle-log-${index}" class='corner-log-image' src="images/logs-side.svg" onclick="Log.openSidebar(this)" data-creature-idx="${index}">
     <input type="number" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
@@ -227,6 +229,11 @@ const UIController = {
 
         targets.forEach(updateTarget);
 
+        if (stat === 'hp') {
+            const char = characters[index];
+            char.log.push(Log.builder().set(1).hp(value).initiative(char.initiative).build());
+        }
+
         // revive character if hp is set to more than 0
         if (this.showGraveyard && stat == 'hp' && value > 0) {
             DataManager.getCharacters().push(characters[index]);
@@ -235,6 +242,16 @@ const UIController = {
             this.toggleGraveyard(true);
             if (WebSocketHandler.isConnected){
                 WebSocketHandler.sendCharactersUpdate();
+            }
+        }
+        // "kill" character
+        if (!this.showGraveyard && stat == 'hp' && value <= 0) {
+            DataManager.graveyard.push(characters[index]);
+            characters.splice(index, 1);
+            this.sortCreatures();
+            this.renderTable();
+            if (WebSocketHandler.isConnected){
+                WebSocketHandler.sendGraveyardUpdate();
             }
         }
 

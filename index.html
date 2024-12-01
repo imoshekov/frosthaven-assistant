@@ -308,17 +308,12 @@
             <img id="graveyard-img" class="tombstone-icon" src="images/tombstone.svg" onclick="UIController.toggleGraveyard(true)">
             <img id="graveyard-img-active" class="tombstone-icon hidden" src="images/tombstone-active.svg" onclick="UIController.toggleGraveyard(false)">
         </span>
-        <div class="creatures" onmouseleave="hideBattleLogs()">
+        <div class="creatures" onmouseleave="Log.hideBattleLogs()">
             <div class='creature-container' id="creaturesTable">
                 <!-- Dynamic content will go here -->
             </div>
         </div>
 
-        <h3>Battle Log</h3>
-        <div id="battle-log-container">
-            <ul id="battle-log">
-            </ul>
-        </div>
         <div>
             <span id="loading-spinner"></span>
             <span class="technical-log" id="last-saved-timestamp"></span>

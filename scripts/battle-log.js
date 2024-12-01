@@ -7,6 +7,7 @@ class Log {
         attack: 'Attack',
         result: 'Result',
         shield: 'shield',
+        pierce: 'pierce',
         brittle: 'brittle',
         retaliate: 'retaliate',
         poison: 'poison',
@@ -35,12 +36,14 @@ class Log {
      * [HP]: [Add/Attack/Wound/Heal] ([Died]) [Shield] [Poison] [Brittle] [Ward] = [Result] ([Retaliate]), [Initiative]
      */
     print() {
-        const hpMsg = `${this.logParts[Log.PART.hp] || '??'}: `;
+        const hpMsg = `<span class="log-hp">${this.logParts[Log.PART.hp] || '??'}</span>: `;
         const deathMsg = this.logParts[Log.PART.die] ? `(Died) ` : '';
         const dmgModifiersMsg = this.getModifiers();
         const initiativeMsg = this.logParts[Log.PART.init] || '99';
+        const initialAttack = this.logParts[Log.PART.attack] ? this.logParts[Log.PART.attack] : '';
+        const logMsg = `${hpMsg}${deathMsg}${this.getAction()}${initialAttack}${this.getModifiers()}, &lt;${initiativeMsg}&gt;`;
 
-        return `${hpMsg}${deathMsg}${this.getAction()}${this.getModifiers()}${this.getAttackResult()}, ${initiativeMsg}`;
+        return `<span class="log-entry">${logMsg}</span>`;
     }
 
     getAction() {
@@ -51,7 +54,7 @@ class Log {
             case Log.PART.set in log:
                 return Log.PART.set; // set to custom value
             case Log.PART.attack in log:
-                return Log.PART.attack + ' ' + log[Log.PART.attack];
+                return Log.PART.attack + ' ' + log[Log.PART.result] + ' = ';
             case Log.PART.heal in log:
                 return Log.PART.heal + ' ' + log[Log.PART.heal];
             case Log.PART.wound in log:
@@ -64,34 +67,29 @@ class Log {
     getModifiers() {
         const log = this.logParts;
         let msgParts = [];
-        if (Log.PART.shield in log) {
-            msgParts.push('<img src="images/fh/action/shield.svg"> ' + log[Log.PART.shield]);
+        if (log[Log.PART.shield]) {
+            msgParts.push('<img src="images/fh/action/shield.svg" class="log-img"> ' + log[Log.PART.shield]);
         }
-        if (Log.PART.poison in log) {
-            msgParts.push('<img src="images/fh/condition/poison.svg"> 1');
+        if (log[Log.PART.pierce]) {
+            msgParts.push('<img src="images/fh/action/pierce.svg" class="log-img"> ' + log[Log.PART.pierce]);
         }
-        if (Log.PART.brittle in log) {
-            msgParts.push('<img src="images/fh/condition/brittle.svg"> x2');
+        if (log[Log.PART.poison]) {
+            msgParts.push('<img src="images/fh/condition/poison.svg" class="log-img">');
         }
-        if (Log.PART.ward in log) {
-            msgParts.push('<img src="images/fh/condition/ward.svg"> /2');
+        if (log[Log.PART.brittle]) {
+            msgParts.push('<img src="images/fh/condition/brittle.svg" class="log-img">');
+        }
+        if (log[Log.PART.ward]) {
+            msgParts.push('<img src="images/fh/condition/ward.svg" class="log-img">');
         }
         const modifiers = msgParts.join(', ');
 
-        return modifiers ? ` [${modifiers}]` : '';
-    }
-
-    getAttackResult() {
-        const log = this.logParts;
-        let resultParts = [];
-        if (Log.PART.result in log) {
-            resultParts.push(' = '  + log[Log.PART.result]);
-        }
-        if (Log.PART.retaliate in log) {
-            resultParts.push('(<img src="images/fh/action/retaliate.svg"/>' + log[Log.PART.retaliate] + ')');
+        let retaliate = '';
+        if (log[Log.PART.retaliate]) {
+            retaliate = ', (<img src="images/fh/action/retaliate.svg" class="log-img"/>' + log[Log.PART.retaliate] + ')';
         }
 
-        return resultParts.join(' ');
+        return modifiers ? ` [${modifiers}]${retaliate}` : '';
     }
 
     static #logBuilder = {
@@ -124,6 +122,10 @@ class Log {
             this.logParts[Log.PART.shield] = value;
             return this;
         },
+        pierce(value) {
+            this.logParts[Log.PART.pierce] = value;
+            return this;
+        },
         brittle(value) {
             this.logParts[Log.PART.brittle] = value;
             return this;
@@ -154,12 +156,40 @@ class Log {
         },
 
         build() {
-            return new Log(this.logParts);
+            return (new Log(this.logParts)).toJON();
         }
     }
 
     //region UI Methods
     static lastLogClicked = null;
+
+    static showBattleLog(index) {
+        this.hideBattleLogs();
+        const logElement = document.getElementById(`battle-log-${index}`);
+        if (logElement) {
+            // reset in case was moved before
+            if (logElement.classList.contains('flipped-image')) {
+                logElement.classList.remove('flipped-image');
+                const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
+                logElement.style.left = (currentLeft + 150) + 'px';
+            }
+
+            logElement.classList.add('show');
+
+            const rect = logElement.getBoundingClientRect();
+            if (rect.right + 300 > window.innerWidth) {
+                // log modal out of window bounds
+                logElement.classList.add('flipped-image');
+                const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
+                logElement.style.left = (currentLeft - 150) + 'px';
+            }
+        }
+    }
+
+    static hideBattleLogs() {
+        const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-log-image');
+        logElements.forEach(logElement => logElement.classList.remove('show'));
+    }
 
     static openSidebar(target) {
         this.clearLogButton();
@@ -169,18 +199,33 @@ class Log {
         const imgRect = target.getBoundingClientRect();
         const scrollTop = window.scrollY;
         const scrollLeft = window.scrollX;
+        const inverse = target.classList.contains('flipped-image');
 
         // Position the sidebar relative to the clicked image
         sidebar.style.top = `${imgRect.top + scrollTop - 5}px`;
-        sidebar.style.left = `${imgRect.right + scrollLeft - 38}px`;
         sidebar.classList.remove('hidden');
-        // sidebar.style.transform = 'translateX(0%)'; // Slide into view
-        sidebar.style.animation = '0.3s left-enter'; // Slide into view
+        if (!inverse) {
+            sidebar.style.left = `${imgRect.right + scrollLeft - 38}px`;
+            // sidebar.style.transform = 'translateX(0%)'; // Slide into view
+            sidebar.style.animation = '0.5s left-enter';
+            sidebar.classList.remove('inverted-transition');
+        } else {
+            sidebar.style.left = `${imgRect.left + scrollLeft - 282}px`;
+            sidebar.classList.remove('hidden');
+            sidebar.style.animation = '0.5s right-enter';
+            sidebar.classList.add('inverted-transition');
+        }
 
         // Populate the sidebar content
         const sidebarContent = document.getElementById('battle-log-content');
-        const imgId = target.id;
-        sidebarContent.innerHTML = `<p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p><p>Logs for ${imgId}</p>`;
+        const characterId = target.dataset.creatureIdx;
+        const characters = UIController.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
+
+        // show newest log first
+        const characterLogs = [...characters[characterId].log].reverse();
+        sidebarContent.innerHTML = characterLogs
+            .map(log => new Log(log).print())
+            .join('<br>');
         target.style.visibility = 'hidden';
         this.lastLogClicked = target;
     }
@@ -188,7 +233,12 @@ class Log {
     static closeSidebar() {
         const sidebar = document.getElementById('monster-battle-log');
         // sidebar.style.transform = 'translateX(-100%)';
-        sidebar.style.animation = '0.5s left-leave'; // Slide out of view
+        if (!sidebar.classList.contains('inverted-transition')) {
+            sidebar.style.animation = '0.5s left-leave'; // Slide out of view
+            sidebar.classList.remove('inverted-transition');
+        } else {
+            sidebar.style.animation = '0.5s right-leave';
+        }
         setTimeout(() => sidebar.classList.add('hidden'), 500);
         this.clearLogButton();
     }

@@ -2,7 +2,6 @@ window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
     UIController.handleFocusEvents();
-    document.getElementById('battle-log').innerHTML = DataManager.load('battle-log');
     
     // Saving to local storage every X seconds.
     setInterval(() => DataManager.saveGame(), 10000);

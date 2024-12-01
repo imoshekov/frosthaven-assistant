@@ -564,9 +564,21 @@ div#modal-conditions {
     flex-grow: 1;
     overflow-y: auto;
     padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
 
     scrollbar-width: thin;
     scrollbar-color: #555 #8a8989;
+}
+
+#battle-log-content .log-entry {
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+#battle-log-content .log-hp {
+    color: #ff0000;
+    font-weight: bold;
 }
 
 /* Dunno, chatGPT said this is for compatibility styling */
@@ -584,6 +596,10 @@ div#modal-conditions {
     background-color: #333;
 }
 
+.log-img {
+    width: 20px;
+}
+
 @keyframes left-enter {
     0% { clip-path: inset(0 100% 0 0); }
     100% { clip-path: inset(0) }
@@ -592,6 +608,16 @@ div#modal-conditions {
 @keyframes left-leave {
     0% { clip-path: inset(0); }
     100% { clip-path: inset(0 100% 0 0); }
+}
+
+@keyframes right-enter {
+    0% { clip-path: inset(0 0 0 100%); }
+    100% { clip-path: inset(0) }
+}
+
+@keyframes right-leave {
+    0% { clip-path: inset(0); }
+    100% { clip-path: inset(0 0 0 100%); }
 }
 
 .log-sidebar.hidden {
@@ -659,14 +685,6 @@ option {
     overflow-x: hidden;
 }
 
-#battle-log {
-    list-style: none;
-    padding: 0;
-    max-height: 200px;
-    overflow-y: scroll;
-    scrollbar-width: none;
-}
-
 .flipped-image {
     transform: scaleX(-1);
 }
@@ -687,11 +705,6 @@ option {
 
 .log-bold {
     color: #F0F0F0;
-}
-
-#battle-log li {
-    margin-bottom: 10px;
-    word-wrap: break-word;
 }
 
 .technical-log {

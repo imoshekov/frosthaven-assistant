@@ -81,9 +81,6 @@ const WebSocketHandler = {
                 case "element-update":
                     this.handleElementUpdate(data);
                     break;
-                case "battle-log-update":
-                    this.handleBattleLogUpdate(data);
-                    break;
                 case "add-monster":
                     this.handleMonsterAdded(data);
                     break;
@@ -154,9 +151,6 @@ const WebSocketHandler = {
     sendElementState: function (elementId, elementState) {
         this.sendUpdateMessage('element-update', { elementId: elementId, elementState: elementState });
     },
-    sendLogUpdate: function(event, timestamp){
-        this.sendUpdateMessage('battle-log-update', { event: event, timestamp: timestamp });
-    },
     requestServerState: function(sessionId){
         this.ws.send(JSON.stringify({ type: 'request-latest-state', sessionId: sessionId }));
     },
@@ -197,9 +191,6 @@ const WebSocketHandler = {
         pathElement.setAttribute('d', elementState.path);     
         pathElement.setAttribute('fill', elementState.fill);
 
-    },
-    handleBattleLogUpdate: function (data){
-        DataManager.renderLog(data.event, data.timestamp);
     },
     handleMonsterAdded: function(data){
         DataManager.getCharacters().push(data.monster);

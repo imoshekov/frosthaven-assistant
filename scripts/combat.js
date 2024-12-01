@@ -1,5 +1,6 @@
 let conditionTarget = null;
 let attackTarget = null;
+let attackLog = null;
 
 //region UI controls
 function openConditions(event, charIdx) {
@@ -130,19 +131,6 @@ function closeAttackModal() {
     document.getElementById('modal-attack').style.display = 'none';
     document.getElementById('attack-result').innerHTML = '';
 }
-
-function showBattleLog(index) {
-    hideBattleLogs();
-    const logElement = document.getElementById(`battle-log-${index}`);
-    if (logElement) {
-        logElement.classList.add('show');
-    }
-}
-
-function hideBattleLogs() {
-    const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-log-image');
-    logElements.forEach(logElement => logElement.classList.remove('show'));
-}
 //endregion
 
 
@@ -157,7 +145,7 @@ function handleAttack(event, buttonElement) {
 }
 
 function updateAttackResult() {
-    let dmg = getAttackResult(false);
+    let dmg = getAttackResult();
     let resultElement = document.getElementById('attack-result');
 
     if (dmg <= 0) {
@@ -168,6 +156,7 @@ function updateAttackResult() {
 }
 
 function applyDamage() {
+    attackLog = Log.builder();
     let dmg = getAttackResult();
     updateHpWithDamage(attackTarget, dmg);
     closeAttackModal();
@@ -189,59 +178,62 @@ function addImg(container, name, value) {
     container.appendChild(img);
 }
 
-function getAttackResult(showLog = true) {
+function getAttackResult() {
     let dmg = parseInt(document.getElementById('attack-input').value);
     const character = DataManager.getCharacters(attackTarget);
+    attackLog?.initiative(character.initiative).attack(dmg);
 
     if (character.armor > 0 || character.tempStats?.armor > 0) {
         let pierce = parseInt(document.getElementById('pierce-input')?.value) || 0;
-        let effectiveArmor = Math.max((character.armor + (character.tempStats?.armor || 0)) - pierce, 0);
+        let armor = character.armor + (character.tempStats?.armor || 0);
+        let effectiveArmor = Math.max(armor - pierce, 0);
+        attackLog?.pierce(pierce).shield(armor);
 
         if (effectiveArmor > 0) {
             dmg -= effectiveArmor;
         }
-
-        if (showLog && dmg > 0) {
-            const message = effectiveArmor
-                ? `${character.name} has ${effectiveArmor} armor` + (pierce ? ` after ${pierce} pierce` : '')
-                : `${character.name}'s armor was fully pierced`;
-            DataManager.log(message);
-        }
     }
     if (character.conditions?.poison && dmg > 0) {
         dmg += 1;
-        showLog && DataManager.log(character.name + " is poisoned");
+        attackLog?.poison(1);
     }
 
-    return calculateDmgMultipliers(attackTarget, dmg, showLog);
+    return calculateDmgMultipliers(attackTarget, dmg);
 }
 
-function calculateDmgMultipliers(charIdx, dmg, showLog = true) {
+function calculateDmgMultipliers(charIdx, dmg) {
     const character = DataManager.getCharacters(charIdx);
     const charConditions = character.conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        showLog && DataManager.log(character.name + " is brittle");
+        attackLog?.brittle(1);
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        showLog && DataManager.log(character.name + " has ward");
+        attackLog?.ward(1);
     }
 
     return dmg;
 }
 
 function updateHpWithDamage(charIdx, dmg) {
+    const character = DataManager.getCharacters(charIdx);
+    const retaliateDmg = character.retaliate + (character.tempStats?.retaliate || 0);
+    attackLog.result(dmg).retaliate(retaliateDmg);
     if (dmg <= 0) {
+        // we still log the attack even if it doesn't do damage
+        character.log.push(attackLog.build());
+        if (WebSocketHandler.isConnected){
+            WebSocketHandler.sendCharactersUpdate();
+        }
         return;
     }
 
-    const character = DataManager.getCharacters(charIdx);
     let attackLogMsg = `${character.name} #was attacked for ${dmg} damage#. Was ${character.hp},`;
     character.hp = Math.max(0, character.hp - dmg);
+    attackLog.hp(character.hp);
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
     attackLogMsg += ` now ${character.hp}`;
-    DataManager.log(attackLogMsg)
     UIController.showToastNotification(attackLogMsg.replaceAll('#',''), 7000);
     let characterConditions = character.conditions;
     if (characterConditions?.brittle || characterConditions?.ward) {
@@ -250,7 +242,7 @@ function updateHpWithDamage(charIdx, dmg) {
     }
     showConditions(charIdx);
     if (character.aggressive && character.hp <= 0) {
-        DataManager.log(`${character.name} has been killed and removed from the game.`);
+        attackLog.die(1);
         UIController.showToastNotification(`${character.name} has been killed`,3000);
         UIController.removeCreature(charIdx);
         DataManager.graveyard.push(character);
@@ -258,6 +250,7 @@ function updateHpWithDamage(charIdx, dmg) {
             WebSocketHandler.sendGraveyardUpdate();
         }
     }
+    character.log.push(attackLog.build());
     if (WebSocketHandler.isConnected){
         WebSocketHandler.sendCharactersUpdate();
     }
