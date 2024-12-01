@@ -140,7 +140,7 @@ function showBattleLog(index) {
 }
 
 function hideBattleLogs() {
-    const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-image-hover');
+    const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-log-image');
     logElements.forEach(logElement => logElement.classList.remove('show'));
 }
 //endregion

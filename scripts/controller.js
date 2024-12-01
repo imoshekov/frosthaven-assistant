@@ -65,7 +65,7 @@ const UIController = {
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column'
         onmouseenter="showBattleLog(${index})" >
-    <img id="battle-log-${index}" class='corner-image-hover' src="images/logs-side.svg">
+    <img id="battle-log-${index}" class='corner-log-image' src="images/logs-side.svg" onclick="Log.openSidebar(this)">
     <input type="number" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();

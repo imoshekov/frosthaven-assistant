@@ -401,12 +401,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- Monster Log Modal -->
+        <div id="monster-battle-log" class="log-sidebar hidden">
+            <button class="log-close-button" onclick="Log.closeSidebar()">X</button>
+            <div id="battle-log-content">
+                <!-- content dynamically populated -->
+            </div>
+        </div>
+
         <script src="data/data.js"></script>
         <script src="scripts/storage.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/wsclient.js"></script>
         <script src="scripts/controller.js"></script>
         <script src="scripts/combat.js"></script>
+        <script src="scripts/battle-log.js"></script>
         <script src="data/images.js"></script>
     </div>
 </body>

@@ -529,9 +529,10 @@ div#modal-conditions {
     margin-bottom: -14px;
 }
 
-.corner-image-hover {
+.corner-log-image {
     display: none;
     position: absolute;
+    cursor: pointer;
     top: -10px;
     right: -50px;
     width: 50px;
@@ -539,8 +540,54 @@ div#modal-conditions {
     z-index: 10;
 }
 
-.corner-image-hover.show {
+.corner-log-image.show {
     display: block;
+}
+
+/* Sidebar styling */
+.log-sidebar  {
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+    /*transition: transform 0.3s ease, clip-path 0.3s ease;*/
+    /*transform: translateX(-100%); !* Initially hidden *!*/
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+@keyframes left-enter {
+    0% { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0) }
+}
+
+@keyframes left-leave {
+    0% { clip-path: inset(0); }
+    100% { clip-path: inset(0 100% 0 0); }
+}
+
+.log-sidebar.hidden {
+    display: none;
+}
+
+/* Close button */
+.log-close-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    align-self: flex-end;
+}
+
+.log-close-button:hover {
+    background-color: #c9302c;
 }
 
 .tombstone-icon {
