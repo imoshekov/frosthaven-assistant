@@ -530,18 +530,14 @@ div#modal-conditions {
 }
 
 .corner-log-image {
-    display: none;
+    display: block;
     position: absolute;
     cursor: pointer;
-    top: -10px;
-    right: -50px;
+    top: -19px;
+    right: -17px;
     width: 50px;
     height: auto;
     z-index: 10;
-}
-
-.corner-log-image.show {
-    display: block;
 }
 
 /* Sidebar styling */

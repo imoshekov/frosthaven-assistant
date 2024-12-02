@@ -65,8 +65,7 @@ const UIController = {
 <div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
-<div class='creature-column'
-        onmouseenter="Log.showBattleLog(${index})" >
+<div class='creature-column' >
     <img id="battle-log-${index}" class='corner-log-image' src="images/logs-side.svg" onclick="Log.openSidebar(this)" data-creature-idx="${index}">
     <input type="number" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
@@ -145,6 +144,7 @@ const UIController = {
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
+            Log.positionBattleLog(index);
         });
     },
     populateMonsterTypeDropdown() {

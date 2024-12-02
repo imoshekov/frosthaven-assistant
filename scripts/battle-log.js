@@ -165,32 +165,24 @@ class Log {
     //region UI Methods
     static lastLogClicked = null;
 
-    static showBattleLog(index) {
-        this.hideBattleLogs();
+    static positionBattleLog(index) {
         const logElement = document.getElementById(`battle-log-${index}`);
         if (logElement) {
             // reset in case was moved before
             if (logElement.classList.contains('flipped-image')) {
                 logElement.classList.remove('flipped-image');
                 const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
-                logElement.style.left = (currentLeft + 150) + 'px';
+                logElement.style.left = (currentLeft + 85) + 'px';
             }
-
-            logElement.classList.add('show');
 
             const rect = logElement.getBoundingClientRect();
             if (rect.right + 350 > window.innerWidth) {
                 // log modal out of window bounds
                 logElement.classList.add('flipped-image');
                 const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
-                logElement.style.left = (currentLeft - 150) + 'px';
+                logElement.style.left = (currentLeft - 85) + 'px';
             }
         }
-    }
-
-    static hideBattleLogs() {
-        const logElements = document.getElementById('creaturesTable').querySelectorAll('.corner-log-image');
-        logElements.forEach(logElement => logElement.classList.remove('show'));
     }
 
     static openSidebar(target) {
@@ -204,15 +196,15 @@ class Log {
         const inverse = target.classList.contains('flipped-image');
 
         // Position the sidebar relative to the clicked image
-        sidebar.style.top = `${imgRect.top + scrollTop - 5}px`;
+        sidebar.style.top = `${imgRect.top + scrollTop + 5}px`;
         sidebar.classList.remove('hidden');
         if (!inverse) {
-            sidebar.style.left = `${imgRect.right + scrollLeft - 38}px`;
+            sidebar.style.left = `${imgRect.right + scrollLeft - 7}px`;
             // sidebar.style.transform = 'translateX(0%)'; // Slide into view
             sidebar.style.animation = '0.5s left-enter';
             sidebar.classList.remove('inverted-transition');
         } else {
-            sidebar.style.left = `${imgRect.left + scrollLeft - 332}px`;
+            sidebar.style.left = `${imgRect.left + scrollLeft - 360}px`;
             sidebar.classList.remove('hidden');
             sidebar.style.animation = '0.5s right-enter';
             sidebar.classList.add('inverted-transition');
