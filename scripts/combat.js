@@ -242,12 +242,13 @@ function updateHpWithDamage(charIdx, dmg) {
     }
     showConditions(charIdx);
     if (character.aggressive && character.hp <= 0) {
-        attackLog.die(1);
+        character.log.push(attackLog.die(1).build());
         UIController.showToastNotification(`${character.name} has been killed`,3000);
         UIController.removeCreature(charIdx);
         DataManager.graveyard.push(character);
+    } else {
+        character.log.push(attackLog.build());
     }
-    character.log.push(attackLog.build());
     if (WebSocketHandler.isConnected){
         WebSocketHandler.sendGraveyardUpdate();
         WebSocketHandler.sendCharactersUpdate();
