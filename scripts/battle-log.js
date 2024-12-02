@@ -20,7 +20,9 @@ class Log {
     logParts = {};
 
     static builder() {
-        return { ...this.#logBuilder };
+        this.#logBuilder.logParts = {};
+
+        return this.#logBuilder;
     }
 
     constructor(logParts) {
