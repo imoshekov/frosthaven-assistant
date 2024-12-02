@@ -240,9 +240,6 @@ const UIController = {
             characters.splice(index, 1);
             this.sortCreatures();
             this.toggleGraveyard(true);
-            if (WebSocketHandler.isConnected){
-                WebSocketHandler.sendCharactersUpdate();
-            }
         }
         // "kill" character
         if (!this.showGraveyard && stat == 'hp' && value <= 0) {
@@ -250,15 +247,11 @@ const UIController = {
             characters.splice(index, 1);
             this.sortCreatures();
             this.renderTable();
-            if (WebSocketHandler.isConnected){
-                WebSocketHandler.sendGraveyardUpdate();
-            }
         }
 
         if (WebSocketHandler.isConnected){
-            this.showGraveyard
-                ? WebSocketHandler.sendGraveyardUpdate()
-                : WebSocketHandler.sendCharactersUpdate();
+            WebSocketHandler.sendGraveyardUpdate();
+            WebSocketHandler.sendCharactersUpdate();
         }
     },
     toggleLowHp(threshold = 2) {

@@ -38,7 +38,7 @@ class Log {
      * [HP]: [Add/Attack/Wound/Heal] ([Died]) [Shield] [Poison] [Brittle] [Ward] = [Result] ([Retaliate]), [Initiative]
      */
     print() {
-        const hpMsg = `<span class="log-hp">${this.logParts[Log.PART.hp] || '??'}</span>: `;
+        const hpMsg = `<span class="log-hp">${this.logParts[Log.PART.hp] || '0'}</span>: `;
         const deathMsg = this.logParts[Log.PART.die] ? `(Died) ` : '';
         const dmgModifiersMsg = this.getModifiers();
         const initiativeMsg = this.logParts[Log.PART.init] || '99';
