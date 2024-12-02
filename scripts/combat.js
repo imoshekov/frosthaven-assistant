@@ -222,7 +222,7 @@ function updateHpWithDamage(charIdx, dmg) {
     attackLog.result(dmg).retaliate(retaliateDmg);
     if (dmg <= 0) {
         // we still log the attack even if it doesn't do damage
-        character.log.push(attackLog.build());
+        character.log.push(attackLog.hp(character.hp).result(0).build());
         if (WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
