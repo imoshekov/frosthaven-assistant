@@ -229,12 +229,12 @@ function updateHpWithDamage(charIdx, dmg) {
         return;
     }
 
-    let attackLogMsg = `${character.name} #was attacked for ${dmg} damage#. Was ${character.hp},`;
+    let attackLogMsg = `${character.name} was attacked for ${dmg} damage. Was ${character.hp},`;
     character.hp = Math.max(0, character.hp - dmg);
     attackLog.hp(character.hp);
     document.getElementById(`char-hp-${charIdx}`).value = character.hp;
     attackLogMsg += ` now ${character.hp}`;
-    UIController.showToastNotification(attackLogMsg.replaceAll('#',''), 7000);
+    UIController.showToastNotification(attackLogMsg, 5000);
     let characterConditions = character.conditions;
     if (characterConditions?.brittle || characterConditions?.ward) {
         characterConditions.brittle = false;
