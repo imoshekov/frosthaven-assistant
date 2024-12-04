@@ -4,6 +4,7 @@ class Log {
         add: 'Add',
         set: 'Set', // manually set HP
         init: 'init',
+        round: 'round',
         attack: 'Attack',
         result: 'Result',
         shield: 'shield',
@@ -33,10 +34,6 @@ class Log {
         return this.logParts;
     }
 
-    /*
-     * Print Format:
-     * [HP]: [Add/Attack/Wound/Heal] ([Died]) [Shield] [Poison] [Brittle] [Ward] = [Result] ([Retaliate]), [Initiative]
-     */
     print() {
         const hpMsg = `<span class="log-hp">${this.logParts[Log.PART.hp] || '0'}</span>: `;
         const deathMsg = this.logParts[Log.PART.die] ? `(Died) ` : '';
@@ -108,6 +105,10 @@ class Log {
             this.logParts[Log.PART.set] = value;
             return this;
         },
+        round(value) {
+            this.logParts[Log.PART.round] = value;
+            return this;
+        },
         initiative(value) {
             this.logParts[Log.PART.init] = value;
             return this;
@@ -161,88 +162,4 @@ class Log {
             return (new Log(this.logParts)).toJON();
         }
     }
-
-    //region UI Methods
-    static lastLogClicked = null;
-
-    static positionBattleLog(index) {
-        const logElement = document.getElementById(`battle-log-${index}`);
-        if (logElement) {
-            // reset in case was moved before
-            if (logElement.classList.contains('flipped-image')) {
-                logElement.classList.remove('flipped-image');
-                const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
-                logElement.style.left = (currentLeft + 85) + 'px';
-            }
-
-            const rect = logElement.getBoundingClientRect();
-            if (rect.right + 350 > window.innerWidth) {
-                // log modal out of window bounds
-                logElement.classList.add('flipped-image');
-                const currentLeft = parseInt(window.getComputedStyle(logElement).left || 0, 10);
-                logElement.style.left = (currentLeft - 85) + 'px';
-            }
-        }
-    }
-
-    static openSidebar(target) {
-        this.clearLogButton();
-        const sidebar = document.getElementById('monster-battle-log');
-
-        // Get the clicked image's position
-        const imgRect = target.getBoundingClientRect();
-        const scrollTop = window.scrollY;
-        const scrollLeft = window.scrollX;
-        const inverse = target.classList.contains('flipped-image');
-
-        // Position the sidebar relative to the clicked image
-        sidebar.style.top = `${imgRect.top + scrollTop + 5}px`;
-        sidebar.classList.remove('hidden');
-        if (!inverse) {
-            sidebar.style.left = `${imgRect.right + scrollLeft - 7}px`;
-            // sidebar.style.transform = 'translateX(0%)'; // Slide into view
-            sidebar.style.animation = '0.5s left-enter';
-            sidebar.classList.remove('inverted-transition');
-        } else {
-            sidebar.style.left = `${imgRect.left + scrollLeft - 360}px`;
-            sidebar.classList.remove('hidden');
-            sidebar.style.animation = '0.5s right-enter';
-            sidebar.classList.add('inverted-transition');
-        }
-
-        // Populate the sidebar content
-        const sidebarContent = document.getElementById('battle-log-content');
-        const characterId = target.dataset.creatureIdx;
-        const characters = UIController.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
-
-        // show newest log first
-        const characterLogs = [...characters[characterId].log].reverse();
-        sidebarContent.innerHTML = characterLogs
-            .map(log => new Log(log).print())
-            .join('<br>');
-        target.style.visibility = 'hidden';
-        this.lastLogClicked = target;
-    }
-
-    static closeSidebar() {
-        const sidebar = document.getElementById('monster-battle-log');
-        // sidebar.style.transform = 'translateX(-100%)';
-        if (!sidebar.classList.contains('inverted-transition')) {
-            sidebar.style.animation = '0.5s left-leave'; // Slide out of view
-            sidebar.classList.remove('inverted-transition');
-        } else {
-            sidebar.style.animation = '0.5s right-leave';
-        }
-        setTimeout(() => sidebar.classList.add('hidden'), 500);
-        this.clearLogButton();
-    }
-
-    static clearLogButton() {
-        if (this.lastLogClicked) {
-            this.lastLogClicked.style.visibility = 'visible';
-            this.lastLogClicked = null;
-        }
-    }
-
-    //endregion
 }
