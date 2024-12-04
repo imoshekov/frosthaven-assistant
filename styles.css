@@ -59,7 +59,7 @@ button {
 }
 
 input[type="text"],
-input[type="number"],
+input[type="tel"],
 button {
     border: none;
     background: none;
@@ -78,7 +78,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-input[type="number"] {
+input[type="tel"] {
     width: 80px;
     height: var(--stats-icons-size);
     font-size: 22px;
@@ -94,9 +94,8 @@ input[type="number"] {
 }
 
 
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type="tel"]::-webkit-outer-spin-button,
+input[type="tel"]::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     margin: 0;
 }
@@ -1112,7 +1111,7 @@ option {
         border-radius: 50%;
     }
 
-    input[type="number"] {
+    input[type="tel"] {
         width: 30px;
         font-size: 20px;
         font-weight: 800;

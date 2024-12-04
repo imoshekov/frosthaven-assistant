@@ -67,7 +67,7 @@ const UIController = {
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column' >
     <img id="battle-log-${index}" class='corner-log-image' src="images/logs-side.svg" onclick="Log.openSidebar(this)" data-creature-idx="${index}">
-    <input type="number" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
+    <input type="tel" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
@@ -83,7 +83,7 @@ const UIController = {
             <div class="name">
                 <b>${creature.aggressive ? `${creature.displayName}` : `${creature.name}`}</b>
                 <b>${creature.aggressive
-                    ? `<input type="number" class="standee-only" value="${creature.standee}"
+                    ? `<input type="tel" class="standee-only" value="${creature.standee}"
                         onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});"
                         placeholder="#" />`
                     : ''
@@ -93,17 +93,17 @@ const UIController = {
         <div class='stats'>
             <div class='char-hp stat-child heart-container'>
                 <img id="char-heart-${index}" src="images/heart.svg" />
-                <input id="char-hp-${index}" type="number" class="hp" value="${creature.hp}"
+                <input id="char-hp-${index}" type="tel" class="hp" value="${creature.hp}"
                     onchange="UIController.updateStat(${index}, 'hp', this.value);" />
             </div>
             <div class='char-attack stat-child'>
                 <img src="images/stats/attack.svg" />
-                <input type="number" class="attack" value="${creature.attack}"
+                <input type="tel" class="attack" value="${creature.attack}"
                     onchange="UIController.updateStat(${index}, 'attack', this.value)" />
             </div>
             <div class='char-movement stat-child'>
                 <img src="images/fh/stats/move.svg" />
-                <input type="number" class="movement" value="${creature.movement}"
+                <input type="tel" class="movement" value="${creature.movement}"
                     onchange="UIController.updateStat(${index}, 'movement', this.value)" />
             </div>
         </div>
@@ -111,12 +111,12 @@ const UIController = {
             <div class="condition-row">
                 <div id='char-armor-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/shield.svg" />
-                    <input type="number" class="condition-number armor-number"
+                    <input type="tel" class="condition-number armor-number"
                         onchange="UIController.updateStat(${index}, 'armor', this.value); showConditions(${index});"></input>
                 </div>
                 <div id='char-retaliate-${index}' class='condition-child'>
                     <img class="condition-image" src="images/fh/action/retaliate.svg" />
-                    <input type="number" class="condition-number retaliate-number"
+                    <input type="tel" class="condition-number retaliate-number"
                         onchange="UIController.updateStat(${index}, 'retaliate', this.value); showConditions(${index});"></input>
                 </div>
             </div>
@@ -335,14 +335,14 @@ const UIController = {
         const masterContainer = document.getElementById('master-container');
 
         masterContainer.addEventListener('focusin', function (event) {
-            if (event.target.matches('input[type="number"]')) {
+            if (event.target.matches('input[type="tel"]')) {
                 event.target.dataset.previousValue = event.target.value;
                 event.target.value = '';
             }
         });
 
         masterContainer.addEventListener('focusout', function (event) {
-            if (event.target.matches('input[type="number"]')) {
+            if (event.target.matches('input[type="tel"]')) {
                 if (event.target.value === '') {
                     event.target.value = event.target.dataset.previousValue;
                 }

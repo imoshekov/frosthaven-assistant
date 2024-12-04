@@ -49,9 +49,9 @@
                 <div id="load-scenario-container">
                     <div class="default-stats">
                         <label for="scenario-id">Scenario:</label>
-                        <input type="number" id="scenario-id" placeholder="#"></input>
+                        <input type="tel" id="scenario-id" placeholder="#"></input>
                         <label for="scenario-level">Level:</label>
-                        <input type="number" id="scenario-level" placeholder="2"></input>
+                        <input type="tel" id="scenario-level" placeholder="2"></input>
                     </div>
                     <button class="initiative attack"
                         onclick="DataManager.loadFile(); UIController.toggleControlVisibility('load-scenario-container')">Load</button>
@@ -63,7 +63,7 @@
                 <div id="join-session-container">
                     <div class="default-stats">
                         <label for="session-id">Session:</label>
-                        <input type="number" id="session-id" placeholder="#"></input>
+                        <input type="tel" id="session-id" placeholder="#"></input>
                     </div>
                     <button class="initiative attack"
                         onclick="WebSocketHandler.initialize('client'); UIController.toggleControlVisibility('join-session-container')">Join</button>
@@ -78,11 +78,11 @@
                 <div class="row row-monster-stats">
                     <div class="default-stats">
                         <label for="Level">Level</label>
-                        <input type="number" id="level" placeholder="#" value="2" />
+                        <input type="tel" id="level" placeholder="#" value="2" />
                     </div>
                     <div class="default-stats">
                         <label for="Standee">Standee</label>
-                        <input type="number" id="standee-number" placeholder="#" />
+                        <input type="tel" id="standee-number" placeholder="#" />
                     </div>
                     <div class="default-stats">
                         <label for="Elite">Elite</label>
@@ -96,7 +96,7 @@
                     <button class="attack" id="next-round" style="width:375px" onclick="UIController.nextRound()">Next
                         Round</button>
                     <div class="round-info">
-                        <span>ROUND<input type="number" id="round-number" value="1"></span>
+                        <span>ROUND<input type="tel" id="round-number" value="1"></span>
                     </div>
                 </div>
             </div>
@@ -340,9 +340,9 @@
                 <br>
                 <div class="stat-container">
                     <img id="damage-img" class="damage-icon" src="images/action/damage.svg">
-                    <input type="number" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0">
+                    <input type="tel" id="attack-input" oninput="updateAttackResult(this)" min="0" value="0">
                     <img id="pierce-img" class="damage-icon" src="images/fh/action/pierce.svg">
-                    <input type="number" id="pierce-input" oninput="updateAttackResult(this)" min="0" value="0">
+                    <input type="tel" id="pierce-input" oninput="updateAttackResult(this)" min="0" value="0">
                 </div>
                 <span id="attack-result"></span>
                 <!-- Icons (0-3) -->
@@ -363,11 +363,11 @@
                     <div class="condition-row">
                         <div class="condition-item">
                             <img src="images/fh/action/shield.svg">
-                            <input type="number" id="condition-armor" class="condition-input" min="0" value="0">
+                            <input type="tel" id="condition-armor" class="condition-input" min="0" value="0">
                         </div>
                         <div class="condition-item">
                             <img src="images/fh/action/retaliate.svg">
-                            <input type="number" id="condition-retaliate" class="condition-input" min="0" value="0">
+                            <input type="tel" id="condition-retaliate" class="condition-input" min="0" value="0">
                         </div>
                     </div>
                 </div>
@@ -377,11 +377,11 @@
                     <div class="condition-row">
                         <div class="condition-item">
                             <img src="images/fh/action/shield.svg">
-                            <input type="number" id="temp-condition-armor" class="condition-input" min="0" value="0">
+                            <input type="tel" id="temp-condition-armor" class="condition-input" min="0" value="0">
                         </div>
                         <div class="condition-item">
                             <img src="images/fh/action/retaliate.svg">
-                            <input type="number" id="temp-condition-retaliate" class="condition-input" min="0"
+                            <input type="tel" id="temp-condition-retaliate" class="condition-input" min="0"
                                 value="0">
                         </div>
                     </div>
@@ -400,7 +400,7 @@
 
                 <hr>
                 <div class="row">
-                    <button class="condition-btn" onclick="applyCondition()">OK</button>
+                    <button class="condition-btn" id="btn-apply-condition" onclick="applyCondition()">OK</button>
                 </div>
             </div>
         </div>
