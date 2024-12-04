@@ -1,6 +1,7 @@
 :root {
     --boneshaper-color: #49a967;
     --banner-spear-color: #edbc47;
+    --snowflake-color: #83b5be;
     --deathwalker-color: #8c97a9;
     --drifter-color: #a28b7c;
     --elite-color: #400a0b;
@@ -8,6 +9,7 @@
     --friendly-color: #837ca2;
     --boneshaper-transperant-color: rgb(73 169 103 / 50%);
     --banner-spear-transperant-color: rgb(245 169 2 / 50%);
+    --snowflake-transparent-color: rgb(131 181 190/ 50%);
     --deathwalker-transperant-color: rgb(140 151 169 / 50%);
     --drifter-transperant-color: rgb(162 139 124 / 50%);
     --elite-transperant-color: rgb(197 0 0 / 50%);
@@ -59,7 +61,7 @@ button {
 }
 
 input[type="text"],
-input[type="number"],
+input[type="tel"],
 button {
     border: none;
     background: none;
@@ -78,7 +80,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-input[type="number"] {
+input[type="tel"] {
     width: 80px;
     height: var(--stats-icons-size);
     font-size: 22px;
@@ -95,8 +97,8 @@ input[type="number"] {
 
 
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type="tel"]::-webkit-outer-spin-button,
+input[type="tel"]::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     margin: 0;
 }
@@ -228,6 +230,10 @@ img.background {
     color: var(--banner-spear-color);
 }
 
+.creatures .snowflake-row.friendly img.profile {
+    color: var(--snowflake-color);
+}
+
 .creatures .deathwalker-row.friendly img.profile {
     color: var(--deathwalker-color);
 }
@@ -250,6 +256,10 @@ img.background {
 
 .creatures .banner-spear-row.friendly {
     background-color: var(--banner-spear-transperant-color);
+}
+
+.creatures .snowflake-row.friendly {
+    background-color: var(--snowflake-transparent-color);
 }
 
 .creatures .drifter-row.friendly {
@@ -971,7 +981,7 @@ option {
         border-radius: 50%;
     }
 
-    input[type="number"] {
+    input[type="tel"] {
         width: 30px;
         font-size: 20px;
         font-weight: 800;
