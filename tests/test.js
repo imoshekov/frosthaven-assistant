@@ -220,6 +220,9 @@ async function testConditionAdded() {
         standee: '1'
     });
 
+    const toastNotification = await driver.findElement(By.id('toast-notification'));
+    await driver.wait(until.elementIsNotVisible(toastNotification), 5000); 
+
     await TestUtils.openConditionsModal(driver, 4);
 
     // Wait for the modal to be fully visible
