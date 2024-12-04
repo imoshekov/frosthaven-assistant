@@ -239,7 +239,10 @@ const UIController = {
             const round = parseInt(document.getElementById("round-number").value);
 
             char.log.push(Log.builder().round(round).set(true).hp(value).initiative(char.initiative).build());
-            UIController.renderLogs();
+            // TODO: retarded package..
+            // possible "add data" would be to hide the original table, copy it before calling new JSTable,
+            // and deleting the old generated ".dt-wrapper" div
+            new JSTable("#battle-log-table").paginate(0);
         }
 
         // revive character if hp is set to more than 0
