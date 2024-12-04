@@ -1,24 +1,26 @@
 class Log {
     static PART = Object.freeze({
-        hp: 'HP',
+        hp: 'hp',
         add: 'Add',
         set: 'Set', // manually set HP
         init: 'init',
         round: 'round',
         attack: 'Attack',
-        result: 'Result',
+        result: 'result',
         shield: 'shield',
         pierce: 'pierce',
         brittle: 'brittle',
         retaliate: 'retaliate',
         poison: 'poison',
-        wound: 'Wound',
+        wound: 'wound',
         ward: 'ward',
-        heal: 'Heal', // Heal not yet implemented, but added for future use
-        die: 'Die'
+        heal: 'Heal', // Healing not yet implemented, but added for future use
+        die: 'Die',
+        timestamp: 'timestamp' // internal setter
     });
 
-    logParts = {};
+    #characterName = '';
+    #logParts = {};
 
     static builder() {
         this.#logBuilder.logParts = {};
@@ -26,23 +28,42 @@ class Log {
         return this.#logBuilder;
     }
 
-    constructor(logParts) {
+    constructor(logParts, characterName = null) {
         this.logParts = logParts;
+        this.characterName = characterName;
+    }
+
+    static loadLogTableData() {
+        const characters = DataManager.getCharacters();
+        const logs = characters.map(
+            character => character.log.map(
+                logJSON => new Log(logJSON, character.name)
+            )).flat();
+        logs.sort((log1, log2) => log1.getTimeStamp() - log2.getTimeStamp());
+
+        const logContainer = document.getElementById("battle-log-content");
+        logs.forEach(log => {
+            logContainer.innerHTML += log.toTableRow();
+        })
     }
 
     toJON() {
         return this.logParts;
     }
 
-    print() {
-        const hpMsg = `<span class="log-hp">${this.logParts[Log.PART.hp] || '0'}</span>: `;
-        const deathMsg = this.logParts[Log.PART.die] ? `(Died) ` : '';
-        const dmgModifiersMsg = this.getModifiers();
-        const initiativeMsg = this.logParts[Log.PART.init] || '99';
-        const initialAttack = this.logParts[Log.PART.attack] ? this.logParts[Log.PART.attack] : '';
-        const logMsg = `${hpMsg}${deathMsg}${this.getAction()}${initialAttack}${this.getModifiers()}, &lt;${initiativeMsg}&gt;`;
 
-        return `<span class="log-entry">${logMsg}</span>`;
+    toTableRow() {
+        const deathMsg = this.logParts[Log.PART.die] ? ' (Died)' : '';
+
+        return `<tr>
+                <td>${this.logParts[Log.PART.round] || '-'}</td>
+                <td>${this.characterName || '-'}</td>
+                <td>${this.logParts[Log.PART.hp] || '0'}${deathMsg}</td>
+                <td>${this.getAction()}</td>
+                <td>${this.getModifiers()}</td>
+                <td>${this.logParts[Log.PART.init] || '99'}</td>
+                <td>${this.logParts[Log.PART.timestamp] || '-'}</td>
+            </tr>`;
     }
 
     getAction() {
@@ -53,7 +74,7 @@ class Log {
             case Log.PART.set in log:
                 return Log.PART.set; // set to custom value
             case Log.PART.attack in log:
-                return Log.PART.attack + ' ' + log[Log.PART.result] + ' = ';
+                return Log.PART.attack + ' ' + log[Log.PART.result];
             case Log.PART.heal in log:
                 return Log.PART.heal + ' ' + log[Log.PART.heal];
             case Log.PART.wound in log:
@@ -88,7 +109,11 @@ class Log {
             retaliate = ', (<img src="images/fh/action/retaliate.svg" class="log-img"/>' + log[Log.PART.retaliate] + ')';
         }
 
-        return modifiers ? ` [${modifiers}]${retaliate}` : '';
+        return modifiers ? ` ${modifiers} ${retaliate}` : '';
+    }
+
+    getTimeStamp() {
+        return this.logParts[Log.PART.timestamp];
     }
 
     static #logBuilder = {
@@ -159,6 +184,7 @@ class Log {
         },
 
         build() {
+            this.logParts[Log.PART.timestamp] = Date.now();
             return (new Log(this.logParts)).toJON();
         }
     }

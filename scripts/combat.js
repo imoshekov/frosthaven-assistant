@@ -159,6 +159,7 @@ function applyDamage() {
     attackLog = Log.builder();
     let dmg = getAttackResult();
     updateHpWithDamage(attackTarget, dmg);
+    UIController.renderLogs();
     closeAttackModal();
 }
 //endregion
@@ -195,7 +196,7 @@ function getAttackResult() {
     }
     if (character.conditions?.poison && dmg > 0) {
         dmg += 1;
-        attackLog?.poison(1);
+        attackLog?.poison(true);
     }
 
     return calculateDmgMultipliers(attackTarget, dmg);
@@ -206,11 +207,11 @@ function calculateDmgMultipliers(charIdx, dmg) {
     const charConditions = character.conditions;
     if (charConditions?.brittle && dmg > 0) {
         dmg *= 2;
-        attackLog?.brittle(1);
+        attackLog?.brittle(true);
     }
     if (charConditions?.ward && dmg > 0) {
         dmg = Math.floor(dmg / 2);
-        attackLog?.ward(1);
+        attackLog?.ward(true);
     }
 
     return dmg;
@@ -219,7 +220,8 @@ function calculateDmgMultipliers(charIdx, dmg) {
 function updateHpWithDamage(charIdx, dmg) {
     const character = DataManager.getCharacters(charIdx);
     const retaliateDmg = character.retaliate + (character.tempStats?.retaliate || 0);
-    attackLog.result(dmg).retaliate(retaliateDmg);
+    const round = parseInt(document.getElementById("round-number").value);
+    attackLog.round(round).result(dmg).retaliate(retaliateDmg);
     if (dmg <= 0) {
         // we still log the attack even if it doesn't do damage
         character.log.push(attackLog.hp(character.hp).result(0).build());
@@ -242,7 +244,7 @@ function updateHpWithDamage(charIdx, dmg) {
     }
     showConditions(charIdx);
     if (character.aggressive && character.hp <= 0) {
-        character.log.push(attackLog.die(1).build());
+        character.log.push(attackLog.die(true).build());
         UIController.showToastNotification(`${character.name} has been killed`,3000);
         UIController.removeCreature(charIdx);
         DataManager.graveyard.push(character);

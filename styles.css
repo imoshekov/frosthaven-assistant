@@ -562,17 +562,6 @@ option {
     border: none;
 }
 
-#battle-log-container {
-    background-color: #222;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: auto;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: hidden;
-}
-
 .flipped-image {
     transform: scaleX(-1);
 }

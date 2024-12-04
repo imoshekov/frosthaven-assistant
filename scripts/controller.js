@@ -5,7 +5,8 @@ const UIController = {
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
         const level = parseInt(autoInput?.level) || parseInt(document.getElementById('level').value);
         const isElite = autoInput?.isElite || document.getElementById('elite-monster').checked;
-    
+        const round = parseInt(document.getElementById("round-number").value);
+
         // Validate required inputs
         if (!type) return alert('Select monster type first');
         if (!standee) return alert('Select standee # first');
@@ -45,11 +46,12 @@ const UIController = {
             tempStats: {},
             log: []
         };
-        newCreature.log.push(Log.builder().add(1).hp(defaultHP).build());
+        newCreature.log.push(Log.builder().round(round).add(true).hp(defaultHP).build());
 
         DataManager.getCharacters().push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendMonsterAdded(newCreature);
         }
@@ -145,6 +147,11 @@ const UIController = {
             showConditions(index);
         });
     },
+    renderLogs() {
+        // fucking stupid table doesn't work with js objects but needs a ready table....
+        Log.loadLogTableData()
+        const logTable = new JSTable("#battle-log-table");
+    },
     populateMonsterTypeDropdown() {
         //populate monster types
         const typeDropdown = document.getElementById('type');
@@ -229,7 +236,10 @@ const UIController = {
 
         if (stat === 'hp') {
             const char = characters[index];
-            char.log.push(Log.builder().set(1).hp(value).initiative(char.initiative).build());
+            const round = parseInt(document.getElementById("round-number").value);
+
+            char.log.push(Log.builder().round(round).set(true).hp(value).initiative(char.initiative).build());
+            UIController.renderLogs();
         }
 
         // revive character if hp is set to more than 0
