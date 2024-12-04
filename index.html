@@ -7,6 +7,7 @@
     <title>Frosthaven Assistant</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="js-table/jstable.css">
     <base href="./">
 </head>
 
@@ -405,14 +406,57 @@
             </div>
         </div>
 
+        <table id="basic">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Date</th>
+                    <th>Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alex Johnson</td>
+                    <td>Canada</td>
+                    <td>2023-05-12 14:35:10</td>
+                    <td>4598</td>
+                </tr>
+                <tr>
+                    <td>Maria Lopez</td>
+                    <td>Brazil</td>
+                    <td>2021-11-23 09:50:27</td>
+                    <td>2341</td>
+                </tr>
+                <tr>
+                    <td>Hiroshi Tanaka</td>
+                    <td>Japan</td>
+                    <td>2019-08-17 03:14:56</td>
+                    <td>7820</td>
+                </tr>
+                <tr>
+                    <td>Fatima Khalid</td>
+                    <td>Pakistan</td>
+                    <td>2020-12-05 21:08:32</td>
+                    <td>3467</td>
+                </tr>
+                <tr>
+                    <td>Sophia Brown</td>
+                    <td>Australia</td>
+                    <td>2022-07-19 16:22:45</td>
+                    <td>5102</td>
+                </tr>
+            </tbody>
+        </table>
+        <script type="text/javascript" src="js-table/jstable.min.js"></script>
         <script src="data/data.js"></script>
+        <script src="data/images.js"></script>
         <script src="scripts/storage.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/wsclient.js"></script>
         <script src="scripts/controller.js"></script>
         <script src="scripts/combat.js"></script>
         <script src="scripts/battle-log.js"></script>
-        <script src="data/images.js"></script>
     </div>
 </body>
 

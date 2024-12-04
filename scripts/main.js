@@ -1,3 +1,9 @@
+// https://github.com/jstable/JSTable?tab=readme-ov-file
+let myTable = new JSTable("#basic", {
+    sortable: true,
+    searchable: true,
+});
+
 window.onload = function () {
     UIController.populateMonsterTypeDropdown();
     UIController.renderTable();
