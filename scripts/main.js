@@ -197,7 +197,7 @@ function applyCondition() {
         if(control.type === 'checkbox'){
             value = control.checked;
         }
-        if(control.type === 'number'){
+        if(control.type === 'number' || control.type === 'tel'){
             value = parseInt(control.value) || 0;
         }
         
