@@ -8,8 +8,8 @@ const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const sessions = {};
 const defaultCharacters = [
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {} },
-    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}},
-    { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 99, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}},
+    { name: "Spaghetti", type: "drifter", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}},
+    { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 11, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}},
     { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 9, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {} }
 ];
 
