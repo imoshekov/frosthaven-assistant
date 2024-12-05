@@ -1,5 +1,6 @@
 const UIController = {
     showGraveyard: false,
+    battleLog: null, // https://gridjs.io/
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
@@ -141,16 +142,36 @@ const UIController = {
         </div>
     </div>
     ${creature.aggressive ? `<button class="remove-btn"
-        onclick="UIController.removeCreature(${index},true)">X</button>`:''}
+        onclick="UIController.removeCreature(${index})">X</button>`:''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
         });
     },
     renderLogs() {
-        // fucking stupid table doesn't work with js objects but needs a ready table....
-        Log.loadLogTableData()
-        // const logTable = new JSTable("#battle-log-table");
+        if (this.battleLog == null) {
+            this.battleLog = new gridjs.Grid({
+                columns: Log.TABLE_COLUMNS,
+                search: true, sort: true, resizable: true, fixedHeader: true,
+                style: {
+                    table: {
+                        border: '3px solid #ccc'
+                    },
+                    th: {
+                        'background-color': '#ccc',
+                        color: '#000',
+                        'border-bottom': '3px solid #ccc',
+                        'text-align': 'center'
+                    },
+                    td: {
+                        'text-align': 'center'
+                    }
+                },
+                data: Log.getLogData()
+            }).render(document.getElementById("grid"));
+        } else {
+            this.battleLog.updateConfig({ data: Log.getLogData() }).forceRender();
+        }
     },
     populateMonsterTypeDropdown() {
         //populate monster types
@@ -175,22 +196,41 @@ const UIController = {
             });
         });
     },
-    removeCreature(index, confirmation = false) {
-        let characters = DataManager.getCharacters()
-        if(confirmation){
-            // forced delete can be from graveyard or main list
-            if (this.showGraveyard) {
-                characters = DataManager.graveyard;
-            }
-            const userConfirmed = confirm(`This will permanantly delete ${characters[index].name} from the game. Continue?`);
-            if(!userConfirmed){
-                return;
-            }
+    removeCreature(index) {
+        // removing a living creature simply kills it
+        if (this.showGraveyard) {
+            this.deleteCreature(index);
+        } else {
+            this.killCreature(index, true);
         }
-        characters.splice(index, 1);
-        this.showGraveyard ? this.toggleGraveyard(true) : this.renderTable();
-        if(WebSocketHandler.isConnected){
+    },
+    killCreature(index, isForced = false) {
+        const character = DataManager.getCharacters(index);
+        if (isForced) {
+            character.hp = 0;
+            // add a log to know when the character was killed
+            const round = parseInt(document.getElementById("round-number").value);
+            character.log.push(Log.builder().round(round).set(true).die(true).initiative(character.initiative).build());
+        }
+        DataManager.getCharacters().splice(index, 1);
+        DataManager.graveyard.push(character);
+        this.renderTable();
+        this.renderLogs();
+        if (WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
+            WebSocketHandler.sendGraveyardUpdate();
+        }
+    },
+    deleteCreature(index) {
+        const userConfirmed = confirm(`This will permanently delete ${DataManager.graveyard[index].name} and ALL HIS LOGS from the game. Continue?`);
+        if(!userConfirmed){
+            return;
+        }
+        DataManager.graveyard.splice(index, 1);
+        this.toggleGraveyard(true);
+        this.renderLogs();
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendGraveyardUpdate();
         }
     },
     sortCreatures() {
@@ -237,12 +277,8 @@ const UIController = {
         if (stat === 'hp') {
             const char = characters[index];
             const round = parseInt(document.getElementById("round-number").value);
-
             char.log.push(Log.builder().round(round).set(true).hp(value).initiative(char.initiative).build());
-            // TODO: retarded package..
-            // possible "add data" would be to hide the original table, copy it before calling new JSTable,
-            // and deleting the old generated ".dt-wrapper" div
-            // new JSTable("#battle-log-table").paginate(0);
+            this.renderLogs();
         }
 
         // revive character if hp is set to more than 0
@@ -261,8 +297,8 @@ const UIController = {
         }
 
         if (WebSocketHandler.isConnected){
-            WebSocketHandler.sendGraveyardUpdate();
             WebSocketHandler.sendCharactersUpdate();
+            WebSocketHandler.sendGraveyardUpdate();
         }
     },
     toggleLowHp(threshold = 2) {

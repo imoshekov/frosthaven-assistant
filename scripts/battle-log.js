@@ -18,6 +18,15 @@ class Log {
         die: 'Die',
         timestamp: 'timestamp' // internal setter
     });
+    static TABLE_COLUMNS = [
+        { id: 'round', name: 'Round'},
+        { id: 'name', name: 'Name'},
+        { id: 'hp', name: 'HP'},
+        { id: 'action', name: 'Action'},
+        { id: 'modifiers', name: 'Modifiers', formatter: (cell) => gridjs.html(`${cell}`) },
+        { id: 'initiative', name: 'Initiative'},
+        { id: 'time', name: 'Time'}
+    ];
 
     #characterName = '';
     #logParts = {};
@@ -33,37 +42,34 @@ class Log {
         this.characterName = characterName;
     }
 
-    static loadLogTableData() {
-        const characters = DataManager.getCharacters();
+    static getLogData() {
+        const characters = [ ...DataManager.getCharacters(), ...DataManager.graveyard];
         const logs = characters.map(
             character => character.log.map(
                 logJSON => new Log(logJSON, character.name)
             )).flat();
-        logs.sort((log1, log2) => log1.getTimeStamp() - log2.getTimeStamp());
+        logs.sort((log1, log2) => log2.getTimeStamp() - log1.getTimeStamp());
 
-        const logContainer = document.getElementById("battle-log-content");
-        logs.forEach(log => {
-            logContainer.innerHTML += log.toTableRow();
-        })
+        return logs.map(log => log.toTableRowData());
     }
 
     toJON() {
         return this.logParts;
     }
 
-
-    toTableRow() {
+    toTableRowData() {
         const deathMsg = this.logParts[Log.PART.die] ? ' (Died)' : '';
+        const time = this.logParts[Log.PART.timestamp] || Date.now();
 
-        return `<tr>
-                <td>${this.logParts[Log.PART.round] || '-'}</td>
-                <td>${this.characterName || '-'}</td>
-                <td>${this.logParts[Log.PART.hp] || '0'}${deathMsg}</td>
-                <td>${this.getAction()}</td>
-                <td>${this.getModifiers()}</td>
-                <td>${this.logParts[Log.PART.init] || '99'}</td>
-                <td>${this.logParts[Log.PART.timestamp] || '-'}</td>
-            </tr>`;
+        return {
+            round: this.logParts[Log.PART.round] || '-',
+            name: this.characterName || '-',
+            hp: (this.logParts[Log.PART.hp] || '0') + deathMsg,
+            action: this.getAction(),
+            modifiers: this.getModifiers(),
+            initiative: this.logParts[Log.PART.init] || '99',
+            time: new Date(time).toLocaleTimeString().substring(0, 8)
+        };
     }
 
     getAction() {

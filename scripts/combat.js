@@ -246,8 +246,7 @@ function updateHpWithDamage(charIdx, dmg) {
     if (character.aggressive && character.hp <= 0) {
         character.log.push(attackLog.die(true).build());
         UIController.showToastNotification(`${character.name} has been killed`,3000);
-        UIController.removeCreature(charIdx);
-        DataManager.graveyard.push(character);
+        UIController.killCreature(charIdx);
     } else {
         character.log.push(attackLog.build());
     }
