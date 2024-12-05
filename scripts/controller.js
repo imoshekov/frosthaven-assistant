@@ -153,6 +153,7 @@ const UIController = {
             this.battleLog = new gridjs.Grid({
                 columns: Log.TABLE_COLUMNS,
                 search: true, sort: true, resizable: true, fixedHeader: true,
+                pagination: { limit: 5 },
                 style: {
                     table: {
                         border: '3px solid #ccc'
