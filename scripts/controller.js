@@ -150,7 +150,7 @@ const UIController = {
     renderLogs() {
         // fucking stupid table doesn't work with js objects but needs a ready table....
         Log.loadLogTableData()
-        const logTable = new JSTable("#battle-log-table");
+        // const logTable = new JSTable("#battle-log-table");
     },
     populateMonsterTypeDropdown() {
         //populate monster types
@@ -242,7 +242,7 @@ const UIController = {
             // TODO: retarded package..
             // possible "add data" would be to hide the original table, copy it before calling new JSTable,
             // and deleting the old generated ".dt-wrapper" div
-            new JSTable("#battle-log-table").paginate(0);
+            // new JSTable("#battle-log-table").paginate(0);
         }
 
         // revive character if hp is set to more than 0

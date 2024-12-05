@@ -7,7 +7,7 @@
     <title>Frosthaven Assistant</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" type="text/css" href="js-table/jstable.css">
+    <link rel="stylesheet" type="text/css" href="grid/grid.css">
     <base href="./">
 </head>
 
@@ -399,7 +399,7 @@
         </div>
 
         <h3>Battle Log</h3>
-        <table id="battle-log-table">
+        <!-- <table id="battle-log-table">
             <thead>
                 <tr>
                     <th>Round</th>
@@ -412,11 +412,12 @@
                 </tr>
             </thead>
             <tbody id="battle-log-content">
-                <!-- Dynamic content will go here -->
             </tbody>
-        </table>
+        </table> -->
 
-        <script type="text/javascript" src="js-table/jstable.min.js"></script>
+        <div id="grid"></div>
+
+        <script type="text/javascript" src="grid/grid.js"></script>
         <script src="data/data.js"></script>
         <script src="data/images.js"></script>
         <script src="scripts/storage.js"></script>
