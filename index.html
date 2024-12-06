@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" type="text/css" href="grid/grid.css">
+    <link rel="stylesheet" href="slimselect/slimselect.css">
     <base href="./">
 </head>
 
@@ -387,7 +388,15 @@
             </div>
         </div>
 
-        <div id="battle-log"></div>
+        <h3 class="logs-title">Battle Log</h3>
+        <div id="logs-container">
+            <div id="logs-filter">
+                <select id="char-filter" multiple>
+                    <!-- Dynamic content will go here -->
+                </select>
+            </div>
+            <div id="battle-log"></div>
+        </div>
 
         <div>
             <span id="loading-spinner"></span>
@@ -400,7 +409,8 @@
             <img alt="server management" src="https://run.pstmn.io/button.svg" style="width: 100px; height: 25px;">
         </a>
 
-        <script type="text/javascript" src="grid/grid.js"></script>
+        <script src="slimselect/slimselect.js"></script>
+        <script src="grid/grid.js"></script>
         <script src="data/data.js"></script>
         <script src="data/images.js"></script>
         <script src="scripts/storage.js"></script>

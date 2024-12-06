@@ -1,6 +1,7 @@
 const UIController = {
     showGraveyard: false,
     battleLog: null, // https://gridjs.io/
+    logSelector: null, // https://slimselectjs.com/
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
@@ -156,8 +157,24 @@ const UIController = {
                 pagination: { limit: 5 },
                 data: Log.getLogData()
             }).render(document.getElementById("battle-log"));
+
+            this.logSelector = new SlimSelect({
+                select: '#char-filter',
+                settings: {
+                    showSearch: false,
+                    placeholderText: 'Select character'
+                },
+                data: Log.getLoggedCharacters(),
+                events: {
+                    afterChange: (val) => {
+                        const data = Log.getLogData(val.length ? val.map(v => v.value) : null);
+                        this.battleLog.updateConfig({ data }).forceRender();
+                    }
+                }
+            });
         } else {
             this.battleLog.updateConfig({ data: Log.getLogData() }).forceRender();
+            this.logSelector.setData(Log.getLoggedCharacters());
         }
     },
     populateMonsterTypeDropdown() {
@@ -194,6 +211,10 @@ const UIController = {
     killCreature(index, isForced = false) {
         const character = DataManager.getCharacters(index);
         if (isForced) {
+            const userConfirmed = confirm(`Kill ${character.name} ?`);
+            if(!userConfirmed){
+                return;
+            }
             character.hp = 0;
             // add a log to know when the character was killed
             const round = parseInt(document.getElementById("round-number").value);

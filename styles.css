@@ -106,6 +106,10 @@ img {
     border-radius: 3px;
 }
 
+h3.logs-title {
+    margin-bottom: -20px;
+}
+
 .title {
     display: flex;
     align-items: center;
@@ -658,6 +662,52 @@ option {
     justify-content: flex-start;
 }
 
+#logs-container {
+    position: relative;
+}
+
+#logs-filter {
+    position: absolute;
+    top: 15px;
+    min-width: 300px;
+}
+
+#logs-filter .ss-main {
+    padding: 6px;
+    background-color: transparent;
+}
+
+/* Ensure SlimSelect dropdown is visible above the table */
+.ss-main {
+    position: relative;
+    z-index: 99; /* Higher stacking context for dropdown */
+}
+
+.ss-content .ss-list {
+    background-color: #2B2B2B;
+    border: 1px solid #F0F0F0;
+}
+
+.ss-content .ss-list div.ss-option {
+    color: #F0F0F0;
+}
+
+.ss-main .ss-values .ss-value div.ss-value-text {
+    font-size: 22px;
+}
+
+.ss-main .ss-values div.ss-value {
+    background-color: #8b8888;
+}
+
+/* Prevent Grid.js overflow issues */
+#battle-log {
+    overflow: visible !important;
+    position: relative;
+    margin-top: 25px;
+    font-size: 15px;
+}
+
 .element-icon {
     width: 50px;
     height: 50px;
@@ -857,12 +907,6 @@ option {
     animation: pulse 1.5s infinite;
     transform-origin: center;
 }
-
-#battle-log {
-    margin-top: 25px;
-    font-size: 15px;
-}
-
 
 .gridjs-tr,
 .gridjs-th {
@@ -1179,7 +1223,23 @@ option {
         font-size: 12px !important;
     }
 
+    div.gridjs-search {
+        float: left !important;
+        margin-top: 65px;
+    }
+
     input.gridjs-input {
         line-height: 1 !important;
+    }
+
+    #logs-filter {
+        margin-left: 10px;
+        min-width: auto;
+    }
+
+    .ss-main .ss-values .ss-value div.ss-value-text,
+    .ss-content .ss-list div.ss-option,
+    .ss-main .ss-values .ss-placeholder {
+        font-size: 14px;
     }
 }

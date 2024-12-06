@@ -42,15 +42,25 @@ class Log {
         this.characterName = characterName;
     }
 
-    static getLogData() {
+    static getLogData(characterIdxs = null) {
         const characters = [ ...DataManager.getCharacters(), ...DataManager.graveyard];
-        const logs = characters.map(
+        const logs = characters
+            .filter(character => character.log.length > 0)
+            .filter((c, index) => characterIdxs == null || characterIdxs.includes(index))
+            .map(
             character => character.log.map(
                 logJSON => new Log(logJSON, character.name)
             )).flat();
         logs.sort((log1, log2) => log2.getTimeStamp() - log1.getTimeStamp());
 
         return logs.map(log => log.toTableRowData());
+    }
+
+    static getLoggedCharacters() {
+        const characters = [ ...DataManager.getCharacters(), ...DataManager.graveyard ];
+
+        return characters.filter(character => character.log.length > 0)
+            .map((character, index) => ({ text: character.name, value: index }));
     }
 
     toJON() {
