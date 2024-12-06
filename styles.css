@@ -292,7 +292,7 @@ img.background {
     visibility: hidden;
 }
 
-.initiative-column.hidden + .nameplate img.profile {
+.initiative-column.hidden+.nameplate img.profile {
     cursor: inherit;
 }
 
@@ -566,9 +566,9 @@ option {
     transform: scaleX(-1);
 }
 
-#battle-log::-webkit-scrollbar {
+/* #battle-log::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .log-time {
     font-weight: bold;
@@ -582,6 +582,11 @@ option {
 
 .log-bold {
     color: #F0F0F0;
+}
+
+.log-img {
+    width: 25px;
+    height: auto;
 }
 
 .technical-log {
@@ -853,6 +858,76 @@ option {
     transform-origin: center;
 }
 
+#battle-log {
+    margin-top: 25px;
+    font-size: 15px;
+}
+
+
+.gridjs-tr,
+.gridjs-th {
+    border: 1px solid #F0F0F0 !important;
+}
+
+.gridjs-td,
+.gridjs-footer,
+.gridjs-pagination,
+.gridjs-search,
+.gridjs-pages button,
+.gridjs-search-input {
+    background-color: #2B2B2B !important;
+}
+
+.gridjs-tr,
+.gridjs-th,
+.gridjs-summary,
+.gridjs-sort {
+    color: #F0F0F0 !important;
+}
+
+.gridjs-th {
+    background-color: #8b8888 !important;
+}
+
+.gridjs-wrapper {
+    border-color: none !important;
+    border-radius: 0px !important;
+}
+
+.gridjs-search {
+    float: right !important;
+}
+
+.gridjs-summary {
+    font-size: 12px !important;
+}
+
+
+.gridjs-pages button {
+    color: #ccc;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 12px !important;
+}
+
+.gridjs-pages button:hover:not([disabled]) {
+    background-color: #555;
+}
+
+.gridjs-pages button[disabled] {
+    background-color: #aaa;
+    cursor: not-allowed;
+    color: #929292 !important;
+}
+
+.gridjs-pages .gridjs-currentPage {
+    color: #ccc !important;
+    font-weight: bold;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -1047,5 +1122,64 @@ option {
         float: right;
         margin-top: 10px;
         margin-right: 2px;
+    }
+
+    .gridjs-th,
+    .gridjs-td {
+        padding: 6px 8px;
+    }
+
+    .gridjs-th:nth-child(5),
+    .gridjs-th:nth-child(6),
+    .gridjs-th:nth-child(7),
+    .gridjs-td:nth-child(5),
+    .gridjs-td:nth-child(6),
+    .gridjs-td:nth-child(7) {
+        display: none;
+    }
+
+    .gridjs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .gridjs-th,
+    .gridjs-td {
+        padding: 8px 12px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    /* Style table headers */
+    .gridjs-th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 2px 10px !important;
+    }
+    
+    /* Pagination buttons */
+    .gridjs-pages button {
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        margin: 5px;
+    }
+
+    .gridjs-pages button[disabled] {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .gridjs-pages button,
+    .gridjs-search,
+    .gridjs-search-input,
+    .gridjs-table,.gridjs-th,
+    .gridjs-td {
+        font-size: 12px !important;
+    }
+
+    input.gridjs-input {
+        line-height: 1 !important;
     }
 }

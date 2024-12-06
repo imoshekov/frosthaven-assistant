@@ -152,24 +152,10 @@ const UIController = {
         if (this.battleLog == null) {
             this.battleLog = new gridjs.Grid({
                 columns: Log.TABLE_COLUMNS,
-                search: true, sort: true, resizable: true, fixedHeader: true,
+                search: true, sort: true, fixedHeader: true,
                 pagination: { limit: 5 },
-                style: {
-                    table: {
-                        border: '3px solid #ccc'
-                    },
-                    th: {
-                        'background-color': '#ccc',
-                        color: '#000',
-                        'border-bottom': '3px solid #ccc',
-                        'text-align': 'center'
-                    },
-                    td: {
-                        'text-align': 'center'
-                    }
-                },
                 data: Log.getLogData()
-            }).render(document.getElementById("grid"));
+            }).render(document.getElementById("battle-log"));
         } else {
             this.battleLog.updateConfig({ data: Log.getLogData() }).forceRender();
         }
