@@ -21,7 +21,7 @@ class Log {
     static TABLE_COLUMNS = [
         { id: 'round', name: 'Round' },
         { id: 'name', name: 'Name' },
-        { id: 'hp', name: 'HP', width: '80px' },
+        { id: 'hp', name: 'HP'},
         { id: 'action', name: 'Action' },
         { id: 'modifiers', name: 'Modifiers', formatter: (cell) => gridjs.html(`${cell}`) },
         { id: 'initiative', name: 'Initiative' },
