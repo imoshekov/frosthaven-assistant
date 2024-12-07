@@ -440,13 +440,16 @@ div#modal-conditions {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal {
+    z-index: 101;
+}
+
 .modal-content {
     background-color: #3A3A3A;
     margin: 15% auto;
     padding: 25px;
     border: 1px solid #888;
     text-align: center;
-    z-index: 101;
 }
 
 .close {
