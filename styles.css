@@ -200,7 +200,7 @@ img.background {
 }
 
 .character-skin .name b {
-    min-height: 75px;
+    min-height: 60px;
     align-content: center;
 }
 
@@ -1195,7 +1195,7 @@ option {
     .toast, .toast.show{
         max-width: 100%;
     }
-    
+
     .gridjs-summary {
         display: none;
     }
