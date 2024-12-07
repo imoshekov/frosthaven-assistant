@@ -686,14 +686,14 @@ option {
 }
 
 #logs-filter .ss-main {
-    padding: 6px;
+    padding: 10px 13px;
     background-color: transparent;
+
 }
 
-/* Ensure SlimSelect dropdown is visible above the table */
 .ss-main {
     position: relative;
-    z-index: 99; /* Higher stacking context for dropdown */
+    z-index: 99; 
 }
 
 .ss-content .ss-list {
@@ -705,8 +705,11 @@ option {
     color: #F0F0F0;
 }
 
-.ss-main .ss-values .ss-value div.ss-value-text {
-    font-size: 22px;
+.ss-main .ss-values .ss-value div.ss-value-text,
+.ss-main .ss-values .ss-placeholder
+ {
+    font-size: 16px;
+    line-height: 1.45;
 }
 
 .ss-main .ss-values div.ss-value {
@@ -1249,9 +1252,14 @@ option {
         line-height: 1 !important;
     }
 
+    .gridjs-search{
+        display: none;
+    }
+
     #logs-filter {
-        margin-left: 10px;
-        min-width: auto;
+       position: relative;
+       width : 100%;
+       top: 25px;
     }
 
     .ss-main .ss-values .ss-value div.ss-value-text,

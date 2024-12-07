@@ -169,7 +169,7 @@ const UIController = {
                 select: '#char-filter',
                 settings: {
                     showSearch: false,
-                    placeholderText: 'Select character'
+                    placeholderText: 'Select a character'
                 },
                 data: Log.getLoggedCharacters(),
                 events: {
