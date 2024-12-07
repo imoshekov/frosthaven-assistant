@@ -175,11 +175,13 @@ const WebSocketHandler = {
         DataManager.characters = data.characters;
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
     },
     handleGraveyardUpdate: function (data) {
         DataManager.graveyard = data.graveyard;
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
     },
     handleRoundUpdate: function (data) {
         document.getElementById('round-number').value = data.roundNumber;
@@ -196,6 +198,7 @@ const WebSocketHandler = {
         DataManager.getCharacters().push(data.monster);
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
     },
     handleInitiativeReset: function(data){
         DataManager.getCharacters().forEach(c => {
