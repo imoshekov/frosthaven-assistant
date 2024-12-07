@@ -1195,7 +1195,11 @@ option {
     .toast, .toast.show{
         max-width: 100%;
     }
-
+    
+    .gridjs-summary {
+        display: none;
+    }
+    
     .gridjs-th,
     .gridjs-td {
         padding: 6px 8px;
