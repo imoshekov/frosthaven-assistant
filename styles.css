@@ -959,7 +959,11 @@ option {
 }
 
 .gridjs-summary {
-    font-size: 12px !important;
+    font-size: 10px !important;
+}
+
+.gridjs-footer {
+    padding: 10px !important;
 }
 
 .gridjs-pages button {
@@ -1188,8 +1192,8 @@ option {
         margin-right: 2px;
     }
 
-    .toast{
-        max-width: 90%;
+    .toast, .toast.show{
+        max-width: 100%;
     }
 
     .gridjs-th,
@@ -1216,6 +1220,10 @@ option {
         padding: 8px 12px;
         text-align: left;
         white-space: nowrap;
+    }
+
+    .gridjs-pagination .gridjs-pages button{
+        padding: 5px 5px;
     }
 
     /* Style table headers */
