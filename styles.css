@@ -946,7 +946,6 @@ option {
     font-size: 12px !important;
 }
 
-
 .gridjs-pages button {
     color: #ccc;
     border: none;
@@ -967,9 +966,14 @@ option {
     color: #929292 !important;
 }
 
-.gridjs-pages .gridjs-currentPage {
-    color: #ccc !important;
+.gridjs-pagination .gridjs-pages button.gridjs-currentPage {
+    color: #fff !important;
+    background-color: rgba(139, 136, 136, 0.75) !important;
     font-weight: bold;
+}
+
+.gridjs-pagination div.gridjs-pages button:hover {
+    color: #fff;
 }
 
 @keyframes pulse {
