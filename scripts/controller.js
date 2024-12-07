@@ -158,6 +158,10 @@ const UIController = {
                 data: Log.getLogData()
             }).render(document.getElementById("battle-log"));
 
+            const clickNext = (el, event) => {
+                el.nextElementSibling && el.nextElementSibling.click();
+                event.stopPropagation();
+            }
             this.logSelector = new SlimSelect({
                 select: '#char-filter',
                 settings: {
@@ -169,6 +173,10 @@ const UIController = {
                     afterChange: (val) => {
                         const data = Log.getLogData(val.length ? val.map(v => v.value) : null);
                         this.battleLog.updateConfig({ data }).forceRender();
+                        document.querySelectorAll('.ss-main .ss-value-text').forEach(option => {
+                            option.removeEventListener('click', clickNext);
+                            option.addEventListener('click', (event) => clickNext(option, event));
+                        });
                     }
                 }
             });
