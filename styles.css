@@ -1188,6 +1188,10 @@ option {
         margin-right: 2px;
     }
 
+    .toast{
+        max-width: 90%;
+    }
+
     .gridjs-th,
     .gridjs-td {
         padding: 6px 8px;
