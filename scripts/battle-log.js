@@ -19,13 +19,13 @@ class Log {
         timestamp: 'timestamp' // internal setter
     });
     static TABLE_COLUMNS = [
-        { id: 'round', name: 'Round'},
-        { id: 'name', name: 'Name'},
-        { id: 'hp', name: 'HP'},
-        { id: 'action', name: 'Action'},
+        { id: 'round', name: 'Round' },
+        { id: 'name', name: 'Name' },
+        { id: 'hp', name: 'HP', width: '80px' },
+        { id: 'action', name: 'Action' },
         { id: 'modifiers', name: 'Modifiers', formatter: (cell) => gridjs.html(`${cell}`) },
-        { id: 'initiative', name: 'Initiative'},
-        { id: 'time', name: 'Time'}
+        { id: 'initiative', name: 'Initiative' },
+        { id: 'time', name: 'Time' }
     ];
 
     #characterName = '';
