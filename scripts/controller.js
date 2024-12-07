@@ -54,6 +54,9 @@ const UIController = {
         UIController.sortCreatures();
         UIController.renderTable();
         UIController.renderLogs();
+        if(!autoInput){
+            UIController.showToastNotification(`${newCreature.name} added.`, 3000);
+        }
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendMonsterAdded(newCreature);
         }

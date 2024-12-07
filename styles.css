@@ -1,6 +1,7 @@
 :root {
     --boneshaper-color: #49a967;
     --banner-spear-color: #edbc47;
+    --snowflake-color: #83b5be;
     --deathwalker-color: #8c97a9;
     --drifter-color: #a28b7c;
     --elite-color: #400a0b;
@@ -8,6 +9,7 @@
     --friendly-color: #837ca2;
     --boneshaper-transperant-color: rgb(73 169 103 / 50%);
     --banner-spear-transperant-color: rgb(245 169 2 / 50%);
+    --snowflake-transparent-color: rgb(131 181 190/ 50%);
     --deathwalker-transperant-color: rgb(140 151 169 / 50%);
     --drifter-transperant-color: rgb(162 139 124 / 50%);
     --elite-transperant-color: rgb(197 0 0 / 50%);
@@ -198,7 +200,7 @@ img.background {
 }
 
 .character-skin .name b {
-    min-height: 60px;
+    min-height: 75px;
     align-content: center;
 }
 
@@ -231,6 +233,10 @@ img.background {
     color: var(--banner-spear-color);
 }
 
+.creatures .snowflake-row.friendly img.profile {
+    color: var(--snowflake-color);
+}
+
 .creatures .deathwalker-row.friendly img.profile {
     color: var(--deathwalker-color);
 }
@@ -253,6 +259,10 @@ img.background {
 
 .creatures .banner-spear-row.friendly {
     background-color: var(--banner-spear-transperant-color);
+}
+
+.creatures .snowflake-row.friendly {
+    background-color: var(--snowflake-transparent-color);
 }
 
 .creatures .drifter-row.friendly {
@@ -1205,7 +1215,7 @@ option {
         z-index: 1;
         padding: 2px 10px !important;
     }
-    
+
     /* Pagination buttons */
     .gridjs-pages button {
         color: #fff;

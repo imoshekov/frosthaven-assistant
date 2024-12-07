@@ -220,6 +220,9 @@ async function testConditionAdded() {
         standee: '1'
     });
 
+    const toastNotification = await driver.findElement(By.id('toast-notification'));
+    await driver.wait(until.elementIsNotVisible(toastNotification), 5000); 
+
     await TestUtils.openConditionsModal(driver, 4);
 
     // Wait for the modal to be fully visible
@@ -229,8 +232,8 @@ async function testConditionAdded() {
     // Wait for the armor input field to be visible and enabled
     const armorInput = await driver.wait(until.elementLocated(By.id('condition-armor')), 10000);
 
-    // Use JavaScript to set the value directly
-    await driver.executeScript("arguments[0].value = '1';", armorInput);
+    await armorInput.clear(); 
+    await armorInput.sendKeys('1');
 
     // Click the OK button with retry logic
     const okButton = await driver.findElement(By.xpath("//button[contains(@class, 'condition-btn') and contains(text(), 'OK')]"));
@@ -267,7 +270,7 @@ async function testInitiativeReset() {
     await nextRoundButton.click();
 
     const initiativeInputs = await driver.wait(
-        until.elementsLocated(By.css('.creature-column input[type="number"].initiative')),
+        until.elementsLocated(By.css('.creature-column input[type="tel"].initiative')),
         10000
     );
 
