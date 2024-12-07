@@ -1,10 +1,14 @@
 const UIController = {
+    showGraveyard: false,
+    battleLog: null, // https://gridjs.io/
+    logSelector: null, // https://slimselectjs.com/
     addCharacter(autoInput) {
         const type = autoInput?.type || document.getElementById('type').value.toLowerCase();
         const standee = autoInput?.standee || document.getElementById('standee-number').value;
         const level = parseInt(autoInput?.level) || parseInt(document.getElementById('level').value);
         const isElite = autoInput?.isElite || document.getElementById('elite-monster').checked;
-    
+        const round = parseInt(document.getElementById("round-number").value);
+
         // Validate required inputs
         if (!type) return alert('Select monster type first');
         if (!standee) return alert('Select standee # first');
@@ -41,32 +45,35 @@ const UIController = {
             armor: defaultArmor,
             retaliate: defaultRetaliate,
             conditions: {},
-            tempStats: {}
+            tempStats: {},
+            log: []
         };
-    
-        characters.push(newCreature);
+        newCreature.log.push(Log.builder().round(round).add(true).hp(defaultHP).build());
+
+        DataManager.getCharacters().push(newCreature);
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
         if(!autoInput){
             UIController.showToastNotification(`${newCreature.name} added.`, 3000);
         }
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendMonsterAdded(newCreature);
         }
-    }
-    ,
+    },
     renderTable() {
         const tableBody = document.getElementById('creaturesTable');
         tableBody.innerHTML = '';
-        characters.forEach((creature, index) => {
+        let renderCharacters = this.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
+        renderCharacters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
             const row =
                `
 <div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
     ${creature.aggressive ? '' : 'friendly' } '>
                             <img class=' background' src="${backgroundImage}" />
-<div class='creature-column'>
-    <input type="tel" class="initiative initiative-column" value="${creature.initiative}" onchange="
+<div class='creature-column' >
+    <input type="tel" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
         if (UIController.allIniativeSet()) {
@@ -75,9 +82,8 @@ const UIController = {
         }
     " />
     <div class='nameplate'>
-        <div class='character-skin image' id="character-skin-${index}" onclick="openConditions(event, ${index})">
+        <div class='character-skin image' id="character-skin-${index}" ${this.showGraveyard ? '' : `onclick="openConditions(event, ${index})"`}>
             <img class='profile' src='images/${charType}/thumbnail/fh-${creature.type}.png'>
-
         </div>
         <div class='character-skin'>
             <div class="name">
@@ -134,17 +140,53 @@ const UIController = {
             </div>
         </div>
         <div class='action-buttons'>
-            <span class="attack-btn" data-creature-idx="${index}" onclick="handleAttack(event, this)">
+            <span class="attack-btn ${this.showGraveyard ? 'hidden' : ''}" data-creature-idx="${index}" onclick="handleAttack(event, this)">
                 <img class='attack-image' id="attack-img-${index}" src='images/crossed-swords.svg'>
             </span>
         </div>
     </div>
     ${creature.aggressive ? `<button class="remove-btn"
-        onclick="UIController.removeCreature(${index},true)">X</button>`:''}
+        onclick="UIController.removeCreature(${index})">X</button>`:''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
         });
+    },
+    renderLogs() {
+        if (this.battleLog == null) {
+            this.battleLog = new gridjs.Grid({
+                columns: Log.TABLE_COLUMNS,
+                search: true, sort: true, fixedHeader: true,
+                pagination: { limit: 5 },
+                data: Log.getLogData()
+            }).render(document.getElementById("battle-log"));
+
+            const clickNext = (el, event) => {
+                el.nextElementSibling && el.nextElementSibling.click();
+                event.stopPropagation();
+            }
+            this.logSelector = new SlimSelect({
+                select: '#char-filter',
+                settings: {
+                    showSearch: false,
+                    placeholderText: 'Select a character'
+                },
+                data: Log.getLoggedCharacters(),
+                events: {
+                    afterChange: (val) => {
+                        const data = Log.getLogData(val.length ? val.map(v => v.value) : null);
+                        this.battleLog.updateConfig({ data }).forceRender();
+                        document.querySelectorAll('.ss-main .ss-value-text').forEach(option => {
+                            option.removeEventListener('click', clickNext);
+                            option.addEventListener('click', (event) => clickNext(option, event));
+                        });
+                    }
+                }
+            });
+        } else {
+            this.battleLog.updateConfig({ data: Log.getLogData() }).forceRender();
+            this.logSelector.setData(Log.getLoggedCharacters());
+        }
     },
     populateMonsterTypeDropdown() {
         //populate monster types
@@ -159,41 +201,69 @@ const UIController = {
         typeDropdown.value = '';
     },
     allIniativeSet() {
-        return characters.every(creature => creature.initiative !== 0);
+        return DataManager.getCharacters().every(creature => creature.initiative !== 0);
     },
     renderInitiative() {
-        characters.forEach(character => {
+        DataManager.getCharacters().forEach(character => {
             const initiativeInputs = document.querySelectorAll(`.creature-row.${character.type}-row .initiative`);
             initiativeInputs.forEach(input => {
                 input.value = character.initiative;
             });
         });
     },
-    removeCreature(index, confirmation = false) {
-        if(confirmation){
-            const userConfirmed = confirm(`This will permantly delete ${characters[index].name} from the game. Continue?`);
+    removeCreature(index) {
+        // removing a living creature simply kills it
+        if (this.showGraveyard) {
+            this.deleteCreature(index);
+        } else {
+            this.killCreature(index, true);
+        }
+    },
+    killCreature(index, isForced = false) {
+        const character = DataManager.getCharacters(index);
+        if (isForced) {
+            const userConfirmed = confirm(`Kill ${character.name} ?`);
             if(!userConfirmed){
                 return;
             }
+            character.hp = 0;
+            // add a log to know when the character was killed
+            const round = parseInt(document.getElementById("round-number").value);
+            character.log.push(Log.builder().round(round).set(true).die(true).initiative(character.initiative).build());
         }
-        characters.splice(index, 1);
+        DataManager.getCharacters().splice(index, 1);
+        DataManager.graveyard.push(character);
         this.renderTable();
-        if(WebSocketHandler.isConnected){
+        this.renderLogs();
+        if (WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
+            WebSocketHandler.sendGraveyardUpdate();
+        }
+    },
+    deleteCreature(index) {
+        const userConfirmed = confirm(`This will permanently delete ${DataManager.graveyard[index].name} and ALL HIS LOGS from the game. Continue?`);
+        if(!userConfirmed){
+            return;
+        }
+        DataManager.graveyard.splice(index, 1);
+        this.toggleGraveyard(true);
+        this.renderLogs();
+        if(WebSocketHandler.isConnected){
+            WebSocketHandler.sendGraveyardUpdate();
         }
     },
     sortCreatures() {
-        characters.sort((a, b) => a.initiative - b.initiative);
+        DataManager.getCharacters().sort((a, b) => a.initiative - b.initiative);
     },
     renameCreature(index) {
-        let creature = characters[index];
+        let creature = DataManager.getCharacters(index);
         const { baseName, displayName } = this.generateCreatureName({
             isElite: creature.eliteMonster,
             type: creature.type,
             standee: creature.standee,
         });
-        characters[index].name = baseName;
-        characters[index].displayName = displayName;
+        creature.name = baseName;
+        creature.displayName = displayName;
         if(WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
         }
@@ -204,11 +274,12 @@ const UIController = {
         const displayName = `${prefix}${input.type}`;
         return { baseName, displayName };
     },
-    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {        
+    updateStat(index, stat, value, massApply = false, isCondition = false, isTemporary = false) {
+        const characters = this.showGraveyard ? DataManager.graveyard : DataManager.getCharacters();
         const typeToUpdate = characters[index].type;
         const targets = massApply
-        ? characters.filter(character => character.type === typeToUpdate) 
-        : [characters[index]]; 
+            ? characters.filter(character => character.type === typeToUpdate)
+            : [characters[index]];
 
         const updateTarget = (character) => {
             if (isCondition) {
@@ -222,14 +293,42 @@ const UIController = {
 
         targets.forEach(updateTarget);
 
-        if(WebSocketHandler.isConnected){
+        if (stat === 'hp') {
+            const char = characters[index];
+            const round = parseInt(document.getElementById("round-number").value);
+            char.log.push(Log.builder().round(round).set(true).hp(value).initiative(char.initiative).build());
+            this.renderLogs();
+        }
+
+        // revive character if hp is set to more than 0
+        if (this.showGraveyard && stat == 'hp' && value > 0) {
+            DataManager.getCharacters().push(characters[index]);
+            characters.splice(index, 1);
+            this.sortCreatures();
+            this.toggleGraveyard(true);
+        }
+        // "kill" character
+        if (!this.showGraveyard && stat == 'hp' && value <= 0) {
+            DataManager.graveyard.push(characters[index]);
+            characters.splice(index, 1);
+            this.sortCreatures();
+            this.renderTable();
+        }
+
+        if (WebSocketHandler.isConnected){
             WebSocketHandler.sendCharactersUpdate();
+            WebSocketHandler.sendGraveyardUpdate();
         }
     },
     toggleLowHp(threshold = 2) {
-        characters.forEach((character, index) => {
+        if (UIController.showGraveyard) {
+            return;
+        }
+
+        DataManager.getCharacters().forEach((character, index) => {
             const heartImg = document.getElementById(`char-heart-${index}`);
-            if (character.hp <= threshold) {
+
+            if (character.hp <= threshold && character.hp > 0) {
                 heartImg.classList.add("pulsating-heart");
             } else {
                 heartImg.classList.remove("pulsating-heart");
@@ -317,7 +416,7 @@ const UIController = {
         });
     },
     nextRound() {
-        characters.forEach(c => {
+        DataManager.getCharacters().forEach(c => {
             c.initiative = 0;
             c.tempStats = {};
         });
@@ -344,8 +443,33 @@ const UIController = {
         }
 
     },
+    toggleGraveyard(show) {
+        // prevent rendering empty graveyard with different height
+        const creaturesContainer = document.getElementById('creaturesTable');
+        if (!creaturesContainer.style.minHeight) {
+            const currentHeight = window.getComputedStyle(creaturesContainer).height;
+            creaturesContainer.style.minHeight = currentHeight;
+        }
+
+        this.showGraveyard = show;
+        this.renderTable();
+
+        const inactiveImg = document.getElementById('graveyard-img');
+        const activeImg = document.getElementById('graveyard-img-active');
+        if (show) {
+            inactiveImg.classList.add("hidden");
+            activeImg.classList.remove("hidden");
+        } else {
+            inactiveImg.classList.remove("hidden");
+            activeImg.classList.add("hidden");
+        }
+
+        if (show && !DataManager.graveyard.length) {
+            creaturesContainer.innerText = 'NO CREATURES IN GRAVEYARD';
+        }
+    },
     toggleConditionVisibility(index, conditionType) {
-        const character = characters[index];
+        const character = DataManager.getCharacters(index);
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
         if(WebSocketHandler.isConnected){

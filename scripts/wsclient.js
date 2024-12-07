@@ -11,7 +11,7 @@ const WebSocketHandler = {
 
     initialize: async function (role) {
         try {
-            DataManager.clear('sessionId');
+            DataManager.clear(DataManager.SESSION_ID);
             this.sessionId = null;
             this.role = role;
             this.connect();
@@ -60,25 +60,26 @@ const WebSocketHandler = {
             const data = JSON.parse(event.data);
             if(data.type === "session-joined"){
                 this.handleSessionJoined(data);
-            }
-            if(this.enableHostClientStuff && this.role === 'host'){
                 return;
             }
-            if(data?.originatingClientId === this.clientId){
+            if (this.enableHostClientStuff && this.role === 'host'){
+                return;
+            }
+            if (data?.originatingClientId === this.clientId){
                 return;
             }
             switch (data.type) {
                 case "characters-update":
                     this.handleCharacterUpdate(data);
                     break;
+                case "graveyard-update":
+                    this.handleGraveyardUpdate(data);
+                    break;
                 case "round-update":
                     this.handleRoundUpdate(data);
                     break;
                 case "element-update":
                     this.handleElementUpdate(data);
-                    break;
-                case "battle-log-update":
-                    this.handleBattleLogUpdate(data);
                     break;
                 case "add-monster":
                     this.handleMonsterAdded(data);
@@ -90,7 +91,7 @@ const WebSocketHandler = {
         };
     },
     getSessionId: function(){
-        return this.sessionId || DataManager.load('sessionId');
+        return this.sessionId || DataManager.load(DataManager.SESSION_ID);
     },
     tryReconnect: function () {
         if (this.reconnecting) return;
@@ -139,16 +140,16 @@ const WebSocketHandler = {
         }));
     },
     sendCharactersUpdate: function () {
-        this.sendUpdateMessage('characters-update', { characters: characters });
+        this.sendUpdateMessage('characters-update', { characters: DataManager.getCharacters() });
+    },
+    sendGraveyardUpdate: function () {
+        this.sendUpdateMessage('graveyard-update', { graveyard: DataManager.graveyard });
     },
     sendRoundNumber: function (roundNumberValue) {
         this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
     },
     sendElementState: function (elementId, elementState) {
         this.sendUpdateMessage('element-update', { elementId: elementId, elementState: elementState });
-    },
-    sendLogUpdate: function(event, timestamp){
-        this.sendUpdateMessage('battle-log-update', { event: event, timestamp: timestamp });
     },
     requestServerState: function(sessionId){
         this.ws.send(JSON.stringify({ type: 'request-latest-state', sessionId: sessionId }));
@@ -162,7 +163,7 @@ const WebSocketHandler = {
     handleSessionJoined: function (data) {
         const message = `Connected to session: ${data.sessionId}.`;
         this.sessionId = data.sessionId;
-        DataManager.set('sessionId', data.sessionId);
+        DataManager.set(DataManager.SESSION_ID, data.sessionId);
         
         this.clientId = data.clientId;
         this.requestServerState(this.getSessionId());
@@ -171,9 +172,16 @@ const WebSocketHandler = {
         UIController.showToastNotification(message, 3000);
     },
     handleCharacterUpdate: function (data) {
-        characters = data.characters;
+        DataManager.characters = data.characters;
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
+    },
+    handleGraveyardUpdate: function (data) {
+        DataManager.graveyard = data.graveyard;
+        UIController.sortCreatures();
+        UIController.renderTable();
+        UIController.renderLogs();
     },
     handleRoundUpdate: function (data) {
         document.getElementById('round-number').value = data.roundNumber;
@@ -186,16 +194,14 @@ const WebSocketHandler = {
         pathElement.setAttribute('fill', elementState.fill);
 
     },
-    handleBattleLogUpdate: function (data){
-        DataManager.renderLog(data.event, data.timestamp);
-    },
     handleMonsterAdded: function(data){
-        characters.push(data.monster);
+        DataManager.getCharacters().push(data.monster);
         UIController.sortCreatures();
         UIController.renderTable();
+        UIController.renderLogs();
     },
     handleInitiativeReset: function(data){
-        characters.forEach(c => {
+        DataManager.getCharacters().forEach(c => {
             c.initiative = data.value;
         });
         UIController.renderTable();

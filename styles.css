@@ -96,7 +96,6 @@ input[type="tel"] {
 }
 
 
-
 input[type="tel"]::-webkit-outer-spin-button,
 input[type="tel"]::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
@@ -107,6 +106,10 @@ input[type="tel"]::-webkit-inner-spin-button {
 img {
     width: 40px;
     border-radius: 3px;
+}
+
+h3.logs-title {
+    margin-bottom: -20px;
 }
 
 .title {
@@ -299,6 +302,18 @@ img.background {
     align-items: center;
 }
 
+.initiative-column.hidden {
+    visibility: hidden;
+}
+
+.initiative-column.hidden+.nameplate img.profile {
+    cursor: inherit;
+}
+
+.attack-btn.hidden {
+    visibility: hidden;
+}
+
 .stats {
     display: flex;
     flex-direction: column;
@@ -425,13 +440,16 @@ div#modal-conditions {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.modal {
+    z-index: 101;
+}
+
 .modal-content {
     background-color: #3A3A3A;
     margin: 15% auto;
     padding: 25px;
     border: 1px solid #888;
     text-align: center;
-    z-index: 101;
 }
 
 .close {
@@ -510,6 +528,37 @@ div#modal-conditions {
     bottom: 0;
 }
 
+.row .row-monster-stats {
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.row-monster-stats .default-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.row-monster-stats .default-stats label {
+    margin-bottom: -14px;
+}
+
+.tombstone-icon {
+    margin-left: 120px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.tombstone-icon:hover {
+    transform: scale(1.1);
+}
+
+.tombstone-icon.hidden {
+    display: none;
+}
+
 .row.middle-line {
     border: 1px solid white;
 }
@@ -530,28 +579,13 @@ option {
     border: none;
 }
 
-#battle-log-container {
-    background-color: #222;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: auto;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: hidden;
+.flipped-image {
+    transform: scaleX(-1);
 }
 
-#battle-log {
-    list-style: none;
-    padding: 0;
-    max-height: 200px;
-    overflow-y: scroll;
-    scrollbar-width: none;
-}
-
-#battle-log::-webkit-scrollbar {
+/* #battle-log::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .log-time {
     font-weight: bold;
@@ -567,9 +601,9 @@ option {
     color: #F0F0F0;
 }
 
-#battle-log li {
-    margin-bottom: 10px;
-    word-wrap: break-word;
+.log-img {
+    width: 25px;
+    height: auto;
 }
 
 .technical-log {
@@ -633,12 +667,61 @@ option {
 }
 
 .elements-wrapper {
-    display: flex;
+    display: inline-block;
     margin-top: 10px;
     margin-bottom: 10px;
     user-select: none;
     gap: 5px;
     justify-content: flex-start;
+}
+
+#logs-container {
+    position: relative;
+}
+
+#logs-filter {
+    position: absolute;
+    top: 15px;
+    min-width: 300px;
+}
+
+#logs-filter .ss-main {
+    padding: 10px 13px;
+    background-color: transparent;
+
+}
+
+.ss-main {
+    position: relative;
+    z-index: 99; 
+}
+
+.ss-content .ss-list {
+    background-color: #2B2B2B;
+    border: 1px solid #F0F0F0;
+}
+
+.ss-content .ss-list div.ss-option {
+    color: #F0F0F0;
+}
+
+.ss-main .ss-values .ss-value div.ss-value-text,
+.ss-main .ss-values .ss-placeholder
+ {
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.ss-main .ss-values div.ss-value {
+    background-color: #8b8888;
+}
+
+/* Prevent Grid.js overflow issues */
+#battle-log {
+    overflow: visible !important;
+    position: relative;
+    margin-top: 25px;
+    font-size: 15px;
 }
 
 .element-icon {
@@ -841,6 +924,74 @@ option {
     transform-origin: center;
 }
 
+.gridjs-tr,
+.gridjs-th {
+    border: 1px solid #F0F0F0 !important;
+}
+
+.gridjs-td,
+.gridjs-footer,
+.gridjs-pagination,
+.gridjs-search,
+.gridjs-pages button,
+.gridjs-search-input {
+    background-color: #2B2B2B !important;
+}
+
+.gridjs-tr,
+.gridjs-th,
+.gridjs-summary,
+.gridjs-sort {
+    color: #F0F0F0 !important;
+}
+
+.gridjs-th {
+    background-color: #8b8888 !important;
+}
+
+.gridjs-wrapper {
+    border-color: none !important;
+    border-radius: 0px !important;
+}
+
+.gridjs-search {
+    float: right !important;
+}
+
+.gridjs-summary {
+    font-size: 12px !important;
+}
+
+.gridjs-pages button {
+    color: #ccc;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 12px !important;
+}
+
+.gridjs-pages button:hover:not([disabled]) {
+    background-color: #555;
+}
+
+.gridjs-pages button[disabled] {
+    background-color: #aaa;
+    cursor: not-allowed;
+    color: #929292 !important;
+}
+
+.gridjs-pagination .gridjs-pages button.gridjs-currentPage {
+    color: #fff !important;
+    background-color: rgba(139, 136, 136, 0.75) !important;
+    font-weight: bold;
+}
+
+.gridjs-pagination div.gridjs-pages button:hover {
+    color: #fff;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -1028,5 +1179,92 @@ option {
     .elements-wrapper {
         align-items: center;
         justify-content: center;
+    }
+
+    .tombstone-icon {
+        margin-left: inherit;
+        float: right;
+        margin-top: 10px;
+        margin-right: 2px;
+    }
+
+    .gridjs-th,
+    .gridjs-td {
+        padding: 6px 8px;
+    }
+
+    .gridjs-th:nth-child(5),
+    .gridjs-th:nth-child(6),
+    .gridjs-th:nth-child(7),
+    .gridjs-td:nth-child(5),
+    .gridjs-td:nth-child(6),
+    .gridjs-td:nth-child(7) {
+        display: none;
+    }
+
+    .gridjs-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .gridjs-th,
+    .gridjs-td {
+        padding: 8px 12px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    /* Style table headers */
+    .gridjs-th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 2px 10px !important;
+    }
+
+    /* Pagination buttons */
+    .gridjs-pages button {
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        margin: 5px;
+    }
+
+    .gridjs-pages button[disabled] {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .gridjs-pages button,
+    .gridjs-search,
+    .gridjs-search-input,
+    .gridjs-table,.gridjs-th,
+    .gridjs-td {
+        font-size: 12px !important;
+    }
+
+    div.gridjs-search {
+        float: left !important;
+        margin-top: 65px;
+    }
+
+    input.gridjs-input {
+        line-height: 1 !important;
+    }
+
+    .gridjs-search{
+        display: none;
+    }
+
+    #logs-filter {
+       position: relative;
+       width : 100%;
+       top: 25px;
+    }
+
+    .ss-main .ss-values .ss-value div.ss-value-text,
+    .ss-content .ss-list div.ss-option,
+    .ss-main .ss-values .ss-placeholder {
+        font-size: 14px;
     }
 }

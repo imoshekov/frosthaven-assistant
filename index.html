@@ -7,6 +7,8 @@
     <title>Frosthaven Assistant</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="grid/grid.css">
+    <link rel="stylesheet" href="slimselect/slimselect.css">
     <base href="./">
 </head>
 
@@ -74,17 +76,20 @@
                     <label for="Type">Type: </label>
                     <select id="type" autocomplete="on"></select>
                 </div>
-                <div class="default-stats">
-                    <label for="Level">Level: </label>
-                    <input type="tel" id="level" placeholder="#" value="2" />
-                </div>
-                <div class="default-stats">
-                    <label for="Standee">Standee: </label>
-                    <input type="tel" id="standee-number" placeholder="#" />
-                </div>
-                <div class="default-stats">
-                    <label for="Elite">Elite: </label>
-                    <input type="checkbox" id="elite-monster" />
+
+                <div class="row row-monster-stats">
+                    <div class="default-stats">
+                        <label for="Level">Level</label>
+                        <input type="tel" id="level" placeholder="#" value="2" />
+                    </div>
+                    <div class="default-stats">
+                        <label for="Standee">Standee</label>
+                        <input type="tel" id="standee-number" placeholder="#" />
+                    </div>
+                    <div class="default-stats">
+                        <label for="Elite">Elite</label>
+                        <input type="checkbox" id="elite-monster" />
+                    </div>
                 </div>
 
                 <div class="buttons-column">
@@ -300,27 +305,16 @@
                 </g>
             </svg>
         </span>
+
+        <span>
+            <img id="graveyard-img" class="tombstone-icon" src="images/tombstone.svg" onclick="UIController.toggleGraveyard(true)">
+            <img id="graveyard-img-active" class="tombstone-icon hidden" src="images/tombstone-active.svg" onclick="UIController.toggleGraveyard(false)">
+        </span>
         <div class="creatures">
             <div class='creature-container' id="creaturesTable">
                 <!-- Dynamic content will go here -->
             </div>
         </div>
-
-        <h3>Battle Log</h3>
-        <div id="battle-log-container">
-            <ul id="battle-log">
-            </ul>
-        </div>
-        <div>
-            <span id="loading-spinner"></span>
-            <span class="technical-log" id="last-saved-timestamp"></span>
-            <span class="technical-log" id="joined-session-id"></span>
-            <span class="technical-log" id="server-last-pinged"></span>
-        </div>
-        <a href="https://grey-astronaut-764049.postman.co/collection/1419604-3345b5ec-84d0-4b3c-9b89-30bdc88ac94a?source=rip_html&active-environment=1419604-50e897d1-5175-44ef-a5fc-6f70370eae60"
-            target="_blank">
-            <img alt="server management" src="https://run.pstmn.io/button.svg" style="width: 100px; height: 25px;">
-        </a>
 
         <div id="modal-attack" class="modal">
             <div class="modal-content">
@@ -389,16 +383,42 @@
 
                 <hr>
                 <div class="row">
-                    <button class="condition-btn" onclick="applyCondition()">OK</button>
+                    <button class="condition-btn" id="btn-apply-condition" onclick="applyCondition()">OK</button>
                 </div>
             </div>
         </div>
-        <script src="scripts/storage.js"></script>
-        <script src="scripts/wsclient.js"></script>
-        <script src="scripts/controller.js"></script>
+
+        <h3 class="logs-title">Battle Log</h3>
+        <div id="logs-container">
+            <div id="logs-filter">
+                <select id="char-filter" multiple>
+                    <!-- Dynamic content will go here -->
+                </select>
+            </div>
+            <div id="battle-log"></div>
+        </div>
+
+        <div>
+            <span id="loading-spinner"></span>
+            <span class="technical-log" id="last-saved-timestamp"></span>
+            <span class="technical-log" id="joined-session-id"></span>
+            <span class="technical-log" id="server-last-pinged"></span>
+        </div>
+        <a href="https://grey-astronaut-764049.postman.co/collection/1419604-3345b5ec-84d0-4b3c-9b89-30bdc88ac94a?source=rip_html&active-environment=1419604-50e897d1-5175-44ef-a5fc-6f70370eae60"
+            target="_blank">
+            <img alt="server management" src="https://run.pstmn.io/button.svg" style="width: 100px; height: 25px;">
+        </a>
+
+        <script src="slimselect/slimselect.js"></script>
+        <script src="grid/grid.js"></script>
         <script src="data/data.js"></script>
         <script src="data/images.js"></script>
+        <script src="scripts/storage.js"></script>
         <script src="scripts/main.js"></script>
+        <script src="scripts/wsclient.js"></script>
+        <script src="scripts/controller.js"></script>
+        <script src="scripts/combat.js"></script>
+        <script src="scripts/battle-log.js"></script>
     </div>
 </body>
 

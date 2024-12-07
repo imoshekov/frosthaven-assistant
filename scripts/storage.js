@@ -1,6 +1,19 @@
-
-
 const DataManager = {
+    // Storage keys
+    CHARACTERS: 'characters',
+    GRAVEYARD: 'graveyard',
+    SESSION_ID: 'sessionId',
+
+    characters: null,
+    graveyard: [],
+    getCharacters(index = null) {
+        if (this.characters == null) {
+            this.characters = JSON.parse(this.load(this.CHARACTERS)) || data.defaultCharacters;
+            this.graveyard = JSON.parse(this.load(this.GRAVEYARD)) || [];
+        }
+
+        return index == null ? this.characters : this.characters[index];
+    },
     load(key) {
         return localStorage.getItem(key);
     },
@@ -13,11 +26,10 @@ const DataManager = {
     saveGame() {
         document.getElementById('loading-spinner').style.visibility = 'visible';
 
-        const currentCharacterData = JSON.stringify(characters);
-        this.set('characters', currentCharacterData);
-
-        const battleLogInnerHtml = document.getElementById('battle-log').innerHTML;
-        this.set('battle-log', battleLogInnerHtml);
+        const currentCharacterData = JSON.stringify(this.characters);
+        const graveyardData = JSON.stringify(this.graveyard);
+        this.set(this.CHARACTERS, currentCharacterData);
+        this.set(this.GRAVEYARD, graveyardData);
 
         //totally useless timeout, it is just to please merx3 as he requested a loading spinner (merx3 is pleased ;])
         setTimeout(() => {
@@ -28,54 +40,6 @@ const DataManager = {
     resetGame() {
         localStorage.clear();
         location.reload();
-    },
-    log(event) {
-        const timestamp = new Date().toLocaleTimeString();
-        // Render the log locally
-        this.renderLog(event, timestamp);
-
-        if (WebSocketHandler.isConnected) {
-            WebSocketHandler.sendLogUpdate(event, timestamp);
-        }
-    },
-    renderLog(event, timestamp) {
-        const logLimit = 250;
-        const li = document.createElement('li');
-
-        const timeSpan = document.createElement('span');
-        timeSpan.classList.add('log-time');
-        timeSpan.textContent = `${timestamp} - `;
-
-        const eventSpan = document.createElement('span');
-        eventSpan.classList.add('log-event');
-
-        const hashMatch = event.match(/#(.*?)#/);
-
-        if (hashMatch) {
-            const parts = event.split(hashMatch[0]);
-            const beforeHash = parts[0];
-            const afterHash = parts[1] || '';
-
-            const hashSpan = document.createElement('span');
-            hashSpan.textContent = hashMatch[1];
-            hashSpan.classList.add('log-bold');
-
-            eventSpan.textContent = beforeHash;
-            eventSpan.appendChild(hashSpan);
-            eventSpan.appendChild(document.createTextNode(afterHash));
-        } else {
-            eventSpan.textContent = event;
-        }
-
-        li.appendChild(timeSpan);
-        li.appendChild(eventSpan);
-
-        const logContainer = document.getElementById('battle-log');
-        logContainer.insertBefore(li, logContainer.firstChild);
-
-        if (logContainer.childElementCount > logLimit) {
-            logContainer.removeChild(logContainer.lastChild);
-        }
     },
     loadFile: async function () {
         const scenarioNumber = parseInt(document.getElementById('scenario-id').value);
