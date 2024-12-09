@@ -3,10 +3,7 @@
       ["@babel/preset-env", {
         "targets": {
           "browsers": [
-            "chrome 53",          
-            "last 2 versions",    
-            "safari >= 9",        
-            "not dead"            
+            "chrome 79"          
           ]
         }
       }]

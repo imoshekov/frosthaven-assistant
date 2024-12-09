@@ -336,7 +336,7 @@
     });
   }
   c = g.slice, f = {
-    __e: function __e(t, n, e, r) {
+    __e: function (t, n, e, r) {
       for (var o, i, u; n = n.__;) if ((o = n.__c) && !o.__) try {
         if ((i = o.constructor) && null != i.getDerivedStateFromError && (o.setState(i.getDerivedStateFromError(t)), u = o.__d), null != o.componentDidCatch && (o.componentDidCatch(t, r || {}), u = o.__d), u) return o.__E = o;
       } catch (n) {
@@ -344,7 +344,7 @@
       }
       throw t;
     }
-  }, p = 0, d = function d(t) {
+  }, p = 0, d = function (t) {
     return null != t && void 0 === t.constructor;
   }, S.prototype.setState = function (t, n) {
     var e;
@@ -358,7 +358,7 @@
     }
     return e(t, [{
       key: "id",
-      get: function get() {
+      get: function () {
         return this._id;
       }
     }]), t;
@@ -409,15 +409,15 @@
         }));
       }, e(n, [{
         key: "cells",
-        get: function get() {
+        get: function () {
           return this._cells;
         },
-        set: function set(t) {
+        set: function (t) {
           this._cells = t;
         }
       }, {
         key: "length",
-        get: function get() {
+        get: function () {
           return this.cells.length;
         }
       }]), n;
@@ -445,18 +445,18 @@
         }));
       }, e(n, [{
         key: "rows",
-        get: function get() {
+        get: function () {
           return this._rows;
         },
-        set: function set(t) {
+        set: function (t) {
           this._rows = t;
         }
       }, {
         key: "length",
-        get: function get() {
+        get: function () {
           return this._length || this.rows.length;
         },
-        set: function set(t) {
+        set: function (t) {
           this._length = t;
         }
       }]), n;
@@ -524,7 +524,7 @@
         return Y(n, this._props) || (this._props = n, this.emit("propsUpdated", this)), this;
       }, e(n, [{
         key: "props",
-        get: function get() {
+        get: function () {
           return this._props;
         }
       }]), n;
@@ -549,7 +549,7 @@
         var n, e, r, o, i;
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Filter;
         }
       }]), n;
@@ -583,7 +583,7 @@
         return this.props.url && (n.url = this.props.url(t.url, this.props.keyword)), this.props.body && (n.body = this.props.body(t.body, this.props.keyword)), r({}, t, n);
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.ServerFilter;
         }
       }]), n;
@@ -699,7 +699,7 @@
   var kt = "function" == typeof requestAnimationFrame;
   function Pt(t) {
     var n,
-      e = function e() {
+      e = function () {
         clearTimeout(r), kt && cancelAnimationFrame(n), setTimeout(t);
       },
       r = setTimeout(e, 100);
@@ -740,10 +740,10 @@
       pagination: {
         previous: "Previous",
         next: "Next",
-        navigate: function navigate(t, n) {
+        navigate: function (t, n) {
           return "Page " + t + " of " + n;
         },
-        page: function page(t) {
+        page: function (t) {
           return "Page " + t;
         },
         showing: "Showing",
@@ -784,7 +784,7 @@
       return (e = t.translator).translate.apply(e, [n].concat([].slice.call(arguments, 1)));
     };
   }
-  var Ot = function Ot(t) {
+  var Ot = function (t) {
     return function (n) {
       return r({}, n, {
         search: {
@@ -847,7 +847,7 @@
         return lt = 8, wt(function () {
           return t;
         }, n);
-      }((l = function l(t) {
+      }((l = function (t) {
         t.target instanceof HTMLInputElement && s(Ot(t.target.value));
       }, c = e instanceof at ? i.debounceTimeout || 250 : 0, function () {
         var t = arguments;
@@ -881,7 +881,7 @@
         return new J(t.rows.slice(n * this.props.limit, (n + 1) * this.props.limit));
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Limit;
         }
       }]), n;
@@ -895,7 +895,7 @@
         return this.props.url && (n.url = this.props.url(t.url, this.props.page, this.props.limit)), this.props.body && (n.body = this.props.body(t.body, this.props.page, this.props.limit)), r({}, t, n);
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.ServerLimit;
         }
       }]), n;
@@ -945,15 +945,15 @@
         t.pipeline.unregister(v.current), t.pipeline.off("updated", C);
       };
     }, []);
-    var C = function C(t) {
+    var C = function (t) {
         m && t !== v.current && (b(0), 0 !== v.current.props.page && v.current.setProps({
           page: 0
         }));
       },
-      E = function E() {
+      E = function () {
         return Math.ceil(k / p);
       },
-      I = function I(t) {
+      I = function (t) {
         if (t >= E() || t < 0 || t === y) return null;
         b(t), v.current.setProps({
           page: t
@@ -972,7 +972,7 @@
       tabIndex: 0,
       role: "button",
       disabled: 0 === y,
-      onClick: function onClick() {
+      onClick: function () {
         return I(y - 1);
       },
       title: N("pagination.previous"),
@@ -985,7 +985,7 @@
       return y + Math.floor(n / 2) >= E() && (e = n - (E() - y)), x(P, null, E() > n && y - e > 0 && x(P, null, x("button", {
         tabIndex: 0,
         role: "button",
-        onClick: function onClick() {
+        onClick: function () {
           return I(0);
         },
         title: N("pagination.firstPage"),
@@ -1000,7 +1000,7 @@
         return x("button", {
           tabIndex: 0,
           role: "button",
-          onClick: function onClick() {
+          onClick: function () {
             return I(n);
           },
           className: rt(y === n ? rt(et("currentPage"), t.className.paginationButtonCurrent) : null, t.className.paginationButton),
@@ -1013,7 +1013,7 @@
       }, "..."), x("button", {
         tabIndex: 0,
         role: "button",
-        onClick: function onClick() {
+        onClick: function () {
           return I(E() - 1);
         },
         title: N("pagination.page", E()),
@@ -1024,7 +1024,7 @@
       tabIndex: 0,
       role: "button",
       disabled: E() === y + 1 || 0 === E(),
-      onClick: function onClick() {
+      onClick: function () {
         return I(y + 1);
       },
       title: N("pagination.next"),
@@ -1041,7 +1041,7 @@
   function Bt(t) {
     var n = t.tableRef.cloneNode(!0);
     return n.style.position = "absolute", n.style.width = "100%", n.style.zIndex = "-2147483640", n.style.visibility = "hidden", x("div", {
-      ref: function ref(t) {
+      ref: function (t) {
         t && t.appendChild(n);
       }
     });
@@ -1223,22 +1223,22 @@
         return this.tabularFormat([t]).length - 1;
       }, e(i, [{
         key: "columns",
-        get: function get() {
+        get: function () {
           return this._columns;
         },
-        set: function set(t) {
+        set: function (t) {
           this._columns = t;
         }
       }, {
         key: "visibleColumns",
-        get: function get() {
+        get: function () {
           return this._columns.filter(function (t) {
             return !t.hidden;
           });
         }
       }]), i;
     }(V),
-    Xt = function Xt() {},
+    Xt = function () {},
     Zt = /*#__PURE__*/function (t) {
       function n(n) {
         var e;
@@ -1392,7 +1392,7 @@
         });
       }, r.process = function (t) {
         try {
-          var n = function n(t) {
+          var n = function (t) {
               return e.lastProcessorIndexUpdated = o.length, e.emit("afterProcess", i), i;
             },
             e = this,
@@ -1418,7 +1418,7 @@
                         tn(o || (o = new nn()), 2, t);
                       }
                     }(), u.return) {
-                      var s = function s(t) {
+                      var s = function (t) {
                         try {
                           r.done || u.return();
                         } catch (t) {}
@@ -1485,7 +1485,7 @@
         this.setLastProcessorIndex(t), this.emit("afterRegister"), this.emit("updated", t);
       }, e(n, [{
         key: "steps",
-        get: function get() {
+        get: function () {
           for (var t, n = [], e = a(this.getSortedProcessorTypes()); !(t = e()).done;) {
             var r = this._steps.get(t.value);
             r && r.length && (n = n.concat(r));
@@ -1508,7 +1508,7 @@
         }
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Extractor;
         }
       }]), n;
@@ -1522,7 +1522,7 @@
         return n.length = t.total, n;
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Transformer;
         }
       }]), n;
@@ -1540,7 +1540,7 @@
         }, {});
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Initiator;
         }
       }]), n;
@@ -1572,7 +1572,7 @@
         };
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Transformer;
         }
       }]), n;
@@ -1590,7 +1590,7 @@
         })), n.register(new un()), n;
       }, t;
     }(),
-    cn = function cn(t) {
+    cn = function (t) {
       var n = this;
       this.state = void 0, this.listeners = [], this.isDispatching = !1, this.getState = function () {
         return n.state;
@@ -1621,10 +1621,10 @@
       var e = {
         __c: n = "__cC" + m++,
         __: null,
-        Consumer: function Consumer(t, n) {
+        Consumer: function (t, n) {
           return t.children(n);
         },
-        Provider: function Provider(t) {
+        Provider: function (t) {
           var e, r;
           return this.getChildContext || (e = [], (r = {})[n] = this, this.getChildContext = function () {
             return r;
@@ -1704,7 +1704,7 @@
       "data-column-id": t.column && t.column.id,
       className: rt(et("td"), t.className, e.className.td),
       style: r({}, t.style, e.style.td),
-      onClick: function onClick(n) {
+      onClick: function (n) {
         t.messageCell || e.eventEmitter.emit("cellClick", n, t.cell, t.column, t.row);
       }
     }, (n = t.column) ? "function" == typeof n.attributes ? n.attributes(t.cell.data, t.row, t.column) : n.attributes : {}), t.column && "function" == typeof t.column.formatter ? t.column.formatter(t.cell.data, t.row, t.column) : t.column && t.column.plugin ? x(Gt, {
@@ -1723,7 +1723,7 @@
       });
     return x("tr", {
       className: rt(et("tr"), n.className.tr),
-      onClick: function onClick(e) {
+      onClick: function (e) {
         t.messageRow || n.eventEmitter.emit("rowClick", e, t.row);
       }
     }, t.children ? t.children : t.row.cells.map(function (n, r) {
@@ -1765,7 +1765,7 @@
         return t.header;
       }),
       o = At(),
-      i = function i() {
+      i = function () {
         return r ? r.visibleColumns.length : 0;
       };
     return x("tbody", {
@@ -1818,12 +1818,12 @@
         return e.length = t.length, e;
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.Sort;
         }
       }]), n;
     }(tt),
-    gn = function gn(t, n, e, o) {
+    gn = function (t, n, e, o) {
       return function (i) {
         var u,
           s = null != (u = i.sort) && u.columns ? i.sort.columns.map(function (t) {
@@ -1855,7 +1855,7 @@
         });
       };
     },
-    yn = function yn(t, n, e) {
+    yn = function (t, n, e) {
       return function (o) {
         var i = (o.sort ? [].concat(o.sort.columns) : []).find(function (n) {
           return n.index === t;
@@ -1872,7 +1872,7 @@
         return this.props.url && (n.url = this.props.url(t.url, this.props.columns)), this.props.body && (n.body = this.props.body(t.body, this.props.columns)), r({}, t, n);
       }, e(n, [{
         key: "type",
-        get: function get() {
+        get: function () {
           return K.ServerSort;
         }
       }]), n;
@@ -1889,7 +1889,7 @@
         return t.sort;
       }),
       c = "object" == typeof (null == a ? void 0 : a.server) ? K.ServerSort : K.Sort,
-      f = function f() {
+      f = function () {
         var t = n.pipeline.getStepsByType(c);
         if (t.length) return t[0];
       };
@@ -1922,16 +1922,16 @@
       className: rt(et("sort"), et("sort", function (t) {
         return 1 === t ? "asc" : -1 === t ? "desc" : "neutral";
       }(u)), n.className.sort),
-      onClick: function onClick(n) {
+      onClick: function (n) {
         n.preventDefault(), n.stopPropagation(), e(yn(t.index, !0 === n.shiftKey && a.multiColumn, t.compare));
       }
     });
   }
-  var xn = function xn(t, n) {
+  var xn = function (t, n) {
     var e;
     void 0 === n && (n = 100);
     var r = Date.now(),
-      o = function o() {
+      o = function () {
         r = Date.now(), t.apply(void 0, [].slice.call(arguments));
       };
     return function () {
@@ -1945,17 +1945,17 @@
   };
   function kn(t) {
     var n,
-      e = function e(t) {
+      e = function (t) {
         return t instanceof MouseEvent ? Math.floor(t.pageX) : Math.floor(t.changedTouches[0].pageX);
       },
-      r = function r(_r) {
-        _r.stopPropagation();
-        var u = parseInt(t.thRef.current.style.width, 10) - e(_r);
+      r = function (r) {
+        r.stopPropagation();
+        var u = parseInt(t.thRef.current.style.width, 10) - e(r);
         n = xn(function (t) {
           return o(t, u);
         }, 10), document.addEventListener("mouseup", i), document.addEventListener("touchend", i), document.addEventListener("mousemove", n), document.addEventListener("touchmove", n);
       },
-      o = function o(n, r) {
+      o = function (n, r) {
         n.stopPropagation();
         var o = t.thRef.current;
         r + e(n) >= parseInt(o.style.minWidth, 10) && (o.style.width = r + e(n) + "px");
@@ -1967,7 +1967,7 @@
       className: rt(et("th"), et("resizable")),
       onMouseDown: r,
       onTouchStart: r,
-      onClick: function onClick(t) {
+      onClick: function (t) {
         return t.stopPropagation();
       }
     });
@@ -1988,10 +1988,10 @@
       }
     }, [e]);
     var a,
-      l = function l() {
+      l = function () {
         return null != t.column.sort;
       },
-      c = function c(e) {
+      c = function (e) {
         e.stopPropagation(), l() && s(yn(t.index, !0 === e.shiftKey && n.sort.multiColumn, t.column.sort.compare));
       };
     return x("th", r({
@@ -2003,7 +2003,7 @@
         minWidth: t.column.minWidth,
         width: t.column.width
       }, i, t.style),
-      onKeyDown: function onKeyDown(t) {
+      onKeyDown: function (t) {
         l() && 13 === t.which && c(t);
       },
       rowSpan: t.rowSpan > 1 ? t.rowSpan : void 0,
@@ -2057,7 +2057,7 @@
       }(n, r, t.length);
     })) : null;
   }
-  var Nn = function Nn(t) {
+  var Nn = function (t) {
     return function (n) {
       return r({}, n, {
         header: t
