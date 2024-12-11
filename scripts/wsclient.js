@@ -36,7 +36,28 @@ const WebSocketHandler = {
                     this.sessionId = '';
                 }
             }
-            this.ws.send(JSON.stringify({ type: 'join-session', sessionId: this.sessionId }));
+            let joinSessionPayload = {
+                type: 'join-session',
+                sessionId: this.sessionId
+            };
+            
+            if (this.role === 'host') {
+                joinSessionPayload.characters = DataManager.getCharacters();
+                joinSessionPayload.roundNumber =  document.getElementById('round-number').value;
+                joinSessionPayload.graveyard = DataManager.graveyard;
+                const elementStates = {};
+                const elements = document.querySelectorAll('.elements-wrapper svg');
+                elements.forEach(e => {
+                    let elementState = {}
+                    elementState.elementId = e.id;
+                    elementState.path = e.querySelector('path').getAttribute('d');
+                    elementState.fill = e.querySelector('path').getAttribute('fill') || `url(#${e.id}-bw)`;
+                    elementStates[e.id] = JSON.stringify(elementState);
+                })
+                joinSessionPayload.elementStates = elementStates;
+            }
+            
+            this.ws.send(JSON.stringify(joinSessionPayload));
             this.isConnected = true;
             this.reconnectAttempts = 0; 
         };
@@ -192,7 +213,6 @@ const WebSocketHandler = {
         const pathElement = element.querySelector('path');
         pathElement.setAttribute('d', elementState.path);     
         pathElement.setAttribute('fill', elementState.fill);
-
     },
     handleMonsterAdded: function(data){
         DataManager.getCharacters().push(data.monster);
