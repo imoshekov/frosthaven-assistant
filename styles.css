@@ -1,6 +1,7 @@
 :root {
     --boneshaper-color: #49a967;
     --banner-spear-color: #edbc47;
+    --blinkblade-color:#01b0db;
     --snowflake-color: #83b5be;
     --deathwalker-color: #8c97a9;
     --drifter-color: #a28b7c;
@@ -8,6 +9,7 @@
     --nonelite-color: #694802;
     --friendly-color: #837ca2;
     --boneshaper-transperant-color: rgb(73 169 103 / 50%);
+    --blinkblade-transperant-color: rgb(1 176 219 / 50%);
     --banner-spear-transperant-color: rgb(245 169 2 / 50%);
     --snowflake-transparent-color: rgb(131 181 190/ 50%);
     --deathwalker-transperant-color: rgb(140 151 169 / 50%);
@@ -245,6 +247,10 @@ img.background {
     color: var(--drifter-color);
 }
 
+.creatures .blinkblade-row.friendly img.profile {
+    color: var(--blinkblade-color);
+}
+
 .creatures .elite img.profile {
     color: var(--elite-color);
 }
@@ -267,6 +273,10 @@ img.background {
 
 .creatures .drifter-row.friendly {
     background-color: var(--drifter-transperant-color);
+}
+
+.creatures .blinkblade-row.friendly {
+    background-color: var(--blinkblade-transperant-color);
 }
 
 
