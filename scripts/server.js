@@ -165,11 +165,7 @@ wss.on('connection', (ws) => {
 });
 
 function generateUniqueSessionId() {
-    let newSessionId;
-    do {
-        newSessionId = (Math.floor(Math.random() * 10)) + 1; //+1 because I don't like session 0
-    } while (sessions[newSessionId]);
-    return newSessionId;
+    return Object.keys(sessions).length + 1;
 }
 
 function createSession(sessionId, data) {
