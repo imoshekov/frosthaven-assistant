@@ -60,12 +60,12 @@
                 </div>
                 <button class="initiative" onclick="WebSocketHandler.initialize('host')">Start Session</button>
                 <button class="initiative"
-                    onclick="UIController.toggleControlVisibility('join-session-container','session-id')">Join
+                    onclick="UIController.toggleControlVisibility('join-session-container')">Join
                     Session<span>&#9660;</span></button>
                 <div id="join-session-container">
                     <div class="default-stats">
                         <label for="session-id">Session:</label>
-                        <input type="tel" id="session-id" placeholder="#"></input>
+                        <input type="tel" id="session-id" placeholder="#" value="1"></input>
                     </div>
                     <button class="initiative attack"
                         onclick="WebSocketHandler.initialize('client'); UIController.toggleControlVisibility('join-session-container')">Join</button>
