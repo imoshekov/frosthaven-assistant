@@ -12,16 +12,16 @@ const UIController = {
         // Validate required inputs
         if (!type) return alert('Select monster type first');
         if (!standee) return alert('Select standee # first');
-    
+
         // Fetch monster data
         const monsterData = data.monsters.find(monster => monster.name === type);
         const selectedMonster = isElite
             ? monsterData.stats.find(x => x.type === 'elite' && x.level === level)
             : monsterData.stats[level];
-    
+
         // Generate creature names
         const { baseName, displayName } = this.generateCreatureName({ isElite, type, standee });
-    
+
         // Derive default stats
         const initMovement = monsterData.baseStat?.movement || selectedMonster.movement;
         const defaultAttack = parseInt(selectedMonster?.attack) || 0;
@@ -29,19 +29,19 @@ const UIController = {
         const defaultHP = parseInt(selectedMonster?.health) || 0;
         const defaultArmor = selectedMonster?.actions?.find(x => x.type === 'shield')?.value || 0;
         const defaultRetaliate = selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value || 0;
-    
+
         // Create new creature object
         const newCreature = {
             name: baseName,
             displayName,
             type,
             standee,
-            aggressive: true, 
+            aggressive: true,
             eliteMonster: isElite,
             hp: defaultHP,
             attack: defaultAttack,
             movement: defaultMovement,
-            initiative: 0, 
+            initiative: 0,
             armor: defaultArmor,
             retaliate: defaultRetaliate,
             conditions: {},
@@ -54,10 +54,10 @@ const UIController = {
         UIController.sortCreatures();
         UIController.renderTable();
         UIController.renderLogs();
-        if(!autoInput){
+        if (!autoInput) {
             UIController.showToastNotification(`${newCreature.name} added.`, 3000);
         }
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendMonsterAdded(newCreature);
         }
     },
@@ -68,9 +68,9 @@ const UIController = {
         renderCharacters.forEach((creature, index) => {
             const charType = creature.aggressive ? 'monster' : 'character';
             const row =
-               `
-<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row' }
-    ${creature.aggressive ? '' : 'friendly' } '>
+                `
+<div class='creature-row ${creature.type}-row ${creature.eliteMonster ? ' elite-row' : 'nonelite-row'}
+    ${creature.aggressive ? '' : 'friendly'} '>
                             <img class=' background' src="${backgroundImage}" />
 <div class='creature-column' >
     <input type="tel" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
@@ -93,7 +93,7 @@ const UIController = {
                         onchange="UIController.updateStat(${index}, 'standee', this.value); UIController.renameCreature(${index});"
                         placeholder="#" />`
                     : ''
-                    }</b>
+                }</b>
             </div>
         </div>
         <div class='stats'>
@@ -146,7 +146,7 @@ const UIController = {
         </div>
     </div>
     ${creature.aggressive ? `<button class="remove-btn"
-        onclick="UIController.removeCreature(${index})">X</button>`:''}
+        onclick="UIController.removeCreature(${index})">X</button>` : ''}
 </div>`;
             tableBody.insertAdjacentHTML('beforeend', row);
             showConditions(index);
@@ -189,16 +189,55 @@ const UIController = {
         }
     },
     populateMonsterTypeDropdown() {
-        //populate monster types
-        const typeDropdown = document.getElementById('type');
-        typeDropdown.innerHTML = '';
-        data.monsters.forEach(type => {
-            const option = document.createElement('option');
-            option.value = type.name;
-            option.text = type.name
-            typeDropdown.appendChild(option);
+        const input = document.getElementById("type");
+        const autocompleteList = document.getElementById("autocomplete-list");
+
+        input.addEventListener("focus", function () {
+            UIController.showList(input, autocompleteList, data.monsters); 
         });
-        typeDropdown.value = '';
+
+        input.addEventListener('focusin', function (event) {
+                event.target.dataset.previousValue = event.target.value;
+                event.target.value = '';
+        });
+
+        input.addEventListener('focusout', function (event) {
+            if (event.target.value === '') {
+                event.target.value = event.target.dataset.previousValue;
+            }
+        });
+    
+        input.addEventListener("input", function () {
+            const value = this.value.toLowerCase();
+            const filtered = data.monsters.filter(monster => monster.name.toLowerCase().startsWith(value));
+            UIController.showList(input, autocompleteList, filtered); 
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!autocompleteList.contains(e.target) && e.target !== input) {
+                autocompleteList.innerHTML = "";
+            }
+        });
+    },
+    showList(input, autocompleteList, filteredTypes) {
+        autocompleteList.innerHTML = "";
+        if (filteredTypes.length === 0) {
+            autocompleteList.style.display = "none";
+            return;
+        }
+
+        filteredTypes.forEach(type => {
+            const div = document.createElement("div");
+            div.textContent = type.name.toUpperCase();
+            div.addEventListener("click", () => {
+                input.value = type.name;
+                autocompleteList.innerHTML = "";
+                autocompleteList.style.display = "none"; 
+            });
+            autocompleteList.appendChild(div);
+        });
+
+        autocompleteList.style.display = "block"; 
     },
     allIniativeSet() {
         return DataManager.getCharacters().every(creature => creature.initiative !== 0);
@@ -223,7 +262,7 @@ const UIController = {
         const character = DataManager.getCharacters(index);
         if (isForced) {
             const userConfirmed = confirm(`Kill ${character.name} ?`);
-            if(!userConfirmed){
+            if (!userConfirmed) {
                 return;
             }
             character.hp = 0;
@@ -235,20 +274,20 @@ const UIController = {
         DataManager.graveyard.push(character);
         this.renderTable();
         this.renderLogs();
-        if (WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendCharactersUpdate();
             WebSocketHandler.sendGraveyardUpdate();
         }
     },
     deleteCreature(index) {
         const userConfirmed = confirm(`This will permanently delete ${DataManager.graveyard[index].name} and ALL HIS LOGS from the game. Continue?`);
-        if(!userConfirmed){
+        if (!userConfirmed) {
             return;
         }
         DataManager.graveyard.splice(index, 1);
         this.toggleGraveyard(true);
         this.renderLogs();
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendGraveyardUpdate();
         }
     },
@@ -264,7 +303,7 @@ const UIController = {
         });
         creature.name = baseName;
         creature.displayName = displayName;
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendCharactersUpdate();
         }
     },
@@ -315,7 +354,7 @@ const UIController = {
             this.renderTable();
         }
 
-        if (WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendCharactersUpdate();
             WebSocketHandler.sendGraveyardUpdate();
         }
@@ -472,7 +511,7 @@ const UIController = {
         const character = DataManager.getCharacters(index);
         character.conditions[conditionType] = !character.conditions[conditionType];
         document.getElementById(`char-${conditionType}-${index}`).style.visibility = 'hidden';
-        if(WebSocketHandler.isConnected){
+        if (WebSocketHandler.isConnected) {
             WebSocketHandler.sendCharactersUpdate();
         }
     },
