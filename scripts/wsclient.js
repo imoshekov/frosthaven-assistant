@@ -64,14 +64,13 @@ const WebSocketHandler = {
 
         this.ws.onerror = () => {
             this.isConnected = false;
-            UIController.showToastNotification("Unable to connect to the server. Retrying...");
-            UIController.hideToastNotification(2000);
+            UIController.showToastNotification("Unable to connect to the server. Retrying...", 1000);
             this.tryReconnect();
         };
 
         this.ws.onclose = () => {
             if (this.isConnected) {
-                UIController.showToastNotification("The connection was closed. Trying to reconnect.");
+                UIController.showToastNotification("The connection was closed. Trying to reconnect.", 1000);
             }
             this.isConnected = false;
             this.tryReconnect();
@@ -121,8 +120,7 @@ const WebSocketHandler = {
             this.reconnecting = true; 
             this.reconnectAttempts++;
     
-            // 3 seconds is the base delay, with exponential backoff, capped at 30 seconds
-            const delay = Math.min(3000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
+            const delay = Math.min(500 * Math.pow(2, this.reconnectAttempts - 1), 30000);
     
             console.log(`Reconnection attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts} in ${delay / 1000} seconds`);
     
@@ -131,8 +129,7 @@ const WebSocketHandler = {
                 this.reconnecting = false; 
             }, delay);
         } else {
-            UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.");
-            UIController.hideToastNotification(3000);
+            UIController.showToastNotification("Failed to reconnect after multiple attempts. Please refresh the page or check your connection.", 3000);
         }
     },
     getInstance: function () {
