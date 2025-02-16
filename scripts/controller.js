@@ -461,7 +461,7 @@ const UIController = {
             }
             const iconsWrapper = document.querySelector('.header-icons');
             const rect = iconsWrapper.getBoundingClientRect();
-            if (rect.top <= 0) {
+            if (rect.top < 0) {
                 iconsWrapper.classList.add('sticky');  // Make sticky
             } else {
                 iconsWrapper.classList.remove('sticky');  // Remove sticky
