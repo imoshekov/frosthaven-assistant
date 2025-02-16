@@ -454,6 +454,20 @@ const UIController = {
             }
         });
     },
+    scrollElementsListener() {
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth > 768) {
+                return;
+            }
+            const iconsWrapper = document.querySelector('.elements-wrapper');
+            const rect = iconsWrapper.getBoundingClientRect();
+            if (rect.top <= 5) {
+                iconsWrapper.classList.add('sticky');  // Make sticky
+            } else {
+                iconsWrapper.classList.remove('sticky');  // Remove sticky
+            }
+        });
+    },
     nextRound() {
         DataManager.getCharacters().forEach(c => {
             c.initiative = 0;
