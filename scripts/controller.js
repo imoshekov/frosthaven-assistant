@@ -459,9 +459,9 @@ const UIController = {
             if (window.innerWidth > 768) {
                 return;
             }
-            const iconsWrapper = document.querySelector('.elements-wrapper');
+            const iconsWrapper = document.querySelector('.header-icons');
             const rect = iconsWrapper.getBoundingClientRect();
-            if (rect.top <= 5) {
+            if (rect.top <= 0) {
                 iconsWrapper.classList.add('sticky');  // Make sticky
             } else {
                 iconsWrapper.classList.remove('sticky');  // Remove sticky

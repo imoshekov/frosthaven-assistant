@@ -1244,9 +1244,13 @@ option {
 
     .sticky {
         position: sticky;
-        top: 5px;
-        z-index: 9999; /* Ensure it stays on top */
-        transform: translateY(0); /* Add a smooth transition effect */
+        top: 0;
+        z-index: 9999;
+        background-color: #2B2B2B;
+        padding-top: 10px;
+        margin-top: 0;
+        margin-left: -2px;
+        padding-left: 2px;
     }
 
     .tombstone-icon {
