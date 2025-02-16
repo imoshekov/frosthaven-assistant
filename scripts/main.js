@@ -3,7 +3,6 @@ window.onload = function () {
     UIController.renderTable();
     UIController.renderLogs();
     UIController.handleFocusEvents();
-    UIController.scrollElementsListener();
     
     // Saving to local storage every X seconds.
     setInterval(() => DataManager.saveGame(), 10000);

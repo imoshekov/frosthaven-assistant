@@ -454,20 +454,6 @@ const UIController = {
             }
         });
     },
-    scrollElementsListener() {
-        window.addEventListener('scroll', function() {
-            if (window.innerWidth > 768) {
-                return;
-            }
-            const iconsWrapper = document.querySelector('.header-icons');
-            const rect = iconsWrapper.getBoundingClientRect();
-            if (rect.top < 0) {
-                iconsWrapper.classList.add('sticky');  // Make sticky
-            } else {
-                iconsWrapper.classList.remove('sticky');  // Remove sticky
-            }
-        });
-    },
     nextRound() {
         DataManager.getCharacters().forEach(c => {
             c.initiative = 0;
