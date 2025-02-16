@@ -1242,6 +1242,13 @@ option {
         justify-content: center;
     }
 
+    .sticky {
+        position: sticky;
+        top: 5px;
+        z-index: 9999; /* Ensure it stays on top */
+        transform: translateY(0); /* Add a smooth transition effect */
+    }
+
     .tombstone-icon {
         margin-left: inherit;
         float: right;
