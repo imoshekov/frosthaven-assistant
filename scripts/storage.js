@@ -76,7 +76,7 @@ const DataManager = {
                 type: monster.name,
                 standee: '#',
                 level: level,
-                isElite: monster?.player4 === 'elite',
+                isElite: monster?.type === 'elite' || monster?.player4 === 'elite',
             };
             UIController.addCharacter(newCreature);
         });
