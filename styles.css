@@ -1245,7 +1245,7 @@ option {
     .header-icons {
         position: sticky;
         top: 0;
-        z-index: 9999;
+        z-index: 98;
         background-color: #2B2B2B;
     }
 
