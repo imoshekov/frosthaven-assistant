@@ -74,7 +74,6 @@ const DataManager = {
         data.rooms[0].monster.forEach(monster => {
             const newCreature = {
                 type: monster.name,
-                standee: '#',
                 level: level,
                 isElite: monster?.type === 'elite' || monster?.player4 === 'elite',
             };

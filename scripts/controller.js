@@ -11,7 +11,7 @@ const UIController = {
 
         // Validate required inputs
         if (!type) return alert('Select monster type first');
-        if (!standee) return alert('Select standee # first');
+        if (!standee & !autoInput) return alert('Select standee # first');
 
         // Fetch monster data
         const monsterData = data.monsters.find(monster => monster.name === type);
