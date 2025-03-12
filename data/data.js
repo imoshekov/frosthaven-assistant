@@ -3,7 +3,7 @@ const data = {
     { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 9, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
     { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
     { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 11, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
-    { name: "Petra Squirtenstein", type: "deathwalker", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] }
+    { name: "Double Penetration", type: "geminate", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] }
   ],
   "conditions": [
     "stun",
