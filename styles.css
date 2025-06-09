@@ -1,12 +1,13 @@
 :root {
     --boneshaper-color: #49a967;
     --banner-spear-color: #edbc47;
-    --blinkblade-color:#01b0db;
+    --blinkblade-color: #01b0db;
     --snowflake-color: #83b5be;
     --deathwalker-color: #8c97a9;
     --drifter-color: #a28b7c;
     --geminate-color: #c33e69;
     --meteor-color: #eb5b38;
+    --fist-color: #88abc6;
     --trap-color: #ddb586;
     --elite-color: #400a0b;
     --nonelite-color: #694802;
@@ -20,6 +21,7 @@
     --geminate-transperant-color: rgb(195 62 105 / 50%);
     --meteor-transperant-color: rgb(235 91 56 / 50%);
     --trap-transperant-color: rgb(221 181 134 / 50%);
+    --fist-transperant-color: rgb(136 171 198/50%);
     --elite-transperant-color: rgb(197 0 0 / 50%);
     --nonelite-transperant-color: rgb(70 14 15 / 50%);
     --friendly-transperant-color: rgb(131 124 162 / 50%);
@@ -269,6 +271,10 @@ img.background {
     color: var(--meteor-color);
 }
 
+.creatures .fist-row.friendly img.profile {
+    color: var(--fist-color);
+}
+
 .creatures .elite img.profile {
     color: var(--elite-color);
 }
@@ -309,6 +315,9 @@ img.background {
     background-color: var(--geminate-transperant-color);
 }
 
+.creatures .fist-row.friendly {
+    background-color: var(--fist-transperant-color);
+}
 
 .creatures .deathwalker-row.friendly {
     background-color: var(--deathwalker-transperant-color);
@@ -733,7 +742,7 @@ option {
 
 .ss-main {
     position: relative;
-    z-index: 99; 
+    z-index: 99;
 }
 
 .ss-content .ss-list {
@@ -746,8 +755,7 @@ option {
 }
 
 .ss-main .ss-values .ss-value div.ss-value-text,
-.ss-main .ss-values .ss-placeholder
- {
+.ss-main .ss-values .ss-placeholder {
     font-size: 16px;
     line-height: 1.45;
 }
@@ -1053,10 +1061,10 @@ option {
     }
 }
 
-.postman{
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
+.postman {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px
 }
 
@@ -1069,7 +1077,7 @@ option {
 /* Style the input field */
 #type {
     width: 95%;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     padding: 8px;
     font-size: 18px;
     border: 1px solid #ccc;
@@ -1077,9 +1085,9 @@ option {
 
 .autocomplete-items {
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 0;
-    width: 100%; 
+    width: 100%;
     background-color: #2B2B2B;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     max-height: 150px;
@@ -1286,14 +1294,15 @@ option {
         margin-right: 2px;
     }
 
-    .toast, .toast.show{
+    .toast,
+    .toast.show {
         max-width: 100%;
     }
 
     .gridjs-summary {
         display: none;
     }
-    
+
     .gridjs-th,
     .gridjs-td {
         padding: 6px 8px;
@@ -1320,7 +1329,7 @@ option {
         white-space: nowrap;
     }
 
-    .gridjs-pagination .gridjs-pages button{
+    .gridjs-pagination .gridjs-pages button {
         padding: 5px 5px;
     }
 
@@ -1348,7 +1357,8 @@ option {
     .gridjs-pages button,
     .gridjs-search,
     .gridjs-search-input,
-    .gridjs-table,.gridjs-th,
+    .gridjs-table,
+    .gridjs-th,
     .gridjs-td {
         font-size: 12px !important;
     }
@@ -1362,14 +1372,14 @@ option {
         line-height: 1 !important;
     }
 
-    .gridjs-search{
+    .gridjs-search {
         display: none;
     }
 
     #logs-filter {
-       position: relative;
-       width : 100%;
-       top: 25px;
+        position: relative;
+        width: 100%;
+        top: 25px;
     }
 
     .ss-main .ss-values .ss-value div.ss-value-text,

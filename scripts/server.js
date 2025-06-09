@@ -6,9 +6,9 @@ const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
 const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const SESSION_DEFAULT_DATA = {
     characters: [
-        { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 9, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
-        { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 8, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
-        { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 11, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
+        { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
+        { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
+        { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 17, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
         { name: "Double Penetration", type: "geminate", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] }
     ],
     elements: {
