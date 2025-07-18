@@ -90871,3 +90871,13 @@ const data = {
     }
   }
 }
+
+// Allow access in browser
+if (typeof window !== 'undefined') {
+  window.data = data;
+}
+
+// Allow access in Node (Render)
+if (typeof module !== 'undefined') {
+  module.exports = { data };
+}
