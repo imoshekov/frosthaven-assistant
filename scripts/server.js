@@ -1,16 +1,12 @@
 const http = require('http');
 const WebSocket = require('ws');
+const { data } = require('../data/data.js');
 const PORT = process.env.PORT || 8080;
 const HEARTBEAT_INTERVAL = 15000;
 const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
 const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const SESSION_DEFAULT_DATA = {
-    characters: [
-        { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
-        { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] },
-        { name: "Krio Pat'ra", type: "snowflake", aggressive: false, hp: 17, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
-        { name: "Stef4o", type: "fist", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {},tempStats: {}, log: [] }
-    ],
+    characters: data.defaultCharacters,
     elements: {
         fire: '{"elementId":"fire","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#fire-bw)"}', 
         ice: '{"elementId":"ice","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#ice-bw)"}', 
