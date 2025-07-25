@@ -18,12 +18,19 @@ function openConditions(event, charIdx) {
     };
     Object.entries(conditions).forEach(([id, value]) => {
         const element = document.getElementById(id);
-        if (element) {
-            if (element.type === 'checkbox') {
-                element.checked = value;
-            } else {
-                element.value = value;
-            }
+        if (!element) {
+            return;
+        }
+        if (element.type === 'checkbox') {
+            const elementIcon = document.getElementById(`${id}-img`);
+            elementIcon.classList.toggle('disabled', !value);
+            elementIcon.onclick = () => {
+                element.checked = !element.checked;
+                element.dispatchEvent(new Event('change')); 
+                elementIcon.classList.toggle('disabled', !element.checked);
+            };
+        } else {
+            element.value = value;
         }
     });
     preventExclusiveConditions();
@@ -273,7 +280,24 @@ function showConditionsForType(typeToUpdate, condition) {
 function preventExclusiveConditions() {
     const brittle = document.getElementById("condition-brittle");
     const ward = document.getElementById("condition-ward");
-    brittle.addEventListener("change", () => brittle.checked && (ward.checked = false));
-    ward.addEventListener("change", () => ward.checked && (brittle.checked = false));
+    const brittleIcon = document.getElementById("condition-brittle-img");
+    const wardIcon = document.getElementById("condition-ward-img");
+
+    brittle.addEventListener("change", () => {
+        if (brittle.checked) {
+            ward.checked = false;
+            wardIcon.classList.add("disabled");
+        }
+        brittleIcon.classList.toggle("disabled", !brittle.checked);
+    });
+
+    ward.addEventListener("change", () => {
+        if (ward.checked) {
+            brittle.checked = false;
+            brittleIcon.classList.add("disabled");
+        }
+        wardIcon.classList.toggle("disabled", !ward.checked);
+    });
 }
+
 //endregion
