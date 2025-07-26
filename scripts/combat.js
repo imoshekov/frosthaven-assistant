@@ -6,6 +6,7 @@ let attackLog = null;
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
     let target = DataManager.getCharacters(charIdx);
+
     const conditions = {
         'condition-armor': target.armor,
         'condition-retaliate': target.retaliate,
@@ -13,24 +14,58 @@ function openConditions(event, charIdx) {
         'condition-wound': target.conditions?.wound || false,
         'condition-brittle': target.conditions?.brittle || false,
         'condition-ward': target.conditions?.ward || false,
+        'condition-immobilize': target.conditions?.immobilize || false,
+        'condition-bane': target.conditions?.bane || false,
+        'condition-muddle': target.conditions?.muddle || false,
         'temp-condition-retaliate': target?.tempStats?.retaliate || 0,
         'temp-condition-armor': target?.tempStats?.armor || 0
     };
+
     Object.entries(conditions).forEach(([id, value]) => {
         const element = document.getElementById(id);
-        if (element) {
-            if (element.type === 'checkbox') {
-                element.checked = value;
-            } else {
-                element.value = value;
+        const icon = document.getElementById(`${id}-img`);
+
+        if (!element) return;
+
+        if (element.type === 'checkbox') {
+            // 1. Set checkbox state from character
+            element.checked = value;
+
+            // 2. Update icon style
+            if (icon) {
+                icon.classList.toggle('disabled', !value);
+
+                // 3. Bind icon click to toggle checkbox and update game data
+                icon.onclick = () => {
+                    element.checked = !element.checked;
+                    element.dispatchEvent(new Event('change'));
+                };
             }
+
+            // 4. When checkbox changes, update the icon and the character object
+            element.onchange = () => {
+                if (icon) {
+                    icon.classList.toggle('disabled', !element.checked);
+                }
+
+                // Update the character's stored condition
+                const key = id.replace('condition-', '');
+                if (!target.conditions) target.conditions = {};
+                target.conditions[key] = element.checked;
+            };
+
+        } else {
+            // For number inputs (temp stats)
+            element.value = value;
         }
     });
+
     preventExclusiveConditions();
     openModal('modal-conditions');
     document.getElementById('condition-target').innerHTML = `${target.name}`;
     event.stopPropagation();
 }
+
 
 function showConditions(charIdx) {
     const target = DataManager.getCharacters(charIdx);
@@ -61,6 +96,9 @@ function applyCondition() {
         { id: 'condition-wound', stat: 'wound', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-brittle', stat: 'brittle', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-ward', stat: 'ward', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-immobilize', stat: 'immobilize', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-bane', stat: 'bane', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-muddle', stat: 'muddle', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'temp-condition-armor', stat: 'armor', allTypesAffected: true, isCondition: false, isTemporary: true },
         { id: 'temp-condition-retaliate', stat: 'retaliate', allTypesAffected: true, isCondition: false, isTemporary: true }
     ];
@@ -271,9 +309,38 @@ function showConditionsForType(typeToUpdate, condition) {
 }
 
 function preventExclusiveConditions() {
-    const brittle = document.getElementById("condition-brittle");
-    const ward = document.getElementById("condition-ward");
-    brittle.addEventListener("change", () => brittle.checked && (ward.checked = false));
-    ward.addEventListener("change", () => ward.checked && (brittle.checked = false));
+  const exclusivePairs = [
+    ['brittle', 'ward']
+  ];
+
+  const target = DataManager.getCharacters(conditionTarget);
+  if (!target.conditions) target.conditions = {};
+
+  exclusivePairs.forEach(([condA, condB]) => {
+    const checkboxA = document.getElementById(`condition-${condA}`);
+    const checkboxB = document.getElementById(`condition-${condB}`);
+    const iconA = document.getElementById(`condition-${condA}-img`);
+    const iconB = document.getElementById(`condition-${condB}-img`);
+
+    if (!checkboxA || !checkboxB) return;
+
+    checkboxA.addEventListener('change', () => {
+      if (checkboxA.checked) {
+        checkboxB.checked = false;
+        if (iconB) iconB.classList.add('disabled');
+        target.conditions[condB] = false;
+      }
+    });
+
+    checkboxB.addEventListener('change', () => {
+      if (checkboxB.checked) {
+        checkboxA.checked = false;
+        if (iconA) iconA.classList.add('disabled');
+        target.conditions[condA] = false;
+      }
+    });
+  });
 }
+
+
 //endregion

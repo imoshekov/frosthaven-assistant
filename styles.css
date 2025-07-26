@@ -818,6 +818,17 @@ option {
     height: 35px;
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.condition-img {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.condition-img.disabled {
+  opacity: 0.5;
+  filter: brightness(50%);
 }
 
 .condition-image:hover {
@@ -849,6 +860,14 @@ option {
 
 .condition-btn {
     width: 100%;
+}
+
+.hidden-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
 }
 
 .stat-container {
