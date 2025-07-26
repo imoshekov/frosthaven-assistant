@@ -6,6 +6,7 @@ let attackLog = null;
 function openConditions(event, charIdx) {
     conditionTarget = charIdx;
     let target = DataManager.getCharacters(charIdx);
+
     const conditions = {
         'condition-armor': target.armor,
         'condition-retaliate': target.retaliate,
@@ -16,28 +17,52 @@ function openConditions(event, charIdx) {
         'temp-condition-retaliate': target?.tempStats?.retaliate || 0,
         'temp-condition-armor': target?.tempStats?.armor || 0
     };
+
     Object.entries(conditions).forEach(([id, value]) => {
         const element = document.getElementById(id);
-        if (!element) {
-            return;
-        }
+        const icon = document.getElementById(`${id}-img`);
+
+        if (!element) return;
+
         if (element.type === 'checkbox') {
-            const elementIcon = document.getElementById(`${id}-img`);
-            elementIcon.classList.toggle('disabled', !value);
-            elementIcon.onclick = () => {
-                element.checked = !element.checked;
-                element.dispatchEvent(new Event('change')); 
-                elementIcon.classList.toggle('disabled', !element.checked);
+            // 1. Set checkbox state from character
+            element.checked = value;
+
+            // 2. Update icon style
+            if (icon) {
+                icon.classList.toggle('disabled', !value);
+
+                // 3. Bind icon click to toggle checkbox and update game data
+                icon.onclick = () => {
+                    element.checked = !element.checked;
+                    element.dispatchEvent(new Event('change'));
+                };
+            }
+
+            // 4. When checkbox changes, update the icon and the character object
+            element.onchange = () => {
+                if (icon) {
+                    icon.classList.toggle('disabled', !element.checked);
+                }
+
+                // Update the character's stored condition
+                const key = id.replace('condition-', '');
+                if (!target.conditions) target.conditions = {};
+                target.conditions[key] = element.checked;
             };
+
         } else {
+            // For number inputs (temp stats)
             element.value = value;
         }
     });
+
     preventExclusiveConditions();
     openModal('modal-conditions');
     document.getElementById('condition-target').innerHTML = `${target.name}`;
     event.stopPropagation();
 }
+
 
 function showConditions(charIdx) {
     const target = DataManager.getCharacters(charIdx);
@@ -278,26 +303,36 @@ function showConditionsForType(typeToUpdate, condition) {
 }
 
 function preventExclusiveConditions() {
-    const brittle = document.getElementById("condition-brittle");
-    const ward = document.getElementById("condition-ward");
-    const brittleIcon = document.getElementById("condition-brittle-img");
-    const wardIcon = document.getElementById("condition-ward-img");
+  const brittle = document.getElementById("condition-brittle");
+  const ward = document.getElementById("condition-ward");
+  const brittleIcon = document.getElementById("condition-brittle-img");
+  const wardIcon = document.getElementById("condition-ward-img");
 
-    brittle.addEventListener("change", () => {
-        if (brittle.checked) {
-            ward.checked = false;
-            wardIcon.classList.add("disabled");
-        }
-        brittleIcon.classList.toggle("disabled", !brittle.checked);
-    });
+  brittle.addEventListener("change", () => {
+    if (brittle.checked) {
+      // 1. Uncheck the other box
+      ward.checked = false;
 
-    ward.addEventListener("change", () => {
-        if (ward.checked) {
-            brittle.checked = false;
-            brittleIcon.classList.add("disabled");
-        }
-        wardIcon.classList.toggle("disabled", !ward.checked);
-    });
+      // 2. Update icon class
+      if (wardIcon) wardIcon.classList.add("disabled");
+
+      // 3. Update data model
+      const target = DataManager.getCharacters(conditionTarget);
+      if (!target.conditions) target.conditions = {};
+      target.conditions.ward = false;
+    }
+  });
+
+  ward.addEventListener("change", () => {
+    if (ward.checked) {
+      brittle.checked = false;
+      if (brittleIcon) brittleIcon.classList.add("disabled");
+
+      const target = DataManager.getCharacters(conditionTarget);
+      if (!target.conditions) target.conditions = {};
+      target.conditions.brittle = false;
+    }
+  });
 }
 
 //endregion
