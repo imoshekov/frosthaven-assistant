@@ -15,8 +15,11 @@ function openConditions(event, charIdx) {
         'condition-brittle': target.conditions?.brittle || false,
         'condition-ward': target.conditions?.ward || false,
         'condition-immobilize': target.conditions?.immobilize || false,
-        'condition-bane': target.conditions?.bane || false,
         'condition-muddle': target.conditions?.muddle || false,
+        'condition-stun': target.conditions?.stun || false,
+        'condition-impair': target.conditions?.impair || false,
+        'condition-bane': target.conditions?.bane || false,
+        'condition-disarm': target.conditions?.disarm || false,
         'temp-condition-retaliate': target?.tempStats?.retaliate || 0,
         'temp-condition-armor': target?.tempStats?.armor || 0
     };
@@ -99,6 +102,9 @@ function applyCondition() {
         { id: 'condition-immobilize', stat: 'immobilize', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-bane', stat: 'bane', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-muddle', stat: 'muddle', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-stun', stat: 'stun', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-impair', stat: 'impair', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-disarm', stat: 'disarm', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'temp-condition-armor', stat: 'armor', allTypesAffected: true, isCondition: false, isTemporary: true },
         { id: 'temp-condition-retaliate', stat: 'retaliate', allTypesAffected: true, isCondition: false, isTemporary: true }
     ];
