@@ -136,6 +136,12 @@ const UIController = {
                         onclick="UIController.toggleConditionVisibility(${index}, 'brittle')">
                     <img id="char-ward-${index}" class="condition-image" src='images/fh/condition/ward.svg'
                         onclick="UIController.toggleConditionVisibility(${index}, 'ward')">
+                    <img id="char-immobilize-${index}" class="condition-image" src='images/fh/condition/immobilize.svg'
+                        onclick="UIController.toggleConditionVisibility(${index}, 'immobilize')">
+                    <img id="char-bane-${index}" class="condition-image" src='images/fh/condition/bane.svg'
+                        onclick="UIController.toggleConditionVisibility(${index}, 'bane')">
+                    <img id="char-muddle-${index}" class="condition-image" src='images/fh/condition/muddle.svg'
+                        onclick="UIController.toggleConditionVisibility(${index}, 'muddle')">
                 </div>
             </div>
         </div>

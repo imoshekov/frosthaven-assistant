@@ -14,6 +14,9 @@ function openConditions(event, charIdx) {
         'condition-wound': target.conditions?.wound || false,
         'condition-brittle': target.conditions?.brittle || false,
         'condition-ward': target.conditions?.ward || false,
+        'condition-immobilize': target.conditions?.immobilize || false,
+        'condition-bane': target.conditions?.bane || false,
+        'condition-muddle': target.conditions?.muddle || false,
         'temp-condition-retaliate': target?.tempStats?.retaliate || 0,
         'temp-condition-armor': target?.tempStats?.armor || 0
     };
@@ -93,6 +96,9 @@ function applyCondition() {
         { id: 'condition-wound', stat: 'wound', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-brittle', stat: 'brittle', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'condition-ward', stat: 'ward', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-immobilize', stat: 'immobilize', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-bane', stat: 'bane', allTypesAffected: false, isCondition: true, isTemporary: false },
+        { id: 'condition-muddle', stat: 'muddle', allTypesAffected: false, isCondition: true, isTemporary: false },
         { id: 'temp-condition-armor', stat: 'armor', allTypesAffected: true, isCondition: false, isTemporary: true },
         { id: 'temp-condition-retaliate', stat: 'retaliate', allTypesAffected: true, isCondition: false, isTemporary: true }
     ];
@@ -303,36 +309,38 @@ function showConditionsForType(typeToUpdate, condition) {
 }
 
 function preventExclusiveConditions() {
-  const brittle = document.getElementById("condition-brittle");
-  const ward = document.getElementById("condition-ward");
-  const brittleIcon = document.getElementById("condition-brittle-img");
-  const wardIcon = document.getElementById("condition-ward-img");
+  const exclusivePairs = [
+    ['brittle', 'ward']
+  ];
 
-  brittle.addEventListener("change", () => {
-    if (brittle.checked) {
-      // 1. Uncheck the other box
-      ward.checked = false;
+  const target = DataManager.getCharacters(conditionTarget);
+  if (!target.conditions) target.conditions = {};
 
-      // 2. Update icon class
-      if (wardIcon) wardIcon.classList.add("disabled");
+  exclusivePairs.forEach(([condA, condB]) => {
+    const checkboxA = document.getElementById(`condition-${condA}`);
+    const checkboxB = document.getElementById(`condition-${condB}`);
+    const iconA = document.getElementById(`condition-${condA}-img`);
+    const iconB = document.getElementById(`condition-${condB}-img`);
 
-      // 3. Update data model
-      const target = DataManager.getCharacters(conditionTarget);
-      if (!target.conditions) target.conditions = {};
-      target.conditions.ward = false;
-    }
-  });
+    if (!checkboxA || !checkboxB) return;
 
-  ward.addEventListener("change", () => {
-    if (ward.checked) {
-      brittle.checked = false;
-      if (brittleIcon) brittleIcon.classList.add("disabled");
+    checkboxA.addEventListener('change', () => {
+      if (checkboxA.checked) {
+        checkboxB.checked = false;
+        if (iconB) iconB.classList.add('disabled');
+        target.conditions[condB] = false;
+      }
+    });
 
-      const target = DataManager.getCharacters(conditionTarget);
-      if (!target.conditions) target.conditions = {};
-      target.conditions.brittle = false;
-    }
+    checkboxB.addEventListener('change', () => {
+      if (checkboxB.checked) {
+        checkboxA.checked = false;
+        if (iconA) iconA.classList.add('disabled');
+        target.conditions[condA] = false;
+      }
+    });
   });
 }
+
 
 //endregion
