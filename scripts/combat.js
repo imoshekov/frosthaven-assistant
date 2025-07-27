@@ -76,7 +76,10 @@ function showConditions(charIdx) {
     showConditionsForType(target.type, 'armor');
     showConditionsForType(target.type, 'retaliate');
     if (Object.keys(target.conditions).length === 0) {
-        document.getElementById(`char-condition-${charIdx}`).style.visibility = 'hidden';
+        document.getElementById(`char-condition-${charIdx}`).style.display = 'none';
+    }
+    else{
+        document.getElementById(`char-condition-${charIdx}`).style.display = 'contents';
     }
     for (const condition in target.conditions) {
         const conditionImg = document.getElementById(`char-${condition}-${charIdx}`);
