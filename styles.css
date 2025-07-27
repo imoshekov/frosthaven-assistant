@@ -1230,6 +1230,10 @@ option {
         margin: 0;
     }
 
+    .modal-content .condition-row {
+        margin-top:10px
+    }
+
     .attack-btn {
         width: 30px;
         height: 30px;
