@@ -205,7 +205,7 @@ img.background {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
     min-height: 75px;
 }
 
@@ -1191,7 +1191,7 @@ option {
 
     .character-skin .name b {
         min-height: 20px;
-        margin-top: 2%;
+        margin-top: 5%;
     }
 
     .creatures .creature-column .nameplate img.profile {
