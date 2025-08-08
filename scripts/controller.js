@@ -44,7 +44,7 @@ const UIController = {
             initiative: 0,
             armor: defaultArmor,
             retaliate: defaultRetaliate,
-            conditions: {},
+            conditions: { ...defaultConditions },
             tempStats: {},
             log: []
         };

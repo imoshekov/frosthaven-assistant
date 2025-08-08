@@ -1,9 +1,22 @@
+const defaultConditions = {
+  poison: false,
+  wound: false,
+  brittle: false,
+  ward: false,
+  immobilize: false,
+  bane: false,
+  muddle: false,
+  stun: false,
+  impair: false,
+  disarm: false
+};
+
 const data = {
   "defaultCharacters": [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
-    { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
-    { name: "Калин", type: "meteor", aggressive: false, hp: 17, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] },
-    { name: "Stef4o", type: "fist", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: {}, tempStats: {}, log: [] }
+    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
+    { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
+    { name: "Калин", type: "meteor", aggressive: false, hp: 17, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
+    { name: "Stef4o", type: "fist", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] }
   ],
   "conditions": [
     "stun",

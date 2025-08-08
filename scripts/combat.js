@@ -131,11 +131,7 @@ function applyCondition() {
     });
 
     DataManager.getCharacters(conditionTarget).conditions = conditionValues;
-    DataManager.getCharacters().forEach((_, index) => showConditions(index));
-
-    if (WebSocketHandler.isConnected) {
-        WebSocketHandler.sendCharactersUpdate();
-    }
+    showConditions(conditionTarget);
 
     closeConditionsModal();
 }
