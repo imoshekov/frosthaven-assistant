@@ -58,6 +58,15 @@ body::-webkit-scrollbar {
     /* for Chrome, Safari, and Opera */
 }
 
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
+}
+
 
 input,
 label,
