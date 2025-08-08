@@ -52,6 +52,14 @@ body {
     overflow-y: scroll;
 }
 
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
+}
 
 body::-webkit-scrollbar {
     display: none;
@@ -136,7 +144,7 @@ h3.logs-title {
 
 
 .button-link:hover {
-    background-color: #2563eb; 
+    background-color: #2563eb;
 }
 
 .title {
@@ -844,8 +852,8 @@ option {
 }
 
 .condition-img.disabled {
-  opacity: 0.5;
-  filter: brightness(50%);
+    opacity: 0.5;
+    filter: brightness(50%);
 }
 
 .condition-image:hover {
@@ -880,11 +888,11 @@ option {
 }
 
 .hidden-checkbox {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
 }
 
 .stat-container {
@@ -1248,7 +1256,7 @@ option {
     }
 
     .modal-content .condition-row {
-        margin-top:10px
+        margin-top: 10px
     }
 
     .attack-btn {
