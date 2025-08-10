@@ -60,37 +60,34 @@ export class LocalStorageService {
     location.reload();
   }
 
-  async loadFile(scenarioNumber: number, level: number, showToast: (msg: string, duration: number) => void, addCharacter: (creature: Creature) => void): Promise<void> {
+  async loadFile(scenarioNumber: number, level: number): Promise<Creature[]> {
     if (!scenarioNumber) {
-      showToast('Enter a valid scenario number', 3000);
-      return;
+      throw new Error('Enter a valid scenario number');
     }
     const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
-    const filePath = `scenarios/${formattedFileNumber}.json`;
+    const filePath = `/scenarios/${formattedFileNumber}.json`;
     try {
       const response = await fetch(filePath);
       if (!response.ok) {
         throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
-      this.processScenarioData(data, level, addCharacter);
-      showToast(`Scenario ${scenarioNumber}, level ${level} loaded`, 2000);
+      return this.processScenarioData(data, level);
     } catch (error) {
       console.error('Error loading file:', error);
-      showToast('Error loading scenario', 3000);
+      throw new Error(`Error loading scenario ${scenarioNumber}. Check the file path and make sure it exists.`);
     }
   }
 
-  processScenarioData(data: any, level: number = 1, addCharacter: (creature: Creature) => void): void {
-    if (!data.rooms || !data.rooms[0] || !data.rooms[0].monster) return;
-    data.rooms[0].monster.forEach((monster: any) => {
-      const newCreature: Creature = {
-        type: monster.name,
+  processScenarioData(data: any, level: number = 1): Creature[] {
+    if (!data.rooms || !data.rooms[0] || !data.rooms[0].monster) return [];
+    return data.rooms[0].monster.map((monster: any) => {
+      return {
+         type: monster.name,
         level: level,
         isElite: monster?.type === 'elite' || monster?.player4 === 'elite',
         aggressive: true,
       };
-      addCharacter(newCreature);
     });
   }
 }

@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "../scenarios",
+                "output": "/scenarios"
               }
             ],
             "styles": [
