@@ -1,0 +1,84 @@
+{
+  "index": "46",
+  "name": "Dead Pass",
+  "flowChartGroup": "algox-3",
+  "coordinates": {
+    "x": 2025.5,
+    "y": 1570.75,
+    "width": 130,
+    "height": 92,
+    "gridLocation": "B12"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "unlocks": [
+    "52"
+  ],
+  "requirements": [
+    {
+      "buildings": [
+        "sled"
+      ]
+    }
+  ],
+  "rewards": {
+    "experience": 10,
+    "morale": 1
+  },
+  "monsters": [
+    "burrowing-blade",
+    "shrike-fiend"
+  ],
+  "lootDeckConfig": {
+    "money": 9,
+    "lumber": 3,
+    "metal": 3,
+    "hide": 3,
+    "rockroot": 1,
+    "corpsecap": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:2",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "burrowing-blade",
+          "type": "normal"
+        },
+        {
+          "name": "burrowing-blade",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "shrike-fiend",
+          "type": "normal"
+        },
+        {
+          "name": "shrike-fiend",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

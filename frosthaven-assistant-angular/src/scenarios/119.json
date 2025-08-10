@@ -1,0 +1,108 @@
+{
+  "index": "119",
+  "name": "Radiant Dust",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 428.5,
+    "y": 365.5,
+    "width": 104,
+    "height": 70,
+    "gridLocation": "Q1"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "requirements": [
+    {
+      "campaignSticker": [
+        "into-the-forest"
+      ]
+    }
+  ],
+  "rewards": {
+    "custom": "Spend any remaining dust to gain the following: <br><br> Spend seven (once only): Scepter of Control Item #203 <br>Spend one: Any 1 material resource <br>Spend two: Any 1 herb resource"
+  },
+  "monsters": [
+    "burrowing-blade",
+    "rending-drake",
+    "spitting-drake"
+  ],
+  "objectives": [
+    {
+      "name": "Infuser",
+      "escort": true,
+      "health": "3xL+5",
+      "initiative": 99,
+      "marker": "a",
+      "actions": [
+        {
+          "type": "move",
+          "value": 2,
+          "small": true
+        },
+        {
+          "type": "custom",
+          "value": "At end of turn, spend dust to:",
+          "small": true,
+          "subActions": [
+            {
+              "type": "custom",
+              "value": "Spend 1: %game.action.move%2",
+              "small": true
+            },
+            {
+              "type": "custom",
+              "value": "Spend 2:",
+              "small": true,
+              "subActions": [
+                {
+                  "type": "heal",
+                  "value": "L+2",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "custom",
+              "value": "Spend 5: Convert monster within %game.action.range%2",
+              "small": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "burrowing-blade",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "rending-drake",
+          "type": "normal"
+        },
+        {
+          "name": "spitting-drake",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

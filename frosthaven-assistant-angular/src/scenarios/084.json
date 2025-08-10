@@ -1,0 +1,79 @@
+{
+  "index": "84",
+  "name": "Here There Be Oozes",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 325.25,
+    "y": 809,
+    "width": 99,
+    "height": 73,
+    "gridLocation": "R5"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "rewards": {
+    "items": [
+      "234"
+    ],
+    "campaignSticker": [
+      "brummix"
+    ]
+  },
+  "monsters": [
+    "elder-ooze",
+    "ooze"
+  ],
+  "lootDeckConfig": {
+    "money": 15,
+    "lumber": 3,
+    "metal": 3,
+    "corpsecap": 2,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:2",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "elder-ooze",
+          "type": "boss"
+        },
+        {
+          "name": "ooze",
+          "type": "elite"
+        },
+        {
+          "name": "ooze",
+          "type": "elite"
+        },
+        {
+          "name": "ooze",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ooze",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

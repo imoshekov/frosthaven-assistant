@@ -1,0 +1,33 @@
+<!-- master-container is a workaround to handle the focus event on all number fields in the page -->
+<div id="master-container">
+    <div class="title">
+        <img src="favicon.ico" alt="Frosthaven Logo" loading="lazy" />
+        <h1>Frosthaven Assistant</h1>
+    </div>
+    <app-toast-notification></app-toast-notification>
+    <app-setup></app-setup>
+    <app-monster></app-monster>
+    <app-game></app-game>
+    <a href="https://grey-astronaut-764049.postman.co/collection/1419604-3345b5ec-84d0-4b3c-9b89-30bdc88ac94a?source=rip_html&active-environment=1419604-50e897d1-5175-44ef-a5fc-6f70370eae60"
+        target="_blank" title="Postman" class="button-link">Run Postman
+    </a>
+    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3mIO6M9EcAcvLxGvf368ZtNINTWFTPUY3w8immfofr0ViH4KllF0lqUv_vTZzIdb74hHYOvI_Hwkq/pubhtml"
+        target="_blank" title="Unlocked craftables" class="button-link">
+        View Unlocked Craftables
+    </a>
+    <a href="https://www.gloomhavencards.com/fh/items?fbclid=IwY2xjawL8IHRleHRuA2FlbQIxMQABHkKcdLIcbofW8IUeOP6v5TWQoy0Zy87jam0ER3Wlj5h5ix4GIPpDYmtn_MYa_aem_uNM6fXKf3vBZx724Hs_wlw"
+        target="_blank" title="Unlocked craftables" class="button-link">
+        View All Items
+    </a>
+    <a href="https://docs.google.com/spreadsheets/d/1LXfBFjL74gE959ogz9Kj6Wbo_ieL4kZBT3jss13WZto/edit?gid=800894000#gid=800894000"
+        target="_blank" title="Unlocked craftables" class="button-link">
+        View Crafting Calculator
+    </a>
+
+    <div>
+        <span id="loading-spinner" [hidden]="!isLoading"></span>
+        <span class="technical-log" id="last-saved-timestamp">{{lastSavedTimestamp}}</span>
+        <span class="technical-log" id="joined-session-id">{{joinedSessionId}}</span>
+        <span class="technical-log" id="server-last-pinged">{{serverLastPinged}}</span>
+    </div>
+</div>

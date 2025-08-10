@@ -1,0 +1,35 @@
+{
+  "index": "34",
+  "name": "Top of the Spire",
+  "flowChartGroup": "unfettered",
+  "coordinates": {
+    "x": 1918,
+    "y": 913.25,
+    "width": 98,
+    "height": 62,
+    "gridLocation": "C6"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "campaignSticker": [
+      "coral-shard"
+    ]
+  },
+  "monsters": [
+    "chaos-spark",
+    "lord-of-chaos"
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "lord-of-chaos",
+          "type": "boss"
+        }
+      ]
+    }
+  ]
+}

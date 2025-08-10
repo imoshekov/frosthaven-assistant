@@ -1,0 +1,15 @@
+<div class="setup-container row">
+  <button (click)="startNewGame()">New Game</button>
+
+  <button (click)="showLoadScenario = !showLoadScenario">Load Scenario<span>&#9660;</span></button>
+  <div id="load-scenario-container" [style.display]="showLoadScenario ? '' : 'none'">
+    <div class="default-stats">
+      <label for="scenario-id">Scenario:</label>
+      <input type="tel" id="scenario-id" placeholder="#" [(ngModel)]="scenarioId" />
+      <label for="scenario-level">Level:</label>
+      <input type="tel" id="scenario-level" placeholder="#" [(ngModel)]="scenarioLevel" />
+    </div>
+    <button id="load-scenario-button" (click)="loadScenario()">Load</button>
+  </div>
+
+</div>

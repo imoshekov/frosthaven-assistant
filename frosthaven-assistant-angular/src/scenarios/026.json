@@ -1,0 +1,117 @@
+{
+  "index": "26",
+  "name": "Quatryl Library",
+  "flowChartGroup": "unfettered",
+  "coordinates": {
+    "x": 1761.5,
+    "y": 1353,
+    "width": 153,
+    "height": 94,
+    "gridLocation": "E10"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "blocks": [
+    "25"
+  ],
+  "rewards": {
+    "experience": 10,
+    "calendarSection": [
+      "169.3-4"
+    ]
+  },
+  "monsters": [
+    "ancient-artillery",
+    "ruined-machine",
+    "steel-automaton"
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "lumber": 2,
+    "metal": 4,
+    "rockroot": 1,
+    "arrowvine": 1
+  },
+  "rules": [
+    {
+      "round": "R == 7",
+      "start": true,
+      "sections": [
+        "131.4"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "treasures": [
+        73
+      ],
+      "monster": [
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "type": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "type": "elite"
+        },
+        {
+          "name": "ruined-machine",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "ruined-machine",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "ruined-machine",
+          "player4": "normal"
+        },
+        {
+          "name": "ruined-machine",
+          "player4": "normal"
+        },
+        {
+          "name": "steel-automaton",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "steel-automaton",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

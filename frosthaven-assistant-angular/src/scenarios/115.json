@@ -1,0 +1,215 @@
+{
+  "index": "115",
+  "name": "Pylon Problems",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 708.25,
+    "y": 1071.5,
+    "width": 85,
+    "height": 71,
+    "gridLocation": "O8"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "experience": 15,
+    "calendarSectionManual": [
+      {
+        "section": "66.2",
+        "hint": "Add %data.section:66.2% to the calendar in X+1 weeks, where X is the number of pylons destroyed."
+      }
+    ]
+  },
+  "monsters": [
+    "algox-guard",
+    "algox-snowspeaker",
+    "snow-imp"
+  ],
+  "objectives": [
+    {
+      "name": "Ice Pillar",
+      "health": "L+3",
+      "actions": [
+        {
+          "type": "custom",
+          "value": "When destroyed, replace with rubble and all figures in adjacent hexes suffer trap damage",
+          "small": true
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 3,
+    "metal": 3,
+    "hide": 3,
+    "arrowvine": 1,
+    "rockroot": 1,
+    "snowthistle": 1
+  },
+  "rules": [
+    {
+      "round": "R == 5",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "a"
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "a"
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "b"
+        },
+        {
+          "monster": {
+            "name": "algox-guard",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "b"
+        }
+      ]
+    },
+    {
+      "round": "R == 8",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "algox-snowspeaker",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "a"
+        },
+        {
+          "monster": {
+            "name": "algox-snowspeaker",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "a"
+        },
+        {
+          "monster": {
+            "name": "snow-imp",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "b",
+          "count": "2"
+        },
+        {
+          "monster": {
+            "name": "snow-imp",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "b",
+          "count": "2"
+        }
+      ]
+    },
+    {
+      "round": "R == 10",
+      "finish": "won"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "13-A",
+      "initial": true,
+      "monster": [
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "player4": "normal"
+        },
+        {
+          "name": "algox-snowspeaker",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-snowspeaker",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "roomNumber": 2,
+      "ref": "11-C",
+      "initial": true,
+      "monster": [
+        {
+          "name": "snow-imp",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "snow-imp",
+          "player4": "normal"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "roomNumber": 3,
+      "ref": "02-G",
+      "initial": true,
+      "monster": [
+        {
+          "name": "snow-imp",
+          "type": "elite"
+        }
+      ],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

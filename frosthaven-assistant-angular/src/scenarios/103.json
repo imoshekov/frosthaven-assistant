@@ -1,0 +1,70 @@
+{
+  "index": "103",
+  "name": "The Lead Door",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 370.75,
+    "y": 1091.25,
+    "width": 104,
+    "height": 96,
+    "gridLocation": "R8"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "gold": 10,
+    "experience": 30,
+    "battleGoals": 1
+  },
+  "monsters": [
+    "living-doom",
+    "living-spirit",
+    "lurker-clawcrusher",
+    "shrike-fiend"
+  ],
+  "objectives": [
+    {
+      "name": "Ice Pillar",
+      "health": "(2xL)+4"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 15,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "true",
+      "note": "If any ice pillars suffered damage this round, spawn the following monsters at each character's location based on number of tokens on their mat.<br>0 - 5: One normal Living Spirit<br>6 - 8: One normal Shrike Fiend <br>9 - 11: One normal Living Doom <br>12+: One elite Living Spirit and one normal Lurker Clawcrusher"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "living-spirit",
+          "type": "normal"
+        },
+        {
+          "name": "living-spirit",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "living-spirit",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ]
+}

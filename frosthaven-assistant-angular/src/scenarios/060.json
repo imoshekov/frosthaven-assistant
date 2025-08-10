@@ -1,0 +1,307 @@
+{
+  "index": "60",
+  "name": "Uniting the Crown",
+  "flowChartGroup": "lurker",
+  "errata": "scenario60",
+  "coordinates": {
+    "x": 1559,
+    "y": 428.5,
+    "width": 127,
+    "height": 95,
+    "gridLocation": "G2"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "requirements": [
+    {
+      "buildings": [
+        "boat"
+      ],
+      "campaignSticker": [
+        "coral-shard:6"
+      ]
+    }
+  ],
+  "rewards": {
+    "experience": 30,
+    "prosperity": 1,
+    "items": [
+      "224"
+    ],
+    "events": [
+      "summer-outpost:SO-48",
+      "boat:B-17"
+    ],
+    "custom": "Remove all %game.action.custom.fh-lurkers% events from all outpost event decks",
+    "morale": 2,
+    "campaignSticker": [
+      "crown-united"
+    ],
+    "chooseUnlockCharacter": [
+      "coral",
+      "kelp"
+    ],
+    "townGuardAm": [
+      "fh-tg-add-plus50-lurkers"
+    ]
+  },
+  "monsters": [
+    "fracture-of-the-deep",
+    "lightning-eel",
+    "lurker-clawcrusher",
+    "lurker-mindsnipper",
+    "lurker-wavethrower"
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "arrowvine": 1,
+    "axenut": 1,
+    "corpsecap": 1,
+    "rockroot": 1,
+    "flamefruit": 1,
+    "snowthistle": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:3",
+          "scenarioEffect": true
+        }
+      ]
+    },
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": "(?!.*coral|kelp).*"
+          },
+          "type": "amAdd",
+          "value": "curse:2"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:fire"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "fire",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:ice"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "ice",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:air"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "air",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:earth"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "earth",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:light"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "light",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "monster",
+            "name": ".*",
+            "marker": "element:dark"
+          },
+          "type": "killed",
+          "value": 1
+        }
+      ],
+      "elements": [
+        {
+          "type": "dark",
+          "state": "always"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "alwaysApply": true,
+      "statEffects": [
+        {
+          "identifier": {
+            "type": "monster",
+            "edition": "fh",
+            "name": ".*lurker.*"
+          },
+          "statEffect": {
+            "attack": 1,
+            "name": "fractured-lieutenant"
+          },
+          "note": "%data.scenario.rules.fh.60%"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "fracture-of-the-deep",
+          "type": "boss"
+        },
+        {
+          "name": "lightning-eel",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "lightning-eel",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "lurker-clawcrusher",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite",
+          "marker": "element:dark"
+        },
+        {
+          "name": "lurker-clawcrusher",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite",
+          "marker": "element:light"
+        },
+        {
+          "name": "lurker-mindsnipper",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite",
+          "marker": "element:ice"
+        },
+        {
+          "name": "lurker-mindsnipper",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite",
+          "marker": "element:earth"
+        },
+        {
+          "name": "lurker-wavethrower",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite",
+          "marker": "element:air"
+        },
+        {
+          "name": "lurker-wavethrower",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite",
+          "marker": "element:fire"
+        }
+      ]
+    }
+  ]
+}

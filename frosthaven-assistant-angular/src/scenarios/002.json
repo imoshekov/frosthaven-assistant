@@ -1,0 +1,86 @@
+{
+  "index": "2",
+  "name": "Algox Scouting",
+  "flowChartGroup": "intro",
+  "coordinates": {
+    "x": 1078.5,
+    "y": 1073.5,
+    "width": 142,
+    "height": 83,
+    "gridLocation": "K8"
+  },
+  "edition": "fh",
+  "complexity": 1,
+  "unlocks": [
+    "4B"
+  ],
+  "blocks": [
+    "3",
+    "4A"
+  ],
+  "forcedLinks": [
+    "4B"
+  ],
+  "rewards": {
+    "battleGoals": 1,
+    "overlaySticker": {
+      "name": "W",
+      "location": "M7",
+      "coordinates": {
+        "x": 784.5,
+        "y": 933.5,
+        "width": 288,
+        "height": 274
+      }
+    }
+  },
+  "monsters": [
+    "algox-archer",
+    "algox-guard"
+  ],
+  "allies": [
+    "algox-priest"
+  ],
+  "lootDeckConfig": {
+    "money": 4,
+    "lumber": 4,
+    "metal": 4,
+    "hide": 4,
+    "rockroot": 1,
+    "arrowvine": 2,
+    "random_item": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "11-A",
+      "initial": true,
+      "monster": [
+        {
+          "name": "algox-archer",
+          "type": "normal"
+        },
+        {
+          "name": "algox-archer",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "type": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}
