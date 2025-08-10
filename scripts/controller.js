@@ -76,10 +76,8 @@ const UIController = {
     <input type="tel" class="initiative initiative-column ${this.showGraveyard ? 'hidden' : ''}" value="${creature.initiative}" onchange="
         UIController.updateStat(${index}, 'initiative', this.value, true);
         UIController.renderInitiative();
-        if (UIController.allIniativeSet()) {
-            UIController.sortCreatures();
-            UIController.renderTable();
-        }
+        UIController.sortCreatures();
+        UIController.renderTable();
     " />
     <div class='nameplate'>
         <div class='character-skin image' id="character-skin-${index}" ${this.showGraveyard ? '' : `onclick="openConditions(event, ${index})"`}>
@@ -304,7 +302,34 @@ const UIController = {
         }
     },
     sortCreatures() {
-        DataManager.getCharacters().sort((a, b) => a.initiative - b.initiative);
+        DataManager.getCharacters().sort((a, b) => {
+            // 1. Initiative (asc)
+            if (a.initiative !== b.initiative) {
+                return a.initiative - b.initiative;
+            }
+            // 2. Aggressive: false (characters) before true (monsters)
+            if (a.aggressive !== b.aggressive) {
+                return a.aggressive ? 1 : -1;
+            }
+
+            // 3. Name (asc, case-insensitive)
+            const typeA = (a.type || '').toLowerCase();
+            const typeB = (b.type || '').toLowerCase();
+            if (typeA < typeB) return -1;
+            if (typeA > typeB) return 1;
+
+            // 4. Elite: true (elites) before false (non-elites)
+            if (a.eliteMonster !== b.eliteMonster) {
+                return a.eliteMonster ? -1 : 1;
+            }
+
+            // 5. Standee (as number if possible, else string)
+            const standeeA = isNaN(parseInt(a.standee)) ? a.standee : parseInt(a.standee);
+            const standeeB = isNaN(parseInt(b.standee)) ? b.standee : parseInt(b.standee);
+            if (standeeA < standeeB) return -1;
+            if (standeeA > standeeB) return 1;
+            return 0;
+        });
     },
     renameCreature(index) {
         let creature = DataManager.getCharacters(index);
