@@ -65,7 +65,8 @@ export class LocalStorageService {
       throw new Error('Enter a valid scenario number');
     }
     const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
-    const filePath = `/scenarios/${formattedFileNumber}.json`;
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+    const filePath = `${baseHref.replace(/\/$/, '')}/scenarios/${formattedFileNumber}.json`;
     try {
       const response = await fetch(filePath);
       if (!response.ok) {

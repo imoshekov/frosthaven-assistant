@@ -4,6 +4,7 @@ fail_screenshot.png
 babel_grid/
 babel_slimselect/
 babel_scripts/
+docs/
 frosthaven-assistant-angular/node_modules
 frosthaven-assistant-angular/dist 
 frosthaven-assistant-angular/.vscode
