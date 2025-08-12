@@ -3,7 +3,7 @@ name: build-and-deploy-angular-app
 on:
   push:
     branches:
-      - angular-cicd
+      - angular-migration
 
 jobs:
   build-and-deploy:
