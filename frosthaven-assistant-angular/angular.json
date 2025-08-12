@@ -15,9 +15,10 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -34,9 +35,11 @@
                 "output": "/scenarios"
               }
             ],
+            "outputPath": "../docs",
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "baseHref": "/frosthaven-assistant/"
           },
           "configurations": {
             "production": {
@@ -99,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

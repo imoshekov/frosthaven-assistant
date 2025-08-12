@@ -1,0 +1,99 @@
+{
+  "index": "111",
+  "name": "Ice Cave",
+  "flowChartGroup": "random-scenarios",
+  "errata": "scenario111",
+  "coordinates": {
+    "x": 655,
+    "y": 384.5,
+    "width": 103,
+    "height": 70,
+    "gridLocation": "O1"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "random": true,
+  "requirements": [
+    {
+      "buildings": [
+        "sled"
+      ]
+    }
+  ],
+  "rewards": {
+    "items": [
+      "236"
+    ]
+  },
+  "monsters": [
+    "frost-demon",
+    "hound"
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "lumber": 1,
+    "metal": 3,
+    "hide": 3,
+    "corpsecap": 1,
+    "arrowvine": 2
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "gainCondition",
+          "value": "muddle",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "frost-demon",
+          "type": "normal"
+        },
+        {
+          "name": "frost-demon",
+          "type": "normal"
+        },
+        {
+          "name": "frost-demon",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "frost-demon",
+          "player4": "normal"
+        },
+        {
+          "name": "hound",
+          "type": "elite"
+        },
+        {
+          "name": "hound",
+          "type": "elite"
+        },
+        {
+          "name": "hound",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "hound",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "index": "38",
+  "name": "The Way Forward",
+  "flowChartGroup": "algox-3",
+  "coordinates": {
+    "x": 1510.25,
+    "y": 1075.25,
+    "width": 111,
+    "height": 69,
+    "gridLocation": "G8"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "unlocks": [
+    "45",
+    "46"
+  ],
+  "rewards": {
+    "experience": 10,
+    "battleGoals": 1,
+    "inspiration": 1
+  },
+  "monsters": [
+    "hound",
+    "polar-bear"
+  ],
+  "objectives": [
+    {
+      "name": "Emissary",
+      "escort": true,
+      "health": "3x(L+2)",
+      "initiative": 99,
+      "marker": "a",
+      "actions": [
+        {
+          "type": "move",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "Emissary",
+      "escort": true,
+      "health": "3x(L+2)",
+      "initiative": 99,
+      "marker": "b",
+      "actions": [
+        {
+          "type": "move",
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 5,
+    "hide": 3,
+    "axenut": 2,
+    "arrowvine": 1,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Emissary"
+          },
+          "type": "dead",
+          "value": "1"
+        }
+      ],
+      "finish": "lost"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "hound",
+          "type": "normal"
+        },
+        {
+          "name": "hound",
+          "type": "normal"
+        },
+        {
+          "name": "hound",
+          "type": "normal"
+        },
+        {
+          "name": "hound",
+          "type": "normal"
+        },
+        {
+          "name": "hound",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "hound",
+          "player4": "elite"
+        },
+        {
+          "name": "polar-bear",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "polar-bear",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        2
+      ]
+    }
+  ]
+}

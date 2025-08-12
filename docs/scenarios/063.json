@@ -1,0 +1,120 @@
+{
+  "index": "63",
+  "name": "The Savvas Seal",
+  "flowChartGroup": "puzzle-book",
+  "coordinates": {
+    "x": 1496.5,
+    "y": 1536,
+    "width": 112,
+    "height": 81,
+    "gridLocation": "G12"
+  },
+  "edition": "fh",
+  "complexity": 3,
+  "unlocks": [
+    "64"
+  ],
+  "forcedLinks": [
+    "64"
+  ],
+  "rewards": {
+    "prosperity": 2
+  },
+  "monsters": [
+    "earth-demon",
+    "flame-demon",
+    "frost-demon",
+    "savvas-icestorm",
+    "savvas-lavaflow",
+    "wind-demon"
+  ],
+  "objectives": [
+    {
+      "name": "Crain",
+      "escort": true,
+      "health": "(L+C)x2+2",
+      "initiative": 99,
+      "marker": "a"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 5,
+    "lumber": 4,
+    "metal": 4,
+    "hide": 4,
+    "rockroot": 2,
+    "corpsecap": 2,
+    "random_item": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1 || R == 3",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "savvas-icestorm",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "elite"
+          },
+          "marker": "b"
+        }
+      ]
+    },
+    {
+      "round": "R == 2 || R == 4",
+      "start": true,
+      "spawns": [
+        {
+          "monster": {
+            "name": "savvas-lavaflow",
+            "player2": "normal",
+            "player3": "normal",
+            "player4": "elite"
+          },
+          "marker": "c"
+        }
+      ]
+    },
+    {
+      "round": "R == 4",
+      "sections": [
+        "7.1"
+      ]
+    },
+    {
+      "round": "R == 12",
+      "finish": "won"
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Crain"
+          },
+          "type": "dead"
+        }
+      ],
+      "finish": "lost"
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "treasures": [
+        72
+      ],
+      "monster": [],
+      "objectives": [
+        1
+      ]
+    }
+  ]
+}

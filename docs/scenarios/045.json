@@ -1,0 +1,107 @@
+{
+  "index": "45",
+  "name": "Living Glacier",
+  "flowChartGroup": "algox-3",
+  "coordinates": {
+    "x": 2004.25,
+    "y": 616.75,
+    "width": 123,
+    "height": 89,
+    "gridLocation": "C3"
+  },
+  "edition": "fh",
+  "complexity": 1,
+  "unlocks": [
+    "52"
+  ],
+  "requirements": [
+    {
+      "buildings": [
+        "climbing-gear"
+      ]
+    }
+  ],
+  "rewards": {
+    "battleGoals": 1,
+    "morale": 1
+  },
+  "monsters": [
+    "abael-herder",
+    "abael-scout",
+    "lightning-eel",
+    "piranha-pig"
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "lumber": 3,
+    "hide": 5,
+    "rockroot": 1,
+    "flamefruit": 1
+  },
+  "rules": [
+    {
+      "round": "R == 1",
+      "start": true,
+      "figures": [
+        {
+          "identifier": {
+            "type": "character",
+            "name": ".*"
+          },
+          "type": "amAdd",
+          "value": "minus1:2",
+          "scenarioEffect": true
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "abael-herder",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "abael-scout",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "abael-scout",
+          "player4": "normal"
+        },
+        {
+          "name": "lightning-eel",
+          "type": "elite"
+        },
+        {
+          "name": "lightning-eel",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "piranha-pig",
+          "type": "elite"
+        },
+        {
+          "name": "piranha-pig",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "piranha-pig",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ]
+    }
+  ]
+}

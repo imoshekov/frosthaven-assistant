@@ -1,0 +1,176 @@
+{
+  "index": "114",
+  "name": "Work Freeze",
+  "flowChartGroup": "other",
+  "coordinates": {
+    "x": 660.75,
+    "y": 983.5,
+    "width": 95,
+    "height": 77,
+    "gridLocation": "O7"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "collectiveResources": [
+      {
+        "type": "hide",
+        "value": 5
+      }
+    ],
+    "calendarSection": [
+      "86.1-4"
+    ]
+  },
+  "monsters": [
+    "hound",
+    "polar-bear",
+    "snow-imp"
+  ],
+  "objectives": [
+    {
+      "name": "Ice Pillar",
+      "health": "(2xL)+2",
+      "marker": "b",
+      "tags": [
+        "ice-pillar-b"
+      ],
+      "actions": [
+        {
+          "type": "shield",
+          "value": "[L/2{$math.ceil}]"
+        }
+      ]
+    },
+    {
+      "name": "Ice Pillar",
+      "health": "(2xL)+2",
+      "actions": [
+        {
+          "type": "shield",
+          "value": "[L/2{$math.ceil}]"
+        }
+      ]
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 10,
+    "metal": 3,
+    "hide": 4,
+    "axenut": 1,
+    "snowthistle": 2
+  },
+  "rules": [
+    {
+      "round": "R % 2 == 1",
+      "spawns": [
+        {
+          "monster": {
+            "name": "hound",
+            "player2": "normal",
+            "player3": "elite"
+          },
+          "marker": "c"
+        },
+        {
+          "monster": {
+            "name": "polar-bear",
+            "player4": "normal"
+          },
+          "marker": "c"
+        }
+      ]
+    },
+    {
+      "round": "R % 2 == 0",
+      "spawns": [
+        {
+          "monster": {
+            "name": "snow-imp",
+            "player2": "normal",
+            "player3": "elite",
+            "player4": "normal"
+          },
+          "marker": "d"
+        },
+        {
+          "monster": {
+            "name": "snow-imp",
+            "player4": "elite"
+          },
+          "marker": "d"
+        }
+      ]
+    },
+    {
+      "round": "true",
+      "always": true,
+      "once": true,
+      "sections": [
+        "159.1"
+      ],
+      "figures": [
+        {
+          "identifier": {
+            "type": "objective",
+            "edition": "objective",
+            "name": "Ice Pillar",
+            "tags": [
+              "ice-pillar-b"
+            ]
+          },
+          "type": "dead"
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "ref": "13-A",
+      "initial": true,
+      "monster": [
+        {
+          "name": "hound",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "hound",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "hound",
+          "player4": "normal"
+        },
+        {
+          "name": "polar-bear",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "snow-imp",
+          "type": "normal"
+        },
+        {
+          "name": "snow-imp",
+          "type": "elite"
+        },
+        {
+          "name": "snow-imp",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        1,
+        2,
+        2
+      ]
+    }
+  ]
+}

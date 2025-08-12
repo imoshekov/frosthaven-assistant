@@ -1,0 +1,72 @@
+{
+  "index": "96",
+  "name": "Underground Station",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 1792.5,
+    "y": 1446,
+    "width": 116,
+    "height": 89,
+    "gridLocation": "E11"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "unlocks": [
+    "97"
+  ],
+  "requirements": [
+    {
+      "buildings": [
+        "climbing-gear"
+      ]
+    }
+  ],
+  "forcedLinks": [
+    "97"
+  ],
+  "rewards": {
+    "experience": 5,
+    "morale": 1
+  },
+  "monsters": [
+    "ancient-artillery",
+    "rending-drake"
+  ],
+  "objectives": [
+    {
+      "name": "Debris",
+      "health": "L+10"
+    }
+  ],
+  "lootDeckConfig": {
+    "money": 14,
+    "lumber": 1,
+    "metal": 3,
+    "axenut": 1,
+    "rockroot": 1
+  },
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "ancient-artillery",
+          "player2": "normal",
+          "player3": "elite",
+          "player4": "elite"
+        },
+        {
+          "name": "rending-drake",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        }
+      ],
+      "objectives": [
+        1,
+        1
+      ]
+    }
+  ]
+}

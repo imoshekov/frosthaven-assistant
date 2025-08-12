@@ -1,0 +1,62 @@
+{
+  "index": "95",
+  "name": "To Bury the Dead",
+  "flowChartGroup": "job-postings",
+  "coordinates": {
+    "x": 624,
+    "y": 1967.125,
+    "width": 83,
+    "height": 58,
+    "gridLocation": "FR"
+  },
+  "edition": "fh",
+  "complexity": 2,
+  "rewards": {
+    "gold": 10,
+    "morale": 1
+  },
+  "monsters": [
+    "ice-wraith"
+  ],
+  "lootDeckConfig": {
+    "money": 8,
+    "lumber": 4,
+    "metal": 2,
+    "corpsecap": 2,
+    "snowthistle": 2
+  },
+  "rules": [
+    {
+      "round": "R == 8",
+      "start": true,
+      "sections": [
+        "43.1"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "roomNumber": 1,
+      "initial": true,
+      "monster": [
+        {
+          "name": "ice-wraith",
+          "type": "normal"
+        },
+        {
+          "name": "ice-wraith",
+          "type": "elite"
+        },
+        {
+          "name": "ice-wraith",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "ice-wraith",
+          "player4": "normal"
+        }
+      ]
+    }
+  ]
+}
