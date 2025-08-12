@@ -34,11 +34,10 @@ jobs:
 
       - name: Build Angular app
         working-directory: frosthaven-assistant-angular
-        run: npm run build -- --configuration production
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages           # branch to deploy to
-          FOLDER: docs               # folder with static site output (your angular.json outputPath)

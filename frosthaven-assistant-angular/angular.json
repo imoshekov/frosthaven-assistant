@@ -35,7 +35,7 @@
                 "output": "/scenarios"
               }
             ],
-            "outputPath": "../docs",
+            "outputPath": "../dist",
             "styles": [
               "src/styles.scss"
             ],
