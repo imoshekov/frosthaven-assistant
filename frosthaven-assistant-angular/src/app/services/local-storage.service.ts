@@ -17,11 +17,11 @@ export class LocalStorageService {
   }
 
   loadCreatures(): Creature[] {
-    return this.load(this.CHARACTERS) || [];
+    return this.load(this.CHARACTERS) || this.appContext.creatures;
   }
 
   loadGraveyard(): Creature[] {
-    return this.load(this.GRAVEYARD) || [];
+    return this.load(this.GRAVEYARD) || this.appContext.graveyard;
   }
 
   loadSessionId(): number {

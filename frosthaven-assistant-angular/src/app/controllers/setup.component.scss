@@ -3,4 +3,19 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+
+  .section {
+    display: flex;
+    width: 100%;
+
+    .expand-box {
+      display: flex;
+      flex-direction: column;
+      text-align: end;
+
+      .label-group {
+        margin: 5px;
+      }
+    }
+  }
 }

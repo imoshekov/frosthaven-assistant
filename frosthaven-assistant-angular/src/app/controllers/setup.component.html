@@ -2,14 +2,33 @@
   <button (click)="startNewGame()">New Game</button>
 
   <button (click)="showLoadScenario = !showLoadScenario">Load Scenario<span>&#9660;</span></button>
-  <div id="load-scenario-container" [style.display]="showLoadScenario ? '' : 'none'">
-    <div class="default-stats">
-      <label for="scenario-id">Scenario:</label>
-      <input type="tel" id="scenario-id" placeholder="#" [(ngModel)]="scenarioId" />
-      <label for="scenario-level">Level:</label>
-      <input type="tel" id="scenario-level" placeholder="#" [(ngModel)]="scenarioLevel" />
+  <div id="load-scenario-container" class="section" [style.display]="showLoadScenario ? '' : 'none'">
+    <div class="expand-box">
+      <div class="label-group">
+        <label for="scenario-id">Scenario</label>
+        <input type="tel" id="scenario-id" placeholder="#" [(ngModel)]="scenarioId" />
+      </div>
+      <div class="label-group">
+        <label for="scenario-level">Level</label>
+        <input type="tel" id="scenario-level" placeholder="#" [(ngModel)]="scenarioLevel" />
+      </div>
+
     </div>
-    <button id="load-scenario-button" (click)="loadScenario()">Load</button>
+    <button class="action-button" (click)="loadScenario()">Load</button>
   </div>
 
+  <button (click)="startSession()">Start Session</button>
+
+  <button (click)="showJoinSession = !showJoinSession">Join Session<span>&#9660;</span></button>
+  <div id="join-session-container" class="section" [style.display]="showJoinSession ? '' : 'none'">
+    <div class="expand-box">
+      <div class="label-group">
+        <label for="session-id">Session</label>
+        <input type="tel" id="session-id" placeholder="1" [(ngModel)]="sessionId" />
+      </div>
+
+    </div>
+    <button class="action-button" (click)="joinSession()">Join</button>
+
+  </div>
 </div>

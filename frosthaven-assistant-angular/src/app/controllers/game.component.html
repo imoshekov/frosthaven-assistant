@@ -1,3 +1,5 @@
 <div class="game-container">
-  <p *ngIf="lastEvent">Last event: {{ lastEvent }}</p>
+  <div *ngFor="let creature of appContext.creatures">
+  <div id="{{creature}}">Item {{creature.type}}</div>
+</div>
 </div>

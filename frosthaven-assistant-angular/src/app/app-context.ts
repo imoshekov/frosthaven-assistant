@@ -25,6 +25,7 @@ export class AppContext {
     }
 
     private addDefaultCharacters() {
+        console.log('loading characters')
         const defaultCharacters: Creature[] = [
             this.createCharacter("Bonera Bonerchick", "boneshaper", 14),
             this.createCharacter("Arrabbiatus", "blinkblade", 14),

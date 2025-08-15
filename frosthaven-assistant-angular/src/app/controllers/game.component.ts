@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppContext } from '../app-context';
 
 @Component({
   selector: 'app-game',
@@ -9,5 +10,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class GameComponent {
-  @Input() lastEvent: string | null = null;
+  constructor(public appContext: AppContext){ }
+  
 }
