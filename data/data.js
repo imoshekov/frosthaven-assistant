@@ -13,7 +13,7 @@ const defaultConditions = {
 
 const data = {
   "defaultCharacters": [
-    { name: "Bonera Bonerchick", type: "boneshaper", aggressive: false, hp: 12, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
+    { name: "Аньемонье", type: "coral", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
     { name: "Arrabbiatus", type: "blinkblade", aggressive: false, hp: 14, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
     { name: "Калин", type: "meteor", aggressive: false, hp: 17, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] },
     { name: "Stef4o", type: "fist", aggressive: false, hp: 10, attack: 0, movement: 0, initiative: 0, armor: 0, retaliate: 0, conditions: { ...defaultConditions }, tempStats: {}, log: [] }
