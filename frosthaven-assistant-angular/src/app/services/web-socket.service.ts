@@ -51,11 +51,11 @@ export class WebSocketService {
   }
 
   sendCharactersUpdate() {
-    this.sendUpdateMessage('characters-update', { characters: this.appContext.creatures });
+    this.sendUpdateMessage('characters-update', { characters: this.appContext.getCreatures() });
   }
 
   sendGraveyardUpdate() {
-    this.sendUpdateMessage('graveyard-update', { graveyard: this.appContext.graveyard });
+    this.sendUpdateMessage('graveyard-update', { graveyard: this.appContext.getGraveyard() });
   }
 
   sendRoundNumber(roundNumberValue: number) {
@@ -115,9 +115,9 @@ export class WebSocketService {
       };
 
       if (this.role === 'host') {
-        joinSessionPayload.characters = this.appContext.creatures;
+        joinSessionPayload.characters = this.appContext.getCreatures();
         joinSessionPayload.roundNumber = this.appContext.roundNumber;
-        joinSessionPayload.graveyard = this.appContext.graveyard;
+        joinSessionPayload.graveyard = this.appContext.getGraveyard();
         joinSessionPayload.elementStates = this.appContext.elementStates;
       }
 
@@ -202,11 +202,11 @@ export class WebSocketService {
   }
 
   private handleCharacterUpdate(data: any) {
-    this.appContext.creatures = data.characters;
+    this.appContext.setCreatures(data.characters);
   }
 
   private handleGraveyardUpdate(data: any) {
-    this.appContext.graveyard = data.graveyard;
+    this.appContext.setGraveyard(data.graveyard);
   }
 
   private handleRoundUpdate(data: any) {
@@ -218,11 +218,11 @@ export class WebSocketService {
   }
 
   private handleMonsterAdded(data: any) {
-    this.appContext.creatures.push(data.monster);
+    this.appContext.addCreature(data.monster);
   }
 
   private handleInitiativeReset(data: any) {
-    this.appContext.creatures.forEach(creature => {
+    this.appContext.getCreatures().forEach(creature => {
       creature.initiative = data.value;
     });
   }

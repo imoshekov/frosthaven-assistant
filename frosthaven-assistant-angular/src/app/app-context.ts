@@ -2,26 +2,69 @@ import { Injectable } from '@angular/core';
 import { Creature, Element } from './types/game-types';
 import { Scenario } from './types/data-file-types';
 import { LocalStorageService } from './services/local-storage.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
     public elementStates: Element[] = [];
     public roundNumber: number = 1;
-    public creatures: Creature[] = [];
-    public graveyard: Creature[] = [];
     public scenario: Scenario | null = null;
+
+
+    private creaturesSubject = new BehaviorSubject<Creature[]>([]);
+    creatures$ = this.creaturesSubject.asObservable();
+    
+    private graveyardSubject = new BehaviorSubject<Creature[]>([]);
+    graveyard$ = this.graveyardSubject.asObservable();
 
     constructor() {
         this.addDefaultCharacters();
         this.addElements();
     }
 
-    setCreatures(creatures: Creature[]) {
-        this.creatures = creatures;
+    getCreatures(): Creature[] {
+        return this.creaturesSubject.value;
     }
 
-    setGraveyard(graveyard: Creature[]) {
-        this.graveyard = graveyard;
+    setCreatures(creatures: Creature[]) {
+        this.creaturesSubject.next(creatures);
+    }
+
+    addCreature(creature: Creature) {
+        this.creaturesSubject.next([...this.creaturesSubject.value, creature]);
+    }
+
+    addCreatures(newCreatures: Creature[]) {
+        this.creaturesSubject.next([
+            ...this.creaturesSubject.value,
+            ...newCreatures
+        ]);
+    }
+
+    removeCreature(id: number) {
+        this.creaturesSubject.next(
+            this.creaturesSubject.value.filter(c => c.id !== id)
+        );
+    }
+
+    getGraveyard(): Creature[] {
+        return this.graveyardSubject.value;
+    }
+
+
+    setGraveyard(creatures: Creature[]) {
+        this.graveyardSubject.next(creatures);
+    }
+
+    addGraveyard(creature: Creature) {
+        this.graveyardSubject.next([...this.graveyardSubject.value, creature]);
+    }
+
+
+    removeGraveyard(id: number) {
+        this.graveyardSubject.next(
+            this.graveyardSubject.value.filter(c => c.id !== id)
+        );
     }
 
     private addDefaultCharacters() {
@@ -32,11 +75,14 @@ export class AppContext {
             this.createCharacter("Калин", "meteor", 17),
             this.createCharacter("Stef4o", "fist", 10)
         ];
-        this.creatures.push(...defaultCharacters);
+        this.addCreatures(defaultCharacters);
     }
+
+    private creatureId = 0;
 
     private createCharacter(name: string, type: string, hp: number): Creature {
         return {
+            id: this.creatureId++,
             name,
             type,
             aggressive: false,

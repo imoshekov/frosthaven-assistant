@@ -33,6 +33,11 @@
                 "glob": "**/*.json",
                 "input": "../scenarios",
                 "output": "/scenarios"
+              },
+              {
+                "glob": "**/*.{png,jpg,jpeg,gif,bmp,webp,svg,tif,tiff}",
+                "input": "../images",
+                "output": "/images"
               }
             ],
             "outputPath": "../dist",

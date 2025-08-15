@@ -52,7 +52,7 @@ export class SetupComponent {
 
     creatures.forEach(creature => {
       const monsterStats = this.findMonsterStats(creature);
-      this.appContext.creatures.push({
+      this.appContext.addCreature({
         hp: this.stringUtils.parseInt(monsterStats?.health ?? 0),
         attack: this.stringUtils.parseInt(monsterStats?.attack ?? 0),
         movement: this.stringUtils.parseInt(monsterStats?.movement ?? 0),
@@ -63,7 +63,7 @@ export class SetupComponent {
       });
     });
 
-    console.log(this.appContext.creatures);
+    console.log(this.appContext.getCreatures());
     this.notificationService.emitInfoMessage(`Loaded scenario ${this.scenarioId} at level ${this.scenarioLevel}.`);
   }
 

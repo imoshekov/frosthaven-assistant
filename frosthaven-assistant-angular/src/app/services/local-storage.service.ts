@@ -17,11 +17,11 @@ export class LocalStorageService {
   }
 
   loadCreatures(): Creature[] {
-    return this.load(this.CHARACTERS) || this.appContext.creatures;
+    return this.load(this.CHARACTERS) || this.appContext.getCreatures();
   }
 
   loadGraveyard(): Creature[] {
-    return this.load(this.GRAVEYARD) || this.appContext.graveyard;
+    return this.load(this.GRAVEYARD) || this.appContext.getGraveyard();
   }
 
   loadSessionId(): number {
@@ -47,8 +47,8 @@ export class LocalStorageService {
   saveGame(): void {
     this.loadingEventSubject.emit(true);
 
-    const currentCharacterData = JSON.stringify(this.appContext.creatures);
-    const graveyardData = JSON.stringify(this.appContext.graveyard);
+    const currentCharacterData = JSON.stringify(this.appContext.getCreatures());
+    const graveyardData = JSON.stringify(this.appContext.getGraveyard);
     this.set(this.CHARACTERS, currentCharacterData);
     this.set(this.GRAVEYARD, graveyardData);
 
