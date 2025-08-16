@@ -1,3 +1,27 @@
-<div class="monster-container">
+<div class="monster-container" >
+  <span>Add Monster</span>
+  <div>
+    <label for="type">Type</label>
+    <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()"
+      autocomplete="off" />
+
+    <div *ngIf="filteredMonsters.length > 0">
+      <div *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
+        {{ monster.name }}
+      </div>
+    </div>
+  </div>
+  <div>
+    <label for="Level">Level</label>
+    <input type="tel" placeholder="#" [(ngModel)]="level" />
+  </div>
+  <div>
+    <label for="Standee">Standee</label>
+    <input type="tel" placeholder="#" [(ngModel)]="standee" />
+  </div>
+  <div>
+    <label for="Elite">Elite</label>
+    <input type="checkbox" id="elite-monster" [(ngModel)]="isElite" />
+  </div>
   <button (click)="addMonster()">Add Monster</button>
 </div>

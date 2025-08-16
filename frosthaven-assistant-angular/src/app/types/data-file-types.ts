@@ -11,7 +11,7 @@ export interface MonsterAction {
   type: string;
   value: string | number;
   subActions?: any
-  small?  : boolean;
+  small?: boolean;
 }
 
 export interface MonsterStat {
@@ -37,7 +37,7 @@ export interface Monster {
   deck?: any,
   hidden?: boolean;
   standeeShare?: string;
-  catching? : boolean;
+  catching?: boolean;
   flying?: boolean;
   randomCount?: number;
   boss?: boolean;
@@ -94,9 +94,22 @@ export interface Scenario {
   random?: boolean;
 }
 
+export interface Character {
+  name: string;
+  stats: CharacterStat[];
+  traits: string[];
+  color: string;
+}
+
+export interface CharacterStat {
+  level: number;
+  health: number;
+}
+
 export interface DataFile {
   conditions: string[];
   monsters: Monster[];
   scenarios: Scenario[];
   sections?: any[];
+  characters: Character[];
 }

@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
+import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
+
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, GlobalTelInputDirective]
 })
 export class GameComponent implements OnDestroy {
   groupedCreatures: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];
@@ -19,14 +21,10 @@ export class GameComponent implements OnDestroy {
   constructor(public appContext: AppContext) {
     this.sortCreatures();
     this.sortGraveyard();
-    console.log(this.groupedCreatures)
-    console.log(this.groupedGraveyard)
     this.appContext.creatures$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(creatures => {
       this.sortCreatures();
-      console.log(this.groupedCreatures)
-      console.log(this.groupedGraveyard)
     });
 
     this.appContext.graveyard$.pipe(
@@ -38,7 +36,7 @@ export class GameComponent implements OnDestroy {
 
   getCreaturePic(creature: Creature): string {
     const subFolder = creature?.aggressive ? 'monster' : 'character';
-    return `./../images/${subFolder}/thumbnail/fh-${creature?.type}.png`
+    return `./images/${subFolder}/thumbnail/fh-${creature?.type}.png`
   }
 
   private sortCreatures() {
