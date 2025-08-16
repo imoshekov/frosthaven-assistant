@@ -19,14 +19,10 @@ export class GameComponent implements OnDestroy {
   constructor(public appContext: AppContext) {
     this.sortCreatures();
     this.sortGraveyard();
-    console.log(this.groupedCreatures)
-    console.log(this.groupedGraveyard)
     this.appContext.creatures$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(creatures => {
       this.sortCreatures();
-      console.log(this.groupedCreatures)
-      console.log(this.groupedGraveyard)
     });
 
     this.appContext.graveyard$.pipe(

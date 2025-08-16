@@ -3,7 +3,7 @@ import { DataFile } from '../types/data-file-types';
 
 @Injectable({ providedIn: 'root' })
 export class DataLoaderService {
-  constructor() {}
+  constructor() { }
 
   getData(): DataFile {
     return {
@@ -60104,6 +60104,807 @@ export class DataLoaderService {
               ]
             }
           ]
+        }
+      ],
+      "characters": [
+        {
+          "name": "astral",
+          "traits": [
+            "arcane",
+            "educated",
+            "strong"
+          ],
+          "color": "#6fb54e",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "banner-spear",
+          "traits": [
+            "armored",
+            "persuasive",
+            "resourceful"
+          ],
+          "color": "#edbc47",
+          "stats": [
+            {
+              "level": 1,
+              "health": 10
+            },
+            {
+              "level": 2,
+              "health": 12
+            },
+            {
+              "level": 3,
+              "health": 14
+            },
+            {
+              "level": 4,
+              "health": 16
+            },
+            {
+              "level": 5,
+              "health": 18
+            },
+            {
+              "level": 6,
+              "health": 20
+            },
+            {
+              "level": 7,
+              "health": 22
+            },
+            {
+              "level": 8,
+              "health": 24
+            },
+            {
+              "level": 9,
+              "health": 26
+            }
+          ],
+        },
+        {
+          "name": "blinkblade",
+          "traits": [
+            "educated",
+            "nimble",
+            "resourceful"
+          ],
+          "color": "#01b0db",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "boneshaper",
+          "traits": [
+            "arcane",
+            "educated",
+            "intimidating"
+          ],
+          "color": "#49a967",
+          "stats": [
+            {
+              "level": 1,
+              "health": 6
+            },
+            {
+              "level": 2,
+              "health": 7
+            },
+            {
+              "level": 3,
+              "health": 8
+            },
+            {
+              "level": 4,
+              "health": 9
+            },
+            {
+              "level": 5,
+              "health": 10
+            },
+            {
+              "level": 6,
+              "health": 11
+            },
+            {
+              "level": 7,
+              "health": 12
+            },
+            {
+              "level": 8,
+              "health": 13
+            },
+            {
+              "level": 9,
+              "health": 14
+            }
+          ],
+        },
+        {
+          "name": "coral",
+          "traits": [
+            "armored",
+            "chaotic",
+            "strong"
+          ],
+          "color": "#4c988b",
+          "stats": [
+            {
+              "level": 1,
+              "health": 10
+            },
+            {
+              "level": 2,
+              "health": 12
+            },
+            {
+              "level": 3,
+              "health": 14
+            },
+            {
+              "level": 4,
+              "health": 16
+            },
+            {
+              "level": 5,
+              "health": 18
+            },
+            {
+              "level": 6,
+              "health": 20
+            },
+            {
+              "level": 7,
+              "health": 22
+            },
+            {
+              "level": 8,
+              "health": 24
+            },
+            {
+              "level": 9,
+              "health": 26
+            }
+          ],
+        },
+        {
+          "name": "deathwalker",
+          "traits": [
+            "arcane",
+            "outcast",
+            "persuasive"
+          ],
+          "color": "#8c97a9",
+          "stats": [
+            {
+              "level": 1,
+              "health": 6
+            },
+            {
+              "level": 2,
+              "health": 7
+            },
+            {
+              "level": 3,
+              "health": 8
+            },
+            {
+              "level": 4,
+              "health": 9
+            },
+            {
+              "level": 5,
+              "health": 10
+            },
+            {
+              "level": 6,
+              "health": 11
+            },
+            {
+              "level": 7,
+              "health": 12
+            },
+            {
+              "level": 8,
+              "health": 13
+            },
+            {
+              "level": 9,
+              "health": 14
+            }
+          ],
+        },
+        {
+          "name": "drifter",
+          "traits": [
+            "outcast",
+            "resourceful",
+            "strong"
+          ],
+          "color": "#a28b7c",
+          "stats": [
+            {
+              "level": 1,
+              "health": 10
+            },
+            {
+              "level": 2,
+              "health": 12
+            },
+            {
+              "level": 3,
+              "health": 14
+            },
+            {
+              "level": 4,
+              "health": 16
+            },
+            {
+              "level": 5,
+              "health": 18
+            },
+            {
+              "level": 6,
+              "health": 20
+            },
+            {
+              "level": 7,
+              "health": 22
+            },
+            {
+              "level": 8,
+              "health": 24
+            },
+            {
+              "level": 9,
+              "health": 26
+            }
+          ],
+        },
+        {
+          "name": "drill",
+          "traits": [
+            "armored",
+            "resourceful",
+            "strong"
+          ],
+          "color": "#ad8f68",
+          "stats": [
+            {
+              "level": 1,
+              "health": 10
+            },
+            {
+              "level": 2,
+              "health": 12
+            },
+            {
+              "level": 3,
+              "health": 14
+            },
+            {
+              "level": 4,
+              "health": 16
+            },
+            {
+              "level": 5,
+              "health": 18
+            },
+            {
+              "level": 6,
+              "health": 20
+            },
+            {
+              "level": 7,
+              "health": 22
+            },
+            {
+              "level": 8,
+              "health": 24
+            },
+            {
+              "level": 9,
+              "health": 26
+            }
+          ],
+        },
+        {
+          "name": "fist",
+          "traits": [
+            "intimidating",
+            "persuasive",
+            "strong"
+          ],
+          "color": "#88abc6",
+          "stats": [
+            {
+              "level": 1,
+              "health": 10
+            },
+            {
+              "level": 2,
+              "health": 12
+            },
+            {
+              "level": 3,
+              "health": 14
+            },
+            {
+              "level": 4,
+              "health": 16
+            },
+            {
+              "level": 5,
+              "health": 18
+            },
+            {
+              "level": 6,
+              "health": 20
+            },
+            {
+              "level": 7,
+              "health": 22
+            },
+            {
+              "level": 8,
+              "health": 24
+            },
+            {
+              "level": 9,
+              "health": 26
+            }
+          ],
+        },
+        {
+          "name": "geminate",
+          "traits": [
+            "arcane",
+            "chaotic",
+            "nimble"
+          ],
+          "color": "#c33e69",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "kelp",
+         "color": "#987bab",
+          "traits": [
+            "armored",
+            "intimidating",
+            "nimble"
+          ],
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "meteor",
+          "traits": [
+            "arcane",
+            "chaotic",
+            "intimidating"
+          ],
+          "color": "#eb5b38",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "prism",
+          "traits": [
+            "armored",
+            "educated",
+            "resourceful"
+          ],
+          "color": "#d7ad47",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "shackles",
+          "traits": [
+            "chaotic",
+            "intimidating",
+            "outcast"
+          ],
+          "color": "#7476a7",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "shards",
+          "traits": [
+            "educated",
+            "outcast",
+            "persuasive"
+          ],
+          "color": "#c0d7e9",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "snowflake",
+          "traits": [
+            "chaotic",
+            "nimble",
+            "persuasive"
+          ],
+          "color": "#83b5be",
+          "stats": [
+            {
+              "level": 1,
+              "health": 8
+            },
+            {
+              "level": 2,
+              "health": 9
+            },
+            {
+              "level": 3,
+              "health": 11
+            },
+            {
+              "level": 4,
+              "health": 12
+            },
+            {
+              "level": 5,
+              "health": 14
+            },
+            {
+              "level": 6,
+              "health": 15
+            },
+            {
+              "level": 7,
+              "health": 17
+            },
+            {
+              "level": 8,
+              "health": 18
+            },
+            {
+              "level": 9,
+              "health": 20
+            }
+          ],
+        },
+        {
+          "name": "trap",
+          "traits": [
+            "nimble",
+            "outcast",
+            "resourceful"
+          ],
+          "color": "#ddb586",
+          "stats": [
+            {
+              "level": 1,
+              "health": 6
+            },
+            {
+              "level": 2,
+              "health": 7
+            },
+            {
+              "level": 3,
+              "health": 8
+            },
+            {
+              "level": 4,
+              "health": 9
+            },
+            {
+              "level": 5,
+              "health": 10
+            },
+            {
+              "level": 6,
+              "health": 11
+            },
+            {
+              "level": 7,
+              "health": 12
+            },
+            {
+              "level": 8,
+              "health": 13
+            },
+            {
+              "level": 9,
+              "health": 14
+            }
+          ],
         }
       ],
     }

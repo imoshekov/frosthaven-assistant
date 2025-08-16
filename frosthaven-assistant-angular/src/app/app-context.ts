@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Creature, Element } from './types/game-types';
-import { Scenario } from './types/data-file-types';
+import { Scenario, DataFile, Character, CharacterStat } from './types/data-file-types';
 import { LocalStorageService } from './services/local-storage.service';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { DataLoaderService } from './services/data-loader.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -10,10 +12,9 @@ export class AppContext {
     public roundNumber: number = 1;
     public scenario: Scenario | null = null;
 
-
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
-    
+
     private graveyardSubject = new BehaviorSubject<Creature[]>([]);
     graveyard$ = this.graveyardSubject.asObservable();
 
@@ -66,26 +67,55 @@ export class AppContext {
             this.graveyardSubject.value.filter(c => c.id !== id)
         );
     }
-
     private addDefaultCharacters() {
-        console.log('loading characters')
-        const defaultCharacters: Creature[] = [
-            this.createCharacter("Bonera Bonerchick", "boneshaper", 14),
-            this.createCharacter("Arrabbiatus", "blinkblade", 14),
-            this.createCharacter("Калин", "meteor", 17),
-            this.createCharacter("Stef4o", "fist", 10)
+        const selectedCharacters: { name: string, type: string; level: number }[] = [
+            {
+                "name": "Аньемонье",
+                "type": "coral",
+                "level": 3
+            },
+            {
+                "name": "Arrabbiatus",
+                "type": "blinkblade",
+                "level": 7
+            },
+            {
+                "name": "Калин",
+                "type": "meteor",
+                "level": 3
+            },
+            {
+                "name": "Stef4o",
+                "type": "fist",
+                "level": 5
+            }
         ];
+        const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
+            const charData = new DataLoaderService().getData().characters.find(c => c.name === type);
+            if (!charData) {
+                return this.createCharacter(name, type, 10, []); // fallback
+            }
+
+            const statForLevel = charData.stats.find(s => s.level === level);
+            const hp = statForLevel?.health ?? 10;
+
+            const traits = charData.traits ?? [];
+
+            return this.createCharacter(name, charData.name, hp, traits);
+        });
+
         this.addCreatures(defaultCharacters);
     }
 
     private creatureId = 0;
 
-    private createCharacter(name: string, type: string, hp: number): Creature {
+    private createCharacter(name: string, type: string, hp: number, traits: string[]): Creature {
         return {
             id: this.creatureId++,
             name,
             type,
             aggressive: false,
+            isElite: false,
             hp,
             attack: 0,
             movement: 0,
@@ -105,7 +135,8 @@ export class AppContext {
                 disarm: false
             },
             tempStats: {},
-            log: []
+            log: [],
+            traits: traits
         };
     }
 

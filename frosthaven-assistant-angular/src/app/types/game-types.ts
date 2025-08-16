@@ -28,6 +28,7 @@ export interface Creature {
   conditions?: DefaultCondition;
   tempStats?: Record<string, any>;
   log?: any[];
+  traits?: string[];
 }
 
 export interface Element {

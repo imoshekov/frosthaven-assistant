@@ -63,7 +63,6 @@ export class SetupComponent {
       });
     });
 
-    console.log(this.appContext.getCreatures());
     this.notificationService.emitInfoMessage(`Loaded scenario ${this.scenarioId} at level ${this.scenarioLevel}.`);
   }
 

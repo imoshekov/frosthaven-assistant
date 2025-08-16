@@ -13,7 +13,7 @@
           <div class="creature-nameplate">
             <img class='profile' [src]="getCreaturePic(creatureGroup.creatureType)">
             <span *ngIf="!creatureGroup.creatureType.aggressive" class="creature-name base-stat">
-              {{creatureGroup.creatureType.name}}
+              {{creatureGroup.creatureType.name}}             
             </span>
 
             <div *ngIf="creatureGroup.creatureType.aggressive" class="group-stats">
@@ -42,9 +42,7 @@
               </div>
 
             </div>
-
           </div>
-
         </div>
 
       </div>
