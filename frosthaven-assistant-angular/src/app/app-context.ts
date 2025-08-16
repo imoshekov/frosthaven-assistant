@@ -17,7 +17,7 @@ export class AppContext {
     private graveyardSubject = new BehaviorSubject<Creature[]>([]);
     graveyard$ = this.graveyardSubject.asObservable();
 
-    constructor() {
+    constructor(private dataLoader: DataLoaderService) {
         this.addDefaultCharacters();
         this.addElements();
     }
@@ -96,7 +96,7 @@ export class AppContext {
             }
         ];
         const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
-            const charData = new DataLoaderService().getData().characters.find(c => c.name === type);
+            const charData = this.dataLoader.getData().characters.find(c => c.name === type);
             if (!charData) {
                 return this.createCharacter(name, type, 10, []); // fallback
             }

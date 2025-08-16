@@ -18,7 +18,8 @@ export class MonsterComponent {
 
   constructor(
     private appContext: AppContext,
-    private stringUtils: StringUtils
+    private stringUtils: StringUtils,
+    private dataLoader: DataLoaderService
   ) { }
 
   addMonster() {
@@ -26,9 +27,8 @@ export class MonsterComponent {
     const isElite = false;
     const level = 1;
     const standeeNo = 5;
-    const data = new DataLoaderService().getData();
-
-    const monsterData = data.monsters.find(monster => monster.name === type);
+    
+    const monsterData = this.dataLoader.getData().monsters.find(monster => monster.name === type);
     const selectedMonster = isElite
       ? monsterData?.stats.find(x => x.type === 'elite' && x.level === level)
       : monsterData?.stats[level];
