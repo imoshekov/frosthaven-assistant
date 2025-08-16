@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Creature, Element } from './types/game-types';
-import { Scenario} from './types/data-file-types';
+import { Scenario } from './types/data-file-types';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
+import { CreatureFactoryService } from './services/creature-factory.service';
+import { NotificationService } from './services/notification.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +19,10 @@ export class AppContext {
     private graveyardSubject = new BehaviorSubject<Creature[]>([]);
     graveyard$ = this.graveyardSubject.asObservable();
 
-    constructor(private dataLoader: DataLoaderService) {
+    constructor(
+        private dataLoader: DataLoaderService, 
+        private creatureFactory: CreatureFactoryService,
+    private notificationService: NotificationService) {
         this.addDefaultCharacters();
         this.addElements();
     }
@@ -67,11 +72,6 @@ export class AppContext {
         );
     }
 
-    private creatureId = 0;
-    generateCreatureId(){
-        return this.creatureId++;
-    }
-
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [
             {
@@ -97,31 +97,20 @@ export class AppContext {
         ];
         const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
             const charData = this.dataLoader.getData().characters.find(c => c.name === type);
-            if (!charData) {
-                return this.createCharacter(name, type, 10, []); // fallback
-            }
+            
+            const stats = charData?.stats.find(s => s.level === level);
+            const hp = stats?.health ?? 10;
+            const traits = charData?.traits ?? [];
 
-            const statForLevel = charData.stats.find(s => s.level === level);
-            const hp = statForLevel?.health ?? 10;
-
-            const traits = charData.traits ?? [];
-
-            return this.createCharacter(name, charData.name, hp, traits);
+            return this.creatureFactory.createCreature({
+                name,
+                type,
+                hp,
+                traits,
+                level
+            }, true);
         });
-
         this.addCreatures(defaultCharacters);
-    }
-
-    private createCharacter(name: string, type: string, hp: number, traits: string[]): Creature {
-        return {
-            id: this.generateCreatureId(),
-            name,
-            type,
-            aggressive: false,
-            hp,
-            log: [],
-            traits: traits
-        };
     }
 
     private addElements() {

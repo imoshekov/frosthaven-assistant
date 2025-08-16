@@ -8,6 +8,8 @@ import { DataLoaderService } from '../services/data-loader.service';
 import { Monster } from '../types/data-file-types';
 import { NotificationService } from '../services/notification.service';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
+import { CreatureFactoryService } from '../services/creature-factory.service';
+
 
 @Component({
   selector: 'app-monster',
@@ -30,7 +32,8 @@ export class MonsterComponent {
     private appContext: AppContext,
     private stringUtils: StringUtils,
     private dataLoader: DataLoaderService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private creatureFactory: CreatureFactoryService
   ) {
     this.monsters = this.dataLoader.getData().monsters;
   }
@@ -70,35 +73,21 @@ export class MonsterComponent {
       : monsterData?.stats[this.level];
 
     const creature: Creature = {
-      id: this.appContext.generateCreatureId(),
-      name: `${this.type} - ${this.standee}`,
+      name: `${this.type} ${this.standee}`,
       type: this.type,
       standee: this.standee,
+      level: this.level,
       hp: this.stringUtils.parseInt(selectedMonster?.health ?? 0),
-      attack: this.stringUtils.parseInt(Number(selectedMonster?.attack)),
+      attack: this.stringUtils.parseInt(selectedMonster?.attack ?? 0),
       movement: Math.max(Number(monsterData?.baseStat?.movement ?? 0), Number(selectedMonster?.movement ?? 0)),
-      initiative: 0,
-      armor: this.stringUtils.parseInt(Number(selectedMonster?.actions?.find(x => x.type === 'shield')?.value)),
-      retaliate: this.stringUtils.parseInt(Number(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value)),
-      aggressive: true,
+      armor: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'shield')?.value ?? 0),
+      retaliate: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
       isElite: this.isElite,
-      conditions: {
-        poison: false,
-        wound: false,
-        brittle: false,
-        ward: false,
-        immobilize: false,
-        bane: false,
-        muddle: false,
-        stun: false,
-        impair: false,
-        disarm: false
-      },
-      tempStats: {},
-      log: []
     };
 
-    this.appContext.addCreature(creature);
+   
+    this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
+    console.log(this.appContext.getCreatures());
   }
 }

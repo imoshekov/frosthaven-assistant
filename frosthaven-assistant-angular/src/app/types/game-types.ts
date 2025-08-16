@@ -12,11 +12,11 @@ export interface DefaultCondition {
 }
 
 export interface Creature {
-  id: number;
+  id?: number;
   name?: string;
   standee?: number,
   type?: string;
-  aggressive: boolean;
+  aggressive?: boolean;
   isElite?: boolean; // Optional property for elite creatures
   level?: number; // Optional property for creature level
   hp?: number;
