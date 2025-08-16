@@ -38,7 +38,7 @@ export class GameComponent implements OnDestroy {
 
   getCreaturePic(creature: Creature): string {
     const subFolder = creature?.aggressive ? 'monster' : 'character';
-    return `./../images/${subFolder}/thumbnail/fh-${creature?.type}.png`
+    return `./images/${subFolder}/thumbnail/fh-${creature?.type}.png`
   }
 
   private sortCreatures() {
