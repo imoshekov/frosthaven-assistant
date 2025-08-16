@@ -4,8 +4,6 @@ import { Scenario } from './types/data-file-types';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
-import { NotificationService } from './services/notification.service';
-
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -82,11 +80,10 @@ export class AppContext {
         if (!creature) return;
 
         if (options?.isCondition) {
-            //TODO conditions
-            // creature.conditions = {
-            //     ...creature.conditions,
-            //     [stat]: value
-            // };
+            creature.conditions = {
+                ...creature.conditions,
+                [stat]: value
+            };
         } else if (options?.isTemporary) {
             creature.tempStats = {
                 ...creature.tempStats,
@@ -97,8 +94,9 @@ export class AppContext {
         }
 
         this.creaturesSubject.next([...creatures]);
+        console.log(this.getCreatures());
     }
-    
+
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [
             {

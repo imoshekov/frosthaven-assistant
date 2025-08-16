@@ -74,12 +74,11 @@ export class GameComponent implements OnDestroy {
       creatures: groups[type]
     }));
   }
-  
+
   // Get current value for any stat or condition
   getStatValue(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }): any {
     if (options?.isCondition) {
-      //TODO conditions.
-      // return creature.conditions?.[stat] ? 1 : 0;
+      return creature.conditions?.[stat as string] ? 1 : 0;
     } else if (options?.isTemporary) {
       return creature.tempStats?.[stat] ?? 0;
     }
@@ -87,19 +86,30 @@ export class GameComponent implements OnDestroy {
   }
 
   // Input handler for any stat
-  onStatInput(creature: Creature, stat: keyof Creature, value: string, options?: { isCondition?: boolean; isTemporary?: boolean }) {
+  onStatInput(
+    creature: Creature,
+    stat: keyof Creature,
+    value: string,
+    options?: { isCondition?: boolean; isTemporary?: boolean }
+  ) {
     const sanitized = value.replace(/\D/g, '');
     const numericValue = sanitized ? parseInt(sanitized, 10) : 0;
 
     if (options?.isCondition) {
-      //todo conditions
-      // creature.conditions = { ...creature.conditions, [stat]: numericValue };
+      if (numericValue > 0) {
+        creature.conditions = { ...creature.conditions, [stat as string]: true };
+      } else {
+        // Remove the condition entirely if "0"
+        const { [stat as string]: _, ...rest } = creature.conditions ?? {};
+        creature.conditions = rest;
+      }
     } else if (options?.isTemporary) {
       creature.tempStats = { ...creature.tempStats, [stat]: numericValue };
     } else {
       (creature as any)[stat] = numericValue;
     }
   }
+
 
   // Commit change to AppContext (single creature)
   commitStat(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }) {

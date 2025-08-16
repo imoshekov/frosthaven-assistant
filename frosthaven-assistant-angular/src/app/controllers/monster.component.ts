@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
-import { StringUtils } from '../services/StringUtils';
+import { StringUtils } from '../services/string-utils.service';
 import { DataLoaderService } from '../services/data-loader.service';
 import { Monster } from '../types/data-file-types';
 import { NotificationService } from '../services/notification.service';
