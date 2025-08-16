@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Creature, Element } from './types/game-types';
-import { Scenario, DataFile, Character, CharacterStat } from './types/data-file-types';
-import { LocalStorageService } from './services/local-storage.service';
+import { Scenario} from './types/data-file-types';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 
