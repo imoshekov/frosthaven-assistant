@@ -14,7 +14,7 @@
           <div class="creature-nameplate">
             <img class='profile' [src]="getCreaturePic(creatureGroup.creatureType)">
             <span *ngIf="!creatureGroup.creatureType.aggressive" class="creature-name base-stat">
-              {{creatureGroup.creatureType.name}}             
+              {{creatureGroup.creatureType.name}}
             </span>
 
             <div *ngIf="creatureGroup.creatureType.aggressive" class="group-stats">
@@ -54,8 +54,8 @@
               # {{creature.standee}}
             </span>
             <span class="creature-hp stat">
-              <img id="char-heart-${index}" src="./images/heart.svg" />
-              {{creature.hp}}
+              <img src="./images/heart.svg" />
+              <input type="tel" [value]="getStatValue(creature, 'hp')"  (input)="onStatInput(creature, 'hp', $event.target.value)" (blur)="commitStat(creature, 'hp')" maxlength="3" class="stat-input" />
             </span>
 
             <div class="conditions">

@@ -20,9 +20,8 @@ export class AppContext {
     graveyard$ = this.graveyardSubject.asObservable();
 
     constructor(
-        private dataLoader: DataLoaderService, 
-        private creatureFactory: CreatureFactoryService,
-    private notificationService: NotificationService) {
+        private dataLoader: DataLoaderService,
+        private creatureFactory: CreatureFactoryService) {
         this.addDefaultCharacters();
         this.addElements();
     }
@@ -72,6 +71,34 @@ export class AppContext {
         );
     }
 
+    updateCreatureStat(
+        creatureId: number,
+        stat: keyof Creature,
+        value: any,
+        options?: { isCondition?: boolean; isTemporary?: boolean }
+    ) {
+        const creatures = this.creaturesSubject.value;
+        const creature = creatures.find(c => c.id === creatureId);
+        if (!creature) return;
+
+        if (options?.isCondition) {
+            //TODO conditions
+            // creature.conditions = {
+            //     ...creature.conditions,
+            //     [stat]: value
+            // };
+        } else if (options?.isTemporary) {
+            creature.tempStats = {
+                ...creature.tempStats,
+                [stat]: value
+            };
+        } else {
+            (creature as any)[stat] = value;
+        }
+
+        this.creaturesSubject.next([...creatures]);
+    }
+    
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [
             {
@@ -97,7 +124,7 @@ export class AppContext {
         ];
         const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
             const charData = this.dataLoader.getData().characters.find(c => c.name === type);
-            
+
             const stats = charData?.stats.find(s => s.level === level);
             const hp = stats?.health ?? 10;
             const traits = charData?.traits ?? [];

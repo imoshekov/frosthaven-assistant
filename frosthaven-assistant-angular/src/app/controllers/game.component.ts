@@ -4,6 +4,7 @@ import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -11,12 +12,13 @@ import { GlobalTelInputDirective } from '../directives/global-tel-input.directiv
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   standalone: true,
-  imports: [CommonModule, GlobalTelInputDirective]
+  imports: [CommonModule, GlobalTelInputDirective, FormsModule]
 })
 export class GameComponent implements OnDestroy {
   groupedCreatures: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];
   groupedGraveyard: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];
   private unsubscribe$ = new Subject<void>();
+  public creatureHpInputs: Record<number, string> = {};
 
   constructor(public appContext: AppContext) {
     this.sortCreatures();
@@ -72,6 +74,38 @@ export class GameComponent implements OnDestroy {
       creatures: groups[type]
     }));
   }
+  
+  // Get current value for any stat or condition
+  getStatValue(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }): any {
+    if (options?.isCondition) {
+      //TODO conditions.
+      // return creature.conditions?.[stat] ? 1 : 0;
+    } else if (options?.isTemporary) {
+      return creature.tempStats?.[stat] ?? 0;
+    }
+    return creature[stat];
+  }
+
+  // Input handler for any stat
+  onStatInput(creature: Creature, stat: keyof Creature, value: string, options?: { isCondition?: boolean; isTemporary?: boolean }) {
+    const sanitized = value.replace(/\D/g, '');
+    const numericValue = sanitized ? parseInt(sanitized, 10) : 0;
+
+    if (options?.isCondition) {
+      //todo conditions
+      // creature.conditions = { ...creature.conditions, [stat]: numericValue };
+    } else if (options?.isTemporary) {
+      creature.tempStats = { ...creature.tempStats, [stat]: numericValue };
+    } else {
+      (creature as any)[stat] = numericValue;
+    }
+  }
+
+  // Commit change to AppContext (single creature)
+  commitStat(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }) {
+    this.appContext.updateCreatureStat(creature.id!, stat, this.getStatValue(creature, stat, options), options);
+  }
+
 
   ngOnDestroy() {
     this.unsubscribe$.next();
