@@ -7,14 +7,14 @@ import { StringUtils } from '../services/StringUtils';
 import { DataLoaderService } from '../services/data-loader.service';
 import { Monster } from '../types/data-file-types';
 import { NotificationService } from '../services/notification.service';
-
+import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 
 @Component({
   selector: 'app-monster',
   templateUrl: './monster.component.html',
   styleUrls: ['./monster.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class MonsterComponent {
   @Output() monsterEvent = new EventEmitter<string>();

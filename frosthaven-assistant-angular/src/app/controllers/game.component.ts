@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
+import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
+
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, GlobalTelInputDirective]
 })
 export class GameComponent implements OnDestroy {
   groupedCreatures: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];

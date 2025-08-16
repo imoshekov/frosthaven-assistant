@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
     ToastNotificationComponent, 
     SetupComponent, 
     GameComponent, 
-    MonsterComponent
+    MonsterComponent,
   ]
 })
 export class App {
