@@ -8,6 +8,9 @@ import { GameComponent } from './controllers/game.component';
 import { MonsterComponent } from './controllers/monster.component';
 import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
+import { Element } from './types/game-types';
+import { ElementComponent } from './controllers/element.component'; 
+
 
 @Component({
   selector: 'app-root',
@@ -15,12 +18,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./app.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
-    ToastNotificationComponent, 
-    SetupComponent, 
-    GameComponent, 
+    ToastNotificationComponent,
+    SetupComponent,
+    GameComponent,
     MonsterComponent,
+    ElementComponent,
   ]
 })
 export class App {
@@ -30,11 +34,19 @@ export class App {
   lastSavedTimestamp = '';
   joinedSessionId: number = 0;
   serverLastPinged = '';
+  elements: Element[] = [
+    { type: 'fire', state: 'none' },
+    { type: 'ice', state: 'none' },
+    { type: 'earth', state: 'none' },
+    { type: 'air', state: 'none' },
+    { type: 'light', state: 'none' },
+    { type: 'dark', state: 'none' }
+  ];
 
   constructor(private storageService: LocalStorageService,
     private webSocketService: WebSocketService,
     private appContext: AppContext
-  ) { 
+  ) {
     const graveyard = this.storageService.loadGraveyard();
     const creatures = this.storageService.loadCreatures();
     graveyard && this.appContext.setCreatures(creatures);
@@ -49,4 +61,6 @@ export class App {
       this.serverLastPinged = this.webSocketService.lastPingedTime;
     });
   }
+
+
 }
