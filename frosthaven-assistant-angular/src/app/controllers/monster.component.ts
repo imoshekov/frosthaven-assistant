@@ -1,10 +1,12 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../app-context'; // 
+import { FormsModule } from '@angular/forms';
+import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
 import { StringUtils } from '../services/StringUtils';
 import { DataLoaderService } from '../services/data-loader.service';
-import { FormsModule } from '@angular/forms';
+import { Monster } from '../types/data-file-types';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -16,28 +18,61 @@ import { FormsModule } from '@angular/forms';
 })
 export class MonsterComponent {
   @Output() monsterEvent = new EventEmitter<string>();
-
   level: number = 1;
   standee: number = 1;
   isElite: boolean = false;
+  type: string = '';
+
+  monsters: Monster[] = [];
+  filteredMonsters: Monster[] = [];
 
   constructor(
     private appContext: AppContext,
     private stringUtils: StringUtils,
-    private dataLoader: DataLoaderService
-  ) { }
+    private dataLoader: DataLoaderService,
+    private notificationService: NotificationService
+  ) {
+    this.monsters = this.dataLoader.getData().monsters;
+  }
+
+  // --- Autocomplete Methods ---
+  onTypeInput() {
+    const value = this.type.toLowerCase();
+    this.filteredMonsters = this.monsters.filter(monster =>
+      monster.name.toLowerCase().includes(value)
+    );
+  }
+
+  selectMonster(monster: { name: string }) {
+    this.type = monster.name;
+    this.filteredMonsters = [];
+  }
+
+  onFocus() {
+    this.filteredMonsters = this.monsters.slice();
+  }
+
+  onBlur() {
+    setTimeout(() => {
+      this.filteredMonsters = [];
+    }, 150);
+  }
 
   addMonster() {
-    const type = "algox-guard";
-    const monsterData = this.dataLoader.getData().monsters.find(monster => monster.name === type);
+    const monsterData = this.monsters.find(monster => monster.name === this.type);
+    if (!monsterData) {
+      this.notificationService.emitErrorMessage(`Unable to find monster type ${this.type}`);
+      return;
+    }
+
     const selectedMonster = this.isElite
       ? monsterData?.stats.find(x => x.type === 'elite' && x.level === this.level)
       : monsterData?.stats[this.level];
 
     const creature: Creature = {
       id: this.appContext.generateCreatureId(),
-      name: `${type} - ${this.standee}`,
-      type: "algox-guard",
+      name: `${this.type} - ${this.standee}`,
+      type: this.type,
       standee: this.standee,
       hp: this.stringUtils.parseInt(selectedMonster?.health ?? 0),
       attack: this.stringUtils.parseInt(Number(selectedMonster?.attack)),
@@ -64,7 +99,6 @@ export class MonsterComponent {
     };
 
     this.appContext.addCreature(creature);
-    console.log(this.appContext.getCreatures());
     this.monsterEvent.emit('monster-added');
   }
 }
