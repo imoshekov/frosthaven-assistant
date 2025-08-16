@@ -7,6 +7,7 @@ import { SetupComponent } from './controllers/setup.component';
 import { GameComponent } from './controllers/game.component';
 import { MonsterComponent } from './controllers/monster.component';
 import { AppContext } from './app-context';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { AppContext } from './app-context';
   standalone: true,
   imports: [
     CommonModule, 
+    FormsModule,
     ToastNotificationComponent, 
     SetupComponent, 
     GameComponent, 

@@ -4,6 +4,7 @@ import { AppContext } from '../app-context'; //
 import { Creature } from '../types/game-types';
 import { StringUtils } from '../services/StringUtils';
 import { DataLoaderService } from '../services/data-loader.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -11,10 +12,14 @@ import { DataLoaderService } from '../services/data-loader.service';
   templateUrl: './monster.component.html',
   styleUrls: ['./monster.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 export class MonsterComponent {
   @Output() monsterEvent = new EventEmitter<string>();
+
+  level: number = 1;
+  standee: number = 1;
+  isElite: boolean = false;
 
   constructor(
     private appContext: AppContext,
@@ -24,20 +29,16 @@ export class MonsterComponent {
 
   addMonster() {
     const type = "algox-guard";
-    const isElite = false;
-    const level = 1;
-    const standeeNo = 5;
-    
     const monsterData = this.dataLoader.getData().monsters.find(monster => monster.name === type);
-    const selectedMonster = isElite
-      ? monsterData?.stats.find(x => x.type === 'elite' && x.level === level)
-      : monsterData?.stats[level];
+    const selectedMonster = this.isElite
+      ? monsterData?.stats.find(x => x.type === 'elite' && x.level === this.level)
+      : monsterData?.stats[this.level];
 
     const creature: Creature = {
       id: this.appContext.generateCreatureId(),
-      name: `${type} - ${standeeNo}`,
+      name: `${type} - ${this.standee}`,
       type: "algox-guard",
-      standee: standeeNo,
+      standee: this.standee,
       hp: this.stringUtils.parseInt(selectedMonster?.health ?? 0),
       attack: this.stringUtils.parseInt(Number(selectedMonster?.attack)),
       movement: Math.max(Number(monsterData?.baseStat?.movement ?? 0), Number(selectedMonster?.movement ?? 0)),
@@ -45,7 +46,7 @@ export class MonsterComponent {
       armor: this.stringUtils.parseInt(Number(selectedMonster?.actions?.find(x => x.type === 'shield')?.value)),
       retaliate: this.stringUtils.parseInt(Number(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value)),
       aggressive: true,
-      isElite: isElite,
+      isElite: this.isElite,
       conditions: {
         poison: false,
         wound: false,

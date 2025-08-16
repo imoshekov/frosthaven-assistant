@@ -1,3 +1,15 @@
 <div class="monster-container">
+  <div>
+    <label for="Level">Level</label>
+    <input type="tel" placeholder="#" [(ngModel)]="level" />
+  </div>
+  <div>
+    <label for="Standee">Standee</label>
+    <input type="tel" placeholder="#" [(ngModel)]="standee" />
+  </div>
+  <div>
+    <label for="Elite">Elite</label>
+    <input type="checkbox" id="elite-monster" [(ngModel)]="isElite" />
+  </div>
   <button (click)="addMonster()">Add Monster</button>
 </div>

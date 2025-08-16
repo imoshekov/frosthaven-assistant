@@ -50,11 +50,8 @@
       <div class="creature-list">
         <div *ngFor="let creature of creatureGroup.creatures; let j = index" class="creature" [ngClass]="creature.type">
           <div class="{{creature.type}}" [ngClass]="creature.isElite ? 'elite' : ''">
-            <span class="creature-name stat" *ngIf="creature.aggressive">
-              {{creature.name}}
-            </span>
             <span class="creature-standee stat" *ngIf="creature.aggressive">
-              Standee {{creature.standee}}
+              # {{creature.standee}}
             </span>
             <span class="creature-hp stat">
               <img id="char-heart-${index}" src="../../images/heart.svg" />
