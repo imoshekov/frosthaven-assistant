@@ -110,12 +110,23 @@ export class GameComponent implements OnDestroy {
     }
   }
 
+  commitStat(
+    creature: Creature,
+    stat: keyof Creature,
+    options?: { isCondition?: boolean; isTemporary?: boolean; applyToAllOfType?: boolean }
+  ) {
+    const value = this.getStatValue(creature, stat, options);
 
-  // Commit change to AppContext (single creature)
-  commitStat(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }) {
-    this.appContext.updateCreatureStat(creature.id!, stat, this.getStatValue(creature, stat, options), options);
+    if (options?.applyToAllOfType) {
+      this.appContext.getCreatures()
+        .filter(c => c.type === creature.type)
+        .forEach(c => {
+          this.appContext.updateCreatureStat(c.id!, stat, value, options);
+        });
+    } else {
+      this.appContext.updateCreatureStat(creature.id!, stat, value, options);
+    }
   }
-
 
   ngOnDestroy() {
     this.unsubscribe$.next();

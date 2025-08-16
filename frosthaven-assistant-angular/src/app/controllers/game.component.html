@@ -9,7 +9,9 @@
       <div class="creature-details">
         <div class="base-info">
           <span class="creature-initiative base-stat">
-            {{creatureGroup.creatureType.initiative}}
+            <input type="tel" [value]="getStatValue(creatureGroup.creatureType, 'initiative')"
+              (input)="onStatInput(creatureGroup.creatureType, 'initiative', $event.target.value)"
+              (blur)="commitStat(creatureGroup.creatureType, 'initiative', { applyToAllOfType: true })" maxlength="2" class="stat-input" />
           </span>
           <div class="creature-nameplate">
             <img class='profile' [src]="getCreaturePic(creatureGroup.creatureType)">
@@ -55,7 +57,9 @@
             </span>
             <span class="creature-hp stat">
               <img src="./images/heart.svg" />
-              <input type="tel" [value]="getStatValue(creature, 'hp')"  (input)="onStatInput(creature, 'hp', $event.target.value)" (blur)="commitStat(creature, 'hp')" maxlength="3" class="stat-input" />
+              <input type="tel" [value]="getStatValue(creature, 'hp')"
+                (input)="onStatInput(creature, 'hp', $event.target.value)" (blur)="commitStat(creature, 'hp')"
+                maxlength="3" class="stat-input" />
             </span>
 
             <div class="conditions">
