@@ -21,7 +21,7 @@ export interface Creature {
   level?: number; // Optional property for creature level
   hp?: number;
   attack?: number;
-  movement?: number;
+  movement?: number | null;
   initiative?: number;
   armor?: number;
   retaliate?: number;

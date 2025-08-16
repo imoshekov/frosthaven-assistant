@@ -1,7 +1,8 @@
 <div class="game-container">
   <div *ngFor="let creatureGroup of groupedCreatures; let i = index" class="creature-group" [ngClass]="[
        creatureGroup.creatureType.type,
-       creatureGroup.creatureType.isElite ? 'elite' : 'non-elite',
+       creatureGroup.creatureType.isElite === true ? 'elite' :
+       creatureGroup.creatureType.isElite === false ? 'non-elite' : '',
        creatureGroup.creatureType.aggressive ? '' : 'character'
      ]">
     <div class="creature-container">

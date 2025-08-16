@@ -66,6 +66,12 @@ export class AppContext {
             this.graveyardSubject.value.filter(c => c.id !== id)
         );
     }
+
+    private creatureId = 0;
+    generateCreatureId(){
+        return this.creatureId++;
+    }
+
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [
             {
@@ -106,34 +112,13 @@ export class AppContext {
         this.addCreatures(defaultCharacters);
     }
 
-    private creatureId = 0;
-
     private createCharacter(name: string, type: string, hp: number, traits: string[]): Creature {
         return {
-            id: this.creatureId++,
+            id: this.generateCreatureId(),
             name,
             type,
             aggressive: false,
-            isElite: false,
             hp,
-            attack: 0,
-            movement: 0,
-            initiative: 0,
-            armor: 0,
-            retaliate: 0,
-            conditions: {
-                poison: false,
-                wound: false,
-                brittle: false,
-                ward: false,
-                immobilize: false,
-                bane: false,
-                muddle: false,
-                stun: false,
-                impair: false,
-                disarm: false
-            },
-            tempStats: {},
             log: [],
             traits: traits
         };
