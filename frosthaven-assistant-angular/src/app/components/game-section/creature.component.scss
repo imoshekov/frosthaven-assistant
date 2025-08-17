@@ -5,3 +5,21 @@
  img {
      width: 30px;
  }
+
+ .header {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+     align-items: center;
+
+     div.open-modal {
+         width: 24px;
+         height: 24px;
+         -webkit-mask: url('/images/fh/action/target.svg') no-repeat center;
+         -webkit-mask-size: contain;
+         mask: url('/images/fh/action/target.svg') no-repeat center;
+         mask-size: contain;
+         background-color: var(--font-color);
+         margin: 6px;
+     }
+ }

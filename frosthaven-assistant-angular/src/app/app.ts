@@ -10,6 +10,7 @@ import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
 import { Element } from './types/game-types';
 import { ElementComponent } from './components/element.component'; 
+import { ConditionModalComponent } from './components/condition-modal.component';
 
 
 @Component({
@@ -25,6 +26,7 @@ import { ElementComponent } from './components/element.component';
     GameComponent,
     AddMonsterComponent,
     ElementComponent,
+    ConditionModalComponent
   ]
 })
 export class App {
@@ -45,7 +47,7 @@ export class App {
 
   constructor(private storageService: LocalStorageService,
     private webSocketService: WebSocketService,
-    private appContext: AppContext
+    public appContext: AppContext
   ) {
     const graveyard = this.storageService.loadGraveyard();
     const creatures = this.storageService.loadCreatures();
@@ -61,6 +63,4 @@ export class App {
       this.serverLastPinged = this.webSocketService.lastPingedTime;
     });
   }
-
-
 }

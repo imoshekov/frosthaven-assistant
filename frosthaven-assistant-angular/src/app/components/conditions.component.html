@@ -1,0 +1,6 @@
+<div class="container">
+    <div *ngFor="let condition of conditions" [ngClass]="condition" class="condition-element"
+        (click)="toggleCondition(condition)">
+        <img [src]="`/images/fh/condition/${condition}.svg`" />
+    </div>
+</div>

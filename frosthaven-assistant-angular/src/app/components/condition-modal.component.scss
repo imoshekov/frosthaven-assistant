@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Skranji&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:host {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(#113156, #070731);
+}
+
+.layout {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: radial-gradient(#203462 2px, #070731 2px);
+    background-size: calc(10 * 2px) calc(10 * 2px);
+    z-index: 1;
+}
+
+.modal {
+    z-index: 100;
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    font-family: "Skranji", cursive;
+    background: radial-gradient(#fffbf3, #ffe19e);
+    box-sizing: border-box;
+    font-size: 56px;
+    border-radius: 20px 18px 20px 18px;
+    box-shadow: 0px 0px 0px 6px #5e1e21, 0px 0px 8px 6px #84222b,
+        inset 0px 0px 15px 0px #614506, 6px 6px 1px 1px #e66565,
+        -6px 6px 1px 1px #e66565;
+    text-align: center;
+    padding: 15px;
+
+    .buffs {
+        font-size: 40px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stats {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 5px 0px;
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .stat-input {
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+    }
+
+    div {
+
+        box-sizing: border-box;
+        color: #461417;
+    }
+}
+
+.buttons {
+    margin-top: 40px;
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    gap: 30px;
+    box-sizing: border-box;
+
+    button {
+        padding: 20px;
+        flex: 1;
+        border-radius: 20px;
+        border: 2px solid #49181e;
+        font-family: "Skranji", cursive;
+        color: #fff;
+        font-size: 32px;
+        text-shadow: 1px 2px 3px #000000;
+        cursor: pointer;
+
+        &.confirm {
+            background: linear-gradient(#ced869, #536d1b);
+            box-shadow: 0px 0px 0px 4px #7e1522, 0px 2px 0px 3px #e66565;
+
+            &:hover {
+                box-shadow: 0px 0px 0px 4px #7e1522, 0px 2px 0px 3px #e66565,
+                    inset 2px 2px 10px 3px #4e6217;
+            }
+        }
+
+        &.cancel {
+            background: linear-gradient(#ea7079, #891a1a);
+            box-shadow: 0px 0px 0px 4px #7e1522, 0px 2px 0px 3px #e66565;
+
+            &:hover {
+                box-shadow: 0px 0px 0px 4px #7e1522, 0px 2px 0px 3px #e66565,
+                    inset 2px 2px 10px 3px #822828;
+            }
+        }
+    }
+}

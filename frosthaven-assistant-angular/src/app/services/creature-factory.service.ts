@@ -1,6 +1,6 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
-import { Creature } from '../types/game-types';
+import { Creature, CreatureConditions } from '../types/game-types';
 
 @Injectable({ providedIn: 'root' })
 export class CreatureFactoryService {
@@ -26,8 +26,9 @@ export class CreatureFactoryService {
       retaliate: creatureInput.retaliate ?? 0,
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
       isElite: creatureInput.isElite ?? false,
-      conditions: creatureInput.conditions ?? {},
-      tempStats: creatureInput.tempStats ?? {},
+      conditions: creatureInput.conditions ?? [CreatureConditions.poison, CreatureConditions.wound],
+      roundArmor: creatureInput.roundArmor ?? 0,
+      roundRetaliate: creatureInput.roundRetaliate ?? 0,
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };

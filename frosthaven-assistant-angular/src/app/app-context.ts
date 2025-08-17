@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Creature, Element } from './types/game-types';
+import { Creature, CreatureConditions, Element } from './types/game-types';
 import { Scenario } from './types/data-file-types';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
 
@@ -9,7 +9,9 @@ import { CreatureFactoryService } from './services/creature-factory.service';
 export class AppContext {
     public elementStates: Element[] = [];
     public roundNumber: number = 1;
-    public scenario: Scenario | null = null;
+    public scenario: Scenario = null;
+    public isGroupSelected: boolean = false;
+    public selectedCreature: Creature = null;
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
@@ -71,49 +73,42 @@ export class AppContext {
 
     updateCreatureBaseStat(creatureId: string, stat: keyof Creature, value: any, applyToAllOfType?: boolean) {
         const creatures = this.getCreatures();
-        const creatureToUpdate = creatures.find(c => c.id === creatureId);
-        if (!creatureToUpdate) return;
+        const creatureToUpdate = this.findCreature(creatureId);
 
         if (applyToAllOfType) {
             creatures
-                .filter(c => c.type === creatureToUpdate.type)
+                .filter(c => c.type === creatureToUpdate!.type)
                 .forEach(c => {
                     this.updateCreatureBaseStat(c.id!, stat, value, false);
                 });
         } else {
-           creatureToUpdate[stat] = value;
+            (creatureToUpdate as any)[stat] = value;
         }
 
         this.creaturesSubject.next([...creatures]);
     }
 
-    updateCreatureStat(
-        creatureId: string,
-        stat: keyof Creature,
-        value: any,
-        options?: { isCondition?: boolean; isTemporary?: boolean }
-    ) {
-        const creatures = this.creaturesSubject.value;
+    toggleCreatureConditions(creatureId: string, condition: CreatureConditions) {
+        const creatureToUpdate = this.findCreature(creatureId);
+        const conditions = creatureToUpdate?.conditions;
+        const index = conditions!.indexOf(condition);
+        if (index > -1) {
+            conditions!.splice(index, 1);
+            return
+        }
+        conditions?.push(condition);
+        creatureToUpdate!.conditions = conditions;
+
+        this.creaturesSubject.next([...this.getCreatures()]);
+    }
+
+    private findCreature(creatureId: string): Creature {
+        const creatures = this.getCreatures();
         const creature = creatures.find(c => c.id === creatureId);
-        if (!creature) return;
-
-        if (options?.isCondition) {
-            creature.conditions = {
-                ...creature.conditions,
-                [stat]: value
-            };
-        } else if (options?.isTemporary) {
-            creature.tempStats = {
-                ...creature.tempStats,
-                [stat]: value
-            };
-        } else {
-            (creature as any)[stat] = value;
-        }
-
-        this.creaturesSubject.next([...creatures]);
-        console.log(this.getCreatures());
+        if (!creature) throw Error("Creature not found");
+        return creature;
     }
+
 
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [

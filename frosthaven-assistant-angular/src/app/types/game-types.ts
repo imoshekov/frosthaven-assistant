@@ -1,18 +1,15 @@
-export const CONDITION_ICONS: Record<string, string> = {
-  poison: './images/condition/poison.svg',
-  wound: './images/condition/wound.svg',
-  brittle: './images/condition/brittle.svg',
-  ward: './images/condition/ward.svg',
-  immobilize: './images/condition/immobilize.svg',
-  bane: './images/condition/bane.svg',
-  muddle: './images/condition/muddle.svg',
-  stun: './images/condition/stun.svg',
-  impair: './images/condition/impair.svg',
-  disarm: './images/condition/disarm.svg'
-};
-
-export type CreatureConditions = Partial<Record<keyof typeof CONDITION_ICONS, true>>;
-
+export enum CreatureConditions {
+  poison = "poison",
+  wound = "wound",
+  brittle = "brittle",
+  ward = "ward",
+  immobilize = "immobilize",
+  bane = "bane",
+  muddle = "muddle",
+  stun = "stun",
+  impair = "impair",
+  disarm = "disarm"
+}
 
 export interface Creature {
   id?: string;
@@ -28,8 +25,9 @@ export interface Creature {
   initiative?: number;
   armor?: number;
   retaliate?: number;
-  conditions?: CreatureConditions;
-  tempStats?: Record<string, any>;
+  conditions?: CreatureConditions[];
+  roundArmor?: number,
+  roundRetaliate?: number,
   log?: any[];
   traits?: string[];
 }

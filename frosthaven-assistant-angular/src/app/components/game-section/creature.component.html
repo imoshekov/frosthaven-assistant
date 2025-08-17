@@ -2,17 +2,17 @@
     <span class="creature-standee stat" *ngIf="creature.aggressive">
         # {{creature.standee}}
     </span>
-    <span class="creature-hp stat">
-        <img src="./images/heart.svg" />
-        <input type="tel" [value]="creature.hp"
-            (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value)" maxlength="3"
-            class="stat-input" />
-    </span>
+    <div class="header">
+        <span class="creature-hp stat">
+            <img src="./images/heart.svg" />
+            <input type="tel" [value]="creature.hp"
+                (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value)" maxlength="3"
+                class="stat-input" />
+        </span>
+        <div class="open-modal" (click)="openConditionModal()">
+        </div>
+    </div>
 
-    <div class="conditions">
-        <!-- {{condition}} -->
-    </div>
-    <div class="temp-stats">
-        <!-- {{tempStat}} -->
-    </div>
+
+    <app-conditions [creature]="creature" [conditions]="creature.conditions"  (conditionToggled)="toggleCondition($event)"></app-conditions>
 </div>

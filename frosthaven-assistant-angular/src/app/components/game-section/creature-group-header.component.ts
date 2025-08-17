@@ -23,4 +23,9 @@ export class CreatureGroupHeaderComponent {
     const subFolder = creature?.aggressive ? 'monster' : 'character';
     return `./images/${subFolder}/thumbnail/fh-${creature?.type}.png`
   }
+
+  openConditionModal() {
+    this.appContext.selectedCreature = this.creature;
+    this.appContext.isGroupSelected = true;
+  }
 }

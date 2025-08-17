@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    .condition-element {
+        cursor: pointer;
+        margin: 5px;
+    }
+}

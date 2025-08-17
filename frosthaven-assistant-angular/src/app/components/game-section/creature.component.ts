@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../app-context';
-import { Creature } from '../../types/game-types';
+import { Creature, CreatureConditions } from '../../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
 import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
+import { ConditionsComponent } from '../conditions.component';
 
 
 @Component({
@@ -12,19 +13,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './creature.component.html',
   styleUrls: ['./creature.component.scss'],
   standalone: true,
-  imports: [CommonModule, GlobalTelInputDirective, FormsModule]
+  imports: [CommonModule, GlobalTelInputDirective, FormsModule, ConditionsComponent]
 })
 export class CreatureComponent {
   @Input() creature!: Creature;
 
-  constructor(public appContext: AppContext) {}
+  constructor(public appContext: AppContext) { }
 
-    // Get current value for any stat or condition
-  getStatValue(creature: Creature, stat: keyof Creature, options?: { isCondition?: boolean; isTemporary?: boolean }): any {
-    if (options?.isCondition) {
-      return creature.conditions?.[stat as string] ? 1 : 0;
-    } else if (options?.isTemporary) {
-      return creature.tempStats?.[stat] ?? 0;
-    }
+  openConditionModal() {
+    this.appContext.selectedCreature = this.creature;
+    this.appContext.isGroupSelected = false;
+  }
+
+  toggleCondition(condition: CreatureConditions) {
+    this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
   }
 }
