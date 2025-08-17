@@ -1,6 +1,21 @@
 <div class="container">
-    <div *ngFor="let condition of conditions" [ngClass]="condition" class="condition-element"
-        (click)="toggleCondition(condition)">
-        <img [src]="`/images/fh/condition/${condition}.svg`" />
+    <div *ngIf="shouldShowBuffs" class="buffs">
+        <div class="armor stat">
+            {{creature.armor + creature.roundArmor}}
+            <img class="condition-image" src="./images/fh/action/shield.svg" />
+        </div>
+        <div class="retaliate stat">
+            {{creature.retaliate + creature.roundRetaliate}}
+            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+
+        </div>
     </div>
+    <div class="conditions">
+        <div *ngFor="let condition of conditions" [ngClass]="condition" class="condition-element"
+            (click)="toggleCondition(condition)">
+            <img [src]="`/images/fh/condition/${condition}.svg`" />
+        </div>
+    </div>
+
+
 </div>

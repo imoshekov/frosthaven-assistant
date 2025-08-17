@@ -1,0 +1,29 @@
+<div class="buffs" *ngIf="this.appContext.isGroupSelected" >
+    <div class="stats base-stats">
+        <div>Base</div>
+        <div class="armor stat">
+            <img class="condition-image" src="./images/fh/action/shield.svg" />
+            <input type="tel" [value]="creature.armor" (blur)="storeBuff('armor', +$event.target.value)" maxlength="3"
+                class="stat-input" />
+        </div>
+        <div class="retaliate stat">
+            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+            <input type="tel" [value]="creature.retaliate" (blur)="storeBuff('retaliate', +$event.target.value)"
+                maxlength="3" class="stat-input" />
+        </div>
+    </div>
+    <hr />
+    <div class="stats round-stats">
+        <div>Round</div>
+        <div class="armor stat">
+            <img class="condition-image" src="./images/fh/action/shield.svg" />
+            <input type="tel" [value]="creature.roundArmor" (blur)="storeBuff('roundArmor', +$event.target.value)"
+                maxlength="3" class="stat-input" />
+        </div>
+        <div class="retaliate stat">
+            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+            <input type="tel" [value]="creature.roundRetaliate"
+                (blur)="storeBuff('roundRetaliate', +$event.target.value)" maxlength="3" class="stat-input" />
+        </div>
+    </div>
+</div>

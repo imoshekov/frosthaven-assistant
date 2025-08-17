@@ -47,33 +47,8 @@
         -6px 6px 1px 1px #e66565;
     text-align: center;
     padding: 15px;
-
-    .buffs {
-        font-size: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .stats {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        margin: 5px 0px;
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-
-            .stat-input {
-                height: 40px;
-                line-height: 40px;
-            }
-        }
-    }
-
+  
     div {
-
         box-sizing: border-box;
         color: #461417;
     }

@@ -10,7 +10,7 @@ import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
 import { Element } from './types/game-types';
 import { ElementComponent } from './components/element.component'; 
-import { ConditionModalComponent } from './components/condition-modal.component';
+import { AttackModalComponent } from './components/attack/attack-modal.component';
 
 
 @Component({
@@ -26,7 +26,7 @@ import { ConditionModalComponent } from './components/condition-modal.component'
     GameComponent,
     AddMonsterComponent,
     ElementComponent,
-    ConditionModalComponent
+    AttackModalComponent
   ]
 })
 export class App {

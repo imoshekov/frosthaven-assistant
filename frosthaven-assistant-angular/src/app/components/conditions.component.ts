@@ -13,6 +13,8 @@ import { AppContext } from '../app-context';
 export class ConditionsComponent {
   @Input() creature!: Creature;
   @Input() conditions: CreatureConditions[];
+  @Input() shouldShowBuffs: boolean;
+
   @Output() conditionToggled = new EventEmitter<CreatureConditions>();
 
   constructor() { }
