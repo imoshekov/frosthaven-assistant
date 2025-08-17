@@ -85,7 +85,6 @@ export class AppContext {
         }
 
         this.creaturesSubject.next([...creatures]);
-        console.log(this.getCreatures());
     }
 
     updateCreatureStat(

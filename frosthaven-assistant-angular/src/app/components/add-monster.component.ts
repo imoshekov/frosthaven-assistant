@@ -83,11 +83,11 @@ export class MonsterComponent {
       armor: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'shield')?.value ?? 0),
       retaliate: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
       isElite: this.isElite,
+      aggressive: true
     };
 
    
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
-    console.log(this.appContext.getCreatures());
   }
 }
