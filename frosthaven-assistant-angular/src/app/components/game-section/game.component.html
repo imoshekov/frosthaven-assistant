@@ -1,0 +1,13 @@
+<div class="game-container">
+  <div *ngFor="let creatureGroup of sortedCreatureGroups; let i = index" class="creature-group">
+    <div class="creature-container">
+      <app-creature-group-header [creature]="creatureGroup.creatureType"></app-creature-group-header>
+
+      <div class="creature-list">
+        <div *ngFor="let creature of creatureGroup.creatures; let j = index" class="creature" [ngClass]="creature.type">
+        <app-creature [creature]="creature"></app-creature>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppContext } from '../app-context';
 import { Creature } from '../types/game-types';
-import { StringUtils } from '../services/StringUtils';
+import { StringUtils } from '../services/string-utils.service';
 import { DataLoaderService } from '../services/data-loader.service';
 import { Monster } from '../types/data-file-types';
 import { NotificationService } from '../services/notification.service';
@@ -12,9 +12,9 @@ import { CreatureFactoryService } from '../services/creature-factory.service';
 
 
 @Component({
-  selector: 'app-monster',
-  templateUrl: './monster.component.html',
-  styleUrls: ['./monster.component.scss'],
+  selector: 'app-add-monster',
+  templateUrl: './add-monster.component.html',
+  styleUrls: ['./add-monster.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
@@ -83,11 +83,11 @@ export class MonsterComponent {
       armor: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'shield')?.value ?? 0),
       retaliate: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
       isElite: this.isElite,
+      aggressive: true
     };
 
    
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
-    console.log(this.appContext.getCreatures());
   }
 }

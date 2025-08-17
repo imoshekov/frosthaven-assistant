@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../app-context';
-import { Creature } from '../types/game-types';
+import { AppContext } from '../../app-context';
+import { Creature } from '../../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
-import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
+import { FormsModule } from '@angular/forms';
+import { CreatureGroupHeaderComponent } from './creature-group-header.component';
+import { CreatureComponent } from './creature.component';
 
 
 @Component({
@@ -11,12 +13,13 @@ import { GlobalTelInputDirective } from '../directives/global-tel-input.directiv
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
   standalone: true,
-  imports: [CommonModule, GlobalTelInputDirective]
+  imports: [CommonModule, FormsModule, CreatureGroupHeaderComponent, CreatureComponent]
 })
 export class GameComponent implements OnDestroy {
   groupedCreatures: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];
   groupedGraveyard: { type: string; creatureType: Creature, creatures: Creature[] }[] = [];
   private unsubscribe$ = new Subject<void>();
+  public creatureHpInputs: Record<number, string> = {};
 
   constructor(public appContext: AppContext) {
     this.sortCreatures();
@@ -32,11 +35,6 @@ export class GameComponent implements OnDestroy {
     ).subscribe(creatures => {
       this.sortGraveyard();
     });
-  }
-
-  getCreaturePic(creature: Creature): string {
-    const subFolder = creature?.aggressive ? 'monster' : 'character';
-    return `./images/${subFolder}/thumbnail/fh-${creature?.type}.png`
   }
 
   private sortCreatures() {
@@ -55,6 +53,44 @@ export class GameComponent implements OnDestroy {
       creatures: groups[type]
     }));
   }
+
+  get sortedCreatureGroups() {
+    return [...this.groupedCreatures].sort((a, b) => {
+      const typeA = a.creatureType;
+      const typeB = b.creatureType;
+
+      // 1. Initiative (asc)
+      if ((typeA.initiative ?? 0) !== (typeB.initiative ?? 0)) {
+        return (typeA.initiative ?? 0) - (typeB.initiative ?? 0);
+      }
+
+      // 2. Aggressive: false (characters) before true (monsters)
+      if (typeA.aggressive !== typeB.aggressive) {
+        return typeA.aggressive ? 1 : -1;
+      }
+
+      // 3. Name (asc, case-insensitive)
+      const nameA = (typeA.type || '').toLowerCase();
+      const nameB = (typeB.type || '').toLowerCase();
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+
+      // 4. Elite: true before false
+      if (typeA.isElite !== typeB.isElite) {
+        return typeA.isElite ? -1 : 1;
+      }
+
+      // 5. Standee (numeric if possible)
+      const standeeA = typeA.standee ?? 0;
+      const standeeB = typeB.standee ?? 0;
+
+      if (standeeA < standeeB) return -1;
+      if (standeeA > standeeB) return 1;
+
+      return 0;
+    });
+  }
+
 
   private sortGraveyard() {
     const groups: { [key: string]: any[] } = {};

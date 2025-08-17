@@ -1,0 +1,93 @@
+ .creature-details {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     align-items: center;
+
+     .base-info {
+         flex-direction: row;
+         justify-content: space-between;
+         align-items: center;
+         padding: 10px;
+
+         .creature-nameplate {
+             width: 80%;
+             display: flex;
+             justify-content: space-between;
+
+             .creature-name {
+                 text-align: right;
+             }
+         }
+
+         img.profile {
+             width: 70px;
+             height: 70px;
+             border-radius: 50%;
+             box-shadow: 0px 0px 5px 2px;
+         }
+     }
+
+     .base-info,
+     .group-stats {
+         display: flex;
+
+
+         width: calc(100% - 20px);
+     }
+
+     .group-stats {
+         flex-direction: column;
+         justify-content: end;
+
+         .stats {
+             justify-content: end;
+             display: flex;
+             margin-top: 5px;
+             gap: 0.5rem;
+         }
+
+         img {
+             width: 30px;
+         }
+     }
+
+
+      &.elite {
+      .base-info {
+        background: var(--elite-color);
+      }
+    }
+
+    &.non-elite {
+      .base-info {
+        background: var(--nonelite-color);
+      }
+    }
+
+    &.character {
+      &.coral {
+        .base-info {
+          background-color: var(--coral-color);
+        }
+      }
+
+      &.fist {
+        .base-info {
+          background-color: var(--fist-color);
+        }
+      }
+
+      &.blinkblade {
+        .base-info {
+          background-color: var(--blinkblade-color);
+        }
+      }
+
+      &.meteor {
+        .base-info {
+          background-color: var(--meteor-color);
+        }
+      }
+    }
+ }

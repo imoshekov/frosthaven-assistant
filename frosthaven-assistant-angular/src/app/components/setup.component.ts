@@ -7,7 +7,7 @@ import { DataLoaderService } from '../services/data-loader.service';
 import { DataFile, MonsterStat } from '../types/data-file-types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StringUtils } from '../services/StringUtils';
+import { StringUtils } from '../services/string-utils.service';
 
 @Component({
   selector: 'app-setup',

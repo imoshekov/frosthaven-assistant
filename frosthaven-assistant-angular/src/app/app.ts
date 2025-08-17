@@ -3,11 +3,14 @@ import { LocalStorageService } from './services/local-storage.service';
 import { WebSocketService } from './services/web-socket.service';
 import { CommonModule } from '@angular/common';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
-import { SetupComponent } from './controllers/setup.component';
-import { GameComponent } from './controllers/game.component';
-import { MonsterComponent } from './controllers/monster.component';
+import { SetupComponent } from './components/setup.component';
+import { GameComponent } from './components/game-section/game.component';
+import { MonsterComponent as AddMonsterComponent } from './components/add-monster.component';
 import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
+import { Element } from './types/game-types';
+import { ElementComponent } from './components/element.component'; 
+
 
 @Component({
   selector: 'app-root',
@@ -15,12 +18,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./app.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
-    ToastNotificationComponent, 
-    SetupComponent, 
-    GameComponent, 
-    MonsterComponent,
+    ToastNotificationComponent,
+    SetupComponent,
+    GameComponent,
+    AddMonsterComponent,
+    ElementComponent,
   ]
 })
 export class App {
@@ -30,11 +34,19 @@ export class App {
   lastSavedTimestamp = '';
   joinedSessionId: number = 0;
   serverLastPinged = '';
+  elements: Element[] = [
+    { type: 'fire', state: 'none' },
+    { type: 'ice', state: 'none' },
+    { type: 'earth', state: 'none' },
+    { type: 'air', state: 'none' },
+    { type: 'light', state: 'none' },
+    { type: 'dark', state: 'none' }
+  ];
 
   constructor(private storageService: LocalStorageService,
     private webSocketService: WebSocketService,
     private appContext: AppContext
-  ) { 
+  ) {
     const graveyard = this.storageService.loadGraveyard();
     const creatures = this.storageService.loadCreatures();
     graveyard && this.appContext.setCreatures(creatures);
@@ -49,4 +61,6 @@ export class App {
       this.serverLastPinged = this.webSocketService.lastPingedTime;
     });
   }
+
+
 }

@@ -1,0 +1,18 @@
+<div class="{{creature.type}}" [ngClass]="creature.isElite ? 'elite' : ''">
+    <span class="creature-standee stat" *ngIf="creature.aggressive">
+        # {{creature.standee}}
+    </span>
+    <span class="creature-hp stat">
+        <img src="./images/heart.svg" />
+        <input type="tel" [value]="creature.hp"
+            (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value)" maxlength="3"
+            class="stat-input" />
+    </span>
+
+    <div class="conditions">
+        <!-- {{condition}} -->
+    </div>
+    <div class="temp-stats">
+        <!-- {{tempStat}} -->
+    </div>
+</div>
