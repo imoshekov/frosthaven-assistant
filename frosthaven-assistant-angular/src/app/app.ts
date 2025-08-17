@@ -3,13 +3,13 @@ import { LocalStorageService } from './services/local-storage.service';
 import { WebSocketService } from './services/web-socket.service';
 import { CommonModule } from '@angular/common';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
-import { SetupComponent } from './controllers/setup.component';
-import { GameComponent } from './controllers/game.component';
-import { MonsterComponent } from './controllers/monster.component';
+import { SetupComponent } from './components/setup.component';
+import { GameComponent } from './components/game-section/game.component';
+import { MonsterComponent as AddMonsterComponent } from './components/add-monster.component';
 import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
 import { Element } from './types/game-types';
-import { ElementComponent } from './controllers/element.component'; 
+import { ElementComponent } from './components/element.component'; 
 
 
 @Component({
@@ -23,7 +23,7 @@ import { ElementComponent } from './controllers/element.component';
     ToastNotificationComponent,
     SetupComponent,
     GameComponent,
-    MonsterComponent,
+    AddMonsterComponent,
     ElementComponent,
   ]
 })

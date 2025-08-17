@@ -7,11 +7,11 @@ export class CreatureFactoryService {
 
   private creatureIdCounter = 0;
 
-  private generateCreatureId(): number {
-    return this.creatureIdCounter++;
+  private generateCreatureId(): string {
+    return Date.now() + '' + ++this.creatureIdCounter;
   }
 
-  createCreature(creatureInput: Partial<Creature>, isCharacter: boolean = false): Creature {
+  createCreature(creatureInput: Partial<Creature>): Creature {
     const creature: Creature = {
       id: this.generateCreatureId(),
       name: creatureInput.isElite ? `★ ${creatureInput.name}` : creatureInput.name,
@@ -24,8 +24,8 @@ export class CreatureFactoryService {
       initiative: creatureInput.initiative ?? 0,
       armor: creatureInput.armor ?? 0,
       retaliate: creatureInput.retaliate ?? 0,
-      aggressive: creatureInput.aggressive ?? !isCharacter, // monsters default aggressive, characters not
-      isElite: isCharacter ? false : (creatureInput.isElite ?? false),
+      aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
+      isElite: creatureInput.isElite ?? false,
       conditions: creatureInput.conditions ?? {},
       tempStats: creatureInput.tempStats ?? {},
       log: creatureInput.log ?? [],
@@ -33,5 +33,13 @@ export class CreatureFactoryService {
     };
 
     return creature;
+  }
+
+  createCreatureList(creatureList: Creature[]) {
+    const creatures: Creature[] = [];
+    creatureList.forEach(creature => {
+      creatures.push(this.createCreature(creature))
+    });
+    return creatures;
   }
 }

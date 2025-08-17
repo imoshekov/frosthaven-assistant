@@ -1,0 +1,46 @@
+<div class="creature-details"
+ [ngClass]="[
+       creature.type,
+       creature.isElite === true ? 'elite' :
+       creature.isElite === false ? 'non-elite' : '',
+       creature.aggressive ? '' : 'character'
+     ]">
+  <div class="base-info">
+    <span class="creature-initiative base-stat">
+      <input type="tel" [value]="creature.initiative"
+        (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, true)" maxlength="2" class="stat-input" />
+    </span>
+    <div class="creature-nameplate">
+      <img class='profile' [src]="getCreaturePic(creature)">
+      <span *ngIf="!creature.aggressive" class="creature-name base-stat">
+        {{creature.name}}
+      </span>
+
+      <div *ngIf="creature.aggressive" class="group-stats">
+        <span class="creature-name base-stat">
+          {{creature.type}}
+        </span>
+        <div class="stats">
+          <span class="creature-attack base-stat">
+            <img src="./images/stats/attack.svg" />
+            {{creature.attack}}
+          </span>
+          <span class="creature-movement  base-stat">
+            <img src="./images/fh/stats/move.svg" />
+            {{creature.movement}}
+          </span>
+          <span class="creature-armor  base-stat" *ngIf="creature.armor && creature.armor > 0">
+            <img class="condition-image" src="./images/fh/action/shield.svg" />
+            {{creature.armor}}
+          </span>
+          <span class="creature-retaliate  base-stat" *ngIf="creature.retaliate && creature.retaliate > 0">
+            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+            {{creature.retaliate}}
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

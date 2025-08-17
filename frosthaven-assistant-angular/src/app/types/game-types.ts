@@ -15,7 +15,7 @@ export type CreatureConditions = Partial<Record<keyof typeof CONDITION_ICONS, tr
 
 
 export interface Creature {
-  id?: number;
+  id?: string;
   name?: string;
   standee?: number,
   type?: string;

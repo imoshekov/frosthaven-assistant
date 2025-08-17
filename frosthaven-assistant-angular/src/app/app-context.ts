@@ -33,17 +33,17 @@ export class AppContext {
     }
 
     addCreature(creature: Creature) {
-        this.creaturesSubject.next([...this.creaturesSubject.value, creature]);
+        this.creaturesSubject.next([...this.creaturesSubject.value, this.creatureFactory.createCreature(creature)]);
     }
 
     addCreatures(newCreatures: Creature[]) {
         this.creaturesSubject.next([
             ...this.creaturesSubject.value,
-            ...newCreatures
+            ...this.creatureFactory.createCreatureList(newCreatures)
         ]);
     }
 
-    removeCreature(id: number) {
+    removeCreature(id: string) {
         this.creaturesSubject.next(
             this.creaturesSubject.value.filter(c => c.id !== id)
         );
@@ -59,18 +59,37 @@ export class AppContext {
     }
 
     addGraveyard(creature: Creature) {
-        this.graveyardSubject.next([...this.graveyardSubject.value, creature]);
+        this.graveyardSubject.next([...this.graveyardSubject.value, this.creatureFactory.createCreature(creature)]);
     }
 
 
-    removeGraveyard(id: number) {
+    removeGraveyard(id: string) {
         this.graveyardSubject.next(
             this.graveyardSubject.value.filter(c => c.id !== id)
         );
     }
 
+    updateCreatureBaseStat(creatureId: string, stat: keyof Creature, value: any, applyToAllOfType?: boolean) {
+        const creatures = this.getCreatures();
+        const creatureToUpdate = creatures.find(c => c.id === creatureId);
+        if (!creatureToUpdate) return;
+
+        if (applyToAllOfType) {
+            creatures
+                .filter(c => c.type === creatureToUpdate.type)
+                .forEach(c => {
+                    this.updateCreatureBaseStat(c.id!, stat, value, false);
+                });
+        } else {
+           creatureToUpdate[stat] = value;
+        }
+
+        this.creaturesSubject.next([...creatures]);
+        console.log(this.getCreatures());
+    }
+
     updateCreatureStat(
-        creatureId: number,
+        creatureId: string,
         stat: keyof Creature,
         value: any,
         options?: { isCondition?: boolean; isTemporary?: boolean }
@@ -132,8 +151,9 @@ export class AppContext {
                 type,
                 hp,
                 traits,
-                level
-            }, true);
+                level,
+                aggressive: false
+            });
         });
         this.addCreatures(defaultCharacters);
     }

@@ -12,9 +12,9 @@ import { CreatureFactoryService } from '../services/creature-factory.service';
 
 
 @Component({
-  selector: 'app-monster',
-  templateUrl: './monster.component.html',
-  styleUrls: ['./monster.component.scss'],
+  selector: 'app-add-monster',
+  templateUrl: './add-monster.component.html',
+  styleUrls: ['./add-monster.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
