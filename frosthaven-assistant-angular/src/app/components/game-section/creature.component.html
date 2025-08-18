@@ -1,6 +1,9 @@
 <div class="{{creature.type}}" [ngClass]="creature.isElite ? 'elite' : ''">
     <span class="creature-standee stat" *ngIf="creature.aggressive">
-        # {{creature.standee}}
+        <input type="tel" [value]="creature.standee"
+                (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'standee', +$event.target.value); 
+                this.appContext.updateCreatureBaseStat(creature.id!, 'name', creature.type + ' - ' + creature.standee)" maxlength="2"
+                class="stat-input" />
     </span>
     <div class="header">
         <span class="creature-hp stat">

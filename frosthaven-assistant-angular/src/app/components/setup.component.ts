@@ -8,13 +8,14 @@ import { DataFile, MonsterStat } from '../types/data-file-types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StringUtils } from '../services/string-utils.service';
+import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class SetupComponent {
 
