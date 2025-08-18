@@ -33,7 +33,7 @@ export class AttackModalComponent {
     this.tempConditions.push(condition);
   }
 
- 
+
   attackCreature(): void {
     if (this.attack <= 0) {
       return
@@ -75,10 +75,10 @@ export class AttackModalComponent {
 
 
   confirm() {
+    this.attackCreature();
     this.tempConditions.forEach(condition => {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
-    this.attackCreature();
     this.buffsComponent.publishBuffs();
     this.close();
   }

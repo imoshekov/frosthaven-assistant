@@ -73,7 +73,6 @@ export class MonsterComponent {
       ? monsterData?.stats.find(x => x.type === 'elite' && x.level === this.level)
       : monsterData?.stats[this.level];
     const creature: Creature = {
-      // name: `${this.type} ${this.standee}`,
       type: this.type,
       standee: this.standee,
       level: this.level,
