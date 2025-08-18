@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AppContext } from '../../app-context';
 import { Creature } from '../../types/game-types';
+import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 
 
 enum BuffTypes {
@@ -18,7 +19,7 @@ interface Buffs {
 @Component({
   selector: 'app-buffs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GlobalTelInputDirective],
   templateUrl: './buffs.component.html',
   styleUrl: './buffs.component.scss'
 })

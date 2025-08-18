@@ -14,7 +14,7 @@ export enum CreatureConditions {
 export interface Creature {
   id?: string;
   name?: string;
-  standee?: number,
+  standee?: number | string,
   type?: string;
   aggressive?: boolean;
   isElite?: boolean; 

@@ -72,9 +72,8 @@ export class MonsterComponent {
     const selectedMonster = this.isElite
       ? monsterData?.stats.find(x => x.type === 'elite' && x.level === this.level)
       : monsterData?.stats[this.level];
-
     const creature: Creature = {
-      name: `${this.type} ${this.standee}`,
+      // name: `${this.type} ${this.standee}`,
       type: this.type,
       standee: this.standee,
       level: this.level,
@@ -87,7 +86,7 @@ export class MonsterComponent {
       aggressive: true
     };
 
-   
+
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
   }

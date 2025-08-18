@@ -75,7 +75,10 @@ export class AppContext {
     updateCreatureBaseStat(creatureId: string, stat: keyof Creature, value: any, applyToAllOfType?: boolean) {
         const creatures = this.getCreatures();
         const creatureToUpdate = this.findCreature(creatureId);
-
+        if (stat === 'name') {
+            value = this.creatureFactory.createCreatureName(creatureToUpdate);
+        }
+        
         if (applyToAllOfType) {
             creatures
                 .filter(c => c.type === creatureToUpdate!.type)

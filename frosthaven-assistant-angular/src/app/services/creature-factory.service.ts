@@ -1,6 +1,6 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
-import { Creature, CreatureConditions } from '../types/game-types';
+import { Creature} from '../types/game-types';
 
 @Injectable({ providedIn: 'root' })
 export class CreatureFactoryService {
@@ -14,9 +14,9 @@ export class CreatureFactoryService {
   createCreature(creatureInput: Partial<Creature>): Creature {
     const creature: Creature = {
       id: this.generateCreatureId(),
-      name: creatureInput.isElite ? `★ ${creatureInput.name}` : creatureInput.name,
+      name: creatureInput.aggressive ? this.createCreatureName(creatureInput) : creatureInput.name,
       type: creatureInput.type,
-      standee: creatureInput.standee ?? 0,
+      standee: creatureInput.standee ?? '#',
       level: creatureInput.level ?? 1,
       hp: creatureInput.hp ?? 0,
       attack: creatureInput.attack ?? 0,
@@ -26,14 +26,18 @@ export class CreatureFactoryService {
       retaliate: creatureInput.retaliate ?? 0,
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
       isElite: creatureInput.isElite ?? false,
-      conditions: creatureInput.conditions ?? [CreatureConditions.poison, CreatureConditions.wound],
+      conditions: creatureInput.conditions ?? [],
       roundArmor: creatureInput.roundArmor ?? 0,
       roundRetaliate: creatureInput.roundRetaliate ?? 0,
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };
-
     return creature;
+  }
+
+  createCreatureName(creatureInput: Partial<Creature>): string{
+    let baseName: string = `${creatureInput.type} ${creatureInput.standee ?? ''}`;
+    return creatureInput.isElite ? `★ ${baseName}` : baseName;
   }
 
   createCreatureList(creatureList: Creature[]) {
