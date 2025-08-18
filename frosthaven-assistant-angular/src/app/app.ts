@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Element, ElementState, ElementType } from './types/game-types';
 import { ElementComponent } from './components/element.component'; 
 import { AttackModalComponent } from './components/attack/attack-modal.component';
+import { RoundComponent } from './components/round.component';
 
 
 @Component({
@@ -26,7 +27,8 @@ import { AttackModalComponent } from './components/attack/attack-modal.component
     GameComponent,
     AddMonsterComponent,
     ElementComponent,
-    AttackModalComponent
+    AttackModalComponent,
+    RoundComponent
   ]
 })
 export class App {

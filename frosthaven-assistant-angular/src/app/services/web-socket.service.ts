@@ -116,9 +116,9 @@ export class WebSocketService {
 
       if (this.role === 'host') {
         joinSessionPayload.characters = this.appContext.getCreatures();
-        joinSessionPayload.roundNumber = this.appContext.roundNumber;
+        // joinSessionPayload.roundNumber = this.appContext.roundNumber;
         joinSessionPayload.graveyard = this.appContext.getGraveyard();
-        joinSessionPayload.elementStates = this.appContext.elementStates;
+        // joinSessionPayload.elementStates = this.appContext.elementStates;
       }
 
       this.ws!.send(JSON.stringify(joinSessionPayload));
@@ -210,11 +210,11 @@ export class WebSocketService {
   }
 
   private handleRoundUpdate(data: any) {
-    this.appContext.roundNumber = data.roundNumber;
+    // this.appContext.roundNumber = data.roundNumber;
   }
 
   private handleElementUpdate(data: any) {
-    this.appContext.elementStates = data.elementStates;
+    // this.appContext.elementStates = data.elementStates;
   }
 
   private handleMonsterAdded(data: any) {

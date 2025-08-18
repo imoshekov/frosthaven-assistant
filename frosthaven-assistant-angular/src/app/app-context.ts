@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Creature, CreatureConditions, Element } from './types/game-types';
-import { Scenario } from './types/data-file-types';
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
-    public elementStates: Element[] = [];
-    public roundNumber: number = 1;
-    public scenario: Scenario = null;
     public defaultLevel: number = 1;
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
