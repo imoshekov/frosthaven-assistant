@@ -6,6 +6,7 @@ import { ConditionsComponent } from '../conditions.component';
 import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 import { BuffsComponent } from './buffs.component';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-attack-modal',
@@ -24,7 +25,7 @@ export class AttackModalComponent {
   public damage = 0;
   private tempConditions: CreatureConditions[] = [];
 
-  constructor(public appContext: AppContext) {
+  constructor(public appContext: AppContext, private notificationService: NotificationService) {
     this.creature = appContext.selectedCreature;
   }
 
@@ -32,13 +33,23 @@ export class AttackModalComponent {
     this.tempConditions.push(condition);
   }
 
-  calculateDamage(): number {
+ 
+  attackCreature(): void {
     if (this.attack <= 0) {
-      return 0;
+      return
     }
+    const calculatedDamage = this.calculateDamage();
+    const resultHp = this.creature.hp - calculatedDamage;
+    this.appContext.updateCreatureBaseStat(this.creature.id!, 'hp', this.creature.hp - calculatedDamage);
+    if (resultHp <= 0) {
+      this.appContext.removeCreature(this.creature.id!);
+      this.notificationService.emitInfoMessage(`${this.creature.name} has been killed!`);
+    }
+  }
 
+  calculateDamage(): number {
     let damage = this.attack;
-    
+
     // Apply armor
     const effectiveArmor = Math.max(
       (this.creature.armor + this.creature.roundArmor) - this.armorPen,
@@ -58,8 +69,8 @@ export class AttackModalComponent {
       .map(c => conditionEffects[c]);
 
     damage = modifiers.reduce((d, fn) => fn(d), damage);
-
-    return Math.max(damage, 0);
+    this.damage = Math.max(damage, 0);
+    return this.damage;
   }
 
 
@@ -67,10 +78,8 @@ export class AttackModalComponent {
     this.tempConditions.forEach(condition => {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
-    
-    this.appContext.updateCreatureBaseStat(this.creature.id!, 'hp', this.creature.hp - this.calculateDamage());
+    this.attackCreature();
     this.buffsComponent.publishBuffs();
-
     this.close();
   }
 

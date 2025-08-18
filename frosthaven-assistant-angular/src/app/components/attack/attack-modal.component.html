@@ -6,15 +6,18 @@
         <div class="attack">
             <div class="damage">
                 <img src="./images/fh/action/damage.svg" />
-                <input type="tel" [(ngModel)]="attack" maxlength="3" class="stat-input" />
+                <input type="tel" [(ngModel)]="attack" (ngModelChange)="calculateDamage()" maxlength="3" class="stat-input" />
             </div>
             <div class="armor-penetration" *ngIf="creature.armor + creature.roundArmor > 0">
                 <img src="./images/fh/action/pierce.svg" />
-                <input type="tel" [(ngModel)]="armorPen" maxlength="3" class="stat-input" />
+                <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3" class="stat-input" />
             </div>
         </div>
-        <app-conditions *ngIf="!this.appContext.isGroupSelected" [creature]="creature" [conditions]="conditions" [shouldShowBuffs]="true"
-            (conditionToggled)="toggleCondition($event)">
+        <div class="damage-preview">
+           damage: {{ damage }}
+        </div>
+        <app-conditions *ngIf="!this.appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
+            [shouldShowBuffs]="true" (conditionToggled)="toggleCondition($event)">
         </app-conditions>
         <div class="buttons">
             <button type="button" class="cancel" (click)="close()">Cancel</button>

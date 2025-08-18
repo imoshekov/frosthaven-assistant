@@ -86,7 +86,6 @@ export class MonsterComponent {
       aggressive: true
     };
 
-
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
   }

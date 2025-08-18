@@ -14,7 +14,7 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
   messages: Array<{id: number, type: 'error' | 'info', message: string, timestamp: Date}> = [];
   private subscription = new Subscription();
   private messageCounter = 0;
-  private displayDuration = 2000; // Display for 2 seconds (2000ms)
+  private displayDuration = 3500; // Display for 3.5 seconds (3500ms)
 
   constructor(private notificationService: NotificationService) {}
 
