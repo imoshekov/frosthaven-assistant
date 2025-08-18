@@ -10,6 +10,7 @@ export class AppContext {
     public elementStates: Element[] = [];
     public roundNumber: number = 1;
     public scenario: Scenario = null;
+    public defaultLevel: number = 1;
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
 
@@ -133,6 +134,8 @@ export class AppContext {
                 "level": 5
             }
         ];
+        this.defaultLevel = Math.round((selectedCharacters.reduce((sum, c) => sum + c.level, 0) / selectedCharacters.length) / 2);
+
         const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
             const charData = this.dataLoader.getData().characters.find(c => c.name === type);
 

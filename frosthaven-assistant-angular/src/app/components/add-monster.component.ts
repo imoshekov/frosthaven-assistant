@@ -36,6 +36,7 @@ export class MonsterComponent {
     private creatureFactory: CreatureFactoryService
   ) {
     this.monsters = this.dataLoader.getData().monsters;
+    this.level = appContext.defaultLevel;
   }
 
   // --- Autocomplete Methods ---

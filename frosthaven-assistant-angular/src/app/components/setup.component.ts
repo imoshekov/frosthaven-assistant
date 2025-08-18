@@ -34,6 +34,7 @@ export class SetupComponent {
     private stringUtils: StringUtils
   ) {
     this.dataFile = this.dataLoader.getData();
+    this.scenarioLevel = appContext.defaultLevel
   }
 
   startNewGame() {
