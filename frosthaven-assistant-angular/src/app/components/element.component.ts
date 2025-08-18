@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Element } from '../types/game-types';
+import { Element, ElementState } from '../types/game-types';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -44,18 +44,18 @@ export class ElementComponent {
 
   get fillUrl(): string {
     switch (this.element.state) {
-      case 'none': return `url(#${this.element.type}-bw)`;
-      case 'full': return `url(#${this.element.type}-color)`;
-      case 'half': return `url(#${this.element.type}-half)`;
-      default: return `url(#${this.element.type}-bw)`;
+      case ElementState.None: return `url(#${this.element.type}-${ElementState.None}})`;
+      case ElementState.Full: return `url(#${this.element.type}-${ElementState.Full})`;
+      case ElementState.Half: return `url(#${this.element.type}-${ElementState.Half})`;
+      default: return `url(#${this.element.type}-${ElementState.None})`;
     }
   }
 
   toggleColor(): void {
     switch (this.element.state) {
-      case 'none': this.element.state = 'full'; break;
-      case 'full': this.element.state = 'half'; break;
-      case 'half': this.element.state = 'none'; break;
+      case ElementState.None: this.element.state = ElementState.Full; break;
+      case ElementState.Full: this.element.state = ElementState.Half; break;
+      case ElementState.Half: this.element.state = ElementState.None; break;
     }
   }
 }

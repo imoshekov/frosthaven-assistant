@@ -32,7 +32,22 @@ export interface Creature {
   traits?: string[];
 }
 
+export enum ElementState {
+  None = 'none',
+  Full = 'full',
+  Half = 'half'
+}
+
+export enum ElementType {
+  Fire = 'fire',
+  Ice = 'ice',
+  Earth = 'earth',
+  Air = 'air',
+  Light = 'light',
+  Dark = 'dark'
+}
+
 export interface Element {
-  type: string;
-  state: 'full' | 'half' | 'none';
+  type: ElementType;
+  state: ElementState;
 }

@@ -24,7 +24,6 @@ export class AppContext {
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService) {
         this.addDefaultCharacters();
-        this.addElements();
     }
 
     getCreatures(): Creature[] {
@@ -156,16 +155,5 @@ export class AppContext {
             });
         });
         this.addCreatures(defaultCharacters);
-    }
-
-    private addElements() {
-        this.elementStates = [
-            { type: 'Fire', state: 'none' },
-            { type: 'Ice', state: 'none' },
-            { type: 'Earth', state: 'none' },
-            { type: 'Wind', state: 'none' },
-            { type: 'Light', state: 'none' },
-            { type: 'Darkness', state: 'none' }
-        ];
     }
 }

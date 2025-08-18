@@ -8,7 +8,7 @@ import { GameComponent } from './components/game-section/game.component';
 import { MonsterComponent as AddMonsterComponent } from './components/add-monster.component';
 import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
-import { Element } from './types/game-types';
+import { Element, ElementState, ElementType } from './types/game-types';
 import { ElementComponent } from './components/element.component'; 
 import { AttackModalComponent } from './components/attack/attack-modal.component';
 
@@ -37,12 +37,12 @@ export class App {
   joinedSessionId: number = 0;
   serverLastPinged = '';
   elements: Element[] = [
-    { type: 'fire', state: 'none' },
-    { type: 'ice', state: 'none' },
-    { type: 'earth', state: 'none' },
-    { type: 'air', state: 'none' },
-    { type: 'light', state: 'none' },
-    { type: 'dark', state: 'none' }
+    { type: ElementType.Fire, state: ElementState.None },
+    { type: ElementType.Ice, state: ElementState.None },
+    { type: ElementType.Earth, state: ElementState.None },
+    { type: ElementType.Air, state: ElementState.None },
+    { type: ElementType.Light, state: ElementState.None },
+    { type: ElementType.Dark, state: ElementState.None }
   ];
 
   constructor(private storageService: LocalStorageService,
