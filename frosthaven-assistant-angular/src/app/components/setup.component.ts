@@ -47,58 +47,84 @@ export class SetupComponent {
     this.notificationService.emitInfoMessage('Started a new game');
   }
 
-  /**
-   * Loads a scenario based on the scenarioId and scenarioLevel inputs
-   */
+  private isCreatureElite(creature: Creature): boolean {
+    return creature.type === 'elite' || creature.player4 === 'elite' || creature.isElite === true;
+  }
+
+  private findMonsterStats(creature: Creature, searchCriteria: string = creature.name): MonsterStat | undefined {
+    const monster = this.dataFile.monsters.find(m => m.name === searchCriteria);
+    if (!monster) return undefined;
+
+    const isElite = this.isCreatureElite(creature);
+
+    return monster.stats.find(stat =>
+      (isElite ? stat.type === 'elite' : true) && stat.level === creature.level
+    );
+  }
+
   async loadScenario() {
-    // Call the storage service to load the scenario
-    const creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel).catch(error => {
-      this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`);
-    });
+    const creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
+      .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
+
     if (!creatures) return;
 
     creatures.forEach(creature => {
+      creature.level = this.scenarioLevel;
+      creature.isElite = this.isCreatureElite(creature);
+
       const monsterStats = this.findMonsterStats(creature);
-      this.appContext.addCreature({
+
+      const newCreature: Creature = {
+        ...creature,
         hp: this.stringUtils.parseInt(monsterStats?.health ?? 0),
         attack: this.stringUtils.parseInt(monsterStats?.attack ?? 0),
         movement: this.stringUtils.parseInt(monsterStats?.movement ?? 0),
         initiative: 0,
         armor: this.stringUtils.parseInt(monsterStats?.actions?.find(x => x.type === 'shield')?.value ?? 0),
         retaliate: this.stringUtils.parseInt(monsterStats?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
-        ...creature
-      });
+        aggressive: true
+      };
+
+      this.appContext.addCreature(this.creatureFactory.createCreature(newCreature));
     });
 
     this.notificationService.emitInfoMessage(`Loaded scenario ${this.scenarioId} at level ${this.scenarioLevel}.`);
   }
 
   loadSection(): void {
-    const sectionCreatures: Creature[] = this.dataLoader.getData().sections.find(section => section.index === this.sectionId)?.rooms[0].monster;
+    const section = this.dataLoader.getData().sections.find(s => s.index === this.sectionId);
+    if (!section || !section.rooms[0]?.monster) return;
+
     const monsters = this.dataLoader.getData().monsters;
+    const sectionCreatures: Creature[] = section.rooms[0].monster;
 
     sectionCreatures.forEach(creature => {
-      const monsterData = monsters.find(monster => monster.name === creature.name);
+      const monsterData = monsters.find(m => m.name === creature.name);
+      if (!monsterData) return;
 
-      const isElite = creature.type === 'elite' || creature?.player4 === 'elite';
+      creature.level = this.scenarioLevel;
+      creature.isElite = this.isCreatureElite(creature);
 
-      const selectedMonster = isElite
-        ? monsterData?.stats.find(x => x.type === 'elite' && x.level === this.scenarioLevel)
-        : monsterData?.stats[this.scenarioLevel];
+      const selectedStats = this.findMonsterStats(creature);
+
       const newCreature: Creature = {
         type: creature.name,
         level: this.scenarioLevel,
-        hp: this.stringUtils.parseInt(selectedMonster?.health ?? 0),
-        attack: this.stringUtils.parseInt(selectedMonster?.attack ?? 0),
-        movement: Math.max(Number(monsterData?.baseStat?.movement ?? 0), Number(selectedMonster?.movement ?? 0)),
-        armor: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'shield')?.value ?? 0),
-        retaliate: this.stringUtils.parseInt(selectedMonster?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
-        isElite: isElite,
+        hp: this.stringUtils.parseInt(selectedStats?.health ?? 0),
+        attack: this.stringUtils.parseInt(selectedStats?.attack ?? 0),
+        movement: Math.max(
+          Number(monsterData?.baseStat?.movement ?? 0),
+          Number(selectedStats?.movement ?? 0)
+        ),
+        armor: this.stringUtils.parseInt(selectedStats?.actions?.find(x => x.type === 'shield')?.value ?? 0),
+        retaliate: this.stringUtils.parseInt(selectedStats?.actions?.find(x => x.type === 'retaliate')?.value ?? 0),
+        isElite: creature.isElite,
         aggressive: true
       };
 
       this.appContext.addCreature(this.creatureFactory.createCreature(newCreature));
     });
+
     this.notificationService.emitInfoMessage(`Loaded section ${this.sectionId} at level ${this.scenarioLevel}.`);
   }
 
@@ -108,17 +134,5 @@ export class SetupComponent {
 
   joinSession(): void {
     // TODO join session
-  }
-
-  private findMonsterStats(creature: Creature, searchCriteria: string = creature.type): MonsterStat | undefined {
-    const monster = this.dataFile.monsters.find(monster => monster.name === searchCriteria);
-    if (!monster) {
-      return undefined;
-    }
-
-    // It is == on purpose to allow for string comparison
-    return creature.isElite
-      ? monster.stats.find(x => x.type === 'elite' && x.level == creature.level)
-      : monster.stats.find(x => x.level == creature.level)
   }
 }
