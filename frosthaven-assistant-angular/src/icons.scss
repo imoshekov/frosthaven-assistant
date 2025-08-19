@@ -1,0 +1,63 @@
+.icon {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    &.shield {
+        background-image: url("/images/fh/action/shield.svg");
+    }
+
+    &.retaliate {
+        background-image: url("/images/fh/action/retaliate.svg");
+    }
+
+    &.poison {
+        background-image: url("/images/fh/condition/poison.svg");
+    }
+
+    &.wound {
+        background-image: url("/images/fh/condition/wound.svg");
+    }
+
+    &.brittle {
+        background-image: url("/images/fh/condition/brittle.svg");
+    }
+
+    &.ward {
+        background-image: url("/images/fh/condition/ward.svg");
+    }
+
+    &.immobilize {
+        background-image: url("/images/fh/condition/immobilize.svg");
+    }
+
+    &.bane {
+        background-image: url("/images/fh/condition/bane.svg");
+    }
+
+    &.muddle {
+        background-image: url("/images/fh/condition/muddle.svg");
+    }
+
+    &.stun {
+        background-image: url("/images/fh/condition/stun.svg");
+    }
+
+    &.impair {
+        background-image: url("/images/fh/condition/impair.svg");
+    }
+
+    &.disarm {
+        background-image: url("/images/fh/condition/disarm.svg");
+    }
+
+    &.damage {
+        background-image: url("/images/fh/action/damage.svg");
+    }
+
+    &.pierce {
+        background-image: url("/images/fh/action/pierce.svg");
+    }
+}

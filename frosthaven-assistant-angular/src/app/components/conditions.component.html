@@ -2,18 +2,18 @@
     <div *ngIf="shouldShowBuffs" class="buffs">
         <div class="armor stat">
             {{creature.armor + creature.roundArmor}}
-            <img class="condition-image" src="./images/fh/action/shield.svg" />
+            <div class="icon shield"></div>
         </div>
         <div class="retaliate stat">
             {{creature.retaliate + creature.roundRetaliate}}
-            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+            <div class="icon retaliate"></div>
 
         </div>
     </div>
     <div class="conditions">
         <div *ngFor="let condition of conditions" [ngClass]="condition" class="condition-element"
             (click)="toggleCondition(condition)">
-            <img [src]="`/images/fh/condition/${condition}.svg`" />
+            <div class="icon" [class]="condition" [ngClass]="isActive(condition) ? 'active': ''"></div>
         </div>
     </div>
 

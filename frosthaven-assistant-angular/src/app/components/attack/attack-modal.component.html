@@ -4,13 +4,13 @@
         <div>{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}</div>
         <app-buffs [creature]="creature" #buff></app-buffs>
         <div class="attack" *ngIf="!this.appContext.isGroupSelected">
-            <div class="damage">
-                <img src="./images/fh/action/damage.svg" />
+            <div class="stat">
+                <div class="icon damage"></div>
                 <input type="tel" [(ngModel)]="attack" (ngModelChange)="calculateDamage()" maxlength="3"
                     class="stat-input" />
             </div>
-            <div class="armor-penetration" *ngIf="creature.armor + creature.roundArmor > 0">
-                <img src="./images/fh/action/pierce.svg" />
+            <div class="stat" *ngIf="creature.armor + creature.roundArmor > 0">
+                <div class="icon pierce"></div>
                 <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3"
                     class="stat-input" />
             </div>

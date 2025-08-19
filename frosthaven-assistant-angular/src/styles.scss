@@ -1,3 +1,5 @@
+@import "icons.scss";
+
 /* You can add global styles to this file, and also import other style files */
 :root {
     --primary-color: #006989;
@@ -106,6 +108,7 @@ label {
 
 button {
     min-width: 220px;
+
     &.action-button {
         min-width: 30px;
     }

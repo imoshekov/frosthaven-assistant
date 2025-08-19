@@ -11,7 +11,7 @@ import { Element, ElementState } from '../types/game-types';
     templateUrl: './round.component.html',
     styleUrls: ['./round.component.scss'],
     standalone: true,
-    imports: [CommonModule, GlobalTelInputDirective, ElementComponent]
+    imports: [CommonModule]
 })
 export class RoundComponent {
     roundNumber: number = 1;

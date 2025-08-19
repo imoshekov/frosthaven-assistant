@@ -4,15 +4,27 @@
     flex-wrap: wrap;
     justify-content: center;
 
-    .conditions, .buffs {
+    .conditions,
+    .buffs {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
 
+        .stat {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+        }
+
         .condition-element {
             cursor: pointer;
             margin: 5px;
+
+            .icon:not(.active) {
+                opacity: 0.5;
+                filter: brightness(50%);
+            }
         }
     }
 

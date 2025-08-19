@@ -47,11 +47,23 @@
         -6px 6px 1px 1px #e66565;
     text-align: center;
     padding: 15px;
-  
+
     div {
         box-sizing: border-box;
         color: #461417;
     }
+
+    .attack {
+        display: flex;
+        justify-content: center;
+
+        .stat {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+
 }
 
 .buttons {
