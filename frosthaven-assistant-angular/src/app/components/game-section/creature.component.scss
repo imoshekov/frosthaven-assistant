@@ -12,6 +12,21 @@
      justify-content: space-around;
      align-items: center;
 
+     .creature-hp {
+         .icon.heart {
+             width: 60px;
+             height: 60px;
+             input {
+                 background: none;
+                 color: white;
+                 width: 100%;
+                 height: 100%;
+                 font-size: 20px;
+                 box-sizing: border-box;
+             }
+         }
+     }
+
      div.open-modal {
          width: 24px;
          height: 24px;

@@ -22,19 +22,19 @@
         </span>
         <div class="stats">
           <span class="creature-attack base-stat">
-            <img src="./images/stats/attack.svg" />
+           <div class="icon attack"></div>
             {{creature.attack}}
           </span>
           <span class="creature-movement base-stat">
-            <img src="./images/fh/stats/move.svg" />
+            <div class="icon move"></div>
             {{creature.movement}}
           </span>
           <span class="creature-armor base-stat" *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor> 0">
-            <img class="condition-image" src="./images/fh/action/shield.svg" />
+           <div class="icon shield"></div>
             {{creature.armor + creature.roundArmor}}
           </span>
           <span class="creature-retaliate base-stat" *ngIf="(creature.retaliate || creature.roundRetaliate) && creature.retaliate + creature.roundRetaliate > 0">
-            <img class="condition-image" src="./images/fh/action/retaliate.svg" />
+            <div class="icon retaliate"></div>
             {{creature.retaliate + creature.roundRetaliate}}
           </span>
         </div>

@@ -6,58 +6,71 @@
     background-position: center;
 
     &.shield {
-        background-image: url("/images/fh/action/shield.svg");
+        background-image: url("./images/fh/action/shield.svg");
     }
 
     &.retaliate {
-        background-image: url("/images/fh/action/retaliate.svg");
+        background-image: url("./images/fh/action/retaliate.svg");
+    }
+
+    &.attack {
+        background-image: url("./images/stats/attack.svg");
+    }
+
+    &.move {
+        background-image: url("./images/fh/stats/move.svg");
     }
 
     &.poison {
-        background-image: url("/images/fh/condition/poison.svg");
+        background-image: url("./images/fh/condition/poison.svg");
     }
 
     &.wound {
-        background-image: url("/images/fh/condition/wound.svg");
+        background-image: url("./images/fh/condition/wound.svg");
     }
 
     &.brittle {
-        background-image: url("/images/fh/condition/brittle.svg");
+        background-image: url("./images/fh/condition/brittle.svg");
     }
 
     &.ward {
-        background-image: url("/images/fh/condition/ward.svg");
+        background-image: url("./images/fh/condition/ward.svg");
     }
 
     &.immobilize {
-        background-image: url("/images/fh/condition/immobilize.svg");
+        background-image: url("./images/fh/condition/immobilize.svg");
     }
 
     &.bane {
-        background-image: url("/images/fh/condition/bane.svg");
+        background-image: url("./images/fh/condition/bane.svg");
     }
 
     &.muddle {
-        background-image: url("/images/fh/condition/muddle.svg");
+        background-image: url("./images/fh/condition/muddle.svg");
     }
 
     &.stun {
-        background-image: url("/images/fh/condition/stun.svg");
+        background-image: url("./images/fh/condition/stun.svg");
     }
 
     &.impair {
-        background-image: url("/images/fh/condition/impair.svg");
+        background-image: url("./images/fh/condition/impair.svg");
     }
 
     &.disarm {
-        background-image: url("/images/fh/condition/disarm.svg");
+        background-image: url("./images/fh/condition/disarm.svg");
     }
 
     &.damage {
-        background-image: url("/images/fh/action/damage.svg");
+        background-image: url("./images/fh/action/damage.svg");
     }
 
     &.pierce {
-        background-image: url("/images/fh/action/pierce.svg");
+        background-image: url("./images/fh/action/pierce.svg");
+    }
+
+    &.heart {
+        background-image: url("./images/heart.svg");
+
     }
 }
