@@ -29,7 +29,10 @@ export interface Creature {
   roundArmor?: number,
   roundRetaliate?: number,
   log?: any[];
-  traits?: string[];
+  traits?: string[],
+  player2?: string,
+  player3?: string,
+  player4?: string;
 }
 
 export enum ElementState {

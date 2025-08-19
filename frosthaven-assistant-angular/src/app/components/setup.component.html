@@ -10,11 +10,23 @@
       </div>
       <div class="label-group">
         <label for="scenario-level">Level</label>
-        <input type="tel" id="scenario-level" placeholder="#" [(ngModel)]="scenarioLevel" />
+        <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" />
       </div>
 
     </div>
     <button class="action-button" (click)="loadScenario()">Load</button>
+  </div>
+
+  <button (click)="showLoadSection = !showLoadSection">Load Section<span>&#9660;</span></button>
+  <div id="load-section-container" class="section" [style.display]="showLoadSection ? '' : 'none'">
+    <div class="expand-box">
+      <div class="label-group">
+        <label for="scenario-id">Section</label>
+        <input type="tel" placeholder="#" [(ngModel)]="sectionId" />
+      </div>
+  
+    </div>
+    <button class="action-button" (click)="loadSection()">Load</button>
   </div>
 
   <button (click)="startSession()">Start Session</button>
