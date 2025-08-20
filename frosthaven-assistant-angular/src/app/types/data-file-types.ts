@@ -20,6 +20,7 @@ export interface MonsterBaseStat {
   attack?: number | string;
   health?: string | number;
   immunities?: string[];
+  actions?: MonsterAction[];
 }
 
 export interface MonsterStat {

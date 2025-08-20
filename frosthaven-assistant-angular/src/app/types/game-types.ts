@@ -11,6 +11,11 @@ export enum CreatureConditions {
   disarm = "disarm"
 }
 
+export interface CreatureAction {
+  type: string;
+  value?: string | number;
+}
+
 export interface Creature {
   id?: string;
   name?: string;
@@ -34,6 +39,7 @@ export interface Creature {
   player2?: string,
   player3?: string,
   player4?: string;
+  actions?: CreatureAction[]; 
 }
 
 export enum ElementState {

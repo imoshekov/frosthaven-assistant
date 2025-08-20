@@ -21,14 +21,18 @@ export class CreatureFactoryService {
   }
 
   createCreature(creatureInput: Partial<Creature>): Creature {
-    const monster: any = this.findMonsterStats(creatureInput);
+    const monster: Monster = this.findMonsterStats(creatureInput);
+    
     const creature: Creature = {
       id: this.generateCreatureId(),
       name: creatureInput.aggressive ? this.createCreatureName(creatureInput) : creatureInput.name,
       type: creatureInput.type,
       standee: creatureInput.standee ?? '#',
       level: creatureInput.level ?? 1,
-      hp: this.stringUtils.parseInt(monster?.stats[0]?.health) ?? 0,
+      hp: Math.max(
+        Number(monster?.baseStat?.health ?? 0),
+        Number(monster?.stats[0]?.health ?? 0)
+      ),
       attack: Math.max(
         Number(monster?.baseStat?.attack ?? 0),
         Number(monster?.stats[0]?.attack ?? 0)
@@ -39,9 +43,14 @@ export class CreatureFactoryService {
       ),
       initiative: creatureInput.initiative ?? 0,
       armor: this.stringUtils.parseInt(
-        monster?.stats[0].actions?.find((x: MonsterAction) => x.type === 'shield')?.value ?? 0
-      ), retaliate: this.stringUtils.parseInt(
-        monster?.stats[0].actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ?? 0
+        monster?.stats?.[0]?.actions?.find((x: MonsterAction) => x.type === 'shield')?.value ??
+        monster?.stats?.[0]?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'shield')?.value ??
+        0
+      ),
+      retaliate: this.stringUtils.parseInt(
+        monster?.stats?.[0]?.actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ??
+        monster?.stats?.[0]?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ??
+        0
       ),
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
       flying: monster?.flying ?? false,
@@ -49,6 +58,10 @@ export class CreatureFactoryService {
       conditions: creatureInput.conditions ?? [],
       roundArmor: creatureInput.roundArmor ?? 0,
       roundRetaliate: creatureInput.roundRetaliate ?? 0,
+      actions:
+        monster?.actions?.filter((a: MonsterAction) => a.type === 'condition')?.length
+          ? monster?.actions.filter((a: MonsterAction) => a.type === 'condition')
+          : monster?.baseStat?.actions?.filter((a: MonsterAction) => a.type === 'condition') ?? [],
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };
