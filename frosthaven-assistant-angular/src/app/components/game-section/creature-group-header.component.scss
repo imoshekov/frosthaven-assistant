@@ -1,125 +1,116 @@
  .creature-details {
-   .base-info {
-     flex-direction: row;
-     justify-content: space-between;
-     align-items: center;
-     padding: 10px;
-
-     .creature-nameplate {
-       display: flex;
-       justify-content: space-between;
-       width: 100%;
-       gap: 10px;
-
-       .name {
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         align-items: center;
-
-         input {
-           background: none;
-           color: var(--font-color);
-           border: none;
-         }
-       }
-     }
-
-     .creature-name {
-       text-align: right;
-     }
-
-
-     img.profile {
-       width: 70px;
-       height: 70px;
-       border-radius: 50%;
-       box-shadow: 0px 0px 5px 2px;
-     }
-   }
-
-   .base-info,
-   .group-stats {
-     display: flex;
-     width: calc(100% - 20px);
-
-     .traits {
-       .icon {
-         width: 30px;
-         height: 40px;
-       }
-     }
-   }
-
-   .group-stats {
-     flex-direction: column;
-     flex-shrink: 2;
-
-     .stats {
-       justify-content: end;
-       display: flex;
-       margin-top: 5px;
-       gap: 0.5rem;
-       flex-wrap: wrap;
-
-       &.bordered {
-         border-top: 1px solid var(--secondary-color);
-       }
-
-       .base-stat {
-         display: flex;
-         flex-direction: row;
-         align-items: center;
-         gap: 0.5rem;
-
-         .icon {
-           width: 30px;
-           height: 30px;
-         }
-       }
-     }
-
-     img {
-       width: 30px;
-     }
-   }
-
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   display: flex;
+   width: calc(100% - 20px);
 
    &.elite {
-     .base-info {
-       background: var(--elite-color);
-     }
+     background: var(--elite-color);
    }
 
    &.non-elite {
-     .base-info {
-       background: var(--nonelite-color);
-     }
+     background: var(--nonelite-color);
    }
 
    &.character {
      &.coral {
-       .base-info {
-         background-color: var(--coral-color);
-       }
+       background-color: var(--coral-color);
      }
 
      &.fist {
-       .base-info {
-         background-color: var(--fist-color);
-       }
+       background-color: var(--fist-color);
      }
 
      &.blinkblade {
-       .base-info {
-         background-color: var(--blinkblade-color);
-       }
+       background-color: var(--blinkblade-color);
      }
 
      &.meteor {
-       .base-info {
-         background-color: var(--meteor-color);
+       background-color: var(--meteor-color);
+     }
+   }
+ }
+
+ .row {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   justify-content: space-between;
+ }
+
+ .right-info {
+   display: flex;
+   align-items: baseline;
+   gap: 10px;
+ }
+
+
+ .base-stat {
+   display: flex;
+   flex-direction: row;
+   justify-content: start;
+   align-items: center;
+
+   input {
+     background: none;
+     color: var(--font-color);
+     border: none;
+   }
+ }
+
+ img.profile {
+   width: 70px;
+   height: 70px;
+   border-radius: 50%;
+   box-shadow: 0px 0px 5px 2px;
+ }
+
+
+ .base-info,
+ .group-stats {
+   display: flex;
+   width: calc(100% - 20px);
+
+   .traits {
+     .icon {
+       width: 30px;
+       height: 40px;
+     }
+   }
+ }
+
+ .bordered {
+   border-left: 1px solid var(--secondary-color);
+   padding-left: 10px
+ }
+
+ .group-stats {
+   flex-direction: column;
+   flex-shrink: 2;
+
+   .stats {
+     justify-content: end;
+     display: flex;
+     margin-top: 5px;
+     gap: 0.5rem;
+     flex-wrap: nowrap;
+     
+     .base-stat {
+       display: flex;
+       flex-direction: row;
+       align-items: center;
+       gap: 0.5rem;
+
+       .icon {
+         width: 30px;
+         height: 30px;
        }
      }
+   }
+
+   img {
+     width: 30px;
    }
  }

@@ -26,8 +26,10 @@
       flex-direction: row;
       gap: 0.5rem;
       flex-wrap: wrap;
+      width: 100%;
 
       .creature {
+        width: 100%;
         border: 1px solid;
       }
     }

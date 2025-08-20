@@ -1,21 +1,25 @@
-<div class="{{creature.type}}" [ngClass]="creature.isElite ? 'elite' : ''">
-    <span class="creature-standee stat" *ngIf="creature.aggressive">
+<div [class]="creature.type" [ngClass]="[
+    creature.isElite ? 'elite' : '',
+    creature.aggressive ? '' : 'friendly'
+    ]" class="container">
+    <div class="creature-standee stat" *ngIf="creature.aggressive">
         <input type="tel" [value]="creature.standee" (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'standee', +$event.target.value); 
                 this.appContext.updateCreatureBaseStat(creature.id!, 'name', creature.type + ' - ' + creature.standee)"
-            maxlength="2" class="stat-input" />
-    </span>
-    <div class="header">
-        <span class="creature-hp stat">
+            maxlength="2" class="stat-input initiative" />
+        <div class="header stat">
             <div class="icon heart">
                 <input type="tel" [value]="creature.hp"
                     (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value)"
                     maxlength="3" class="stat-input" />
             </div>
-
-        </span>
-        <div class="open-modal" (click)="openConditionModal()">
         </div>
     </div>
+
+
     <app-conditions [creature]="creature" [conditions]="creature.conditions"
         (conditionToggled)="toggleCondition($event)"></app-conditions>
+
 </div>
+<button class="open-modal button cancel" (click)="openConditionModal()">
+    <div class="icon attack"></div>Attack
+</button>

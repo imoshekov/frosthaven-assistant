@@ -4,52 +4,46 @@
        creature.isElite === false ? 'non-elite' : '',
        creature.aggressive ? '' : 'character'
      ]">
-  <div class="base-info">
-    <div class="creature-nameplate">
-      <div class="info">
-        <img class='profile' [src]="getCreaturePic(creature)" (click)="openConditionModal()">
-      </div>
 
-      <div *ngIf="creature.aggressive" class="group-stats">
-        <div class="stats">
-          <span class="creature-attack base-stat">
-            <div class="icon attack"></div>
-            {{creature.attack}}
-          </span>
-          <span class="creature-movement base-stat">
-            <div class="icon move"></div>
-            {{creature.movement}}
-          </span>
+  <div class="base-stat row">
+    <div class="creature-initiative">
+      <input type="tel" [value]="creature.initiative"
+        (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, true)" maxlength="2"
+        class="stat-input" />
+    </div>
+    <div class="name">
+      {{creature.aggressive ? creature.type : creature.name}}
+    </div>
+  </div>
+  <div class="info row">
+    <img class='profile' [src]="getCreaturePic(creature)" (click)="openConditionModal()">
+    <div class="group-stats" *ngIf="creature.aggressive">
+      <div class="stats">
+        <div class="base-stat"
+          *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor> 0">
+          <div class="icon shield"></div>
+          {{creature.armor + creature.roundArmor}}
         </div>
-        <div class="stats">
-          <span class="creature-armor base-stat"
-            *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor> 0">
-            <div class="icon shield"></div>
-            {{creature.armor + creature.roundArmor}}
-          </span>
-          <span class="creature-retaliate base-stat"
-            *ngIf="(creature.retaliate || creature.roundRetaliate) && creature.retaliate + creature.roundRetaliate > 0">
-            <div class="icon retaliate"></div>
-            {{creature.retaliate + creature.roundRetaliate}}
-          </span>
+        <div class="base-stat"
+          *ngIf="(creature.retaliate || creature.roundRetaliate) && creature.retaliate + creature.roundRetaliate > 0">
+          <div class="icon retaliate"></div>
+          {{creature.retaliate + creature.roundRetaliate}}
         </div>
-        <div class="stats bordered">
-          <div class="traits" *ngIf="creature.aggressive">
-            <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
-          </div>
-          <span *ngIf="creature.flying" class="creature-movement base-stat">
-            <div class="icon flying"></div>
-          </span>
+        <div class="traits" *ngIf="creature.aggressive">
+          <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
+        </div>
+        <div class=" base-stat bordered">
+          <div class="icon attack"></div>
+          {{creature.attack}}
         </div>
       </div>
-      <div class="name">
-        <div class="creature-name base-stat">
-          {{creature.aggressive ? creature.type : creature.name}}
+      <div class="stats ">
+        <div  class="base-stat" *ngIf="creature.flying">
+          <div class="icon flying"></div>
         </div>
-        <div class="creature-initiative base-stat">
-          <input type="tel" [value]="creature.initiative"
-            (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, true)"
-            maxlength="2" class="stat-input" />
+        <div class="base-stat bordered">
+          <div class="icon move"></div>
+          {{creature.movement}}
         </div>
       </div>
     </div>
