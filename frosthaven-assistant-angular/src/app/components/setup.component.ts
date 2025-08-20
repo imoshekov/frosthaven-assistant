@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../services/creature-factory.service';
-import { WebSocketService } from '../services/web-socket.service';
+import { WebSocketRole, WebSocketService } from '../services/web-socket.service';
 import { MonsterComponent } from './add-monster.component';
 
 
@@ -87,10 +87,10 @@ export class SetupComponent {
   }
 
   startSession(): void {
-   this.webSocketService.connect();
+   this.webSocketService.connect(WebSocketRole.Host);
   }
 
   joinSession(): void {
-    // TODO join session
+    this.webSocketService.connect(WebSocketRole.Client, this.sessionId);
   }
 }

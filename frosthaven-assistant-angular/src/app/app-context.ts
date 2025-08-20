@@ -9,6 +9,7 @@ export class AppContext {
     public defaultLevel: number = 1;
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
+    public roundNumber: number = 1;
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();

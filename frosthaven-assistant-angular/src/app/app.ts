@@ -33,10 +33,7 @@ import { RoundComponent } from './components/round.component';
 export class App {
   protected readonly title = signal('frosthaven-assistant-angular');
 
-  isLoading = false;
-  lastSavedTimestamp = '';
-  joinedSessionId: number = 0;
-  serverLastPinged = '';
+  
   elements: Element[] = [
     { type: ElementType.Fire, state: ElementState.None },
     { type: ElementType.Ice, state: ElementState.None },
@@ -47,7 +44,6 @@ export class App {
   ];
 
   constructor(private storageService: LocalStorageService,
-    private webSocketService: WebSocketService,
     public appContext: AppContext
   ) {
     const graveyard = this.storageService.loadGraveyard();
@@ -58,10 +54,6 @@ export class App {
 
   ngOnInit() {
     this.storageService.loadingEvent$.subscribe((loading: boolean) => {
-      this.isLoading = loading;
-      this.lastSavedTimestamp = new Date().toLocaleString();
-      this.joinedSessionId = this.webSocketService.sessionId;
-      this.serverLastPinged = this.webSocketService.lastPingedTime;
     });
   }
 }
