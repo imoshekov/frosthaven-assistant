@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../services/creature-factory.service';
+import { WebSocketService } from '../services/web-socket.service';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class SetupComponent {
     private storageService: LocalStorageService,
     private appContext: AppContext,
     private dataLoader: DataLoaderService,
-    private creatureFactory: CreatureFactoryService
+    private creatureFactory: CreatureFactoryService,
+    private webSocketService: WebSocketService
   ) {
     this.scenarioLevel = appContext.defaultLevel
   }
@@ -84,7 +86,7 @@ export class SetupComponent {
   }
 
   startSession(): void {
-
+   this.webSocketService.connect();
   }
 
   joinSession(): void {

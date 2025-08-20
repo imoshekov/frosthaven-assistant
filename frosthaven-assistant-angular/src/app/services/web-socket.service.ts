@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
 import { AppContext } from '../app-context';
 import { NotificationService } from './notification.service';
 import { LocalStorageService } from './local-storage.service';
@@ -87,10 +86,10 @@ export class WebSocketService {
     this.requestServerState(this.getSessionId());
 
     // Emit info message about the session join
-    this.emitInfoMessage(`Connected to session: ${data.sessionId}.`);
+    this.emitInfoMessage(`Connected to session ${data.sessionId}.`);
   }
 
-  private connect() {
+  public connect() {
     this.ws = new WebSocket(
       window.location.hostname.includes('github.io')
         ? 'wss://frosthaven-assistant.onrender.com'
@@ -115,9 +114,9 @@ export class WebSocketService {
       };
 
       if (this.role === 'host') {
-        joinSessionPayload.characters = this.appContext.getCreatures();
+        // joinSessionPayload.characters = this.appContext.getCreatures();
         // joinSessionPayload.roundNumber = this.appContext.roundNumber;
-        joinSessionPayload.graveyard = this.appContext.getGraveyard();
+        // joinSessionPayload.graveyard = this.appContext.getGraveyard();
         // joinSessionPayload.elementStates = this.appContext.elementStates;
       }
 
