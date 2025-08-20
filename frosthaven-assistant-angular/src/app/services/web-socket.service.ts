@@ -19,35 +19,40 @@ export class WebSocketService {
   public lastPingedTime: string = '';
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private pingServerInterval = 300000;
   private clientId: string | null = null;
   private reconnecting = false;
   private role: WebSocketRole;
   roundUpdate$ = new Subject<number>();
+  private updatingFromServer = false;
+
 
   constructor(private appContext: AppContext,
     private notificationService: NotificationService,
-    private localStorageService: LocalStorageService
-  ) { }
+    private localStorageService: LocalStorageService) {
 
-  keepServerAlive() {
-    setInterval(() => {
-      fetch('https://frosthaven-assistant.onrender.com/ping')
-        .then(response => {
-          if (!response.ok) {
-            console.error('Server ping failed:', response.status);
-          } else {
-            this.lastPingedTime = new Date().toLocaleTimeString();
-          }
-        })
-        .catch(error => console.error('Error pinging server:', error));
-    }, this.pingServerInterval);
+    // Broadcast round number changes
+    this.appContext.roundNumber$.subscribe((round: number) => {
+      if (this.updatingFromServer) return; // skip sending
+      this.sendUpdateMessage('round-update', { roundNumber: round });
+    });
+
+    // // Broadcast creatures changes
+    // this.appContext.creatures$.subscribe(creatures => {
+    //   this.sendUpdateMessage('characters-update', { characters: creatures });
+    // });
+
+    // // Broadcast graveyard changes
+    // this.appContext.graveyard$.subscribe(graveyard => {
+    //   this.sendUpdateMessage('graveyard-update', { graveyard });
+    // });
   }
 
-  sendUpdateMessage(type: string, payload: any) {
-    if (!this.ws) return;
-    this.ws.send(JSON.stringify({ type, ...payload }));
+  private sendUpdateMessage(type: string, data: any) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ type, ...data, originatingClientId: this.clientId }));
+    }
   }
+
 
   sendCharactersUpdate() {
     this.sendUpdateMessage('characters-update', { characters: this.appContext.getCreatures() });
@@ -101,22 +106,32 @@ export class WebSocketService {
       const joinSessionPayload: any = {
         type: 'join-session',
         sessionId: sessionId,
-        characters: [],
-        graveyard: [],
+        // characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
+        // graveyard: this.role === WebSocketRole.Host ? this.appContext.getGraveyard() : [],
+        roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
+        // elementStates: this.role === WebSocketRole.Host ? this.appContext.elementStates : {}
       };
 
-      if (this.role === WebSocketRole.Host) {
-        // joinSessionPayload.characters = this.appContext.getCreatures();
-        joinSessionPayload.roundNumber = this.appContext.roundNumber;
-        // joinSessionPayload.graveyard = this.appContext.getGraveyard();
-        // joinSessionPayload.elementStates = this.appContext.elementStates;
-      }
-
+      // Send initial join payload with the correct round number
       this.ws!.send(JSON.stringify(joinSessionPayload));
+
       this.isConnected = true;
       this.reconnectAttempts = 0;
       this.notificationService.emitInfoMessage('Connected to server successfully');
+
+      // Subscribe to future round updates **only if host**
+      if (this.role === WebSocketRole.Host) {
+        this.appContext.roundNumber$.subscribe((round: number) => {
+          this.sendUpdateMessage('round-update', { roundNumber: round });
+        });
+
+        // Optionally, also subscribe to creatures updates here
+        this.appContext.creatures$.subscribe(creatures => {
+          this.sendUpdateMessage('characters-update', { characters: creatures });
+        });
+      }
     };
+
 
     this.ws.onerror = (error) => {
       this.isConnected = false;
@@ -204,7 +219,11 @@ export class WebSocketService {
   }
 
   private handleRoundUpdate(data: any) {
-    this.roundUpdate$.next(data.roundNumber);
+    if (data.originatingClientId === this.clientId) return;
+
+    this.updatingFromServer = true;
+    this.appContext.setRoundNumber(data.roundNumber);
+    this.updatingFromServer = false;
   }
 
   private handleElementUpdate(data: any) {

@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from "@angular/core";
-import { GlobalTelInputDirective } from "../directives/global-tel-input.directive";
 import { AppContext } from "../app-context";
-import { ElementComponent } from "./element.component";
 import { Element, ElementState } from '../types/game-types';
 import { Subscription } from "rxjs";
 import { WebSocketService } from "../services/web-socket.service";
@@ -25,9 +23,10 @@ export class RoundComponent implements OnInit, OnDestroy {
 
     constructor(public appContext: AppContext, private wsService: WebSocketService) { }
 
-    ngOnInit(): void {
-        this.sub = this.wsService.roundUpdate$.subscribe((roundNum) => {
-            this.roundNumber = roundNum;   // update the component state
+    ngOnInit() {
+        // Listen to changes from AppContext
+        this.appContext.roundNumber$.subscribe((round: number) => {
+            this.roundNumber = round;
         });
     }
 
@@ -38,11 +37,15 @@ export class RoundComponent implements OnInit, OnDestroy {
     nextRound(): void {
         this.resetCharacters();
         this.resetElements();
-        // Advance round
-        this.roundNumber++;
-        this.appContext.roundNumber = this.roundNumber; // Update the app context
-        this.roundAdvanced.emit(this.roundNumber);
-        this.wsService.sendRoundNumber(this.roundNumber);
+
+        const newRound = this.roundNumber + 1;
+        this.roundNumber = newRound;
+
+        // Update AppContext
+        this.appContext.setRoundNumber(newRound);
+
+        // Emit local event for UI
+        this.roundAdvanced.emit(newRound);
     }
 
     private resetCharacters(): void {

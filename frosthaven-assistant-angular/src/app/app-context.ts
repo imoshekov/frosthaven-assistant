@@ -9,7 +9,6 @@ export class AppContext {
     public defaultLevel: number = 1;
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
-    public roundNumber: number = 1;
     public addMonsterToggled: boolean = false;
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
@@ -18,11 +17,17 @@ export class AppContext {
     private graveyardSubject = new BehaviorSubject<Creature[]>([]);
     graveyard$ = this.graveyardSubject.asObservable();
 
+    private roundNumberSubject = new BehaviorSubject<number>(1);
+    roundNumber$ = this.roundNumberSubject.asObservable();
+
     constructor(
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService) {
         this.addDefaultCharacters();
     }
+
+    getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
+    setRoundNumber(round: number) { this.roundNumberSubject.next(round); }
 
     getCreatures(): Creature[] {
         return this.creaturesSubject.value;
@@ -75,7 +80,7 @@ export class AppContext {
         if (stat === 'name') {
             value = this.creatureFactory.createCreatureName(creatureToUpdate);
         }
-        
+
         if (applyToAllOfType) {
             creatures
                 .filter(c => c.type === creatureToUpdate!.type)

@@ -184,11 +184,13 @@ function getSession(sessionId) {
 
 function broadcastToSession(sessionId, type, data) {
     const session = getSession(sessionId);
-    if (!session) {
-        return;
-    }
+    if (!session) return;
+
+    const originatingClientId = data.originatingClientId;
+
     session.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
+        // Skip the client that sent the update
+        if (client.readyState === WebSocket.OPEN && client.clientId !== originatingClientId) {
             const payload = { type, ...data };
             client.send(JSON.stringify(payload));
 
@@ -197,8 +199,8 @@ function broadcastToSession(sessionId, type, data) {
             );
         }
     });
-
 }
+
 
 // Ping-Pong mechanism to keep connections alive
 setInterval(() => {
