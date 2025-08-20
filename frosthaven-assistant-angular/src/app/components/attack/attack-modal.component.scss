@@ -11,28 +11,6 @@
     right: 0;
 }
 
-.layout {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
-    background-size: calc(10 * 2px) calc(10 * 2px);
-    z-index: 1;
-}
-
-.modal {
-    z-index: 100;
-    position: fixed;
-    left: 50%;
-    top: 15%;
-    transform: translate(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .content {
     .attack {
         display: flex;

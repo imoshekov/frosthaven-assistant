@@ -27,7 +27,8 @@ import { RoundComponent } from './components/round.component';
     GameComponent,
     ElementComponent,
     AttackModalComponent,
-    RoundComponent
+    RoundComponent,
+    AddMonsterComponent
   ]
 })
 export class App {

@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-
+  background-color: var(--content-background-left);
   .section {
     display: flex;
     flex-direction: row;

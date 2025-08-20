@@ -32,35 +32,38 @@ body {
     align-items: center;
     gap: 30px;
     box-sizing: border-box;
+}
 
-    button {
-        padding: 20px;
-        flex: 1;
-        border-radius: 20px;
-        border: 2px solid var(--content-box-shadow-1);
-        color: var(--font-color);
-        font-size: 32px;
-        text-shadow: 1px 2px 3px #000000;
-        cursor: pointer;
+button {
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid var(--content-box-shadow-1);
+    color: var(--font-color);
+    font-size: 30px;
+    background-color: var(--content-background-left);
+    cursor: pointer;
 
-        &.confirm {
-            background: linear-gradient( var(--confirm-button-color-1), var(--confirm-button-color-2));
-            box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4);
+    &.action-button {
+        color: var(--font-color-dark);
+    }
 
-            &:hover {
-                box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4),
-                    inset 2px 2px 10px 3px var(--confirm-button-color-3);
-            }
+    &.confirm {
+        background: linear-gradient(var(--confirm-button-color-1), var(--confirm-button-color-2));
+        box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4);
+
+        &:hover {
+            box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4),
+                inset 2px 2px 10px 3px var(--confirm-button-color-3);
         }
+    }
 
-        &.cancel {
-            background: linear-gradient(var(--content-box-shadow-4), var(--content-box-shadow-2));
-            box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4);
+    &.cancel {
+        background: linear-gradient(var(--content-box-shadow-4), var(--content-box-shadow-2));
+        box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4);
 
-            &:hover {
-                box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4),
-                    inset 2px 2px 10px 3px var(--content-box-shadow-2);
-            }
+        &:hover {
+            box-shadow: 0px 0px 0px 4px var(--content-box-shadow-2), 0px 2px 0px 3px var(--content-box-shadow-4),
+                inset 2px 2px 10px 3px var(--content-box-shadow-2);
         }
     }
 }
@@ -68,22 +71,18 @@ body {
 input,
 label {
     border: none;
-    color: var(--font-color);
+    color: var(--font-color-dark);
     font-size: 25px;
     cursor: pointer;
-    background-color: var(--primary-color);
-    padding: 10px 15px;
+    background-color: var(--content-background-right);
 
-    &.action-button {
-        background-color: var(--secondary-color);
-        margin: 5px;
-    }
+    padding: 10px 15px;
 
     &[type="checkbox"],
     &[type="tel"] {
         width: 30px;
         text-align: center;
-        background-color: var(--container-color);
+        border: 1px solid var(--content-box-shadow-1);
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -142,4 +141,26 @@ label {
 
 .title img {
     margin-right: 10px;
+}
+
+.layout {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
+    background-size: calc(10 * 2px) calc(10 * 2px);
+    z-index: 1;
+}
+
+.modal {
+    z-index: 100;
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

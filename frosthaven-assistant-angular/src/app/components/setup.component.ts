@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../services/creature-factory.service';
 import { WebSocketRole, WebSocketService } from '../services/web-socket.service';
-import { MonsterComponent } from './add-monster.component';
 
 
 @Component({
@@ -17,7 +16,7 @@ import { MonsterComponent } from './add-monster.component';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, GlobalTelInputDirective, MonsterComponent]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class SetupComponent {
 
@@ -32,7 +31,7 @@ export class SetupComponent {
   constructor(
     private notificationService: NotificationService,
     private storageService: LocalStorageService,
-    private appContext: AppContext,
+    public appContext: AppContext,
     private dataLoader: DataLoaderService,
     private creatureFactory: CreatureFactoryService,
     private webSocketService: WebSocketService
