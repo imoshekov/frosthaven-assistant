@@ -31,20 +31,13 @@ export class WebSocketService {
     private localStorageService: LocalStorageService) {
 
     // Broadcast round number changes
+    // Only subscribe once, regardless of how many times connect() is called
     this.appContext.roundNumber$.subscribe((round: number) => {
-      if (this.updatingFromServer) return; // skip sending
-      this.sendUpdateMessage('round-update', { roundNumber: round });
+      if (!this.updatingFromServer) {
+        this.sendUpdateMessage('round-update', { roundNumber: round, originatingClientId: this.clientId });
+      }
     });
 
-    // // Broadcast creatures changes
-    // this.appContext.creatures$.subscribe(creatures => {
-    //   this.sendUpdateMessage('characters-update', { characters: creatures });
-    // });
-
-    // // Broadcast graveyard changes
-    // this.appContext.graveyard$.subscribe(graveyard => {
-    //   this.sendUpdateMessage('graveyard-update', { graveyard });
-    // });
   }
 
   private sendUpdateMessage(type: string, data: any) {
@@ -118,18 +111,6 @@ export class WebSocketService {
       this.isConnected = true;
       this.reconnectAttempts = 0;
       this.notificationService.emitInfoMessage('Connected to server successfully');
-
-      // Subscribe to future round updates **only if host**
-      if (this.role === WebSocketRole.Host) {
-        this.appContext.roundNumber$.subscribe((round: number) => {
-          this.sendUpdateMessage('round-update', { roundNumber: round });
-        });
-
-        // Optionally, also subscribe to creatures updates here
-        this.appContext.creatures$.subscribe(creatures => {
-          this.sendUpdateMessage('characters-update', { characters: creatures });
-        });
-      }
     };
 
 
