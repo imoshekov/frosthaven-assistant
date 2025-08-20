@@ -25,7 +25,6 @@ import { RoundComponent } from './components/round.component';
     ToastNotificationComponent,
     SetupComponent,
     GameComponent,
-    AddMonsterComponent,
     ElementComponent,
     AttackModalComponent,
     RoundComponent

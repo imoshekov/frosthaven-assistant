@@ -1,46 +1,38 @@
 <div class="setup-container row">
-  <button (click)="startNewGame()">New Game</button>
+  <button (click)="startNewGame()">New</button>
 
-  <button (click)="showLoadScenario = !showLoadScenario">Load Scenario<span>&#9660;</span></button>
-  <div id="load-scenario-container" class="section" [style.display]="showLoadScenario ? '' : 'none'">
-    <div class="expand-box">
-      <div class="label-group">
-        <label for="scenario-id">Scenario</label>
-        <input type="tel" id="scenario-id" placeholder="#" [(ngModel)]="scenarioId" />
-      </div>
-      <div class="label-group">
-        <label for="scenario-level">Level</label>
-        <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" />
-      </div>
+  <div class="section">
 
+    <div class="label-group">
+      <label for="scenario-id">S</label>
+      <input type="tel" placeholder="#" [(ngModel)]="scenarioId" />
     </div>
-    <button class="action-button" (click)="loadScenario()">Load</button>
+    <div class="label-group">
+      <label for="scenario-level">L</label>
+      <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" />
+    </div>
+
+
+    <button class="action-button" (click)="loadScenario()">Scenario</button>
   </div>
 
-  <button (click)="showLoadSection = !showLoadSection">Load Section<span>&#9660;</span></button>
-  <div id="load-section-container" class="section" [style.display]="showLoadSection ? '' : 'none'">
-    <div class="expand-box">
-      <div class="label-group">
-        <label for="scenario-id">Section</label>
-        <input type="tel" placeholder="#" [(ngModel)]="sectionId" />
-      </div>
-  
+  <div class="section">
+    <div class="label-group">
+      <input type="tel" placeholder="#" [(ngModel)]="sectionId" />
     </div>
-    <button class="action-button" (click)="loadSection()">Load</button>
+    <button class="action-button" (click)="loadSection()">Section</button>
   </div>
 
-  <button (click)="startSession()">Start Session</button>
+  <div class="section">
 
-  <button (click)="showJoinSession = !showJoinSession">Join Session<span>&#9660;</span></button>
-  <div id="join-session-container" class="section" [style.display]="showJoinSession ? '' : 'none'">
-    <div class="expand-box">
-      <div class="label-group">
-        <label for="session-id">Session</label>
-        <input type="tel" id="session-id" placeholder="1" [(ngModel)]="sessionId" />
-      </div>
-
+    <button (click)="startSession()">Start</button>
+    <div class="label-group">
+      <input type="tel" id="session-id" placeholder="1" [(ngModel)]="sessionId" />
     </div>
+
     <button class="action-button" (click)="joinSession()">Join</button>
 
   </div>
+
+  <app-add-monster></app-add-monster>
 </div>

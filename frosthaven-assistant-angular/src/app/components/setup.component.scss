@@ -1,21 +1,15 @@
 .setup-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 
   .section {
     display: flex;
-    width: 100%;
-
-    .expand-box {
-      display: flex;
-      flex-direction: column;
-      text-align: end;
-
-      .label-group {
-        margin: 5px;
-      }
-    }
+    flex-direction: row;
+    align-items: center;
   }
 }

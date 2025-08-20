@@ -11,6 +11,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*", "data/**/*"],
+  "include": ["scripts/**/*", "data/**/*", "frosthaven-assistant-angular/src/server.js"],
   "exclude": ["node_modules"]
 }
