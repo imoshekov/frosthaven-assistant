@@ -22,7 +22,6 @@ export class WebSocketService {
   private clientId: string | null = null;
   private reconnecting = false;
   private role: WebSocketRole;
-  roundUpdate$ = new Subject<number>();
   private updatingFromServer = false;
 
 
@@ -30,14 +29,21 @@ export class WebSocketService {
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService) {
 
-    // Broadcast round number changes
     // Only subscribe once, regardless of how many times connect() is called
+    // Broadcast round number changes
     this.appContext.roundNumber$.subscribe((round: number) => {
       if (!this.updatingFromServer) {
         this.sendUpdateMessage('round-update', { roundNumber: round, originatingClientId: this.clientId });
       }
     });
-
+    this.appContext.creatures$.subscribe((creatures) => {
+      if (!this.updatingFromServer) {
+        this.sendUpdateMessage('characters-update', {
+          characters: creatures,
+          originatingClientId: this.clientId
+        });
+      }
+    });
   }
 
   private sendUpdateMessage(type: string, data: any) {
@@ -45,7 +51,6 @@ export class WebSocketService {
       this.ws.send(JSON.stringify({ type, ...data, originatingClientId: this.clientId }));
     }
   }
-
 
   sendCharactersUpdate() {
     this.sendUpdateMessage('characters-update', { characters: this.appContext.getCreatures() });
@@ -99,7 +104,7 @@ export class WebSocketService {
       const joinSessionPayload: any = {
         type: 'join-session',
         sessionId: sessionId,
-        // characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
+        characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
         // graveyard: this.role === WebSocketRole.Host ? this.appContext.getGraveyard() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
         // elementStates: this.role === WebSocketRole.Host ? this.appContext.elementStates : {}
@@ -192,7 +197,11 @@ export class WebSocketService {
   }
 
   private handleCharacterUpdate(data: any) {
+    if (data.originatingClientId === this.clientId) return;
+
+    this.updatingFromServer = true;
     this.appContext.setCreatures(data.characters);
+    this.updatingFromServer = false;
   }
 
   private handleGraveyardUpdate(data: any) {

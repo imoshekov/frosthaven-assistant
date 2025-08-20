@@ -112,7 +112,7 @@ wss.on('connection', (ws) => {
                 }
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
-                    // ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
+                    ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
                     ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
                     // ws.send(JSON.stringify({ type: 'graveyard-update', graveyard: session.graveyard }));
                     // Object.keys(session.elementStates).forEach((elementId) => {

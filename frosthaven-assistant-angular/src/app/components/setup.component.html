@@ -1,6 +1,7 @@
-<div class="setup-container row">
-  <button class="action-button" (click)="startNewGame()">New</button>
-
+<div class="setup-container row content">
+  <div class="section">
+    <button class="action-button" (click)="startNewGame()">New</button>
+  </div>
   <div class="section">
 
     <div class="label-group">
@@ -34,6 +35,8 @@
 
   </div>
 
-  <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Add Monster</button>
-
+  <div class="section">
+    <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Add
+      Monster</button>
+  </div>
 </div>

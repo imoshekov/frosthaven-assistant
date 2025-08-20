@@ -2,8 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Skranji&display=swap");
 @import "variables.scss";
 
-body {
+* {
     font-family: "Skranji", cursive;
+}
+body {
     max-width: 100%;
     overflow-x: hidden;
     position: relative;
@@ -93,16 +95,14 @@ label {
 }
 
 .content {
-    font-family: "Skranji", cursive;
     background: radial-gradient(var(--content-background-left), var(--content-background-right));
     box-sizing: border-box;
-    font-size: 56px;
-    border-radius: 20px 18px 20px 18px;
-    box-shadow: 0px 0px 0px 6px var(--content-box-shadow-1), 0px 0px 8px 6px var(--content-box-shadow-2),
-        inset 0px 0px 15px 0px var(--content-box-shadow-3), 6px 6px 1px 1px var(--content-box-shadow-4),
-        -6px 6px 1px 1px var(--content-box-shadow-4);
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
+        inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
+        -3px 3px 1px 1px var(--content-box-shadow-4);
     text-align: center;
-    padding: 15px;
+    padding: 10px;
 
     div {
         box-sizing: border-box;

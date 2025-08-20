@@ -21,11 +21,10 @@ export class RoundComponent implements OnInit, OnDestroy {
 
     private sub?: Subscription;
 
-    constructor(public appContext: AppContext, private wsService: WebSocketService) { }
+    constructor(public appContext: AppContext) { }
 
     ngOnInit() {
-        // Listen to changes from AppContext
-        this.appContext.roundNumber$.subscribe((round: number) => {
+        this.sub = this.appContext.roundNumber$.subscribe((round: number) => {
             this.roundNumber = round;
         });
     }
@@ -41,10 +40,7 @@ export class RoundComponent implements OnInit, OnDestroy {
         const newRound = this.roundNumber + 1;
         this.roundNumber = newRound;
 
-        // Update AppContext
         this.appContext.setRoundNumber(newRound);
-
-        // Emit local event for UI
         this.roundAdvanced.emit(newRound);
     }
 

@@ -7,6 +7,7 @@ import { DataLoaderService } from '../services/data-loader.service';
 import { Monster } from '../types/data-file-types';
 import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../services/creature-factory.service';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class MonsterComponent {
   constructor(
     private appContext: AppContext,
     private dataLoader: DataLoaderService,
-    private creatureFactory: CreatureFactoryService
+    private creatureFactory: CreatureFactoryService,
+    private notificationService: NotificationService
   ) {
     this.monsters = this.dataLoader.getData().monsters;
     this.level = appContext.defaultLevel;
@@ -58,6 +60,10 @@ export class MonsterComponent {
   }
 
   addMonster() {
+    if (!this.type) {
+      this.notificationService.emitErrorMessage('Please select a monster type.');
+      return;
+    }
     const creature: Creature = {
       type: this.type,
       standee: this.standee,
@@ -68,6 +74,7 @@ export class MonsterComponent {
 
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
+    this.appContext.addMonsterToggled = false;
   }
 
   close() {
