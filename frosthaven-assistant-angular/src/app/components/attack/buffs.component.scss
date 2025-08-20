@@ -1,5 +1,5 @@
  .buffs {
-     font-size: 40px;
+     font-size: 30px;
      display: flex;
      flex-direction: column;
 
@@ -8,6 +8,10 @@
          align-items: center;
          flex-direction: column;
          margin: 5px 0px;
+
+         &.round-stats {
+             border-top: 5px solid;
+         }
 
          .stat {
              display: flex;

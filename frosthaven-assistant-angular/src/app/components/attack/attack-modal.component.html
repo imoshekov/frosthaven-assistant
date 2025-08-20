@@ -1,8 +1,8 @@
 <div class="layout" (click)="close()"></div>
 <div class="modal">
     <div class="content">
-        <div>{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}</div>
-        <app-buffs [creature]="creature" #buff></app-buffs>
+        <div class="name">{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}</div>
+        <app-buffs [creature]="creature" *ngIf="this.appContext.isGroupSelected"></app-buffs>
         <div class="attack" *ngIf="!this.appContext.isGroupSelected">
             <div class="stat">
                 <div class="icon damage"></div>

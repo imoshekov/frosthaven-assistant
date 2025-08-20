@@ -1,42 +1,42 @@
 <div class="setup-container row content">
   <div class="section">
-    <button class="action-button" (click)="startNewGame()">New</button>
-  </div>
-  <div class="section">
-
     <div class="label-group">
-      <label for="scenario-id">S</label>
-      <input type="tel" placeholder="#" [(ngModel)]="scenarioId" />
-    </div>
-    <div class="label-group">
-      <label for="scenario-level">L</label>
+      <label for="scenario-level">Level</label>
       <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" />
     </div>
-
-
-    <button class="action-button" (click)="loadScenario()">Scenario</button>
+    <button class="action-button" (click)="startNewGame()">New</button>
   </div>
 
   <div class="section">
     <div class="label-group">
+      <label for="scenario-id">Mission</label>
+      <input type="tel" placeholder="#" [(ngModel)]="scenarioId" />
+    </div>
+    <button class="action-button" (click)="loadScenario()">Load</button>
+  </div>
+
+  <div class="section">
+    <div class="label-group">
+      <label for="scenario-id">Room</label>
       <input type="tel" placeholder="#" [(ngModel)]="sectionId" />
     </div>
-    <button class="action-button" (click)="loadSection()">Section</button>
-  </div>
-
-  <div class="section">
-
-    <button (click)="startSession()">Start</button>
-    <div class="label-group">
-      <input type="tel" placeholder="1" [(ngModel)]="sessionId" />
-    </div>
-
-    <button class="action-button" (click)="joinSession()">Join</button>
-
+    <button class="action-button" (click)="loadSection()">Load</button>
   </div>
 
   <div class="section">
     <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Add
       Monster</button>
+  </div>
+  
+  <div class="section">
+    <button class="action-button" (click)="startSession()">Start Server</button>
+  </div>
+
+  <div class="section">
+    <div class="label-group">
+      <label for="scenario-id">ID</label>
+      <input type="tel" placeholder="1" [(ngModel)]="sessionId" />
+    </div>
+    <button class="action-button" (click)="joinSession()">Join</button>
   </div>
 </div>

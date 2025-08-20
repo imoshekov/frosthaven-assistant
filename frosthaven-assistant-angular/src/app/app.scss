@@ -1,10 +1,17 @@
 #master-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.elements-row {
+.content {
   display: flex;
-  gap: 10px;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: flex-start;
+
+  .elements-row {
+    display: flex;
+    gap: 10px;
+  }
 }

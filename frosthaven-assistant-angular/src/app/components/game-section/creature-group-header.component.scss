@@ -1,9 +1,4 @@
  .creature-details {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   align-items: center;
-
    .base-info {
      flex-direction: row;
      justify-content: space-between;
@@ -11,14 +6,29 @@
      padding: 10px;
 
      .creature-nameplate {
-       width: 80%;
        display: flex;
        justify-content: space-between;
+       width: 100%;
+       gap: 10px;
 
-       .creature-name {
-         text-align: right;
+       .name {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+
+         input {
+           background: none;
+           color: var(--font-color);
+           border: none;
+         }
        }
      }
+
+     .creature-name {
+       text-align: right;
+     }
+
 
      img.profile {
        width: 70px;
@@ -31,14 +41,19 @@
    .base-info,
    .group-stats {
      display: flex;
-
-
      width: calc(100% - 20px);
+
+     .traits {
+       .icon {
+         width: 30px;
+         height: 40px;
+       }
+     }
    }
 
    .group-stats {
      flex-direction: column;
-     justify-content: end;
+     flex-shrink: 2;
 
      .stats {
        justify-content: end;
@@ -46,6 +61,10 @@
        margin-top: 5px;
        gap: 0.5rem;
        flex-wrap: wrap;
+
+       &.bordered {
+         border-top: 1px solid var(--secondary-color);
+       }
 
        .base-stat {
          display: flex;
