@@ -9,9 +9,17 @@ export interface MonsterDefinition {
 
 export interface MonsterAction {
   type: string;
-  value: string | number;
+  value?: string | number;
   subActions?: any
   small?: boolean;
+}
+
+export interface MonsterBaseStat {
+  type?: 'normal' | 'elite' | 'boss';
+  movement?: number | string;
+  attack?: number | string;
+  health?: string | number;
+  immunities?: string[];
 }
 
 export interface MonsterStat {
@@ -24,10 +32,13 @@ export interface MonsterStat {
   immunities?: any;
   special?: any;
   note?: string;
+  baseStat?: MonsterBaseStat;
+  flying?: boolean;
 }
 
 export interface Monster {
   name: string;
+  type?: string;
   edition: string;
   count?: number | string;
   standeeCount?: number | string;
@@ -41,6 +52,7 @@ export interface Monster {
   flying?: boolean;
   randomCount?: number;
   boss?: boolean;
+  actions?: MonsterAction[];
 }
 
 export interface ScenarioRoom {

@@ -1,30 +1,50 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
-import { Creature} from '../types/game-types';
+import { Creature } from '../types/game-types';
+import { DataFile, Monster, MonsterAction, MonsterStat } from '../types/data-file-types';
+import { DataLoaderService } from '../services/data-loader.service';
+import { StringUtils } from './string-utils.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class CreatureFactoryService {
 
   private creatureIdCounter = 0;
+  private dataFile: DataFile;
+
+  constructor(private dataLoader: DataLoaderService, private stringUtils: StringUtils) {
+    this.dataFile = this.dataLoader.getData();
+  }
 
   private generateCreatureId(): string {
     return Date.now() + '' + ++this.creatureIdCounter;
   }
 
   createCreature(creatureInput: Partial<Creature>): Creature {
+    const monster: any = this.findMonsterStats(creatureInput);
     const creature: Creature = {
       id: this.generateCreatureId(),
       name: creatureInput.aggressive ? this.createCreatureName(creatureInput) : creatureInput.name,
       type: creatureInput.type,
       standee: creatureInput.standee ?? '#',
       level: creatureInput.level ?? 1,
-      hp: creatureInput.hp ?? 0,
-      attack: creatureInput.attack ?? 0,
-      movement: creatureInput.movement ?? 0,
+      hp: this.stringUtils.parseInt(monster?.stats[0]?.health) ?? 0,
+      attack: Math.max(
+        Number(monster?.baseStat?.attack ?? 0),
+        Number(monster?.stats[0]?.attack ?? 0)
+      ),
+      movement: Math.max(
+        Number(monster?.baseStat?.movement ?? 0),
+        Number(monster?.stats[0]?.movement ?? 0)
+      ),
       initiative: creatureInput.initiative ?? 0,
-      armor: creatureInput.armor ?? 0,
-      retaliate: creatureInput.retaliate ?? 0,
+      armor: this.stringUtils.parseInt(
+        monster?.stats[0].actions?.find((x: MonsterAction) => x.type === 'shield')?.value ?? 0
+      ), retaliate: this.stringUtils.parseInt(
+        monster?.stats[0].actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ?? 0
+      ),
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
+      flying: monster?.flying ?? false,
       isElite: creatureInput.isElite ?? false,
       conditions: creatureInput.conditions ?? [],
       roundArmor: creatureInput.roundArmor ?? 0,
@@ -35,7 +55,8 @@ export class CreatureFactoryService {
     return creature;
   }
 
-  createCreatureName(creatureInput: Partial<Creature>): string{
+
+  createCreatureName(creatureInput: Partial<Creature>): string {
     let baseName: string = `${creatureInput.type} ${creatureInput.standee ?? ''}`;
     return creatureInput.isElite ? `★ ${baseName}` : baseName;
   }
@@ -46,5 +67,32 @@ export class CreatureFactoryService {
       creatures.push(this.createCreature(creature))
     });
     return creatures;
+  }
+
+  private findMonsterStats(creature: Partial<Creature>): Monster | undefined {
+    const monster = this.dataFile.monsters.find(
+      m => m.name === creature.name || m.name === creature.type
+    );
+    if (!monster) return undefined;
+
+    const isElite = this.isCreatureElite(creature);
+
+    const stat = monster.stats.find(
+      s => (isElite ? s.type === 'elite' : s.type === 'normal' || !s.type) &&
+        s.level === creature.level
+    );
+
+    if (!stat) return undefined;
+
+    // return monster with the correct stat isolated
+    return {
+      ...monster,
+      stats: [stat]
+    };
+  }
+
+
+  private isCreatureElite(creature: Creature): boolean {
+    return creature.type === 'elite' || creature.player4 === 'elite' || creature.isElite === true;
   }
 }
