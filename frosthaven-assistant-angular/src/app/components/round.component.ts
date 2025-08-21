@@ -53,13 +53,17 @@ export class RoundComponent implements OnInit, OnDestroy {
     }
 
     private resetElements(): void {
-        this.elements.forEach(el => {
-            if (el.state === ElementState.Half) {
-                el.state = ElementState.None;
-            }
-            else if (el.state === ElementState.Full) {
-                el.state = ElementState.Half;
-            }
+        const updatedElements = this.appContext.getElements().map(el => {
+            let newState: ElementState;
+            if (el.state === ElementState.Half) newState = ElementState.None;
+            else if (el.state === ElementState.Full) newState = ElementState.Half;
+            else newState = el.state;
+
+            return { ...el, state: newState }; // return new object
         });
+
+        // Update AppContext so elements$ subscribers are notified
+        this.appContext.setElements(updatedElements);
     }
+
 }

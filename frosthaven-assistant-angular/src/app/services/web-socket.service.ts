@@ -225,10 +225,12 @@ export class WebSocketService {
   }
 
   private handleElementUpdate(data: any) {
-    this.updatingFromServer = true;
-    this.appContext.setElements(data.elements);
-    this.updatingFromServer = false;
-  }
+  this.updatingFromServer = true;
+  // This updates the BehaviorSubject so all ElementComponents get the latest state
+  this.appContext.setElements(data.elements);
+  this.updatingFromServer = false;
+  console.log('Elements updated from server:', data.elements);
+}
 
   private handleMonsterAdded(data: any) {
     this.appContext.addCreature(data.monster);

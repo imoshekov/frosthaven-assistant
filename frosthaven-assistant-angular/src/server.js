@@ -7,14 +7,14 @@ const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
 const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const SESSION_DEFAULT_DATA = {
     characters: {},
-     elementStates: {
-            fire: 'none',
-            ice: 'none',
-            earth: 'none',
-            air: 'none',
-            light: 'none',
-            dark: 'none'
-        },
+    elements: {
+        fire: 'none',
+        ice: 'none',
+        earth: 'none',
+        air: 'none',
+        light: 'none',
+        dark: 'none'
+    },
     round: 1,
     graveyard: []
 }
@@ -114,68 +114,71 @@ wss.on('connection', (ws) => {
                     });
                     break;
                 }
-
-
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
+
+                    // Send creatures
                     ws.send(JSON.stringify({
                         type: 'characters-update',
                         characters: session.characters
                     }));
+
+                    // Send round number
                     ws.send(JSON.stringify({
                         type: 'round-update',
                         roundNumber: session.roundNumber
                     }));
-                    // Send latest graveyard if needed
-                    // ws.send(JSON.stringify({ type: 'graveyard-update', graveyard: session.graveyard }));
+
+                    // Send elements
+                    // Convert stored elementStates object to array
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
                         state: session.elementStates[key]
                     }));
+
                     ws.send(JSON.stringify({
                         type: 'elements-update',
                         elements: elementsArray,
-                        originatingClientId: ws.clientId
+                        originatingClientId: null // null to ensure client processes it
                     }));
 
                     break;
                 }
-
                 case 'add-monster': {
-                    session.characters.push(data.monster);
-                    session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'add-monster', { monster: data.monster, originatingClientId: originatingClientId });
-                    break;
-                }
-                case 'initiative-reset': {
-                    session.characters.forEach(character => {
-                        character.initiative = data.value;
-                    });
-
-                    session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'initiative-reset', { value: data.value, originatingClientId: originatingClientId });
-                    break;
-                }
-                default: {
-                    console.log(`Unknown message type: ${data.type}`);
-                    break;
-                }
-            }
-        }
-    });
-
-
-    ws.on('close', () => {
-        if (currentSessionId) {
-            const session = getSession(currentSessionId);
-            if (session) {
-                const index = session.clients.indexOf(ws);
-                if (index !== -1) session.clients.splice(index, 1);
+                session.characters.push(data.monster);
                 session.lastActivity = Date.now();
-                console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${session.clients.length}`);
+                broadcastToSession(currentSessionId, 'add-monster', { monster: data.monster, originatingClientId: originatingClientId });
+                break;
+            }
+                case 'initiative-reset': {
+                session.characters.forEach(character => {
+                    character.initiative = data.value;
+                });
+
+                session.lastActivity = Date.now();
+                broadcastToSession(currentSessionId, 'initiative-reset', { value: data.value, originatingClientId: originatingClientId });
+                break;
+            }
+                default: {
+                console.log(`Unknown message type: ${data.type}`);
+                break;
             }
         }
+    }
     });
+
+
+ws.on('close', () => {
+    if (currentSessionId) {
+        const session = getSession(currentSessionId);
+        if (session) {
+            const index = session.clients.indexOf(ws);
+            if (index !== -1) session.clients.splice(index, 1);
+            session.lastActivity = Date.now();
+            console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${session.clients.length}`);
+        }
+    }
+});
 });
 
 function generateUniqueSessionId() {
@@ -184,12 +187,14 @@ function generateUniqueSessionId() {
 
 function createSession(sessionId, data) {
     let elementStates = {};
+
     if (Array.isArray(data.elementStates)) {
         data.elementStates.forEach(el => {
             elementStates[el.type] = el.state;
         });
     } else {
-        elementStates = SESSION_DEFAULT_DATA.elementStates;
+        // Use the default elements from SESSION_DEFAULT_DATA
+        elementStates = { ...SESSION_DEFAULT_DATA.elements };
     }
 
     sessions[sessionId] = {
@@ -201,10 +206,11 @@ function createSession(sessionId, data) {
         lastActivity: Date.now(),
     };
 
-   console.log(`Session ${sessionId} created.`);
+    console.log(`Session ${sessionId} created with elements:`, elementStates);
 
     return sessions[sessionId];
 }
+
 
 function getSession(sessionId) {
     return sessions[sessionId] || null;
