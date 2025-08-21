@@ -40,9 +40,13 @@ jobs:
         working-directory: frosthaven-assistant-angular
         run: npm run build --production
 
-      - name: Transpile to ES5 for legacy browsers
+      - name: Transpile for legacy (Babel)
         working-directory: frosthaven-assistant-angular
         run: npm run build:babel
+      
+      - name: List dist folder
+        working-directory: frosthaven-assistant-angular
+        run: ls -R dist
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
