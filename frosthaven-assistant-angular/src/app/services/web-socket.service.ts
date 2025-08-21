@@ -1,14 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AppContext } from '../app-context';
-import { Subject } from 'rxjs';
 
 import { NotificationService } from './notification.service';
 import { LocalStorageService } from './local-storage.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 export enum WebSocketRole {
   Host = 'host',
   Client = 'client'
 }
+
+export enum WebSocketMessageType {
+  JoinSession = 'join-session',
+  ElementsUpdate = 'elements-update',
+  RoundUpdate = 'round-update',
+  GraveyardUpdate = 'graveyard-update',
+  CharactersUpdate = 'characters-update'
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
@@ -17,42 +27,36 @@ export class WebSocketService {
   public sessionId: number = 0;
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private clientId: string | null = null;
   private reconnecting = false;
   private role: WebSocketRole;
   private updatingFromServer = false;
+  private clientId: string | null = null;
+  private clientIdSubject = new BehaviorSubject<string | null>(null);
 
+  public clientId$ = this.clientIdSubject.asObservable();
 
   constructor(private appContext: AppContext,
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService) {
 
-    // Only subscribe once, regardless of how many times connect() is called
-    // Broadcast round number changes
-    this.appContext.roundNumber$.subscribe((round: number) => {
+    this.subscribeAndBroadcast(this.appContext.roundNumber$, WebSocketMessageType.RoundUpdate, (round) => ({ roundNumber: round }));
+    this.subscribeAndBroadcast(this.appContext.creatures$, WebSocketMessageType.CharactersUpdate, (creatures) => ({ characters: creatures }));
+    this.subscribeAndBroadcast(this.appContext.elements$, WebSocketMessageType.ElementsUpdate, (elements) => ({ elements }));
+  }
+
+  private subscribeAndBroadcast<T>(
+    observable: Observable<T>,
+    type: WebSocketMessageType,
+    selector: (value: T) => any
+  ) {
+    observable.subscribe((value) => {
       if (!this.updatingFromServer) {
-        this.sendUpdateMessage('round-update', { roundNumber: round, originatingClientId: this.clientId });
-      }
-    });
-    this.appContext.creatures$.subscribe((creatures) => {
-      if (!this.updatingFromServer) {
-        this.sendUpdateMessage('characters-update', {
-          characters: creatures,
-          originatingClientId: this.clientId
-        });
-      }
-    });
-    this.appContext.elements$.subscribe((elements) => {
-      if (!this.updatingFromServer) {
-        this.sendUpdateMessage('elements-update', {
-          elements,
-          originatingClientId: this.clientId
-        });
+        this.sendUpdateMessage(type, { ...selector(value), originatingClientId: this.clientId });
       }
     });
   }
 
-   public connect(role: WebSocketRole, sessionId: number = 1) {
+  public connect(role: WebSocketRole, sessionId: number = 1) {
     this.role = role;
 
     this.ws = new WebSocket(
@@ -63,7 +67,7 @@ export class WebSocketService {
 
     this.ws.onopen = () => {
       const joinSessionPayload: any = {
-        type: 'join-session',
+        type: WebSocketMessageType.JoinSession,
         // Only send sessionId if joining as a guest
         ...(this.role !== WebSocketRole.Host && { sessionId: sessionId }),
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
@@ -72,14 +76,12 @@ export class WebSocketService {
         elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : []
       };
 
-      // Send initial join payload with the correct round number
-      this.ws!.send(JSON.stringify(joinSessionPayload));
+      this.ws.send(JSON.stringify(joinSessionPayload));
 
       this.isConnected = true;
       this.reconnectAttempts = 0;
       this.notificationService.emitInfoMessage('Connected to server successfully');
     };
-
 
     this.ws.onerror = (error) => {
       this.isConnected = false;
@@ -104,16 +106,16 @@ export class WebSocketService {
       if (data.originatingClientId === this.clientId) return;
       this.updatingFromServer = true;
       switch (data.type) {
-        case 'characters-update':
-           this.appContext.setCreatures(data.characters);
+        case WebSocketMessageType.CharactersUpdate:
+          this.appContext.setCreatures(data.characters);
           break;
-        case 'graveyard-update':
-           this.appContext.setGraveyard(data.graveyard);
+        case WebSocketMessageType.GraveyardUpdate:
+          this.appContext.setGraveyard(data.graveyard);
           break;
-        case 'round-update':
+        case WebSocketMessageType.RoundUpdate:
           this.appContext.setRoundNumber(data.roundNumber);
           break;
-        case 'elements-update':
+        case WebSocketMessageType.ElementsUpdate:
           this.appContext.setElements(data.elements);
           break;
         default:
@@ -148,21 +150,20 @@ export class WebSocketService {
       this.ws.send(JSON.stringify({ type, ...data, originatingClientId: this.clientId }));
     }
   }
-  
-  private handleSessionJoined(data: any) {
+
+   private handleSessionJoined(data: any) {
+    this.clientId = data.clientId;
+    this.clientIdSubject.next(this.clientId);
     this.sessionId = data.sessionId;
     this.localStorageService.setSessionId(data.sessionId);
-    this.clientId = data.clientId;
     this.requestServerState(this.getSessionId());
-
-    // Emit info message about the session join
     this.notificationService.emitInfoMessage(`Connected to session ${data.sessionId}.`);
   }
 
   private requestServerState(sessionId: string | number) {
     this.sendUpdateMessage('request-latest-state', { sessionId });
   }
-  
+
   private getSessionId() {
     return this.sessionId || this.localStorageService.loadSessionId();
   }

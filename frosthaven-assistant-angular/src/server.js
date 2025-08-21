@@ -1,6 +1,6 @@
 import http from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
-// const { data } = require('../../data/data.js');
+
 const PORT = process.env.PORT || 8080;
 const HEARTBEAT_INTERVAL = 15000;
 const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
@@ -105,77 +105,51 @@ wss.on('connection', (ws) => {
                     break;
                 }
                 case 'elements-update': {
-                    session.elementStates = data.elements; // store whole array
+                    session.elementStates = data.elements;
                     session.lastActivity = Date.now();
-
-                    broadcastToSession(currentSessionId, 'elements-update', {
-                        elements: data.elements,
-                        originatingClientId
-                    });
+                    broadcastToSession(currentSessionId, 'elements-update', { elements: data.elements, originatingClientId });
                     break;
                 }
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
-
-                    // Send creatures
                     ws.send(JSON.stringify({
-                        type: 'characters-update',
-                        characters: session.characters
+                        type: 'characters-update', characters: session.characters
                     }));
 
-                    // Send round number
                     ws.send(JSON.stringify({
-                        type: 'round-update',
-                        roundNumber: session.roundNumber
+                        type: 'round-update', roundNumber: session.roundNumber
                     }));
+
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
-                        type: key,
-                        state: session.elementStates[key]
+                        type: key, state: session.elementStates[key]
                     }));
 
                     ws.send(JSON.stringify({
                         type: 'elements-update',
-                        elements: elementsArray,
-                        originatingClientId: null // null to ensure client processes it
+                        elements: elementsArray
                     }));
-
                     break;
                 }
-                case 'add-monster': {
-                session.characters.push(data.monster);
-                session.lastActivity = Date.now();
-                broadcastToSession(currentSessionId, 'add-monster', { monster: data.monster, originatingClientId: originatingClientId });
-                break;
-            }
-                case 'initiative-reset': {
-                session.characters.forEach(character => {
-                    character.initiative = data.value;
-                });
-
-                session.lastActivity = Date.now();
-                broadcastToSession(currentSessionId, 'initiative-reset', { value: data.value, originatingClientId: originatingClientId });
-                break;
-            }
                 default: {
-                console.log(`Unknown message type: ${data.type}`);
-                break;
+                    console.log(`Unknown message type: ${data.type}`);
+                    break;
+                }
             }
         }
-    }
     });
 
 
-ws.on('close', () => {
-    if (currentSessionId) {
-        const session = getSession(currentSessionId);
-        if (session) {
-            const index = session.clients.indexOf(ws);
-            if (index !== -1) session.clients.splice(index, 1);
-            session.lastActivity = Date.now();
-            console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${session.clients.length}`);
+    ws.on('close', () => {
+        if (currentSessionId) {
+            const session = getSession(currentSessionId);
+            if (session) {
+                const index = session.clients.indexOf(ws);
+                if (index !== -1) session.clients.splice(index, 1);
+                session.lastActivity = Date.now();
+                console.log(`Client ${ws.clientId} left session ${currentSessionId}. Total clients: ${session.clients.length}`);
+            }
         }
-    }
-});
+    });
 });
 
 function generateUniqueSessionId() {
@@ -190,7 +164,6 @@ function createSession(sessionId, data) {
             elementStates[el.type] = el.state;
         });
     } else {
-        // Use the default elements from SESSION_DEFAULT_DATA
         elementStates = { ...SESSION_DEFAULT_DATA.elements };
     }
 
@@ -203,8 +176,7 @@ function createSession(sessionId, data) {
         lastActivity: Date.now(),
     };
 
-    console.log(`Session ${sessionId} created with elements:`, elementStates);
-
+    console.log(`Session ${sessionId} created`);
     return sessions[sessionId];
 }
 
@@ -225,9 +197,7 @@ function broadcastToSession(sessionId, type, data) {
             const payload = { type, ...data };
             client.send(JSON.stringify(payload));
 
-            console.log(
-                `Client ${client.clientId} in session ${sessionId} received update of type ${type}`
-            );
+            console.log(`Client ${client.clientId} in session ${sessionId} received update of type ${type}`);
         }
     });
 }

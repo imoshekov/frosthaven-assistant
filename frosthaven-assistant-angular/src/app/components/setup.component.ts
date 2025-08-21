@@ -19,14 +19,11 @@ import { WebSocketRole, WebSocketService } from '../services/web-socket.service'
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class SetupComponent {
-
-  showLoadScenario = false;
-  showLoadSection = false;
-  showJoinSession = false;
   scenarioLevel: number = 1;
   scenarioId: number = 14;
   sectionId: number = 1;
   sessionId: number = 1;
+  public clientId: string | null = null;
 
   constructor(
     private notificationService: NotificationService,
@@ -36,7 +33,10 @@ export class SetupComponent {
     private creatureFactory: CreatureFactoryService,
     private webSocketService: WebSocketService
   ) {
-    this.scenarioLevel = appContext.defaultLevel
+    this.scenarioLevel = appContext.defaultLevel,
+     this.webSocketService.clientId$.subscribe(id => {
+    this.clientId = id;
+  });
   }
 
   startNewGame() {
