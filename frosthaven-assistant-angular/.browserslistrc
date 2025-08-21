@@ -1,4 +1,2 @@
-# Last 2 Chrome versions, last 2 Safari, 1 LG TV-ish browser
-last 2 Chrome versions
-last 2 Safari versions
-ie 11 # forces ES5 output
+chrome 53
+last 2 versions
