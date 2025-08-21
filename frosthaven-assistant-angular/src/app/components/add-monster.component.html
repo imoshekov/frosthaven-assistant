@@ -1,32 +1,36 @@
 <div class="layout" (click)="close()"></div>
 <div class="modal">
   <div class="content">
-    <div>Add Monster</div>
-    <div>
-      <label for="type">Type</label>
-      <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()"
-        autocomplete="off" />
+    <div class="title">Add Monster</div>
 
-      <div *ngIf="filteredMonsters.length > 0">
-        <div *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
-          {{ monster.name }}
-        </div>
+    <div class="form-row">
+      <label for="type">Type</label>
+      <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()" autocomplete="off" />
+    </div>
+
+    <div *ngIf="filteredMonsters.length > 0">
+      <div *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
+        {{ monster.name }}
       </div>
     </div>
-    <div>
+
+    <div class="form-row">
       <label for="Level">Level</label>
       <input type="tel" placeholder="#" [(ngModel)]="level" />
     </div>
-    <div>
+
+    <div class="form-row">
       <label for="Standee">Standee</label>
       <input type="tel" placeholder="#" [(ngModel)]="standee" />
     </div>
-    <div>
+
+    <div class="form-row">
       <label for="Elite">Elite</label>
       <input type="checkbox" id="elite-monster" [(ngModel)]="isElite" />
     </div>
+
     <div class="buttons">
-      <button type="button" class="cancel" (click)="close()">Cancel</button>
+      <button type="button" class="cancel" (click)="close()">Close</button>
       <button type="button" class="confirm" (click)="addMonster()">Confirm</button>
     </div>
   </div>

@@ -74,7 +74,7 @@ export class MonsterComponent {
 
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
-    this.appContext.addMonsterToggled = false;
+    this.notificationService.emitInfoMessage(`${this.type} added successfully!`);
   }
 
   close() {

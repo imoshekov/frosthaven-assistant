@@ -64,11 +64,14 @@ export class SetupComponent {
   }
 
   loadSection(): void {
-    const section = this.dataLoader.getData().sections.find(s => s.index === this.sectionId);
-    if (!section || !section.rooms[0]?.monster) {
+    //formatting as input type tel on mobile phones does not allow . character
+    const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
+    const section = this.dataLoader.getData().sections.find(s => s.index === sectionIdFormatted);
+    if (!section || !section.rooms || section.rooms.length === 0 || !section.rooms[0].monster) {
       this.notificationService.emitErrorMessage(`Section ${this.sectionId} does not exist or has no monsters.`);
       return;
     }
+
 
     const sectionCreatures: Creature[] = section.rooms[0].monster;
 
@@ -86,7 +89,7 @@ export class SetupComponent {
   }
 
   startSession(): void {
-   this.webSocketService.connect(WebSocketRole.Host);
+    this.webSocketService.connect(WebSocketRole.Host);
   }
 
   joinSession(): void {

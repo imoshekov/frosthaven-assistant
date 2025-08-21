@@ -38,4 +38,10 @@ export class CreatureComponent {
       this.appContext.updateCreatureBaseStat(creatureId, 'hp', value);
     }
   }
+
+  updateStandee(creatureId: string, creatureType: string, value: number) {
+    this.appContext.updateCreatureBaseStat(creatureId, 'standee', value);
+    this.appContext.updateCreatureBaseStat(creatureId, 'name', `${creatureType} - ${value}`);
+  }
+
 }
