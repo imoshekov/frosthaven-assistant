@@ -52,52 +52,7 @@ export class WebSocketService {
     });
   }
 
-  private sendUpdateMessage(type: string, data: any) {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({ type, ...data, originatingClientId: this.clientId }));
-    }
-  }
-
-  sendCharactersUpdate() {
-    this.sendUpdateMessage('characters-update', { characters: this.appContext.getCreatures() });
-  }
-
-  sendGraveyardUpdate() {
-    this.sendUpdateMessage('graveyard-update', { graveyard: this.appContext.getGraveyard() });
-  }
-
-  sendRoundNumber(roundNumberValue: number) {
-    this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
-  }
-
-  // sendElementState(elementId: string, elementState: any) {
-  //   this.sendUpdateMessage('elements-update', { elementId, elementState });
-  // }
-
-  requestServerState(sessionId: string | number) {
-    this.sendUpdateMessage('request-latest-state', { sessionId });
-  }
-
-  sendMonsterAdded(monster: any) {
-    this.sendUpdateMessage('add-monster', { monster });
-  }
-
-  sendInitiativeReset(value = 0) {
-    this.sendUpdateMessage('initiative-reset', { value });
-  }
-
-  // Event handlers emit to observables
-  private handleSessionJoined(data: any) {
-    this.sessionId = data.sessionId;
-    this.localStorageService.setSessionId(data.sessionId);
-    this.clientId = data.clientId;
-    this.requestServerState(this.getSessionId());
-
-    // Emit info message about the session join
-    this.notificationService.emitInfoMessage(`Connected to session ${data.sessionId}.`);
-  }
-
-  public connect(role: WebSocketRole, sessionId: number = 1) {
+   public connect(role: WebSocketRole, sessionId: number = 1) {
     this.role = role;
 
     this.ws = new WebSocket(
@@ -145,38 +100,28 @@ export class WebSocketService {
       if (data.type === 'session-joined') {
         return this.handleSessionJoined(data);
       }
-      if (data?.originatingClientId === this.clientId) {
-        return;
-      }
+
+      if (data.originatingClientId === this.clientId) return;
+      this.updatingFromServer = true;
       switch (data.type) {
         case 'characters-update':
-          this.handleCharacterUpdate(data);
+           this.appContext.setCreatures(data.characters);
           break;
         case 'graveyard-update':
-          this.handleGraveyardUpdate(data);
+           this.appContext.setGraveyard(data.graveyard);
           break;
         case 'round-update':
-          this.handleRoundUpdate(data);
+          this.appContext.setRoundNumber(data.roundNumber);
           break;
         case 'elements-update':
-          this.handleElementUpdate(data);
-          break;
-        case 'add-monster':
-          this.handleMonsterAdded(data);
-          break;
-        case 'initiative-reset':
-          this.handleInitiativeReset(data);
+          this.appContext.setElements(data.elements);
           break;
         default:
-          console.warn(`Unhandled message type: ${data.type}`);
           this.notificationService.emitErrorMessage(`Unhandled message type: ${data.type}`);
-          break
+          break;
       }
+      this.updatingFromServer = false;
     };
-  }
-
-  private getSessionId() {
-    return this.sessionId || this.localStorageService.loadSessionId();
   }
 
   private tryReconnect() {
@@ -198,41 +143,27 @@ export class WebSocketService {
     }
   }
 
-  private handleCharacterUpdate(data: any) {
-    if (data.originatingClientId === this.clientId) return;
+  private sendUpdateMessage(type: string, data: any) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ type, ...data, originatingClientId: this.clientId }));
+    }
+  }
+  
+  private handleSessionJoined(data: any) {
+    this.sessionId = data.sessionId;
+    this.localStorageService.setSessionId(data.sessionId);
+    this.clientId = data.clientId;
+    this.requestServerState(this.getSessionId());
 
-    this.updatingFromServer = true;
-    this.appContext.setCreatures(data.characters);
-    this.updatingFromServer = false;
+    // Emit info message about the session join
+    this.notificationService.emitInfoMessage(`Connected to session ${data.sessionId}.`);
   }
 
-  private handleGraveyardUpdate(data: any) {
-    this.appContext.setGraveyard(data.graveyard);
+  private requestServerState(sessionId: string | number) {
+    this.sendUpdateMessage('request-latest-state', { sessionId });
   }
-
-  private handleRoundUpdate(data: any) {
-    if (data.originatingClientId === this.clientId) return;
-
-    this.updatingFromServer = true;
-    this.appContext.setRoundNumber(data.roundNumber);
-    this.updatingFromServer = false;
-  }
-
-  private handleElementUpdate(data: any) {
-    this.updatingFromServer = true;
-    // This updates the BehaviorSubject so all ElementComponents get the latest state
-    this.appContext.setElements(data.elements);
-    this.updatingFromServer = false;
-    console.log('Elements updated from server:', data.elements);
-  }
-
-  private handleMonsterAdded(data: any) {
-    this.appContext.addCreature(data.monster);
-  }
-
-  private handleInitiativeReset(data: any) {
-    this.appContext.getCreatures().forEach(creature => {
-      creature.initiative = data.value;
-    });
+  
+  private getSessionId() {
+    return this.sessionId || this.localStorageService.loadSessionId();
   }
 }

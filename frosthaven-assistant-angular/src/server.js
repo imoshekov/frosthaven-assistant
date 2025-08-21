@@ -128,9 +128,6 @@ wss.on('connection', (ws) => {
                         type: 'round-update',
                         roundNumber: session.roundNumber
                     }));
-
-                    // Send elements
-                    // Convert stored elementStates object to array
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
                         state: session.elementStates[key]

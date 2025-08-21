@@ -34,7 +34,7 @@ export class RoundComponent implements OnInit, OnDestroy {
     }
 
     nextRound(): void {
-        this.resetCharacters();
+        this.resetAllCreatures();
         this.resetElements();
 
         const newRound = this.roundNumber + 1;
@@ -44,8 +44,14 @@ export class RoundComponent implements OnInit, OnDestroy {
         this.roundAdvanced.emit(newRound);
     }
 
-    private resetCharacters(): void {
-        this.appContext.resetAllCreatures()
+    resetAllCreatures(): void {
+        const creatures = this.appContext.getCreatures().map(creature => ({
+            ...creature,
+            initiative: 0,
+            roundArmor: 0,
+            roundRetaliate: 0
+        }));
+        this.appContext.setCreatures(creatures);
     }
 
     private resetElements(): void {
@@ -55,10 +61,9 @@ export class RoundComponent implements OnInit, OnDestroy {
             else if (el.state === ElementState.Full) newState = ElementState.Half;
             else newState = el.state;
 
-            return { ...el, state: newState }; // return new object
+            return { ...el, state: newState }; 
         });
 
-        // Update AppContext so elements$ subscribers are notified
         this.appContext.setElements(updatedElements);
     }
 
