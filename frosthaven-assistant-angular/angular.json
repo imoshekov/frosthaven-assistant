@@ -20,9 +20,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-              "src/polyfills.ts"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -42,7 +40,7 @@
                 "output": "/images"
               }
             ],
-            "outputPath": "../dist/legacy",
+            "outputPath": "../dist",
             "styles": [
               "src/styles.scss"
             ],
