@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --output-path=dist/modern",
-    "build:babel": "babel dist/modern --out-dir dist/legacy --copy-files",
+    "build:babel": "babel dist/modern --out-dir dist/legacy --copy-files --source-maps --verbose",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "compile": "node ./node_modules/typescript/bin/tsc",
