@@ -24,7 +24,7 @@ export class AppContext {
     constructor(
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService
-) {
+    ) {
         this.addDefaultCharacters();
     }
 
@@ -98,17 +98,19 @@ export class AppContext {
 
     toggleCreatureConditions(creatureId: string, condition: CreatureConditions) {
         const creatureToUpdate = this.findCreature(creatureId);
-        const conditions = creatureToUpdate?.conditions;
-        const index = conditions!.indexOf(condition);
-        if (index > -1) {
-            conditions!.splice(index, 1);
-            return
-        }
-        conditions?.push(condition);
-        creatureToUpdate!.conditions = conditions;
+        if (!creatureToUpdate) return;
 
+        const conditions = creatureToUpdate.conditions || [];
+
+        const index = conditions.indexOf(condition);
+        if (index > -1) {
+            creatureToUpdate.conditions = conditions.filter(c => c !== condition);
+        } else {
+            creatureToUpdate.conditions = [...conditions, condition];
+        }
         this.creaturesSubject.next([...this.getCreatures()]);
     }
+
 
     private findCreature(creatureId: string): Creature {
         const creatures = this.getCreatures();
