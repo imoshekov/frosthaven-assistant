@@ -12,11 +12,9 @@ export enum WebSocketRole {
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
-  private enableHostClientStuff = false;
   private ws: WebSocket | null = null;
   private isConnected = false;
   public sessionId: number = 0;
-  public lastPingedTime: string = '';
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private clientId: string | null = null;
@@ -147,10 +145,6 @@ export class WebSocketService {
       if (data.type === 'session-joined') {
         return this.handleSessionJoined(data);
       }
-
-      if (this.enableHostClientStuff && this.role === 'host') {
-        return;
-      }
       if (data?.originatingClientId === this.clientId) {
         return;
       }
@@ -225,12 +219,12 @@ export class WebSocketService {
   }
 
   private handleElementUpdate(data: any) {
-  this.updatingFromServer = true;
-  // This updates the BehaviorSubject so all ElementComponents get the latest state
-  this.appContext.setElements(data.elements);
-  this.updatingFromServer = false;
-  console.log('Elements updated from server:', data.elements);
-}
+    this.updatingFromServer = true;
+    // This updates the BehaviorSubject so all ElementComponents get the latest state
+    this.appContext.setElements(data.elements);
+    this.updatingFromServer = false;
+    console.log('Elements updated from server:', data.elements);
+  }
 
   private handleMonsterAdded(data: any) {
     this.appContext.addCreature(data.monster);

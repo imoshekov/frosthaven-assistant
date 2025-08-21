@@ -84,6 +84,16 @@ export class AppContext {
         );
     }
 
+    public resetAllCreatures(): void {
+        const creatures = this.creaturesSubject.getValue().map(creature => ({
+            ...creature,
+            initiative: 0,
+            roundArmor: 0,
+            roundRetaliate: 0
+        }));
+        this.creaturesSubject.next(creatures);
+    }
+
     getGraveyard(): Creature[] {
         return this.graveyardSubject.value;
     }

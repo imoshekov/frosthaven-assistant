@@ -45,11 +45,7 @@ export class RoundComponent implements OnInit, OnDestroy {
     }
 
     private resetCharacters(): void {
-        this.appContext.getCreatures().forEach(creature => {
-            this.appContext.updateCreatureBaseStat(creature.id!, 'initiative', 0);
-            this.appContext.updateCreatureBaseStat(creature.id!, 'roundArmor', 0);
-            this.appContext.updateCreatureBaseStat(creature.id!, 'roundRetaliate', 0);
-        });
+        this.appContext.resetAllCreatures()
     }
 
     private resetElements(): void {
