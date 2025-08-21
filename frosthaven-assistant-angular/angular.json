@@ -40,7 +40,7 @@
                 "output": "/images"
               }
             ],
-            "outputPath": "../dist",
+            "outputPath": "../dist/legacy",
             "styles": [
               "src/styles.scss"
             ],

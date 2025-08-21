@@ -40,9 +40,13 @@ jobs:
         working-directory: frosthaven-assistant-angular
         run: npm run build --production
 
+      - name: Transpile to ES5 for legacy browsers
+        working-directory: frosthaven-assistant-angular
+        run: npm run build:babel
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages           # branch to deploy to
-          FOLDER: dist               # folder with static site output (your angular.json outputPath)
+          FOLDER: dist/legacy               # folder with static site output (your angular.json outputPath)
