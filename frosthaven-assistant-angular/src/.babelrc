@@ -6,12 +6,14 @@
         "targets": {
           "chrome": "53"
         },
+        "loose": true,
+        "modules": "auto",
         "useBuiltIns": "entry",
         "corejs": 3
       }
     ]
   ],
   "plugins": [
-    ["@babel/plugin-transform-runtime", { "corejs": 3 }]
+    ["@babel/plugin-transform-runtime"]
   ]
 }

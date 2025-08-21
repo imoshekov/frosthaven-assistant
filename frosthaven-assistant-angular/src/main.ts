@@ -7,6 +7,7 @@ import { LocalStorageService } from './app/services/local-storage.service';
 import { NotificationService } from './app/services/notification.service';
 import { DataLoaderService } from './app/services/data-loader.service';
 
+
 bootstrapApplication(App, {
   providers: [
     provideAnimations(),

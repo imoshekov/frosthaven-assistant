@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --output-path=dist/modern",
-    "build:babel": "babel dist/modern --out-dir dist/legacy --copy-files",
+    "build": "ng build --output-path=dist/legacy",
+    "build:babel": "babel dist/legacy --out-dir dist/legacy --copy-files",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "compile": "node ./node_modules/typescript/bin/tsc",
@@ -32,6 +32,7 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/platform-browser-dynamic": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "classlist.js": "^1.1.20150312",
     "core-js": "^3.45.1",
     "regenerator-runtime": "^0.14.1",
     "rxjs": "~7.8.0",

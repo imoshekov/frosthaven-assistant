@@ -16,3 +16,5 @@ import 'core-js/es/promise';
 // Optional DOM/polyfills
 import 'classlist.js';  // SVG element.classList support
 import 'zone.js';       // Required by Angular
+import "core-js/stable";
+import "regenerator-runtime/runtime";
