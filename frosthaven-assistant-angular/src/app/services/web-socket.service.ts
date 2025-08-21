@@ -103,7 +103,8 @@ export class WebSocketService {
     this.ws.onopen = () => {
       const joinSessionPayload: any = {
         type: 'join-session',
-        sessionId: sessionId,
+        // Only send sessionId if joining as a guest
+        ...(this.role !== WebSocketRole.Host && { sessionId: sessionId }),
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
         // graveyard: this.role === WebSocketRole.Host ? this.appContext.getGraveyard() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
