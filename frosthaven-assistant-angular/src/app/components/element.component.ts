@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Element, ElementState } from '../types/game-types';
 import { CommonModule } from '@angular/common';
+import { AppContext } from '../app-context';
 
 @Component({
   selector: 'app-element',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class ElementComponent {
   @Input() element!: Element;
 
+  constructor(private appContext: AppContext) { }
   symbols: Record<string, { transform: string; d: string[] }> = {
     fire: {
       transform: "matrix(0.35277777,0,0,-0.35277777,129.1384,74.102455)",
@@ -41,21 +43,25 @@ export class ElementComponent {
       d: ["m 0,0 c -8.87,0 -17.561,0.8 -26,2.32 6.06,2.781 11.92,5.941 17.54,9.441 1.786,1.112 3.539,2.271 5.276,3.453 73.09,1.203 131.963,59.194 131.963,130.566 0,71.385 -58.877,129.378 -131.971,130.577 -1.739,1.181 -3.492,2.34 -5.279,3.454 -5.619,3.5 -11.469,6.659 -17.529,9.439 8.439,1.521 17.13,2.32 26,2.32 80.38,0 145.779,-65.4 145.779,-145.79 C 145.779,65.4 80.38,0 0,0 M -45.83,7.38 C -52.25,5.24 -58.88,3.55 -65.66,2.32 -74.1,0.8 -82.78,0 -91.65,0 c -80.39,0 -145.79,65.4 -145.79,145.78 0,80.39 65.4,145.79 145.79,145.79 8.87,0 17.55,-0.799 25.99,-2.32 6.78,-1.229 13.41,-2.92 19.83,-5.06 6.019,-1.99 11.87,-4.379 17.51,-7.11 48.75,-23.61 82.45,-73.59 82.45,-131.3 0,-57.7 -33.7,-107.679 -82.45,-131.29 -5.64,-2.729 -11.491,-5.12 -17.51,-7.11 M 0,303.57 c -15.93,0 -31.311,-2.37 -45.82,-6.79 -14.51,4.42 -29.901,6.79 -45.83,6.79 -87.01,0 -157.79,-70.78 -157.79,-157.79 0,-87 70.78,-157.78 157.79,-157.78 15.929,0 31.32,2.37 45.83,6.79 C -31.311,-9.63 -15.93,-12 0,-12 87,-12 157.779,58.78 157.779,145.78 157.779,232.79 87,303.57 0,303.57"]
     }
   }
+  ngOnInit() {
+    this.appContext.elements$.subscribe(elements => {
+      this.element = elements.find(e => e.type === this.element.type)!;
+    });
+  }
 
   get fillUrl(): string {
-    switch (this.element.state) {
-      case ElementState.None: return `url(#${this.element.type}-${ElementState.None}})`;
-      case ElementState.Full: return `url(#${this.element.type}-${ElementState.Full})`;
-      case ElementState.Half: return `url(#${this.element.type}-${ElementState.Half})`;
-      default: return `url(#${this.element.type}-${ElementState.None})`;
-    }
+    return `url(#${this.element.type}-${this.element.state})`;
   }
 
   toggleColor(): void {
-    switch (this.element.state) {
-      case ElementState.None: this.element.state = ElementState.Full; break;
-      case ElementState.Full: this.element.state = ElementState.Half; break;
-      case ElementState.Half: this.element.state = ElementState.None; break;
-    }
+    const next =
+      this.element.state === ElementState.None ? ElementState.Full :
+        this.element.state === ElementState.Full ? ElementState.Half :
+          ElementState.None;
+
+    this.appContext.setElementState(this.element.type, next);
+
+    this.element = { ...this.element, state: next };
   }
+
 }

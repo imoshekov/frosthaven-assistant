@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Creature, CreatureConditions, Element } from './types/game-types';
+import { Creature, CreatureConditions, Element, ElementState, ElementType } from './types/game-types';
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
@@ -21,6 +21,17 @@ export class AppContext {
     private roundNumberSubject = new BehaviorSubject<number>(1);
     roundNumber$ = this.roundNumberSubject.asObservable();
 
+    private elementsSubject = new BehaviorSubject<Element[]>([
+        { type: ElementType.Fire, state: ElementState.None },
+        { type: ElementType.Ice, state: ElementState.None },
+        { type: ElementType.Earth, state: ElementState.None },
+        { type: ElementType.Air, state: ElementState.None },
+        { type: ElementType.Light, state: ElementState.None },
+        { type: ElementType.Dark, state: ElementState.None }
+    ]);
+
+    elements$ = this.elementsSubject.asObservable();
+
     constructor(
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService
@@ -30,6 +41,23 @@ export class AppContext {
 
     getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
     setRoundNumber(round: number) { this.roundNumberSubject.next(round); }
+
+    getElements(): Element[] {
+        return this.elementsSubject.getValue();
+    }
+
+    setElements(elements: Element[]): void {
+        this.elementsSubject.next([...elements]);
+    }
+
+    setElementState(type: ElementType, newState: ElementState): void {
+        const updated = this.getElements().map(el =>
+            el.type === type ? { ...el, state: newState } : el
+        );
+        this.setElements(updated);
+    }
+
+
 
     getCreatures(): Creature[] {
         return this.creaturesSubject.value;

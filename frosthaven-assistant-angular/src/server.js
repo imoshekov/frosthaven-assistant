@@ -7,14 +7,14 @@ const CLEANUP_INTERVAL = 60 * 60 * 1000; //1hour
 const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const SESSION_DEFAULT_DATA = {
     characters: {},
-    elements: {
-        fire: '{"elementId":"fire","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#fire-bw)"}', 
-        ice: '{"elementId":"ice","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#ice-bw)"}', 
-        air: '{"elementId":"air","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#air-bw)"}', 
-        earth: '{"elementId":"earth","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#earth-bw)"}', 
-        light: '{"elementId":"light","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#light-bw)"}', 
-        dark: '{"elementId":"dark","path":"m 98.77778,194.73333 c -25.630363,0 -49.727202,-9.98114 -67.850807,-28.10475 C 12.803368,148.50498 2.8222266,124.40814 2.8222266,98.777777 2.8222266,73.14706 12.803368,49.050575 30.926973,30.92697 49.050578,12.803365 73.147417,2.8222231 98.77778,2.8222231 c 25.63036,0 49.7272,9.9811419 67.85081,28.1047469 18.1236,18.123605 28.10474,42.22009 28.10474,67.850807 0,25.630363 -9.98114,49.727203 -28.10474,67.850803 -18.12361,18.12361 -42.22045,28.10475 -67.85081,28.10475","fill":"url(#dark-bw)"}' 
-    },
+     elementStates: {
+            fire: 'none',
+            ice: 'none',
+            earth: 'none',
+            air: 'none',
+            light: 'none',
+            dark: 'none'
+        },
     round: 1,
     graveyard: []
 }
@@ -58,11 +58,11 @@ wss.on('connection', (ws) => {
         const data = JSON.parse(message);
         const originatingClientId = ws.clientId;
         if (data.type === 'join-session') {
-            let sessionId = data.sessionId || generateUniqueSessionId(); 
+            let sessionId = data.sessionId || generateUniqueSessionId();
             let session = getSession(sessionId);
 
             if (!session) {
-                 // Pass the sessionId to create a session
+                // Pass the sessionId to create a session
                 session = createSession(sessionId, data);
             }
 
@@ -104,26 +104,43 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
                     break;
                 }
-                case 'element-update': {
-                    session.elementStates[data.elementId] = data.elementState;
+                case 'elements-update': {
+                    session.elementStates = data.elements; // store whole array
                     session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'element-update', { elementState: data.elementState, originatingClientId: originatingClientId });
+
+                    broadcastToSession(currentSessionId, 'elements-update', {
+                        elements: data.elements,
+                        originatingClientId
+                    });
                     break;
                 }
+
+
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
-                    ws.send(JSON.stringify({ type: 'characters-update', characters: session.characters }));
-                    ws.send(JSON.stringify({ type: 'round-update', roundNumber: session.roundNumber }));
+                    ws.send(JSON.stringify({
+                        type: 'characters-update',
+                        characters: session.characters
+                    }));
+                    ws.send(JSON.stringify({
+                        type: 'round-update',
+                        roundNumber: session.roundNumber
+                    }));
+                    // Send latest graveyard if needed
                     // ws.send(JSON.stringify({ type: 'graveyard-update', graveyard: session.graveyard }));
-                    // Object.keys(session.elementStates).forEach((elementId) => {
-                    //     ws.send(JSON.stringify({
-                    //         type: 'element-update',
-                    //         elementId,
-                    //         elementState: session.elementStates[elementId]
-                    //     }));
-                    // });
+                    const elementsArray = Object.keys(session.elementStates).map(key => ({
+                        type: key,
+                        state: session.elementStates[key]
+                    }));
+                    ws.send(JSON.stringify({
+                        type: 'elements-update',
+                        elements: elementsArray,
+                        originatingClientId: ws.clientId
+                    }));
+
                     break;
                 }
+
                 case 'add-monster': {
                     session.characters.push(data.monster);
                     session.lastActivity = Date.now();
@@ -166,15 +183,26 @@ function generateUniqueSessionId() {
 }
 
 function createSession(sessionId, data) {
+    let elementStates = {};
+    if (Array.isArray(data.elementStates)) {
+        data.elementStates.forEach(el => {
+            elementStates[el.type] = el.state;
+        });
+    } else {
+        elementStates = SESSION_DEFAULT_DATA.elementStates;
+    }
+
     sessions[sessionId] = {
         clients: [],
-        characters: data.characters || JSON.stringify(SESSION_DEFAULT_DATA.characters),
-        roundNumber: data.roundNumber || SESSION_DEFAULT_DATA.round,
-        graveyard: data.graveyard || SESSION_DEFAULT_DATA.graveyard,
-        elementStates: data.elementStates || SESSION_DEFAULT_DATA.elements,
+        characters: data.characters || [],
+        roundNumber: data.roundNumber || 1,
+        graveyard: data.graveyard || [],
+        elementStates: elementStates,
         lastActivity: Date.now(),
     };
-    console.log(`Session ${sessionId} created.`);
+
+   console.log(`Session ${sessionId} created.`);
+
     return sessions[sessionId];
 }
 

@@ -44,6 +44,14 @@ export class WebSocketService {
         });
       }
     });
+    this.appContext.elements$.subscribe((elements) => {
+      if (!this.updatingFromServer) {
+        this.sendUpdateMessage('elements-update', {
+          elements,
+          originatingClientId: this.clientId
+        });
+      }
+    });
   }
 
   private sendUpdateMessage(type: string, data: any) {
@@ -64,9 +72,9 @@ export class WebSocketService {
     this.sendUpdateMessage('round-update', { roundNumber: roundNumberValue });
   }
 
-  sendElementState(elementId: string, elementState: any) {
-    this.sendUpdateMessage('element-update', { elementId, elementState });
-  }
+  // sendElementState(elementId: string, elementState: any) {
+  //   this.sendUpdateMessage('elements-update', { elementId, elementState });
+  // }
 
   requestServerState(sessionId: string | number) {
     this.sendUpdateMessage('request-latest-state', { sessionId });
@@ -108,7 +116,7 @@ export class WebSocketService {
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
         // graveyard: this.role === WebSocketRole.Host ? this.appContext.getGraveyard() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
-        // elementStates: this.role === WebSocketRole.Host ? this.appContext.elementStates : {}
+        elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : []
       };
 
       // Send initial join payload with the correct round number
@@ -146,7 +154,6 @@ export class WebSocketService {
       if (data?.originatingClientId === this.clientId) {
         return;
       }
-      // Optionally filter by clientId/role
       switch (data.type) {
         case 'characters-update':
           this.handleCharacterUpdate(data);
@@ -157,7 +164,7 @@ export class WebSocketService {
         case 'round-update':
           this.handleRoundUpdate(data);
           break;
-        case 'element-update':
+        case 'elements-update':
           this.handleElementUpdate(data);
           break;
         case 'add-monster':
@@ -218,7 +225,9 @@ export class WebSocketService {
   }
 
   private handleElementUpdate(data: any) {
-    // this.appContext.elementStates = data.elementStates;
+    this.updatingFromServer = true;
+    this.appContext.setElements(data.elements);
+    this.updatingFromServer = false;
   }
 
   private handleMonsterAdded(data: any) {
