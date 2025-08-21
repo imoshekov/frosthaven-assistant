@@ -3,6 +3,7 @@ import { Creature, CreatureConditions, Element } from './types/game-types';
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
+import { NotificationService } from './services/notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -22,7 +23,8 @@ export class AppContext {
 
     constructor(
         private dataLoader: DataLoaderService,
-        private creatureFactory: CreatureFactoryService) {
+        private creatureFactory: CreatureFactoryService
+) {
         this.addDefaultCharacters();
     }
 

@@ -73,16 +73,14 @@ export class AttackModalComponent {
     return this.damage;
   }
 
-
   confirm() {
     this.attackCreature();
     this.tempConditions.forEach(condition => {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
-    this.buffsComponent.publishBuffs();
+    this.buffsComponent?.publishBuffs();
     this.close();
   }
-
   close() {
     this.appContext.selectedCreature = null;
   }

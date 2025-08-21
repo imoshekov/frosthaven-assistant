@@ -9,7 +9,7 @@
         <div class="header stat">
             <div class="icon heart">
                 <input type="tel" [value]="creature.hp"
-                    (blur)="this.appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value)"
+                    (blur)="updateCreatureHp(creature.id!, +$event.target.value)"
                     maxlength="3" class="stat-input" />
             </div>
         </div>

@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { ConditionsComponent } from '../conditions.component';
+import { NotificationService } from '../../services/notification.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { ConditionsComponent } from '../conditions.component';
 export class CreatureComponent {
   @Input() creature!: Creature;
 
-  constructor(public appContext: AppContext) { }
+  constructor(public appContext: AppContext, private notificationService: NotificationService) { }
 
   openConditionModal() {
     this.appContext.selectedCreature = this.creature;
@@ -27,5 +28,14 @@ export class CreatureComponent {
 
   toggleCondition(condition: CreatureConditions) {
     this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
+  }
+
+  updateCreatureHp(creatureId: string, value: number): void {
+    if (value <= 0) {
+      this.appContext.removeCreature(creatureId);
+      this.notificationService.emitInfoMessage(`${this.creature.name} has been killed!`);
+    } else {
+      this.appContext.updateCreatureBaseStat(creatureId, 'hp', value);
+    }
   }
 }

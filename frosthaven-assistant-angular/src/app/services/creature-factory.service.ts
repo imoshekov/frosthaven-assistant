@@ -31,7 +31,8 @@ export class CreatureFactoryService {
       level: creatureInput.level ?? 1,
       hp: Math.max(
         Number(monster?.baseStat?.health ?? 0),
-        Number(monster?.stats[0]?.health ?? 0)
+        Number(monster?.stats[0]?.health ?? 0),
+        Number(creatureInput.hp ?? 0)
       ),
       attack: Math.max(
         Number(monster?.baseStat?.attack ?? 0),
