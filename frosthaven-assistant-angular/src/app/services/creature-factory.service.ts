@@ -35,12 +35,12 @@ export class CreatureFactoryService {
         this.stringUtils.parseInt(creatureInput.hp ?? 0)
       ),
       attack: Math.max(
-        Number(monster?.baseStat?.attack ?? 0),
-        Number(monster?.stats[0]?.attack ?? 0)
+        this.stringUtils.parseInt(monster?.baseStat?.attack ?? 0),
+        this.stringUtils.parseInt(monster?.stats[0]?.attack ?? 0)
       ),
       movement: Math.max(
-        Number(monster?.baseStat?.movement ?? 0),
-        Number(monster?.stats[0]?.movement ?? 0)
+        this.stringUtils.parseInt(monster?.baseStat?.movement ?? 0),
+        this.stringUtils.parseInt(monster?.stats[0]?.movement ?? 0)
       ),
       initiative: creatureInput.initiative ?? 0,
       armor: this.stringUtils.parseInt(
