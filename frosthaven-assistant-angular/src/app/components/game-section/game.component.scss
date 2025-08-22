@@ -13,7 +13,7 @@
     border-color: var(--font-color);
 
     &.narrow {
-      width: 200px;
+      width: 100px;
     }
 
     &.wide {
@@ -41,6 +41,10 @@
         width: 100%;
         border: 1px solid;
       }
+
+       &.blinkblade {
+       background-color: var(--blinkblade-color);
+     }
     }
   }
 }

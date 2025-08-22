@@ -37,7 +37,7 @@
    display: flex;
    flex-direction: row;
    width: 100%;
-   justify-content: space-between;
+   justify-content: center;
  }
 
  .right-info {
@@ -50,7 +50,7 @@
  .base-stat {
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
+   justify-content: center;
    align-items: center;
 
    input {
