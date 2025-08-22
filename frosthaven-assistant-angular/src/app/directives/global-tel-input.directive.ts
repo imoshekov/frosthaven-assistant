@@ -1,28 +1,24 @@
-// src/app/directives/global-tel.directive.ts
-import { Directive, ElementRef, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: 'input[type=tel]' // automatically matches all tel inputs
+  selector: 'input[type=tel]'
 })
-export class GlobalTelInputDirective implements AfterViewInit {
+export class GlobalTelInputDirective {
   private previousValue: string = '';
 
   constructor(private el: ElementRef<HTMLInputElement>) {}
 
-  ngAfterViewInit() {
-    const input = this.el.nativeElement;
+  @HostListener('focus')
+  onFocus() {
+    this.previousValue = this.el.nativeElement.value;
+    this.el.nativeElement.value = '';
+  }
 
-    // Focus
-    input.addEventListener('focus', () => {
-      this.previousValue = input.value;
-      input.value = '';
-    });
-
-    // Blur
-    input.addEventListener('blur', () => {
-      if (input.value === '') {
-        input.value = this.previousValue;
-      }
-    });
+  @HostListener('blur')
+  onBlur() {
+    if (this.el.nativeElement.value === '') {
+      this.el.nativeElement.value = this.previousValue;
+      this.el.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   }
 }
