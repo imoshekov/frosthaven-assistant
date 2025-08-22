@@ -9,7 +9,7 @@
     }
 
     &.friendly {
-        background-color: var(--friendly-color);
+        background-color: var(--background-color);
     }
 
     .initiative {
@@ -20,6 +20,20 @@
         font-size: 20px;
         height: 25px;
     }
+}
+
+.creature-traits {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; 
+  font-size: 1rem;
+  width: 100%;
+
+  .trait {
+    border-radius: 6px;
+    padding: 2px 6px;
+    text-align: center;
+  }
 }
 
 input {
@@ -54,6 +68,7 @@ input {
         }
     }
 }
+
 
 button.open-modal {
     display: flex;
