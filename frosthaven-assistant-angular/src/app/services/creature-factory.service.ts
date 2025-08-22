@@ -22,7 +22,7 @@ export class CreatureFactoryService {
 
   createCreature(creatureInput: Partial<Creature>): Creature {
     const monster: Monster = this.findMonsterStats(creatureInput);
-    
+
     const creature: Creature = {
       id: this.generateCreatureId(),
       name: creatureInput.aggressive ? this.createCreatureName(creatureInput) : creatureInput.name,
@@ -61,9 +61,10 @@ export class CreatureFactoryService {
       roundArmor: creatureInput.roundArmor ?? 0,
       roundRetaliate: creatureInput.roundRetaliate ?? 0,
       actions:
-        monster?.actions?.filter((a: MonsterAction) => a.type === 'condition')?.length
-          ? monster?.actions.filter((a: MonsterAction) => a.type === 'condition')
-          : monster?.baseStat?.actions?.filter((a: MonsterAction) => a.type === 'condition') ?? [],
+        monster?.actions?.filter(a => a.type === 'condition')
+        ?? monster?.baseStat?.actions?.filter(a => a.type === 'condition')
+        ?? monster?.stats?.flatMap(s => s.actions ?? []).filter(a => a.type === 'condition')
+        ?? [],
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };
