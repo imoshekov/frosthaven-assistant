@@ -54,6 +54,7 @@ export class CreatureFactoryService {
         0
       ),
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
+      boss: monster?.boss ?? false,
       flying: monster?.flying ?? false,
       isElite: creatureInput.isElite ?? false,
       conditions: creatureInput.conditions ?? [],

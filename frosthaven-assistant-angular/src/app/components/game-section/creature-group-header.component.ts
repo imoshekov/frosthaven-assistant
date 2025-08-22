@@ -17,15 +17,20 @@ import { FormsModule } from '@angular/forms';
 export class CreatureGroupHeaderComponent {
   @Input() creature!: Creature;
 
-  constructor(public appContext: AppContext) {}
+  constructor(public appContext: AppContext) { }
 
   getCreaturePic(creature: Creature): string {
-    const subFolder = creature?.aggressive ? 'monster' : 'character';
-    return `./images/${subFolder}/thumbnail/fh-${creature?.type}.png`
+    if (creature.aggressive) {
+      if (creature.boss) {
+        return `./images/bb/monster.svg`
+      }
+      return `./images/monster/thumbnail/fh-${creature?.type}.png`
+    }
+    return `./images/character/thumbnail/fh-${creature?.type}.png`
   }
 
-  openConditionModal() {
-    this.appContext.selectedCreature = this.creature;
-    this.appContext.isGroupSelected = true;
-  }
+openConditionModal() {
+  this.appContext.selectedCreature = this.creature;
+  this.appContext.isGroupSelected = true;
+}
 }

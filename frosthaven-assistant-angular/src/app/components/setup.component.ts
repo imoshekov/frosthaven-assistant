@@ -20,8 +20,8 @@ import { WebSocketRole, WebSocketService } from '../services/web-socket.service'
 })
 export class SetupComponent {
   scenarioLevel: number = 1;
-  scenarioId: number = 14;
-  sectionId: number = 1;
+  scenarioId: number = 0;
+  sectionId: number = 0;
   sessionId: number = 1;
   public clientId: string | null = null;
 
@@ -71,7 +71,6 @@ export class SetupComponent {
       this.notificationService.emitErrorMessage(`Section ${this.sectionId} does not exist or has no monsters.`);
       return;
     }
-
 
     const sectionCreatures: Creature[] = section.rooms[0].monster;
 

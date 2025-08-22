@@ -57,14 +57,12 @@ export class AppContext {
         this.setElements(updated);
     }
 
-
-
     getCreatures(): Creature[] {
         return this.creaturesSubject.value;
     }
 
     setCreatures(creatures: Creature[]) {
-        this.creaturesSubject.next(creatures);
+        this.creaturesSubject.next(creatures);      
     }
 
     addCreature(creature: Creature) {
