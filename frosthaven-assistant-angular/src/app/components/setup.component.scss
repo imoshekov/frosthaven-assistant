@@ -33,3 +33,14 @@
     border: none;
   }
 }
+
+.technical-info {
+  position: absolute;
+  bottom: -10em;
+  left: 0;
+  width: 100%;      
+  text-align: center;
+  padding: 8px;
+  font-size: 0.7em;
+  color: var(--font-color);
+}

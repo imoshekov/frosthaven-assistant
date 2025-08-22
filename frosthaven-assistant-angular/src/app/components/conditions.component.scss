@@ -3,12 +3,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-
-    .conditions {
-        border-top: 5px solid;
-        padding-top: 15px;
-    }
+    height: 100%;
 
     .conditions,
     .buffs {

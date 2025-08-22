@@ -10,12 +10,11 @@
 
         </div>
     </div>
+    
     <div class="conditions">
         <div *ngFor="let condition of conditions" [ngClass]="condition" class="condition-element"
             (click)="toggleCondition(condition)">
             <div class="icon" [class]="condition" [ngClass]="isActive(condition) ? 'active': ''"></div>
         </div>
     </div>
-
-
 </div>

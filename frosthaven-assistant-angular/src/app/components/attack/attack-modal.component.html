@@ -1,7 +1,8 @@
 <div class="layout" (click)="close()"></div>
 <div class="modal">
     <div class="content">
-        <div class="name">{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}</div>
+        <div class="name">{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}
+        </div>
         <app-buffs [creature]="creature" *ngIf="this.appContext.isGroupSelected"></app-buffs>
         <div class="attack" *ngIf="!this.appContext.isGroupSelected">
             <div class="stat">
@@ -18,14 +19,13 @@
                 total: {{ damage }}
             </div>
         </div>
-
         <app-conditions *ngIf="!this.appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
             [shouldShowBuffs]="true" (conditionToggled)="toggleCondition($event)">
         </app-conditions>
+
         <div class="buttons">
             <button type="button" class="cancel" (click)="close()">Cancel</button>
             <button type="button" class="confirm" (click)="confirm()">Confirm</button>
         </div>
     </div>
-
 </div>
