@@ -12,6 +12,10 @@
         background-color: var(--background-color);
     }
 
+    &.boss{
+        background-color: var(--boss-color);
+    }
+
     .initiative {
         border: none;
         background-color: var(--base-color-spots);

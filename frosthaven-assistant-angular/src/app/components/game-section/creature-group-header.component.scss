@@ -15,6 +15,10 @@
      background: var(--nonelite-color);
    }
 
+   &.boss{
+    background: var(--boss-color);
+   }
+
    &.character {
      &.coral {
        background-color: var(--coral-color);

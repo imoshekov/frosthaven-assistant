@@ -1,7 +1,8 @@
 <div class="creature-details" [ngClass]="[
        creature.type,
-       creature.isElite === true ? 'elite' :
-       creature.isElite === false ? 'non-elite' : '',
+       creature.boss ? 'boss'
+         : creature.isElite ? 'elite'
+         : 'non-elite',
        creature.aggressive ? '' : 'character'
      ]">
 
