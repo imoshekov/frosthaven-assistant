@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:tv": "ng build --configuration production && npx babel dist/frosthaven-assistant --out-dir dist/frosthaven-assistant --extensions \".js\"",
+    "build:tv": "ng build --configuration production && npx babel dist/frosthaven-assistant-angular --out-dir dist/frosthaven-assistant-angular --extensions \".js\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "compile": "node ./node_modules/typescript/bin/tsc",

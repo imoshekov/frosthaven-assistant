@@ -40,7 +40,7 @@
                 "output": "/images"
               }
             ],
-            "outputPath": "../dist",
+            "outputPath": "dist/frosthaven-assistant-angular",
             "styles": [
               "src/styles.scss"
             ],
