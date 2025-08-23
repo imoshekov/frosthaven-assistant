@@ -34,10 +34,18 @@ export class SetupComponent {
     private webSocketService: WebSocketService
   ) {
     this.scenarioLevel = appContext.defaultLevel,
-     this.webSocketService.clientId$.subscribe(id => {
-    this.clientId = id;
-  });
+      this.webSocketService.clientId$.subscribe(id => {
+        this.clientId = id;
+      });
   }
+
+  // ngOnInit(): void {
+  //   const savedSessionId = this.webSocketService['localStorageService'].loadSessionId()
+  //   if (savedSessionId) {
+  //     this.sessionId = savedSessionId;
+  //     this.webSocketService.connect(WebSocketRole.Client, savedSessionId);
+  //   }
+  // }
 
   startNewGame() {
     this.storageService.resetGame();

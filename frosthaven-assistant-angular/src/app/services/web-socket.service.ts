@@ -56,8 +56,24 @@ export class WebSocketService {
     });
   }
 
-  public connect(role: WebSocketRole, sessionId: number = 1) {
+  public connect(role: WebSocketRole, sessionId?: number) {
     this.role = role;
+
+    // If user provided a sessionId (button press), persist immediately
+    if (sessionId != null) {
+      this.sessionId = sessionId;
+      this.localStorageService.setSessionId(sessionId);
+    }
+
+    if (sessionId != null) {
+      this.sessionId = sessionId;
+      this.localStorageService.setSessionId(sessionId);
+    }
+
+    // If an old socket is hanging around, close it before reconnecting/switching.
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws.close(1000, 'Switching session or reconnecting');
+    }
 
     this.ws = new WebSocket(
       window.location.hostname.includes('github.io')
@@ -66,12 +82,11 @@ export class WebSocketService {
     );
 
     this.ws.onopen = () => {
+      const sessionToJoin = this.getSessionId(); // only join to a known id
       const joinSessionPayload: any = {
         type: WebSocketMessageType.JoinSession,
-        // Only send sessionId if joining as a guest
-        ...(this.role !== WebSocketRole.Host && { sessionId: sessionId }),
+        ...(sessionToJoin != null && { sessionId: sessionToJoin }),
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
-        // graveyard: this.role === WebSocketRole.Host ? this.appContext.getGraveyard() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
         elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : []
       };
@@ -80,7 +95,6 @@ export class WebSocketService {
 
       this.isConnected = true;
       this.reconnectAttempts = 0;
-      this.notificationService.emitInfoMessage('Connected to server successfully');
     };
 
     this.ws.onerror = (error) => {
@@ -129,19 +143,22 @@ export class WebSocketService {
   private tryReconnect() {
     if (this.reconnecting) return;
 
+    // Only auto-reconnect if we’ve successfully joined at least once,
+    // and we have a persisted session id to target.
+    if (!this.getSessionId()) return;
+
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnecting = true;
       this.reconnectAttempts++;
-
       const delay = Math.min(500 * Math.pow(2, this.reconnectAttempts - 1), 30000);
-
       setTimeout(() => {
-        this.connect(this.role);
+        this.connect(this.role, this.getSessionId());
         this.reconnecting = false;
       }, delay);
     } else {
-      // Maximum reconnection attempts reached
-      this.notificationService.emitErrorMessage('Failed to reconnect after multiple attempts. Please refresh the page or check your connection.');
+      this.notificationService.emitErrorMessage(
+        'Failed to reconnect after multiple attempts.'
+      );
     }
   }
 
@@ -151,11 +168,14 @@ export class WebSocketService {
     }
   }
 
-   private handleSessionJoined(data: any) {
+  private handleSessionJoined(data: any) {
     this.clientId = data.clientId;
     this.clientIdSubject.next(this.clientId);
+
+    // Persist the confirmed session id; mark that we’re allowed to auto-reconnect
     this.sessionId = data.sessionId;
     this.localStorageService.setSessionId(data.sessionId);
+
     this.requestServerState(this.getSessionId());
     this.notificationService.emitInfoMessage(`Connected to session ${data.sessionId}.`);
   }
@@ -164,7 +184,7 @@ export class WebSocketService {
     this.sendUpdateMessage('request-latest-state', { sessionId });
   }
 
-  private getSessionId() {
+  private getSessionId(): number | undefined {
     return this.sessionId || this.localStorageService.loadSessionId();
   }
 }
