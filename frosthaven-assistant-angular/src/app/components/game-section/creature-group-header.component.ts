@@ -22,15 +22,20 @@ export class CreatureGroupHeaderComponent {
   getCreaturePic(creature: Creature): string {
     if (creature.aggressive) {
       if (creature.boss) {
-        return `./images/bb/monster.svg`
+        return `./images/bb/daemon-skull.svg`
       }
       return `./images/monster/thumbnail/fh-${creature?.type}.png`
     }
     return `./images/character/thumbnail/fh-${creature?.type}.png`
   }
 
-openConditionModal() {
-  this.appContext.selectedCreature = this.creature;
-  this.appContext.isGroupSelected = true;
-}
+  onImgError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './images/bb/daemon-skull.svg';
+  }
+
+  openConditionModal() {
+    this.appContext.selectedCreature = this.creature;
+    this.appContext.isGroupSelected = true;
+  }
 }

@@ -73,14 +73,12 @@
    height: 70px;
    border-radius: 50%;
    box-shadow: 0px 0px 5px 2px;
-   margin-right: 10px;
  }
 
 
  .base-info,
  .group-stats {
    display: flex;
-   width: calc(100% - 20px);
 
    .traits {
      .icon {
@@ -98,6 +96,7 @@
  .group-stats {
    flex-direction: column;
    flex-shrink: 2;
+   margin-left: 10px;
 
    .stats {
      justify-content: flex-start;

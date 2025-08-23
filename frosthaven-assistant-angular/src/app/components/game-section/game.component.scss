@@ -8,17 +8,8 @@
   gap: 1rem;
 
   .creature-group {
-    width: 300px;
     border: 1px solid;
     border-color: var(--font-color);
-
-    &.narrow {
-      width: 5em;
-    }
-
-    &.wide {
-      width:14em;
-    }
   }
 
 
