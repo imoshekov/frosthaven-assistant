@@ -19,13 +19,16 @@
     <img class='profile' [src]="getCreaturePic(creature)" (click)="openConditionModal()">
     <div class="group-stats" *ngIf="creature.aggressive">
       <div class="stats">
+        <div class="base-stat bordered">
+          <div class="icon attack"></div>
+          <span class="stat-value">{{creature.attack}}</span>
+        </div>
         <div class="base-stat"
           *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor > 0">
           <div class="icon shield">
             {{creature.armor + creature.roundArmor}}
           </div>
         </div>
-
         <div class="base-stat"
           *ngIf="(creature.retaliate || creature.roundRetaliate) && creature.retaliate + creature.roundRetaliate > 0">
           <div class="icon retaliate">
@@ -35,19 +38,15 @@
         <div class="traits" *ngIf="creature.aggressive">
           <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
         </div>
-        <div class=" base-stat bordered">
-          <div class="icon attack"></div>
-          {{creature.attack}}
-        </div>
       </div>
-      <div class="stats ">
-        <div class="base-stat" *ngIf="creature.flying">
-          <div class="icon flying"></div>
-        </div>
+      <div class="stats">
         <div class="base-stat bordered">
           <div class="icon move"></div>
-          {{creature.movement}}
+          <span class="stat-value">{{creature.movement}}</span>
         </div>
+        <div class="base-stat" *ngIf="creature.flying">
+          <div class="icon flying"></div>
+        </div>       
       </div>
     </div>
   </div>

@@ -45,6 +45,7 @@
    flex-direction: row;
    width: 100%;
    justify-content: center;
+   align-items: center;
  }
 
  .right-info {
@@ -72,6 +73,7 @@
    height: 70px;
    border-radius: 50%;
    box-shadow: 0px 0px 5px 2px;
+   margin-right: 10px;
  }
 
 
@@ -89,8 +91,8 @@
  }
 
  .bordered {
-   border-left: 1px solid var(--secondary-color);
-   padding-left: 10px
+   border-right: 1px solid var(--secondary-color);
+   padding-right: 10px;
  }
 
  .group-stats {
@@ -98,12 +100,12 @@
    flex-shrink: 2;
 
    .stats {
-     justify-content: end;
+     justify-content: flex-start;
      display: flex;
      margin-top: 5px;
      gap: 0.5rem;
      flex-wrap: nowrap;
-
+     
      .base-stat {
        display: flex;
        flex-direction: row;
@@ -112,7 +114,6 @@
 
        .icon {
          width: 30px;
-         /* you already set sizes */
          height: 30px;
 
          &.shield,
@@ -121,6 +122,10 @@
            justify-content: center;
            align-items: center;
          }
+       }
+
+       .stat-value{
+        min-width: 12px;
        }
      }
    }

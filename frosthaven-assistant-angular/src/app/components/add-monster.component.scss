@@ -54,10 +54,18 @@
       padding: .25rem 0;
     }
 
-   
+    .monster-type-item {
+      padding: 0.4rem 0.4rem;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--secondary-color);
+      }
+    }
+
     .buttons {
       display: flex;
-      justify-content: center; // center buttons
+      justify-content: center;
       align-items: center;
       gap: 0.5rem;
       margin-top: 1rem;
