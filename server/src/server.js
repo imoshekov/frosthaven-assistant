@@ -105,29 +105,49 @@ wss.on('connection', (ws) => {
                     break;
                 }
                 case 'elements-update': {
-                    session.elementStates = data.elements;
+                    let newStates = {};
+                    if (Array.isArray(data.elements)) {
+                        data.elements.forEach(el => { newStates[el.type] = el.state; });
+                    } else {
+                        newStates = data.elements;
+                    }
+                    session.elementStates = newStates;
                     session.lastActivity = Date.now();
-                    broadcastToSession(currentSessionId, 'elements-update', { elements: data.elements, originatingClientId });
+
+                    const elementsArray = Object.keys(session.elementStates).map(key => ({
+                        type: key,
+                        state: session.elementStates[key]
+                    }));
+
+                    broadcastToSession(currentSessionId, 'elements-update', {
+                        elements: elementsArray,
+                        originatingClientId
+                    });
                     break;
                 }
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
+
                     ws.send(JSON.stringify({
-                        type: 'characters-update', characters: session.characters
+                        type: 'characters-update',
+                        characters: session.characters
                     }));
 
                     ws.send(JSON.stringify({
-                        type: 'round-update', roundNumber: session.roundNumber
+                        type: 'round-update',
+                        roundNumber: session.roundNumber
                     }));
 
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
-                        type: key, state: session.elementStates[key]
+                        type: key,
+                        state: session.elementStates[key]
                     }));
 
                     ws.send(JSON.stringify({
                         type: 'elements-update',
                         elements: elementsArray
                     }));
+
                     break;
                 }
                 default: {
