@@ -43,6 +43,18 @@
       }
     }
 
+    .monster-type-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      max-height: 25dvh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      padding: .25rem 0;
+    }
+
+   
     .buttons {
       display: flex;
       justify-content: center; // center buttons

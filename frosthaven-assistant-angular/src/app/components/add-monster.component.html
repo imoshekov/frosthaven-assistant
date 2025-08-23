@@ -8,8 +8,10 @@
       <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()" autocomplete="off" />
     </div>
 
-    <div *ngIf="filteredMonsters.length > 0">
-      <div *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
+    <div class="monster-type-list" *ngIf="filteredMonsters.length">
+      <div class="monster-type-item"
+           *ngFor="let monster of filteredMonsters"
+           (click)="selectMonster(monster)">
         {{ monster.name }}
       </div>
     </div>

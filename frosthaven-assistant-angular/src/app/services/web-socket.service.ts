@@ -24,7 +24,6 @@ export enum WebSocketMessageType {
 export class WebSocketService {
   private ws: WebSocket | null = null;
   private isConnected = false;
-  public sessionId: number = 0;
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnecting = false;
@@ -32,8 +31,12 @@ export class WebSocketService {
   private updatingFromServer = false;
   private clientId: string | null = null;
   private clientIdSubject = new BehaviorSubject<string | null>(null);
+  private sessionId: number = 0;
+  private sessionIdSubject = new BehaviorSubject<number>(null);
 
   public clientId$ = this.clientIdSubject.asObservable();
+  public sessionId$ = this.sessionIdSubject.asObservable();
+
 
   constructor(private appContext: AppContext,
     private notificationService: NotificationService,

@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     .creature-list {
       display: flex;

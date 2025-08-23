@@ -20,10 +20,10 @@ import { WebSocketRole, WebSocketService } from '../services/web-socket.service'
 })
 export class SetupComponent {
   scenarioLevel: number = 1;
-  scenarioId: number = 0;
-  sectionId: number = 0;
-  sessionId: number = 1;
+  scenarioId: number;
+  sectionId: number;
   public clientId: string | null = null;
+  public sessionId: number = 1;
 
   constructor(
     private notificationService: NotificationService,
@@ -37,15 +37,10 @@ export class SetupComponent {
       this.webSocketService.clientId$.subscribe(id => {
         this.clientId = id;
       });
+      this.webSocketService.sessionId$.subscribe(id => {
+        this.sectionId = id;
+      });
   }
-
-  // ngOnInit(): void {
-  //   const savedSessionId = this.webSocketService['localStorageService'].loadSessionId()
-  //   if (savedSessionId) {
-  //     this.sessionId = savedSessionId;
-  //     this.webSocketService.connect(WebSocketRole.Client, savedSessionId);
-  //   }
-  // }
 
   startNewGame() {
     this.storageService.resetGame();

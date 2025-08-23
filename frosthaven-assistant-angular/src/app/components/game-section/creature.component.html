@@ -17,7 +17,8 @@
 
     <ng-template #traitsBlock>
         <div class="creature-traits">
-            <div *ngFor="let trait of creature.traits" class="trait" [style.background]="'var(--' + creature.type + '-color)'">
+            <div *ngFor="let trait of creature.traits" class="trait"
+                [style.background]="'var(--' + creature.type + '-color)'">
                 {{ trait }}
             </div>
         </div>

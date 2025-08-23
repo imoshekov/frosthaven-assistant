@@ -5,6 +5,7 @@
    padding: 0px 10px 10px 10px;
    display: flex;
    width: calc(100% - 20px);
+   min-height: 135px;
 
    &.elite {
      background: var(--elite-color);
@@ -32,6 +33,13 @@
      }
    }
  }
+
+ .creature-details {
+  &.character {
+    /* uses the variable set from the template; with a safe fallback */
+    background-color: var(--character-bg, var(--background-secondary));
+  }
+}
 
  .row {
    display: flex;
