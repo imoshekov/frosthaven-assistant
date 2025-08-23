@@ -28,6 +28,6 @@
     <app-conditions [creature]="creature" [conditions]="creature.conditions"
         (conditionToggled)="toggleCondition($event)"></app-conditions>
 </div>
-<button *ngIf="creature.aggressive" class="open-modal button cancel" (click)="openConditionModal()">
+<button *ngIf="creature.aggressive" class="open-modal button attack" (click)="openConditionModal()">
     <div class="icon attack"></div>Attack
 </button>

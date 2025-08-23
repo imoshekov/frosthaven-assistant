@@ -20,14 +20,17 @@
     <div class="group-stats" *ngIf="creature.aggressive">
       <div class="stats">
         <div class="base-stat"
-          *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor> 0">
-          <div class="icon shield"></div>
-          {{creature.armor + creature.roundArmor}}
+          *ngIf="(creature.armor || creature.roundArmor) && creature.armor + creature.roundArmor > 0">
+          <div class="icon shield">
+            {{creature.armor + creature.roundArmor}}
+          </div>
         </div>
+
         <div class="base-stat"
           *ngIf="(creature.retaliate || creature.roundRetaliate) && creature.retaliate + creature.roundRetaliate > 0">
-          <div class="icon retaliate"></div>
-          {{creature.retaliate + creature.roundRetaliate}}
+          <div class="icon retaliate">
+            {{creature.retaliate + creature.roundRetaliate}}
+          </div>
         </div>
         <div class="traits" *ngIf="creature.aggressive">
           <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>

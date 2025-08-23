@@ -35,11 +35,10 @@
  }
 
  .creature-details {
-  &.character {
-    /* uses the variable set from the template; with a safe fallback */
-    background-color: var(--character-bg, var(--background-secondary));
-  }
-}
+   &.character {
+     background-color: var(--character-bg, var(--background-secondary));
+   }
+ }
 
  .row {
    display: flex;
@@ -104,7 +103,7 @@
      margin-top: 5px;
      gap: 0.5rem;
      flex-wrap: nowrap;
-     
+
      .base-stat {
        display: flex;
        flex-direction: row;
@@ -113,7 +112,15 @@
 
        .icon {
          width: 30px;
+         /* you already set sizes */
          height: 30px;
+
+         &.shield,
+         &.retaliate {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+         }
        }
      }
    }
