@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Angular app
         working-directory: frosthaven-assistant-angular
-        run: npm run build --production
+        run: npm run build:tv
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

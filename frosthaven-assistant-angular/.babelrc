@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "chrome": "68"
+      }
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-nullish-coalescing-operator"
+  ]
+}
