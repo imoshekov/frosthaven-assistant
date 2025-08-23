@@ -6,6 +6,10 @@
     </div>
     <button class="action-button" (click)="startNewGame()">New</button>
   </div>
+  <div class="section">
+    <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Add
+      Monster</button>
+  </div>
 
   <div class="section">
     <div class="label-group">
@@ -23,10 +27,6 @@
     <button class="action-button" (click)="loadSection()">Load</button>
   </div>
 
-  <div class="section">
-    <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Add
-      Monster</button>
-  </div>
 
   <div class="section">
     <button class="action-button" (click)="startSession()">Start Server</button>
