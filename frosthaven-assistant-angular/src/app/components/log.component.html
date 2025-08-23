@@ -1,0 +1,27 @@
+<div class="log-filter">
+  <label>Filter by character:</label>
+  <select multiple (change)="onFilterChange($event)">
+    <option *ngFor="let c of characters$ | async" [value]="c.value">
+      {{ c.text }}
+    </option>
+  </select>
+</div>
+
+<table class="log-table">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Creature</th>
+      <th>Stat</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of filteredLogs$ | async">
+      <td>{{ log.time }}</td>
+      <td>{{ log.creature }}</td>
+      <td>{{ log.stat }}</td>
+      <td>{{ log.value }}</td>
+    </tr>
+  </tbody>
+</table>

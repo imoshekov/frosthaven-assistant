@@ -62,3 +62,11 @@ export interface Element {
   type: ElementType;
   state: ElementState;
 }
+
+
+export interface LogEntry {
+  time: string;
+  creature: string;
+  stat: string;
+  value: any;
+}

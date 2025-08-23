@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { LocalStorageService } from './services/local-storage.service';
-import { WebSocketService } from './services/web-socket.service';
 import { CommonModule } from '@angular/common';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
 import { SetupComponent } from './components/setup.component';
@@ -12,6 +11,7 @@ import { Element, ElementState, ElementType } from './types/game-types';
 import { ElementComponent } from './components/element.component'; 
 import { AttackModalComponent } from './components/attack/attack-modal.component';
 import { RoundComponent } from './components/round.component';
+import { LogComponent } from './components/log.component';
 
 
 @Component({
@@ -28,7 +28,8 @@ import { RoundComponent } from './components/round.component';
     ElementComponent,
     AttackModalComponent,
     RoundComponent,
-    AddMonsterComponent
+    AddMonsterComponent,
+    LogComponent
   ]
 })
 export class App {

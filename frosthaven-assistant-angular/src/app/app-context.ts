@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
 import { NotificationService } from './services/notification.service';
+import { LogService } from './services/log.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -34,7 +35,8 @@ export class AppContext {
 
     constructor(
         private dataLoader: DataLoaderService,
-        private creatureFactory: CreatureFactoryService
+        private creatureFactory: CreatureFactoryService,
+        private logService: LogService
     ) {
         this.addDefaultCharacters();
     }
@@ -62,7 +64,7 @@ export class AppContext {
     }
 
     setCreatures(creatures: Creature[]) {
-        this.creaturesSubject.next(creatures);      
+        this.creaturesSubject.next(creatures);
     }
 
     addCreature(creature: Creature) {
@@ -118,7 +120,11 @@ export class AppContext {
         } else {
             (creatureToUpdate as any)[stat] = value;
         }
-
+        this.logService.addLog(
+            creatureToUpdate.name ?? creatureToUpdate.type,
+            stat,
+            value
+        );
         this.creaturesSubject.next([...creatures]);
     }
 
