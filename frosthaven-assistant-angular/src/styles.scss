@@ -159,10 +159,18 @@ label {
     justify-content: center;
 }
 
-.creature  {
+.creature {
     .container {
         .conditions {
             border: none;
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column !important;
+        padding: 0px !important;
+        margin-top: 0px !important;
     }
 }

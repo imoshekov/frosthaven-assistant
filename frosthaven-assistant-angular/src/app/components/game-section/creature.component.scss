@@ -12,7 +12,7 @@
         background-color: var(--background-color);
     }
 
-    &.boss{
+    &.boss {
         background-color: var(--boss-color);
     }
 
@@ -27,17 +27,17 @@
 }
 
 .creature-traits {
-  display: flex;
-  flex-direction: column;
-  gap: 4px; 
-  font-size: 1rem;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 1rem;
+    width: 100%;
 
-  .trait {
-    border-radius: 6px;
-    padding: 2px 6px;
-    text-align: center;
-  }
+    .trait {
+        border-radius: 6px;
+        padding: 2px 6px;
+        text-align: center;
+    }
 }
 
 input {
@@ -87,5 +87,15 @@ button.open-modal {
         margin-right: 10px;
         width: 24px;
         height: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        justify-content: center;
+    }
+
+    .container .initiative {
+        border-radius: 30px;
     }
 }
