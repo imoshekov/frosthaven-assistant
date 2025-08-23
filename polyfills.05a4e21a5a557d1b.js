@@ -210,7 +210,7 @@
       try {
         const t = Ce.navigator.userAgent;
         (-1 !== t.indexOf("MSIE ") || -1 !== t.indexOf("Trident/") || -1 !== t.indexOf("Edge/")) && (Ue = !0);
-      } catch (t) {}
+      } catch {}
       return Ue;
     }
     function nt(t) {
@@ -591,7 +591,7 @@
               const H = t.ObjectGetOwnPropertyDescriptor(A, d);
               H && H.value ? (H.value = t.wrapWithCurrentZone(H.value, C), t._redefineProperty(v.prototype, d, H)) : A[d] && (A[d] = t.wrapWithCurrentZone(A[d], C));
             } else A[d] && (A[d] = t.wrapWithCurrentZone(A[d], C));
-          } catch (H) {}
+          } catch {}
         }), T.call(r, g, v, D);
       }, t.attachOriginToPatched(r[e], T);
     }
@@ -1004,7 +1004,7 @@
             try {
               const a = c[H];
               "function" == typeof a && a.call(this, f);
-            } catch (a) {}
+            } catch {}
           }
           function K(f) {
             return f && "function" == typeof f.then;
@@ -1098,7 +1098,7 @@
                   rejection: f[h],
                   promise: f
                 });
-              } catch (a) {}
+              } catch {}
               f[b] = Z;
               for (let a = 0; a < v.length; a++) f === v[a].promise && v.splice(a, 1);
             }
@@ -1143,7 +1143,7 @@
               let u = 0;
               try {
                 for (let p of a) u++, s.push(j.resolve(p));
-              } catch (p) {
+              } catch {
                 return Promise.reject(new Q([], "All promises were rejected"));
               }
               if (0 === u) return Promise.reject(new Q([], "All promises were rejected"));
