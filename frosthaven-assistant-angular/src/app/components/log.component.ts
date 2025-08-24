@@ -5,6 +5,7 @@ import { map, Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { LogService } from '../services/log.service';
 import { LogEntry } from '../types/game-types';
 import { AppContext } from '../app-context';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-log',
@@ -26,7 +27,7 @@ export class LogComponent implements OnInit {
   filteredLogs$!: Observable<LogEntry[]>; 
   totalPages$!: Observable<number>;
 
-  constructor(private appContext: AppContext, private logService: LogService) { }
+  constructor(private appContext: AppContext, private logService: LogService, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.logs$ = this.logService.logs$;
@@ -108,6 +109,7 @@ export class LogComponent implements OnInit {
         log.oldValue,
         false
       );
+      this.notificationService.emitInfoMessage(`Reverted ${log.stat} to ${log.oldValue} for ${log.creature}`);
       return;
     }
 

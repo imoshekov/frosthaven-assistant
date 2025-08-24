@@ -1,6 +1,6 @@
-<div class="log-container" *ngIf="(characters$ | async)?.length">
+<div class="log-container">
   <span>Audit History</span>
-  <div class="log-filter">
+  <div class="log-filter" *ngIf="(characters$ | async)?.length">
     <select multiple (change)="onFilterChange($event)">
       <option *ngFor="let c of characters$ | async" [value]="c.value">
         {{ c.text }}
@@ -8,7 +8,7 @@
     </select>
   </div>
 
-  <table class="log-table">
+  <table class="log-table" >
     <thead>
       <tr>
         <th>When</th>
