@@ -3,7 +3,6 @@ import { Creature, CreatureConditions, Element, ElementState, ElementType } from
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
-import { NotificationService } from './services/notification.service';
 import { LogService } from './services/log.service';
 
 @Injectable({ providedIn: 'root' })

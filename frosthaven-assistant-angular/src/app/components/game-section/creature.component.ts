@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../app-context';
 import { Creature, CreatureConditions } from '../../types/game-types';
-import { Subject, takeUntil } from 'rxjs';
 import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { ConditionsComponent } from '../conditions.component';

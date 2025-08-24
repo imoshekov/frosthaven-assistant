@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Creature, CreatureConditions } from '../types/game-types';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../app-context';
 
 @Component({
   selector: 'app-conditions',
@@ -10,6 +9,7 @@ import { AppContext } from '../app-context';
   standalone: true,
   imports: [CommonModule]
 })
+
 export class ConditionsComponent implements OnInit{
   @Input() creature!: Creature;
   @Input() conditions: CreatureConditions[];
