@@ -5,6 +5,7 @@ import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
 import { LogService } from './services/log.service';
 import { NotificationService } from './services/notification.service';
+import { DbService } from './services/db.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -22,6 +23,9 @@ export class AppContext {
     private roundNumberSubject = new BehaviorSubject<number>(1);
     roundNumber$ = this.roundNumberSubject.asObservable();
 
+    private defaultLevelSubject = new BehaviorSubject<number>(1);
+    defaultLevel$ = this.defaultLevelSubject.asObservable();
+
     private elementsSubject = new BehaviorSubject<Element[]>([
         { type: ElementType.Fire, state: ElementState.None },
         { type: ElementType.Ice, state: ElementState.None },
@@ -37,7 +41,8 @@ export class AppContext {
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService,
         private logService: LogService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private db: DbService
     ) {
         this.addDefaultCharacters();
     }
@@ -199,47 +204,35 @@ export class AppContext {
         return creature;
     }
 
-    private addDefaultCharacters() {
-        const selectedCharacters: { name: string, type: string; level: number }[] = [
-            {
-                "name": "Аньемонье",
-                "type": "coral",
-                "level": 3
-            },
-            {
-                "name": "Arrabbiatus",
-                "type": "blinkblade",
-                "level": 7
-            },
-            {
-                "name": "Калин",
-                "type": "meteor",
-                "level": 3
-            },
-            {
-                "name": "Stef4o",
-                "type": "fist",
-                "level": 5
-            }
-        ];
-        this.defaultLevel = Math.round((selectedCharacters.reduce((sum, c) => sum + c.level, 0) / selectedCharacters.length) / 2);
+    private async addDefaultCharacters() {
+        try {
+            const selectedCharacters = await this.db.list();
+            console.log(selectedCharacters);
+            const levels = selectedCharacters.map(c => Number(c.level) || 1);
+            const avg = levels.reduce((sum, n) => sum + n, 0) / levels.length;
 
-        const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
-            const charData = this.dataLoader.getData().characters.find(c => c.name === type);
+            const defaultLevel = Math.max(1, Math.round(avg / 2));
+            this.defaultLevelSubject.next(defaultLevel);
 
-            const stats = charData?.stats.find(s => s.level === level);
-            const hp = stats?.health ?? 10;
-            const traits = charData?.traits ?? [];
+            const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
+                const charData = this.dataLoader.getData().characters.find(c => c.name === type);
+                const stats = charData?.stats?.find(s => s.level === Number(level));
+                const hp = Number(stats?.health) || 10;
+                const traits = charData?.traits ?? [];
 
-            return this.creatureFactory.createCreature({
-                name,
-                type,
-                hp,
-                traits,
-                level,
-                aggressive: false
+                return this.creatureFactory.createCreature({
+                    name,
+                    type,
+                    hp,
+                    traits,
+                    level: Number(level) || 1,
+                    aggressive: false
+                });
             });
-        });
-        this.addCreatures(defaultCharacters);
+
+            this.addCreatures(defaultCharacters);
+        } catch (err) {
+            console.error('addDefaultCharacters failed', err);
+        }
     }
 }

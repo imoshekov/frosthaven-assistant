@@ -33,13 +33,15 @@ export class SetupComponent {
     private creatureFactory: CreatureFactoryService,
     private webSocketService: WebSocketService
   ) {
-    this.scenarioLevel = appContext.defaultLevel,
-      this.webSocketService.clientId$.subscribe(id => {
-        this.clientId = id;
-      });
-      this.webSocketService.sessionId$.subscribe(id => {
-        this.sectionId = id;
-      });
+    this.appContext.defaultLevel$.subscribe(val => {
+      this.scenarioLevel = val;
+    });
+    this.webSocketService.clientId$.subscribe(id => {
+      this.clientId = id;
+    });
+    this.webSocketService.sessionId$.subscribe(id => {
+      this.sectionId = id;
+    });
   }
 
   startNewGame() {
@@ -67,7 +69,6 @@ export class SetupComponent {
   }
 
   loadSection(): void {
-    //formatting as input type tel on mobile phones does not allow . character
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
     const section = this.dataLoader.getData().sections.find(s => s.index === sectionIdFormatted);
     if (!section || !section.rooms || section.rooms.length === 0 || !section.rooms[0].monster) {
