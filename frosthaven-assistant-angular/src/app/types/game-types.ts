@@ -63,10 +63,10 @@ export interface Element {
   state: ElementState;
 }
 
-
 export interface LogEntry {
   time: string;
-  creature: string;
+  creature: string; 
   stat: string;
   value: any;
+  oldValue: any;
 }

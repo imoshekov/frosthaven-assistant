@@ -103,9 +103,11 @@ export class AppContext {
         );
     }
 
+
     updateCreatureBaseStat(creatureId: string, stat: keyof Creature, value: any, applyToAllOfType?: boolean) {
         const creatures = this.getCreatures();
         const creatureToUpdate = this.findCreature(creatureId);
+        const currentValue: any = creatureToUpdate[stat];
         if (stat === 'name') {
             value = this.creatureFactory.createCreatureName(creatureToUpdate);
         }
@@ -119,11 +121,8 @@ export class AppContext {
         } else {
             (creatureToUpdate as any)[stat] = value;
         }
-        this.logService.addLog(
-            creatureToUpdate.name ?? creatureToUpdate.type,
-            stat,
-            value
-        );
+        this.logService.addLog(creatureToUpdate.id, creatureToUpdate.name, stat, value, currentValue);
+
         this.creaturesSubject.next([...creatures]);
     }
 

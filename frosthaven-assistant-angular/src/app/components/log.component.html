@@ -1,5 +1,5 @@
+<span>Audit History</span>
 <div class="log-filter">
-  <label>Filter by character:</label>
   <select multiple (change)="onFilterChange($event)">
     <option *ngFor="let c of characters$ | async" [value]="c.value">
       {{ c.text }}
@@ -10,10 +10,11 @@
 <table class="log-table">
   <thead>
     <tr>
-      <th>Time</th>
-      <th>Creature</th>
-      <th>Stat</th>
-      <th>Value</th>
+      <th>When</th>
+      <th>Who</th>
+      <th>What</th>
+      <th>Was</th>
+      <th>Is</th>
     </tr>
   </thead>
   <tbody>
@@ -21,7 +22,15 @@
       <td>{{ log.time }}</td>
       <td>{{ log.creature }}</td>
       <td>{{ log.stat }}</td>
+      <td>{{ log.oldValue }}</td>
       <td>{{ log.value }}</td>
     </tr>
   </tbody>
 </table>
+
+<!-- Pager -->
+<div class="pager" *ngIf="(totalPages$ | async) as total">
+  <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>
+  <span>Page {{ currentPage$.value }} / {{ total }}</span>
+  <button (click)="nextPage(total)" [disabled]="currentPage$.value === total">Next</button>
+</div>

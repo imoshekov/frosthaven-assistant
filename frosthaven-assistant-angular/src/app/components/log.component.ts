@@ -1,43 +1,97 @@
+// log.component.ts
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { LogService} from '../services/log.service';
+import { map, Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { LogService } from '../services/log.service';
 import { LogEntry } from '../types/game-types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppContext } from '../app-context';
 
 @Component({
   selector: 'app-log',
   standalone: true,
-  imports: [CommonModule, FormsModule],   // ✅ async and ngModel pipes
+  imports: [CommonModule, FormsModule],
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss']
 })
-
 export class LogComponent implements OnInit {
   logs$!: Observable<LogEntry[]>;
   characters$!: Observable<{ text: string; value: string }[]>;
-  filteredLogs$!: Observable<LogEntry[]>;
 
-  selected: string[] = [];
+  // internal reactive state
+  private selectedIds$ = new BehaviorSubject<string[]>([]);
+  public currentPage$ = new BehaviorSubject<number>(1);
 
-  constructor(private logService: LogService) {}
+  // config
+  pageSize = 10;
+
+  // streams
+  private filteredAllLogs$!: Observable<LogEntry[]>;
+  filteredLogs$!: Observable<LogEntry[]>;  // paged
+  totalPages$!: Observable<number>;
+
+  constructor(private appContext: AppContext, private logService: LogService) { }
 
   ngOnInit() {
     this.logs$ = this.logService.logs$;
-    this.characters$ = this.logService.characters$;
-    this.filteredLogs$ = this.logs$; // default: show all logs
+
+    this.characters$ = combineLatest([
+      this.appContext.creatures$,     // live creatures stream
+      this.logService.loggedOptions$  // historical IDs from logs
+    ]).pipe(
+      map(([creatures, logged]) => {
+        const mapById = new Map<string, string>();
+
+        // start with historical (dead/removed still included)
+        for (const o of logged) mapById.set(o.value, o.text);
+
+        // overlay live aggressive; live name wins if present
+        creatures
+          .filter(c => c.aggressive)
+          .forEach(c => mapById.set(c.id, c.name));
+
+        return [...mapById.entries()]
+          .map(([value, text]) => ({ value, text }))
+          .sort((a, b) => a.text.localeCompare(b.text));
+      })
+    );
+
+    //filter by selected IDs
+    this.filteredAllLogs$ = combineLatest([this.logs$, this.selectedIds$]).pipe(
+      map(([logs, ids]) => (ids.length === 0 ? logs : this.logService.getLogsByIds(ids)))
+    );
+
+    //compute total pages based
+    this.totalPages$ = this.filteredAllLogs$.pipe(
+      map(arr => Math.max(1, Math.ceil(arr.length / this.pageSize)))
+    );
+
+    //slice page
+    this.filteredLogs$ = combineLatest([this.filteredAllLogs$, this.currentPage$, this.totalPages$]).pipe(
+      map(([logs, page, totalPages]) => {
+        // clamp page if data shrank
+        const safePage = Math.min(Math.max(page, 1), totalPages);
+        if (safePage !== page) this.currentPage$.next(safePage);
+        const start = (safePage - 1) * this.pageSize;
+        return logs.slice(start, start + this.pageSize);
+      })
+    );
   }
 
   onFilterChange(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selected = Array.from(target.selectedOptions).map(o => o.value);
+    const ids = Array.from(target.selectedOptions).map(o => o.value);
+    this.selectedIds$.next(ids);
+    this.currentPage$.next(1); // reset to first page on filter change
+  }
 
-    this.filteredLogs$ = this.logs$.pipe(
-      map((logs: LogEntry[]) =>
-        this.selected.length === 0
-          ? logs
-          : logs.filter(l => this.selected.includes(l.creature))
-      )
-    );
+  prevPage(totalPages: number) {
+    const next = Math.max(1, this.currentPage$.value - 1);
+    this.currentPage$.next(next);
+  }
+
+  nextPage(totalPages: number) {
+    const next = Math.min(totalPages, this.currentPage$.value + 1);
+    this.currentPage$.next(next);
   }
 }

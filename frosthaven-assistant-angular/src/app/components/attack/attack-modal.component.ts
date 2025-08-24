@@ -33,10 +33,9 @@ export class AttackModalComponent {
     this.tempConditions.push(condition);
   }
 
-
   attackCreature(): void {
     if (this.attack <= 0) {
-      return
+      return;
     }
     const calculatedDamage = this.calculateDamage();
     const resultHp = this.creature.hp - calculatedDamage;
