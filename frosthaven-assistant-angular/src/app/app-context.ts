@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
 import { CreatureFactoryService } from './services/creature-factory.service';
 import { LogService } from './services/log.service';
+import { NotificationService } from './services/notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -35,7 +36,8 @@ export class AppContext {
     constructor(
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService,
-        private logService: LogService
+        private logService: LogService,
+        private notificationService: NotificationService
     ) {
         this.addDefaultCharacters();
     }
@@ -77,6 +79,7 @@ export class AppContext {
         ]);
     }
 
+    //DO NOT use it for deaths — call killCreature instead.
     removeCreature(id: string) {
         this.creaturesSubject.next(
             this.creaturesSubject.value.filter(c => c.id !== id)
@@ -87,22 +90,22 @@ export class AppContext {
         return this.graveyardSubject.value;
     }
 
-
     setGraveyard(creatures: Creature[]) {
         this.graveyardSubject.next(creatures);
     }
 
     addGraveyard(creature: Creature) {
-        this.graveyardSubject.next([...this.graveyardSubject.value, this.creatureFactory.createCreature(creature)]);
+        this.graveyardSubject.next([
+            ...this.graveyardSubject.value,
+            JSON.parse(JSON.stringify(creature))
+        ]);
     }
-
 
     removeGraveyard(id: string) {
         this.graveyardSubject.next(
             this.graveyardSubject.value.filter(c => c.id !== id)
         );
     }
-
 
     updateCreatureBaseStat(creatureId: string, stat: keyof Creature, value: any, applyToAllOfType?: boolean) {
         const creatures = this.getCreatures();
@@ -141,6 +144,53 @@ export class AppContext {
         this.creaturesSubject.next([...this.getCreatures()]);
     }
 
+    killCreature(creatureId: string) {
+        const creature = this.findCreature(creatureId);
+        if (!creature) return;
+
+        // 1) remove from live list
+        const live = this.creaturesSubject.value.filter(c => c.id !== creatureId);
+        this.creaturesSubject.next(live);
+
+        // 2) add to graveyard (PRESERVE THE SAME ID!)
+        // deep clone to decouple references; do NOT regenerate id
+        const deadCopy = JSON.parse(JSON.stringify(creature));
+        this.addGraveyard(deadCopy);
+
+        // 3) audit + notify
+        this.logService.addLog(creature.id, creature.name, 'killed', true, false);
+        this.notificationService.emitInfoMessage(`${creature.name} has been killed!`);
+    }
+
+    reviveCreature(creatureId: string): boolean {
+        const gy = this.getGraveyard();
+        const idx = gy.findIndex(c => c.id === creatureId);
+        if (idx === -1) return false;
+
+        const revived = JSON.parse(JSON.stringify(gy[idx]));
+
+        //look up the last HP from logs
+        const lastHp = this.logService.getLastHpForCreature(creatureId);
+        if (typeof lastHp === 'number') {
+            revived.hp = lastHp;
+        } else {
+            revived.hp = 1; // fallback
+        }
+
+        revived.aggressive = true;
+
+        //remove from graveyard
+        const nextGY = [...gy];
+        nextGY.splice(idx, 1);
+        this.setGraveyard(nextGY);
+
+        //add back to live
+        this.creaturesSubject.next([...this.creaturesSubject.value, revived]);
+
+        this.logService.addLog(revived.id, revived.name, 'revived', revived.hp, 0);
+        this.notificationService.emitInfoMessage(`${revived.name} has been revived!`);
+        return true;
+    }
 
     private findCreature(creatureId: string): Creature {
         const creatures = this.getCreatures();
@@ -148,7 +198,6 @@ export class AppContext {
         if (!creature) throw Error("Creature not found");
         return creature;
     }
-
 
     private addDefaultCharacters() {
         const selectedCharacters: { name: string, type: string; level: number }[] = [

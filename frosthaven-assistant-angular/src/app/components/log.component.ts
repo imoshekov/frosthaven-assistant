@@ -1,10 +1,9 @@
-// log.component.ts
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { map, Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { LogService } from '../services/log.service';
 import { LogEntry } from '../types/game-types';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { AppContext } from '../app-context';
 
 @Component({
@@ -18,16 +17,13 @@ export class LogComponent implements OnInit {
   logs$!: Observable<LogEntry[]>;
   characters$!: Observable<{ text: string; value: string }[]>;
 
-  // internal reactive state
   private selectedIds$ = new BehaviorSubject<string[]>([]);
   public currentPage$ = new BehaviorSubject<number>(1);
 
-  // config
   pageSize = 10;
 
-  // streams
   private filteredAllLogs$!: Observable<LogEntry[]>;
-  filteredLogs$!: Observable<LogEntry[]>;  // paged
+  filteredLogs$!: Observable<LogEntry[]>; 
   totalPages$!: Observable<number>;
 
   constructor(private appContext: AppContext, private logService: LogService) { }
@@ -99,11 +95,23 @@ export class LogComponent implements OnInit {
     const creatureId = this.logService.getCreatureIdForEntry(log);
     if (!creatureId) return;
 
-    // If the log has an oldValue, just restore it via your existing API
-    if (typeof (log as any).oldValue !== 'undefined') {
-      this.appContext.updateCreatureBaseStat(creatureId, log.stat as any, (log as any).oldValue, false);
+    if (log.stat === 'killed' && log.value === true) {
+      this.appContext.reviveCreature(creatureId);
       return;
     }
+
+    //handle base stat reverts (hp, standee, name, etc.)
+    if (typeof log.oldValue !== 'undefined') {
+      this.appContext.updateCreatureBaseStat(
+        creatureId,
+        log.stat as any,
+        log.oldValue,
+        false
+      );
+      return;
+    }
+
+    // TODO: handle condition+ / condition- undo
     if (log.stat === 'condition+' && log.value) {
       (this.appContext as any).removeCondition?.(creatureId, log.value);
       return;
@@ -112,14 +120,5 @@ export class LogComponent implements OnInit {
       (this.appContext as any).addCondition?.(creatureId, log.value);
       return;
     }
-
-    // If it's something like "killed" or "spawned", undo requires app support:
-    // e.g., appContext.reviveCreature / removeCreature — only possible if you keep the creature around.
-  }
-
-  isRevertible(log: LogEntry): boolean {
-    return typeof (log as any).oldValue !== 'undefined'
-      || log.stat === 'condition+'
-      || log.stat === 'condition-';
   }
 }

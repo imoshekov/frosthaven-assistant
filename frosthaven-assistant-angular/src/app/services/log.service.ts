@@ -33,16 +33,11 @@ export class LogService {
     this._logs.next([entry, ...this._logs.value]);
     const current = this.byCreatureId.get(creatureId) ?? [];
     this.byCreatureId.set(creatureId, [entry, ...current]);
-    this.entryToId.set(entry, creatureId); 
+    this.entryToId.set(entry, creatureId);
   }
 
   getCreatureIdForEntry(entry: LogEntry): string | undefined {
     return this.entryToId.get(entry);
-  }
-
-  clear(): void {
-    this.byCreatureId.clear();
-    this._logs.next([]);
   }
 
   getLogsByIds(ids: string[]): LogEntry[] {
@@ -57,6 +52,25 @@ export class LogService {
     collected.sort((a, b) => (order.get(a)! - order.get(b)!));
 
     return collected;
+  }
+
+  getLastHpForCreature(creatureId: string): number | undefined {
+    const arr = this.byCreatureId.get(creatureId);
+    if (!arr) return undefined;
+
+    for (const entry of arr) {
+      if (entry.stat === 'hp') {
+        // return the old value if hp was set to 0
+        if (entry.value <= 0 && typeof entry.oldValue === 'number') {
+          return entry.oldValue;
+        }
+        // otherwise just return the logged value
+        if (typeof entry.value === 'number') {
+          return entry.value;
+        }
+      }
+    }
+    return undefined;
   }
 
   private formatDate(date: Date): string {

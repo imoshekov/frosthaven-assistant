@@ -14,8 +14,8 @@
         <th>When</th>
         <th>Who</th>
         <th>What</th>
-        <th>Was</th>
         <th>Is</th>
+        <th>Was</th>
         <th>Shit</th>
       </tr>
     </thead>
@@ -24,10 +24,10 @@
         <td>{{ log.time }}</td>
         <td>{{ log.creature }}</td>
         <td>{{ log.stat }}</td>
-        <td>{{ log.oldValue }}</td>
         <td>{{ log.value }}</td>
+        <td>{{ log.oldValue }}</td>
         <td>
-          <button (click)="undo(log)" [disabled]="!isRevertible(log)">Undo</button>
+          <button (click)="undo(log)">Undo</button>
         </td>
       </tr>
     </tbody>

@@ -41,8 +41,7 @@ export class AttackModalComponent {
     const resultHp = this.creature.hp - calculatedDamage;
     this.appContext.updateCreatureBaseStat(this.creature.id!, 'hp', this.creature.hp - calculatedDamage);
     if (resultHp <= 0) {
-      this.appContext.removeCreature(this.creature.id!);
-      this.notificationService.emitInfoMessage(`${this.creature.name} has been killed!`);
+      this.appContext.killCreature(this.creature.id!);
     }
   }
 

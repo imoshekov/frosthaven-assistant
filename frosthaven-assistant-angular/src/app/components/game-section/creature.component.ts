@@ -32,8 +32,7 @@ export class CreatureComponent {
   updateCreatureHp(creatureId: string, value: number): void {
     this.appContext.updateCreatureBaseStat(creatureId, 'hp', value);
     if (value <= 0) {
-      this.appContext.removeCreature(creatureId);
-      this.notificationService.emitInfoMessage(`${this.creature.name} has been killed!`);
+      this.appContext.killCreature(creatureId!);
     }
   }
 
