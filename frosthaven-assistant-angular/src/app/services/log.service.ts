@@ -20,7 +20,9 @@ export class LogService {
     })
   );
 
-  addLog(creatureId: string, creatureName: string, stat: string, value: any, oldValue: any): void {
+  private entryToId = new WeakMap<LogEntry, string>();
+
+  addLog(creatureId: string, creatureName: string, stat: string, value: any, oldValue: any) {
     const entry: LogEntry = {
       time: this.formatDate(new Date()),
       creature: creatureName,
@@ -28,22 +30,14 @@ export class LogService {
       value,
       oldValue
     };
-
     this._logs.next([entry, ...this._logs.value]);
-
     const current = this.byCreatureId.get(creatureId) ?? [];
     this.byCreatureId.set(creatureId, [entry, ...current]);
-    this.updateLastForCreature(creatureId, { value: value });
+    this.entryToId.set(entry, creatureId); 
   }
 
-  updateLastForCreature(creatureId: string, patch: Partial<Pick<LogEntry, 'creature' | 'stat' | 'value'>>): boolean {
-    const arr = this.byCreatureId.get(creatureId);
-    if (!arr?.length) return false;
-
-    Object.assign(arr[0], patch);
-
-    this._logs.next([...this._logs.value]);
-    return true;
+  getCreatureIdForEntry(entry: LogEntry): string | undefined {
+    return this.entryToId.get(entry);
   }
 
   clear(): void {

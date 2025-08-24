@@ -1,36 +1,41 @@
-<span>Audit History</span>
-<div class="log-filter">
-  <select multiple (change)="onFilterChange($event)">
-    <option *ngFor="let c of characters$ | async" [value]="c.value">
-      {{ c.text }}
-    </option>
-  </select>
-</div>
+<div class="log-container" *ngIf="(characters$ | async)?.length">
+  <span>Audit History</span>
+  <div class="log-filter">
+    <select multiple (change)="onFilterChange($event)">
+      <option *ngFor="let c of characters$ | async" [value]="c.value">
+        {{ c.text }}
+      </option>
+    </select>
+  </div>
 
-<table class="log-table">
-  <thead>
-    <tr>
-      <th>When</th>
-      <th>Who</th>
-      <th>What</th>
-      <th>Was</th>
-      <th>Is</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let log of filteredLogs$ | async">
-      <td>{{ log.time }}</td>
-      <td>{{ log.creature }}</td>
-      <td>{{ log.stat }}</td>
-      <td>{{ log.oldValue }}</td>
-      <td>{{ log.value }}</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th>When</th>
+        <th>Who</th>
+        <th>What</th>
+        <th>Was</th>
+        <th>Is</th>
+        <th>Shit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of filteredLogs$ | async">
+        <td>{{ log.time }}</td>
+        <td>{{ log.creature }}</td>
+        <td>{{ log.stat }}</td>
+        <td>{{ log.oldValue }}</td>
+        <td>{{ log.value }}</td>
+        <td>
+          <button (click)="undo(log)" [disabled]="!isRevertible(log)">Undo</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- Pager -->
-<div class="pager" *ngIf="(totalPages$ | async) as total">
-  <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>
-  <span>Page {{ currentPage$.value }} / {{ total }}</span>
-  <button (click)="nextPage(total)" [disabled]="currentPage$.value === total">Next</button>
+  <div class="pager" *ngIf="(totalPages$ | async) as total">
+    <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>
+    <span>Page {{ currentPage$.value }} / {{ total }}</span>
+    <button (click)="nextPage(total)" [disabled]="currentPage$.value === total">Next</button>
+  </div>
 </div>

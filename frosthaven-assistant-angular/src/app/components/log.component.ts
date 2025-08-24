@@ -94,4 +94,32 @@ export class LogComponent implements OnInit {
     const next = Math.min(totalPages, this.currentPage$.value + 1);
     this.currentPage$.next(next);
   }
+
+  undo(log: LogEntry) {
+    const creatureId = this.logService.getCreatureIdForEntry(log);
+    if (!creatureId) return;
+
+    // If the log has an oldValue, just restore it via your existing API
+    if (typeof (log as any).oldValue !== 'undefined') {
+      this.appContext.updateCreatureBaseStat(creatureId, log.stat as any, (log as any).oldValue, false);
+      return;
+    }
+    if (log.stat === 'condition+' && log.value) {
+      (this.appContext as any).removeCondition?.(creatureId, log.value);
+      return;
+    }
+    if (log.stat === 'condition-' && log.value) {
+      (this.appContext as any).addCondition?.(creatureId, log.value);
+      return;
+    }
+
+    // If it's something like "killed" or "spawned", undo requires app support:
+    // e.g., appContext.reviveCreature / removeCreature — only possible if you keep the creature around.
+  }
+
+  isRevertible(log: LogEntry): boolean {
+    return typeof (log as any).oldValue !== 'undefined'
+      || log.stat === 'condition+'
+      || log.stat === 'condition-';
+  }
 }
