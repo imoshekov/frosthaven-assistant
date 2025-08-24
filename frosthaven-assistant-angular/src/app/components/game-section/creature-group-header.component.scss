@@ -6,6 +6,7 @@
    display: flex;
    width: calc(100% - 20px);
    min-height: 135px;
+   
 
    &.elite {
      background: var(--elite-color);
@@ -100,7 +101,7 @@
  .group-stats {
    flex-direction: column;
    flex-shrink: 2;
-   margin-left: 10px;
+   margin-left: 20px;
 
    .stats {
      justify-content: flex-start;
