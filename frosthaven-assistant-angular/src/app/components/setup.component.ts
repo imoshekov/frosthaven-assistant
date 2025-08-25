@@ -22,9 +22,10 @@ export class SetupComponent {
   scenarioLevel: number = 1;
   scenarioId: number;
   sectionId: number;
-  public clientId: string | null = null;
-  public sessionId: number = 1;
+  sessionId: number = 1;
 
+  public clientId: string | null = null;
+  
   constructor(
     private notificationService: NotificationService,
     private storageService: LocalStorageService,
@@ -40,7 +41,9 @@ export class SetupComponent {
       this.clientId = id;
     });
     this.webSocketService.sessionId$.subscribe(id => {
-      this.sectionId = id;
+      if (id != null) {   
+        this.sessionId = id;
+      }
     });
   }
 
@@ -88,7 +91,7 @@ export class SetupComponent {
       this.appContext.addCreature(this.creatureFactory.createCreature(newCreature));
     });
 
-    this.notificationService.emitInfoMessage(`Loaded section ${this.sectionId} at level ${this.scenarioLevel}.`);
+    this.notificationService.emitInfoMessage(`Loaded section ${sectionIdFormatted} at level ${this.scenarioLevel}.`);
   }
 
   startSession(): void {

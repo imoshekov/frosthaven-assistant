@@ -178,7 +178,7 @@ export class AppContext {
         }
 
         //remove from graveyard (preserve ID)
-        const revived = { ...graveyard[idx] }; 
+        const revived = { ...graveyard[idx] };
         const newGrave = [...graveyard];
         newGrave.splice(idx, 1);
 
@@ -208,7 +208,6 @@ export class AppContext {
     private async addDefaultCharacters() {
         try {
             const selectedCharacters = await this.db.list();
-            console.log(selectedCharacters);
             const levels = selectedCharacters.map(c => Number(c.level) || 1);
             const avg = levels.reduce((sum, n) => sum + n, 0) / levels.length;
 
