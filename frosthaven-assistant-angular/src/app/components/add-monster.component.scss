@@ -33,6 +33,7 @@
         input[type="tel"] {
           flex: 1;
           margin-bottom: 0;
+          width: 100%;
         }
 
         input[type="checkbox"] {
@@ -72,3 +73,13 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+    .modal {
+      top: 10%;
+      width: 90%;
+    }
+    .monster-type-list {
+      max-height: 45dvh;
+    }
+  }
