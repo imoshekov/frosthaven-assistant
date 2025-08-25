@@ -1,11 +1,13 @@
 <div class="log-container">
   <span>Audit History</span>
-  <div class="log-filter" *ngIf="(characters$ | async)?.length">
-    <select multiple (change)="onFilterChange($event)">
-      <option *ngFor="let c of characters$ | async" [value]="c.value">
-        {{ c.text }}
-      </option>
-    </select>
+
+  <!-- capture async value into a template variable -->
+  <div class="log-filter" *ngIf="(characters$ | async) as chars">
+    <ng-container *ngIf="chars.length">
+      <select multiple (change)="onFilterChange($event)">
+        <option *ngFor="let c of chars" [value]="c.value">{{ c.text }}</option>
+      </select>
+    </ng-container>
   </div>
 
   <table class="log-table">
@@ -20,20 +22,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let log of filteredLogs$ | async">
+      <tr *ngFor="let log of (filteredLogs$ | async)">
         <td>{{ log.time }}</td>
         <td>{{ log.creature }}</td>
         <td>{{ log.stat }}</td>
         <td>{{ log.value }}</td>
         <td>{{ log.oldValue }}</td>
         <td>
-          <button (click)="undo(log)" class="icon undo">
-          </button>
+          <button (click)="undo(log)" class="icon undo"></button>
         </td>
       </tr>
     </tbody>
   </table>
-
 
   <div class="pager" *ngIf="(totalPages$ | async) as total">
     <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>

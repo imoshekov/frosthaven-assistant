@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Creature, CreatureConditions, Element, ElementState, ElementType } from './types/game-types';
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
@@ -40,11 +40,13 @@ export class AppContext {
     constructor(
         private dataLoader: DataLoaderService,
         private creatureFactory: CreatureFactoryService,
-        private logService: LogService,
+        private readonly logService: LogService,
         private notificationService: NotificationService,
-        private db: DbService
+        private db: DbService,
+        private injector: Injector
     ) {
         this.addDefaultCharacters();
+        this.logService.init(this.creatures$);
     }
 
     getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
@@ -129,8 +131,6 @@ export class AppContext {
         } else {
             (creatureToUpdate as any)[stat] = value;
         }
-        this.logService.addLog(creatureToUpdate.id, creatureToUpdate.name, stat, value, currentValue);
-
         this.creaturesSubject.next([...creatures]);
     }
 
@@ -163,39 +163,40 @@ export class AppContext {
         this.addGraveyard(deadCopy);
 
         // 3) audit + notify
-        this.logService.addLog(creature.id, creature.name, 'killed', true, false);
         this.notificationService.emitInfoMessage(`${creature.name} has been killed!`);
     }
 
-    reviveCreature(creatureId: string): boolean {
-        const gy = this.getGraveyard();
-        const idx = gy.findIndex(c => c.id === creatureId);
-        if (idx === -1) return false;
+    reviveCreature(creatureId: string, hp?: number): void {
+        const graveyard: Creature[] = this.getGraveyard
+            ? this.getGraveyard()
+            : (this.graveyardSubject?.value ?? []);
 
-        const revived = JSON.parse(JSON.stringify(gy[idx]));
-
-        //look up the last HP from logs
-        const lastHp = this.logService.getLastHpForCreature(creatureId);
-        if (typeof lastHp === 'number') {
-            revived.hp = lastHp;
-        } else {
-            revived.hp = 1; // fallback
+        const idx = graveyard.findIndex(g => g.id === creatureId);
+        if (idx === -1) {
+            // nothing to revive
+            return;
         }
 
+        //remove from graveyard (preserve ID)
+        const revived = { ...graveyard[idx] }; 
+        const newGrave = [...graveyard];
+        newGrave.splice(idx, 1);
+
+        //set HP + flags
+        const lastHp = Number.isFinite(hp as number) ? Number(hp) : undefined;
+        revived.hp = Math.max(1, Number(lastHp ?? revived.hp ?? 1));
         revived.aggressive = true;
 
-        //remove from graveyard
-        const nextGY = [...gy];
-        nextGY.splice(idx, 1);
-        this.setGraveyard(nextGY);
+        //add back to live list
+        const live = [...this.creaturesSubject.value, revived];
 
-        //add back to live
-        this.creaturesSubject.next([...this.creaturesSubject.value, revived]);
+        //emit + notify (and broadcast if you do WS syncing)
+        this.creaturesSubject.next(live);
+        if (this.graveyardSubject) this.graveyardSubject.next(newGrave);
 
-        this.logService.addLog(revived.id, revived.name, 'revived', revived.hp, 0);
-        this.notificationService.emitInfoMessage(`${revived.name} has been revived!`);
-        return true;
+        this.notificationService?.emitInfoMessage?.(`${revived.name} has been revived!`);
     }
+
 
     private findCreature(creatureId: string): Creature {
         const creatures = this.getCreatures();

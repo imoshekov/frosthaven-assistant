@@ -1,126 +1,104 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
+import { LogEntry, LogService } from '../services/log.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { map, Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { LogService } from '../services/log.service';
-import { LogEntry } from '../types/game-types';
-import { AppContext } from '../app-context';
-import { NotificationService } from '../services/notification.service';
+import { AppContext } from '../app-context'; // adjust path if needed
+
+type Updater = (id: string, value: any, log: LogEntry) => void;
+
 
 @Component({
   selector: 'app-log',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+  styleUrls: ['./log.component.scss'],
+  imports: [CommonModule]
 })
-export class LogComponent implements OnInit {
-  logs$!: Observable<LogEntry[]>;
-  characters$!: Observable<{ text: string; value: string }[]>;
+export class LogComponent {
+  readonly pageSize = 10;
 
-  private selectedIds$ = new BehaviorSubject<string[]>([]);
-  public currentPage$ = new BehaviorSubject<number>(1);
+  private defaultUpdate!: Updater;
+  private undoHandlers!: Record<string, Updater>;
 
-  pageSize = 10;
+  // local UI state
+  readonly currentPage$ = new BehaviorSubject<number>(1);
+  private readonly selectedIds$ = new BehaviorSubject<string[]>([]);
 
-  private filteredAllLogs$!: Observable<LogEntry[]>;
-  filteredLogs$!: Observable<LogEntry[]>; 
+  // streams (explicitly typed)
+  characters$!: Observable<{ value: string; text: string }[]>;
+  filteredAll$!: Observable<LogEntry[]>;
   totalPages$!: Observable<number>;
+  filteredLogs$!: Observable<LogEntry[]>;
 
-  constructor(private appContext: AppContext, private logService: LogService, private notificationService: NotificationService) { }
 
-  ngOnInit() {
-    this.logs$ = this.logService.logs$;
+  constructor(
+    private readonly logService: LogService,
+    private readonly appContext: AppContext
+  ) {
+    this.characters$ = this.logService.characterOptions$;
 
-    this.characters$ = combineLatest([
-      this.appContext.creatures$,     // live creatures stream
-      this.logService.loggedOptions$  // historical IDs from logs
+    this.filteredAll$ = combineLatest([
+      this.logService.logs$,
+      this.selectedIds$.pipe(startWith<string[]>([]))
     ]).pipe(
-      map(([creatures, logged]) => {
-        const mapById = new Map<string, string>();
-
-        // start with historical (dead/removed still included)
-        for (const o of logged) mapById.set(o.value, o.text);
-
-        // overlay live aggressive; live name wins if present
-        creatures
-          .filter(c => c.aggressive)
-          .forEach(c => mapById.set(c.id, c.name));
-
-        return [...mapById.entries()]
-          .map(([value, text]) => ({ value, text }))
-          .sort((a, b) => a.text.localeCompare(b.text));
+      map(([logs, selected]) => {
+        if (!selected || selected.length === 0) return logs;
+        const set = new Set(selected);
+        return logs.filter(l => (l.creatureId ? set.has(l.creatureId) : false));
       })
     );
 
-    //filter by selected IDs
-    this.filteredAllLogs$ = combineLatest([this.logs$, this.selectedIds$]).pipe(
-      map(([logs, ids]) => (ids.length === 0 ? logs : this.logService.getLogsByIds(ids)))
+    this.totalPages$ = this.filteredAll$.pipe(
+      map((arr: LogEntry[]) => Math.max(1, Math.ceil(arr.length / this.pageSize)))
     );
 
-    //compute total pages based
-    this.totalPages$ = this.filteredAllLogs$.pipe(
-      map(arr => Math.max(1, Math.ceil(arr.length / this.pageSize)))
-    );
-
-    //slice page
-    this.filteredLogs$ = combineLatest([this.filteredAllLogs$, this.currentPage$, this.totalPages$]).pipe(
-      map(([logs, page, totalPages]) => {
-        // clamp page if data shrank
-        const safePage = Math.min(Math.max(page, 1), totalPages);
-        if (safePage !== page) this.currentPage$.next(safePage);
-        const start = (safePage - 1) * this.pageSize;
-        return logs.slice(start, start + this.pageSize);
+    this.filteredLogs$ = combineLatest([this.filteredAll$, this.currentPage$]).pipe(
+      map(([arr, page]: [LogEntry[], number]) => {
+        const start = (page - 1) * this.pageSize;
+        return arr.slice(start, start + this.pageSize);
       })
     );
+    this.defaultUpdate = (id, value, log) =>
+      this.appContext.updateCreatureBaseStat(id, log.stat as any, value, false);
+
+    this.undoHandlers = {
+      killed: (id, _value, log) => {
+        const hpBeforeDelete = this.logService.getLastAliveHpBefore(log.id, id);
+        const hpFromSnapshot = (log.data?.old?.hp as number | undefined);
+        const hpAnywhere = this.logService.getLastPositiveHp(id);
+        const hp = hpBeforeDelete
+          ?? (hpFromSnapshot && hpFromSnapshot > 0 ? hpFromSnapshot : undefined)
+          ?? hpAnywhere
+          ?? 1;
+        this.appContext.reviveCreature(id, hp);
+      },
+      created: (id) => {
+        if ((this.appContext as any).killCreature) (this.appContext as any).killCreature(id);
+      },
+    };
+
   }
 
-  onFilterChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
+  onFilterChange(ev: Event) {
+    const target = ev.target as HTMLSelectElement;
     const ids = Array.from(target.selectedOptions).map(o => o.value);
+    this.currentPage$.next(1);
     this.selectedIds$.next(ids);
-    this.currentPage$.next(1); // reset to first page on filter change
   }
 
-  prevPage(totalPages: number) {
-    const next = Math.max(1, this.currentPage$.value - 1);
-    this.currentPage$.next(next);
+  prevPage(total: number) {
+    const cur = this.currentPage$.value;
+    if (cur > 1) this.currentPage$.next(cur - 1);
   }
 
-  nextPage(totalPages: number) {
-    const next = Math.min(totalPages, this.currentPage$.value + 1);
-    this.currentPage$.next(next);
+  nextPage(total: number) {
+    const cur = this.currentPage$.value;
+    if (cur < total) this.currentPage$.next(cur + 1);
   }
 
   undo(log: LogEntry) {
-    const creatureId = this.logService.getCreatureIdForEntry(log);
-    if (!creatureId) return;
-
-    if (log.stat === 'killed' && log.value === true) {
-      this.appContext.reviveCreature(creatureId);
-      return;
-    }
-
-    //handle base stat reverts (hp, standee, name, etc.)
-    if (typeof log.oldValue !== 'undefined') {
-      this.appContext.updateCreatureBaseStat(
-        creatureId,
-        log.stat as any,
-        log.oldValue,
-        false
-      );
-      this.notificationService.emitInfoMessage(`Reverted ${log.stat} to ${log.oldValue} for ${log.creature}`);
-      return;
-    }
-
-    // TODO: handle condition+ / condition- undo
-    if (log.stat === 'condition+' && log.value) {
-      (this.appContext as any).removeCondition?.(creatureId, log.value);
-      return;
-    }
-    if (log.stat === 'condition-' && log.value) {
-      (this.appContext as any).addCondition?.(creatureId, log.value);
-      return;
-    }
+    const id = log.creatureId;
+    if (!id) return;
+    (this.undoHandlers[log.stat] ?? this.defaultUpdate)(id, log.oldValue, log);
   }
 }
