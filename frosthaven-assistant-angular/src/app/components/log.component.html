@@ -8,7 +8,7 @@
     </select>
   </div>
 
-  <table class="log-table" >
+  <table class="log-table">
     <thead>
       <tr>
         <th>When</th>
@@ -27,11 +27,13 @@
         <td>{{ log.value }}</td>
         <td>{{ log.oldValue }}</td>
         <td>
-          <button (click)="undo(log)">Undo</button>
+          <button (click)="undo(log)" class="icon undo">
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+
 
   <div class="pager" *ngIf="(totalPages$ | async) as total">
     <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>

@@ -34,7 +34,9 @@ export class MonsterComponent {
     private notificationService: NotificationService
   ) {
     this.monsters = this.dataLoader.getData().monsters;
-    this.level = appContext.defaultLevel;
+    this.appContext.defaultLevel$.subscribe(val => {
+      this.level = val;
+    });
   }
 
   onTypeInput() {
