@@ -15,24 +15,20 @@
   overflow: hidden;
   transition: all 0.3s ease;
   animation: slide-in 0.5s ease-out;
-  background-color: #fff;
+  background-color: var(--base-color-spots);
   border-left: 4px solid #777;
-  color: #212529; 
-  
+  color: var(--font-color);
+
   &.toast-error {
     border-left-color: #d9534f;
-    
+
     .toast-title {
       color: #d9534f;
     }
   }
-  
+
   &.toast-info {
-    border-left-color: #5bc0de;
-    
-    .toast-title {
-      color: #5bc0de;
-    }
+    border-left-color: var(--font-color);
   }
 }
 
@@ -41,17 +37,17 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 5px;
-  
+
   .toast-title {
     font-weight: bold;
     margin-right: 10px;
   }
-  
+
   small {
     color: #6c757d;
     font-size: 0.8em;
   }
-  
+
   .toast-close {
     background: none;
     border: none;
@@ -61,7 +57,7 @@
     cursor: pointer;
     padding: 0;
     margin-left: 10px;
-    
+
     &:hover {
       color: #212529;
     }
@@ -77,6 +73,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -88,6 +85,7 @@
     transform: translateX(0);
     opacity: 1;
   }
+
   to {
     transform: translateX(100%);
     opacity: 0;

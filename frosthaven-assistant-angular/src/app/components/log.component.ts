@@ -3,6 +3,7 @@ import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs
 import { LogEntry, LogService } from '../services/log.service';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../app-context'; // adjust path if needed
+import { NotificationService } from '../services/notification.service';
 
 type Updater = (id: string, value: any, log: LogEntry) => void;
 
@@ -33,7 +34,8 @@ export class LogComponent {
 
   constructor(
     private readonly logService: LogService,
-    private readonly appContext: AppContext
+    private readonly appContext: AppContext,
+    private readonly notificationService: NotificationService
   ) {
     this.characters$ = this.logService.characterOptions$;
 
@@ -58,8 +60,22 @@ export class LogComponent {
         return arr.slice(start, start + this.pageSize);
       })
     );
-    this.defaultUpdate = (id, value, log) =>
-      this.appContext.updateCreatureBaseStat(id, log.stat as any, value, false);
+    this.defaultUpdate = (id, value, log) => {
+      if (log.stat) {
+        const applyToAll = ['armor', 'roundArmor', 'retaliate', 'roundRetaliate'].includes(log.stat);
+
+        this.appContext.updateCreatureBaseStat(
+          id,
+          log.stat as any,
+          value,
+          applyToAll
+        );
+
+        this.notificationService.emitInfoMessage(
+          `${log.stat} restored to ${log.value}`
+        );
+      }
+    };
 
     this.undoHandlers = {
       killed: (id, _value, log) => {

@@ -18,7 +18,7 @@ export interface LogEntry {
 }
 
 export const CREATURE_AUDIT_FIELDS = [
-  'name', 'standee', 'level', 'hp', 'aggressive'
+  'name', 'standee', 'level', 'initiative', 'hp', 'aggressive', 'armor', 'roundArmor', 'retaliate', 'roundRetaliate', 'conditions'
 ] as const satisfies readonly (keyof Creature)[];
 
 export type AuditKey = typeof CREATURE_AUDIT_FIELDS[number];
@@ -28,20 +28,17 @@ export class LogService {
   private readonly logsSubject = new BehaviorSubject<LogEntry[]>([]);
   readonly logs$: Observable<LogEntry[]> = this.logsSubject.asObservable();
 
-  /** Call once (e.g., in AppContext ctor) */
   init(creatures$: Observable<Creature[]>): void {
     const snapshot$ = creatures$.pipe(
       // take an immutable snapshot of each creature we care about (base fields)
       map((arr) =>
-        (arr ?? []).map((c) => ({
-          id: c.id,
-          name: c.name,
-          type: c.type,
-          standee: c.standee,
-          level: c.level,
-          hp: c.hp,
-          aggressive: (c as any)?.aggressive
-        }))
+        (arr ?? []).map((c) => {
+          const snap: any = { id: c.id, type: c.type };
+          for (const field of CREATURE_AUDIT_FIELDS) {
+            snap[field] = (c as any)[field];
+          }
+          return snap;
+        })
       )
     );
 
@@ -101,36 +98,29 @@ export class LogService {
     const p = new Map((prev ?? []).map(c => [c.id!, c]));
     const n = new Map((next ?? []).map(c => [c.id!, c]));
     const out: LogEntry[] = [];
-    const isAgg = (c?: Creature) => !!(c as any)?.aggressive;
 
+    // creations / updates
     for (const [id, nc] of n) {
       const pc = p.get(id);
 
       if (!pc) {
-        if (isAgg(nc)) out.push(this.entry(id, nc.name ?? '(unknown)', 'created', this.pretty(nc), null, { new: this.snap(nc) }));
+        out.push(this.entry(id, nc.name ?? '(unknown)', 'created', this.pretty(nc), null, { new: this.snap(nc) }));
         continue;
       }
 
+      // compare every audited field, no special cases
       for (const k of CREATURE_AUDIT_FIELDS) {
         const oldV = (pc as any)[k];
         const newV = (nc as any)[k];
-        if (Object.is(oldV, newV)) continue;
-
-        if (k === 'aggressive') {
-          if (!!newV === true && !!oldV !== true) {
-            out.push(this.entry(id, nc.name ?? '(unknown)', 'aggressive', true, !!oldV));
-          }
-          continue;
-        }
-
-        if (isAgg(pc) || isAgg(nc)) {
+        if (!Object.is(oldV, newV)) {
           out.push(this.entry(id, nc.name ?? '(unknown)', String(k), newV, oldV));
         }
       }
     }
 
+    // removals
     for (const [id, pc] of p) {
-      if (!n.has(id) && isAgg(pc)) {
+      if (!n.has(id)) {
         out.push(this.entry(id, pc.name ?? '(unknown)', 'killed', null, this.pretty(pc), { old: this.snap(pc) }));
       }
     }
@@ -149,7 +139,7 @@ export class LogService {
     stat: string,
     value: any,
     oldValue: any,
-    data?: { new?: Partial<Creature>; old?: Partial<Creature> }   
+    data?: { new?: Partial<Creature>; old?: Partial<Creature> }
   ): LogEntry {
     return {
       id: this.randId(),
