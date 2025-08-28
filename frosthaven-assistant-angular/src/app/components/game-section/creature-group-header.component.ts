@@ -38,4 +38,11 @@ export class CreatureGroupHeaderComponent {
     this.appContext.selectedCreature = this.creature;
     this.appContext.isGroupSelected = true;
   }
+
+  hasExtraStats(creature: Creature): boolean {
+    return (creature.armor + creature.roundArmor > 0) ||
+      (creature.retaliate + creature.roundRetaliate > 0) ||
+      (creature.aggressive && creature.actions?.length > 0) ||
+      (creature.flying)
+  }
 }
