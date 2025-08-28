@@ -37,5 +37,8 @@
       max-width: none;
       width: 100%;
     }
+    .creature-list{
+      flex-direction: column !important;
+    }
   }
 }

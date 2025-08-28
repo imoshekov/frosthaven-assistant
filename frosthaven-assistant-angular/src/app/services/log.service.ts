@@ -121,9 +121,20 @@ export class LogService {
     // removals
     for (const [id, pc] of p) {
       if (!n.has(id)) {
-        out.push(this.entry(id, pc.name ?? '(unknown)', 'killed', null, this.pretty(pc), { old: this.snap(pc) }));
+        const displayName = `${pc.name ?? '(unknown)'} (killed)`;
+        out.push(
+          this.entry(
+            id,
+            displayName,
+            'killed',
+            null,
+            this.pretty(pc),
+            { old: this.snap(pc) }
+          )
+        );
       }
     }
+
 
     return out;
   }
@@ -143,7 +154,7 @@ export class LogService {
   ): LogEntry {
     return {
       id: this.randId(),
-      time: new Date().toLocaleString(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
       creatureId,
       creature: creatureName,
       stat,
@@ -164,8 +175,6 @@ export class LogService {
     };
   }
 
-  private eq(a: any, b: any) {
-    return Object.is(a, b);
-  }
   private randId(): string { return Math.random().toString(36).slice(2, 10); }
+
 }
