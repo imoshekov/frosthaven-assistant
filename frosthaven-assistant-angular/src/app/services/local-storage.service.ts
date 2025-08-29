@@ -1,28 +1,18 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Creature } from '../types/game-types';
-import { AppContext } from '../app-context';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
   // Storage keys
-  private readonly CHARACTERS = 'characters';
-  private readonly GRAVEYARD = 'graveyard';
   private readonly SESSION_ID = 'sessionId';
 
-  constructor(private appContext: AppContext) {}
+  constructor() { }
 
   load(key: string): any | null {
     const value = localStorage.getItem(key);
     return value !== null ? JSON.parse(value) : null;
   }
 
-  loadCreatures(): Creature[] {
-    return this.load(this.CHARACTERS) || this.appContext.getCreatures();
-  }
-
-  loadGraveyard(): Creature[] {
-    return this.load(this.GRAVEYARD) || this.appContext.getGraveyard();
-  }
 
   loadSessionId(): number {
     const sessionId = this.load(this.SESSION_ID);
@@ -41,19 +31,6 @@ export class LocalStorageService {
     localStorage.removeItem(key);
   }
 
-  private loadingEventSubject = new EventEmitter<boolean>();
-  loadingEvent$ = this.loadingEventSubject.asObservable();
-
-  saveGame(): void {
-    this.loadingEventSubject.emit(true);
-
-    const currentCharacterData = JSON.stringify(this.appContext.getCreatures());
-    const graveyardData = JSON.stringify(this.appContext.getGraveyard);
-    this.set(this.CHARACTERS, currentCharacterData);
-    this.set(this.GRAVEYARD, graveyardData);
-
-    this.loadingEventSubject.emit(false);
-  }
 
   resetGame(): void {
     localStorage.clear();
@@ -84,7 +61,7 @@ export class LocalStorageService {
     if (!data.rooms || !data.rooms[0] || !data.rooms[0].monster) return [];
     return data.rooms[0].monster.map((monster: any) => {
       return {
-         type: monster.name,
+        type: monster.name,
         level: level,
         isElite: monster?.type === 'elite' || monster?.player4 === 'elite',
         aggressive: true,

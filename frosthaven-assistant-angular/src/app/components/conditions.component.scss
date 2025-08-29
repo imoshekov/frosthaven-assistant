@@ -15,7 +15,8 @@
         .stat {
             display: flex;
             flex-direction: row;
-            align-items: baseline;
+            align-items: center;
+            padding-left: 10px;
         }
 
         .condition-element {

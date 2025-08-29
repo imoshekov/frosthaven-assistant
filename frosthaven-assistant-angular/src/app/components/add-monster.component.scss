@@ -4,7 +4,6 @@
   :root.no-scroll body {
     overflow: hidden;
     touch-action: none;
-    /* reduces accidental background gestures */
   }
 
   display: flex;
@@ -64,47 +63,18 @@
       box-shadow: 0 -8px 24px rgba(0, 0, 0, .3);
     }
 
-    .picker-header {
-      display: flex;
-      padding: .75rem .75rem env(safe-area-inset-right) .75rem;
-      align-items: center;
-      border-bottom: 1px solid var(--secondary-color);
-      background: var(--background);
-      justify-content: end;
-    }
 
-    .picker-search {
-      flex: 1 1 auto;
-      font-size: 1rem;
-      padding: .6rem .8rem;
-      border: 1px solid var(--secondary-color);
-      border-radius: 8px;
-    }
 
-    /* Close button */
-    .picker-close {
-      flex: 0 0 auto;
-      height: 40px;
-      min-width: 40px;
-      border-radius: 8px;
-      border: 1px solid var(--secondary-color);
-      color: var(--base-color-spots);
-    }
-
-    /* Your list gets the rest of the height and scrolls independently */
     .monster-type-list {
       flex: 1 1 auto;
       min-height: 0;
       overflow-y: auto;
       overscroll-behavior: contain;
-      /* prevent scroll chaining/pull-to-refresh */
       padding: .25rem 0;
       border-top: none;
       max-height: none;
-      /* let the sheet control height */
     }
 
-    /* Items */
     .monster-type-item {
       padding: .6rem .8rem;
       cursor: pointer;
@@ -122,6 +92,18 @@
       &:active {
         transform: translateY(1px);
       }
+    }
+
+
+    .picker-close {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--secondary-color);
+      color: var(--base-color-spots);
     }
 
     .buttons {
@@ -143,6 +125,13 @@
   .monster-type-list {
     max-height: 45dvh;
   }
-  .monster-picker-overlay { place-items: center; }
-  .monster-picker-sheet { border-radius: 16px; max-height: 80dvh; }
+
+  .monster-picker-overlay {
+    place-items: center;
+  }
+
+  .monster-picker-sheet {
+    border-radius: 16px;
+    max-height: 80dvh;
+  }
 }

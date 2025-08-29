@@ -28,6 +28,7 @@
       .creature {
         width: 100%;
         border: 1px solid;
+        border-color: var(--font-color);
       }
     }
   }
@@ -37,7 +38,8 @@
       max-width: none;
       width: 100%;
     }
-    .creature-list{
+
+    .creature-list {
       flex-direction: column !important;
     }
   }
