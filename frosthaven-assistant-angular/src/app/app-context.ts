@@ -152,13 +152,16 @@ export class AppContext {
     killCreature(creatureId: string) {
         const creature = this.findCreature(creatureId);
         if (!creature) return;
+        if(!creature.aggressive){
+            this.notificationService.emitErrorMessage(`haha, can't kill me`);
+            return;
+        }
 
         // 1) remove from live list
         const live = this.creaturesSubject.value.filter(c => c.id !== creatureId);
         this.creaturesSubject.next(live);
 
         // 2) add to graveyard (PRESERVE THE SAME ID!)
-        // deep clone to decouple references; do NOT regenerate id
         const deadCopy = JSON.parse(JSON.stringify(creature));
         this.addGraveyard(deadCopy);
 

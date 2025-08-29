@@ -89,7 +89,7 @@ export class LogComponent {
         this.appContext.reviveCreature(id, hp);
       },
       created: (id) => {
-        if ((this.appContext as any).killCreature) (this.appContext as any).killCreature(id);
+        if ((this.appContext as AppContext).killCreature) (this.appContext as AppContext).killCreature(id);
       },
     };
 

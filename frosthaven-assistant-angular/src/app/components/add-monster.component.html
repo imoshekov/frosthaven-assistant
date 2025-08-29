@@ -1,17 +1,16 @@
-<div class="layout" (click)="close()"></div>
+<div class="layout"></div>
 <div class="modal">
   <div class="content">
     <div class="title">Add Monster</div>
 
     <div class="form-row">
       <label for="type">Type</label>
-      <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()" autocomplete="off" />
+      <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()"
+        autocomplete="off" />
     </div>
 
     <div class="monster-type-list" *ngIf="filteredMonsters.length">
-      <div class="monster-type-item"
-           *ngFor="let monster of filteredMonsters"
-           (click)="selectMonster(monster)">
+      <div class="monster-type-item" *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
         {{ monster.name }}
       </div>
     </div>

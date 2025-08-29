@@ -176,5 +176,4 @@ export class LogService {
   }
 
   private randId(): string { return Math.random().toString(36).slice(2, 10); }
-
 }
