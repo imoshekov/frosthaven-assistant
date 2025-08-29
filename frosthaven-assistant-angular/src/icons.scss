@@ -82,7 +82,11 @@
         background-image: url("./images/fh/action/target.svg"),
     }
 
-    &.undo{
+    &.undo {
         background-image: url("./images/action/undo.svg"),
+    }
+
+    &.range {
+        background-image: url("./images/fh/action/range.svg"),
     }
 }

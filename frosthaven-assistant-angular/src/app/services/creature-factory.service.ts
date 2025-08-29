@@ -48,11 +48,21 @@ export class CreatureFactoryService {
         monster?.stats?.[0]?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'shield')?.value ??
         0
       ),
-      retaliate: this.stringUtils.parseInt(
-        monster?.stats?.[0]?.actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ??
-        monster?.stats?.[0]?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'retaliate')?.value ??
-        0
-      ),
+      retaliate: (() => {
+        const retaliateAction =
+          monster?.stats?.[0]?.actions?.find((a: MonsterAction) => a.type === 'retaliate')
+          ?? monster?.baseStat?.actions?.find((a: MonsterAction) => a.type === 'retaliate');
+
+        const value = this.stringUtils.parseInt(retaliateAction?.value ?? 0);
+
+        // range may come as a direct field or as a subAction { type: 'range', value: N }
+        const range = this.stringUtils.parseInt(
+          (retaliateAction as any)?.range
+          ?? retaliateAction?.subActions?.find((sa: any) => sa.type === 'range')?.value
+          ?? 0
+        );
+        return { value, range };
+      })(),
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
       boss: monster?.boss ?? false,
       flying: monster?.flying ?? false,

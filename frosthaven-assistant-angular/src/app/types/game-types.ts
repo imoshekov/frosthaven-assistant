@@ -16,6 +16,11 @@ export interface CreatureAction {
   value?: string | number;
 }
 
+export type CreatureRetaliate = {
+  value: number;   
+  range: number;   
+};
+
 export interface Creature {
   id?: string;
   name?: string;
@@ -29,7 +34,7 @@ export interface Creature {
   movement?: number | null;
   initiative?: number;
   armor?: number;
-  retaliate?: number;
+  retaliate?: CreatureRetaliate;
   flying?: boolean;
   boss?: boolean;
   conditions?: CreatureConditions[];
@@ -42,6 +47,7 @@ export interface Creature {
   player4?: string;
   actions?: CreatureAction[]; 
 }
+
 
 export enum ElementState {
   None = 'none',
