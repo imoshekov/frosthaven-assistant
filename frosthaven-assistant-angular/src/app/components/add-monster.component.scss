@@ -66,11 +66,11 @@
 
     .picker-header {
       display: flex;
-      gap: .5rem;
       padding: .75rem .75rem env(safe-area-inset-right) .75rem;
       align-items: center;
       border-bottom: 1px solid var(--secondary-color);
       background: var(--background);
+      justify-content: end;
     }
 
     .picker-search {
@@ -88,7 +88,7 @@
       min-width: 40px;
       border-radius: 8px;
       border: 1px solid var(--secondary-color);
-      background: var(--background-secondary);
+      color: var(--base-color-spots);
     }
 
     /* Your list gets the rest of the height and scrolls independently */

@@ -12,8 +12,10 @@
     <div class="monster-picker-overlay" *ngIf="pickerOpen" (click)="closePicker()">
       <div class="monster-picker-sheet" (click)="$event.stopPropagation()">
         <div class="picker-header">
+          <button type="button" class="picker-close" (click)="closePicker()" aria-label="Close monster picker">
+            ✕
+          </button>
         </div>
-
         <div class="monster-type-list">
           <div class="monster-type-item" *ngFor="let monster of filteredMonsters" (mousedown)="$event.preventDefault()"
             (click)="selectMonster(monster)">
