@@ -24,6 +24,7 @@ export class MonsterComponent {
   isElite: boolean = false;
   type: string = '';
 
+  pickerOpen = false;
   monsters: Monster[] = [];
   filteredMonsters: Monster[] = [];
 
@@ -39,27 +40,6 @@ export class MonsterComponent {
     });
   }
 
-  onTypeInput() {
-    const value = this.type.toLowerCase();
-    this.filteredMonsters = this.monsters.filter(monster =>
-      monster.name.toLowerCase().includes(value)
-    );
-  }
-
-  selectMonster(monster: { name: string }) {
-    this.type = monster.name;
-    this.filteredMonsters = [];
-  }
-
-  onFocus() {
-    this.filteredMonsters = this.monsters.slice();
-  }
-
-  onBlur() {
-    setTimeout(() => {
-      this.filteredMonsters = [];
-    }, 150);
-  }
 
   addMonster() {
     if (!this.type) {
@@ -79,7 +59,32 @@ export class MonsterComponent {
     this.notificationService.emitInfoMessage(`${this.type} added successfully!`);
   }
 
-  close() {
+
+  openPicker() {
+    this.pickerOpen = true;
+    this.filteredMonsters = this.monsters.slice();
+    document.documentElement.classList.add('no-scroll');
+  }
+
+  closePicker() {
+    this.pickerOpen = false;
+    this.filteredMonsters = [];
+    document.documentElement.classList.remove('no-scroll');
+  }
+
+  onTypeInput() {
+    const value = (this.type || '').toLowerCase().trim();
+    this.filteredMonsters = !value
+      ? this.monsters.slice()
+      : this.monsters.filter(m => m.name.toLowerCase().includes(value));
+  }
+
+  selectMonster(monster: { name: string }) {
+    this.type = monster.name;
+    this.closePicker();
+  }
+
+  closeModal() {
     this.appContext.addMonsterToggled = false;
   }
 }

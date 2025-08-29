@@ -25,7 +25,7 @@ export class SetupComponent {
   sessionId: number = 1;
 
   public clientId: string | null = null;
-  
+
   constructor(
     private notificationService: NotificationService,
     private storageService: LocalStorageService,
@@ -41,7 +41,7 @@ export class SetupComponent {
       this.clientId = id;
     });
     this.webSocketService.sessionId$.subscribe(id => {
-      if (id != null) {   
+      if (id != null) {
         this.sessionId = id;
       }
     });
@@ -73,9 +73,11 @@ export class SetupComponent {
 
   loadSection(): void {
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
-    const section = this.dataLoader.getData().sections.find(s => s.index === sectionIdFormatted);
+    const section = this.dataLoader.getData().sections.find(
+      s => s.index === sectionIdFormatted && s.parent === this.scenarioId
+    );
     if (!section || !section.rooms || section.rooms.length === 0 || !section.rooms[0].monster) {
-      this.notificationService.emitErrorMessage(`Section ${this.sectionId} does not exist or has no monsters.`);
+      this.notificationService.emitErrorMessage(`${this.sectionId} is not related to mission ${this.scenarioId}`);
       return;
     }
 

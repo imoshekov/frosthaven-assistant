@@ -5,13 +5,21 @@
 
     <div class="form-row">
       <label for="type">Type</label>
-      <input type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="onFocus()" (blur)="onBlur()"
-        autocomplete="off" />
+      <input id="type" type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="openPicker()" autocomplete="off"
+        inputmode="search" autocapitalize="off" autocorrect="off" placeholder="Select…" />
     </div>
 
-    <div class="monster-type-list" *ngIf="filteredMonsters.length">
-      <div class="monster-type-item" *ngFor="let monster of filteredMonsters" (click)="selectMonster(monster)">
-        {{ monster.name }}
+    <div class="monster-picker-overlay" *ngIf="pickerOpen" (click)="closePicker()">
+      <div class="monster-picker-sheet" (click)="$event.stopPropagation()">
+        <div class="picker-header">
+        </div>
+
+        <div class="monster-type-list">
+          <div class="monster-type-item" *ngFor="let monster of filteredMonsters" (mousedown)="$event.preventDefault()"
+            (click)="selectMonster(monster)">
+            {{ monster.name }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -31,7 +39,7 @@
     </div>
 
     <div class="buttons">
-      <button type="button" class="cancel" (click)="close()">Close</button>
+      <button type="button" class="cancel" (click)="closeModal()">Close</button>
       <button type="button" class="confirm" (click)="addMonster()">Confirm</button>
     </div>
   </div>

@@ -1,4 +1,12 @@
 .modal {
+
+  :root.no-scroll,
+  :root.no-scroll body {
+    overflow: hidden;
+    touch-action: none;
+    /* reduces accidental background gestures */
+  }
+
   display: flex;
   justify-content: flex-start;
 
@@ -44,23 +52,75 @@
       }
     }
 
+    .monster-picker-sheet {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      background: var(--background);
+      max-height: 50dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, .3);
+    }
+
+    .picker-header {
+      display: flex;
+      gap: .5rem;
+      padding: .75rem .75rem env(safe-area-inset-right) .75rem;
+      align-items: center;
+      border-bottom: 1px solid var(--secondary-color);
+      background: var(--background);
+    }
+
+    .picker-search {
+      flex: 1 1 auto;
+      font-size: 1rem;
+      padding: .6rem .8rem;
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+    }
+
+    /* Close button */
+    .picker-close {
+      flex: 0 0 auto;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--secondary-color);
+      background: var(--background-secondary);
+    }
+
+    /* Your list gets the rest of the height and scrolls independently */
     .monster-type-list {
       flex: 1 1 auto;
       min-height: 0;
-      max-height: 25dvh;
       overflow-y: auto;
       overscroll-behavior: contain;
-      border: 1px solid var(--secondary-color);
-      border-radius: 8px;
+      /* prevent scroll chaining/pull-to-refresh */
       padding: .25rem 0;
+      border-top: none;
+      max-height: none;
+      /* let the sheet control height */
     }
 
+    /* Items */
     .monster-type-item {
-      padding: 0.4rem 0.4rem;
+      padding: .6rem .8rem;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      border-bottom: 1px solid color-mix(in oklab, var(--secondary-color) 40%, transparent);
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       &:hover {
         background: var(--secondary-color);
+      }
+
+      &:active {
+        transform: translateY(1px);
       }
     }
 
@@ -75,11 +135,14 @@
 }
 
 @media (max-width: 768px) {
-    .modal {
-      top: 10%;
-      width: 90%;
-    }
-    .monster-type-list {
-      max-height: 45dvh;
-    }
+  .modal {
+    top: 10%;
+    width: 90%;
   }
+
+  .monster-type-list {
+    max-height: 45dvh;
+  }
+  .monster-picker-overlay { place-items: center; }
+  .monster-picker-sheet { border-radius: 16px; max-height: 80dvh; }
+}
