@@ -17,6 +17,11 @@
             flex-direction: row;
             align-items: center;
             padding-left: 10px;
+
+            .icon.range {
+                width: 40px;
+                margin-left: 5px;
+            }
         }
 
         .condition-element {

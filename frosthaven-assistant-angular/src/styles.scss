@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Skranji&display=swap");
 @import "variables.scss";
 
+:root { --vh100: 100vh; }
+@supports (height: 100dvh) { :root { --vh100: 100dvh; } }
+
 * {
     font-family: "Skranji", cursive;
 }

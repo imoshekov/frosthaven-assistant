@@ -2,7 +2,7 @@
     <div class="stats base-stats">
         <div>Base</div>
         <div class="armor stat">
-             <div class="icon shield"></div>
+            <div class="icon shield"></div>
             <input type="tel" [value]="creature.armor" (blur)="storeBuff('armor', +$event.target.value)" maxlength="3"
                 class="stat-input" />
         </div>
@@ -15,7 +15,7 @@
     <div class="stats round-stats">
         <div>Round</div>
         <div class="armor stat">
-             <div class="icon shield"></div>
+            <div class="icon shield"></div>
             <input type="tel" [value]="creature.roundArmor" (blur)="storeBuff('roundArmor', +$event.target.value)"
                 maxlength="3" class="stat-input" />
         </div>
