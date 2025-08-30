@@ -48,21 +48,8 @@ export class CreatureFactoryService {
         monster?.stats?.[0]?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'shield')?.value ??
         0
       ),
-      retaliate: (() => {
-        const retaliateAction =
-          monster?.stats?.[0]?.actions?.find((a: MonsterAction) => a.type === 'retaliate')
-          ?? monster?.baseStat?.actions?.find((a: MonsterAction) => a.type === 'retaliate');
-
-        const value = this.stringUtils.parseInt(retaliateAction?.value ?? 0);
-
-        // range may come as a direct field or as a subAction { type: 'range', value: N }
-        const range = this.stringUtils.parseInt(
-          (retaliateAction as any)?.range
-          ?? retaliateAction?.subActions?.find((sa: any) => sa.type === 'range')?.value
-          ?? 0
-        );
-        return { value, range };
-      })(),
+      retaliate: this.getRetaliateStat(monster, 'value'),
+      retaliateRange: this.getRetaliateStat(monster, 'range'),
       aggressive: creatureInput.aggressive, // monsters default aggressive, characters not
       boss: monster?.boss ?? false,
       flying: monster?.flying ?? false,
@@ -86,6 +73,34 @@ export class CreatureFactoryService {
     let baseName: string = `${creatureInput.type} ${creatureInput.standee ?? ''}`;
     return creatureInput.isElite ? `★ ${baseName}` : baseName;
   }
+
+  private getRetaliateStat(
+    monster: Monster,
+    stat: 'value' | 'range'
+  ): number {
+    const retaliateAction =
+      monster?.stats?.[0]?.actions?.find((x: MonsterAction) => x.type === 'retaliate') ??
+      monster?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'retaliate');
+
+    if (!retaliateAction) {
+      return 0;
+    }
+
+    if (stat === 'value') {
+      return this.stringUtils.parseInt(retaliateAction.value ?? 0);
+    }
+
+    if (stat === 'range') {
+      return this.stringUtils.parseInt(
+        retaliateAction.range ??
+        retaliateAction.subActions?.find((sa: any) => sa.type === 'range')?.value ??
+        0
+      );
+    }
+
+    return 0;
+  }
+
 
   createCreatureList(creatureList: Creature[]) {
     const creatures: Creature[] = [];

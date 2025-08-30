@@ -41,7 +41,7 @@ export class CreatureGroupHeaderComponent {
 
   hasExtraStats(creature: Creature): boolean {
     return (creature.armor + creature.roundArmor > 0) ||
-      (creature.retaliate.value + creature.roundRetaliate > 0) ||
+      (creature.retaliate + creature.roundRetaliate > 0) ||
       (creature.aggressive && creature.actions?.length > 0) ||
       (creature.flying)
   }

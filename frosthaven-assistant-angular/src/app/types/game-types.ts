@@ -34,7 +34,8 @@ export interface Creature {
   movement?: number | null;
   initiative?: number;
   armor?: number;
-  retaliate?: CreatureRetaliate;
+  retaliate?: number;
+  retaliateRange?: number;
   flying?: boolean;
   boss?: boolean;
   conditions?: CreatureConditions[];

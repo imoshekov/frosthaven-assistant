@@ -12,6 +12,7 @@ export interface MonsterAction {
   value?: string | number;
   subActions?: any
   small?: boolean;
+  range?: number;
 }
 
 export interface MonsterBaseStat {
