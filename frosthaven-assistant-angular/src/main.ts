@@ -10,6 +10,7 @@ import { isDevMode } from '@angular/core';
 import { provideServiceWorker } from '@angular/service-worker';
 
 
+
 bootstrapApplication(App, {
   providers: [
     provideAnimations(),
@@ -18,8 +19,8 @@ bootstrapApplication(App, {
     LocalStorageService,
     NotificationService,
     DataLoaderService, provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ]
 }).catch((err) => console.error(err));

@@ -1,9 +1,9 @@
 {
   "name": "frosthaven-assistant-angular",
-  "short_name": "frosthaven-assistant-angular",
+  "short_name": "Frosthaven",
+  "start_url": "/frosthaven-assistant/",
+  "scope": "/frosthaven-assistant/",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

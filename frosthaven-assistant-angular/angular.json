@@ -46,7 +46,7 @@
             ],
             "baseHref": "/frosthaven-assistant/",
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+           "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
