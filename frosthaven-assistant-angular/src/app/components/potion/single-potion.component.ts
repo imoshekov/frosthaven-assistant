@@ -21,7 +21,7 @@ export class SinglePotionComponent {
     let name = potion.name.toLocaleLowerCase();
     name = name.replaceAll(' ', '-');
     let id = potion.id < 100 ? '0' + potion.id : potion.id;
-    return this.isPotionLocked() ? `../../../images/fh/items/item-back-fh.png` : `../../../images/potions/fh-${id}-${name}.jpeg`;
+    return this.isPotionLocked() ? `./images/fh/items/item-back-fh.png` : `./images/potions/fh-${id}-${name}.jpeg`;
   }
 
   isPotionLocked(): boolean {
