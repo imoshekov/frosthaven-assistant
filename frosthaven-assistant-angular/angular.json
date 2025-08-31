@@ -44,7 +44,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "baseHref": "/frosthaven-assistant/"
+            "baseHref": "/frosthaven-assistant/",
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
