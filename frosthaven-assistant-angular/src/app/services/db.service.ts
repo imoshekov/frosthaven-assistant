@@ -8,8 +8,13 @@ export interface CharacterRow {
   type: string;
   level: number;
 }
+export interface CraftableItemRow {
+  id: number;
+  type: string;
+  unlocked: boolean;
+}
 
-const url  = 'https://ymlekirbwjanuxrclsgf.supabase.co';
+const url = 'https://ymlekirbwjanuxrclsgf.supabase.co';
 //client-key, meant to be in code
 const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltbGVraXJid2phbnV4cmNsc2dmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNjk4OTUsImV4cCI6MjA3MTY0NTg5NX0._a0-aMgphg5_bFCzy7oHhPRkP9Q54dRWGrZN4rzVnHM';
 
@@ -26,7 +31,7 @@ g.__supabaseClient = supabase;
 /** --- SERVICE USING THE SINGLETON --- */
 @Injectable({ providedIn: 'root' })
 export class DbService {
-  async list(): Promise<CharacterRow[]> {
+  async getCharacter(): Promise<CharacterRow[]> {
     const { data, error } = await supabase
       .from('character')
       .select('id,name,type,level')
@@ -35,22 +40,15 @@ export class DbService {
     return (data ?? []) as CharacterRow[];
   }
 
-  async updateById(id: number, patch: Partial<Omit<CharacterRow, 'id'>>) {
-    if (patch.level != null) {
-      patch.level = Math.max(1, Math.min(8, Math.floor(+patch.level)));
-    }
-    const { error } = await supabase.from('character').update(patch).eq('id', id);
-    if (error) throw error;
-  }
+  async getUnlockedPotions(): Promise<CraftableItemRow[]> {
+    const { data, error } = await supabase
+      .from('craftable-item')
+      .select('id')
+      .eq('type', 'potion')
+      .eq('unlocked', true)
+      .order('id', { ascending: true });
 
-  async insert(row: Omit<CharacterRow, 'id'>) {
-    const safe = { ...row, level: Math.max(1, Math.min(8, Math.floor(+row.level))) };
-    const { error } = await supabase.from('character').insert(safe);
     if (error) throw error;
-  }
-
-  async remove(id: number) {
-    const { error } = await supabase.from('character').delete().eq('id', id);
-    if (error) throw error;
+    return (data ?? []) as CraftableItemRow[];
   }
 }

@@ -210,7 +210,7 @@ export class AppContext {
 
     private async addDefaultCharacters() {
         try {
-            const selectedCharacters = await this.db.list();
+            const selectedCharacters = await this.db.getCharacter();
             const levels = selectedCharacters.map(c => Number(c.level) || 1);
             const avg = levels.reduce((sum, n) => sum + n, 0) / levels.length;
 
