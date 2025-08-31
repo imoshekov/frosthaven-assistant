@@ -1,0 +1,5509 @@
+import { Injectable } from "@angular/core";
+import { Item, ItemSlot } from "../types/item-types";
+
+@Injectable({ providedIn: 'root' })
+export class ItemLoaderService {
+    constructor() { }
+    unlockedPotionIds = [
+        83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
+        99, 101, 102, 104, 105, 106, 107, 108, 109, 112, 115, 117, 118,
+        119
+    ]
+
+    getUnlockedPotionsItems(): Item[] {
+        return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) > -1);
+    }
+
+    getLockedPotionsItems(): Item[] {
+        return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) < 0);
+    }
+
+    gePotionsItems(): Item[] {
+        return this.getData().filter(item => item.requiredBuilding === "alchemist" && item.slot === ItemSlot.Small);
+    }
+
+    getData(): Item[] {
+        return [
+            {
+                "id": 1,
+                "name": "Spyglass",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-1.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "Crude Helmet",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-2.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "name": "Traveling Cloak",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-3.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "name": "Crude Hide Armor",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 1,
+                "slots": 2,
+                "resources": {
+                    "hide": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-4.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "name": "Crude Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "hide": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-5.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "name": "Flexible Slippers",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-6.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 7,
+                "name": "Crude Bow",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-7.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 8,
+                "name": "Crude Spear",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-8.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "name": "Protective Scepter",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1,
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-9.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "shield",
+                        "value": 1
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 10,
+                "name": "Crude Shield",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "minusOne": 1,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-10.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 11,
+                "name": "Simple Charm",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "resources": {
+                    "metal": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-11.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 12,
+                "name": "Crude Chain Armor",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 1,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-12.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 13,
+                "name": "Dancing Slippers",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "hide": 1,
+                    "snowthistle": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-13.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "move",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 14,
+                "name": "Heavy Sword",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-14.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 15,
+                "name": "Reinforced Shield",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "minusOne": 2,
+                "resources": {
+                    "lumber": 1
+                },
+                "requiredItems": [10],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-15.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 16,
+                "name": "Inspiring Helmet",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredItems": [2],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-16.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 17,
+                "name": "Cured Leather Armor",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "slots": 2,
+                "requiredItems": [4, 98],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-17.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 18,
+                "name": "Rough Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredItems": [5],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-18.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 19,
+                "name": "Ringing Hammer",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "minusOne": 1,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-19.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 20,
+                "name": "Well Strung Bow",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "arrowvine": 1
+                },
+                "requiredItems": [7],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-20.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 21,
+                "name": "Chain Hood",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "minusOne": 1,
+                "resources": {
+                    "metal": 3,
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-21.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 22,
+                "name": "Heavy Chain Armor",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 2,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [12],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-22.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 23,
+                "name": "Sturdy Greaves",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "minusOne": 2,
+                "resources": {
+                    "metal": 2,
+                    "hide": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-23.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 24,
+                "name": "Corrupted Blade",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "requiredItems": [14, 98],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-24.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 25,
+                "name": "Soothing Scepter",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1,
+                    "hide": 1,
+                    "rockroot": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-25.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 26,
+                "name": "Truesight Lenses",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 5,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-26.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 27,
+                "name": "Cloak of Warding",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredItems": [3, 91],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 5,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-27.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 28,
+                "name": "Sturdy Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredItems": [18],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 5,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-28.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 29,
+                "name": "Cleaving Axe",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 5,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-29.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 30,
+                "name": "Parrying Gauntlet",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 5,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-30.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 31,
+                "name": "Deathproof Charm",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "requiredItems": [11, 106],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 6,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-31.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 32,
+                "name": "Shell Armor",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 2,
+                    "hide": 2
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 6,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-32.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "ward"
+                    }
+                ]
+            },
+            {
+                "id": 33,
+                "name": "Volatile Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [18, 96],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 6,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-33.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-33.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 34,
+                "name": "Shrapnel Bomb",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "resources": {
+                    "metal": 2
+                },
+                "requiredItems": [97],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 6,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-34.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 35,
+                "name": "Kite Shield",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "minusOne": 2,
+                "resources": {
+                    "lumber": 2,
+                    "metal": 1
+                },
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 6,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-35.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 36,
+                "name": "Plumed Helmet",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "resources": {
+                    "hide": 1,
+                    "snowthistle": 1
+                },
+                "requiredItems": [16],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 7,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-36.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 37,
+                "name": "Ghost Cloak",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "resources": {
+                    "corpsecap": 1
+                },
+                "requiredItems": [3, 114],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 7,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-37.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "damage",
+                        "value": 3
+                    },
+                    {
+                        "type": "condition",
+                        "value": "invisible"
+                    }
+                ]
+            },
+            {
+                "id": 38,
+                "name": "Duelists Shoes",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "requiredItems": [13, 113],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 7,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-38.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 39,
+                "name": "Abyss Axe",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "requiredItems": [29, 101, 112],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 7,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-39.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 40,
+                "name": "Heartstrike Bow",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1
+                },
+                "requiredItems": [20, 85],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 7,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-40.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 41,
+                "name": "Intricate Charm",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [11, 110],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 8,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-41.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 42,
+                "name": "Ornate Armor",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 4,
+                "slots": 2,
+                "resources": {
+                    "metal": 3
+                },
+                "requiredItems": [112],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 8,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-42.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 43,
+                "name": "Kicking Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [28, 90],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 8,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-43.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 44,
+                "name": "Sword of Absolution",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "requiredItems": [24, 101],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 8,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-44.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 45,
+                "name": "Master Scepter",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "requiredItems": [9, 25],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 8,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-45.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 1,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "ally",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 2,
+                                "small": true
+                            },
+                            {
+                                "type": "condition",
+                                "value": "ward",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 46,
+                "name": "Double-Lens Goggles",
+                "count": 2,
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "resources": {
+                    "hide": 1
+                },
+                "requiredItems": [26, 129],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 9,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-46.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 47,
+                "name": "Robes of Doom",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "slots": 2,
+                "requiredItems": [27, 119, 162],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 9,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-47.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 48,
+                "name": "Living Shoes",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "resources": {
+                    "hide": 2,
+                    "flamefruit": 1
+                },
+                "requiredItems": [13],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 9,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-48.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "move",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 49,
+                "name": "Cruel Dagger",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [111, 145],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 9,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-49.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 50,
+                "name": "Shield of Reciprocity",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "minusOne": 3,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [35, 105, 161],
+                "requiredBuilding": "craftsman",
+                "requiredBuildingLevel": 9,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-50.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-50.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 51,
+                "name": "Spiked Collar",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "blueprint": true,
+                "resources": {
+                    "flamefruit": 1
+                },
+                "requiredItems": [11],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-51.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "wound"
+                    }
+                ]
+            },
+            {
+                "id": 52,
+                "name": "Laser Lens",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "blueprint": true,
+                "requiredItems": [97, 129],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-52.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 53,
+                "name": "Hobnail Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "blueprint": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [18, 88],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-53.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 54,
+                "name": "Restful Slippers",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "blueprint": true,
+                "resources": {
+                    "snowthistle": 1
+                },
+                "requiredItems": [6, 92],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-54.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 55,
+                "name": "Biting Gauntlet",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "blueprint": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredItems": [94],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-55.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 56,
+                "name": "Scavenger's Magnet",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "blueprint": true,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 1
+                },
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-56.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 57,
+                "name": "Shovel",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "blueprint": true,
+                "resources": {
+                    "lumber": 1,
+                    "metal": 1
+                },
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-57.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 58,
+                "name": "Slippery Sword",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "blueprint": true,
+                "requiredItems": [14, 85, 90],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-58.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "disarm"
+                    }
+                ]
+            },
+            {
+                "id": 59,
+                "name": "Charm of Expertise",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "blueprint": true,
+                "requiredItems": [11, 113],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-59.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 60,
+                "name": "Cloak of Many Pockets",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "blueprint": true,
+                "resources": {
+                    "hide": 3
+                },
+                "requiredItems": [132],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-60.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 61,
+                "name": "Spiked Shell",
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "blueprint": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [32, 105],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-61.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 62,
+                "name": "Everlasting Boots",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "blueprint": true,
+                "requiredItems": [28, 99],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-62.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "regenerate"
+                    }
+                ]
+            },
+            {
+                "id": 63,
+                "name": "Shadow Stompers",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "blueprint": true,
+                "requiredItems": [13, 158],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-63.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 64,
+                "name": "Detonator",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "blueprint": true,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [96, 112],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-64.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 65,
+                "name": "Rust Powder",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "persistent": true,
+                "blueprint": true,
+                "resources": {
+                    "corpsecap": 1
+                },
+                "requiredItems": [157],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-65.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 66,
+                "name": "Amulet of Eternal Life",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "requiredItems": [109, 120],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-66.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 1,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 67,
+                "name": "Converging Lenses",
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "resources": {
+                    "metal": 1
+                },
+                "requiredItems": [1, 93],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-67.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-67.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 68,
+                "name": "Scaled Armor",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "slots": 3,
+                "requiredItems": [89, 123],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-68.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 69,
+                "name": "Feathered Cloak",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "requiredItems": [3, 233],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-69.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 70,
+                "name": "Aesther Robe",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "requiredItems": [27, 113],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-70.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 71,
+                "name": "Bone Boots",
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "consumed": true,
+                "resources": {
+                    "corpsecap": 1
+                },
+                "requiredItems": [18],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-71.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "move",
+                        "value": 4
+                    }
+                ]
+            },
+            {
+                "id": 72,
+                "name": "Oak Staff",
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "resources": {
+                    "lumber": 1
+                },
+                "requiredItems": [91],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-72.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "bless",
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 3,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 73,
+                "name": "Energizing Baton",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "metal": 2
+                },
+                "requiredItems": [101],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-73.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 74,
+                "name": "Shock Grenades",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "requiredItems": [19, 97],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-74.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "muddle",
+                        "subActions": [
+                            {
+                                "type": "area",
+                                "value": "(1,0,target)|(0,1,target)|(1,1,target)",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 2,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 75,
+                "name": "Rose Gauntlet",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "resources": {
+                    "flamefruit": 1,
+                    "snowthistle": 1
+                },
+                "requiredItems": [30],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-75.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 3,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "the ally",
+                                "small": true
+                            },
+                            {
+                                "type": "pull",
+                                "value": 2,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 76,
+                "name": "Horn of Command",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1,
+                    "rockroot": 1
+                },
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-76.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 77,
+                "name": "Chaos Cannon",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "resources": {
+                    "metal": 2
+                },
+                "requiredItems": [86],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-77.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 78,
+                "name": "Balanced Scales",
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "resources": {
+                    "metal": 1,
+                    "hide": 1
+                },
+                "requiredItems": [110],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-78.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-78.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 79,
+                "name": "Roasted Fowl",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "hide": 2,
+                    "flamefruit": 1,
+                    "snowthistle": 1
+                },
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-79.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 2,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 80,
+                "name": "Living Stone",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1
+                },
+                "requiredItems": [99, 156],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-80.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 81,
+                "name": "Pain Simulacrum",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "hide": 2
+                },
+                "requiredItems": [97],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-81.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 82,
+                "name": "Mechanical Cube",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "metal": 2
+                },
+                "requiredItems": [112],
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-82.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 83,
+                "name": "Healing Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "rockroot": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-83.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 3
+                    }
+                ]
+            },
+            {
+                "id": 84,
+                "name": "Stamina Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "snowthistle": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-84.1%",
+                        "small": true
+                    }
+                ],
+                "loss": true
+            },
+            {
+                "id": 85,
+                "name": "Power Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-85.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 86,
+                "name": "Element Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-86.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "element",
+                        "value": "wild"
+                    }
+                ]
+            },
+            {
+                "id": 87,
+                "name": "Cure Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-87.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 88,
+                "name": "Fireshield Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-88.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 89,
+                "name": "Stoneskin Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-89.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "ward"
+                    }
+                ]
+            },
+            {
+                "id": 90,
+                "name": "Muscle Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "axenut": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-90.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "strengthen"
+                    }
+                ]
+            },
+            {
+                "id": 91,
+                "name": "Holy Water",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "corpsecap": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-91.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "bless"
+                    }
+                ]
+            },
+            {
+                "id": 92,
+                "name": "Renewing Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "snowthistle": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-92.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 93,
+                "name": "Glancing Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-93.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 94,
+                "name": "Frenzy Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "corpsecap": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-94.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "attack",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 95,
+                "name": "Poison Vial",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-95.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 96,
+                "name": "Flame Vial",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-96.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 97,
+                "name": "Explosive Vial",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-97.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 98,
+                "name": "Unhealthy Mixture",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resourcesAny": [
+                    {
+                        "herb_resources": 1
+                    },
+                    {
+                        "herb_resources": 1
+                    }
+                ],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-98.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "wound"
+                    },
+                    {
+                        "type": "condition",
+                        "value": "poison"
+                    }
+                ]
+            },
+            {
+                "id": 99,
+                "name": "Major Healing Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "rockroot": 1,
+                    "snowthistle": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-99.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 6
+                    }
+                ]
+            },
+            {
+                "id": 100,
+                "name": "Major Stamina Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "snowthistle": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-100.1%",
+                        "small": true
+                    }
+                ],
+                "loss": true
+            },
+            {
+                "id": 101,
+                "name": "Major Power Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "axenut": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-101.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 102,
+                "name": "Major Element Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "axenut": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-102.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "element",
+                        "value": "wild"
+                    },
+                    {
+                        "type": "element",
+                        "value": "wild"
+                    }
+                ]
+            },
+            {
+                "id": 103,
+                "name": "Major Cure Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "corpsecap": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-103.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 104,
+                "name": "Swiftness Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "axenut": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-104.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 105,
+                "name": "Major Fireshield Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "rockroot": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-105.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 106,
+                "name": "Stonewall Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "rockroot": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-106.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 107,
+                "name": "Vigor Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "rockroot": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-107.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 108,
+                "name": "Holy Rain",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "snowthistle": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-108.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 109,
+                "name": "Major Renewing Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "snowthistle": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-109.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 110,
+                "name": "Precision Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "snowthistle": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-110.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 111,
+                "name": "Major Frenzy Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "axenut": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-111.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "attack",
+                        "value": 4
+                    }
+                ]
+            },
+            {
+                "id": 112,
+                "name": "Hammer Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "snowthistle": 1,
+                    "axenut": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-112.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "damage",
+                        "value": 10
+                    }
+                ]
+            },
+            {
+                "id": 113,
+                "name": "Expertise Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "rockroot": 1,
+                    "corpsecap": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-113.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 114,
+                "name": "Foresight Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "corpsecap": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-114.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 115,
+                "name": "Infusion Potion",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "axenut": 1,
+                    "corpsecap": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-115.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 116,
+                "name": "Plague Flask",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "axenut": 1,
+                    "corpsecap": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-116.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "poison",
+                        "subActions": [
+                            {
+                                "type": "area",
+                                "value": "(1,0,target)|(0,1,target)|(1,1,target)",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 1,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 117,
+                "name": "Inferno Flask",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "snowthistle": 1,
+                    "axenut": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-117.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "wound",
+                        "subActions": [
+                            {
+                                "type": "area",
+                                "value": "(1,0,target)|(0,1,target)|(1,1,target)",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 1,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 118,
+                "name": "Fulminant Flask",
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resources": {
+                    "arrowvine": 1,
+                    "snowthistle": 1,
+                    "flamefruit": 1
+                },
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-118.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 119,
+                "name": "Deadly Mixture",
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "resourcesAny": [
+                    {
+                        "herb_resources": 2
+                    },
+                    {
+                        "herb_resources": 1
+                    }
+                ],
+                "requiredBuilding": "alchemist",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-119.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "concatenation",
+                        "value": ",",
+                        "subActions": [
+                            {
+                                "type": "condition",
+                                "value": "wound"
+                            },
+                            {
+                                "type": "condition",
+                                "value": "poison"
+                            },
+                            {
+                                "type": "condition",
+                                "value": "immobilize"
+                            },
+                            {
+                                "type": "condition",
+                                "value": "disarm",
+                                "subActions": [
+                                    {
+                                        "type": "specialTarget",
+                                        "value": "self",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "wound"
+                    },
+                    {
+                        "type": "condition",
+                        "value": "poison"
+                    },
+                    {
+                        "type": "condition",
+                        "value": "immobilize"
+                    },
+                    {
+                        "type": "condition",
+                        "value": "disarm"
+                    }
+                ]
+            },
+            {
+                "id": 120,
+                "name": "Amulet of Life",
+                "cost": 15,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-120.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 1,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 1
+                    }
+                ]
+            },
+            {
+                "id": 121,
+                "name": "Circlet of Elements",
+                "cost": 25,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-121.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "element",
+                        "value": "wild",
+                        "valueType": "minus",
+                        "subActions": [
+                            {
+                                "type": "element",
+                                "value": "wild"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 122,
+                "name": "Warden's Robes",
+                "cost": 30,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-122.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 123,
+                "name": "Leather Armor",
+                "cost": 15,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-123.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 124,
+                "name": "Winged Shoes",
+                "cost": 15,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-124.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 125,
+                "name": "Boots of Speed",
+                "cost": 30,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-125.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 126,
+                "name": "Weighted Net",
+                "cost": 20,
+                "count": 2,
+                resources: {},
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-126.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 127,
+                "name": "Poison Dagger",
+                "cost": 15,
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-127.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 128,
+                "name": "Heater Shield",
+                "cost": 15,
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "unlockProsperity": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-128.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 129,
+                "name": "Eagle-Eye Goggles",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-129.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 130,
+                "name": "Iron Helmet",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "minusOne": 1,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-130.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 131,
+                "name": "Chainmail",
+                "cost": 25,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 3,
+                "slots": 3,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-131.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 132,
+                "name": "Cloak of Pockets",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-132.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 133,
+                "name": "Nimble Legguards",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-133.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 134,
+                "name": "Comfortable Shoes",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-134.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 135,
+                "name": "Armorbane Bow",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-135.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 136,
+                "name": "Battle Axe",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-136.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "area",
+                        "value": "(1,0,target)|(0,1,active)|(1,1,target)",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 137,
+                "name": "Tower Shield",
+                "cost": 35,
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "minusOne": 1,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-137.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 138,
+                "name": "Heavy Basinet",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "minusOne": 2,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-138.1%",
+                        "small": true
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "immune",
+                        "value": "disarm"
+                    },
+                    {
+                        "type": "immune",
+                        "value": "stun"
+                    },
+                    {
+                        "type": "immune",
+                        "value": "muddle"
+                    }
+                ]
+            },
+            {
+                "id": 139,
+                "name": "Horned Helm",
+                "cost": 35,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-139.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 140,
+                "name": "Mantle of Summoning",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-140.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 141,
+                "name": "Studded Leather",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-141.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 142,
+                "name": "Boots of Quickness",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-142.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 143,
+                "name": "Endurance Footwraps",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-143.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 1,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 144,
+                "name": "Staff of Eminence",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-144.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 145,
+                "name": "Versatile Dagger",
+                "cost": 25,
+                "count": 2,
+
+                "slot": ItemSlot.Onehand,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-145.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 146,
+                "name": "Hooked Chain",
+                "cost": 35,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-146.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 147,
+                "name": "Mask of Terror",
+                "cost": 60,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-147.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 148,
+                "name": "Circlet of Sanctity",
+                "cost": 45,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "slots": 3,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-148.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-148.2%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "ward",
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 3,
+                                "small": true
+                            }
+                        ]
+                    },
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-148.4%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 149,
+                "name": "Platemail",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "minusOne": 5,
+                "slots": 5,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-149.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 150,
+                "name": "Robes of the Oak",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-150.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 3,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "ally",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 1,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 151,
+                "name": "Serene Sandals",
+                "cost": 75,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-151.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 152,
+                "name": "Steel Sabatons",
+                "cost": 55,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "minusOne": 2,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-152.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 153,
+                "name": "Long Spear",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-153.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "area",
+                        "value": "(0,0,active)|(1,0,target)|(2,0,target)",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 154,
+                "name": "volatile Bomb",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-154.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "area",
+                        "value": "(1,0,target)|(0,1,target)|(1,1,target)",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 155,
+                "name": "Wall Shield",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "minusOne": 2,
+                "requiredBuilding": "trading-post",
+                "requiredBuildingLevel": 4,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-155.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 156,
+                "name": "Moon Earring",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-156.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 157,
+                "name": "Steel Ring",
+                "cost": 20,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-157.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 158,
+                "name": "Deep Earth Brooch",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-158.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "elementHalf",
+                        "value": "earth:dark",
+                        "valueType": "minus",
+                        "subActions": [
+                            {
+                                "type": "heal",
+                                "value": 3,
+                                "subActions": [
+                                    {
+                                        "type": "specialTarget",
+                                        "value": "self",
+                                        "small": true
+                                    },
+                                    {
+                                        "type": "condition",
+                                        "value": "ward",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 159,
+                "name": "Glorious Bracelet",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 1,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-159.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "concatenation",
+                        "value": ",",
+                        "subActions": [
+                            {
+                                "type": "condition",
+                                "value": "bless"
+                            },
+                            {
+                                "type": "condition",
+                                "value": "bless",
+                                "subActions": [
+                                    {
+                                        "type": "specialTarget",
+                                        "value": "self",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "bless"
+                    },
+                    {
+                        "type": "condition",
+                        "value": "bless"
+                    }
+                ]
+            },
+            {
+                "id": 160,
+                "name": "Sun Earring",
+                "cost": 35,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-160.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 2,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 161,
+                "name": "Strategists Ring",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-161.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 162,
+                "name": "Howling Ice Brooch",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-162.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "elementHalf",
+                        "value": "ice:air",
+                        "valueType": "minus",
+                        "subActions": [
+                            {
+                                "type": "attack",
+                                "value": 3,
+                                "subActions": [
+                                    {
+                                        "type": "range",
+                                        "value": 3,
+                                        "small": true
+                                    },
+                                    {
+                                        "type": "condition",
+                                        "value": "immobilize",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 163,
+                "name": "Stunning Bracelet",
+                "cost": 35,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-163.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 164,
+                "name": "Star Earring",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-164.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 2,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 165,
+                "name": "Ring of Haste",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-165.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 166,
+                "name": "Blazing Sun Brooch",
+                "cost": 50,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-166.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "elementHalf",
+                        "value": "fire:light",
+                        "valueType": "minus",
+                        "subActions": [
+                            {
+                                "type": "attack",
+                                "value": 3,
+                                "subActions": [
+                                    {
+                                        "type": "condition",
+                                        "value": "disarm",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 167,
+                "name": "Attractive Bracelet",
+                "cost": 40,
+                "count": 2,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "requiredBuilding": "jeweler",
+                "requiredBuildingLevel": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-167.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "pull",
+                        "value": 4,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "the enemy",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 5,
+                                "small": true
+                            },
+                            {
+                                "type": "condition",
+                                "value": "muddle",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 168,
+                "name": "Circlet of Eyes",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-168.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 169,
+                "name": "Fateful Charm",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-169.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 170,
+                "name": "Eye of Truth",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-170.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 171,
+                "name": "Rejuvenating Charm",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-171.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 172,
+                "name": "Cap of Premonition",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-172.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 173,
+                "name": "Multi Colored Cloak",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Body,
+                "spent": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-173.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 174,
+                "name": "Magnetic Cape",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-174.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 175,
+                "name": "Mirrored Armor",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "random": true,
+                "minusOne": 2,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-175.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 176,
+                "name": "Blinking Cape",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Body,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-176.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 177,
+                "name": "Boots of Transference",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Legs,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-177.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 178,
+                "name": "Tranquil Shoes",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Legs,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-178.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 179,
+                "name": "Burst Boots",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Legs,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-179.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 180,
+                "name": "Boots of Greed",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Legs,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-180.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 181,
+                "name": "Translocation Rod",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-181.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 182,
+                "name": "Wing Clippers",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "persistent": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-182.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 183,
+                "name": "Decanter of Mists",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-183.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 184,
+                "name": "Flashing Axe",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-184.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 185,
+                "name": "Mirrored Knife",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-185.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 186,
+                "name": "Wild Growth Seeds",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-186.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 187,
+                "name": "Dangerous Gear",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-187.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 188,
+                "name": "Freezing Crystal",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-188.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 189,
+                "name": "Ring of the Night",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-189.1%",
+                        "small": true,
+                        "subActions": [
+                            {
+                                "type": "concatenation",
+                                "subActions": [
+                                    {
+                                        "type": "element",
+                                        "value": "dark:wild",
+                                        "valueType": "minus",
+                                        "subActions": [
+                                            {
+                                                "type": "condition",
+                                                "value": "invisible",
+                                                "subActions": [
+                                                    {
+                                                        "type": "specialTarget",
+                                                        "value": "self",
+                                                        "small": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 190,
+                "name": "White Card",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "persistent": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-190.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 191,
+                "name": "Corrupted Scroll",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-191.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 5,
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 5,
+                                "small": true
+                            }
+                        ]
+                    },
+                    {
+                        "type": "forceBox",
+                        "subActions": [
+                            {
+                                "type": "condition",
+                                "value": "poison",
+                                "subActions": [
+                                    {
+                                        "type": "target",
+                                        "value": "the target of the heal ability",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 192,
+                "name": "Enticing Bell",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "random": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-192.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 193,
+                "name": "Mind Thieving Helmet",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-193.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "attack",
+                        "value": 3
+                    }
+                ]
+            },
+            {
+                "id": 194,
+                "name": "Temporal Amulet",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-194.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 195,
+                "name": "Tri-Corner Hat",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Head,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-195.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 196,
+                "name": "Choker of Sacrifice",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-196.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 5,
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 2,
+                                "small": true
+                            },
+                            {
+                                "type": "condition",
+                                "value": "ward",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 197,
+                "name": "Aesther Diadem",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-197.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 198,
+                "name": "Hunter's Necklace",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Head,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-198.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "pull",
+                        "value": 3,
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 4,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 199,
+                "name": "Opulent Shoes",
+                "cost": 30,
+                "count": 2,
+
+                "slot": ItemSlot.Legs,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-199.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 200,
+                "name": "Eventide Scepter",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-200.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-200.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 201,
+                "name": "Wave Blade",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-201.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 202,
+                "name": "Giant Piranha Pig Spine",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-202.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 203,
+                "name": "Scepter of Control",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-203.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "move",
+                        "value": 2
+                    }
+                ]
+            },
+            {
+                "id": 204,
+                "name": "Severed Claw",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "minusOne": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-204.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 205,
+                "name": "Harpoon",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-205.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "attack",
+                        "value": 2,
+                        "subActions": [
+                            {
+                                "type": "range",
+                                "value": 3,
+                                "small": true
+                            },
+                            {
+                                "type": "pull",
+                                "value": 2,
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 206,
+                "name": "Giant Sword",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "minusOne": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-206.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 207,
+                "name": "Fishhook",
+                "cost": 25,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-207.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 208,
+                "name": "Titan Nail",
+                "cost": 35,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-208.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 209,
+                "name": "Sword of Mastery",
+                "cost": 60,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-209.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 210,
+                "name": "Tanjo",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-210.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 211,
+                "name": "Boom Barrel",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Twohand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-211.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 212,
+                "name": "Elemental Stone",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-212.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 213,
+                "name": "Key of Seasons",
+                "cost": 70,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-213.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-213.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 214,
+                "name": "Cup of Ventillion",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-214.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 215,
+                "name": "Befuddling Mug",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-215.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "muddle",
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "condition",
+                        "value": "muddle"
+                    }
+                ]
+            },
+            {
+                "id": 216,
+                "name": "Tome of Elements",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-216.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "concatenation",
+                        "subActions": [
+                            {
+                                "type": "element",
+                                "value": "fire",
+                                "small": true
+                            },
+                            {
+                                "type": "element",
+                                "value": "ice",
+                                "small": true
+                            },
+                            {
+                                "type": "element",
+                                "value": "air",
+                                "small": true
+                            },
+                            {
+                                "type": "element",
+                                "value": "earth",
+                                "small": true
+                            },
+                            {
+                                "type": "element",
+                                "value": "light",
+                                "small": true
+                            },
+                            {
+                                "type": "element",
+                                "value": "dark",
+                                "small": true
+                            }
+                        ]
+                    },
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-216.3%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 217,
+                "name": "Tome of Time",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-217.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 218,
+                "name": "Tome of Life",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-218.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 2,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 219,
+                "name": "Tome of Conflict",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "persistent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-219.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 220,
+                "name": "Belaras Quill",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-220.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 221,
+                "name": "Ice Shiv",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-221.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 222,
+                "name": "Black Box",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-222.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 6,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "self",
+                                "small": true
+                            }
+                        ]
+                    }
+                ],
+                "effects": [
+                    {
+                        "type": "heal",
+                        "value": 6
+                    }
+                ]
+            },
+            {
+                "id": 223,
+                "name": "Lightning Rod",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-223.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "card",
+                        "value": "round"
+                    }
+                ]
+            },
+            {
+                "id": 224,
+                "name": "Armor of Empathy",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Body,
+                "slots": 3,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-224.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-224.2%",
+                        "small": true
+                    },
+                    {
+                        "type": "heal",
+                        "value": 3,
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "ally",
+                                "small": true
+                            },
+                            {
+                                "type": "range",
+                                "value": 3,
+                                "small": true
+                            },
+                            {
+                                "type": "condition",
+                                "value": "bless",
+                                "small": true
+                            }
+                        ]
+                    },
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-224.4%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 225,
+                "name": "Algox Carving",
+                "cost": 60,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-225.1%",
+                        "small": true
+                    }
+                ],
+                "actionsBack": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-225.2%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 226,
+                "name": "Unfettered Arm",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-226.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 227,
+                "name": "Data Drive",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-227.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 228,
+                "name": "Extendable Pole",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "spent": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-228.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 229,
+                "name": "Exquisite Map",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-229.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "move",
+                        "value": 3
+                    }
+                ]
+            },
+            {
+                "id": 230,
+                "name": "Examination Glass",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-230.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 231,
+                "name": "Skinning Knife",
+                "cost": 15,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-231.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 232,
+                "name": "Orchid Wand",
+                "cost": 20,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-232.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "condition",
+                        "value": "bless",
+                        "subActions": [
+                            {
+                                "type": "specialTarget",
+                                "value": "selfAllies",
+                                "small": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 233,
+                "name": "Dead Raven",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-233.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 234,
+                "name": "Ooze Vial",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-234.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 235,
+                "name": "Small Rat",
+                "cost": 10,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-235.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 236,
+                "name": "Cracked Mirror",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-236.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 237,
+                "name": "Mesmerizing Seashell",
+                "cost": 45,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-237.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 238,
+                "name": "Cracked Idol",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-238.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 239,
+                "name": "Eye of the Storm",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-239.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 240,
+                "name": "Demons Gem",
+                "cost": 15,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-240.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 241,
+                "name": "Shimmering Powder",
+                "cost": 40,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-241.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 242,
+                "name": "Lucky Dice",
+                "cost": 30,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-242.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 243,
+                "name": "Cursed Rock",
+                "cost": 10,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-243.1%",
+                        "small": true
+                    },
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-243.2%",
+                        "small": true
+                    },
+                    {
+                        "type": "concatenation",
+                        "value": ",",
+                        "subActions": [
+                            {
+                                "type": "condition",
+                                "value": "curse"
+                            },
+                            {
+                                "type": "condition",
+                                "value": "bless",
+                                "subActions": [
+                                    {
+                                        "type": "specialTarget",
+                                        "value": "self",
+                                        "small": true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 244,
+                "name": "Ember Energy Source",
+                "cost": 50,
+                "count": 1,
+
+                "slot": ItemSlot.Small,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-244.1%",
+                        "small": true
+                    }
+                ]
+            },
+            {
+                "id": 245,
+                "name": "Ancient Coin",
+                "cost": 0,
+                "count": 4
+            },
+            {
+                "id": 246,
+                "name": "Key Card",
+                "cost": 0,
+                "count": 1
+            },
+            {
+                "id": 247,
+                "name": "Trainers Net",
+                "cost": 10,
+                "count": 1,
+
+                "slot": ItemSlot.Onehand,
+                "consumed": true,
+                "actions": [
+                    {
+                        "type": "custom",
+                        "value": "%data.items.fh-247.1%",
+                        "small": true
+                    }
+                ]
+            }
+        ]
+    }
+}

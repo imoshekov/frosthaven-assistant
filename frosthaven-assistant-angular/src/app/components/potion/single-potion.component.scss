@@ -1,0 +1,32 @@
+.potion {
+    position: relative;
+
+    .id {
+        position: absolute;
+        bottom: 10px;
+        left: 10px
+    }
+
+    img {
+        width: 160px;
+        height: 240px;
+    }
+
+    .resources {
+        position: absolute;
+        height: 100%;
+        display: flex;
+        gap: 0.3rem;
+        flex-direction: column;
+        right:0;
+        top: 0;
+        justify-content: center;
+
+
+        .icon {
+            background-color: var(--font-color)
+        }
+
+    }
+
+}
