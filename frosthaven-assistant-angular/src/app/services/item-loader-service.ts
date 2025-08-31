@@ -1,14 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Item, ItemSlot } from "../types/item-types";
+import { DbService } from './db.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class ItemLoaderService {
-    constructor() { }
-    unlockedPotionIds = [
-        83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
-        99, 101, 102, 104, 105, 106, 107, 108, 109, 112, 115, 117, 118,
-        119
-    ]
+    constructor(private db: DbService) { }
+    // unlockedPotionIds = [
+    //     83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
+    //     99, 101, 102, 104, 105, 106, 107, 108, 109, 112, 115, 117, 118,
+    //     119
+    // ]
+    unlockedPotionIds: number[] = [];
+
+    async loadUnlockedPotions(): Promise<void> {
+        const potions = await this.db.getUnlockedPotions(); 
+        this.unlockedPotionIds = potions.map(item => item.id);
+    }
 
     getUnlockedPotionsItems(): Item[] {
         return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) > -1);
@@ -18,7 +26,7 @@ export class ItemLoaderService {
         return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) < 0);
     }
 
-    gePotionsItems(): Item[] {
+    getPotionsItems(): Item[] {
         return this.getData().filter(item => item.requiredBuilding === "alchemist" && item.slot === ItemSlot.Small);
     }
 

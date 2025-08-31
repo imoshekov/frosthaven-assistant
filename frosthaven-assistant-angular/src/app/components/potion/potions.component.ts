@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ItemLoaderService } from '../../services/item-loader-service';
 import { Item, ItemResource } from '../../types/item-types';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { SinglePotionComponent } from './single-potion.component';
   templateUrl: './potions.component.html',
   styleUrls: ['./potions.component.scss']
 })
-export class PotionsComponent {
+export class PotionsComponent implements OnInit {
   potions: Item[];
   twoHerbsPotions: Item[] = [];
   threeHerbsPotions: Item[] = [];
@@ -23,6 +23,9 @@ export class PotionsComponent {
   constructor(private dataLoader: ItemLoaderService
   ) {
     this.filterCraftable();
+  }
+  async ngOnInit() {
+    await this.dataLoader.loadUnlockedPotions();
   }
 
   splitByHerbsCount() {
@@ -41,7 +44,7 @@ export class PotionsComponent {
   }
 
   filterCraftable() {
-    this.potions = this.dataLoader.gePotionsItems().filter(potion => this.canCraft(potion.resources));
+    this.potions = this.dataLoader.getPotionsItems().filter(potion => this.canCraft(potion.resources));
     this.splitByHerbsCount();
   }
 
