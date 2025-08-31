@@ -94,8 +94,9 @@ button.open-modal {
 }
 
 @media (max-width: 768px) {
-    .container {
+    .container, .creature-standee {
         justify-content: center;
+        align-items: center;
     }
 
     .container .initiative {

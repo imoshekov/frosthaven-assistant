@@ -1,5 +1,5 @@
 <div id="master-container" class="app-viewport">
-    <div class="navigaiton">
+    <div class="navigaiton" [style.display]="appContext.shouldShowSetup ? null : 'none'">
         <a routerLink="/">Game</a>
         <a routerLink="/potions">Potions</a>
     </div>

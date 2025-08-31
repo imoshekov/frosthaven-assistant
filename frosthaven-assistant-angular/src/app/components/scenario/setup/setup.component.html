@@ -1,7 +1,7 @@
-<div class="icon toggle" tabindex="0" role="switch" aria-checked="false" [ngClass]="shouldShowSetup ? 'on' : ''" (click)="shouldShowSetup = !shouldShowSetup">
+<div class="icon toggle" tabindex="0" role="switch" aria-checked="false" [ngClass]="appContext.shouldShowSetup ? 'on' : ''" (click)="appContext.shouldShowSetup = !appContext.shouldShowSetup">
   <span class="dot"></span>
 </div>
-<div class="setup-container row content" [style.display]="shouldShowSetup ? null : 'none'">
+<div class="setup-container row content" [style.display]="appContext.shouldShowSetup ? null : 'none'">
   <div class="section">
     <div class="label-group">
       <label for="scenario-level">Level</label>

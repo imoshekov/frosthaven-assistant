@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Creature, CreatureConditions, Element, ElementState, ElementType } from './types/game-types';
 import { BehaviorSubject } from 'rxjs';
 import { DataLoaderService } from './services/data-loader.service';
@@ -13,6 +13,7 @@ export class AppContext {
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
     public addMonsterToggled: boolean = false;
+    public shouldShowSetup: boolean = true;
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
@@ -42,8 +43,7 @@ export class AppContext {
         private creatureFactory: CreatureFactoryService,
         private readonly logService: LogService,
         private notificationService: NotificationService,
-        private db: DbService,
-        private injector: Injector
+        private db: DbService
     ) {
         this.addDefaultCharacters();
         this.logService.init(this.creatures$);

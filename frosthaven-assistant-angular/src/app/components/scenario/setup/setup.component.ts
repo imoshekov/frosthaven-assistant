@@ -23,8 +23,6 @@ export class SetupComponent {
   scenarioId: number;
   sectionId: number;
   sessionId: number = 1;
-  shouldShowSetup: boolean = true;
-
 
   constructor(
     private notificationService: NotificationService,
