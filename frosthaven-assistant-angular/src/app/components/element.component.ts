@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Element, ElementState } from '../types/game-types';
+import { Element, ElementState, ElementType } from '../types/game-types';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../app-context';
 
@@ -44,30 +44,29 @@ export class ElementComponent {
     }
   }
   ngOnInit(): void {
-  // Subscribe to the global elements state and update local element
-  this.appContext.elements$.subscribe(elements => {
-    const updated = elements.find(e => e.type === this.element.type);
-    if (updated) {
-      this.element = { ...updated }; // triggers Angular change detection
-    }
-  });
-}
+    // Subscribe to the global elements state and update local element
+    this.appContext.elements$.subscribe(elements => {
+      const updated = elements.find(e => e.type === this.element.type);
+      if (updated) {
+        this.element = { ...updated }; // triggers Angular change detection
+      }
+    });
+  }
 
-get fillUrl(): string {
-  return `url(#${this.element.type}-${this.element.state})`;
-}
+  get fillUrl(): string {
+    return `url(#${this.element.type}-${this.element.state})`;
+  }
 
-toggleColor(): void {
-  const next =
-    this.element.state === ElementState.None ? ElementState.Full :
-    this.element.state === ElementState.Full ? ElementState.Half :
-    ElementState.None;
+  toggleColor(): void {
+    const next =
+      this.element.state === ElementState.None ? ElementState.Full :
+        this.element.state === ElementState.Full ? ElementState.Half :
+          ElementState.None;
 
-  // Update global state
-  this.appContext.setElementState(this.element.type, next);
+    // Update global state
+    this.appContext.setElementState(this.element.type, next);
 
-  // Update local element immediately
-  this.element = { ...this.element, state: next };
-}
-
+    // Update local element immediately
+    this.element = { ...this.element, state: next };
+  }
 }

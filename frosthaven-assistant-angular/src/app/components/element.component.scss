@@ -9,13 +9,18 @@
 svg {
   background-color: var(--content-background-right);
   border-radius: 50%;
+
   g {
     path {
       fill: var(--font-color-dark);
+      &.dark {
+        &.full {
+          fill:  var(--font-color);
+        }
+      }
     }
   }
 }
-
 
 .element {
   width: 100%;
