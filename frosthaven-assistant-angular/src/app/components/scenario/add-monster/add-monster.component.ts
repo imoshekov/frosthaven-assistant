@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppContext } from '../app-context';
-import { Creature } from '../types/game-types';
-import { DataLoaderService } from '../services/data-loader.service';
-import { Monster } from '../types/data-file-types';
-import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
-import { CreatureFactoryService } from '../services/creature-factory.service';
-import { NotificationService } from '../services/notification.service';
+import { AppContext } from '../../../app-context';
+import { Creature } from '../../../types/game-types';
+import { DataLoaderService } from '../../../services/data-loader.service';
+import { Monster } from '../../../types/data-file-types';
+import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
+import { CreatureFactoryService } from '../../../services/creature-factory.service';
+import { NotificationService } from '../../../services/notification.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { NotificationService } from '../services/notification.service';
   standalone: true,
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
-export class MonsterComponent {
+export class AddMonsterComponent {
   @Output() monsterEvent = new EventEmitter<string>();
   level: number = 1;
   standee: number = 1;

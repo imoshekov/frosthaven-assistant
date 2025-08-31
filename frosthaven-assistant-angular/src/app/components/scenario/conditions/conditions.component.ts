@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Creature, CreatureConditions } from '../types/game-types';
+import { Creature, CreatureConditions } from '../../../types/game-types';
 import { CommonModule } from '@angular/common';
 
 @Component({

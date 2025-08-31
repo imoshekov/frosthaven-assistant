@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { AppContext } from '../../app-context';
-import { Creature } from '../../types/game-types';
-import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
+import { AppContext } from '../../../app-context';
+import { Creature } from '../../../types/game-types';
+import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 
 
 enum BuffTypes {

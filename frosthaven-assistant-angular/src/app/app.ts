@@ -1,17 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { LocalStorageService } from './services/local-storage.service';
 import { CommonModule } from '@angular/common';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
-import { SetupComponent } from './components/setup.component';
-import { GameComponent } from './components/game-section/game.component';
-import { MonsterComponent as AddMonsterComponent } from './components/add-monster.component';
 import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
-import { Element, ElementState, ElementType } from './types/game-types';
-import { ElementComponent } from './components/element.component';
-import { AttackModalComponent } from './components/attack/attack-modal.component';
-import { RoundComponent } from './components/round.component';
-import { LogComponent } from './components/log.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { WebSocketService } from './services/web-socket.service';
 
 
 @Component({
@@ -22,30 +15,27 @@ import { LogComponent } from './components/log.component';
   imports: [
     CommonModule,
     FormsModule,
-    ToastNotificationComponent,
-    SetupComponent,
-    GameComponent,
-    ElementComponent,
-    AttackModalComponent,
-    RoundComponent,
-    AddMonsterComponent,
-    LogComponent
+    RouterOutlet,
+    RouterLink,
+    ToastNotificationComponent
   ]
 })
-export class App {
+export class AppComponent {
   protected readonly title = signal('frosthaven-assistant-angular');
-
-  elements: Element[] = [
-    { type: ElementType.Fire, state: ElementState.None },
-    { type: ElementType.Ice, state: ElementState.None },
-    { type: ElementType.Earth, state: ElementState.None },
-    { type: ElementType.Air, state: ElementState.None },
-    { type: ElementType.Light, state: ElementState.None },
-    { type: ElementType.Dark, state: ElementState.None }
-  ];
+  clientId: string | null = null;
+  sessionId: number = 1;
 
   constructor(
-    public appContext: AppContext
+    public appContext: AppContext,
+    public webSocketService: WebSocketService
   ) {
+     this.webSocketService.clientId$.subscribe(id => {
+      this.clientId = id;
+    });
+      this.webSocketService.sessionId$.subscribe(id => {
+      if (id != null) {
+        this.sessionId = id;
+      }
+    });
   }
 }

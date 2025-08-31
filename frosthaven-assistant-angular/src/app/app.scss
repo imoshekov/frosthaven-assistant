@@ -1,64 +1,70 @@
-
 :root {
   --vh: 1vh;
 }
 
-#master-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+html,
+body,
+app-root,
+#master-container,
+*,
+*::before,
+*::after {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
-#master-container.app-viewport {
-  min-height: calc(var(--vh, 1vh) * 100);
-  display: flex;
-  flex-direction: column;
-}
+// #master-container {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+// }
 
-@supports (height: 100dvh) {
-  #master-container.app-viewport {
-    min-height: 100dvh;
-  }
-}
+// #master-container.app-viewport {
+//   min-height: calc(var(--vh, 1vh) * 100);
+//   display: flex;
+//   flex-direction: column;
+// }
 
-/* Some Androids only support svh */
-@supports (height: 100svh) and (not (height: 100dvh)) {
-  #master-container.app-viewport {
-    min-height: 100svh;
-  }
-}
+// @supports (height: 100dvh) {
+//   #master-container.app-viewport {
+//     min-height: 100dvh;
+//   }
+// }
+
+// /* Some Androids only support svh */
+// @supports (height: 100svh) and (not (height: 100dvh)) {
+//   #master-container.app-viewport {
+//     min-height: 100svh;
+//   }
+// }
 
 body {
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
+
+
 }
 
-.content {
+.navigaiton {
   display: flex;
   gap: 1rem;
-  align-items: center;
 
-  .elements-row {
-    display: flex;
-    gap: 10px;
+  a {
+    color: var(--font-color);
   }
 }
 
-@media (max-width: 768px) {
-  .content {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
-
-  .content>* {
-    min-width: 0;
-  }
-
-  .content app-round {
-    display: block;
-    width: 100%;
-    justify-self: stretch;
-  }
+.technical-info {
+  position: absolute;
+  bottom: -10em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.7em;
+  color: var(--font-color);
 }

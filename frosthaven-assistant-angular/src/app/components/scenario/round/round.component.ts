@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from "@angular/core";
-import { AppContext } from "../app-context";
-import { Element, ElementState } from '../types/game-types';
+import { AppContext } from "../../../app-context";
+import { Element, ElementState } from '../../../types/game-types';
 import { Subscription } from "rxjs";
-import { WebSocketService } from "../services/web-socket.service";
+import { WebSocketService } from "../../../services/web-socket.service";
 
 
 @Component({

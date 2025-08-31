@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../../app-context';
-import { Creature } from '../../types/game-types';
+import { AppContext } from '../../../app-context';
+import { Creature } from '../../../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CreatureGroupHeaderComponent } from './creature-group-header.component';

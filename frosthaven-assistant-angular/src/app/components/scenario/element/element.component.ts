@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Element, ElementState, ElementType } from '../types/game-types';
+import { Element, ElementState, ElementType } from '../../../types/game-types';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../app-context';
+import { AppContext } from '../../../app-context';
 
 @Component({
   selector: 'app-element',

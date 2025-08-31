@@ -1,0 +1,34 @@
+.scenario-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .elements-row {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .content>* {
+    min-width: 0;
+  }
+
+  .content app-round {
+    display: block;
+    width: 100%;
+    justify-self: stretch;
+  }
+}

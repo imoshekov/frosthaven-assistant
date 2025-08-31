@@ -1,0 +1,86 @@
+:host {
+ position: relative;
+}
+
+.setup-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--content-background-left);
+  padding: 10px 0;
+  padding-left: 5px;
+
+  .section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 1rem;
+    border-left: 5px solid;
+    gap: 0.5rem;
+    flex: 1 1 0px;
+
+    .label-group {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        padding: 0px;
+        font-size: 20px;
+      }
+    }
+  }
+
+  button {
+    border: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .setup-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.toggle {
+  --w: 40px;
+  --h: 20px;
+  --p: 3px;
+  --on: var(--accent, #22c55e);
+  --off: var(--base-color-spots, #6b7280);
+  --knob: var(--surface, #fff);
+  position: absolute;
+  display: inline-block;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--h);
+  background: var(--off);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  outline: none;
+  top: -25px;
+  right: 10px;
+
+  &.on {
+    background: var(--on);
+
+    .dot {
+      transform: translateX(calc(var(--w) - var(--h)));
+    }
+  }
+
+  .dot {
+    position: absolute;
+    top: var(--p);
+    left: var(--p);
+    width: calc(var(--h) - 2*var(--p));
+    height: calc(var(--h) - 2*var(--p));
+    border-radius: 50%;
+    background: var(--knob);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    transition: transform .2s ease;
+  }
+}

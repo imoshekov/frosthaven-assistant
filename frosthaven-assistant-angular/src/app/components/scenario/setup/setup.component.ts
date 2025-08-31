@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { NotificationService } from '../services/notification.service';
-import { LocalStorageService } from '../services/local-storage.service';
-import { Creature } from '../types/game-types';
-import { AppContext } from '../app-context';
-import { DataLoaderService } from '../services/data-loader.service';
+import { NotificationService } from '../../../services/notification.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { Creature } from '../../../types/game-types';
+import { AppContext } from '../../../app-context';
+import { DataLoaderService } from '../../../services/data-loader.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GlobalTelInputDirective } from '../directives/global-tel-input.directive';
-import { CreatureFactoryService } from '../services/creature-factory.service';
-import { WebSocketRole, WebSocketService } from '../services/web-socket.service';
+import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
+import { CreatureFactoryService } from '../../../services/creature-factory.service';
+import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
 
 
 @Component({
@@ -23,8 +23,8 @@ export class SetupComponent {
   scenarioId: number;
   sectionId: number;
   sessionId: number = 1;
+  shouldShowSetup: boolean = true;
 
-  public clientId: string | null = null;
 
   constructor(
     private notificationService: NotificationService,
@@ -36,9 +36,6 @@ export class SetupComponent {
   ) {
     this.appContext.defaultLevel$.subscribe(val => {
       this.scenarioLevel = val;
-    });
-    this.webSocketService.clientId$.subscribe(id => {
-      this.clientId = id;
     });
     this.webSocketService.sessionId$.subscribe(id => {
       if (id != null) {

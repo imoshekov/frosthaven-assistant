@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
-import { LogEntry, LogService } from '../services/log.service';
+import { LogEntry, LogService } from '../../../services/log.service';
 import { CommonModule } from '@angular/common';
-import { AppContext } from '../app-context'; // adjust path if needed
-import { NotificationService } from '../services/notification.service';
+import { AppContext } from '../../../app-context'; // adjust path if needed
+import { NotificationService } from '../../../services/notification.service';
 
 type Updater = (id: string, value: any, log: LogEntry) => void;
 
