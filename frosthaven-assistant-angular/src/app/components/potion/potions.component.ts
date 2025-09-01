@@ -4,11 +4,12 @@ import { Item, ItemResource } from '../../types/item-types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SinglePotionComponent } from './single-potion.component';
+import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
 
 @Component({
   selector: 'app-potions',
   standalone: true,
-  imports: [CommonModule, FormsModule, SinglePotionComponent],
+  imports: [CommonModule, FormsModule, SinglePotionComponent, GlobalTelInputDirective],
   templateUrl: './potions.component.html',
   styleUrls: ['./potions.component.scss']
 })

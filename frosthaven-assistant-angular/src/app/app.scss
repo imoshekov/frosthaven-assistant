@@ -1,26 +1,7 @@
-:root {
-  --vh: 1vh;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-html,
-body,
-app-root,
-#master-container,
-*,
-*::before,
-*::after {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-touch-callout: none !important;
-}
-
-body {
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
-}
+// /* Kill horizontal overflow from the root */
+html, body { width: 100%; overflow-x: clip; }
 
 .navigaiton {
   display: flex;
