@@ -6,15 +6,10 @@ import { DbService } from './db.service';
 @Injectable({ providedIn: 'root' })
 export class ItemLoaderService {
     constructor(private db: DbService) { }
-    // unlockedPotionIds = [
-    //     83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
-    //     99, 101, 102, 104, 105, 106, 107, 108, 109, 112, 115, 117, 118,
-    //     119
-    // ]
     unlockedPotionIds: number[] = [];
 
     async loadUnlockedPotions(): Promise<void> {
-        const potions = await this.db.getUnlockedPotions(); 
+        const potions = await this.db.getUnlockedPotions();
         this.unlockedPotionIds = potions.map(item => item.id);
     }
 

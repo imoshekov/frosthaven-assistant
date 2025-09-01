@@ -42,10 +42,11 @@ export class DbService {
 
   async getUnlockedPotions(): Promise<CraftableItemRow[]> {
     const { data, error } = await supabase
-      .from('craftable_item')           
+      .from('craftable_item')
       .select('id')
-      .eq('type', 'potion')
-      .eq('unlocked', true)
+      .eq('type', 'small')         
+      .eq('sub_type', 'potion')    
+      .eq('unlocked', true)        
       .order('id', { ascending: true });
 
     if (error) throw error;
