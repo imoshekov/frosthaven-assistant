@@ -1,18 +1,8 @@
-// src/app/services/supabase-character.service.ts
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { ItemSlot } from '../types/item-types';
+import { CharacterRow, CraftableItemRow } from '../types/db-types';
 
-export interface CharacterRow {
-  id: number;
-  name: string;
-  type: string;
-  level: number;
-}
-export interface CraftableItemRow {
-  id: number;
-  type: string;
-  unlocked: boolean;
-}
 
 const url = 'https://ymlekirbwjanuxrclsgf.supabase.co';
 //client-key, meant to be in code
@@ -21,9 +11,9 @@ const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const g = globalThis as any;
 const supabase: SupabaseClient = g.__supabaseClient ?? createClient(url, anon, {
   auth: {
-    persistSession: false,     // no token stored
-    autoRefreshToken: false,   // nothing to refresh
-    detectSessionInUrl: false, // skip parsing tokens from URL
+    persistSession: false,     
+    autoRefreshToken: false,   
+    detectSessionInUrl: false, 
   },
 });
 g.__supabaseClient = supabase;
@@ -40,16 +30,21 @@ export class DbService {
     return (data ?? []) as CharacterRow[];
   }
 
-  async getUnlockedPotions(): Promise<CraftableItemRow[]> {
-    const { data, error } = await supabase
+  async getUnlockedCraftableItems(type: ItemSlot | null = null): Promise<CraftableItemRow[]> {
+    let query = supabase
       .from('craftable_item')
       .select('id')
-      .eq('type', 'small')         
-      .eq('sub_type', 'potion')    
-      .eq('unlocked', true)        
+      .eq('unlocked', true)
       .order('id', { ascending: true });
+
+    if (type) {
+      query = query.eq('type', type);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
     return (data ?? []) as CraftableItemRow[];
   }
+
 }

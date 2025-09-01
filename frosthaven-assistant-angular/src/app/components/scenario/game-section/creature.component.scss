@@ -1,11 +1,10 @@
 .container {
     display: flex;
     justify-content: flex-start;
-    width: 100%;
     background: var(--nonelite-color);
     border: 1px solid;
     flex-direction: column;
-    
+
 
     &.elite {
         background: var(--elite-color);
@@ -37,8 +36,6 @@
     width: 100%;
 
     .trait {
-        border-radius: 6px;
-        padding: 2px 6px;
         text-align: center;
     }
 }
@@ -94,7 +91,9 @@ button.open-modal {
 }
 
 @media (max-width: 768px) {
-    .container, .creature-standee {
+
+    .container,
+    .creature-standee {
         justify-content: center;
         align-items: center;
     }

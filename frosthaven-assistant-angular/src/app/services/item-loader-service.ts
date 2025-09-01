@@ -9,7 +9,7 @@ export class ItemLoaderService {
     unlockedPotionIds: number[] = [];
 
     async loadUnlockedPotions(): Promise<void> {
-        const potions = await this.db.getUnlockedPotions();
+        const potions = await this.db.getUnlockedCraftableItems(ItemSlot.Small);
         this.unlockedPotionIds = potions.map(item => item.id);
     }
 
