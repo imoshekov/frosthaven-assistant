@@ -31,7 +31,7 @@ export interface MonsterStat {
   movement?: number | string;
   attack?: number | string;
   actions?: MonsterAction[];
-  immunities?: any;
+  immunities?: string[];
   special?: any;
   note?: string;
   baseStat?: MonsterBaseStat;
@@ -46,7 +46,7 @@ export interface Monster {
   standeeCount?: number | string;
   baseStat: MonsterStat;
   stats: MonsterStat[];
-  immunities?: any;
+  immunities?: string[];
   deck?: any,
   hidden?: boolean;
   standeeShare?: string;

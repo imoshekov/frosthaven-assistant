@@ -90,6 +90,10 @@
         background-image: url("./images/fh/action/range.svg"),
     }
 
+    &.immune {
+        background-image: url("./images/fh/condition/immune.svg");
+    }
+
     &.snowthistle {
         background-image: url("./images/fh/loot/snowthistle.svg"),
     }

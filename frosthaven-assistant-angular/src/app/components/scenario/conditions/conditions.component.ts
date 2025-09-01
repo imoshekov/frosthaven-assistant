@@ -10,11 +10,13 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 
-export class ConditionsComponent implements OnInit{
+export class ConditionsComponent implements OnInit {
   @Input() creature!: Creature;
   @Input() conditions: CreatureConditions[];
+  @Input() immunities: CreatureConditions[];
   @Input() shouldShowBuffs: boolean;
   private activeConditions: CreatureConditions[] = [];
+  private activeImmunities: CreatureConditions[] = [];
 
   @Output() conditionToggled = new EventEmitter<CreatureConditions>();
 
@@ -24,17 +26,24 @@ export class ConditionsComponent implements OnInit{
     this.creature?.conditions?.forEach(condition => {
       this.activeConditions.push(condition);
     })
+    this.creature?.immunities?.forEach(immunity => {
+      this.activeImmunities.push(immunity);
+    })
   }
 
   toggleCondition(condition: CreatureConditions) {
-    if (this.creature) {
-      this.activeConditions.includes(condition) ? this.removeCondition(condition) : this.activeConditions.push(condition);
-      this.conditionToggled.emit(condition);
-    }
+    if (this.isImmune(condition)) return;
+    this.activeConditions.includes(condition) ? this.removeCondition(condition) : this.activeConditions.push(condition);
+    this.conditionToggled.emit(condition);
+
   }
 
-  isActive(condition: CreatureConditions) {
+  isActive(condition: CreatureConditions): boolean {
     return this.activeConditions.includes(condition);
+  }
+
+  isImmune(immunity: CreatureConditions): boolean {
+    return this.activeImmunities.includes(immunity);
   }
 
   private removeCondition(value: string) {

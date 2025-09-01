@@ -1,6 +1,6 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
-import { Creature } from '../types/game-types';
+import { Creature, CreatureConditions } from '../types/game-types';
 import { DataFile, Monster, MonsterAction, MonsterStat } from '../types/data-file-types';
 import { DataLoaderService } from '../services/data-loader.service';
 import { StringUtils } from './string-utils.service';
@@ -55,6 +55,10 @@ export class CreatureFactoryService {
       flying: monster?.flying ?? false,
       isElite: creatureInput.isElite ?? false,
       conditions: creatureInput.conditions ?? [],
+      immunities: (monster?.stats?.[0]?.immunities
+        ?? monster?.baseStat?.immunities
+        ?? [])
+        .map((c: string) => c as CreatureConditions),
       roundArmor: creatureInput.roundArmor ?? 0,
       roundRetaliate: creatureInput.roundRetaliate ?? 0,
       actions:

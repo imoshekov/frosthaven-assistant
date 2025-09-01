@@ -20,7 +20,7 @@
             </div>
         </div>
         <app-conditions *ngIf="!this.appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
-            [shouldShowBuffs]="true" (conditionToggled)="toggleCondition($event)">
+            [immunities]="creature.immunities" [shouldShowBuffs]="true" (conditionToggled)="toggleCondition($event)">
         </app-conditions>
 
         <div class="buttons">

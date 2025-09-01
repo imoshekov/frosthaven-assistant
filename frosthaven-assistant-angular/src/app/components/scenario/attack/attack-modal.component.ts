@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Creature, CreatureConditions } from '../../../types/game-types';
 import { AppContext } from '../../../app-context';
 import { ConditionsComponent } from '../conditions/conditions.component';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { BuffsComponent } from './buffs.component';
 import { FormsModule } from '@angular/forms';
-import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-attack-modal',
@@ -25,7 +24,7 @@ export class AttackModalComponent {
   public damage = 0;
   private tempConditions: CreatureConditions[] = [];
 
-  constructor(public appContext: AppContext, private notificationService: NotificationService) {
+  constructor(public appContext: AppContext) {
     this.creature = appContext.selectedCreature;
   }
 

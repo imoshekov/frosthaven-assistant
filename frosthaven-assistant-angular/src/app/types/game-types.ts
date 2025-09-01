@@ -39,6 +39,7 @@ export interface Creature {
   flying?: boolean;
   boss?: boolean;
   conditions?: CreatureConditions[];
+  immunities?: CreatureConditions[];
   roundArmor?: number,
   roundRetaliate?: number,
   log?: any[];
