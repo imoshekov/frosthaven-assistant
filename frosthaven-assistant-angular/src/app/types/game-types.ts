@@ -31,6 +31,7 @@ export interface Creature {
   level?: number; 
   hp?: number;
   attack?: number;
+  attackTarget?: number;
   movement?: number | null;
   initiative?: number;
   armor?: number;

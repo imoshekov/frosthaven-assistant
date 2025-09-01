@@ -38,6 +38,7 @@ export class CreatureFactoryService {
         this.stringUtils.parseInt(monster?.baseStat?.attack ?? 0),
         this.stringUtils.parseInt(monster?.stats[0]?.attack ?? 0)
       ),
+      attackTarget: this.getTargetStat(monster),
       movement: Math.max(
         this.stringUtils.parseInt(monster?.baseStat?.movement ?? 0),
         this.stringUtils.parseInt(monster?.stats[0]?.movement ?? 0)
@@ -103,6 +104,18 @@ export class CreatureFactoryService {
     }
 
     return 0;
+  }
+
+  private getTargetStat(monster: Monster): number {
+    const targetAction =
+      monster?.stats?.[0]?.actions?.find((x: MonsterAction) => x.type === 'target') ??
+      monster?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'target');
+
+    if (!targetAction) {
+      return 1; 
+    }
+
+    return this.stringUtils.parseInt(targetAction.value ?? 1);
   }
 
 

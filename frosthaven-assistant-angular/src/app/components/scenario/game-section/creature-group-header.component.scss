@@ -119,6 +119,8 @@
        .icon {
          width: 30px;
          height: 30px;
+         display: flex;
+         justify-content: center;
 
          &.shield,
          &.retaliate {

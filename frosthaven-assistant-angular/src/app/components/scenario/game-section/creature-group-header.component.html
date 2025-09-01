@@ -23,6 +23,7 @@
         <div class="base-stat" [class.bordered]="hasExtraStats(creature)">
           <div class="icon attack"></div>
           <span class="stat-value">{{ creature.attack }}</span>
+          <div *ngIf="creature.attackTarget > 1" class="icon target">{{ creature.attackTarget}}</div>
         </div>
         <div class="base-stat" *ngIf="creature.armor + creature.roundArmor > 0">
           <div class="icon shield">{{ creature.armor + creature.roundArmor }}</div>
