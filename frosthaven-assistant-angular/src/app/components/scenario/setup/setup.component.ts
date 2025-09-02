@@ -69,7 +69,7 @@ export class SetupComponent {
   loadSection(): void {
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
     const section = this.dataLoader.getData().sections.find(
-      s => s.index === sectionIdFormatted && s.parent === this.scenarioId
+      s => s.index === sectionIdFormatted
     );
     if (!section || !section.rooms || section.rooms.length === 0 || !section.rooms[0].monster) {
       this.notificationService.emitErrorMessage(`${this.sectionId} is not related to mission ${this.scenarioId}`);

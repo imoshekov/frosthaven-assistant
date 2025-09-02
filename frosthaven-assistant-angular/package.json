@@ -9,7 +9,8 @@
     "build": "ng build",
     "build:tv": "ng build --configuration production && npx babel dist/frosthaven-assistant-angular --out-dir dist/frosthaven-assistant-angular --extensions \".js\"",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "playwright test",
+    "studio": "concurrently -k -s first -n \"NG,STUDIO\" \"npm:start\" \"wait-on http-get://localhost:4200/frosthaven-assistant && playwright codegen http://localhost:4200/frosthaven-assistant\"",
     "compile": "node ./node_modules/typescript/bin/tsc",
     "server": "node src/server.js"
   },
@@ -45,13 +46,17 @@
     "@angular/compiler-cli": "^20.1.0",
     "@angular/pwa": "^20.1.6",
     "@angular/service-worker": "^20.1.6",
+    "@playwright/test": "^1.55.0",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^24.3.0",
+    "concurrently": "^9.2.1",
     "jasmine-core": "~5.8.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.2",
+    "wait-on": "^8.0.4"
   }
 }
