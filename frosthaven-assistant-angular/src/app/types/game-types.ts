@@ -1,14 +1,16 @@
 export enum CreatureConditions {
   poison = "poison",
   wound = "wound",
-  brittle = "brittle",
-  ward = "ward",
+  muddle = "muddle",
   immobilize = "immobilize",
   bane = "bane",
-  muddle = "muddle",
   stun = "stun",
-  impair = "impair",
-  disarm = "disarm"
+  disarm = "disarm",
+  brittle = "brittle",
+  ward = "ward",
+  invisible = "invisible",
+  strengthen = "strengthen",
+  regenerate = "regenerate"
 }
 
 export interface CreatureAction {

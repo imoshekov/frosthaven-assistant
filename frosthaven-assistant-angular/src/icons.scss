@@ -61,6 +61,18 @@
         background-image: url("./images/fh/condition/disarm.svg");
     }
 
+    &.regenerate {
+        background-image: url("./images/fh/condition/regenerate.svg");
+    }
+
+    &.invisible {
+        background-image: url("./images/fh/condition/invisible.svg");
+    }
+
+    &.strengthen {
+        background-image: url("./images/fh/condition/strengthen.svg");
+    }
+
     &.damage {
         background-image: url("./images/fh/action/damage.svg");
     }
@@ -94,7 +106,7 @@
         background-image: url("./images/fh/condition/immune.svg");
     }
 
-    &.target{
+    &.target {
         background-image: url("./images/fh/action/target.svg");
     }
 

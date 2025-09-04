@@ -10,6 +10,10 @@ svg {
   background-color: var(--content-background-right);
   border-radius: 50%;
 
+  stop {
+    transition: .4s ease;
+}
+
   g {
     path {
       fill: var(--font-color-dark);
