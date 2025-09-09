@@ -9,5 +9,9 @@ export const routes: Routes = [
     path: 'potions',
     loadComponent: () => import('./components/potion/potions.component').then(m => m.PotionsComponent)
   },
+  {
+    path: 'armory',
+    loadComponent: () => import('./components/armory/armory.component').then(m => m.ArmoryComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

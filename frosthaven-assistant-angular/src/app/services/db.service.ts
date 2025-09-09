@@ -11,9 +11,9 @@ const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 const g = globalThis as any;
 const supabase: SupabaseClient = g.__supabaseClient ?? createClient(url, anon, {
   auth: {
-    persistSession: false,     
-    autoRefreshToken: false,   
-    detectSessionInUrl: false, 
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
   },
 });
 g.__supabaseClient = supabase;
@@ -30,17 +30,28 @@ export class DbService {
     return (data ?? []) as CharacterRow[];
   }
 
-  async getUnlockedCraftableItems(type: ItemSlot | null = null): Promise<CraftableItemRow[]> {
+  async getUnlockedCraftableItems(): Promise<CraftableItemRow[]> {
     let query = supabase
       .from('craftable_item')
       .select('id')
       .eq('unlocked', true)
+      .neq('type', ItemSlot.Small)
       .order('id', { ascending: true });
 
-    if (type) {
-      query = query.eq('type', type);
-    }
+    const { data, error } = await query;
 
+    if (error) throw error;
+    return (data ?? []) as CraftableItemRow[];
+  }
+
+  async getUnlockedPotions(): Promise<CraftableItemRow[]> {
+    let query = supabase
+      .from('craftable_item')
+      .select('id')
+      .eq('unlocked', true)
+      .eq('type', ItemSlot.Small)
+      .eq('sub_type', 'potion')
+      .order('id', { ascending: true });
     const { data, error } = await query;
 
     if (error) throw error;

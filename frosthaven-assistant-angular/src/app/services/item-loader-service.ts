@@ -7,10 +7,16 @@ import { DbService } from './db.service';
 export class ItemLoaderService {
     constructor(private db: DbService) { }
     unlockedPotionIds: number[] = [];
+    unlockedCraftablesIds: number[] = [];
 
     async loadUnlockedPotions(): Promise<void> {
-        const potions = await this.db.getUnlockedCraftableItems(ItemSlot.Small);
+        const potions = await this.db.getUnlockedPotions();
         this.unlockedPotionIds = potions.map(item => item.id);
+    }
+
+    async loadUnlockedCraftables(): Promise<void> {
+        const craftables = await this.db.getUnlockedCraftableItems();
+        this.unlockedCraftablesIds = craftables.map(item => item.id);
     }
 
     getUnlockedPotionsItems(): Item[] {
