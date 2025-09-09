@@ -30,12 +30,11 @@ export class DbService {
     return (data ?? []) as CharacterRow[];
   }
 
-  async getUnlockedCraftableItems(): Promise<CraftableItemRow[]> {
+  async getUnlockedItems(): Promise<CraftableItemRow[]> {
     let query = supabase
       .from('craftable_item')
       .select('id')
       .eq('unlocked', true)
-      .neq('type', ItemSlot.Small)
       .order('id', { ascending: true });
 
     const { data, error } = await query;

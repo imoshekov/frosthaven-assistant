@@ -1,34 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Item, ItemSlot } from "../types/item-types";
-import { DbService } from './db.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class ItemLoaderService {
-    constructor(private db: DbService) { }
-    unlockedPotionIds: number[] = [];
-    unlockedCraftablesIds: number[] = [];
+    HERB_RESOURCE_KEYS = ["arrowvine", "axenut", "corpsecap", "flamefruit", "rockroot", "snowthistle"];
+    ALL_RESOURCE_KEYS = [...this.HERB_RESOURCE_KEYS, "metal", "lumber", "hide", "money"];
 
-    async loadUnlockedPotions(): Promise<void> {
-        const potions = await this.db.getUnlockedPotions();
-        this.unlockedPotionIds = potions.map(item => item.id);
-    }
-
-    async loadUnlockedCraftables(): Promise<void> {
-        const craftables = await this.db.getUnlockedCraftableItems();
-        this.unlockedCraftablesIds = craftables.map(item => item.id);
-    }
-
-    getUnlockedPotionsItems(): Item[] {
-        return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) > -1);
-    }
-
-    getLockedPotionsItems(): Item[] {
-        return this.getData().filter(item => this.unlockedPotionIds.indexOf(item.id) < 0);
-    }
+    constructor() { }
 
     getPotionsItems(): Item[] {
-        return this.getData().filter(item => item.requiredBuilding === "alchemist" && item.slot === ItemSlot.Small);
+        return this.getData().filter(item => this.isPotion(item));
+    }
+
+    getUnlockedItems(unlockedIds: number[]): Item[] {
+        return this.getData().filter(item => unlockedIds.indexOf(item.id) > -1 && !this.isPotion(item));
+    }
+
+    private isPotion(item: Item): boolean {
+        return item.requiredBuilding === "alchemist" && item.slot === ItemSlot.Small;
     }
 
     getData(): Item[] {

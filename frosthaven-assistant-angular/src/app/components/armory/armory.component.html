@@ -1,1 +1,26 @@
-<h1>armory</h1>
+<div class="filters content">
+  <div class="materials" *ngFor="let type of RESOURCE_KEYS; let i = index">
+    <div class="icon" [class]="type"></div>
+    <input type="tel" placeholder="#" [(ngModel)]="inventory[type]"/>
+  </div>
+  <!-- <button (click)="filterCraftable()" class="cancel">Brew</button>
+  <button (click)="clear()" class="cancel">All</button> -->
+</div>
+<div class="items-container">
+<div class="items-group" *ngFor="let slotType of slots">
+    <div class="title">{{ slotType }}</div>
+    <div class="container">
+        <div *ngFor="let item of getSlotItems(slotType)" >
+           <app-single-item [item]="item" [unlockedItemIds]="unlockedItemIds" (craftItem)="craftItem($event)"></app-single-item>
+        </div>
+    </div>
+  </div>
+  <!-- <div class="title">Same herbs</div>
+  <div class="wierd-herbs container">
+    <div *ngFor="let potion of wierdPotions">
+      <app-single-potion [potion]="potion" (brewPotion)="brewPotion($event)"></app-single-potion>
+    </div>
+  </div> -->
+
+
+</div>

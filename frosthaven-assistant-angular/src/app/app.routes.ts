@@ -7,7 +7,7 @@ export const routes: Routes = [
   },
   {
     path: 'potions',
-    loadComponent: () => import('./components/potion/potions.component').then(m => m.PotionsComponent)
+    loadComponent: () => import('./components/alchemy/alchemy.component').then(m => m.AlchemyComponent)
   },
   {
     path: 'armory',

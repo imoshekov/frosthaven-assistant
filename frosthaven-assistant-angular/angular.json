@@ -36,7 +36,7 @@
               },
               {
                 "glob": "**/*.{png,jpg,jpeg,gif,bmp,webp,svg,tif,tiff}",
-                "input": "../images",
+                "input": "./src/images",
                 "output": "/images"
               }
             ],
