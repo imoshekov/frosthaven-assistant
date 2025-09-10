@@ -14,7 +14,7 @@ export class ItemLoaderService {
     }
 
     getUnlockedItems(unlockedIds: number[]): Item[] {
-        return this.getData().filter(item => unlockedIds.indexOf(item.id) > -1 && !this.isPotion(item));
+        return this.getData().filter(item => unlockedIds.indexOf(item.id) > -1);
     }
 
     private isPotion(item: Item): boolean {

@@ -47,7 +47,7 @@ export class ArmoryComponent implements OnInit {
     }
 
     craftItem(item: Item) {
-        this.printRequirements(item.id);
+        this.printRequirements(item);
     }
 
     private loadItems(): void {
@@ -67,8 +67,8 @@ export class ArmoryComponent implements OnInit {
         });
     }
 
-    private printRequirements(itemId: number) {
-        console.log('[armory] requirements for', itemId);
+    private printRequirements(item: Item) {
+        console.log('[armory] requirements for', item.id);
 
         const byId = (id: number) => (this.all ?? []).find(i => i.id === id);
         const getDeps = (it: any): number[] => {
@@ -115,7 +115,7 @@ export class ArmoryComponent implements OnInit {
             }
         };
 
-        collect(itemId);
+        collect(item.id);
 
         // 1) Push totals into your inputs bound via [(ngModel)]="inventory[type]"
         for (const key of this.RESOURCE_KEYS as (keyof ItemResource)[]) {
@@ -127,7 +127,7 @@ export class ArmoryComponent implements OnInit {
         // 2) Console output
         const nameOf = (id: number) => byId(id)?.name ?? `${id}`;
         console.log('--- REQUIREMENTS ---');
-        console.log(`Item: ${nameOf(itemId)}`);
+        console.log(`Item: ${nameOf(item.id)}`);
 
         let anyMat = false;
         console.log('Materials (incl. dependencies):');
@@ -154,11 +154,14 @@ export class ArmoryComponent implements OnInit {
         // 3) Notify if any locked dependency exists
         if (locked.size > 0) {
             const lockedList = Array.from(locked)
-                .map(id => `${nameOf(id)} (id: ${id})`)
+                .map(id => `${nameOf(id)}`)
                 .join(', ');
-            const rootName = nameOf(itemId);
-            const msg = `Cannot craft "${rootName}" — locked dependency: ${lockedList}.`;
+            const rootName = nameOf(item.id);
+            const msg = `Cannot craft "${rootName}" — ${lockedList} locked.`;
             this.notificationService.emitErrorMessage(msg);
+        }
+        else {
+            this.notificationService.emitInfoMessage('required materials loaded');
         }
     }
 }
