@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class SingleItemComponent {
   @Input() item!: Item;
   @Input() unlockedItemIds!: number[];
-  @Output() craftItem = new EventEmitter<ItemResource>();
+  @Output() craftItem = new EventEmitter<Item>();
 
   constructor() { }
 
@@ -33,6 +33,6 @@ export class SingleItemComponent {
   }
 
   craft(): void {
-    this.craftItem.emit(this.item.resources);
+    this.craftItem.emit(this.item);
   }
 }

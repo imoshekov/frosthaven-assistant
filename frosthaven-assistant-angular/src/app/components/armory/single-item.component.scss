@@ -1,5 +1,6 @@
 .item {
     position: relative;
+    cursor: pointer;
 
     .id {
         position: absolute;
@@ -18,7 +19,7 @@
         display: flex;
         gap: 0.3rem;
         flex-direction: column;
-        right:0;
+        right: 0;
         top: 0;
         justify-content: center;
 
