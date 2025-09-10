@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1757503299480,
+  "timestamp": 1757506291519,
   "index": "/frosthaven-assistant/index.html",
   "assetGroups": [
     {
@@ -11,16 +11,16 @@
         "ignoreVary": true
       },
       "urls": [
-        "/frosthaven-assistant/53.b18d5ac5f223b7cc.js",
+        "/frosthaven-assistant/53.19d266ae8aa713e0.js",
         "/frosthaven-assistant/559.2bca0f1eab3c2219.js",
         "/frosthaven-assistant/622.b0240e64b717c979.js",
-        "/frosthaven-assistant/699.59de4dcf2154230f.js",
+        "/frosthaven-assistant/699.bdebfcb68231b618.js",
         "/frosthaven-assistant/favicon.ico",
         "/frosthaven-assistant/index.html",
         "/frosthaven-assistant/main.734431dc4950c3d9.js",
         "/frosthaven-assistant/manifest.webmanifest",
         "/frosthaven-assistant/polyfills.beb9055dba92d664.js",
-        "/frosthaven-assistant/runtime.470e5b8740af6080.js",
+        "/frosthaven-assistant/runtime.90907a52b2473428.js",
         "/frosthaven-assistant/styles.f1ad1237ebd6099d.css"
       ],
       "patterns": []
@@ -1875,10 +1875,10 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/frosthaven-assistant/53.b18d5ac5f223b7cc.js": "d3e37ef7e51568f5d8abaf4b6208d6009ed6ebee",
+    "/frosthaven-assistant/53.19d266ae8aa713e0.js": "034f8022932e9b674e625dd86832cb1f51c513d9",
     "/frosthaven-assistant/559.2bca0f1eab3c2219.js": "80f61f7f9d9ab852d8178474ca48c7413a428063",
     "/frosthaven-assistant/622.b0240e64b717c979.js": "2f152e12b3ce42a16782eb556d42019a8025b060",
-    "/frosthaven-assistant/699.59de4dcf2154230f.js": "e59aa495a82cae86b59581a10c9485e98c275727",
+    "/frosthaven-assistant/699.bdebfcb68231b618.js": "8fcb92bce7608a71415ffe29f6a3013bea6ef321",
     "/frosthaven-assistant/arrowvine.eb2b90e2c1e8a8d0.svg": "0b1e88354fd542d67d1c41ed50d532399a43b1bb",
     "/frosthaven-assistant/attack.eab16c193b4557a8.svg": "2cbdeb99ea5bf09090fd21070bc21f9ea56ef9a5",
     "/frosthaven-assistant/axenut.5f58b7860ae7c1b9.svg": "0a9c73dfd30627b57a83aeb53d29fb6582ed2b1d",
@@ -3696,7 +3696,7 @@
     "/frosthaven-assistant/immobilize.1e5803f1bc346d84.svg": "5f0ea08041d98f74b84e1d5e0247772cc906ff54",
     "/frosthaven-assistant/immune.3638b2264dfc0cf4.svg": "683fda2b898292506e4a8f0984c5057c0e877509",
     "/frosthaven-assistant/impair.34d630196818b373.svg": "d18315d776a810da7b63defd4c3c186e2e0697ad",
-    "/frosthaven-assistant/index.html": "68963e29a1c1e3386f770dd40c948d5c16979a79",
+    "/frosthaven-assistant/index.html": "14e1a4556478b587295135f543b73380c43f9d1d",
     "/frosthaven-assistant/invisible.063c0ca4b394eadc.svg": "318e646ff178c39f393bf8b9eb0709b1f9a9e438",
     "/frosthaven-assistant/lumber.5b84d843acf0ada0.svg": "28dbe637c32fdf39468fb0082be8fe969113fd10",
     "/frosthaven-assistant/main.734431dc4950c3d9.js": "e7c502bc2500284085894ac2a4c555b2b2805331",
@@ -3712,7 +3712,7 @@
     "/frosthaven-assistant/regenerate.a5c97902ad3c1c64.svg": "0130ea3e306f6ec4d330bec14af67f31c72d506a",
     "/frosthaven-assistant/retaliate.0f79372c64b02290.svg": "96ebd7ab44bd29be7dac70ca8424aef1e8550c62",
     "/frosthaven-assistant/rockroot.e280bddf8428a20e.svg": "8f2abca80ce50420f7bc1a3c6ca4580ac58f0517",
-    "/frosthaven-assistant/runtime.470e5b8740af6080.js": "3af164dfcc486ab3283ed661c19797e157d1e799",
+    "/frosthaven-assistant/runtime.90907a52b2473428.js": "671b1453a1d67bf318a5fc62820dedb40504bd05",
     "/frosthaven-assistant/shield.708a2ee050ac0ed7.svg": "577ccc2e97f70940674d0c4de10787000351471a",
     "/frosthaven-assistant/snowthistle.43b0e5047cb62399.svg": "dbf62fa9593c06b1bf17f7acbd2feefcb196f999",
     "/frosthaven-assistant/strengthen.2f3225d7ac54ae1d.svg": "388bdb026a6773cd56adae8e2ac3e5bbf77e56dd",
