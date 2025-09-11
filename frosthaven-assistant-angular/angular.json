@@ -31,7 +31,7 @@
               },
               {
                 "glob": "**/*.json",
-                "input": "../scenarios",
+                "input": "./src/scenarios",
                 "output": "/scenarios"
               },
               {

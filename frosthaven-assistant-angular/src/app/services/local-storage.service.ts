@@ -41,11 +41,18 @@ export class LocalStorageService {
     if (!scenarioNumber) {
       throw new Error('Enter a valid scenario number');
     }
-    const formattedFileNumber = String(scenarioNumber).padStart(3, '0');
-    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
-    const filePath = `${baseHref.replace(/\/$/, '')}/scenarios/${formattedFileNumber}.json`;
+
+    const formatted = String(scenarioNumber).padStart(3, '0');
+
+    // Use base href from index.html (<base href="/frosthaven-assistant/">)
+    const base = new URL(document.baseURI);
+    base.hash = ''; // remove #/ so it doesn’t break the path
+
+    // Angular copies scenarios into /scenarios
+    const url = new URL(`scenarios/${formatted}.json`, base);
+
     try {
-      const response = await fetch(filePath);
+      const response = await fetch(url.href, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
       }
@@ -53,9 +60,11 @@ export class LocalStorageService {
       return this.processScenarioData(data, level);
     } catch (error) {
       console.error('Error loading file:', error);
-      throw new Error(`Error loading scenario ${scenarioNumber}. Check the file path and make sure it exists.`);
+      throw new Error(`Error loading scenario ${scenarioNumber}. Tried: ${url.pathname}`);
     }
   }
+
+
 
   processScenarioData(data: any, level: number = 1): Creature[] {
     if (!data.rooms || !data.rooms[0] || !data.rooms[0].monster) return [];
