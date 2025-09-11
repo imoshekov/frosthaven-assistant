@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/environments/increment-build.mjs"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

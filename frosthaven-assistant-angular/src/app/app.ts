@@ -5,6 +5,7 @@ import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { WebSocketService } from './services/web-socket.service';
+import { VERSION_MAJOR, VERSION_MINOR } from '../environments/version';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class AppComponent {
   protected readonly title = signal('frosthaven-assistant-angular');
   clientId: string | null = null;
   sessionId: number = 1;
+  version: string = `v${VERSION_MAJOR}.${VERSION_MINOR}`;
 
   constructor(
     public appContext: AppContext,

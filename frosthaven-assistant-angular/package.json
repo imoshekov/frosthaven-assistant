@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "serve": "ng serve --host 0.0.0.0 --port 4200",
+    "prebuild": "node src/environments/increment-build.mjs",
     "build": "ng build",
     "build:tv": "ng build --configuration production && npx babel dist/frosthaven-assistant-angular --out-dir dist/frosthaven-assistant-angular --extensions \".js\"",
     "watch": "ng build --watch --configuration development",
