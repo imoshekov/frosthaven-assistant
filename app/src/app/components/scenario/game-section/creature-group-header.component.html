@@ -1,0 +1,50 @@
+<div class="creature-details" [ngClass]="[
+       creature.type,
+       creature.boss ? 'boss'
+         : creature.isElite ? 'elite'
+         : 'non-elite',
+       creature.aggressive ? '' : 'character'
+     ]">
+
+  <div class="base-stat row">
+    <div class="creature-initiative">
+      <input type="tel" [value]="creature.initiative"
+        (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, true)" maxlength="2"
+        class="stat-input" />
+    </div>
+    <div class="name" *ngIf="creature.aggressive">
+      {{ creature.type }}
+    </div>
+  </div>
+  <div class="info row">
+    <img class='profile' [src]="getCreaturePic(creature)" (error)="onImgError($event)" (click)="openConditionModal()">
+    <div class="group-stats" *ngIf="creature.aggressive">
+      <div class="stats">
+        <div class="base-stat" [class.bordered]="hasExtraStats(creature)">
+          <div class="icon attack"></div>
+          <span class="stat-value">{{ creature.attack }}</span>
+          <div *ngIf="creature.attackTarget > 1" class="icon target"></div>
+          <span *ngIf="creature.attackTarget > 1" class="stat-value">{{ creature.attackTarget }}</span>
+        </div>
+        <div class="base-stat" *ngIf="creature.armor + creature.roundArmor > 0">
+          <div class="icon shield">{{ creature.armor + creature.roundArmor }}</div>
+        </div>
+        <div class="base-stat" *ngIf="creature.retaliate + creature.roundRetaliate > 0">
+          <div class="icon retaliate">{{ creature.retaliate + creature.roundRetaliate }}</div>
+          <div class="icon range" *ngIf="creature.retaliateRange > 0">{{creature.retaliateRange}}</div>
+        </div>
+        <div class="traits" *ngIf="creature.aggressive && creature.actions?.length">
+          <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="base-stat" [class.bordered]="creature.flying">
+          <div class="icon move"></div>
+          <span class="stat-value">{{ creature.movement }}</span>
+        </div>
+        <div class="base-stat" *ngIf="creature.flying">
+          <div class="icon flying"></div>
+        </div>
+      </div>
+    </div>
+  </div>

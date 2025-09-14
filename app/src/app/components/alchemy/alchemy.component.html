@@ -1,0 +1,30 @@
+<div class="filters content">
+  <div class="herbs" *ngFor="let type of RESOURCE_KEYS; let i = index">
+    <div class="icon" [class]="type"></div>
+    <input type="tel" placeholder="#" [(ngModel)]="inventory[type]"/>
+  </div>
+  <button (click)="filterCraftable()" class="cancel">Brew</button>
+  <button (click)="clear()" class="cancel">All</button>
+</div>
+<div class="potions-container">
+  <div class="title">Two herbs</div>
+  <div class="two-herbs container">
+    <div *ngFor="let potion of twoHerbsPotions" >
+      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds" (brewPotion)="brewPotion($event)"></app-single-potion>
+    </div>
+  </div>
+  <div class="title">Three herbs</div>
+  <div class="three-herbs container">
+    <div *ngFor="let potion of threeHerbsPotions">
+      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds" (brewPotion)="brewPotion($event)"></app-single-potion>
+    </div>
+  </div>
+  <!-- <div class="title">Same herbs</div>
+  <div class="wierd-herbs container">
+    <div *ngFor="let potion of wierdPotions">
+      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds" (brewPotion)="brewPotion($event)"></app-single-potion>
+    </div>
+  </div> -->
+
+
+</div>

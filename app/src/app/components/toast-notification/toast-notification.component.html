@@ -1,0 +1,14 @@
+<div class="toast-container">
+  <div *ngFor="let msg of messages" 
+       class="toast" 
+       [ngClass]="{'toast-error': msg.type === 'error', 'toast-info': msg.type === 'info'}">
+    <div class="toast-header">
+      <strong class="toast-title">{{ msg.type === 'error' ? 'Error' : 'Information' }}</strong>
+      <small>{{ msg.timestamp | date:'HH:mm:ss' }}</small>
+      <button type="button" class="toast-close" (click)="removeMessage(msg.id)">×</button>
+    </div>
+    <div class="toast-body">
+      {{ msg.message }}
+    </div>
+  </div>
+</div>

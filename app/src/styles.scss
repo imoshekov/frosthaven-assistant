@@ -1,0 +1,180 @@
+@import "icons.scss";
+@import url("https://fonts.googleapis.com/css2?family=Skranji&display=swap");
+@import "variables.scss";
+
+:root { --vh100: 100vh; }
+@supports (height: 100dvh) { :root { --vh100: 100dvh; } }
+
+* {
+    font-family: "Skranji", cursive;
+}
+
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
+    margin: 0;
+    padding: 10px;
+    font-size: 22px;
+    color: var(--font-color);
+    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
+    line-height: 1.4;
+    -ms-overflow-style: none;
+    scrollbar-width: 1px;
+    overflow-y: scroll;
+    // width: 100%;
+
+    &::-webkit-scrollbar {
+        display: none;
+        /* for Chrome, Safari, and Opera */
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    gap: 30px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 4px solid var(--content-box-shadow-1);
+    color: var(--font-color);
+    font-size: 30px;
+    background-color: var(--secondary-color);
+    cursor: pointer;
+
+    &.action-button {
+        color: var(--font-color-dark);
+    }
+
+    &.confirm {
+        background-color: var(--confirm-button-color-1);
+
+        &:hover {
+            background-color: var(--confirm-button-color-2);
+        }
+    }
+
+    &.cancel {
+        background-color: var(--primary-color);
+
+
+        &:hover {
+            background-color: var(--content-box-shadow-2);
+        }
+    }
+}
+
+input,
+label {
+    border: none;
+    color: var(--font-color-dark);
+    font-size: 25px;
+    cursor: pointer;
+    background-color: var(--content-background-right);
+
+    padding: 10px 15px;
+
+    &[type="checkbox"],
+    &[type="tel"] {
+        width: 30px;
+        text-align: center;
+        border: 1px solid var(--content-box-shadow-1);
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0;
+        }
+    }
+}
+
+.content {
+    background: radial-gradient(var(--content-background-left), var(--content-background-right));
+    box-sizing: border-box;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+
+    div {
+        box-sizing: border-box;
+        color: var(--font-color-dark);
+    }
+
+}
+
+
+label {
+    background: none;
+    cursor: default;
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 16px;
+    margin: 5px 8px 5px 0;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+
+.button-link:hover {
+    background-color: #2563eb;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title img {
+    margin-right: 10px;
+}
+
+.layout {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
+    background-size: calc(10 * 2px) calc(10 * 2px);
+    z-index: 1;
+}
+
+.modal {
+    z-index: 100;
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.creature {
+    .container {
+        .conditions {
+            border: none;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column !important;
+        padding: 0px !important;
+        margin-top: 0px !important;
+    }
+}

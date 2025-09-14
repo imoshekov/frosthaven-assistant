@@ -1,0 +1,7 @@
+<div class="item" (click)="craft()">
+  <div class="id">{{item.id}}</div>
+  <img [src]="getItemSrc(item)" />
+  <div *ngIf="this.isItemLocked()" class="resources">
+    <div class="icon" *ngFor="let herb of getItemResources()" [class]="item"></div>
+  </div>
+</div>

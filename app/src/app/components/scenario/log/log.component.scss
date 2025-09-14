@@ -1,0 +1,76 @@
+.log-container {
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .log-table th,
+  .log-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--font-color);
+  }
+
+  .log-filter {
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--font-color);
+    }
+
+    select {
+      flex: 1;
+      min-height: 2.5rem;
+      padding: 0.5rem;
+      border: 1px solid var(--font-color);
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: var(--background-color);
+      color: var(--font-color, #333);
+    }
+
+    option {
+      cursor: pointer;
+      padding: 6px 10px;
+      font-size: 16px;
+    }
+
+    option:hover {
+      background-color: var(--background-secondary, var(--secondary-color));
+      color: #000;
+    }
+  }
+
+
+  .pager {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    justify-content: flex-end;
+    margin-top: .5rem;
+    font-size: 15px;
+  }
+
+  button {
+    color: var(--font-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--font-color);
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    font-size: 13px;
+
+    &.undo {
+      border: none;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

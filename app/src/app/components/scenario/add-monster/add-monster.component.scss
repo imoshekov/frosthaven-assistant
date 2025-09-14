@@ -1,0 +1,137 @@
+.modal {
+
+  :root.no-scroll,
+  :root.no-scroll body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  display: flex;
+  justify-content: flex-start;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+
+    div {
+      &.form-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+          width: 100px;
+          font-weight: 600;
+          text-align: right;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+          flex: 1;
+          margin-bottom: 0;
+          width: 100%;
+        }
+
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .monster-picker-sheet {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      background: var(--background);
+      max-height: 50dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, .3);
+    }
+
+
+
+    .monster-type-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: .25rem 0;
+      border-top: none;
+      max-height: none;
+    }
+
+    .monster-type-item {
+      padding: .6rem .8rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      border-bottom: 1px solid color-mix(in oklab, var(--secondary-color) 40%, transparent);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: var(--secondary-color);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+
+
+    .picker-close {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--secondary-color);
+      color: var(--base-color-spots);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    top: 10%;
+    width: 90%;
+  }
+
+  .monster-type-list {
+    max-height: 45dvh;
+  }
+
+  .monster-picker-overlay {
+    place-items: center;
+  }
+
+  .monster-picker-sheet {
+    border-radius: 16px;
+    max-height: 80dvh;
+  }
+}

@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    .herbs {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container{
+        justify-content: space-around;
+    }
+    .filters {
+        flex-direction: column;
+    }
+    .title{
+        justify-content: center;
+    }
+}

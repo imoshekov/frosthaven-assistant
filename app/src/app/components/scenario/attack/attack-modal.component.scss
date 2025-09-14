@@ -1,0 +1,40 @@
+:host {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .content {
+        box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
+            inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
+            -3px 3px 1px 1px var(--content-box-shadow-4);
+        padding: 15px;
+        padding: 15px;
+        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+
+        .name {
+            font-size: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .icon.damage {
+                height: 55px;
+            }
+        }
+
+    }
+}

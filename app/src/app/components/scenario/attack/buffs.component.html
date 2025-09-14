@@ -1,0 +1,28 @@
+<div class="buffs">
+    <div class="stats base-stats">
+        <div>Base</div>
+        <div class="armor stat">
+            <div class="icon shield"></div>
+            <input type="tel" [value]="creature.armor" (blur)="storeBuff('armor', +$event.target.value)" maxlength="3"
+                class="stat-input" />
+        </div>
+        <div class="retaliate stat">
+            <div class="icon retaliate"></div>
+            <input type="tel" [value]="creature.retaliate" (blur)="storeBuff('retaliate', +$event.target.value)"
+                maxlength="3" class="stat-input" />
+        </div>
+    </div>
+    <div class="stats round-stats">
+        <div>Round</div>
+        <div class="armor stat">
+            <div class="icon shield"></div>
+            <input type="tel" [value]="creature.roundArmor" (blur)="storeBuff('roundArmor', +$event.target.value)"
+                maxlength="3" class="stat-input" />
+        </div>
+        <div class="retaliate stat">
+            <div class="icon retaliate"></div>
+            <input type="tel" [value]="creature.roundRetaliate"
+                (blur)="storeBuff('roundRetaliate', +$event.target.value)" maxlength="3" class="stat-input" />
+        </div>
+    </div>
+</div>

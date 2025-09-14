@@ -1,0 +1,40 @@
+<div class="log-container">
+  <span>Audit History</span>
+
+  <div class="log-filter" *ngIf="(characters$ | async) as chars">
+    <ng-container *ngIf="chars.length">
+      <select multiple (change)="onFilterChange($event)">
+        <option *ngFor="let c of chars" [value]="c.value">{{ c.text }}</option>
+      </select>
+    </ng-container>
+  </div>
+
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th>When</th>
+        <th>Who</th>
+        <th>What</th>
+        <th>Is</th>
+        <th>Shit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of (filteredLogs$ | async)">
+        <td>{{ log.time }}</td>
+        <td>{{ log.creature }}</td>
+        <td>{{ log.stat }}</td>
+        <td>{{ log.value }}</td>
+        <td>
+          <button (click)="undo(log)" class="icon undo"></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pager" *ngIf="(totalPages$ | async) as total">
+    <button (click)="prevPage(total)" [disabled]="currentPage$.value === 1">Prev</button>
+    <span>Page {{ currentPage$.value }} / {{ total }}</span>
+    <button (click)="nextPage(total)" [disabled]="currentPage$.value === total">Next</button>
+  </div>
+</div>

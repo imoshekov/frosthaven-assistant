@@ -1,0 +1,25 @@
+<div class="container">
+    <div *ngIf="shouldShowBuffs" class="buffs">
+        <div class="armor stat">
+            {{creature.armor + creature.roundArmor}}
+            <div class="icon shield"></div>
+        </div>
+        <div class="retaliate stat">
+            {{creature.retaliate + creature.roundRetaliate}}
+            <div class="icon retaliate"></div>
+        </div>
+        <div class="retaliate stat" *ngIf="creature.retaliateRange > 0">
+            {{creature.retaliateRange}}
+            <div class="icon range"></div>
+        </div>
+    </div>
+
+    <div class="conditions">
+        <div *ngFor="let condition of conditions" class="condition-element" [class.is-immune]="isImmune(condition)"
+            (click)="toggleCondition(condition)">
+            <div class="icon" [ngClass]="[condition, isActive(condition) ? 'active' : '']">
+            </div>
+            <div *ngIf="isImmune(condition)" class="icon immune"></div>
+        </div>
+    </div>
+</div>

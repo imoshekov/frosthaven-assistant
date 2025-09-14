@@ -1,0 +1,7 @@
+<div class="potion" (click)="brew()">
+  <div class="id">{{potion.id}}</div>
+  <img [src]="getPotionSrc(potion)" />
+  <div *ngIf="this.isPotionLocked()" class="resources">
+    <div class="icon" *ngFor="let herb of getPotionResources()" [class]="herb"></div>
+  </div>
+</div>

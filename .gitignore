@@ -1,6 +1,11 @@
 .idea
-node_modules
+/node_modules
 fail_screenshot.png
 babel_grid/
 babel_slimselect/
 babel_scripts/
+dist/
+frosthaven-assistant-angular/node_modules
+frosthaven-assistant-angular/dist 
+frosthaven-assistant-angular/.vscode
+frosthaven-assistant-angular/.angular
