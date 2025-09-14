@@ -1,5 +1,5 @@
 {
-  "name": "frosthaven-assistant-angular",
+  "name": "app",
   "short_name": "Frosthaven",
   "start_url": "/frosthaven-assistant/",
   "scope": "/frosthaven-assistant/",
