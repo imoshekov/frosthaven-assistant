@@ -5,7 +5,7 @@ import { Item, ItemSlot } from "../types/item-types";
 @Injectable({ providedIn: 'root' })
 export class ItemLoaderService {
     HERB_RESOURCE_KEYS = ["arrowvine", "axenut", "corpsecap", "flamefruit", "rockroot", "snowthistle"];
-    ALL_RESOURCE_KEYS = [...this.HERB_RESOURCE_KEYS, "metal", "lumber", "hide", "money"];
+    ALL_RESOURCE_KEYS = ["metal", "lumber", "hide", "money", ...this.HERB_RESOURCE_KEYS];
 
     constructor() { }
 

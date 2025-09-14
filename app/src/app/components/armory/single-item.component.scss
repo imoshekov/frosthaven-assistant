@@ -1,3 +1,14 @@
+
+.container, .required-items{
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+}
+
+.container.toggled {
+    border: 1px solid var(--font-color);
+}
+
 .item {
     position: relative;
     cursor: pointer;
@@ -27,5 +38,13 @@
         .icon {
             background-color: var(--font-color)
         }
+    }
+
+    .required-items {
+        position: absolute;
+        width: 3rem;
+        height: 6rem;
+        top: 25px;
+        right: 0px;
     }
 }

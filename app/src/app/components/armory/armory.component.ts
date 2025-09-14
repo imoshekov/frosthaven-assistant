@@ -27,8 +27,9 @@ export class ArmoryComponent implements OnInit {
     twohand: Item[];
     small: Item[];
     RESOURCE_KEYS;
+    selectedItem: Item | null = null;
 
-    constructor(private dataLoader: ItemLoaderService, private db: DbService, private notificationService: NotificationService) {
+    constructor(private itemLoaderService: ItemLoaderService, private db: DbService, private notificationService: NotificationService) {
     }
 
     async ngOnInit() {
@@ -42,17 +43,17 @@ export class ArmoryComponent implements OnInit {
     private async loadUnlockedItems(): Promise<void> {
         const craftableItemRows = await this.db.getUnlockedItems();
         this.unlockedItemIds = craftableItemRows.map(item => item.id);
-
         this.loadItems()
     }
 
     craftItem(item: Item) {
+        this.selectedItem = item;
         this.printRequirements(item);
     }
 
     private loadItems(): void {
-        this.all = this.dataLoader.getUnlockedItems(this.unlockedItemIds);
-        this.RESOURCE_KEYS = this.dataLoader.ALL_RESOURCE_KEYS;
+        this.all = this.itemLoaderService.getUnlockedItems(this.unlockedItemIds);
+        this.RESOURCE_KEYS = this.itemLoaderService.ALL_RESOURCE_KEYS;
         const slotMap: Record<string, ItemSlot> = {
             head: ItemSlot.Head,
             body: ItemSlot.Body,
@@ -100,7 +101,6 @@ export class ArmoryComponent implements OnInit {
 
             const it = byId(id);
             if (!it) {
-                // Missing in this.all => treat as locked and list it
                 deps.add(id);
                 locked.add(id);
                 return; // locked deps do not contribute materials
@@ -121,8 +121,6 @@ export class ArmoryComponent implements OnInit {
         for (const key of this.RESOURCE_KEYS as (keyof ItemResource)[]) {
             this.inventory[key] = Number(total[key] ?? 0);
         }
-        // If you're using OnPush, you may need:
-        // this.inventory = { ...this.inventory };
 
         // 2) Console output
         const nameOf = (id: number) => byId(id)?.name ?? `${id}`;

@@ -1,7 +1,10 @@
-<div class="item" (click)="craft()">
-  <div class="id">{{item.id}}</div>
-  <img [src]="getItemSrc(item)" />
-  <div *ngIf="this.isItemLocked()" class="resources">
-    <div class="icon" *ngFor="let herb of getItemResources()" [class]="item"></div>
+<div class="container" [class]="{'toggled': toggled || areRequiredItemsToggled}">
+  <div class="item" (click)="craft()">
+    <div class="id">{{item.id}}</div>
+    <img [src]="getItemSrc(item)" />
+  </div>
+  <div *ngIf=" toggled || areRequiredItemsToggled" class="required-items">
+    <app-single-item *ngFor="let childItem of getRequiredItems()" [item]="childItem" [toggled]="areRequiredItemsToggled" [unlockedItemIds]="unlockedItemIds"
+      (craftItem)="craft($event)"></app-single-item>
   </div>
 </div>

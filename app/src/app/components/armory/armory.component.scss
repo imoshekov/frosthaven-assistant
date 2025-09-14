@@ -3,12 +3,19 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.3rem;
+
 }
 
 .filters {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+
+    .selected {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .materials {
         display: flex;
@@ -19,13 +26,15 @@
 }
 
 @media (max-width: 768px) {
-    .container{
+    .container {
         justify-content: space-around;
     }
+
     .filters {
         flex-direction: column;
     }
-    .title{
+
+    .title {
         justify-content: center;
     }
 }
