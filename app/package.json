@@ -1,5 +1,5 @@
 {
-  "name": "frosthaven-assistant-angular",
+  "name": "app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "serve": "ng serve --host 0.0.0.0 --port 4200",
     "prebuild": "node src/environments/increment-build.mjs",
     "build": "ng build",
-    "build:tv": "ng build --configuration production && npx babel dist/frosthaven-assistant-angular --out-dir dist/frosthaven-assistant-angular --extensions \".js\"",
+    "build:tv": "ng build --configuration production && npx babel dist/app --out-dir dist/app --extensions \".js\"",
     "watch": "ng build --watch --configuration development",
     "test": "playwright test",
     "studio": "concurrently -k -s first -n \"NG,STUDIO\" \"npm:start\" \"wait-on http-get://localhost:4200/frosthaven-assistant && playwright codegen http://localhost:4200/frosthaven-assistant\"",

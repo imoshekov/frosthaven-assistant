@@ -22,7 +22,7 @@ import { VERSION_MAJOR, VERSION_MINOR } from '../environments/version';
   ]
 })
 export class AppComponent {
-  protected readonly title = signal('frosthaven-assistant-angular');
+  protected readonly title = signal('app');
   clientId: string | null = null;
   sessionId: number = 1;
   version: string = `v${VERSION_MAJOR}.${VERSION_MINOR}`;

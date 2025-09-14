@@ -5,7 +5,7 @@ babel_grid/
 babel_slimselect/
 babel_scripts/
 dist/
-frosthaven-assistant-angular/node_modules
-frosthaven-assistant-angular/dist 
-frosthaven-assistant-angular/.vscode
-frosthaven-assistant-angular/.angular
+app/node_modules
+app/dist 
+app/.vscode
+app/.angular

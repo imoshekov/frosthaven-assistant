@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "frosthaven-assistant-angular": {
+    "app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -40,7 +40,7 @@
                 "output": "/images"
               }
             ],
-            "outputPath": "dist/frosthaven-assistant-angular",
+            "outputPath": "dist/app",
             "styles": [
               "src/styles.scss"
             ],
@@ -80,10 +80,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "frosthaven-assistant-angular:build:production"
+              "buildTarget": "app:build:production"
             },
             "development": {
-              "buildTarget": "frosthaven-assistant-angular:build:development"
+              "buildTarget": "app:build:development"
             }
           },
           "defaultConfiguration": "development"
