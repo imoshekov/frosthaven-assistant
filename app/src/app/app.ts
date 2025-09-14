@@ -25,7 +25,7 @@ export class AppComponent {
   protected readonly title = signal('app');
   clientId: string | null = null;
   sessionId: number = 1;
-  version: string = `v${VERSION_MAJOR}.${VERSION_MINOR}`;
+  version: string = `v${VERSION_MAJOR}.${VERSION_MINOR} `;
 
   constructor(
     public appContext: AppContext,
