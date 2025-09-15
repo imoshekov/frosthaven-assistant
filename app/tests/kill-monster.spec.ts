@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/app-test';
 
 test('kill-monster', async ({ page }) => {
-    await page.getByRole('button', { name: '+ Monster' }).click();
+    await page.getByRole('button', { name: 'Add Monster' }).click();
     await page.getByRole('textbox', { name: 'Type' }).click();
     await page.getByText('algox-guard').click();
     await page.getByRole('button', { name: 'Confirm' }).click();
