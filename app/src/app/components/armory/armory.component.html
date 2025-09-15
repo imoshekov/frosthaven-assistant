@@ -1,10 +1,12 @@
-<div class="filters content">
-  <div class="materials" *ngFor="let type of RESOURCE_KEYS; let i = index">
-    <div class="icon" [class]="type"></div>
-    <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
-  </div>
+<div class="content">
   <div class="selected" *ngIf="selectedItem">
-    {{ selectedItem.name }} - {{ selectedItem.id }}
+    selected: {{ selectedItem.name }} - {{ selectedItem.id }}
+  </div>
+  <div class="filters">
+    <div class="materials" *ngFor="let type of RESOURCE_KEYS; let i = index">
+      <div class="icon" [class]="type"></div>
+      <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
+    </div>
   </div>
 </div>
 <div class="items-container">

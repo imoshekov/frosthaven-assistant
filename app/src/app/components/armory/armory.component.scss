@@ -6,16 +6,17 @@
 
 }
 
+.selected {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
 .filters {
     display: flex;
     flex-direction: row;
     gap: 1rem;
-
-    .selected {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
     .materials {
         display: flex;
