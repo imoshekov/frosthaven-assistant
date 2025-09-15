@@ -20,12 +20,16 @@
         </div>
         <ng-template #traitsBlock>
             <div class="creature-traits">
+                <div class="trait">
+                    {{ creature.name }}
+                </div>
                 <div *ngFor="let trait of creature.traits" class="trait"
                     [style.background]="'var(--' + creature.type + '-color)'">
                     {{ trait }}
                 </div>
             </div>
         </ng-template>
+
     </div>
     <button *ngIf="creature.aggressive" class="open-modal button attack" (click)="openConditionModal()">
         <div class="icon attack"></div>Attack
