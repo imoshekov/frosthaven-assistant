@@ -82,6 +82,7 @@ export class SetupComponent {
       const newCreature: Creature = {
         type: creature.name,
         level: this.scenarioLevel,
+        isElite: creature?.type === 'elite' || creature?.player4 === 'elite',
         aggressive: true
       };
 
