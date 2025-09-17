@@ -70,6 +70,7 @@ export class CreatureFactoryService {
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };
+    creature.maxHp = creature.hp; 
     return creature;
   }
 
@@ -112,12 +113,11 @@ export class CreatureFactoryService {
       monster?.baseStat?.actions?.find((x: MonsterAction) => x.type === 'target');
 
     if (!targetAction) {
-      return 1; 
+      return 1;
     }
 
     return this.stringUtils.parseInt(targetAction.value ?? 1);
   }
-
 
   createCreatureList(creatureList: Creature[]) {
     const creatures: Creature[] = [];

@@ -201,7 +201,7 @@ export class AppContext {
     }
 
 
-    private findCreature(creatureId: string): Creature {
+    public findCreature(creatureId: string): Creature {
         const creatures = this.getCreatures();
         const creature = creatures.find(c => c.id === creatureId);
         if (!creature) throw Error("Creature not found");

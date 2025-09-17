@@ -32,6 +32,7 @@ export interface Creature {
   isElite?: boolean; 
   level?: number; 
   hp?: number;
+  maxHp?: number;
   attack?: number;
   attackTarget?: number;
   movement?: number | null;

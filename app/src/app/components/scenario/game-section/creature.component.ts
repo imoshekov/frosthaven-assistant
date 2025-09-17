@@ -30,11 +30,16 @@ export class CreatureComponent {
   }
 
   updateCreatureHp(creatureId: string, value: number): void {
-    this.appContext.updateCreatureBaseStat(creatureId, 'hp', value);
-    if (value <= 0) {
-      this.appContext.killCreature(creatureId!);
+    const creature = this.appContext.findCreature(creatureId);
+
+    const newHp = Math.min(value, creature.maxHp);
+    this.appContext.updateCreatureBaseStat(creatureId, 'hp', newHp);
+
+    if (newHp <= 0) {
+      this.appContext.killCreature(creatureId);
     }
   }
+
 
   updateStandee(creatureId: string, creatureType: string, value: number) {
     this.appContext.updateCreatureBaseStat(creatureId, 'standee', value);
