@@ -50,8 +50,17 @@ export class GameComponent implements OnDestroy {
     this.groupedCreatures = Object.keys(groups).map(type => ({
       type,
       creatureType: groups[type][0],
-      creatures: groups[type]
+      creatures: [...groups[type]].sort((a, b) => {
+        const numA = Number(a.standee);
+        const numB = Number(b.standee);
+
+        const parsedA = Number.isNaN(numA) ? Number.POSITIVE_INFINITY : numA;
+        const parsedB = Number.isNaN(numB) ? Number.POSITIVE_INFINITY : numB;
+
+        return parsedA - parsedB;
+      })
     }));
+
   }
 
   get sortedCreatureGroups() {

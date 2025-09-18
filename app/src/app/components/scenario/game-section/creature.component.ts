@@ -40,7 +40,6 @@ export class CreatureComponent {
     }
   }
 
-
   updateStandee(creatureId: string, creatureType: string, value: number) {
     this.appContext.updateCreatureBaseStat(creatureId, 'standee', value);
     this.appContext.updateCreatureBaseStat(creatureId, 'name', `${creatureType} - ${value}`);
