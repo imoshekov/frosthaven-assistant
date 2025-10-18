@@ -70,7 +70,7 @@ export class CreatureFactoryService {
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? []
     };
-    creature.maxHp = creature.hp; 
+    creature.maxHp = creature.hp === 0 ? 999 : creature.hp;
     return creature;
   }
 

@@ -26,6 +26,64 @@ export class DataLoaderService {
       ],
       "monsters": [
         {
+          "name": "token",
+          "edition": "fh",
+          "count": 6,
+          "baseStat": {
+            "type": "normal"
+          },
+          "stats": [
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            },
+            {
+              "level": 0,
+              "health": 0,
+              "movement": 0,
+              "attack": 0
+            }
+          ]
+        },
+        {
           "name": "abael-herder",
           "edition": "fh",
           "count": 6,
@@ -60579,7 +60637,7 @@ export class DataLoaderService {
         },
         {
           "name": "kelp",
-         "color": "#987bab",
+          "color": "#987bab",
           "traits": [
             "armored",
             "intimidating",
