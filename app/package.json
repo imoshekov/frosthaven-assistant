@@ -43,7 +43,7 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.1.5",
     "@angular/build": "^20.1.5",
-    "@angular/cli": "^20.1.5",
+    "@angular/cli": "^20.3.10",
     "@angular/compiler-cli": "^20.1.0",
     "@angular/pwa": "^20.1.6",
     "@angular/service-worker": "^20.1.6",

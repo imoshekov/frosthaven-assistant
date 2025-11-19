@@ -71,12 +71,25 @@ export class SetupComponent {
     const section = this.dataLoader.getData().sections.find(
       s => s.index === sectionIdFormatted
     );
-    if (!section || !section.rooms || section.rooms.length === 0 || !section.rooms[0].monster) {
-      this.notificationService.emitErrorMessage(`${this.sectionId} is not related to mission ${this.scenarioId}`);
+    if (!section || !section.rooms || section.rooms.length === 0) {
+      this.notificationService.emitErrorMessage(
+        `${this.sectionId} is not related to mission ${this.scenarioId}`
+      );
       return;
     }
 
-    const sectionCreatures: Creature[] = section.rooms[0].monster;
+    // Collect monsters from ALL rooms
+    const sectionCreatures: Creature[] = section.rooms
+      .flatMap(room => room.monster ?? [])
+      .filter(m => m); // remove null/undefined if any
+
+    if (sectionCreatures.length === 0) {
+      this.notificationService.emitErrorMessage(
+        `${this.sectionId} has no monsters for mission ${this.scenarioId}`
+      );
+      return;
+    }
+
 
     sectionCreatures.forEach(creature => {
       const newCreature: Creature = {
