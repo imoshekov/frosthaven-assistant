@@ -34,7 +34,9 @@ export class AddMonsterComponent {
     private creatureFactory: CreatureFactoryService,
     private notificationService: NotificationService
   ) {
-    this.monsters = this.dataLoader.getData().monsters;
+    this.monsters = this.dataLoader.getData().monsters.sort((a, b) =>
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+    );
     this.appContext.defaultLevel$.subscribe(val => {
       this.level = val;
     });
