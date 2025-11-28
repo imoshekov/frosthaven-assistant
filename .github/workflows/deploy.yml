@@ -38,7 +38,9 @@ jobs:
 
       - name: Build Angular app
         working-directory: app
-        run: npm run build --production
+        run: npm run build
+        env:
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

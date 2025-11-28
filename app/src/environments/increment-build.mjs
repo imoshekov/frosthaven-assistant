@@ -1,4 +1,5 @@
-import { readFileSync, writeFileSync } from "fs";
+// src/environments/increment-build.mjs
+import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -6,24 +7,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 const filePath   = join(__dirname, "version.ts");
 
-const src = readFileSync(filePath, "utf8");
+// You can keep major fixed and use the run number as "minor"
+const major = 1;
+const baseMinor = 24;          // your starting version
 
-// extract numbers
-const majorMatch = src.match(/VERSION_MAJOR\s*=\s*(\d+)/);
-const minorMatch = src.match(/VERSION_MINOR\s*=\s*(\d+)/);
+// If run locally, GITHUB_RUN_NUMBER will be undefined, so fall back to 0
+const runNumber = process.env.GITHUB_RUN_NUMBER
+  ? Number(process.env.GITHUB_RUN_NUMBER)
+  : 0;
 
-if (!majorMatch || !minorMatch) {
-  throw new Error("Could not parse VERSION_MAJOR or VERSION_MINOR in version.ts");
-}
-
-const major = Number(majorMatch[1]);
-const minor = Number(minorMatch[1]) + 1;
-
-const newContent =
-`export const VERSION_MAJOR = ${major};
-export const VERSION_MINOR = ${minor};
+const newContent = `
+export const VERSION_MAJOR = ${major};
+export const VERSION_MINOR = ${runNumber};
+export const VERSION_LABEL = 'v${major}.${runNumber}';
 `;
 
 writeFileSync(filePath, newContent, "utf8");
 
-console.log(`✅ Building v${major}.${minor}`);
+console.log(`✅ Building v${major}.${runNumber}`);

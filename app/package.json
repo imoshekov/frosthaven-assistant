@@ -7,7 +7,7 @@
     "start": "ng serve",
     "serve": "ng serve --host 0.0.0.0 --port 4200",
     "prebuild": "node src/environments/increment-build.mjs",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "build:tv": "ng build --configuration production && npx babel dist/app --out-dir dist/app --extensions \".js\"",
     "watch": "ng build --watch --configuration development",
     "test": "playwright test",
