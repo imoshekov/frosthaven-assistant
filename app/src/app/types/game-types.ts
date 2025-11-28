@@ -46,6 +46,7 @@ export interface Creature {
   immunities?: CreatureConditions[];
   roundArmor?: number,
   roundRetaliate?: number,
+  sessionExperience?: number;
   log?: any[];
   traits?: string[],
   player2?: string,

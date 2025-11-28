@@ -47,4 +47,12 @@
         </div>
       </div>
     </div>
+    <div class="group-stats" *ngIf="!creature.aggressive">
+      <div class="stats">
+        <div class="base-stat">
+          <div class="icon xp"></div>
+          <span class="stat-value">{{ creature.sessionExperience }}</span>
+        </div>
+      </div>
+    </div>
   </div>
