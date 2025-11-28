@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1764336361430,
+  "timestamp": 1764346169426,
   "index": "/frosthaven-assistant/index.html",
   "assetGroups": [
     {
@@ -17,7 +17,7 @@
         "/frosthaven-assistant/699.482c584db7629ae1.js",
         "/frosthaven-assistant/favicon.ico",
         "/frosthaven-assistant/index.html",
-        "/frosthaven-assistant/main.d14316d3ca905ca8.js",
+        "/frosthaven-assistant/main.7c67ea00755cd217.js",
         "/frosthaven-assistant/manifest.webmanifest",
         "/frosthaven-assistant/polyfills.e476be337299d39c.js",
         "/frosthaven-assistant/runtime.fdcf98c26e6f6294.js",
@@ -3698,10 +3698,10 @@
     "/frosthaven-assistant/immobilize.1e5803f1bc346d84.svg": "5f0ea08041d98f74b84e1d5e0247772cc906ff54",
     "/frosthaven-assistant/immune.3638b2264dfc0cf4.svg": "683fda2b898292506e4a8f0984c5057c0e877509",
     "/frosthaven-assistant/impair.34d630196818b373.svg": "d18315d776a810da7b63defd4c3c186e2e0697ad",
-    "/frosthaven-assistant/index.html": "93017340f9d5dfc4bd25d8e18be1c32c4f584d6e",
+    "/frosthaven-assistant/index.html": "26f31105ba485f1aaa8ef2419bff809849a45511",
     "/frosthaven-assistant/invisible.063c0ca4b394eadc.svg": "318e646ff178c39f393bf8b9eb0709b1f9a9e438",
     "/frosthaven-assistant/lumber.5b84d843acf0ada0.svg": "28dbe637c32fdf39468fb0082be8fe969113fd10",
-    "/frosthaven-assistant/main.d14316d3ca905ca8.js": "cf62f90ad8b7cc7a8fa8566b3885d55c72ebac57",
+    "/frosthaven-assistant/main.7c67ea00755cd217.js": "acd85824c2ae31da82f4b45f0ead1dca3d3e5156",
     "/frosthaven-assistant/manifest.webmanifest": "b884b0de16cbe50500200f382b521359ce1a8731",
     "/frosthaven-assistant/metal.e4a07f2515c5a1ab.svg": "1f8e704a42c42239c319d8842053471e257a349d",
     "/frosthaven-assistant/money.13b3b06569dbae3c.svg": "6fc800343610e7489320aec9c9a3978e6c1a78a8",
