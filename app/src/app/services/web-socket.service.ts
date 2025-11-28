@@ -102,7 +102,8 @@ export class WebSocketService {
 
     this.ws.onerror = (error) => {
       this.isConnected = false;
-      this.notificationService.emitErrorMessage('Unable to connect to the server. Retrying...');
+      // i think this is too much spam.
+      // this.notificationService.emitErrorMessage('Unable to connect to the server. Retrying...');
       this.tryReconnect();
     };
 
