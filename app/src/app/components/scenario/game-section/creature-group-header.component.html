@@ -50,9 +50,20 @@
     <div class="group-stats" *ngIf="!creature.aggressive">
       <div class="stats">
         <div class="base-stat">
-          <div class="icon xp"></div>
-          <span class="stat-value">{{ creature.sessionExperience }}</span>
+          <div class="icon heart">
+            <input type="tel" [value]="creature.hp"
+              (blur)="appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value, true)" maxlength="3"
+              class="stat-input" />
+          </div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="base-stat">
+          <div class="icon xp">
+            <input type="tel" [value]="creature.sessionExperience"
+              (blur)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', +$event.target.value, true)"
+              maxlength="3" class="stat-input" />
+          </div>
         </div>
       </div>
     </div>
-  </div>

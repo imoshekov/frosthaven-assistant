@@ -19,7 +19,7 @@ svg {
       fill: var(--font-color-dark);
       &.dark {
         &.full {
-          fill:  var(--font-color);
+          fill:  var(--element-base-color);
         }
       }
     }
