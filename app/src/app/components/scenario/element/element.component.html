@@ -7,13 +7,13 @@
     <defs>
       <linearGradient [attr.id]="element.type + '-half'" x1="0%" y1="100%" x2="0%" y2="0%">
         <stop offset="50%" [style.stop-color]="'var(--element-' + element.type + '-color)'" style="stop-opacity:0.75;" />
-        <stop offset="50%" [style.stop-color]="'var(--font-color)'" style="stop-opacity:0.75;" />
+        <stop offset="50%" [style.stop-color]="'var(--element-base-color)'" style="stop-opacity:0.75;" />
       </linearGradient>
       <linearGradient [attr.id]="element.type + '-full'" x1="0%" y1="100%">
         <stop offset="190%" [style.stop-color]="'var(--element-' + element.type + '-color)'" style="stop-opacity:1;" />
       </linearGradient>
       <linearGradient [attr.id]="element.type + '-none'" x1="0%" y1="100%">
-        <stop offset="190%" [style.stop-color]="'var(--font-color)'" style="stop-opacity:1;" />
+        <stop offset="190%" [style.stop-color]="'var(--element-base-color)'" style="stop-opacity:1;" />
       </linearGradient>
     </defs>
 

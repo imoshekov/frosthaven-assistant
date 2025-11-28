@@ -144,6 +144,12 @@
            align-items: center;
            padding-right: 20px;
          }
+
+         &.heart,
+         &.xp{
+          width: 35px;
+          height: 35px;
+         }
        }
 
        .stat-value {

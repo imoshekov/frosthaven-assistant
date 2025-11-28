@@ -62,6 +62,7 @@ export class CreatureFactoryService {
         .map((c: string) => c as CreatureConditions),
       roundArmor: creatureInput.roundArmor ?? 0,
       roundRetaliate: creatureInput.roundRetaliate ?? 0,
+      sessionExperience: creatureInput.sessionExperience ?? 0,
       actions:
         monster?.actions?.filter(a => a.type === 'condition')
         ?? monster?.baseStat?.actions?.filter(a => a.type === 'condition')
