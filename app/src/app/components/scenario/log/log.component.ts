@@ -72,7 +72,7 @@ export class LogComponent {
         );
 
         this.notificationService.emitInfoMessage(
-          `${log.stat} restored to ${log.value}`
+          `${log.stat} restored to ${value}`
         );
       }
     };

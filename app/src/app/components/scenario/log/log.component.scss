@@ -1,8 +1,11 @@
 .log-container {
+  overflow-x: auto;
+
   .log-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
+    table-layout: fixed;
   }
 
   .log-table th,

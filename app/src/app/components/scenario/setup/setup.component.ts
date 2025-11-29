@@ -73,7 +73,7 @@ export class SetupComponent {
     );
     if (!section || !section.rooms || section.rooms.length === 0) {
       this.notificationService.emitErrorMessage(
-        `${this.sectionId} is not related to mission ${this.scenarioId}`
+        `Section ${this.sectionId} contains no monsters`
       );
       return;
     }
