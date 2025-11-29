@@ -41,8 +41,8 @@
        background-color: var(--meteor-color);
      }
 
-     &.drifter{
-        background-color: var(--drifter-color);
+     &.drifter {
+       background-color: var(--drifter-color);
      }
    }
  }
@@ -59,6 +59,23 @@
    width: 100%;
    justify-content: center;
    align-items: center;
+ }
+
+ .name {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 0.5rem;
+
+   .icon.level {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 50px;
+     height: 50px;
+     font-size: 18px;
+     padding-top: 3px;
+   }
  }
 
  .right-info {
@@ -130,6 +147,7 @@
          height: 30px;
          display: flex;
          justify-content: center;
+         align-items: center;
 
          &.shield,
          &.retaliate {
@@ -146,9 +164,16 @@
          }
 
          &.heart,
-         &.xp{
-          width: 35px;
-          height: 35px;
+         &.xp {
+           width: 35px;
+           height: 35px;
+         }
+
+         &.level {
+           width: 40px;
+           height: 40px;
+           justify-content: center;
+           align-items: center;
          }
        }
 

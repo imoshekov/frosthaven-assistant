@@ -15,6 +15,9 @@
     <div class="name" *ngIf="creature.aggressive">
       {{ creature.type }}
     </div>
+    <div class="name" *ngIf="!creature.aggressive">
+      <div class="icon level">{{ creature.level }}</div>
+    </div>
   </div>
   <div class="info row">
     <img class='profile' [src]="getCreaturePic(creature)" (error)="onImgError($event)" (click)="openConditionModal()">
@@ -62,6 +65,7 @@
           <div class="icon xp">
             <input type="tel" [value]="creature.sessionExperience"
               (blur)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', +$event.target.value, true)"
+              (click)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', (creature.sessionExperience ?? 0) + 1, true)"
               maxlength="3" class="stat-input" />
           </div>
         </div>
