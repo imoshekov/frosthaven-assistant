@@ -71,9 +71,11 @@ export class LogComponent {
           applyToAll
         );
 
-        this.notificationService.emitInfoMessage(
-          `${log.stat} restored to ${value}`
-        );
+        const isEmptyArray = Array.isArray(value) && value.length === 0;
+        const message = isEmptyArray
+          ? `${log.stat} restored to default`
+          : `${log.stat} restored to ${value}`;
+        this.notificationService.emitInfoMessage(message);
       }
     };
 

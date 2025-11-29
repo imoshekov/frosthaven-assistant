@@ -44,7 +44,6 @@ export class SetupComponent {
 
   startNewGame() {
     this.storageService.resetGame();
-    this.notificationService.emitInfoMessage('Started a new game');
   }
 
   async loadScenario() {
