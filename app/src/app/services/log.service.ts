@@ -18,7 +18,7 @@ export interface LogEntry {
 }
 
 export const CREATURE_AUDIT_FIELDS = [
-  'name', 'standee', 'level', 'initiative', 'hp', 'aggressive', 'armor', 'roundArmor', 'retaliate', 'roundRetaliate', 'conditions'
+  'name', 'standee', 'level', 'initiative', 'hp', 'aggressive', 'armor', 'roundArmor', 'retaliate', 'roundRetaliate', 'conditions', 'sessionExperience'
 ] as const satisfies readonly (keyof Creature)[];
 
 export type AuditKey = typeof CREATURE_AUDIT_FIELDS[number];
