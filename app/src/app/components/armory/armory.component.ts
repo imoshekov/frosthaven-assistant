@@ -89,9 +89,11 @@ export class ArmoryComponent implements OnInit {
 
         const addResources = (res?: ItemResource) => {
             if (!res) return;
+
+            // Sum resource counts
             for (const k of Object.keys(res) as (keyof ItemResource)[]) {
-                const v = Number(res[k] ?? 0);
-                if (v > 0) total[k] = (total[k] ?? 0) + v;
+            const v = Number(res[k] ?? 0);
+            if (v > 0) total[k] = (total[k] ?? 0) + v;
             }
         };
 
@@ -106,7 +108,12 @@ export class ArmoryComponent implements OnInit {
                 return; // locked deps do not contribute materials
             }
 
-            addResources(it.resources);
+            // merge resources with cost (if > 0) and pass to addResources
+            const combined: ItemResource = { ...(it.resources ?? {}) } as ItemResource;
+            if (typeof it.cost === 'number' && it.cost > 0) {
+                combined.gold = (combined.gold ?? 0) + it.cost;
+            }
+            addResources(combined);
 
             const childIds = getDeps(it);
             for (const cid of childIds) {

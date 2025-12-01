@@ -42,7 +42,7 @@ export interface ItemResource {
     rockroot?: number;
     corpsecap?: number;
     flamefruit?: number;
-
+    gold?: number;
 }
 
 interface ItemAction {

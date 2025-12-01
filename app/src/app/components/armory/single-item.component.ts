@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Item, ItemResource } from '../../types/item-types';
+import { Item } from '../../types/item-types';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DataLoaderService } from '../../services/data-loader.service';
 import { ItemLoaderService } from '../../services/item-loader-service';
 
 @Component({
