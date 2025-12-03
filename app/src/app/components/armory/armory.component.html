@@ -11,8 +11,11 @@
 </div>
 <div class="items-container">
   <div class="items-group" *ngFor="let slotType of slots">
-    <div class="title">{{ slotType }}</div>
-    <div class="container">
+    <div class="title" (click)="toggleCategory(slotType)" [class.clickable]="true">
+      <span class="chev">{{ isExpanded(slotType) ? '▾' : '▸' }}</span>
+      {{ slotType }}
+    </div>
+    <div class="container" *ngIf="isExpanded(slotType)">
       <div *ngFor="let item of getSlotItems(slotType)">
         <app-single-item [item]="item" [unlockedItemIds]="unlockedItemIds"
           (craftItem)="craftItem($event)"></app-single-item>

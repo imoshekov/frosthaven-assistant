@@ -17,7 +17,7 @@ import { NotificationService } from "../../services/notification.service";
 })
 export class ArmoryComponent implements OnInit {
     unlockedItemIds: number[];
-    slots = Object.values(ItemSlot);
+    slots: string[] = [...Object.values(ItemSlot), 'potions'];
     inventory: ItemResource = {};
     all: Item[];
     head: Item[];
@@ -26,8 +26,19 @@ export class ArmoryComponent implements OnInit {
     onehand: Item[];
     twohand: Item[];
     small: Item[];
+    potions: Item[];
     RESOURCE_KEYS;
     selectedItem: Item | null = null;
+    // Track expanded/collapsed state per slot (collapsed by default)
+    expanded: Record<string, boolean> = {};
+
+    toggleCategory(slot: string): void {
+        this.expanded[slot] = !this.expanded[slot];
+    }
+
+    isExpanded(slot: string): boolean {
+        return !!this.expanded[slot];
+    }
 
     constructor(private itemLoaderService: ItemLoaderService, private db: DbService, private notificationService: NotificationService) {
     }
@@ -54,18 +65,28 @@ export class ArmoryComponent implements OnInit {
     private loadItems(): void {
         this.all = this.itemLoaderService.getUnlockedItems(this.unlockedItemIds);
         this.RESOURCE_KEYS = this.itemLoaderService.ALL_RESOURCE_KEYS;
-        const slotMap: Record<string, ItemSlot> = {
-            head: ItemSlot.Head,
-            body: ItemSlot.Body,
-            legs: ItemSlot.Legs,
-            onehand: ItemSlot.Onehand,
-            twohand: ItemSlot.Twohand,
-            small: ItemSlot.Small,
-        };
 
-        Object.entries(slotMap).forEach(([key, slot]) => {
-            this[key] = this.all.filter(item => item?.slot?.toLocaleLowerCase() === slot.toLocaleLowerCase());
-        });
+        const slotEq = (item: Item, slot: ItemSlot) => item?.slot?.toLocaleLowerCase() === slot.toLocaleLowerCase();
+
+        // Helper to filter items by slot
+        const filterBySlot = (slot: ItemSlot) => this.all.filter(item => slotEq(item, slot));
+
+        this.head = filterBySlot(ItemSlot.Head);
+        this.body = filterBySlot(ItemSlot.Body);
+        this.legs = filterBySlot(ItemSlot.Legs);
+        this.onehand = filterBySlot(ItemSlot.Onehand);
+        this.twohand = filterBySlot(ItemSlot.Twohand);
+
+        const smallItems = filterBySlot(ItemSlot.Small);
+        // Potions are small items that require the alchemist building
+        this.potions = smallItems.filter(i => this.itemLoaderService.isPotion(i));
+        // The rest of small items (non-potions)
+        this.small = smallItems.filter(i => !this.itemLoaderService.isPotion(i));
+
+        // Default: expand all categories so user sees items immediately
+        for (const s of this.slots) {
+            this.expanded[s] = true;
+        }
     }
 
     private printRequirements(item: Item) {

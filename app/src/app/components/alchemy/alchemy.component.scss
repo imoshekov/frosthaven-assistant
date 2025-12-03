@@ -29,3 +29,11 @@
         justify-content: center;
     }
 }
+
+.title.clickable {
+    cursor: pointer;
+}
+
+.title.clickable:hover {
+    opacity: 0.9;
+}

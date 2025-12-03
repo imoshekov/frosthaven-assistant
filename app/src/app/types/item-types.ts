@@ -25,10 +25,10 @@ export interface Item {
 
 export enum ItemSlot {
     Head = 'head',
-    Twohand = 'twohand',
-    Onehand = 'onehand',
-    Legs = 'legs',
     Body = 'body',
+    Legs = 'legs',
+    Onehand = 'onehand',
+    Twohand = 'twohand',
     Small = 'small'
 }
 

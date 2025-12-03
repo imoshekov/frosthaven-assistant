@@ -17,7 +17,7 @@ export class ItemLoaderService {
         return this.getData().filter(item => unlockedIds.indexOf(item.id) > -1);
     }
 
-    private isPotion(item: Item): boolean {
+    isPotion(item: Item): boolean {
         return item.requiredBuilding === "alchemist" && item.slot === ItemSlot.Small;
     }
 

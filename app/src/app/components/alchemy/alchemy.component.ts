@@ -22,6 +22,8 @@ export class AlchemyComponent implements OnInit {
   wierdPotions: Item[] = [];
   inventory: ItemResource = {};
   RESOURCE_KEYS;
+  // Track expanded/collapsed state for potion groups
+  expanded: Record<string, boolean> = {};
 
   constructor(private dataLoader: ItemLoaderService, private db: DbService) {
     this.filterCraftable();
@@ -30,6 +32,17 @@ export class AlchemyComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadUnlockedPotions();
+    // default expand both groups
+    this.expanded['Two herbs'] = true;
+    this.expanded['Three herbs'] = true;
+  }
+
+  toggleCategory(slot: string): void {
+    this.expanded[slot] = !this.expanded[slot];
+  }
+
+  isExpanded(slot: string): boolean {
+    return !!this.expanded[slot];
   }
 
   splitByHerbsCount() {
