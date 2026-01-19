@@ -30,6 +30,10 @@
         padding: 0px;
         font-size: 20px;
       }
+
+      input {
+        min-width: 60px;
+      }
     }
   }
 
@@ -45,42 +49,32 @@
   }
 }
 
-.toggle {
-  --w: 40px;
-  --h: 20px;
-  --p: 3px;
-  --on: var(--accent, #22c55e);
-  --off: var(--base-color-spots, #6b7280);
-  --knob: var(--surface, #fff);
+.chevron {
   position: absolute;
-  display: inline-block;
-  width: var(--w);
-  height: var(--h);
-  border-radius: var(--h);
-  background: var(--off);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
   outline: none;
-  top: 25px;
+  top: 20px;
   right: 10px;
+  color: var(--font-color-dark);
+  border-radius: 4px;
+  padding: 4px;
 
-  &.on {
-    background: var(--on);
-
-    .dot {
-      transform: translateX(calc(var(--w) - var(--h)));
-    }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
-  .dot {
-    position: absolute;
-    top: var(--p);
-    left: var(--p);
-    width: calc(var(--h) - 2*var(--p));
-    height: calc(var(--h) - 2*var(--p));
-    border-radius: 50%;
-    background: var(--knob);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    transition: transform .2s ease;
+  &.expanded {
+    transform: rotate(180deg);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
   }
 }
