@@ -59,18 +59,15 @@
   cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
   outline: none;
-  top: 20px;
+  top: 10px;
   right: 10px;
   color: var(--font-color-dark);
   border-radius: 4px;
   padding: 4px;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-
   &.expanded {
     transform: rotate(180deg);
+    top: 0px
   }
 
   svg {
