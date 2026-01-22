@@ -1,27 +1,32 @@
 <div class="legend-container">
   <h3>References</h3>
-  <table class="legend-table" *ngIf="(level$ | async) as level">
-  <tbody *ngIf="(scenarioRef$ | async) as ref">
-    <tr>
-      <td>Monster Level</td>
-      <td>{{ ref?.monster_level }}</td>
-    </tr>
-    <tr>
-      <td>Gold Conversion</td>
-      <td>{{ ref?.gold_conversion }}</td>
-    </tr>
-    <tr>
-      <td>Trap Damage</td>
-      <td>{{ ref?.trap_damage }}</td>
-    </tr>
-    <tr>
-      <td>Hazardous Terrain</td>
-      <td>{{ ref?.hazardous_terrain }}</td>
-    </tr>
-    <tr>
-      <td>Bonus Experience</td>
-      <td>{{ ref?.bonus_experience }}</td>
-    </tr>
-  </tbody>
-</table>
+
+  @if (vm$ | async; as vm) {
+    <table class="legend-table">
+      @if (vm.ref) {
+        <tbody>
+          <tr>
+            <td>Monster Level</td>
+            <td>{{ vm.ref.monster_level }}</td>
+          </tr>
+          <tr>
+            <td>Gold Conversion</td>
+            <td>{{ vm.ref.gold_conversion }}</td>
+          </tr>
+          <tr>
+            <td>Trap Damage</td>
+            <td>{{ vm.ref.trap_damage }}</td>
+          </tr>
+          <tr>
+            <td>Hazardous Terrain</td>
+            <td>{{ vm.ref.hazardous_terrain }}</td>
+          </tr>
+          <tr>
+            <td>Bonus Experience</td>
+            <td>{{ vm.ref.bonus_experience }}</td>
+          </tr>
+        </tbody>
+      }
+    </table>
+  }
 </div>
