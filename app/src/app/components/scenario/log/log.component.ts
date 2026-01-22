@@ -17,6 +17,7 @@ type Updater = (id: string, value: any, log: LogEntry) => void;
 })
 export class LogComponent {
   readonly pageSize = 10;
+  shouldShowLog = false; // collapsed by default
 
   private defaultUpdate!: Updater;
   private undoHandlers!: Record<string, Updater>;
@@ -34,7 +35,7 @@ export class LogComponent {
 
   constructor(
     private readonly logService: LogService,
-    private readonly appContext: AppContext,
+    public readonly appContext: AppContext,
     private readonly notificationService: NotificationService
   ) {
     this.characters$ = this.logService.characterOptions$;

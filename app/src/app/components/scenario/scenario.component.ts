@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RoundComponent } from './round/round.component';
 import { Element, ElementState, ElementType } from '../../types/game-types';
 import { SetupComponent } from './setup/setup.component';
+import { LegendComponent } from './legend/legend.component';
 
 @Component({
   selector: 'app-scenario',
@@ -23,7 +24,8 @@ import { SetupComponent } from './setup/setup.component';
     LogComponent,
     RoundComponent,
     ElementComponent,
-    SetupComponent
+    SetupComponent,
+    LegendComponent
   ]
 })
 export class ScenarioComponent {
