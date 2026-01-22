@@ -1,75 +1,27 @@
 <div class="legend-container">
-  <h3>Legend</h3>
-  <table class="legend-table">
-    <thead>
-      <tr>
-        <th>Scenario Level</th>
-        <th>0</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <th>4</th>
-        <th>5</th>
-        <th>6</th>
-        <th>7</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Monster Level</td>
-        <td>0</td>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-      </tr>
-      <tr>
-        <td>Gold Conversion</td>
-        <td>2</td>
-        <td>2</td>
-        <td>3</td>
-        <td>3</td>
-        <td>4</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-      </tr>
-      <tr>
-        <td>Trap Damage</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-      </tr>
-      <tr>
-        <td>Hazardous Terrain</td>
-        <td>1</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>3</td>
-        <td>3</td>
-        <td>3</td>
-        <td>4</td>
-      </tr>
-      <tr>
-        <td>Bonus Experience</td>
-        <td>4</td>
-        <td>6</td>
-        <td>8</td>
-        <td>10</td>
-        <td>12</td>
-        <td>14</td>
-        <td>16</td>
-        <td>18</td>
-      </tr>
-    </tbody>
-  </table>
+  <h3>References</h3>
+  <table class="legend-table" *ngIf="(level$ | async) as level">
+  <tbody *ngIf="(scenarioRef$ | async) as ref">
+    <tr>
+      <td>Monster Level</td>
+      <td>{{ ref?.monster_level }}</td>
+    </tr>
+    <tr>
+      <td>Gold Conversion</td>
+      <td>{{ ref?.gold_conversion }}</td>
+    </tr>
+    <tr>
+      <td>Trap Damage</td>
+      <td>{{ ref?.trap_damage }}</td>
+    </tr>
+    <tr>
+      <td>Hazardous Terrain</td>
+      <td>{{ ref?.hazardous_terrain }}</td>
+    </tr>
+    <tr>
+      <td>Bonus Experience</td>
+      <td>{{ ref?.bonus_experience }}</td>
+    </tr>
+  </tbody>
+</table>
 </div>
