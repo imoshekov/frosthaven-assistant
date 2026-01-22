@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { ItemSlot } from '../types/item-types';
-import { CharacterRow, CraftableItemRow } from '../types/db-types';
+import { CharacterRow, CraftableItemRow, ScenarioReferenceRow } from '../types/db-types';
 
 
 const url = 'https://ymlekirbwjanuxrclsgf.supabase.co';
@@ -55,6 +55,17 @@ export class DbService {
 
     if (error) throw error;
     return (data ?? []) as CraftableItemRow[];
+  }
+
+  async getScenarioReference(level: number): Promise<ScenarioReferenceRow | null> {
+    const { data, error } = await supabase
+      .from('scenario_reference')
+      .select('*')
+      .eq('scenario_level', level)
+      .maybeSingle();
+
+    if (error) throw error;
+    return (data ?? null) as ScenarioReferenceRow | null;
   }
 
 }

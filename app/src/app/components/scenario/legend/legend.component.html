@@ -1,0 +1,24 @@
+<div class="legend-container">
+  <h3>References</h3>
+
+  @if (vm$ | async; as vm) {
+    <table class="legend-table">
+      @if (vm.ref; as ref) {
+        <tbody>
+          @for (label of [
+            ['Monster Level', ref.monster_level],
+            ['Gold Conversion', ref.gold_conversion],
+            ['Trap Damage', ref.trap_damage],
+            ['Hazardous Terrain', ref.hazardous_terrain],
+            ['Bonus Experience', ref.bonus_experience]
+          ]; track label[0]) {
+            <tr>
+              <td>{{ label[0] }}</td>
+              <td>{{ label[1] }}</td>
+            </tr>
+          }
+        </tbody>
+      }
+    </table>
+  }
+</div>
