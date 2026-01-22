@@ -1,0 +1,35 @@
+.legend-container {
+  padding: 1rem;
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: var(--font-color);
+  }
+
+  .legend-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    table-layout: auto;
+  }
+
+  .legend-table th,
+  .legend-table td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid var(--font-color);
+    color: var(--font-color);
+  }
+
+  .legend-table th {
+    background-color: var(--background-secondary, var(--secondary-color));
+    font-weight: bold;
+    color: var(--font-color-dark);
+    border: 1px solid var(--font-color-dark);
+  }
+
+  .legend-table td:first-child,
+  .legend-table th:first-child {
+    text-align: left;
+  }
+}
