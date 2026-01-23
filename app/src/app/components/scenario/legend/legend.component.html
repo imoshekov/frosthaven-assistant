@@ -6,11 +6,11 @@
       @if (vm.ref; as ref) {
         <tbody>
           @for (label of [
-            ['Monster Level', ref.monster_level],
-            ['Gold Conversion', ref.gold_conversion],
+            ['Bonus Experience', ref.bonus_experience],
+            ['Gold Multiplier', ref.gold_conversion],
             ['Trap Damage', ref.trap_damage],
-            ['Hazardous Terrain', ref.hazardous_terrain],
-            ['Bonus Experience', ref.bonus_experience]
+            ['Hazardous Terrain Damage', ref.hazardous_terrain],
+            ['Monster Level', ref.monster_level],
           ]; track label[0]) {
             <tr>
               <td>{{ label[0] }}</td>
