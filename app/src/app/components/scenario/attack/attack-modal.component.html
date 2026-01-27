@@ -15,8 +15,8 @@
                 <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3"
                     class="stat-input" />
             </div>
-            <div class="damage-preview" *ngIf="damage > 0">
-                total: {{ damage }}
+            <div class="damage-preview">
+                total: {{ damage || 0 }}
             </div>
         </div>
         <app-conditions *ngIf="!appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
