@@ -28,6 +28,22 @@ export class AttackModalComponent {
     this.creature = appContext.selectedCreature;
   }
 
+  get shouldShowBuffs(): boolean {
+    const {
+      armor = 0,
+      roundArmor = 0,
+      retaliate = 0,
+      roundRetaliate = 0
+    } = this.creature ?? {};
+
+    return (
+      armor > 0 ||
+      roundArmor > 0 ||
+      retaliate > 0 ||
+      roundRetaliate > 0
+    );
+  }
+
   toggleCondition(condition: CreatureConditions) {
     this.tempConditions.push(condition);
   }

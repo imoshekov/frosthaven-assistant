@@ -19,8 +19,9 @@
                 total: {{ damage }}
             </div>
         </div>
-        <app-conditions *ngIf="!this.appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
-            [immunities]="creature.immunities" [shouldShowBuffs]="true" (conditionToggled)="toggleCondition($event)">
+        <app-conditions *ngIf="!appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
+            [immunities]="creature.immunities" [shouldShowBuffs]="shouldShowBuffs"
+            (conditionToggled)="toggleCondition($event)">
         </app-conditions>
 
         <div class="buttons">
