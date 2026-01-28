@@ -46,10 +46,17 @@ export class SetupComponent {
     this.storageService.resetGame();
   }
 
-
-
   async loadScenario() {
     const uniqueCreaturesList = this.getAllScenarioMonsters(this.scenarioId);
+    uniqueCreaturesList.forEach(creature => {
+      const newCreature: Creature = {
+        level: this.scenarioLevel,
+        aggressive: true,
+        type: creature
+      };
+      this.appContext.uniqueCreaturesList.push(this.creatureFactory.createCreature(newCreature));
+    });
+    console.log(this.appContext.uniqueCreaturesList);
 
     const initialCreatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
@@ -76,7 +83,6 @@ export class SetupComponent {
     const sectionMonsters =
       this.dataLoader.getData().sections?.filter(s => s.parent === id).flatMap(s => s.monsters ?? []) ?? [];
 
-    // Normalize (trim), drop empties, keep unique
     return Array.from(
       new Set(
         [...scenarioMonsters, ...sectionMonsters]
@@ -85,6 +91,7 @@ export class SetupComponent {
       )
     );
   }
+
   loadSection(): void {
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
     const section = this.dataLoader.getData().sections.find(

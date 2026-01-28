@@ -15,6 +15,7 @@ export class AppContext {
     public addMonsterToggled: boolean = false;
     public shouldShowSetup: boolean = true;
     public shouldShowAudit: boolean = false;
+    public uniqueCreaturesList: Creature[] = [];
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
