@@ -46,13 +46,17 @@ export class SetupComponent {
     this.storageService.resetGame();
   }
 
+
+
   async loadScenario() {
-    const creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
+    const uniqueCreaturesList = this.getAllScenarioMonsters(this.scenarioId);
+
+    const initialCreatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
 
-    if (!creatures) return;
+    if (!initialCreatures) return;
 
-    creatures.forEach(creature => {
+    initialCreatures.forEach(creature => {
       const newCreature: Creature = {
         level: this.scenarioLevel,
         aggressive: true,
@@ -65,6 +69,22 @@ export class SetupComponent {
     this.notificationService.emitInfoMessage(`Loaded scenario ${this.scenarioId} at level ${this.scenarioLevel}.`);
   }
 
+  getAllScenarioMonsters(id: string | number): string[] {
+    const scenarioMonsters =
+      this.dataLoader.getData().scenarios?.filter(s => s.index === id).flatMap(s => s.monsters ?? []) ?? [];
+
+    const sectionMonsters =
+      this.dataLoader.getData().sections?.filter(s => s.parent === id).flatMap(s => s.monsters ?? []) ?? [];
+
+    // Normalize (trim), drop empties, keep unique
+    return Array.from(
+      new Set(
+        [...scenarioMonsters, ...sectionMonsters]
+          .map(m => (m ?? "").trim())
+          .filter(Boolean)
+      )
+    );
+  }
   loadSection(): void {
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');
     const section = this.dataLoader.getData().sections.find(
