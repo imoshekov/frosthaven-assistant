@@ -48,22 +48,31 @@ export class SetupComponent {
 
   async loadScenario() {
     const uniqueCreaturesList = this.getAllScenarioMonsters(this.scenarioId);
-    uniqueCreaturesList.forEach(creature => {
-      const newCreature: Creature = {
-        level: this.scenarioLevel,
-        aggressive: true,
-        type: creature
-      };
-      this.appContext.uniqueCreaturesList.push(this.creatureFactory.createCreature(newCreature));
-    });
-    console.log(this.appContext.uniqueCreaturesList);
 
-    const initialCreatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
+    const addUniqueCreatures = (elite: boolean) => {
+      uniqueCreaturesList.forEach(creature => {
+        const newCreature: Creature = {
+          level: this.scenarioLevel,
+          aggressive: true,
+          isElite: elite,
+          type: creature
+        };
+
+        this.appContext.scenarioCreatureList.push(
+          this.creatureFactory.createCreature(newCreature)
+        );
+      });
+    };
+
+    addUniqueCreatures(false);
+    addUniqueCreatures(true);
+
+    const room1Creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
 
-    if (!initialCreatures) return;
+    if (!room1Creatures) return;
 
-    initialCreatures.forEach(creature => {
+    room1Creatures.forEach(creature => {
       const newCreature: Creature = {
         level: this.scenarioLevel,
         aggressive: true,
