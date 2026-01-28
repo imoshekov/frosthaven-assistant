@@ -1,6 +1,6 @@
 {
-  "index": "93B",
-  "name": "Midwinter Brawl B",
+  "index": "931",
+  "name": "Midwinter Brawl A",
   "flowChartGroup": "job-postings",
   "coordinates": {
     "x": 1415.75,
@@ -12,19 +12,19 @@
   "edition": "fh",
   "complexity": 2,
   "rewards": {
-    "itemBlueprints": [
-      "79"
+    "items": [
+      "235"
     ]
   },
   "monsters": [
-    "hound",
-    "polar-bear",
+    "algox-archer",
+    "algox-guard",
+    "algox-scout",
     "scabwit",
-    "vermling-scout",
     "yoglang"
   ],
   "allies": [
-    "yoglang"
+    "scabwit"
   ],
   "lootDeckConfig": {
     "money": 9,
@@ -42,12 +42,12 @@
       "spawns": [
         {
           "monster": {
-            "name": "polar-bear",
+            "name": "algox-scout",
             "player2": "normal",
-            "player3": "elite",
+            "player3": "normal",
             "player4": "elite"
           },
-          "marker": "c"
+          "marker": "a"
         }
       ]
     },
@@ -57,13 +57,12 @@
       "spawns": [
         {
           "monster": {
-            "name": "vermling-scout",
+            "name": "algox-guard",
             "player2": "normal",
-            "player3": "normal",
+            "player3": "elite",
             "player4": "elite"
           },
-          "marker": "d",
-          "count": "2"
+          "marker": "b"
         }
       ]
     }
@@ -74,45 +73,35 @@
       "initial": true,
       "monster": [
         {
-          "name": "hound",
+          "name": "algox-archer",
           "player2": "normal",
           "player3": "normal",
           "player4": "elite"
         },
         {
-          "name": "hound",
+          "name": "algox-archer",
+          "player2": "normal",
+          "player3": "normal",
+          "player4": "elite"
+        },
+        {
+          "name": "algox-guard",
+          "type": "normal"
+        },
+        {
+          "name": "algox-guard",
+          "player3": "normal",
+          "player4": "normal"
+        },
+        {
+          "name": "algox-scout",
           "player2": "normal",
           "player3": "elite",
           "player4": "elite"
         },
         {
-          "name": "polar-bear",
-          "type": "normal"
-        },
-        {
-          "name": "polar-bear",
-          "player3": "normal",
-          "player4": "normal"
-        },
-        {
           "name": "scabwit",
           "type": "boss"
-        },
-        {
-          "name": "vermling-scout",
-          "type": "elite"
-        },
-        {
-          "name": "vermling-scout",
-          "type": "elite"
-        },
-        {
-          "name": "vermling-scout",
-          "player4": "elite"
-        },
-        {
-          "name": "vermling-scout",
-          "player4": "elite"
         },
         {
           "name": "yoglang",
