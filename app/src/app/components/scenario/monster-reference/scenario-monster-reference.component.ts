@@ -57,19 +57,27 @@ export class ScenarioMonsterReference {
         const monsters = this.getAllScenarioMonsters(scenarioId);
 
         for (const type of monsters) {
-            this.monsterList.push(this.creatureFactory.createCreature({
-                level,
-                aggressive: true,
-                isElite: false,
-                type
-            }));
-            this.monsterList.push(this.creatureFactory.createCreature({
-                level,
-                aggressive: true,
-                isElite: true,
-                type
-            }));
+            this.monsterList.push(
+                this.creatureFactory.createCreature({
+                    level,
+                    aggressive: true,
+                    isElite: false,
+                    type
+                }),
+                this.creatureFactory.createCreature({
+                    level,
+                    aggressive: true,
+                    isElite: true,
+                    type
+                })
+            );
         }
+
+        // 🔽 sort alphabetically by type (normal first, elite second)
+        this.monsterList.sort((a, b) => {
+            return a.type.localeCompare(b.type);
+        });
+
         console.log('Built monster list', this.monsterList);
     }
 
@@ -111,7 +119,7 @@ export class ScenarioMonsterReference {
                 row.eliteMovement = m.movement;
             } else {
                 row.normalAtk = m.attack;
-                row.normalArmor = m.armor;  
+                row.normalArmor = m.armor;
                 row.normalHp = m.hp;
                 row.normalMovement = m.movement;
             }
@@ -137,5 +145,14 @@ export class ScenarioMonsterReference {
                     .filter(Boolean)
             )
         );
+    }
+
+    getCreaturePic(type): string {
+        return `./images/monster/thumbnail/fh-${type}.png`
+    }
+
+    onImgError(event: Event) {
+        const target = event.target as HTMLImageElement;
+        target.src = './images/bb/daemon-skull.svg';
     }
 }

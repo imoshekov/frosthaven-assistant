@@ -21,9 +21,6 @@ export class CreatureGroupHeaderComponent {
 
   getCreaturePic(creature: Creature): string {
     if (creature.aggressive) {
-      if (creature.boss) {
-        return `./images/bb/daemon-skull.svg`
-      }
       return `./images/monster/thumbnail/fh-${creature?.type}.png`
     }
     return `./images/character/thumbnail/fh-${creature?.type}.png`

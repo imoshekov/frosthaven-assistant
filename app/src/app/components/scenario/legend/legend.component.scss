@@ -1,32 +1,69 @@
 .legend-container {
+  .title-row {
+    display: inline-flex;
+    gap: 8px;
+}
 
-  h3 {
+.title-row h3 {
     margin: 0 0 1rem 0;
+}
+
+.chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    outline: none;
     color: var(--font-color);
-  }
+    border-radius: 4px;
+    flex-shrink: 0;
+
+    &.expanded {
+        transform: rotate(180deg);
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+}
 
   .legend-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto;
+    border: 1px solid rgba(255, 255, 255, 0.35);
   }
 
-  .legend-table th,
   .legend-table td {
-    padding: 8px;
-    text-align: center;
-    border: 1px solid var(--font-color);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     color: var(--font-color);
+    font-weight: 700;
   }
 
-  .legend-table th {
-    background-color: var(--background-secondary, var(--secondary-color));
-    font-weight: bold;
-    color: var(--font-color-dark);
+  .legend-table tr:last-child td {
+    border-bottom: none;
   }
 
-  .legend-table td:first-child,
-  .legend-table th:first-child {
+  /* zebra striping — SAME as monster table */
+  .legend-table tr:nth-child(odd) td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* column alignment */
+  .legend-table td:first-child {
     text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+
+  .legend-table td:last-child {
+    text-align: right;
+    white-space: nowrap;
+    width: 140px;
+    /* same value column width */
   }
 }

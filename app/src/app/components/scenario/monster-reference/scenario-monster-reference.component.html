@@ -17,7 +17,13 @@
                 <table class="ref-table">
                     <tbody>
                         <tr *ngFor="let r of monsterRows">
-                            <td class="name">{{ r.type }}</td>
+                            <td class="name-cell">
+                                <div class="name-wrap">
+                                    <img class="monster-icon" [src]="getCreaturePic(r.type)"
+                                        (error)="onImgError($event)" />
+                                    <span class="name">{{ r.type }}</span>
+                                </div>
+                            </td>
                             <td class="stat hp">
                                 <span class="icon heart"></span>
                                 <span class="val">{{ r.eliteHp }} / {{ r.normalHp }}</span>
@@ -26,7 +32,7 @@
                                 <span class="icon attack"></span>
                                 <span class="val">{{ r.eliteAtk }} / {{ r.normalAtk }}</span>
                             </td>
-                            <td class="stat armor">
+                            <td class="stat armor" *ngIf="r.eliteArmor > 0 || r.normalArmor > 0">
                                 <span class="icon shield"></span>
                                 <span class="val">{{ r.eliteArmor }} / {{ r.normalArmor }}</span>
                             </td>
