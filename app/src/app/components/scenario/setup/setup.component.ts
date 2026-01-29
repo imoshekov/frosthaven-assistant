@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../../../services/creature-factory.service';
 import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 
 @Component({
@@ -47,29 +48,30 @@ export class SetupComponent {
   }
 
   async loadScenario() {
-    const uniqueCreaturesList = this.getAllScenarioMonsters(this.scenarioId);
+    // const uniqueCreaturesList = this.getAllScenarioMonsters(this.scenarioId);
 
-    const addUniqueCreatures = (elite: boolean) => {
-      uniqueCreaturesList.forEach(creature => {
-        const newCreature: Creature = {
-          level: this.scenarioLevel,
-          aggressive: true,
-          isElite: elite,
-          type: creature
-        };
+    // const addUniqueCreatures = (elite: boolean) => {
+    //   uniqueCreaturesList.forEach(creature => {
+    //     const newCreature: Creature = {
+    //       level: this.scenarioLevel,
+    //       aggressive: true,
+    //       isElite: elite,
+    //       type: creature
+    //     };
 
-        this.appContext.scenarioCreatureList.push(
-          this.creatureFactory.createCreature(newCreature)
-        );
-      });
-    };
+    //     this.appContext.scenarioCreatureList.push(
+    //       this.creatureFactory.createCreature(newCreature)
+    //     );
+    //   });
+    // };
 
-    addUniqueCreatures(false);
-    addUniqueCreatures(true);
+    // addUniqueCreatures(false);
+    // addUniqueCreatures(true);
 
     const room1Creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
 
+    this.appContext.setScenarioId(this.scenarioId);
     if (!room1Creatures) return;
 
     room1Creatures.forEach(creature => {
@@ -85,21 +87,21 @@ export class SetupComponent {
     this.notificationService.emitInfoMessage(`Loaded scenario ${this.scenarioId} at level ${this.scenarioLevel}.`);
   }
 
-  getAllScenarioMonsters(id: string | number): string[] {
-    const scenarioMonsters =
-      this.dataLoader.getData().scenarios?.filter(s => s.index === id).flatMap(s => s.monsters ?? []) ?? [];
+  // getAllScenarioMonsters(id: string | number): string[] {
+  //   const scenarioMonsters =
+  //     this.dataLoader.getData().scenarios?.filter(s => s.index === id).flatMap(s => s.monsters ?? []) ?? [];
 
-    const sectionMonsters =
-      this.dataLoader.getData().sections?.filter(s => s.parent === id).flatMap(s => s.monsters ?? []) ?? [];
+  //   const sectionMonsters =
+  //     this.dataLoader.getData().sections?.filter(s => s.parent === id).flatMap(s => s.monsters ?? []) ?? [];
 
-    return Array.from(
-      new Set(
-        [...scenarioMonsters, ...sectionMonsters]
-          .map(m => (m ?? "").trim())
-          .filter(Boolean)
-      )
-    );
-  }
+  //   return Array.from(
+  //     new Set(
+  //       [...scenarioMonsters, ...sectionMonsters]
+  //         .map(m => (m ?? "").trim())
+  //         .filter(Boolean)
+  //     )
+  //   );
+  // }
 
   loadSection(): void {
     const sectionIdFormatted = this.sectionId.toString().replace('#', '.');

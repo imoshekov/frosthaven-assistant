@@ -10,6 +10,7 @@ import { RoundComponent } from './round/round.component';
 import { Element, ElementState, ElementType } from '../../types/game-types';
 import { SetupComponent } from './setup/setup.component';
 import { LegendComponent } from './legend/legend.component';
+import { ScenarioMonsterReference } from './monster-reference/scenario-monster-reference.component';
 
 @Component({
   selector: 'app-scenario',
@@ -25,7 +26,8 @@ import { LegendComponent } from './legend/legend.component';
     RoundComponent,
     ElementComponent,
     SetupComponent,
-    LegendComponent
+    LegendComponent,
+    ScenarioMonsterReference
   ]
 })
 export class ScenarioComponent {

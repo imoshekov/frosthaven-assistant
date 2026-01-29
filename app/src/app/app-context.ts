@@ -29,6 +29,9 @@ export class AppContext {
     private defaultLevelSubject = new BehaviorSubject<number>(1);
     defaultLevel$ = this.defaultLevelSubject.asObservable();
 
+    private readonly _scenarioId$ = new BehaviorSubject<number | null>(null);
+    public readonly scenarioId$ = this._scenarioId$.asObservable();
+
     private elementsSubject = new BehaviorSubject<Element[]>([
         { type: ElementType.Fire, state: ElementState.None },
         { type: ElementType.Ice, state: ElementState.None },
@@ -53,6 +56,9 @@ export class AppContext {
 
     getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
     setRoundNumber(round: number) { this.roundNumberSubject.next(round); }
+    setScenarioId(id: number | null): void {
+        this._scenarioId$.next(id);
+    }
 
     getElements(): Element[] {
         return this.elementsSubject.getValue();
@@ -154,7 +160,7 @@ export class AppContext {
     killCreature(creatureId: string) {
         const creature = this.findCreature(creatureId);
         if (!creature) return;
-        if(!creature.aggressive){
+        if (!creature.aggressive) {
             this.notificationService.emitErrorMessage(`haha, can't kill me`);
             return;
         }
