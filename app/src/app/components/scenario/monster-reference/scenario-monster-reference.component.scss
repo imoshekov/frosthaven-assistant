@@ -1,0 +1,79 @@
+.title-row {
+  display: inline-flex; /* chevron next to h3 */
+  gap: 8px;
+}
+
+.title-row h3 {
+  margin: 0 0 1rem 0;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  outline: none;
+  color: var(--font-color);
+  border-radius: 4px;
+  flex-shrink: 0;
+
+  &.expanded {
+    transform: rotate(180deg);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.monster-reference-table {
+  width: 100%;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.ref-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ref-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* subtle zebra striping */
+.ref-table tr:nth-child(odd) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.name {
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: 0.2px;
+}
+
+.stat {
+  width: 140px; /* tweak for TV */
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.stat .icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-right: 6px;
+  vertical-align: -3px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
