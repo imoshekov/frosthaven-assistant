@@ -73,12 +73,9 @@ export class ScenarioMonsterReference {
             );
         }
 
-        // 🔽 sort alphabetically by type (normal first, elite second)
         this.monsterList.sort((a, b) => {
             return a.type.localeCompare(b.type);
         });
-
-        console.log('Built monster list', this.monsterList);
     }
 
     get monsterRows() {
