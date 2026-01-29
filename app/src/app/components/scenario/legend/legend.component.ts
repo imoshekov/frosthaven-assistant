@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'; 
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { from, distinctUntilChanged, map, shareReplay, switchMap } from 'rxjs';
 import { AppContext } from '../../../app-context';
@@ -14,6 +14,7 @@ import { DbService } from '../../../services/db.service';
 export class LegendComponent {
   private appContext = inject(AppContext);
   private db = inject(DbService);
+  public shouldExpand = true;
 
   readonly vm$ = this.appContext.defaultLevel$.pipe(
     distinctUntilChanged(),

@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../../../services/creature-factory.service';
 import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 
 @Component({
@@ -47,12 +48,13 @@ export class SetupComponent {
   }
 
   async loadScenario() {
-    const creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
+    const room1Creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
 
-    if (!creatures) return;
+    this.appContext.setScenarioId(this.scenarioId);
+    if (!room1Creatures) return;
 
-    creatures.forEach(creature => {
+    room1Creatures.forEach(creature => {
       const newCreature: Creature = {
         level: this.scenarioLevel,
         aggressive: true,

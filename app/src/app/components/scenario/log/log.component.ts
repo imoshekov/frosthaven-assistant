@@ -17,7 +17,7 @@ type Updater = (id: string, value: any, log: LogEntry) => void;
 })
 export class LogComponent {
   readonly pageSize = 10;
-  shouldShowLog = false; // collapsed by default
+  shouldShowLog = true;
 
   private defaultUpdate!: Updater;
   private undoHandlers!: Record<string, Updater>;

@@ -1,5 +1,4 @@
-.legend-container {
-  .title-row {
+.title-row {
     display: inline-flex;
     gap: 8px;
 }
@@ -31,39 +30,75 @@
     }
 }
 
-  .legend-table {
+.monster-reference-table {
+    width: 100%;
+}
+
+.ref-table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0.35);
-  }
+}
 
-  .legend-table td {
+.ref-table td {
     padding: 10px 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    color: var(--font-color);
-    font-weight: 700;
-  }
+}
 
-  .legend-table tr:last-child td {
+.ref-table tr:last-child td {
     border-bottom: none;
-  }
+}
 
-  /* zebra striping — SAME as monster table */
-  .legend-table tr:nth-child(odd) td {
+/* subtle zebra striping */
+.ref-table tr:nth-child(odd) td {
     background: rgba(255, 255, 255, 0.02);
-  }
+}
 
-  /* column alignment */
-  .legend-table td:first-child {
+.profile {
+    width: 70px;
+    height: 70px;
+}
+
+.name-cell {
     text-align: left;
+}
+
+.name-wrap {
+    display: flex;
+    align-items: center; // 🔑 vertical centering
+    gap: 12px;
+}
+
+.monster-icon {
+    width: 44px; // adjust to match your design
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; // prevents squashing
+}
+
+.name {
     font-weight: 700;
     letter-spacing: 0.2px;
-  }
-
-  .legend-table td:last-child {
-    text-align: right;
     white-space: nowrap;
+}
+
+
+.stat {
     width: 140px;
-    /* same value column width */
-  }
+    /* tweak for TV */
+    text-align: left;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.stat .icon {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 6px;
+    vertical-align: -3px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
