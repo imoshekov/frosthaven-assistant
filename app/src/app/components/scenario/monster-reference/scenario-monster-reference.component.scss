@@ -41,6 +41,7 @@
     table-layout: fixed; // important for mobile
 }
 
+
 .ref-table td {
     padding: 10px 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -104,62 +105,62 @@
     background-size: contain;
 }
 
-@media (max-width: 768px) {
-  .ref-table,
-  .ref-table tbody,
-  .ref-table tr,
-  .ref-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .ref-table tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 10px 12px;
-  }
-
-  /* remove per-cell borders, since the row becomes the card */
-  .ref-table td {
-    border-bottom: none;
-    padding: 6px 0;
-  }
-
-  /* keep zebra feel */
-  .ref-table tr:nth-child(odd) {
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  /* name row: allow wrapping */
-  .name {
-    white-space: normal;
-  }
-
-  /* make the icon/name block slightly smaller on mobile */
-  .monster-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .name-wrap {
-    gap: 10px;
-  }
-
-  /* stats: show as inline rows under the name */
-  .stat {
+.stat.immunities {
     width: auto;
-    white-space: normal;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+}
 
-  .stat .icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 0;
-    vertical-align: 0;
-    padding-right: 1rem;
-  }
+@media (max-width: 768px) {
+    .ref-table,
+    .ref-table tbody,
+    .ref-table tr,
+    .ref-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .ref-table tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 10px 12px;
+    }
+
+    .ref-table td {
+        border-bottom: none;
+        padding: 6px 0;
+    }
+
+    .ref-table tr:nth-child(odd) {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .name {
+        white-space: normal;
+    }
+
+    .monster-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .name-wrap {
+        gap: 10px;
+    }
+
+    .stat {
+        width: auto;
+        white-space: normal;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat .icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 0;
+        vertical-align: 0;
+        padding-right: 1rem;
+    }
+
 
 }

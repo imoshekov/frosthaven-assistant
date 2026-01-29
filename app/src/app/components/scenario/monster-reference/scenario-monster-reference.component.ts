@@ -72,6 +72,7 @@ export class ScenarioMonsterReference {
                 })
             );
         }
+        console.log('Monster Reference List:', this.monsterList);
 
         this.monsterList.sort((a, b) => {
             return a.type.localeCompare(b.type);
@@ -83,14 +84,17 @@ export class ScenarioMonsterReference {
             string,
             {
                 type: string;
-                normalAtk: number;
-                eliteAtk: number;
-                normalArmor: number;
-                eliteArmor: number;
+                normalAtk?: number;
+                eliteAtk?: number;
+                normalArmor?: number;
+                eliteArmor?: number;
                 normalHp?: number;
                 eliteHp?: number;
                 normalMovement?: number;
                 eliteMovement?: number;
+                normalRetaliate?: number;
+                eliteRetaliate?: number;
+                immunities: string[];
             }
         >();
 
@@ -106,7 +110,10 @@ export class ScenarioMonsterReference {
                     normalHp: 0,
                     eliteHp: 0,
                     normalMovement: 0,
-                    eliteMovement: 0
+                    eliteMovement: 0,
+                    normalRetaliate: 0,
+                    eliteRetaliate: 0,
+                    immunities: []
                 };
 
             if (m.isElite) {
@@ -114,17 +121,31 @@ export class ScenarioMonsterReference {
                 row.eliteArmor = m.armor;
                 row.eliteHp = m.hp;
                 row.eliteMovement = m.movement;
+                row.eliteRetaliate = m.retaliate;
             } else {
                 row.normalAtk = m.attack;
                 row.normalArmor = m.armor;
                 row.normalHp = m.hp;
                 row.normalMovement = m.movement;
+                row.normalRetaliate = m.retaliate;
             }
+
+            // ✅ merge immunities (union)
+            const merged = new Set<string>(row.immunities);
+            for (const imm of (m.immunities ?? [])) {
+                const val = (imm ?? '').trim();
+                if (val) merged.add(val);
+            }
+            row.immunities = [...merged];
 
             map.set(m.type, row);
         }
 
-        return [...map.values()];
+        // optional: keep the immunities list stable + pretty
+        const rows = [...map.values()];
+        for (const r of rows) r.immunities.sort((a, b) => a.localeCompare(b));
+
+        return rows;
     }
 
 
