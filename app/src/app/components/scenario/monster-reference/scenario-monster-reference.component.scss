@@ -38,7 +38,6 @@
     width: 100%;
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0.35);
-    table-layout: fixed; // important for mobile
 }
 
 
@@ -83,12 +82,12 @@
 .name {
     font-weight: 700;
     letter-spacing: 0.2px;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 
 .stat {
-    width: 140px;
+    width: auto;
     text-align: left;
     white-space: nowrap;
     font-weight: 700;
@@ -105,11 +104,12 @@
     background-size: contain;
 }
 
-.stat.immunities {
-    width: auto;
-}
-
 @media (max-width: 768px) {
+
+    .ref-table {
+        table-layout: fixed; // important for mobile
+    }
+
     .ref-table,
     .ref-table tbody,
     .ref-table tr,

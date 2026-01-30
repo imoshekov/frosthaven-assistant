@@ -1,7 +1,7 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
 import { Creature, CreatureConditions } from '../types/game-types';
-import { DataFile, Monster, MonsterAction, MonsterStat } from '../types/data-file-types';
+import { DataFile, Monster, MonsterAbilityCard, MonsterAction, MonsterStat } from '../types/data-file-types';
 import { DataLoaderService } from '../services/data-loader.service';
 import { StringUtils } from './string-utils.service';
 
@@ -22,6 +22,7 @@ export class CreatureFactoryService {
 
   createCreature(creatureInput: Partial<Creature>): Creature {
     const monster: Monster = this.findMonsterStats(creatureInput);
+    const monsterCards: MonsterAbilityCard[] = this.getMonsterCards(creatureInput, monster);
 
     const creature: Creature = {
       id: this.generateCreatureId(),
@@ -69,7 +70,8 @@ export class CreatureFactoryService {
         ?? monster?.stats?.flatMap(s => s.actions ?? []).filter(a => a.type === 'condition')
         ?? [],
       log: creatureInput.log ?? [],
-      traits: creatureInput.traits ?? []
+      traits: creatureInput.traits ?? [],
+      abilityCards: monsterCards ?? []
     };
     creature.maxHp = creature.hp === 0 ? 999 : creature.hp;
     return creature;
@@ -150,6 +152,27 @@ export class CreatureFactoryService {
     };
   }
 
+  private getMonsterCards(creature: Partial<Creature>, monster?: Monster): MonsterAbilityCard[] {
+    const typeKey =
+      typeof creature.type === 'string' && creature.type.trim().length > 0
+        ? creature.type.trim()
+        : undefined;
+
+    const monsterKey = monster?.name?.trim();
+
+    // If monster.deck is a string reference, prefer it
+    const deckKey =
+      (typeof monster?.deck === 'string' && monster.deck.trim().length > 0 ? monster.deck.trim() : undefined) ??
+      typeKey ??
+      monsterKey;
+
+    if (!deckKey || !this.dataFile.decks?.length) return [];
+
+    const deck = this.dataFile.decks.find(d => d.name === deckKey);
+    if (!deck) return [];
+
+    return ((deck as any).abilities ?? (deck as any).cards ?? []) as MonsterAbilityCard[];
+  }
 
   private isCreatureElite(creature: Creature): boolean {
     return creature.type === 'elite' || creature.player4 === 'elite' || creature.isElite === true;

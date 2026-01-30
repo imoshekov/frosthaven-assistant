@@ -1,4 +1,4 @@
-export interface MonsterDefinition {
+export interface ScenarioMonsterDefinition {
   name: string;
   type?: string;
   player2?: string;
@@ -7,10 +7,12 @@ export interface MonsterDefinition {
   marker?: any;
 }
 
+
 export interface MonsterAction {
   type: string;
   value?: string | number;
-  subActions?: any
+  valueType?: 'plus' | 'minus';  
+  subActions?: MonsterAction[];
   small?: boolean;
   range?: number;
 }
@@ -47,7 +49,7 @@ export interface Monster {
   baseStat: MonsterStat;
   stats: MonsterStat[];
   immunities?: string[];
-  deck?: any,
+  deck?: any;
   hidden?: boolean;
   standeeShare?: string;
   catching?: boolean;
@@ -57,14 +59,17 @@ export interface Monster {
   actions?: MonsterAction[];
 }
 
+// =========================
+// Scenario models
+// =========================
 export interface ScenarioRoom {
   roomNumber: number;
   ref?: string;
   initial?: boolean;
-  monster?: MonsterDefinition[];
+  monster?: ScenarioMonsterDefinition[]; 
   treasures?: any[];
   objectives?: any;
-  marker?: any
+  marker?: any;
   links?: any[];
   rooms?: any[];
 }
@@ -108,6 +113,7 @@ export interface Scenario {
   random?: boolean;
 }
 
+
 export interface Character {
   name: string;
   stats: CharacterStat[];
@@ -120,10 +126,44 @@ export interface CharacterStat {
   health: number;
 }
 
+
+export interface MonsterDeckAction {
+  type: string;
+  value?: number | string;
+  valueType?: 'plus' | 'minus' | 'subtract' | 'add';
+  small?: boolean;
+  subActions?: MonsterDeckAction[];
+  valueObject?: any;
+  hidden?: boolean;
+}
+
+
+export interface MonsterAbilityCard {
+  name?: string;        
+  cardId?: number;     
+  initiative: number;
+  shuffle?: boolean;   
+  actions: MonsterDeckAction[];
+  revealed?: boolean;
+}
+
+export interface MonsterAbilityDefinition {
+  name: string;
+  edition: string; 
+  abilities: MonsterAbilityCard[];
+}
+
+export interface MonsterDeck {
+  name: string;
+  edition: string;
+  abilities: MonsterAbilityCard[];
+}
+
 export interface DataFile {
   conditions: string[];
   monsters: Monster[];
   scenarios: Scenario[];
   sections?: any[];
   characters: Character[];
+  decks: MonsterDeck[];
 }
