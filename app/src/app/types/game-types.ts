@@ -1,3 +1,5 @@
+import { MonsterAbilityCard } from "./data-file-types";
+
 export enum CreatureConditions {
   poison = "poison",
   wound = "wound",
@@ -22,6 +24,7 @@ export type CreatureRetaliate = {
   value: number;   
   range: number;   
 };
+
 
 export interface Creature {
   id?: string;
@@ -52,7 +55,8 @@ export interface Creature {
   player2?: string,
   player3?: string,
   player4?: string;
-  actions?: CreatureAction[]; 
+  actions?: CreatureAction[];
+  abilityCards?: MonsterAbilityCard[]; 
 }
 
 

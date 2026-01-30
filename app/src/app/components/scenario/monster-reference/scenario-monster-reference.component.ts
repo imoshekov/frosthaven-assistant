@@ -6,6 +6,7 @@ import { AppContext } from '../../../app-context';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { Creature } from '../../../types/game-types';
 import { CreatureFactoryService } from '../../../services/creature-factory.service';
+import { MonsterAbilityCard } from '../../../types/data-file-types';
 
 @Component({
     standalone: true,
@@ -72,82 +73,149 @@ export class ScenarioMonsterReference {
                 })
             );
         }
-        console.log('Monster Reference List:', this.monsterList);
 
         this.monsterList.sort((a, b) => {
             return a.type.localeCompare(b.type);
         });
+        console.log('Built monster list:', this.monsterList);
     }
 
     get monsterRows() {
-        const map = new Map<
-            string,
+    const map = new Map<
+        string,
+        {
+            type: string;
+            normalAtk?: number;
+            eliteAtk?: number;
+            normalArmor?: number;
+            eliteArmor?: number;
+            normalHp?: number;
+            eliteHp?: number;
+            normalMovement?: number;
+            eliteMovement?: number;
+            normalRetaliate?: number;
+            eliteRetaliate?: number;
+            immunities: string[];
+            abilityCards: MonsterAbilityCard[];
+            minInitiative?: number;
+            maxInitiative?: number;
+            avgInitiative?: number;
+        }
+    >();
+
+    for (const m of this.monsterList) {
+        const row =
+            map.get(m.type) ??
             {
-                type: string;
-                normalAtk?: number;
-                eliteAtk?: number;
-                normalArmor?: number;
-                eliteArmor?: number;
-                normalHp?: number;
-                eliteHp?: number;
-                normalMovement?: number;
-                eliteMovement?: number;
-                normalRetaliate?: number;
-                eliteRetaliate?: number;
-                immunities: string[];
-            }
-        >();
+                type: m.type,
+                normalAtk: 0,
+                eliteAtk: 0,
+                normalArmor: 0,
+                eliteArmor: 0,
+                normalHp: 0,
+                eliteHp: 0,
+                normalMovement: 0,
+                eliteMovement: 0,
+                normalRetaliate: 0,
+                eliteRetaliate: 0,
+                immunities: [],
+                abilityCards: [] as MonsterAbilityCard[]
+            };
 
-        for (const m of this.monsterList) {
-            const row =
-                map.get(m.type) ??
-                {
-                    type: m.type,
-                    normalAtk: 0,
-                    eliteAtk: 0,
-                    normalArmor: 0,
-                    eliteArmor: 0,
-                    normalHp: 0,
-                    eliteHp: 0,
-                    normalMovement: 0,
-                    eliteMovement: 0,
-                    normalRetaliate: 0,
-                    eliteRetaliate: 0,
-                    immunities: []
-                };
+        // stats
+        if (m.isElite) {
+            row.eliteAtk = m.attack;
+            row.eliteArmor = m.armor;
+            row.eliteHp = m.hp;
+            row.eliteMovement = m.movement;
+            row.eliteRetaliate = m.retaliate;
+        } else {
+            row.normalAtk = m.attack;
+            row.normalArmor = m.armor;
+            row.normalHp = m.hp;
+            row.normalMovement = m.movement;
+            row.normalRetaliate = m.retaliate;
+        }
 
-            if (m.isElite) {
-                row.eliteAtk = m.attack;
-                row.eliteArmor = m.armor;
-                row.eliteHp = m.hp;
-                row.eliteMovement = m.movement;
-                row.eliteRetaliate = m.retaliate;
-            } else {
-                row.normalAtk = m.attack;
-                row.normalArmor = m.armor;
-                row.normalHp = m.hp;
-                row.normalMovement = m.movement;
-                row.normalRetaliate = m.retaliate;
-            }
-
-            // ✅ merge immunities (union)
+        // ✅ merge immunities (union)
+        {
             const merged = new Set<string>(row.immunities);
             for (const imm of (m.immunities ?? [])) {
                 const val = (imm ?? '').trim();
                 if (val) merged.add(val);
             }
             row.immunities = [...merged];
-
-            map.set(m.type, row);
         }
 
-        // optional: keep the immunities list stable + pretty
-        const rows = [...map.values()];
-        for (const r of rows) r.immunities.sort((a, b) => a.localeCompare(b));
+        // ✅ merge ability cards from monsterList (dedupe by cardId)
+        {
+            const existingIds = new Set<number>(
+                (row.abilityCards ?? [])
+                    .map(c => c?.cardId)
+                    .filter((id): id is number => typeof id === 'number')
+            );
 
-        return rows;
+            for (const c of (m.abilityCards ?? []) as MonsterAbilityCard[]) {
+                const id = c?.cardId;
+                if (typeof id === 'number') {
+                    if (!existingIds.has(id)) {
+                        row.abilityCards.push(c);
+                        existingIds.add(id);
+                    }
+                } else {
+                    // if some cards lack cardId, still include them (optional)
+                    row.abilityCards.push(c);
+                }
+            }
+        }
+
+        map.set(m.type, row);
     }
 
+    const rows = [...map.values()];
+
+    // keep immunities stable + pretty
+    for (const r of rows) r.immunities.sort((a, b) => a.localeCompare(b));
+
+    // initiative stats (from merged abilityCards)
+    for (const r of rows) {
+        const cards = r.abilityCards ?? [];
+
+        if (!cards.length) {
+            r.minInitiative = undefined;
+            r.maxInitiative = undefined;
+            r.avgInitiative = undefined;
+            continue;
+        }
+
+        let min = Infinity;
+        let max = -Infinity;
+        let sum = 0;
+        let count = 0;
+
+        for (const c of cards) {
+            const init = c?.initiative;
+            if (typeof init !== 'number') continue;
+
+            min = Math.min(min, init);
+            max = Math.max(max, init);
+            sum += init;
+            count++;
+        }
+
+        if (count > 0) {
+            r.minInitiative = min;
+            r.maxInitiative = max;
+            r.avgInitiative = Math.round(sum / count);
+        } else {
+            r.minInitiative = undefined;
+            r.maxInitiative = undefined;
+            r.avgInitiative = undefined;
+        }
+    }
+
+    return rows;
+}
 
     private getAllScenarioMonsters(id: string | number): string[] {
         const scenarioMonsters =

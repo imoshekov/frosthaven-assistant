@@ -60965,6 +60965,11546 @@ export class DataLoaderService {
           ],
         }
       ],
+      "decks": [
+        {
+          "name": "abael-herder",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Briny Bristles",
+              "cardId": 778,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grant",
+                  "value": "%data.custom.fh.abael-herder.1%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "plus"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Desperate Herd",
+              "cardId": 779,
+              "initiative": 72,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grant",
+                  "value": "%data.custom.fh.abael-herder.2%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 1,
+                      "valueType": "minus"
+                    },
+                    {
+                      "type": "attack",
+                      "value": 2,
+                      "valueType": "minus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.abael-herder.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Pig Parade",
+              "cardId": 780,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "piranha-pig",
+                        "type": "normal"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fish Net",
+              "cardId": 781,
+              "initiative": 20,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "pull",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Advancing Horde",
+              "cardId": 782,
+              "initiative": 88,
+              "actions": [
+                {
+                  "type": "grant",
+                  "value": "%data.custom.fh.abael-herder.4%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "muddle",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.abael-herder.5%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "summon",
+                      "value": "monsterStandee",
+                      "valueObject": [
+                        {
+                          "monster": {
+                            "name": "piranha-pig",
+                            "type": "normal"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Guide the School",
+              "cardId": 783,
+              "initiative": 12,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "condition",
+                  "value": "strengthen",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "all Piranha Pigs",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Heed the Pigs",
+              "cardId": 784,
+              "initiative": 65,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": "X",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": "X+1",
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.abael-herder.6%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 785,
+              "initiative": 56,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "algox-icespeaker",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Warding Swipe",
+              "cardId": 730,
+              "initiative": 17,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,0,target)|(1,0,target)|(1,1,target)|(0,1,active)|(1,2,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Knockout Punch",
+              "cardId": 731,
+              "initiative": 76,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "stun",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Two-Fisted Strike",
+              "cardId": 732,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Frozen Debris",
+              "cardId": 733,
+              "initiative": 39,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Ice Wall",
+              "cardId": 734,
+              "initiative": 8,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.algox-icespeaker.1%",
+                  "small": true
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.algox-icespeaker.2%",
+                  "small": true
+                },
+                {
+                  "type": "concatenation",
+                  "value": "",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice"
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 735,
+              "initiative": 56,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Terrifying Growl",
+              "cardId": 736,
+              "initiative": 80,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "condition",
+                  "value": "disarm",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "One with the Earth",
+              "cardId": 737,
+              "initiative": 12,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 3
+                },
+                {
+                  "type": "element",
+                  "value": "earth",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "heal",
+                      "value": 1,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "algox-snowspeaker",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Blinding Vortex",
+              "cardId": 738,
+              "initiative": 22,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,target)|(1,0,target)|(1,1,target)|(2,0,target)|(2,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "muddle",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Cold Winds",
+              "cardId": 739,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Sleet",
+              "cardId": 740,
+              "initiative": 43,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Blistering Assault",
+              "cardId": 741,
+              "initiative": 30,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "push",
+                      "value": 1,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "push",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Snowstorm",
+              "cardId": 742,
+              "initiative": 6,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.algox-snowspeaker.1%",
+                  "small": true
+                },
+                {
+                  "type": "push",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "concatenation",
+                  "value": "",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice"
+                    },
+                    {
+                      "type": "element",
+                      "value": "air"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hail",
+              "cardId": 743,
+              "initiative": 59,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 744,
+              "initiative": 27,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Snow Drifts",
+              "cardId": 745,
+              "initiative": 66,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "immobilize",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "muddle",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 6,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ancient-artillery",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Long Shot",
+              "cardId": 626,
+              "initiative": 46,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.ancient-artillery.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 7,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Exploding Ammunition",
+              "cardId": 627,
+              "initiative": 71,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 5,
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.ancient-artillery.2%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Exploding Ammunition",
+              "cardId": 628,
+              "initiative": 71,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 5,
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.ancient-artillery.2%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Grenade",
+              "cardId": 629,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,target)|(1,0,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Massive Blast",
+              "cardId": 630,
+              "initiative": 57,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(2,0,target)|(0,1,target)|(1,1,target)|(2,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Heavy Shot",
+              "cardId": 631,
+              "initiative": 95,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Defensive Ordinance",
+              "cardId": 632,
+              "initiative": 17,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Concussive Burst",
+              "cardId": 633,
+              "initiative": 46,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,target)|(1,0,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "archer",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Shoot Foot",
+              "cardId": 754,
+              "initiative": 29,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Set Trap",
+              "cardId": 755,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.archer.1%",
+                  "small": true
+                }
+              ]
+            },
+            {
+              "name": "Close In",
+              "cardId": 756,
+              "initiative": 32,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 757,
+              "initiative": 16,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Power Shot",
+              "cardId": 758,
+              "initiative": 64,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 759,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 760,
+              "initiative": 44,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Twin Bolts",
+              "cardId": 761,
+              "initiative": 56,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "belara",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Call to the Flame",
+              "cardId": 786,
+              "initiative": 97,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "flame-demon",
+                        "player2": "normal",
+                        "player3": "elite",
+                        "player4": "elite"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Call to the Earth",
+              "cardId": 787,
+              "initiative": 97,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "earth-demon",
+                        "player2": "normal",
+                        "player3": "normal",
+                        "player4": "elite"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Circle of Fire",
+              "cardId": 788,
+              "initiative": 22,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "retaliate",
+                      "value": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rock Bomb",
+              "cardId": 789,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 3,
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.belara.1%",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Stone Spikes",
+              "cardId": 790,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,2,target)|(1,1,target)|(2,0,target)|(0,3,active)"
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Flowing Magma",
+              "cardId": 791,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.belara.2%",
+                  "small": true
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Strength of the Mountain",
+              "cardId": 792,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 4,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 2,
+                          "small": true,
+                          "valueType": "add"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fire Bolts",
+              "cardId": 793,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "boss",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Accelerated Power",
+              "cardId": 874,
+              "initiative": 11,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 875,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 876,
+              "initiative": 17,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 877,
+              "initiative": 85,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 878,
+              "initiative": 79,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 879,
+              "initiative": 73,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 880,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Twin Shots",
+              "cardId": 881,
+              "initiative": 52,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "burrowing-blade",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Tunneling Slices",
+              "cardId": 818,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "specialTarget",
+                  "value": "focusEnemyFarthest",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 1,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "jump",
+                          "value": "",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesMovedThroughAdjacent",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tunneling Slices",
+              "cardId": 819,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "specialTarget",
+                  "value": "focusEnemyFarthest",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 1,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "jump",
+                          "value": "",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesMovedThroughAdjacent",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Descend",
+              "cardId": 820,
+              "initiative": 75,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.burrowing-blade.1%",
+                  "small": true
+                },
+                {
+                  "type": "condition",
+                  "value": "invisible",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Soaring Strikes",
+              "cardId": 821,
+              "initiative": 53,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Explosive Ascent",
+              "cardId": 822,
+              "initiative": 63,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.burrowing-blade.2%",
+                  "small": true
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Aura of Fear",
+              "cardId": 823,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "specialTarget",
+                  "value": "focusEnemyFarthest",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 2,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "jump",
+                          "value": "",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "concatenation",
+                  "value": "and:2",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "curse"
+                    },
+                    {
+                      "type": "condition",
+                      "value": "muddle"
+                    },
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rocky Thrust",
+              "cardId": 824,
+              "initiative": 65,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crashing Blow",
+              "cardId": 825,
+              "initiative": 85,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "chaos-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Chilling Breath",
+              "cardId": 538,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,active)|(1,1,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "retaliate",
+                      "value": 2,
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 2,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Heat Blast",
+              "cardId": 539,
+              "initiative": 1,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "wound",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Seismic Punch",
+              "cardId": 540,
+              "initiative": 67,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "push",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "area",
+                          "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Whirlwind",
+              "cardId": 541,
+              "initiative": 20,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "shield",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "White Claws",
+              "cardId": 542,
+              "initiative": 42,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.chaos-demon.1%",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "light",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "heal",
+                      "value": 4,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Black Tendrils",
+              "cardId": 543,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "invisible",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Arcane Explosion",
+              "cardId": 544,
+              "initiative": 77,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "concatenation",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "fire"
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice"
+                    },
+                    {
+                      "type": "element",
+                      "value": "air"
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth"
+                    },
+                    {
+                      "type": "element",
+                      "value": "light"
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hungry Maw",
+              "cardId": 545,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "wild",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "bane",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "chaos-spark",
+          "edition": "fh",
+          "abilities": [
+            {
+              "initiative": 90,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2
+                },
+                {
+                  "type": "attack",
+                  "value": "(C-2)",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.chaos-spark.1%"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.chaos-spark.2%",
+                  "small": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "city-guard-scenario-1",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Nothing",
+              "cardId": 752,
+              "initiative": 50,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.city-guard-scenario-1.1%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deep-terror",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Horrible Glare",
+              "cardId": 722,
+              "initiative": 65,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "curse",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Beam of Annihilation",
+              "cardId": 723,
+              "initiative": 60,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(3,0,target)|(2,1,target)|(2,2,target)|(1,3,target)|(1,4,target)|(0,5,active)"
+                    },
+                    {
+                      "type": "pierce",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Beam of Annihilation",
+              "cardId": 724,
+              "initiative": 60,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(3,0,target)|(2,1,target)|(2,2,target)|(1,3,target)|(1,4,target)|(0,5,active)"
+                    },
+                    {
+                      "type": "pierce",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Burning Gaze",
+              "cardId": 725,
+              "initiative": 84,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rooted Fear",
+              "cardId": 726,
+              "initiative": 75,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Disruptive Frenzy",
+              "cardId": 727,
+              "initiative": 75,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Terrible Growth",
+              "cardId": 728,
+              "initiative": 96,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.deep-terror.1%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "summon",
+                      "value": "monsterStandee",
+                      "valueObject": [
+                        {
+                          "monster": {
+                            "name": "deep-terror",
+                            "type": "normal"
+                          }
+                        }
+                      ],
+                      "subActions": [
+                        {
+                          "type": "custom",
+                          "value": "%data.custom.fh.deep-terror.2%",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Ray of Hate",
+              "cardId": 739,
+              "initiative": 54,
+              "actions": [
+                {
+                  "type": "concatenation",
+                  "value": "and:2",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "wound"
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison"
+                    },
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "earth-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Strong Growth",
+              "cardId": 570,
+              "initiative": 40,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 4,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 2,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 571,
+              "initiative": 42,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 572,
+              "initiative": 62,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Boulder Throw",
+              "cardId": 573,
+              "initiative": 71,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 1,
+                          "small": true,
+                          "valueType": "add"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 574,
+              "initiative": 83,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Ground Slam",
+              "cardId": 575,
+              "initiative": 93,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "push",
+                          "value": 1,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Reckless Charge",
+              "cardId": 576,
+              "initiative": 79,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "subtract",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Earthen Eruption",
+              "cardId": 577,
+              "initiative": 87,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "concatenation",
+                  "value": ":2",
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "minus"
+                    },
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,1,target)|(1,0,target)|(2,0,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "earth"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fish-king-scenario-76",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Nothing",
+              "cardId": 752,
+              "initiative": 1,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.fish-king-scenario-76.1%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "flame-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 546,
+              "initiative": 3,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 547,
+              "initiative": 24,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Explosive Blast",
+              "cardId": 548,
+              "initiative": 46,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "area",
+                          "value": "(1,0,target)|(2,0,target)|(2,1,target)|(0,1,target)|(1,1,target)|(1,2,target)|(2,2,target)",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 1,
+                          "valueType": "subtract",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fire Spout",
+              "cardId": 549,
+              "initiative": 8,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.flame-demon.1%",
+                  "small": true
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "fire"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Intense Torch",
+              "cardId": 550,
+              "initiative": 49,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(2,0,target)|(1,1,target)|(1,2,active)"
+                    },
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "wound",
+                          "valueType": "plus",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 551,
+              "initiative": 67,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Heat Aura",
+              "cardId": 552,
+              "initiative": 77,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.flame-demon.2%",
+                      "small": true,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Raging Blaze",
+              "cardId": 553,
+              "initiative": 30,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.flame-demon.3%",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "flaming-bladespinner",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Calculated Strike",
+              "cardId": 610,
+              "initiative": 78,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assualt",
+              "cardId": 611,
+              "initiative": 38,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Increase Momentum",
+              "cardId": 612,
+              "initiative": 33,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "condition",
+                  "value": "strengthen",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Defensive Blades",
+              "cardId": 613,
+              "initiative": 12,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.flaming-bladespinner.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Heated Sweep",
+              "cardId": 614,
+              "initiative": 58,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "wound",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Flame Jets",
+              "cardId": 615,
+              "initiative": 43,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.flaming-bladespinner.2%",
+                  "small": true
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "small": true,
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 2,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Firestorm",
+              "cardId": 616,
+              "initiative": 17,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Spinning Charge",
+              "cardId": 617,
+              "initiative": 68,
+              "actions": [
+                {
+                  "type": "specialTarget",
+                  "value": "focusEnemyFarthest",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "move",
+                      "value": 1,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "jump",
+                          "value": "",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesMovedThroughAdjacent",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "wound",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "frost-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Gather the Frost",
+              "cardId": 554,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "immobilize",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "heal",
+                      "value": 3,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 555,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Frozen Shards",
+              "cardId": 556,
+              "initiative": 58,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 557,
+              "initiative": 58,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Cold Claws",
+              "cardId": 558,
+              "initiative": 78,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Cold Claws",
+              "cardId": 559,
+              "initiative": 78,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Chilled to the Bone",
+              "cardId": 560,
+              "initiative": 58,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "pierce",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Ice Barrier",
+              "cardId": 627,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.frost-demon.1%",
+                      "small": true,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "frozen-corpse",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Freezing Embrace",
+              "cardId": 634,
+              "initiative": 23,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "concatenation",
+                  "value": "and:2",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "brittle"
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize"
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 635,
+              "initiative": 71,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Cold Snap",
+              "cardId": 636,
+              "initiative": 42,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "brittle",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Cold Snap",
+              "cardId": 637,
+              "initiative": 42,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "brittle",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Thawed Strike",
+              "cardId": 638,
+              "initiative": 68,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "move",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.frozen-corpse.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Thawed Strike",
+              "cardId": 639,
+              "initiative": 68,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "fire",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "move",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.frozen-corpse.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Frost Breath",
+              "cardId": 640,
+              "initiative": 39,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,target)|(1,0,target)|(1,1,target)|(0,2,active)|(1,2,target)|(2,2,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Icy Swipe",
+              "cardId": 641,
+              "initiative": 84,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "giant-piranha-pig-boss",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Accelerated Power",
+              "cardId": 874,
+              "initiative": 11,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 875,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 876,
+              "initiative": 17,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 877,
+              "initiative": 85,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 878,
+              "initiative": 79,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 879,
+              "initiative": 73,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 880,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.giant-piranha-pig-boss.1%"
+                }
+              ]
+            },
+            {
+              "name": "Twin Shots",
+              "cardId": 881,
+              "initiative": 52,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.giant-piranha-pig-boss.1%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "guard",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Parry and Thrust",
+              "cardId": 746,
+              "initiative": 15,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 747,
+              "initiative": 70,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Throwing Axe",
+              "cardId": 748,
+              "initiative": 35,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Venom Shiv",
+              "cardId": 749,
+              "initiative": 15,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 750,
+              "initiative": 30,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 751,
+              "initiative": 50,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 752,
+              "initiative": 50,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Psych Up",
+              "cardId": 753,
+              "initiative": 55,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "condition",
+                  "value": "strengthen",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "harrower-infester",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Biting Gnats",
+              "cardId": 802,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Centipede Strike",
+              "cardId": 803,
+              "initiative": 7,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Restore the Swarm",
+              "cardId": 804,
+              "initiative": 16,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "heal",
+                  "value": 5,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Drain the Essence",
+              "cardId": 805,
+              "initiative": 7,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "muddle",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "heal",
+                  "value": 4,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Spiked Mandibles",
+              "cardId": 806,
+              "initiative": 16,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Angry Bulwark",
+              "cardId": 807,
+              "initiative": 2,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Piercing Paracite",
+              "cardId": 808,
+              "initiative": 30,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,1,target)|(2,0,target)|(1,2,target)|(0,3,active)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.harrower-infester.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ],
+              "revealed": true
+            },
+            {
+              "name": "Clouds of Hate",
+              "cardId": 809,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "hound-scenario-0",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Nothing Special",
+              "cardId": 846,
+              "initiative": 26,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2
+                },
+                {
+                  "type": "attack",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "hound",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Gripping Teeth",
+              "cardId": 842,
+              "initiative": 6,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Horrowing Howl",
+              "cardId": 843,
+              "initiative": 7,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "condition",
+                  "value": "muddle",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Pack Hunting",
+              "cardId": 844,
+              "initiative": 19,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.hound.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Pack Hunting",
+              "cardId": 845,
+              "initiative": 19,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.hound.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 846,
+              "initiative": 26,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 847,
+              "initiative": 26,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 848,
+              "initiative": 83,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Sharp Fangs",
+              "cardId": 849,
+              "initiative": 72,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "pierce",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "pierce",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ice-wraith",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Shift Form",
+              "cardId": 642,
+              "initiative": 95,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "switchType",
+                  "value": "All elite Ice Wraiths\u003Cbr\u003E become normal, and all\u003Cbr\u003E normal Ice Wraiths become elite.",
+                  "small": true
+                },
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Renewed Aggression",
+              "cardId": 643,
+              "initiative": 44,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Unholy Strength",
+              "cardId": 644,
+              "initiative": 59,
+              "actions": [
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "concatenation",
+                      "value": "and:2",
+                      "small": true,
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "strengthen",
+                          "subActions": [
+                            {
+                              "type": "specialTarget",
+                              "value": "self",
+                              "hidden": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "condition",
+                          "value": "bless",
+                          "subActions": [
+                            {
+                              "type": "specialTarget",
+                              "value": "self",
+                              "hidden": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fade Out",
+              "cardId": 645,
+              "initiative": 59,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "invisible",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "concatenation",
+                      "value": "and:2",
+                      "small": true,
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "bless",
+                          "subActions": [
+                            {
+                              "type": "specialTarget",
+                              "value": "self",
+                              "hidden": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "condition",
+                          "value": "strengthen",
+                          "subActions": [
+                            {
+                              "type": "specialTarget",
+                              "value": "self",
+                              "hidden": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 646,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 647,
+              "initiative": 71,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Restore Essence",
+              "cardId": 648,
+              "initiative": 13,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "shield",
+                      "value": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Shard Strike",
+              "cardId": 649,
+              "initiative": 16,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "retaliate",
+                      "value": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "imp",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Phase Out",
+              "cardId": 826,
+              "initiative": 5,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 5
+                },
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "wild"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 827,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 828,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Restoration",
+              "cardId": 829,
+              "initiative": 42,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rotten Sting",
+              "cardId": 830,
+              "initiative": 43,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "wild",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 831,
+              "initiative": 76,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Dark Charm",
+              "cardId": 832,
+              "initiative": 43,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "curse",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "wild",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tip the Scales",
+              "cardId": 833,
+              "initiative": 24,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "strengthen",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "condition",
+                  "value": "muddle",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "laser-spires",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Accelerated Power",
+              "cardId": 874,
+              "initiative": 11,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 875,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Accelerated Power",
+              "cardId": 876,
+              "initiative": 17,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 877,
+              "initiative": 85,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 878,
+              "initiative": 79,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Lingering Strength",
+              "cardId": 879,
+              "initiative": 73,
+              "actions": [
+                {
+                  "type": "special",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 880,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.laser-spires.1%"
+                }
+              ]
+            },
+            {
+              "name": "Twin Shots",
+              "cardId": 881,
+              "initiative": 52,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.laser-spires.2%"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lightning-eel",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Nothing Special",
+              "cardId": 706,
+              "initiative": 20,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Shocking Voltage",
+              "cardId": 707,
+              "initiative": 82,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "light",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "stun",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Thrashing in the Water",
+              "cardId": 708,
+              "initiative": 9,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 709,
+              "initiative": 35,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Paralyzing Bite",
+              "cardId": 710,
+              "initiative": 67,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "light",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "stun",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Leaping Dive",
+              "cardId": 711,
+              "initiative": 12,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Electric Pulse",
+              "cardId": 712,
+              "initiative": 16,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 713,
+              "initiative": 5,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "living-bones",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Calculated Strike",
+              "cardId": 666,
+              "initiative": 64,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Drain Life",
+              "cardId": 667,
+              "initiative": 20,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 668,
+              "initiative": 25,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 669,
+              "initiative": 45,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 670,
+              "initiative": 45,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Power Slash",
+              "cardId": 671,
+              "initiative": 81,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Focused Stabs",
+              "cardId": 672,
+              "initiative": 74,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemyOneAll",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Eternal Life",
+              "cardId": 673,
+              "initiative": 12,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "living-doom",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Chilling Aura",
+              "cardId": 650,
+              "initiative": 70,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)|(1,2,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Face of Darkness",
+              "cardId": 651,
+              "initiative": 82,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "disarm",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Arresting Advance",
+              "cardId": 652,
+              "initiative": 32,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 653,
+              "initiative": 57,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Sunless Abyss",
+              "cardId": 654,
+              "initiative": 11,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "curse",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "concatenation",
+                  "value": "",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice"
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hateful Spikes",
+              "cardId": 655,
+              "initiative": 17,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Pull of the Grave",
+              "cardId": 656,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 3,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "bane",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Call For Souls",
+              "cardId": 657,
+              "initiative": 78,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "living-spirit",
+                        "type": "normal"
+                      },
+                      "count": "[HP/5{$math.maxFloor:3}]"
+                    }
+                  ],
+                  "subActions": [
+                    {
+                      "type": "nonCalc",
+                      "value": "%data.custom.fh.living-doom.1%",
+                      "subActions": [
+                        {
+                          "type": "custom",
+                          "value": "%data.custom.fh.living-doom.2%",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "living-spirit",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Sap Strength",
+              "cardId": 658,
+              "initiative": 22,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "muddle",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Booming Scream",
+              "cardId": 659,
+              "initiative": 33,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 660,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 661,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Coupled Chain",
+              "cardId": 662,
+              "initiative": 61,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Leech Warmth",
+              "cardId": 663,
+              "initiative": 75,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Angry Howl",
+              "cardId": 664,
+              "initiative": 55,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "condition",
+                  "value": "curse",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Icy Glare",
+              "cardId": 665,
+              "initiative": 67,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "stun",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-clawcrusher",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Nothing Special",
+              "cardId": 690,
+              "initiative": 47,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Smash Armor",
+              "cardId": 691,
+              "initiative": 58,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-clawcrusher.1%",
+                      "subActions": [
+                        {
+                          "type": "element",
+                          "value": "earth",
+                          "valueType": "minus",
+                          "subActions": [
+                            {
+                              "type": "custom",
+                              "value": "%data.custom.fh.lurker-clawcrusher.2%",
+                              "small": true
+                            }
+                          ]
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crippling Claw",
+              "cardId": 692,
+              "initiative": 44,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Take Hostage",
+              "cardId": 693,
+              "initiative": 13,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Earthen Blow",
+              "cardId": 694,
+              "initiative": 60,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "poison",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "wound",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crush Armor",
+              "cardId": 695,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "minus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-clawcrusher.1%",
+                      "subActions": [
+                        {
+                          "type": "element",
+                          "value": "earth",
+                          "valueType": "minus",
+                          "subActions": [
+                            {
+                              "type": "custom",
+                              "value": "%data.custom.fh.lurker-clawcrusher.2%",
+                              "small": true
+                            }
+                          ]
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Claw Guard",
+              "cardId": 696,
+              "initiative": 11,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Frantic Swipes",
+              "cardId": 697,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-mindsnipper",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Psychic Shock",
+              "cardId": 682,
+              "initiative": 6,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "retaliate",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "retaliate",
+                          "value": 2,
+                          "small": true,
+                          "valueType": "add"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "condition",
+                  "value": "muddle",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 683,
+              "initiative": 10,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Consume All Hope",
+              "cardId": 684,
+              "initiative": 22,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "curse",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 685,
+              "initiative": 34,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Instill Fear",
+              "cardId": 686,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true,
+                      "valueType": "add"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "push",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Beguiling Thoughts",
+              "cardId": 687,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Turn the Weak",
+              "cardId": 688,
+              "initiative": 51,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "grant",
+                  "value": "%data.custom.fh.lurker-mindsnipper.1%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Paralyze",
+              "cardId": 689,
+              "initiative": 46,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "stun",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-soldier",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Defensive Claws",
+              "cardId": 674,
+              "initiative": 11,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "wound",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "shield",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 675,
+              "initiative": 28,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 676,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Focused Strikes",
+              "cardId": 677,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemyOneAll",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 678,
+              "initiative": 61,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Berserk Rage",
+              "cardId": 679,
+              "initiative": 64,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-soldier.1%",
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Strength of the Deep",
+              "cardId": 680,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "element",
+                  "value": "ice",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "strengthen",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hardened by Frost",
+              "cardId": 681,
+              "initiative": 23,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-wavethrower-scenario-128",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Powerful Claw",
+              "cardId": 698,
+              "initiative": 60,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Distant Wave",
+              "cardId": 699,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-128.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tsunami",
+              "cardId": 700,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(2,0,target)|(2,1,target)|(0,1,target)|(1,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 701,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-128.2%",
+                  "small": true
+                },
+                {
+                  "type": "concatenation",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "vermling-scout",
+                                "type": "normal",
+                                "health": 1
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "monsterType",
+                      "value": "elite",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "vermling-scout",
+                                "type": "elite",
+                                "health": 1
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 702,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-128.2%",
+                  "small": true
+                },
+                {
+                  "type": "concatenation",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "vermling-scout",
+                                "type": "normal",
+                                "health": 1
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "monsterType",
+                      "value": "elite",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "vermling-scout",
+                                "type": "elite",
+                                "health": 1
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crushing Crest",
+              "cardId": 703,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)|(1,2,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Twin Claws",
+              "cardId": 704,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Massive Swell",
+              "cardId": 705,
+              "initiative": 40,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-wavethrower-scenario-131",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Powerful Claw",
+              "cardId": 698,
+              "initiative": 60,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Distant Wave",
+              "cardId": 699,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-131.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tsunami",
+              "cardId": 700,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(2,0,target)|(2,1,target)|(0,1,target)|(1,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 701,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-131.2%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "teleport",
+                  "value": "",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-wavethrower-scenario-131.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 702,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower-scenario-131.2%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "teleport",
+                  "value": "",
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-wavethrower-scenario-131.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crushing Crest",
+              "cardId": 703,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)|(1,2,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Twin Claws",
+              "cardId": 704,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Massive Swell",
+              "cardId": 705,
+              "initiative": 40,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lurker-wavethrower",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Powerful Claw",
+              "cardId": 698,
+              "initiative": 60,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Distant Wave",
+              "cardId": 699,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower.1%",
+                  "small": true
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tsunami",
+              "cardId": 700,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(2,0,target)|(2,1,target)|(0,1,target)|(1,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 701,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower.2%",
+                  "small": true
+                },
+                {
+                  "type": "concatenation",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "lightning-eel",
+                                "type": "normal"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "monsterType",
+                      "value": "elite",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "lightning-eel",
+                                "type": "elite"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-wavethrower.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aid from Below",
+              "cardId": 702,
+              "initiative": 98,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.lurker-wavethrower.2%",
+                  "small": true
+                },
+                {
+                  "type": "concatenation",
+                  "subActions": [
+                    {
+                      "type": "monsterType",
+                      "value": "normal",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "lightning-eel",
+                                "type": "normal"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "monsterType",
+                      "value": "elite",
+                      "subActions": [
+                        {
+                          "type": "summon",
+                          "value": "monsterStandee",
+                          "valueObject": [
+                            {
+                              "monster": {
+                                "name": "lightning-eel",
+                                "type": "elite"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.lurker-wavethrower.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Crushing Crest",
+              "cardId": 703,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)|(1,2,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Twin Claws",
+              "cardId": 704,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(0,1,active)|(1,0,target)|(1,1,target)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Massive Swell",
+              "cardId": 705,
+              "initiative": 40,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "night-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 578,
+              "initiative": 4,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Into Darkness",
+              "cardId": 579,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "invisible",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self"
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 580,
+              "initiative": 22,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Black Thorns",
+              "cardId": 581,
+              "initiative": 26,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "muddle",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Death's Embrace",
+              "cardId": 582,
+              "initiative": 46,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 583,
+              "initiative": 41,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Impale",
+              "cardId": 584,
+              "initiative": 35,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "pierce",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "light",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "curse",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self"
+                        }
+                      ],
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The Night Feeds",
+              "cardId": 585,
+              "initiative": 15,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.night-demon.1%"
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "dark"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ooze",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 866,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 867,
+              "initiative": 57,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Toxic Explosion",
+              "cardId": 868,
+              "initiative": 59,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Plasma Ward",
+              "cardId": 869,
+              "initiative": 85,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 870,
+              "initiative": 66,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Split",
+              "cardId": 871,
+              "initiative": 94,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "sufferDamage",
+                  "value": 2
+                },
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "ooze",
+                        "type": "normal",
+                        "health": "H"
+                      }
+                    }
+                  ],
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.ooze.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Split",
+              "cardId": 872,
+              "initiative": 94,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "sufferDamage",
+                  "value": 2
+                },
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "ooze",
+                        "type": "normal",
+                        "health": "H"
+                      }
+                    }
+                  ],
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.ooze.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Feed",
+              "cardId": 873,
+              "initiative": 66,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "loot",
+                  "value": 1
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "dark",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "heal",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "piranha-pig",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Schooling",
+              "cardId": 714,
+              "initiative": 40,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.piranha-pig.1%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bloodthirst",
+              "cardId": 715,
+              "initiative": 38,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "minus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.piranha-pig.2%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Easy Prey",
+              "cardId": 716,
+              "initiative": 54,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "plus"
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.piranha-pig.3%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Feast",
+              "cardId": 717,
+              "initiative": 26,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "heal",
+                      "value": "X",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.piranha-pig.4%",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 718,
+              "initiative": 18,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "No Escape",
+              "cardId": 719,
+              "initiative": 23,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Bared Teeth",
+              "cardId": 720,
+              "initiative": 13,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "condition",
+                  "value": "wound",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 721,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "polar-bear",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 834,
+              "initiative": 13,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Low Slash",
+              "cardId": 835,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Full Force",
+              "cardId": 836,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 837,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 838,
+              "initiative": 60,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Rampage",
+              "cardId": 839,
+              "initiative": 80,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Claw Swipes",
+              "cardId": 840,
+              "initiative": 61,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hibernate",
+              "cardId": 841,
+              "initiative": 3,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "priest",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Drain Speed",
+              "cardId": 762,
+              "initiative": 8,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Drain Strength",
+              "cardId": 763,
+              "initiative": 8,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 764,
+              "initiative": 62,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tend to the Clan",
+              "cardId": 765,
+              "initiative": 23,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tend to the Clan",
+              "cardId": 766,
+              "initiative": 23,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 767,
+              "initiative": 74,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Divine Energy",
+              "cardId": 768,
+              "initiative": 89,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "allies",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "condition",
+                  "value": "bless",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Angry Hex",
+              "cardId": 769,
+              "initiative": 9,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "curse",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rending-drake",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 850,
+              "initiative": 12,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Swift Claws",
+              "cardId": 851,
+              "initiative": 13,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 852,
+              "initiative": 25,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 853,
+              "initiative": 39,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Venom Glands",
+              "cardId": 854,
+              "initiative": 54,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Dangerous Fury",
+              "cardId": 855,
+              "initiative": 59,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Unending Frenzy",
+              "cardId": 856,
+              "initiative": 72,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Empowering Rest",
+              "cardId": 857,
+              "initiative": 6,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "strengthen",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "robotic-boltshooter",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Calculated Shot",
+              "cardId": 602,
+              "initiative": 83,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Safety Valve",
+              "cardId": 603,
+              "initiative": 22,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Sharpshooter",
+              "cardId": 604,
+              "initiative": 44,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    },
+                    {
+                      "type": "pierce",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Retracted Assault",
+              "cardId": 605,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 606,
+              "initiative": 57,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Ballista Bolt",
+              "cardId": 607,
+              "initiative": 91,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 1,
+                      "valueType": "subtract",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Focus Fire",
+              "cardId": 608,
+              "initiative": 78,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemyOneAll",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Repair Drones",
+              "cardId": 609,
+              "initiative": 16,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ruined-machine",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Latch On",
+              "cardId": 594,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "concatenation",
+                  "value": ",:2",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison"
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize"
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 595,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 596,
+              "initiative": 63,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 597,
+              "initiative": 85,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Fuel Leak",
+              "cardId": 598,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.ruined-machine.1%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "sufferDamage",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Devastating Tackle",
+              "cardId": 599,
+              "initiative": 42,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.ruined-machine.2%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "sufferDamage",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Signal Jam",
+              "cardId": 600,
+              "initiative": 56,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "condition",
+                  "value": "muddle",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "sufferDamage",
+                  "value": 1,
+                  "small": true
+                }
+              ]
+            },
+            {
+              "name": "Self-Destruct",
+              "cardId": 601,
+              "initiative": 93,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.ruined-machine.3%",
+                  "small": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "savvas-icestorm",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Repulsive Torrent",
+              "cardId": 794,
+              "initiative": 70,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "push",
+                          "value": 2,
+                          "small": true,
+                          "valueType": "add"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Call to the Wind",
+              "cardId": 795,
+              "initiative": 98,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "wind-demon",
+                        "type": "normal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Call to the Frost",
+              "cardId": 796,
+              "initiative": 98,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "frost-demon",
+                        "type": "normal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Hardened Frost",
+              "cardId": 797,
+              "initiative": 19,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.savvas-icestorm.1%",
+                  "small": true,
+                  "subActions": [
+                    {
+                      "type": "shield",
+                      "value": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            },
+            {
+              "name": "Freezing Winds",
+              "cardId": 798,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "plus",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Frozen Shell",
+              "cardId": 799,
+              "initiative": 14,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 4
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "ice",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "heal",
+                          "value": 3,
+                          "valueType": "add",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 3,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Forceful Gust",
+              "cardId": 800,
+              "initiative": 47,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "condition",
+                  "value": "disarm",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Cone of Cold",
+              "cardId": 801,
+              "initiative": 35,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(2,0,target)|(1,1,target)|(2,1,target)|(1,2,active)|(2,2,target)|(3,2,target)"
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "ice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "savvas-lavaflow",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Call to the Flame",
+              "cardId": 786,
+              "initiative": 97,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "flame-demon",
+                        "type": "normal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            },
+            {
+              "name": "Call to the Earth",
+              "cardId": 787,
+              "initiative": 97,
+              "actions": [
+                {
+                  "type": "summon",
+                  "value": "monsterStandee",
+                  "valueObject": [
+                    {
+                      "monster": {
+                        "name": "earth-demon",
+                        "type": "normal"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Circle of Fire",
+              "cardId": 788,
+              "initiative": 22,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "retaliate",
+                      "value": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rock Bomb",
+              "cardId": 789,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "grid",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 1,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 3,
+                          "small": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "custom",
+                      "value": "%data.custom.fh.savvas-lavaflow.1%",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth"
+                }
+              ]
+            },
+            {
+              "name": "Stone Spikes",
+              "cardId": 790,
+              "initiative": 41,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,2,target)|(1,1,target)|(2,0,target)|(0,3,active)"
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 2,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "condition",
+                          "value": "immobilize",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Flowing Magma",
+              "cardId": 791,
+              "initiative": 51,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.savvas-lavaflow.2%",
+                  "small": true
+                },
+                {
+                  "type": "element",
+                  "value": "fire",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "wound",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "earth",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        },
+                        {
+                          "type": "range",
+                          "value": 4,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Strength of the Mountain",
+              "cardId": 792,
+              "initiative": 31,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 4,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": 2,
+                          "small": true,
+                          "valueType": "add"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fire Bolts",
+              "cardId": 793,
+              "initiative": 68,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "fire"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "scout",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Cruel Bow",
+              "cardId": 770,
+              "initiative": 29,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "impair",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hasty Assault",
+              "cardId": 771,
+              "initiative": 40,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus"
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 772,
+              "initiative": 53,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Rancid Arrow",
+              "cardId": 773,
+              "initiative": 54,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 774,
+              "initiative": 69,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Noxious Blade",
+              "cardId": 775,
+              "initiative": 92,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rapid Bolts",
+              "cardId": 776,
+              "initiative": 79,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Greed",
+              "cardId": 777,
+              "initiative": 35,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "jump",
+                      "value": "",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "loot",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shrike-fiend",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Darken the Skies",
+              "cardId": 810,
+              "initiative": 27,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Concentrated Flock",
+              "cardId": 811,
+              "initiative": 10,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Fiendish Charge",
+              "cardId": 812,
+              "initiative": 73,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "push",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Angry Cloud",
+              "cardId": 813,
+              "initiative": 9,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.shrike-fiend.1%",
+                  "small": true
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Gather the Flock",
+              "cardId": 814,
+              "initiative": 72,
+              "actions": [
+                {
+                  "type": "pull",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 5,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.shrike-fiend.1%",
+                  "small": true
+                }
+              ]
+            },
+            {
+              "name": "Dive Bombs",
+              "cardId": 815,
+              "initiative": 49,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "immobilize",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 816,
+              "initiative": 90,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "dark"
+                }
+              ]
+            },
+            {
+              "name": "Birds of Prey",
+              "cardId": 817,
+              "initiative": 23,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 6,
+                      "small": true
+                    },
+                    {
+                      "type": "pull",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "shield",
+                      "value": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spitting-drake",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Hasty Assault",
+              "cardId": 858,
+              "initiative": 32,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 859,
+              "initiative": 52,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Splashing Bile",
+              "cardId": 860,
+              "initiative": 57,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(0,1,target)|(1,1,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Venom Glands",
+              "cardId": 861,
+              "initiative": 27,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Calculated Strike",
+              "cardId": 862,
+              "initiative": 87,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Subduing Spit",
+              "cardId": 863,
+              "initiative": 89,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "stun",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Empowring Rest",
+              "cardId": 864,
+              "initiative": 6,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 2
+                },
+                {
+                  "type": "heal",
+                  "value": 2,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "strengthen",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Explosive Vomit",
+              "cardId": 865,
+              "initiative": 89,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 2,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "area",
+                      "value": "(1,0,target)|(2,0,target)|(0,1,target)|(1,1,target)|(2,1,target)|(1,2,target)|(2,2,target)"
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "poison",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "steel-automaton",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Calculated Strike",
+              "cardId": 618,
+              "initiative": 95,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Heavy Footfalls",
+              "cardId": 619,
+              "initiative": 48,
+              "actions": [
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.steel-automaton.1%",
+                  "small": true
+                },
+                {
+                  "type": "move",
+                  "value": 2,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "custom",
+                  "value": "%data.custom.fh.steel-automaton.2%",
+                  "small": true
+                }
+              ]
+            },
+            {
+              "name": "Clobber",
+              "cardId": 620,
+              "initiative": 76,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "stun",
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Body Block",
+              "cardId": 621,
+              "initiative": 24,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "retaliate",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "name": "Nothing Special",
+              "cardId": 622,
+              "initiative": 70,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            },
+            {
+              "name": "Mortar Shell",
+              "cardId": 623,
+              "initiative": 64,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "pierce",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Unstoppable Force",
+              "cardId": 624,
+              "initiative": 45,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "push",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Immovable Object",
+              "cardId": 625,
+              "initiative": 10,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "shield",
+                  "value": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sun-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Ray of Warmth",
+              "cardId": 586,
+              "initiative": 17,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "heal",
+                  "value": 3,
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "light",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Brilliant Aura",
+              "cardId": 587,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Brilliant Aura",
+              "cardId": 588,
+              "initiative": 36,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Star Strike",
+              "cardId": 589,
+              "initiative": 68,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "light"
+                }
+              ]
+            },
+            {
+              "name": "Vicious Opportunity",
+              "cardId": 590,
+              "initiative": 73,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "element",
+                  "value": "light",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "heal",
+                      "value": 3,
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Supernova",
+              "cardId": 591,
+              "initiative": 95,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "light",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "target",
+                          "value": "%game.target.all%",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Glowing Sweep",
+              "cardId": 592,
+              "initiative": 88,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "enemiesAdjacent",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "dark",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "muddle",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Shining Orb",
+              "cardId": 593,
+              "initiative": 50,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "light"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "vermling-scout-scenario-94",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Flee",
+              "cardId": 752,
+              "initiative": 99,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wind-demon",
+          "edition": "fh",
+          "abilities": [
+            {
+              "name": "Into Thin Air",
+              "cardId": 562,
+              "initiative": 9,
+              "actions": [
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 2,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "heal",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "specialTarget",
+                      "value": "self",
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "condition",
+                      "value": "invisible",
+                      "subActions": [
+                        {
+                          "type": "specialTarget",
+                          "value": "self",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tailwind",
+              "cardId": 563,
+              "initiative": 21,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "pull",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Tailwind",
+              "cardId": 564,
+              "initiative": 21,
+              "shuffle": true,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "pull",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "element",
+                  "value": "air"
+                }
+              ]
+            },
+            {
+              "name": "Whirlwinds",
+              "cardId": 565,
+              "initiative": 29,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": 2,
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "push",
+                          "value": 2,
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Cyclone",
+              "cardId": 566,
+              "initiative": 37,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 0,
+                  "valueType": "plus"
+                },
+                {
+                  "type": "grid",
+                  "value": "1",
+                  "subActions": [
+                    {
+                      "type": "attack",
+                      "value": 0,
+                      "valueType": "plus",
+                      "subActions": [
+                        {
+                          "type": "area",
+                          "value": "(1,0,target)|(2,0,target)|(0,1,active)|(1,1,target)"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "attack",
+                          "value": 1,
+                          "valueType": "add",
+                          "small": true
+                        },
+                        {
+                          "type": "area",
+                          "value": "(1,0,target)|(2,0,target)|(0,1,active)|(1,1,target)|(2,1,target)|(1,2,target)|(2,2,target)",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Cutting Blast",
+              "cardId": 567,
+              "initiative": 43,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "air",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "condition",
+                          "value": "disarm",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Blast of Air",
+              "cardId": 568,
+              "initiative": 43,
+              "actions": [
+                {
+                  "type": "push",
+                  "value": 1,
+                  "subActions": [
+                    {
+                      "type": "target",
+                      "value": "%game.target.all%",
+                      "small": true
+                    },
+                    {
+                      "type": "range",
+                      "value": 1,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "attack",
+                  "value": 0,
+                  "valueType": "plus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 4,
+                      "small": true
+                    },
+                    {
+                      "type": "condition",
+                      "value": "disarm",
+                      "small": true
+                    },
+                    {
+                      "type": "element",
+                      "value": "earth",
+                      "valueType": "minus",
+                      "subActions": [
+                        {
+                          "type": "range",
+                          "value": 2,
+                          "valueType": "subtract",
+                          "small": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Eye of the Storm",
+              "cardId": 651,
+              "initiative": 2,
+              "actions": [
+                {
+                  "type": "move",
+                  "value": 1,
+                  "valueType": "minus"
+                },
+                {
+                  "type": "attack",
+                  "value": 1,
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "range",
+                      "value": 3,
+                      "small": true
+                    }
+                  ]
+                },
+                {
+                  "type": "shield",
+                  "value": 1
+                },
+                {
+                  "type": "element",
+                  "value": "wild",
+                  "valueType": "minus",
+                  "subActions": [
+                    {
+                      "type": "element",
+                      "value": "air"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   }
 }
