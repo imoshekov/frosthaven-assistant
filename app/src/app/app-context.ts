@@ -13,6 +13,7 @@ export class AppContext {
     public isGroupSelected: boolean = false;
     public selectedCreature: Creature = null;
     public addMonsterToggled: boolean = false;
+    public addItemToggled: boolean = false;
     public shouldShowSetup: boolean = true;
     public shouldShowAudit: boolean = false;
     public scenarioCreatureList: Creature[] = [];

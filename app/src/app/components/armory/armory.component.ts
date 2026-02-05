@@ -7,11 +7,13 @@ import { Item, ItemResource, ItemSlot } from "../../types/item-types";
 import { DbService } from "../../services/db.service";
 import { SingleItemComponent } from "./single-item.component";
 import { NotificationService } from "../../services/notification.service";
+import { AppContext } from "../../app-context";
+import { AddItemComponent } from "./add-item.component";
 
 @Component({
     selector: 'app-armory',
     standalone: true,
-    imports: [CommonModule, FormsModule, GlobalTelInputDirective, SingleItemComponent],
+    imports: [CommonModule, FormsModule, GlobalTelInputDirective, SingleItemComponent, AddItemComponent],
     templateUrl: './armory.component.html',
     styleUrls: ['./armory.component.scss']
 })
@@ -40,7 +42,7 @@ export class ArmoryComponent implements OnInit {
         return !!this.expanded[slot];
     }
 
-    constructor(private itemLoaderService: ItemLoaderService, private db: DbService, private notificationService: NotificationService) {
+    constructor(private itemLoaderService: ItemLoaderService, private db: DbService, private notificationService: NotificationService, public appContext: AppContext) {
     }
 
     async ngOnInit() {
