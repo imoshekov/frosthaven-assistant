@@ -10,30 +10,38 @@
     flex-direction: row;
     gap: 1rem;
 
+    .herbs-container {
+        display: flex; 
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
     .herbs {
         display: flex;
-        gap: 0.5rem;
         flex-direction: row;
         align-items: center;
+        gap: 1rem;
     }
+
 }
 
 @media (max-width: 768px) {
-    .container{
-        justify-content: space-around;
-    }
     .filters {
         flex-direction: column;
     }
-    .title{
+
+    .container {
+        justify-content: space-around;
+    }
+
+    .herbs-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
         justify-content: center;
     }
-}
 
-.title.clickable {
-    cursor: pointer;
-}
-
-.title.clickable:hover {
-    opacity: 0.9;
+    .title {
+        justify-content: center;
+    }
 }

@@ -1,7 +1,9 @@
 <div class="filters content">
-  <div class="herbs" *ngFor="let type of RESOURCE_KEYS; let i = index">
-    <div class="icon" [class]="type"></div>
-    <input type="tel" placeholder="#" [(ngModel)]="inventory[type]"/>
+  <div class="herbs-container">
+    <div class="herbs" *ngFor="let type of RESOURCE_KEYS; let i = index">
+      <div class="icon" [class]="type"></div>
+      <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
+    </div>
   </div>
   <button (click)="filterCraftable()" class="cancel">Brew</button>
   <button (click)="clear()" class="cancel">All</button>
@@ -12,8 +14,9 @@
     Two herbs
   </div>
   <div class="two-herbs container" *ngIf="isExpanded('Two herbs')">
-    <div *ngFor="let potion of twoHerbsPotions" >
-      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds" (brewPotion)="brewPotion($event)"></app-single-potion>
+    <div *ngFor="let potion of twoHerbsPotions">
+      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds"
+        (brewPotion)="brewPotion($event)"></app-single-potion>
     </div>
   </div>
   <div class="title clickable" (click)="toggleCategory('Three herbs')">
@@ -22,7 +25,8 @@
   </div>
   <div class="three-herbs container" *ngIf="isExpanded('Three herbs')">
     <div *ngFor="let potion of threeHerbsPotions">
-      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds" (brewPotion)="brewPotion($event)"></app-single-potion>
+      <app-single-potion [potion]="potion" [unlockedPotionIds]="unlockedPotionIds"
+        (brewPotion)="brewPotion($event)"></app-single-potion>
     </div>
   </div>
 </div>
