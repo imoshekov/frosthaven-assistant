@@ -59,7 +59,7 @@
         <div class="base-stat">
           <div class="icon heart">
             <input type="tel" [value]="creature.hp"
-              (blur)="appContext.updateCreatureBaseStat(creature.id!, 'hp', +$event.target.value, true)" maxlength="3"
+              (blur)="updateCreatureHp(creature.id!, +$event.target.value)" maxlength="2"
               class="stat-input" />
           </div>
         </div>
@@ -70,7 +70,7 @@
             <input type="tel" [value]="creature.sessionExperience"
               (blur)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', +$event.target.value, true)"
               (click)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', (creature.sessionExperience ?? 0) + 1, true)"
-              maxlength="3" class="stat-input" />
+              maxlength="2" class="stat-input" />
           </div>
         </div>
       </div>

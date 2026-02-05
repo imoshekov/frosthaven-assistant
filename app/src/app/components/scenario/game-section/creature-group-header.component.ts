@@ -44,6 +44,17 @@ export class CreatureGroupHeaderComponent {
       (creature.flying)
   }
 
+  updateCreatureHp(creatureId: string, value: number): void {
+    const creature = this.appContext.findCreature(creatureId);
+
+    const newHp = Math.min(value, creature.maxHp);
+    this.appContext.updateCreatureBaseStat(creatureId, 'hp', newHp);
+
+    if (newHp <= 0) {
+      this.appContext.killCreature(creatureId);
+    }
+  }
+
   async onLevelBlur(creature: Creature, event: FocusEvent) {
     const input = event.target as HTMLInputElement;
     const newLevel = Number(input.value);
