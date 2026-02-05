@@ -1,0 +1,36 @@
+<div class="layout"></div>
+<div class="modal">
+  <div class="content">
+    <div class="title">Add Item</div>
+
+    <div class="form-row">
+      <label for="type">Type</label>
+      <input id="type" type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="openPicker()" autocomplete="off"
+        inputmode="search" autocapitalize="off" autocorrect="off" placeholder="Select…"   onfocus="if(this.value) this.value=''" />
+    </div>
+
+    <div class="item-picker-overlay" *ngIf="pickerOpen" (click)="closePicker()">
+      <div class="item-picker-sheet" (click)="$event.stopPropagation()">
+        <button type="button" class="picker-close" (click)="closePicker()" aria-label="Close item picker">
+          ✕
+        </button>
+        <div class="item-type-list">
+          <div class="item-type-item" *ngFor="let item of filteredItemTypes" (mousedown)="$event.preventDefault()"
+            (click)="selectItem(item)">
+            {{ item }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="id">ID</label>
+      <input type="tel" placeholder="#" [(ngModel)]="id" />
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="cancel" (click)="closeModal()">Close</button>
+      <button type="button" class="confirm" (click)="addItem()">Confirm</button>
+    </div>
+  </div>
+</div>

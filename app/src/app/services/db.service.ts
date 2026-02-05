@@ -75,4 +75,12 @@ export class DbService {
       .eq('type', type);
     if (error) throw error;
   }
+
+  async insertCraftableItem(id: number, type: string, sub_type: string | null): Promise<void> {
+    const { error } = await supabase
+      .from('craftable_item')
+      .insert({ id, type, sub_type });
+    if (error) throw error;
+  }
 }
+

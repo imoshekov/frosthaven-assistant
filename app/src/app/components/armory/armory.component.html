@@ -7,7 +7,10 @@
       <div class="icon" [class]="type"></div>
       <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
     </div>
+    <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel">Add Item</button>
+    <app-add-item *ngIf="this.appContext.addItemToggled"></app-add-item>
   </div>
+
 </div>
 <div class="items-container">
   <div class="items-group" *ngFor="let slotType of slots">
