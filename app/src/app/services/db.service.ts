@@ -21,12 +21,19 @@ g.__supabaseClient = supabase;
 /** --- SERVICE USING THE SINGLETON --- */
 @Injectable({ providedIn: 'root' })
 export class DbService {
-  async getCharacter(): Promise<CharacterRow[]> {
-    const { data, error } = await supabase
+  async getCharacter(type?: string): Promise<CharacterRow[]> {
+    let query = supabase
       .from('character')
       .select('id,name,type,level')
       .order('id', { ascending: true });
+
+    if (type) {
+      query = query.eq('type', type);
+    }
+
+    const { data, error } = await query;
     if (error) throw error;
+
     return (data ?? []) as CharacterRow[];
   }
 
