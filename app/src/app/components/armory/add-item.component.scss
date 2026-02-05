@@ -51,7 +51,7 @@
       }
     }
 
-    .monster-picker-sheet {
+    .item-picker-sheet {
       width: 100%;
       max-width: 640px;
       margin: 0 auto;
@@ -65,7 +65,7 @@
 
 
 
-    .monster-type-list {
+    .item-type-list {
       flex: 1 1 auto;
       min-height: 0;
       overflow-y: auto;
@@ -75,7 +75,7 @@
       max-height: none;
     }
 
-    .monster-type-item {
+    .item-type-item {
       padding: .6rem .8rem;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -122,15 +122,15 @@
     width: 90%;
   }
 
-  .monster-type-list {
+  .item-type-list {
     max-height: 45dvh;
   }
 
-  .monster-picker-overlay {
+  .item-picker-overlay {
     place-items: center;
   }
 
-  .monster-picker-sheet {
+  .item-picker-sheet {
     border-radius: 16px;
     max-height: 80dvh;
   }

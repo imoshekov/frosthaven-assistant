@@ -2,12 +2,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../../directives/global-tel-input.directive';
-import { Monster } from '../../types/data-file-types';
 import { AppContext } from '../../app-context';
-import { DataLoaderService } from '../../services/data-loader.service';
-import { CreatureFactoryService } from '../../services/creature-factory.service';
 import { NotificationService } from '../../services/notification.service';
-import { Creature } from '../../types/game-types';
+import { DbService } from '../../services/db.service';
 
 
 
@@ -19,68 +16,57 @@ import { Creature } from '../../types/game-types';
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class AddItemComponent {
-  @Output() monsterEvent = new EventEmitter<string>();
-  level: number = 1;
-  standee: number = 1;
-  isElite: boolean = false;
+  id: number;
   type: string = '';
 
   pickerOpen = false;
-  itemTypes: string[] = ['head', 'body', 'legs', 'onehand', 'twohand', 'small', 'potions'];
-  filteredMonsters: Monster[] = [];
+  itemTypes: string[] = ['head', 'body', 'legs', 'onehand', 'twohand', 'small', 'potion'];
+  filteredItemTypes: string[] = [];
 
   constructor(
     private appContext: AppContext,
-    private dataLoader: DataLoaderService,
-    private creatureFactory: CreatureFactoryService,
-    private notificationService: NotificationService
-  ) {
-    this.appContext.defaultLevel$.subscribe(val => {
-      this.level = val;
+    private notificationService: NotificationService,
+    private dbService: DbService
+  ) {}
+
+
+ addItem() {
+  const dbType = this.type === 'potion' ? 'small' : this.type;
+  const dbSubType = this.type === 'potion' ? 'potion' : null;
+
+  this.dbService.insertCraftableItem(this.id, dbType, dbSubType)
+    .then(() => {
+      this.notificationService.emitInfoMessage('Item added to armory.');
+      this.closeModal();
+    })
+    .catch((err) => {
+      this.notificationService.emitErrorMessage('Failed to add item to armory.');
+      console.error(err);
     });
-  }
-
-
-  addMonster() {
-    if (!this.type) {
-      this.notificationService.emitErrorMessage('Please select a monster type.');
-      return;
-    }
-    const creature: Creature = {
-      type: this.type,
-      standee: this.standee,
-      level: this.level,
-      isElite: this.isElite,
-      aggressive: true
-    };
-
-    this.appContext.addCreature(this.creatureFactory.createCreature(creature));
-    this.monsterEvent.emit('monster-added');
-    this.notificationService.emitInfoMessage(`${this.type} added successfully!`);
-  }
+}
 
 
   openPicker() {
     this.pickerOpen = true;
-    this.filteredMonsters = this.itemTypes.slice();
+    this.filteredItemTypes = this.itemTypes.slice();
     document.documentElement.classList.add('no-scroll');
   }
 
   closePicker() {
     this.pickerOpen = false;
-    this.filteredMonsters = [];
+    this.filteredItemTypes = [];
     document.documentElement.classList.remove('no-scroll');
   }
 
   onTypeInput() {
     const value = (this.type || '').toLowerCase().trim();
-    this.filteredMonsters = !value
-      ? this.monsters.slice()
-      : this.monsters.filter(m => m.name.toLowerCase().includes(value));
+    this.filteredItemTypes = !value
+      ? this.itemTypes.slice()
+      : this.itemTypes.filter(m => m.toLowerCase().includes(value));
   }
 
-  selectMonster(monster: { name: string }) {
-    this.type = monster.name;
+  selectItem(name: string) {
+    this.type = name;
     this.closePicker();
   }
 
