@@ -36,8 +36,7 @@ export class AddItemComponent {
 
     this.dbService.insertCraftableItem(this.id, dbType, dbSubType)
       .then(() => {
-        this.notificationService.emitInfoMessage('Item added to armory.');
-        this.closeModal();
+        this.notificationService.emitInfoMessage(`${this.type} ${this.id} added.`);
       })
       .catch((err) => {
         this.notificationService.emitErrorMessage('Failed to add item to armory. ' + err.message);
