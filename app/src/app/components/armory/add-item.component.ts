@@ -27,23 +27,23 @@ export class AddItemComponent {
     private appContext: AppContext,
     private notificationService: NotificationService,
     private dbService: DbService
-  ) {}
+  ) { }
 
 
- addItem() {
-  const dbType = this.type === 'potion' ? 'small' : this.type;
-  const dbSubType = this.type === 'potion' ? 'potion' : null;
+  addItem() {
+    const dbType = this.type === 'potion' ? 'small' : this.type;
+    const dbSubType = this.type === 'potion' ? 'potion' : null;
 
-  this.dbService.insertCraftableItem(this.id, dbType, dbSubType)
-    .then(() => {
-      this.notificationService.emitInfoMessage('Item added to armory.');
-      this.closeModal();
-    })
-    .catch((err) => {
-      this.notificationService.emitErrorMessage('Failed to add item to armory.');
-      console.error(err);
-    });
-}
+    this.dbService.insertCraftableItem(this.id, dbType, dbSubType)
+      .then(() => {
+        this.notificationService.emitInfoMessage('Item added to armory.');
+        this.closeModal();
+      })
+      .catch((err) => {
+        this.notificationService.emitErrorMessage('Failed to add item to armory.');
+        console.error(err);
+      });
+  }
 
 
   openPicker() {
