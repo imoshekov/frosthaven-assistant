@@ -40,8 +40,7 @@ export class AddItemComponent {
         this.closeModal();
       })
       .catch((err) => {
-        this.notificationService.emitErrorMessage('Failed to add item to armory.');
-        console.error(err);
+        this.notificationService.emitErrorMessage('Failed to add item to armory. ' + err.message);
       });
   }
 
