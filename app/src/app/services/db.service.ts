@@ -68,4 +68,11 @@ export class DbService {
     return (data ?? null) as ScenarioReferenceRow | null;
   }
 
+  async updateCharacterLevel(type: string, level: number): Promise<void> {
+    const { error } = await supabase
+      .from('character')
+      .update({ level })
+      .eq('type', type);
+    if (error) throw error;
+  }
 }
