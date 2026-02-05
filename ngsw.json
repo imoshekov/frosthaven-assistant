@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1770305881410,
+  "timestamp": 1770311636641,
   "index": "/frosthaven-assistant/index.html",
   "assetGroups": [
     {
@@ -11,16 +11,16 @@
         "ignoreVary": true
       },
       "urls": [
+        "/frosthaven-assistant/324.a8e887a98ec6368b.js",
         "/frosthaven-assistant/521.d67cf8d4b68c4fa9.js",
         "/frosthaven-assistant/53.09012dfc1e52e41d.js",
         "/frosthaven-assistant/559.41be9507105030e7.js",
-        "/frosthaven-assistant/699.8051c3fe257177c8.js",
         "/frosthaven-assistant/favicon.ico",
         "/frosthaven-assistant/index.html",
-        "/frosthaven-assistant/main.18e4edbff42c1b4d.js",
+        "/frosthaven-assistant/main.a01e5e8c306f31b0.js",
         "/frosthaven-assistant/manifest.webmanifest",
         "/frosthaven-assistant/polyfills.e476be337299d39c.js",
-        "/frosthaven-assistant/runtime.4d0aedce9faf5c58.js",
+        "/frosthaven-assistant/runtime.3dad43e393fc9a28.js",
         "/frosthaven-assistant/styles.b1158feea2934634.css"
       ],
       "patterns": []
@@ -1877,10 +1877,10 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/frosthaven-assistant/324.a8e887a98ec6368b.js": "3f28f0d1164be46bd5561411a67cbd94097e493e",
     "/frosthaven-assistant/521.d67cf8d4b68c4fa9.js": "a24f0792f375814ecd3e53510b7fd65360583f5d",
     "/frosthaven-assistant/53.09012dfc1e52e41d.js": "ae77c6131e491c61910f6b57109009a82d07099f",
     "/frosthaven-assistant/559.41be9507105030e7.js": "d689dc314557470b80aa520a73b33e6d493b984e",
-    "/frosthaven-assistant/699.8051c3fe257177c8.js": "e68de90312611f499a5c6fcd45c88d3eea5e4c99",
     "/frosthaven-assistant/arrowvine.eb2b90e2c1e8a8d0.svg": "0b1e88354fd542d67d1c41ed50d532399a43b1bb",
     "/frosthaven-assistant/attack.eab16c193b4557a8.svg": "2cbdeb99ea5bf09090fd21070bc21f9ea56ef9a5",
     "/frosthaven-assistant/axenut.5f58b7860ae7c1b9.svg": "0a9c73dfd30627b57a83aeb53d29fb6582ed2b1d",
@@ -3699,11 +3699,11 @@
     "/frosthaven-assistant/immobilize.1e5803f1bc346d84.svg": "5f0ea08041d98f74b84e1d5e0247772cc906ff54",
     "/frosthaven-assistant/immune.3638b2264dfc0cf4.svg": "683fda2b898292506e4a8f0984c5057c0e877509",
     "/frosthaven-assistant/impair.34d630196818b373.svg": "d18315d776a810da7b63defd4c3c186e2e0697ad",
-    "/frosthaven-assistant/index.html": "3386c41c8894b75824fe7066abc7f30a675672e3",
+    "/frosthaven-assistant/index.html": "9e792ace09e00b98d6851333b283a6b48a4209a1",
     "/frosthaven-assistant/invisible.063c0ca4b394eadc.svg": "318e646ff178c39f393bf8b9eb0709b1f9a9e438",
     "/frosthaven-assistant/level.24629cf5e7158291.svg": "a5097c3b8c1c5275265cc1c52d5665782140f5d3",
     "/frosthaven-assistant/lumber.5b84d843acf0ada0.svg": "28dbe637c32fdf39468fb0082be8fe969113fd10",
-    "/frosthaven-assistant/main.18e4edbff42c1b4d.js": "e01f697703ef3d46552f825d787a6ad3e9100feb",
+    "/frosthaven-assistant/main.a01e5e8c306f31b0.js": "b5fb66795b04c0d4057387db54ebae62337a9086",
     "/frosthaven-assistant/manifest.webmanifest": "b884b0de16cbe50500200f382b521359ce1a8731",
     "/frosthaven-assistant/metal.e4a07f2515c5a1ab.svg": "1f8e704a42c42239c319d8842053471e257a349d",
     "/frosthaven-assistant/money.13b3b06569dbae3c.svg": "6fc800343610e7489320aec9c9a3978e6c1a78a8",
@@ -3716,7 +3716,7 @@
     "/frosthaven-assistant/regenerate.a5c97902ad3c1c64.svg": "0130ea3e306f6ec4d330bec14af67f31c72d506a",
     "/frosthaven-assistant/retaliate.96317f6bfaf21f94.svg": "4d7bf243a8aa85202f51551901def2969799fde9",
     "/frosthaven-assistant/rockroot.e280bddf8428a20e.svg": "8f2abca80ce50420f7bc1a3c6ca4580ac58f0517",
-    "/frosthaven-assistant/runtime.4d0aedce9faf5c58.js": "a94a66624113c2eedd3d063a3d2e4e7093c3e961",
+    "/frosthaven-assistant/runtime.3dad43e393fc9a28.js": "9d5addbbb444d4f82eacfde4c0d9ce5145e3cd2b",
     "/frosthaven-assistant/shield.5d790066de2a838f.svg": "ebcf333a820d07eb18a67a5b308181a244978683",
     "/frosthaven-assistant/snowthistle.43b0e5047cb62399.svg": "dbf62fa9593c06b1bf17f7acbd2feefcb196f999",
     "/frosthaven-assistant/strengthen.2f3225d7ac54ae1d.svg": "388bdb026a6773cd56adae8e2ac3e5bbf77e56dd",
