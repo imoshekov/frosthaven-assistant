@@ -16,6 +16,8 @@ import { DbService } from '../../services/db.service';
   imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class AddItemComponent {
+  @Output() itemAdded = new EventEmitter<void>();
+
   id: number;
   type: string = '';
 
@@ -30,17 +32,20 @@ export class AddItemComponent {
   ) { }
 
 
-  addItem() {
+  async addItem() {
     const dbType = this.type === 'potion' ? 'small' : this.type;
     const dbSubType = this.type === 'potion' ? 'potion' : null;
 
-    this.dbService.insertCraftableItem(this.id, dbType, dbSubType)
-      .then(() => {
-        this.notificationService.emitInfoMessage(`${this.type} ${this.id} added.`);
-      })
-      .catch((err) => {
-        this.notificationService.emitErrorMessage('Failed to add item to armory. ' + err.message);
-      });
+    try {
+      await this.dbService.insertCraftableItem(this.id, dbType, dbSubType);
+
+      this.notificationService.emitInfoMessage(`${this.type} ${this.id} added.`);
+      this.itemAdded.emit();
+    } catch (err: any) {
+      this.notificationService.emitErrorMessage(
+        'Failed to add item to armory. ' + (err?.message ?? err)
+      );
+    }
   }
 
 

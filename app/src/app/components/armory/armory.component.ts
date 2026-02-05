@@ -64,6 +64,10 @@ export class ArmoryComponent implements OnInit {
         this.printRequirements(item);
     }
 
+    async onItemAdded() {
+        await this.loadUnlockedItems();
+    }
+
     private loadItems(): void {
         this.all = this.itemLoaderService.getUnlockedItems(this.unlockedItemIds);
         this.RESOURCE_KEYS = this.itemLoaderService.ALL_RESOURCE_KEYS;
@@ -115,8 +119,8 @@ export class ArmoryComponent implements OnInit {
 
             // Sum resource counts
             for (const k of Object.keys(res) as (keyof ItemResource)[]) {
-            const v = Number(res[k] ?? 0);
-            if (v > 0) total[k] = (total[k] ?? 0) + v;
+                const v = Number(res[k] ?? 0);
+                if (v > 0) total[k] = (total[k] ?? 0) + v;
             }
         };
 

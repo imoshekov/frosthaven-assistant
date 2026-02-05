@@ -8,7 +8,8 @@
       <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
     </div>
     <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel">Add Item</button>
-    <app-add-item *ngIf="this.appContext.addItemToggled"></app-add-item>
+    <app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
+    </app-add-item>
   </div>
 
 </div>
@@ -26,3 +27,6 @@
     </div>
   </div>
 </div>
+
+<app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
+</app-add-item>
