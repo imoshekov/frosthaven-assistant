@@ -5,6 +5,7 @@ import { Creature } from '../../../types/game-types';
 import { Subject, takeUntil } from 'rxjs';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
+import { DbService } from '../../../services/db.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class CreatureGroupHeaderComponent {
   @Input() creature!: Creature;
 
-  constructor(public appContext: AppContext) { }
+  constructor(public appContext: AppContext, private dbService: DbService) { }
 
   getCreaturePic(creature: Creature): string {
     if (creature.aggressive) {
@@ -42,4 +43,27 @@ export class CreatureGroupHeaderComponent {
       (creature.aggressive && creature.actions?.length > 0) ||
       (creature.flying)
   }
+
+  async onLevelBlur(creature: Creature, event: FocusEvent) {
+    const input = event.target as HTMLInputElement;
+    const newLevel = Number(input.value);
+
+    if (Number.isNaN(newLevel) || newLevel === creature.level) {
+      return;
+    }
+
+    this.appContext.updateCreatureBaseStat(
+      creature.id!,
+      'level',
+      newLevel,
+      true
+    );
+
+    try {
+      await this.dbService.updateCharacterLevel(creature.type, newLevel);
+    } catch (err) {
+      console.error('Failed to persist level', err);
+    }
+  }
+
 }
