@@ -75,27 +75,22 @@ export class DbService {
     return (data ?? null) as ScenarioReferenceRow | null;
   }
 
-  async updateCharacterLevel(type: string, level: number): Promise<void> {
+  async updateCharacterProgress(
+    type: string,
+    level: number,
+    totalXp: number
+  ): Promise<void> {
     const { error } = await supabase
       .from('character')
-      .update({ level })
+      .update({
+        level,
+        total_xp: totalXp
+      })
       .eq('type', type);
-    if (error) throw error;
-  }
 
-  async updateCharacterTotalXp(type: string, totalXp: number): Promise<void> {
-    const { error } = await supabase
-      .from('character')
-      .update({ total_xp: totalXp })
-      .eq('type', type);
-    if (error) throw error;
-  }
-
-  async updateCharacterProgress(type: string, level: number, totalXp: number): Promise<void> {
-    return Promise.all([
-      this.updateCharacterLevel(type, level),
-      this.updateCharacterTotalXp(type, totalXp)
-    ]).then(() => { });
+    if (error) {
+      throw error;
+    }
   }
 
   async insertCraftableItem(id: number, type: string, sub_type: string | null): Promise<void> {

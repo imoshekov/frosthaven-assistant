@@ -17,19 +17,17 @@
     </div>
     <div class="name" *ngIf="!creature.aggressive">
       <div class="icon level">
-        <input type="tel" [value]="levelFromXp(creature.totalXp)" maxlength="2" class="level-number"
-          (blur)="onLevelBlur(creature, $event)" />
+          <span class="level-number">{{ creature.level }}</span>
+
       </div>
 
     </div>
   </div>
   <div class="info row">
-    <!-- DROP-IN TEMPLATE SNIPPET (bar on the LEFT, fills from bottom) -->
     <div class="portrait-xp">
       <div *ngIf="!creature.aggressive" class="xp-bar">
         <div class="xp-fill" [style.height.%]="getXpPercentToNext(creature)"></div>
       </div>
-
       <img class="profile" [src]="getCreaturePic(creature)" (error)="onImgError($event)"
         (click)="openConditionModal()" />
     </div>
