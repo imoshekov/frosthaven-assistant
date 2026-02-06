@@ -129,8 +129,6 @@ export class SetupComponent {
 
     const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
 
-    const summaryLines: string[] = [];
-
     for (const c of characters) {
       if (!c.id) continue;
 
@@ -151,25 +149,11 @@ export class SetupComponent {
 
       try {
         await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
-        summaryLines.push(
-          `${live.type}: ${newTotalXp} XP (Level ${newLevel})`
-        );
       } catch (err) {
         this.notificationService.emitErrorMessage(
           `Failed to persist XP for ${live.type}`
         );
-
-        summaryLines.push(
-          `${live.type}: FAILED to save XP`
-        );
       }
-    }
-
-    if (summaryLines.length) {
-      alert(
-        `End of scenario XP\n\n` +
-        summaryLines.join('\n')
-      );
     }
   }
 }

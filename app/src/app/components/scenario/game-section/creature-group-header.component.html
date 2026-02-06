@@ -26,7 +26,8 @@
       <div *ngIf="!creature.aggressive" class="xp-bar">
         <span class="xp-fill" [style.height.%]="getXpPercentToNext(creature)"></span>
         <span class="xp-percent">
-          {{ getXpPercentToNext(creature) | number:'1.0-0' }}%
+          <!-- {{ getXpPercentToNext(creature) | number:'1.0-0' }}% -->
+            {{creature.totalXp}}
         </span>
       </div>
       <img class="profile" [src]="getCreaturePic(creature)" (error)="onImgError($event)"
