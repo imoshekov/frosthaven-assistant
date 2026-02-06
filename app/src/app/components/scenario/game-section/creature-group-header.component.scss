@@ -118,16 +118,14 @@
  }
 
  .xp-bar {
-  display: flex;
-  flex-direction: column;
-   width: 8px;
-   height: 56px;
-   /* tweak to match portrait */
+   display: flex;
+   flex-direction: column;
+   width: 10px;
+   height: 70px;
    border-radius: 6px;
    overflow: hidden;
 
    background: rgba(60, 45, 30, 0.35);
-   /* warm track */
    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.35);
  }
 
@@ -136,9 +134,7 @@
    height: 0%;
    border-radius: 6px;
    margin-top: auto;
-   /* fill from bottom */
    background: rgba(80, 138, 41, 0.9);
-   /* muted olive */
    transition: height 120ms linear;
  }
 
@@ -163,7 +159,7 @@
  .group-stats {
    flex-direction: column;
    flex-shrink: 2;
-   margin-left: 20px;
+   margin-left: 10px;
 
    .stats {
      justify-content: flex-start;

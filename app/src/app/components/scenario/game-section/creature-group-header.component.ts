@@ -98,24 +98,11 @@ export class CreatureGroupHeaderComponent {
   async onSessionXpClick(creature: Creature): Promise<void> {
     if (!creature.id) return;
 
-    // ALWAYS use the live object from appContext
     const live = this.appContext.findCreature(creature.id);
-
     const newSession = (live.sessionExperience ?? 0) + 1;
-    const newTotal = (live.totalXp ?? 0) + 1;
-    const newLevel = this.levelFromXp(newTotal);
-
-    // Update UI via appContext (broadcasts to other clients too)
     this.appContext.updateCreatureBaseStat(creature.id, 'sessionExperience', newSession, true);
-    this.appContext.updateCreatureBaseStat(creature.id, 'totalXp', newTotal, true);
-    this.appContext.updateCreatureBaseStat(creature.id, 'level', newLevel, true);
 
-    // Persist truth
-    try {
-      await this.persistCharacterProgress(live.type, newTotal, newLevel);
-    } catch (err) {
-      this.notificationService.emitErrorMessage(`Failed to persist XP: ${err}`);
-    }
+    await this.applyXpChange(creature.id, 1);
   }
 
   async onSessionXpBlur(creature: Creature, event: FocusEvent): Promise<void> {
@@ -123,30 +110,18 @@ export class CreatureGroupHeaderComponent {
 
     const input = event.target as HTMLInputElement | null;
     const typed = Number(input?.value);
-
     if (!Number.isFinite(typed)) return;
 
     const live = this.appContext.findCreature(creature.id);
 
     const oldSession = live.sessionExperience ?? 0;
-    const newSession = Math.max(0, typed); // prevent negative session xp
+    const newSession = Math.max(0, typed);
     const delta = newSession - oldSession;
 
-    // Update session XP in UI
     this.appContext.updateCreatureBaseStat(creature.id, 'sessionExperience', newSession, true);
 
-    if (delta === 0) return;
-
-    const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + delta));
-    const newLevel = this.levelFromXp(newTotal);
-
-    this.appContext.updateCreatureBaseStat(creature.id, 'totalXp', newTotal, true);
-    this.appContext.updateCreatureBaseStat(creature.id, 'level', newLevel, true);
-
-    try {
-      await this.persistCharacterProgress(live.type, newTotal, newLevel);
-    } catch (err) {
-      this.notificationService.emitErrorMessage(`Failed to persist XP: ${err}`);
+    if (delta !== 0) {
+      await this.applyXpChange(creature.id, delta);
     }
   }
 
@@ -156,5 +131,32 @@ export class CreatureGroupHeaderComponent {
     } catch (err) {
       this.notificationService.emitErrorMessage('Failed to save XP');
     }
+  }
+  private async applyXpChange(creatureId: string, deltaXp: number): Promise<void> {
+    const live = this.appContext.findCreature(creatureId);
+
+    const oldLevel = live.level ?? 1;
+    const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + deltaXp));
+    const newLevel = this.levelFromXp(newTotal);
+
+    this.appContext.updateCreatureBaseStat(creatureId, 'totalXp', newTotal, true);
+    this.appContext.updateCreatureBaseStat(creatureId, 'level', newLevel, true);
+
+    if (newLevel > oldLevel) {
+      const newMaxHp = this.getHpForCharacterLevel(live.type, newLevel);
+      this.appContext.updateCreatureBaseStat(creatureId, 'maxHp', newMaxHp, true);
+    }
+
+    try {
+      await this.dbService.updateCharacterProgress(live.type, newLevel, newTotal);
+    } catch (err) {
+      this.notificationService.emitErrorMessage(`Failed to persist XP/level: ${err}`);
+    }
+  }
+
+  private getHpForCharacterLevel(type: string, level: number): number {
+    const charData = this.dataLoader.getData().characters.find(c => c.name === type);
+    const stats = charData?.stats?.find(s => s.level === level);
+    return Number(stats?.health) || 1;
   }
 }
