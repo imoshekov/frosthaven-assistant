@@ -71,7 +71,7 @@ export class CreatureGroupHeaderComponent {
     const clampedTotalXp = Math.min(XP_CAP, effectiveTotalXp);
     const newLevel = this.xpService.levelFromXp(clampedTotalXp);
 
-    await this.persistCharacterProgress(creature.type, clampedTotalXp, newLevel);
+    // await this.persistCharacterProgress(creature.type, clampedTotalXp, newLevel);
     creature.totalXp = clampedTotalXp;
   }
 
@@ -106,13 +106,7 @@ export class CreatureGroupHeaderComponent {
     }
   }
 
-  private async persistCharacterProgress(creatureType: string, totalXp: number, level: number): Promise<void> {
-    try {
-      await this.dbService.updateCharacterProgress(creatureType, level, totalXp);
-    } catch (err) {
-      this.notificationService.emitErrorMessage('Failed to save XP');
-    }
-  }
+
   private async applyXpChange(creatureId: string, deltaXp: number): Promise<void> {
     const live = this.appContext.findCreature(creatureId);
 
@@ -126,12 +120,6 @@ export class CreatureGroupHeaderComponent {
     if (newLevel > oldLevel) {
       const newMaxHp = this.getHpForCharacterLevel(live.type, newLevel);
       this.appContext.updateCreatureBaseStat(creatureId, 'maxHp', newMaxHp, true);
-    }
-
-    try {
-      await this.dbService.updateCharacterProgress(live.type, newLevel, newTotal);
-    } catch (err) {
-      this.notificationService.emitErrorMessage(`Failed to persist XP/level: ${err}`);
     }
   }
 
