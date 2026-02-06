@@ -74,10 +74,7 @@ export class CreatureGroupHeaderComponent {
   getXpRemainingToNext(creature: Creature): number {
     if (!creature.id) return 0;
     const live = this.appContext.findCreature(creature.id);
-    const effectiveXp =
-      (live.totalXp ?? 0) + (live.sessionExperience ?? 0);
-
-    return this.xpService.xpToNextLevel(effectiveXp);
+    return this.xpService.xpToNextLevel(live.totalXp ?? 0);
   }
 
   async onSessionXpClick(creature: Creature): Promise<void> {
