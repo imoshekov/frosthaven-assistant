@@ -1,5 +1,8 @@
-<div class="icon chevron" tabindex="0" role="button" aria-expanded="false" [ngClass]="appContext.shouldShowSetup ? 'expanded' : ''" (click)="appContext.shouldShowSetup = !appContext.shouldShowSetup">
-  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<div class="icon chevron" tabindex="0" role="button" aria-expanded="false"
+  [ngClass]="appContext.shouldShowSetup ? 'expanded' : ''"
+  (click)="appContext.shouldShowSetup = !appContext.shouldShowSetup">
+  <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+    stroke-linecap="round" stroke-linejoin="round">
     <polyline points="6 9 12 15 18 9"></polyline>
   </svg>
 </div>
@@ -43,5 +46,13 @@
       <input type="tel" placeholder="1" [(ngModel)]="sessionId" />
     </div>
     <button class="action-button" (click)="joinSession()">Join</button>
+  </div>
+
+  <div class="section">
+    <div class="label-group">
+      <label for="bonus-xp">Bonus XP</label>
+      <input type="tel" placeholder="#" [(ngModel)]="bonusXp" />
+    </div>
+    <button class="action-button" (click)="endGame()">End</button>
   </div>
 </div>

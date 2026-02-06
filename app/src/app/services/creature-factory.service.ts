@@ -71,7 +71,8 @@ export class CreatureFactoryService {
         ?? [],
       log: creatureInput.log ?? [],
       traits: creatureInput.traits ?? [],
-      abilityCards: monsterCards ?? []
+      abilityCards: monsterCards ?? [],
+      totalXp: creatureInput.totalXp ?? 0
     };
     creature.maxHp = creature.hp === 0 ? 999 : creature.hp;
     return creature;

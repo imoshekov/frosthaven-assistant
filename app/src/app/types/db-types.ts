@@ -3,6 +3,7 @@ export interface CharacterRow {
   name: string;
   type: string;
   level: number;
+  total_xp?: number;
 }
 export interface CraftableItemRow {
   id: number;
