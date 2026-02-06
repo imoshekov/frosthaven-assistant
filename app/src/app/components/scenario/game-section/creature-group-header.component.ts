@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
-import { Creature } from '../../../types/game-types';
+import { Creature, LEVEL_XP, MAX_LEVEL, XP_CAP } from '../../../types/game-types';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { DbService } from '../../../services/db.service';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { NotificationService } from '../../../services/notification.service';
+import { Character } from '../../../types/data-file-types';
 
 
 @Component({
@@ -80,5 +81,63 @@ export class CreatureGroupHeaderComponent {
     const charData = this.dataLoader.getData().characters.find(c => c.name === type);
     const stats = charData?.stats?.find(s => s.level === level);
     return Number(stats?.health) || 1;
+  }
+
+
+  progressToNextLevelPercent(effectiveXp: number): number {
+    const xp = Math.max(0, Math.min(XP_CAP, effectiveXp));
+    const level = this.levelFromXp(xp);
+
+    if (level >= MAX_LEVEL) return 100; // capped
+
+    const start = LEVEL_XP[level - 1];
+    const end = LEVEL_XP[level];
+    const span = end - start;
+
+    return Math.max(0, Math.min(100, ((xp - start) / span) * 100));
+  }
+
+  async gainXp(creature: Creature) {
+    creature.sessionExperience = (creature.sessionExperience ?? 0) + 1;
+
+    const effectiveXp = creature.totalXp + creature.sessionExperience;
+    const newLevel = this.levelFromXp(effectiveXp);
+
+    creature.level = newLevel;
+
+    // persist immediately
+    await this.dbService.updateCharacterTotalXp(creature.type, effectiveXp);
+  }
+
+  levelFromXp(xp: number): number {
+    const clamped = Math.min(XP_CAP, Math.max(0, xp));
+    let level = 1;
+    for (let i = 1; i < LEVEL_XP.length; i++) {
+      if (clamped >= LEVEL_XP[i]) level = i + 1;
+    }
+    return Math.min(MAX_LEVEL, level);
+  }
+
+  getXpPercentToNext(creature: any): number {
+    const effectiveXp = (creature.totalXp ?? 0) + (creature.sessionExp ?? 0);
+    const xp = Math.min(XP_CAP, Math.max(0, effectiveXp));
+    const level = this.levelFromXp(xp);
+
+    if (level >= MAX_LEVEL) return 100;
+
+    const start = LEVEL_XP[level - 1];
+    const end = LEVEL_XP[level];
+    return ((xp - start) / (end - start)) * 100;
+  }
+
+  xpTooltip(creature: any): string {
+    const effectiveXp = (creature.totalXp ?? 0) + (creature.sessionExp ?? 0);
+    const xp = Math.min(XP_CAP, Math.max(0, effectiveXp));
+    const level = this.levelFromXp(xp);
+
+    if (level >= MAX_LEVEL) return `Level 9 (max)`;
+
+    const end = LEVEL_XP[level];
+    return `${xp} / ${end} XP`;
   }
 }

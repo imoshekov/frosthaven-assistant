@@ -57,6 +57,7 @@ export interface Creature {
   player4?: string;
   actions?: CreatureAction[];
   abilityCards?: MonsterAbilityCard[]; 
+  totalXp?: number;
 }
 
 
@@ -79,3 +80,7 @@ export interface Element {
   type: ElementType;
   state: ElementState;
 }
+
+export const LEVEL_XP = [0, 45, 95, 150, 210, 275, 345, 420, 500]; 
+export const MAX_LEVEL = 9;
+export const XP_CAP = 500;

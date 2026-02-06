@@ -226,11 +226,12 @@ export class AppContext {
             const defaultLevel = Math.max(1, Math.round(avg / 2));
             this.defaultLevelSubject.next(defaultLevel);
 
-            const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level }) => {
+            const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level, total_xp }) => {
                 const charData = this.dataLoader.getData().characters.find(c => c.name === type);
                 const stats = charData?.stats?.find(s => s.level === Number(level));
                 const hp = Number(stats?.health) || 10;
                 const traits = charData?.traits ?? [];
+
 
                 return this.creatureFactory.createCreature({
                     name,
@@ -238,7 +239,8 @@ export class AppContext {
                     hp,
                     traits,
                     level: Number(level) || 1,
-                    aggressive: false
+                    aggressive: false,
+                    totalXp: Number(total_xp) || 0
                 });
             });
 

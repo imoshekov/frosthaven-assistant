@@ -24,7 +24,15 @@
     </div>
   </div>
   <div class="info row">
-    <img class='profile' [src]="getCreaturePic(creature)" (error)="onImgError($event)" (click)="openConditionModal()">
+    <div class="portrait-xp">
+      <div *ngIf="!creature.aggressive" class="xp-bar" [attr.title]="xpTooltip(creature)">
+        <div class="xp-fill" [style.height.%]="getXpPercentToNext(creature)">
+        </div>
+      </div>
+
+      <img class="profile" [src]="getCreaturePic(creature)" (click)="openConditionModal()"
+        (error)="onImgError($event)" />
+    </div>
     <div class="group-stats" *ngIf="creature.aggressive">
       <div class="stats">
         <div class="base-stat" [class.bordered]="hasExtraStats(creature)">
@@ -58,9 +66,8 @@
       <div class="stats">
         <div class="base-stat">
           <div class="icon heart">
-            <input type="tel" [value]="creature.hp"
-              (blur)="updateCreatureHp(creature.id!, +$event.target.value)" maxlength="2"
-              class="stat-input" />
+            <input type="tel" [value]="creature.hp" (blur)="updateCreatureHp(creature.id!, +$event.target.value)"
+              maxlength="2" class="stat-input" />
           </div>
         </div>
       </div>

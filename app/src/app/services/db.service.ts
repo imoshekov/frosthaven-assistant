@@ -24,7 +24,7 @@ export class DbService {
   async getCharacter(type?: string): Promise<CharacterRow[]> {
     let query = supabase
       .from('character')
-      .select('id,name,type,level')
+      .select('*')
       .order('id', { ascending: true });
 
     if (type) {
@@ -79,6 +79,14 @@ export class DbService {
     const { error } = await supabase
       .from('character')
       .update({ level })
+      .eq('type', type);
+    if (error) throw error;
+  }
+
+  async updateCharacterTotalXp(type: string, totalXp: number): Promise<void> {
+    const { error } = await supabase
+      .from('character')
+      .update({ total_xp: totalXp })
       .eq('type', type);
     if (error) throw error;
   }
