@@ -134,7 +134,7 @@ export class SetupComponent {
 
       const live = this.appContext.findCreature(c.id);
 
-      const newTotalXp = (live.totalXp ?? 0) + (live.sessionExperience ?? 0) + bonusXp;
+      const newTotalXp = (live.totalXp ?? 0) + bonusXp;
       const newLevel = this.xpService.levelFromXp(newTotalXp);
 
       // UI updates

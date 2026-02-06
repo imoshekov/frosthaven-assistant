@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
-import { Creature, LEVEL_XP, MAX_LEVEL, XP_CAP } from '../../../types/game-types';
+import { Creature, XP_CAP } from '../../../types/game-types';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { DbService } from '../../../services/db.service';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { NotificationService } from '../../../services/notification.service';
-import { Character } from '../../../types/data-file-types';
 import { XpService } from '../../../services/xp.service';
 
 
@@ -69,9 +68,6 @@ export class CreatureGroupHeaderComponent {
 
     const effectiveTotalXp = (creature.totalXp ?? 0) + creature.sessionExperience;
     const clampedTotalXp = Math.min(XP_CAP, effectiveTotalXp);
-    const newLevel = this.xpService.levelFromXp(clampedTotalXp);
-
-    // await this.persistCharacterProgress(creature.type, clampedTotalXp, newLevel);
     creature.totalXp = clampedTotalXp;
   }
 
@@ -116,16 +112,5 @@ export class CreatureGroupHeaderComponent {
 
     this.appContext.updateCreatureBaseStat(creatureId, 'totalXp', newTotal, true);
     this.appContext.updateCreatureBaseStat(creatureId, 'level', newLevel, true);
-
-    if (newLevel > oldLevel) {
-      const newMaxHp = this.getHpForCharacterLevel(live.type, newLevel);
-      this.appContext.updateCreatureBaseStat(creatureId, 'maxHp', newMaxHp, true);
-    }
-  }
-
-  private getHpForCharacterLevel(type: string, level: number): number {
-    const charData = this.dataLoader.getData().characters.find(c => c.name === type);
-    const stats = charData?.stats?.find(s => s.level === level);
-    return Number(stats?.health) || 1;
   }
 }
