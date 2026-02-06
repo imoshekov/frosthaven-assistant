@@ -17,21 +17,21 @@
     </div>
     <div class="name" *ngIf="!creature.aggressive">
       <div class="icon level">
-        <input type="tel" [value]="creature.level" maxlength="2" class="level-number"
+        <input type="tel" [value]="levelFromXp(creature.totalXp)" maxlength="2" class="level-number"
           (blur)="onLevelBlur(creature, $event)" />
       </div>
 
     </div>
   </div>
   <div class="info row">
+    <!-- DROP-IN TEMPLATE SNIPPET (bar on the LEFT, fills from bottom) -->
     <div class="portrait-xp">
-      <div *ngIf="!creature.aggressive" class="xp-bar" [attr.title]="xpTooltip(creature)">
-        <div class="xp-fill" [style.height.%]="getXpPercentToNext(creature)">
-        </div>
+      <div *ngIf="!creature.aggressive" class="xp-bar">
+        <div class="xp-fill" [style.height.%]="getXpPercentToNext(creature)"></div>
       </div>
 
-      <img class="profile" [src]="getCreaturePic(creature)" (click)="openConditionModal()"
-        (error)="onImgError($event)" />
+      <img class="profile" [src]="getCreaturePic(creature)" (error)="onImgError($event)"
+        (click)="openConditionModal()" />
     </div>
     <div class="group-stats" *ngIf="creature.aggressive">
       <div class="stats">
@@ -74,10 +74,8 @@
       <div class="stats">
         <div class="base-stat">
           <div class="icon xp">
-            <input type="tel" [value]="creature.sessionExperience"
-              (blur)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', +$event.target.value, true)"
-              (click)="appContext.updateCreatureBaseStat(creature.id!, 'sessionExperience', (creature.sessionExperience ?? 0) + 1, true)"
-              maxlength="2" class="stat-input" />
+            <input type="tel" [value]="creature.sessionExperience ?? 0" (click)="onSessionXpClick(creature)"
+              (blur)="onSessionXpBlur(creature, $event)" maxlength="2" class="stat-input" />
           </div>
         </div>
       </div>

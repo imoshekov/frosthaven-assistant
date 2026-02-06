@@ -91,6 +91,13 @@ export class DbService {
     if (error) throw error;
   }
 
+  async updateCharacterProgress(type: string, level: number, totalXp: number): Promise<void> {
+    return Promise.all([
+      this.updateCharacterLevel(type, level),
+      this.updateCharacterTotalXp(type, totalXp)
+    ]).then(() => { });
+  }
+
   async insertCraftableItem(id: number, type: string, sub_type: string | null): Promise<void> {
     const { error } = await supabase
       .from('craftable_item')
