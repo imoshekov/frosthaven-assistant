@@ -22,4 +22,14 @@ export class XpService {
     const end = LEVEL_XP[level];
     return Math.max(0, Math.min(100, ((xp - start) / (end - start)) * 100));
   }
+
+  xpToNextLevel(totalXp: number): number {
+    const xp = Math.max(0, Math.min(XP_CAP, totalXp));
+    const level = this.levelFromXp(xp);
+
+    if (level >= MAX_LEVEL) return 0;
+
+    const end = LEVEL_XP[level]; // threshold for next level
+    return Math.max(0, end - xp);
+  }
 }

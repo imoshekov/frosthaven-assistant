@@ -22,13 +22,24 @@
     </div>
   </div>
   <div class="info row">
-    <div class="portrait-xp">
-      <div *ngIf="!creature.aggressive" class="xp-bar">
-        <span class="xp-fill" [style.height.%]="getXpPercentToNext(creature)"></span>
-        <span class="xp-percent">
-          <!-- {{ getXpPercentToNext(creature) | number:'1.0-0' }}% -->
-            {{creature.totalXp}}
-        </span>
+    <div class="portrait-xp" *ngIf="!creature.aggressive">
+      <div class="xp-container">
+        <!-- LEFT: numbers stacked vertically -->
+        <div class="xp-numbers">
+          <span *ngFor="let d of (creature.totalXp + '').split('')">
+            {{ d }}
+          </span>
+        </div>
+
+        <!-- RIGHT: XP bar -->
+        <div class="xp-bar">
+          <span class="xp-fill" [style.height.%]="getXpPercentToNext(creature)">
+          </span>
+
+          <span class="xp-remaining">
+            {{ getXpRemainingToNext(creature) }}
+          </span>
+        </div>
       </div>
       <img class="profile" [src]="getCreaturePic(creature)" (error)="onImgError($event)"
         (click)="openConditionModal()" />

@@ -71,6 +71,14 @@ export class CreatureGroupHeaderComponent {
     creature.totalXp = clampedTotalXp;
   }
 
+  getXpRemainingToNext(creature: Creature): number {
+    if (!creature.id) return 0;
+    const live = this.appContext.findCreature(creature.id);
+    const effectiveXp =
+      (live.totalXp ?? 0) + (live.sessionExperience ?? 0);
+
+    return this.xpService.xpToNextLevel(effectiveXp);
+  }
 
   async onSessionXpClick(creature: Creature): Promise<void> {
     if (!creature.id) return;
@@ -101,7 +109,6 @@ export class CreatureGroupHeaderComponent {
       await this.applyXpChange(creature.id, delta);
     }
   }
-
 
   private async applyXpChange(creatureId: string, deltaXp: number): Promise<void> {
     const live = this.appContext.findCreature(creatureId);

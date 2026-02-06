@@ -117,6 +117,27 @@
   gap: 12px;
 }
 
+/* wrapper: left numbers + bar */
+.xp-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* LEFT COLUMN: stacked numbers */
+.xp-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 15px;
+  line-height: 1.1;
+}
+
+.xp-total {
+  opacity: 0.85;
+}
+
+/* XP BAR (single definition) */
 .xp-bar {
   position: relative;
   display: flex;
@@ -139,10 +160,10 @@
   transition: height 120ms linear;
 }
 
-.xp-percent {
+/* number inside the bar: remaining XP */
+.xp-remaining {
   position: absolute;
   inset: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,14 +173,9 @@
   font-weight: 700;
   line-height: 10px;
 
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   pointer-events: none;
 }
-
-
  .base-info,
  .group-stats {
    display: flex;
