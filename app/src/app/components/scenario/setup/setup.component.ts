@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { Creature } from '../../../types/game-types';
+import { Creature, LEVEL_XP, MAX_LEVEL, XP_CAP } from '../../../types/game-types';
 import { AppContext } from '../../../app-context';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,8 @@ import { GlobalTelInputDirective } from '../../../directives/global-tel-input.di
 import { CreatureFactoryService } from '../../../services/creature-factory.service';
 import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { DbService } from '../../../services/db.service';
+import { XpService } from '../../../services/xp.service';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class SetupComponent {
   scenarioId: number;
   sectionId: number;
   sessionId: number = 1;
+  bonusXp: number = 0;
 
   constructor(
     private notificationService: NotificationService,
@@ -31,7 +34,9 @@ export class SetupComponent {
     public appContext: AppContext,
     private dataLoader: DataLoaderService,
     private creatureFactory: CreatureFactoryService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private db: DbService,
+    private xpService: XpService
   ) {
     this.appContext.defaultLevel$.subscribe(val => {
       this.scenarioLevel = val;
@@ -112,5 +117,44 @@ export class SetupComponent {
 
   joinSession(): void {
     this.webSocketService.connect(WebSocketRole.Client, this.sessionId);
+  }
+
+  async endGame(): Promise<void> {
+    const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
+    const bonusXp =
+      Number(scenarioRef?.bonus_experience ?? 0) +
+      Number(this.bonusXp ?? 0);
+
+    if (!bonusXp) return;
+
+    const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
+
+    for (const c of characters) {
+      if (!c.id) continue;
+
+      const live = this.appContext.findCreature(c.id);
+
+      const newTotalXp = (live.totalXp ?? 0) + bonusXp;
+      const newLevel = this.xpService.levelFromXp(newTotalXp);
+
+      // UI updates
+      this.appContext.updateCreatureBaseStat(live.id!, 'totalXp', newTotalXp, true);
+      this.appContext.updateCreatureBaseStat(live.id!, 'level', newLevel, true);
+
+      this.appContext.updateCreatureBaseStat(
+        live.id!,
+        'sessionExperience',
+        (live.sessionExperience ?? 0) + bonusXp,
+        true
+      );
+
+      try {
+        await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
+      } catch (err) {
+        this.notificationService.emitErrorMessage(
+          `Failed to persist XP for ${live.type}`
+        );
+      }
+    }
   }
 }

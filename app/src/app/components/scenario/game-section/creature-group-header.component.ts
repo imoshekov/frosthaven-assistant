@@ -8,6 +8,7 @@ import { DbService } from '../../../services/db.service';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Character } from '../../../types/data-file-types';
+import { XpService } from '../../../services/xp.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { Character } from '../../../types/data-file-types';
 export class CreatureGroupHeaderComponent {
   @Input() creature!: Creature;
 
-  constructor(public appContext: AppContext, private dbService: DbService, private dataLoader: DataLoaderService, private notificationService: NotificationService) { }
+  constructor(public appContext: AppContext, private dbService: DbService, private dataLoader: DataLoaderService, private notificationService: NotificationService, private xpService: XpService) { }
 
   getCreaturePic(creature: Creature): string {
     if (creature.aggressive) {
@@ -57,30 +58,10 @@ export class CreatureGroupHeaderComponent {
     }
   }
 
-  levelFromXp(xp: number): number {
-    const clamped = Math.min(XP_CAP, Math.max(0, xp));
-    let level = 1;
-    for (let i = 1; i < LEVEL_XP.length; i++) {
-      if (clamped >= LEVEL_XP[i]) level = i + 1;
-    }
-    return Math.min(MAX_LEVEL, level);
-  }
-
-  progressToNextLevelPercent(totalXp: number): number {
-    const xp = Math.max(0, Math.min(XP_CAP, totalXp));
-    const level = this.levelFromXp(xp);
-
-    if (level >= MAX_LEVEL) return 100;
-
-    const start = LEVEL_XP[level - 1];
-    const end = LEVEL_XP[level];
-    return Math.max(0, Math.min(100, ((xp - start) / (end - start)) * 100));
-  }
-
   getXpPercentToNext(creature: Creature): number {
     if (!creature.id) return 0;
     const live = this.appContext.findCreature(creature.id);
-    return this.progressToNextLevelPercent(live.totalXp ?? 0);
+    return this.xpService.progressToNextLevelPercent(live.totalXp ?? 0);
   }
 
   async gainXp(creature: Creature, amount = 1): Promise<void> {
@@ -88,7 +69,7 @@ export class CreatureGroupHeaderComponent {
 
     const effectiveTotalXp = (creature.totalXp ?? 0) + creature.sessionExperience;
     const clampedTotalXp = Math.min(XP_CAP, effectiveTotalXp);
-    const newLevel = this.levelFromXp(clampedTotalXp);
+    const newLevel = this.xpService.levelFromXp(clampedTotalXp);
 
     await this.persistCharacterProgress(creature.type, clampedTotalXp, newLevel);
     creature.totalXp = clampedTotalXp;
@@ -137,7 +118,7 @@ export class CreatureGroupHeaderComponent {
 
     const oldLevel = live.level ?? 1;
     const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + deltaXp));
-    const newLevel = this.levelFromXp(newTotal);
+    const newLevel = this.xpService.levelFromXp(newTotal);
 
     this.appContext.updateCreatureBaseStat(creatureId, 'totalXp', newTotal, true);
     this.appContext.updateCreatureBaseStat(creatureId, 'level', newLevel, true);
