@@ -125,16 +125,12 @@ export class SetupComponent {
       Number(scenarioRef?.bonus_experience ?? 0) +
       Number(this.bonusXp ?? 0);
 
-    if (!bonusXp) return;
-
     const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
 
     for (const c of characters) {
-      if (!c.id) continue;
-
       const live = this.appContext.findCreature(c.id);
 
-      const newTotalXp = (live.totalXp ?? 0) + (live.sessionExperience ?? 0) + bonusXp;
+      const newTotalXp = (live.totalXp ?? 0) + bonusXp;
       const newLevel = this.xpService.levelFromXp(newTotalXp);
 
       // UI updates

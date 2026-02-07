@@ -57,57 +57,52 @@ export class CreatureGroupHeaderComponent {
     }
   }
 
-  getXpPercentToNext(creature: Creature): number {
-    if (!creature.id) return 0;
-    const live = this.appContext.findCreature(creature.id);
-    return this.xpService.progressToNextLevelPercent(live.totalXp ?? 0);
+  getXpPercentToNext(totalXp): number {
+    return this.xpService.progressToNextLevelPercent(totalXp ?? 0);
   }
 
-  async gainXp(creature: Creature, amount = 1): Promise<void> {
-    creature.sessionExperience = (creature.sessionExperience ?? 0) + amount;
-
-    const effectiveTotalXp = (creature.totalXp ?? 0) + creature.sessionExperience;
-    const clampedTotalXp = Math.min(XP_CAP, effectiveTotalXp);
-    creature.totalXp = clampedTotalXp;
+  getXpRemainingToNext(totalXp): number {
+    return this.xpService.xpToNextLevel(totalXp ?? 0);
   }
 
-  getXpRemainingToNext(creature: Creature): number {
-    if (!creature.id) return 0;
-    const live = this.appContext.findCreature(creature.id);
-    return this.xpService.xpToNextLevel(live.totalXp ?? 0);
-  }
-
-  async onSessionXpClick(creature: Creature): Promise<void> {
+  onSessionXpClick(creature: Creature) {
     if (!creature.id) return;
+    const current =
+      this.appContext.findCreature(creature.id).sessionExperience ?? 0;
 
-    const live = this.appContext.findCreature(creature.id);
-    const newSession = (live.sessionExperience ?? 0) + 1;
-    this.appContext.updateCreatureBaseStat(creature.id, 'sessionExperience', newSession, true);
-
-    await this.applyXpChange(creature.id, 1);
+    this.setSessionXp(creature.id, current + 1);
   }
 
-  async onSessionXpBlur(creature: Creature, event: FocusEvent): Promise<void> {
+  onSessionXpBlur(creature: Creature, event: FocusEvent) {
     if (!creature.id) return;
 
     const input = event.target as HTMLInputElement | null;
     const typed = Number(input?.value);
     if (!Number.isFinite(typed)) return;
 
-    const live = this.appContext.findCreature(creature.id);
-
-    const oldSession = live.sessionExperience ?? 0;
-    const newSession = Math.max(0, typed);
-    const delta = newSession - oldSession;
-
-    this.appContext.updateCreatureBaseStat(creature.id, 'sessionExperience', newSession, true);
-
-    if (delta !== 0) {
-      await this.applyXpChange(creature.id, delta);
-    }
+    this.setSessionXp(creature.id, typed);
   }
 
-  private async applyXpChange(creatureId: string, deltaXp: number): Promise<void> {
+  private setSessionXp(creatureId: string, newSessionXp: number) {
+    const live = this.appContext.findCreature(creatureId);
+
+    const oldSession = live.sessionExperience ?? 0;
+    const clamped = Math.max(0, newSessionXp);
+    const delta = clamped - oldSession;
+
+    if (delta === 0) return;
+
+    this.appContext.updateCreatureBaseStat(
+      creatureId,
+      'sessionExperience',
+      clamped,
+      true
+    );
+
+    this.applyXpChange(creatureId, delta);
+  }
+
+  private applyXpChange(creatureId: string, deltaXp: number): void {
     const live = this.appContext.findCreature(creatureId);
 
     const oldLevel = live.level ?? 1;
