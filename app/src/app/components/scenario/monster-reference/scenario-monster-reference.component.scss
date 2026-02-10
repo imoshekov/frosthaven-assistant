@@ -85,6 +85,24 @@
     white-space: normal;
 }
 
+.icon {
+    &.imm {
+        position: relative;
+        opacity: 0.7;
+
+        .icon.immune {
+            position: absolute;
+            bottom: 0px;
+            right: -10px;
+            width: 15px;
+            height: 15px;
+            opacity: 1;
+            filter: none;
+            pointer-events: none;
+        }
+    }
+}
+
 
 .stat {
     width: auto;
@@ -95,8 +113,8 @@
 
 .stat .icon {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     margin-right: 6px;
     vertical-align: -3px;
     background-repeat: no-repeat;
@@ -155,12 +173,8 @@
     }
 
     .stat .icon {
-        width: 20px;
-        height: 20px;
         margin-right: 0;
         vertical-align: 0;
         padding-right: 1rem;
     }
-
-
 }

@@ -31,7 +31,8 @@
 
                             <td class="stat attack">
                                 <span class="icon attack"></span>
-                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )' }} {{ r.eliteAtk }} | {{ r.normalAtk }}</span>
+                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )' }} {{
+                                    r.eliteAtk }} | {{ r.normalAtk }}</span>
                             </td>
                             <td class="stat armor">
                                 <span class="icon shield"></span>
@@ -52,9 +53,10 @@
                             </td>
                             <td class="stat immunities">
                                 <ng-container *ngIf="r.immunities?.length">
-                                    <span class="icon immune"></span>
                                     <span class="val">
-                                        <span *ngFor="let imm of r.immunities" class="icon imm" [ngClass]="imm"></span>
+                                        <span *ngFor="let imm of r.immunities" class="icon imm" [ngClass]="imm">
+                                            <span class="icon immune"></span>
+                                        </span>
                                     </span>
                                 </ng-container>
                             </td>
