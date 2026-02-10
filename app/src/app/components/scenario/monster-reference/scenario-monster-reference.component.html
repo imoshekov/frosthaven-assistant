@@ -31,7 +31,7 @@
 
                             <td class="stat attack">
                                 <span class="icon attack"></span>
-                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )' }} {{
+                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )'}} [M{{ r.attackProfile.meleeAttackCount }}, R{{ r.attackProfile.rangedAttackCount }}] {{
                                     r.eliteAtk }} | {{ r.normalAtk }}</span>
                             </td>
                             <td class="stat armor">
