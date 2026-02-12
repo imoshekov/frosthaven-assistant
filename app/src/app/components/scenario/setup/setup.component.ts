@@ -41,6 +41,11 @@ export class SetupComponent {
     this.appContext.defaultLevel$.subscribe(val => {
       this.scenarioLevel = val;
     });
+    this.appContext.scenarioId$.subscribe(val => {
+      if (val != null) {
+        this.scenarioId = val;
+      }
+    });
     this.webSocketService.sessionId$.subscribe(id => {
       if (id != null) {
         this.sessionId = id;

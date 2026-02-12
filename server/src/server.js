@@ -16,7 +16,8 @@ const SESSION_DEFAULT_DATA = {
         dark: 'none'
     },
     round: 1,
-    graveyard: []
+    graveyard: [],
+    scenarioId: null
 }
 
 const sessions = {};
@@ -104,6 +105,12 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
                     break;
                 }
+                case 'scenario-update': {
+                    session.scenarioId = data.scenarioId;
+                    session.lastActivity = Date.now();
+                    broadcastToSession(currentSessionId, 'scenario-update', { scenarioId: data.scenarioId, originatingClientId: originatingClientId });
+                    break;
+                }
                 case 'elements-update': {
                     let newStates = {};
                     if (Array.isArray(data.elements)) {
@@ -137,6 +144,12 @@ wss.on('connection', (ws) => {
                         type: 'round-update',
                         roundNumber: session.roundNumber
                     }));
+
+                    ws.send(JSON.stringify({
+                        type: 'scenario-update',
+                        scenarioId: session.scenarioId
+                    }));
+
 
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
@@ -191,6 +204,7 @@ function createSession(sessionId, data) {
         clients: [],
         characters: data.characters || [],
         roundNumber: data.roundNumber || 1,
+        scenarioId: data.scenarioId || null,
         graveyard: data.graveyard || [],
         elementStates: elementStates,
         lastActivity: Date.now(),
