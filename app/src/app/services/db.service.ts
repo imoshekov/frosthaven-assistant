@@ -21,9 +21,16 @@ g.__supabaseClient = supabase;
 /** --- SERVICE USING THE SINGLETON --- */
 @Injectable({ providedIn: 'root' })
 export class DbService {
+  private isLocalhost(): boolean {
+    const h = window.location.hostname;
+    return h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0';
+  }
+
   async getCharacter(type?: string): Promise<CharacterRow[]> {
+    const characterTableName = this.isLocalhost() ? 'character_dev' : 'character';
+
     let query = supabase
-      .from('character')
+      .from(characterTableName)
       .select('*')
       .order('id', { ascending: true });
 
@@ -80,8 +87,9 @@ export class DbService {
     level: number,
     totalXp: number
   ): Promise<void> {
+    const characterTableName = this.isLocalhost() ? 'character_dev' : 'character';
     const { error } = await supabase
-      .from('character')
+      .from(characterTableName)
       .update({
         level,
         total_xp: totalXp

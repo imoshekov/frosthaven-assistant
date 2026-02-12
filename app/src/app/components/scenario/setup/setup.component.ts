@@ -41,6 +41,11 @@ export class SetupComponent {
     this.appContext.defaultLevel$.subscribe(val => {
       this.scenarioLevel = val;
     });
+    this.appContext.scenarioId$.subscribe(val => {
+      if (val != null) {
+        this.scenarioId = val;
+      }
+    });
     this.webSocketService.sessionId$.subscribe(id => {
       if (id != null) {
         this.sessionId = id;
@@ -120,36 +125,38 @@ export class SetupComponent {
   }
 
   async endGame(): Promise<void> {
-    const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
-    const bonusXp =
-      Number(scenarioRef?.bonus_experience ?? 0) +
-      Number(this.bonusXp ?? 0);
+  const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
+  const bonusXp =
+    Number(scenarioRef?.bonus_experience ?? 0) +
+    Number(this.bonusXp ?? 0);
 
-    const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
+  const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
 
-    for (const c of characters) {
-      const live = this.appContext.findCreature(c.id);
+  const msg = `Commit session xp plus bonus ${bonusXp} XP to each character?`;
+  const confirmed = window.confirm(msg);
+  if (!confirmed) return;
 
-      const newTotalXp = (live.totalXp ?? 0) + bonusXp;
-      const newLevel = this.xpService.levelFromXp(newTotalXp);
+  for (const c of characters) {
+    const live = this.appContext.findCreature(c.id);
 
-      // UI updates
-      this.appContext.updateCreatureBaseStat(live.id!, 'totalXp', newTotalXp, true);
-      this.appContext.updateCreatureBaseStat(live.id!, 'level', newLevel, true);
-      this.appContext.updateCreatureBaseStat(
-        live.id!,
-        'sessionExperience',
-        (live.sessionExperience ?? 0) + bonusXp,
-        true
-      );
+    const newTotalXp = (live.totalXp ?? 0) + bonusXp;
+    const newLevel = this.xpService.levelFromXp(newTotalXp);
 
-      try {
-        await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
-      } catch (err) {
-        this.notificationService.emitErrorMessage(
-          `Failed to persist XP for ${live.type}`
-        );
-      }
+    // UI updates
+    this.appContext.updateCreatureBaseStat(live.id!, 'totalXp', newTotalXp, true);
+    this.appContext.updateCreatureBaseStat(live.id!, 'level', newLevel, true);
+    this.appContext.updateCreatureBaseStat(
+      live.id!,
+      'sessionExperience',
+      (live.sessionExperience ?? 0) + bonusXp,
+      true
+    );
+
+    try {
+      await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
+    } catch {
+      this.notificationService.emitErrorMessage(`Failed to persist XP for ${live.type}`);
     }
   }
+}
 }

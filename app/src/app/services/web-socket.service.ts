@@ -16,7 +16,8 @@ export enum WebSocketMessageType {
   ElementsUpdate = 'elements-update',
   RoundUpdate = 'round-update',
   GraveyardUpdate = 'graveyard-update',
-  CharactersUpdate = 'characters-update'
+  CharactersUpdate = 'characters-update',
+  ScenarioUpdate = 'scenario-update'
 }
 
 
@@ -45,6 +46,7 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.roundNumber$, WebSocketMessageType.RoundUpdate, (round) => ({ roundNumber: round }));
     this.subscribeAndBroadcast(this.appContext.creatures$, WebSocketMessageType.CharactersUpdate, (creatures) => ({ characters: creatures }));
     this.subscribeAndBroadcast(this.appContext.elements$, WebSocketMessageType.ElementsUpdate, (elements) => ({ elements }));
+    this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
   }
 
   private subscribeAndBroadcast<T>(
@@ -102,8 +104,6 @@ export class WebSocketService {
 
     this.ws.onerror = (error) => {
       this.isConnected = false;
-      // i think this is too much spam.
-      // this.notificationService.emitErrorMessage('Unable to connect to the server. Retrying...');
       this.tryReconnect();
     };
 
@@ -135,6 +135,9 @@ export class WebSocketService {
           break;
         case WebSocketMessageType.ElementsUpdate:
           this.appContext.setElements(data.elements);
+          break;
+        case WebSocketMessageType.ScenarioUpdate:
+          this.appContext.setScenarioId(data.scenarioId);
           break;
         default:
           this.notificationService.emitErrorMessage(`Unhandled message type: ${data.type}`);
