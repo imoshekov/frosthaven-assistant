@@ -7,7 +7,7 @@
       <div class="icon" [class]="type"></div>
       <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
     </div>
-    <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel">Add Item</button>
+    <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel add">+</button>
     <app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
     </app-add-item>
   </div>
