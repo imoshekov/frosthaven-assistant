@@ -132,10 +132,7 @@ export class SetupComponent {
 
   const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
 
-  const msg =
-    `End game  apply +${bonusXp} XP to ${characters.length} character(s)?\n\n` +
-    `This will update Total XP, Level, and Session XP and persist to the DB.`;
-
+  const msg = `Commit session xp plus bonus ${bonusXp} XP to each character?`;
   const confirmed = window.confirm(msg);
   if (!confirmed) return;
 
