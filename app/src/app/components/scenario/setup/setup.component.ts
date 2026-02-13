@@ -11,7 +11,7 @@ import { CreatureFactoryService } from '../../../services/creature-factory.servi
 import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
 import { DbService } from '../../../services/db.service';
 import { XpService } from '../../../services/xp.service';
-import { ConfirmationDialogComponent } from './confirmation.dialog.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation.dialog.component';
 
 
 @Component({

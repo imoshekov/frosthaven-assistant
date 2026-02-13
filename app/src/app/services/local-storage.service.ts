@@ -34,13 +34,13 @@ export class LocalStorageService {
 
   async resetGame(): Promise<void> {
     localStorage.clear();
+    location.reload();
 
     if ('caches' in window) {
       const names = await caches.keys();
       await Promise.all(names.map(name => caches.delete(name)));
     }
 
-    location.reload();
   }
 
   async loadFile(scenarioNumber: number, level: number): Promise<Creature[]> {
