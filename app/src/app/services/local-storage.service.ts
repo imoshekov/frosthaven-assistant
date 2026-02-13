@@ -32,8 +32,14 @@ export class LocalStorageService {
   }
 
 
-  resetGame(): void {
+  async resetGame(): Promise<void> {
     localStorage.clear();
+
+    if ('caches' in window) {
+      const names = await caches.keys();
+      await Promise.all(names.map(name => caches.delete(name)));
+    }
+
     location.reload();
   }
 
