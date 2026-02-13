@@ -1,3 +1,4 @@
+
 <div class="icon chevron" tabindex="0" role="button" aria-expanded="false"
   [ngClass]="appContext.shouldShowSetup ? 'expanded' : ''"
   (click)="appContext.shouldShowSetup = !appContext.shouldShowSetup">
@@ -57,3 +58,13 @@
     <button class="action-button" (click)="endGame()">End</button>
   </div>
 </div>
+
+<app-confirmation-dialog
+  [isVisible]="showEndGameConfirmation"
+  [title]="''"
+  [message]="endGameConfirmationMessage"
+  [confirmText]="'Commit'"
+  [cancelText]="'Cancel'"
+  (confirmed)="onEndGameConfirmed()"
+  (cancelled)="onEndGameCancelled()">
+</app-confirmation-dialog>

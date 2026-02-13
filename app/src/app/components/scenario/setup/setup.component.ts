@@ -9,9 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { CreatureFactoryService } from '../../../services/creature-factory.service';
 import { WebSocketRole, WebSocketService } from '../../../services/web-socket.service';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { DbService } from '../../../services/db.service';
 import { XpService } from '../../../services/xp.service';
+import { ConfirmationDialogComponent } from './confirmation.dialog.component';
 
 
 @Component({
@@ -19,14 +19,18 @@ import { XpService } from '../../../services/xp.service';
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, GlobalTelInputDirective]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective, ConfirmationDialogComponent]
 })
 export class SetupComponent {
   scenarioLevel: number = 1;
-  scenarioId: number;
-  sectionId: number;
+  scenarioId!: number;
+  sectionId!: number;
   sessionId: number = 1;
   bonusXp: number = 0;
+
+  // Confirmation dialog state
+  showEndGameConfirmation: boolean = false;
+  endGameConfirmationMessage: string = '';
 
   constructor(
     private notificationService: NotificationService,
@@ -125,38 +129,50 @@ export class SetupComponent {
   }
 
   async endGame(): Promise<void> {
-  const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
-  const bonusXp =
-    Number(scenarioRef?.bonus_experience ?? 0) +
-    Number(this.bonusXp ?? 0);
+    const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
+    const bonusXp =
+      Number(scenarioRef?.bonus_experience ?? 0) +
+      Number(this.bonusXp ?? 0);
 
-  const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
+    this.endGameConfirmationMessage = `Award ${bonusXp} bonus XP to all characters?`;
+    this.showEndGameConfirmation = true;
+  }
 
-  const msg = `Commit session xp plus bonus ${bonusXp} XP to each character?`;
-  const confirmed = window.confirm(msg);
-  if (!confirmed) return;
+  async onEndGameConfirmed(): Promise<void> {
+    this.showEndGameConfirmation = false;
 
-  for (const c of characters) {
-    const live = this.appContext.findCreature(c.id);
+    const scenarioRef = await this.db.getScenarioReference(this.scenarioLevel);
+    const bonusXp =
+      Number(scenarioRef?.bonus_experience ?? 0) +
+      Number(this.bonusXp ?? 0);
 
-    const newTotalXp = (live.totalXp ?? 0) + bonusXp;
-    const newLevel = this.xpService.levelFromXp(newTotalXp);
+    const characters = this.appContext.getCreatures().filter(c => !c.aggressive);
 
-    // UI updates
-    this.appContext.updateCreatureBaseStat(live.id!, 'totalXp', newTotalXp, true);
-    this.appContext.updateCreatureBaseStat(live.id!, 'level', newLevel, true);
-    this.appContext.updateCreatureBaseStat(
-      live.id!,
-      'sessionExperience',
-      (live.sessionExperience ?? 0) + bonusXp,
-      true
-    );
+    for (const c of characters) {
+      const live = this.appContext.findCreature(c.id);
 
-    try {
-      await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
-    } catch {
-      this.notificationService.emitErrorMessage(`Failed to persist XP for ${live.type}`);
+      const newTotalXp = (live.totalXp ?? 0) + bonusXp;
+      const newLevel = this.xpService.levelFromXp(newTotalXp);
+
+      // UI updates
+      this.appContext.updateCreatureBaseStat(live.id!, 'totalXp', newTotalXp, true);
+      this.appContext.updateCreatureBaseStat(live.id!, 'level', newLevel, true);
+      this.appContext.updateCreatureBaseStat(
+        live.id!,
+        'sessionExperience',
+        (live.sessionExperience ?? 0) + bonusXp,
+        true
+      );
+
+      try {
+        await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
+      } catch {
+        this.notificationService.emitErrorMessage(`Failed to persist XP for ${live.type}`);
+      }
     }
   }
-}
+
+  onEndGameCancelled(): void {
+    this.showEndGameConfirmation = false;
+  }
 }
