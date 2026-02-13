@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { Creature, LEVEL_XP, MAX_LEVEL, XP_CAP } from '../../../types/game-types';
+import { Creature} from '../../../types/game-types';
 import { AppContext } from '../../../app-context';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { CommonModule } from '@angular/common';
