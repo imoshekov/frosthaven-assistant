@@ -31874,7 +31874,7 @@ export class DataLoaderService {
           ]
         },
         {
-          "index": "74A",
+          "index": "741",
           "name": "Gaps in the Road A",
           "flowChartGroup": "personal-quests",
           "coordinates": {
@@ -31953,7 +31953,7 @@ export class DataLoaderService {
           ]
         },
         {
-          "index": "74B",
+          "index": "742",
           "name": "Gaps in the Road B",
           "flowChartGroup": "personal-quests",
           "coordinates": {
@@ -34243,7 +34243,7 @@ export class DataLoaderService {
           ]
         },
         {
-          "index": "93A",
+          "index": "931",
           "name": "Midwinter Brawl A",
           "flowChartGroup": "job-postings",
           "coordinates": {
@@ -34356,7 +34356,7 @@ export class DataLoaderService {
           ]
         },
         {
-          "index": "93B",
+          "index": "932",
           "name": "Midwinter Brawl B",
           "flowChartGroup": "job-postings",
           "coordinates": {

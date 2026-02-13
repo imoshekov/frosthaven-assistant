@@ -304,12 +304,32 @@ export class ScenarioMonsterReference {
     }
 
 
-    getCreaturePic(type): string {
-        return `./images/monster/thumbnail/fh-${type}.png`
+    // getCreaturePic(type): string {
+    //     return `./images/monster/thumbnail/fh-${type}.png`
+    // }
+
+    // onImgError(event: Event) {
+    //     const img = event.target as HTMLImageElement | null;
+    //     if (!img) return;
+
+    //     // prevent infinite loop if the fallback also fails
+    //     img.onerror = null;
+
+    //     // IMPORTANT: set a real fallback that definitely exists
+    //     img.src = './images/bb/daemon-skull.svg';
+    // }
+
+    private failedPics = new Set<string>();
+
+    getCreaturePic(type: string): string {
+        if (this.failedPics.has(type)) {
+            return './images/bb/daemon-skull.svg'; // or wherever it really is
+        }
+
+        return `./images/monster/thumbnail/fh-${type}.png`; // your “correct” path
     }
 
-    onImgError(event: Event) {
-        const target = event.target as HTMLImageElement;
-        target.src = './images/bb/daemon-skull.svg';
+    onImgError(type: string) {
+        this.failedPics.add(type);
     }
 }

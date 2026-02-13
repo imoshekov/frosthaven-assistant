@@ -20,7 +20,7 @@
                             <td class="name-cell">
                                 <div class="name-wrap">
                                     <img class="monster-icon" [src]="getCreaturePic(r.type)"
-                                        (error)="onImgError($event)" />
+                                        (error)="onImgError(r.type)" />
                                     <span class="name">{{ r.type }}</span>
                                 </div>
                             </td>
@@ -31,7 +31,8 @@
 
                             <td class="stat attack">
                                 <span class="icon attack"></span>
-                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )'}} [M{{ r.attackProfile.meleeAttackCount }}, R{{ r.attackProfile.rangedAttackCount }}] {{
+                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )'}} [M{{
+                                    r.attackProfile.meleeAttackCount }}, R{{ r.attackProfile.rangedAttackCount }}] {{
                                     r.eliteAtk }} | {{ r.normalAtk }}</span>
                             </td>
                             <td class="stat armor">
