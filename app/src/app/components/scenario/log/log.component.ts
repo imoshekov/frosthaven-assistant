@@ -94,6 +94,11 @@ export class LogComponent {
       created: (id) => {
         if ((this.appContext as AppContext).killCreature) (this.appContext as AppContext).killCreature(id);
       },
+      sessionExperience: (id, value) => {
+        this.appContext.updateCreatureBaseStat(id, 'sessionExperience', value);
+        const previousXp = this.appContext.getCreatures().find(c => c.id === id)?.totalXp ?? 0;
+        this.appContext.updateCreatureBaseStat(id, 'totalXp', previousXp - value);
+      }
     };
 
   }
