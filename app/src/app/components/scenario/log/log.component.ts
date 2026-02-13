@@ -97,7 +97,7 @@ export class LogComponent {
       sessionExperience: (id, value) => {
         this.appContext.updateCreatureBaseStat(id, 'sessionExperience', value);
         const previousXp = this.appContext.getCreatures().find(c => c.id === id)?.totalXp ?? 0;
-        this.appContext.updateCreatureBaseStat(id, 'totalXp', previousXp - value);
+        this.appContext.updateCreatureBaseStat(id, 'totalXp', previousXp - 1);
       }
     };
 
