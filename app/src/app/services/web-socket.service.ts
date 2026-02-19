@@ -181,9 +181,6 @@ export class WebSocketService {
     } else {
       this.reconnecting = false;
       this.connectionStatusSubject.next(ConnectionStatus.Failed);
-      this.notificationService.emitErrorMessage(
-        'Failed to reconnect after multiple attempts.'
-      );
     }
   }
 
