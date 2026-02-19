@@ -20,6 +20,14 @@ export enum WebSocketMessageType {
   ScenarioUpdate = 'scenario-update'
 }
 
+export enum ConnectionStatus {
+  Disconnected = 'disconnected',
+  Connecting = 'connecting',
+  Connected = 'connected',
+  Reconnecting = 'reconnecting',
+  Failed = 'failed'
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
@@ -34,9 +42,11 @@ export class WebSocketService {
   private clientIdSubject = new BehaviorSubject<string | null>(null);
   private sessionId: number = 0;
   private sessionIdSubject = new BehaviorSubject<number>(null);
+  private connectionStatusSubject = new BehaviorSubject<ConnectionStatus>(ConnectionStatus.Disconnected);
 
   public clientId$ = this.clientIdSubject.asObservable();
   public sessionId$ = this.sessionIdSubject.asObservable();
+  public connectionStatus$ = this.connectionStatusSubject.asObservable();
 
 
   constructor(private appContext: AppContext,
@@ -47,6 +57,14 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.creatures$, WebSocketMessageType.CharactersUpdate, (creatures) => ({ characters: creatures }));
     this.subscribeAndBroadcast(this.appContext.elements$, WebSocketMessageType.ElementsUpdate, (elements) => ({ elements }));
     this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
+
+    // Proactively reconnect when the user returns to the tab/app after locking phone
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && !this.isConnected && this.getSessionId()) {
+        this.reconnectAttempts = 0;
+        this.connect(this.role);
+      }
+    });
   }
 
   private subscribeAndBroadcast<T>(
@@ -64,21 +82,18 @@ export class WebSocketService {
   public connect(role: WebSocketRole, sessionId?: number) {
     this.role = role;
 
-    // If user provided a sessionId (button press), persist immediately
     if (sessionId != null) {
       this.sessionId = sessionId;
       this.localStorageService.setSessionId(sessionId);
     }
 
-    if (sessionId != null) {
-      this.sessionId = sessionId;
-      this.localStorageService.setSessionId(sessionId);
-    }
-
-    // If an old socket is hanging around, close it before reconnecting/switching.
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.close(1000, 'Switching session or reconnecting');
     }
+
+    this.connectionStatusSubject.next(
+      this.reconnecting ? ConnectionStatus.Reconnecting : ConnectionStatus.Connecting
+    );
 
     this.ws = new WebSocket(
       window.location.hostname.includes('github.io')
@@ -87,7 +102,7 @@ export class WebSocketService {
     );
 
     this.ws.onopen = () => {
-      const sessionToJoin = this.getSessionId(); // only join to a known id
+      const sessionToJoin = this.getSessionId();
       const joinSessionPayload: any = {
         type: WebSocketMessageType.JoinSession,
         ...(sessionToJoin != null && { sessionId: sessionToJoin }),
@@ -100,6 +115,7 @@ export class WebSocketService {
 
       this.isConnected = true;
       this.reconnectAttempts = 0;
+      // Status moves to Connected only after session-joined is confirmed (see handleSessionJoined)
     };
 
     this.ws.onerror = (error) => {
@@ -108,10 +124,11 @@ export class WebSocketService {
     };
 
     this.ws.onclose = () => {
-      if (this.isConnected) {
-        this.notificationService.emitInfoMessage("The connection was closed. Trying to reconnect.");
-      }
       this.isConnected = false;
+      // Only notify the user if we're not already trying to reconnect silently
+      if (!this.reconnecting) {
+        this.connectionStatusSubject.next(ConnectionStatus.Disconnected);
+      }
       this.tryReconnect();
     };
 
@@ -149,20 +166,21 @@ export class WebSocketService {
 
   private tryReconnect() {
     if (this.reconnecting) return;
-
-    // Only auto-reconnect if we’ve successfully joined at least once,
-    // and we have a persisted session id to target.
     if (!this.getSessionId()) return;
 
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnecting = true;
       this.reconnectAttempts++;
+      this.connectionStatusSubject.next(ConnectionStatus.Reconnecting);
+
       const delay = Math.min(500 * Math.pow(2, this.reconnectAttempts - 1), 30000);
       setTimeout(() => {
         this.connect(this.role, this.getSessionId());
         this.reconnecting = false;
       }, delay);
     } else {
+      this.reconnecting = false;
+      this.connectionStatusSubject.next(ConnectionStatus.Failed);
       this.notificationService.emitErrorMessage(
         'Failed to reconnect after multiple attempts.'
       );
@@ -179,12 +197,12 @@ export class WebSocketService {
     this.clientId = data.clientId;
     this.clientIdSubject.next(this.clientId);
 
-    // Persist the confirmed session id; mark that we’re allowed to auto-reconnect
     this.sessionId = data.sessionId;
     this.localStorageService.setSessionId(data.sessionId);
+    this.sessionIdSubject.next(data.sessionId);
 
+    this.connectionStatusSubject.next(ConnectionStatus.Connected);
     this.requestServerState(this.getSessionId());
-    this.notificationService.emitInfoMessage(`Connected to session ${data.sessionId}.`);
   }
 
   private requestServerState(sessionId: string | number) {

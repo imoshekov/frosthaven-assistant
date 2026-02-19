@@ -1,0 +1,7 @@
+<div class="status-pill" [ngClass]="'status-' + status" [attr.aria-label]="label">
+  <span class="dot">
+    <span class="pulse" *ngIf="status === 'connecting' || status === 'reconnecting'"></span>
+  </span>
+  <span>{{ label }}</span>
+  <span class="session-id" *ngIf="status === 'connected' && sessionId != null">#{{ sessionId }}</span>
+</div>

@@ -11,6 +11,7 @@ import { Element, ElementState, ElementType } from '../../types/game-types';
 import { SetupComponent } from './setup/setup.component';
 import { LegendComponent } from './legend/legend.component';
 import { ScenarioMonsterReference } from './monster-reference/scenario-monster-reference.component';
+import { ConnectionStatusComponent } from './connection-status/connection-status.component';
 
 @Component({
   selector: 'app-scenario',
@@ -27,7 +28,8 @@ import { ScenarioMonsterReference } from './monster-reference/scenario-monster-r
     ElementComponent,
     SetupComponent,
     LegendComponent,
-    ScenarioMonsterReference
+    ScenarioMonsterReference,
+    ConnectionStatusComponent
   ]
 })
 export class ScenarioComponent {

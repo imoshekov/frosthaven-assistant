@@ -5,6 +5,7 @@
       <app-element *ngFor="let el of elements" [element]="el"></app-element>
     </div>
     <app-round></app-round>
+    <app-connection-status class="connection-status" />
   </div>
   <app-game></app-game>
   <app-attack-modal *ngIf="this.appContext.selectedCreature"></app-attack-modal>

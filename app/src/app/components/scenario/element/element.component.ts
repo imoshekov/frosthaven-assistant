@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Element, ElementState, ElementType } from '../../../types/game-types';
+import { Element, ElementState} from '../../../types/game-types';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
 

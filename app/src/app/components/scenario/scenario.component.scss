@@ -13,16 +13,20 @@
     display: flex;
     gap: 10px;
   }
+  
+  .connection-status {
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 768px) {
   .content {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     align-items: stretch;
   }
 
-  .content>* {
+  .content > * {
     min-width: 0;
   }
 
@@ -30,5 +34,9 @@
     display: block;
     width: 100%;
     justify-self: stretch;
+  }
+
+  .elements-row {
+    grid-column: 1 / -1;
   }
 }
