@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppContext } from '../../../app-context';
@@ -8,7 +9,7 @@ import { Scenario } from '../../../types/data-file-types';
 @Component({
   selector: 'app-loot',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChevronToggleComponent],
   templateUrl: './loot.component.html',
   styleUrls: ['./loot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

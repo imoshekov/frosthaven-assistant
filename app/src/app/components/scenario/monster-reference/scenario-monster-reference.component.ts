@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { combineLatest, map, filter, tap, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppContext } from '../../../app-context';
@@ -19,7 +20,7 @@ type RangedProfileResult = {
 
 @Component({
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, ChevronToggleComponent],
     selector: 'app-scenario-monster-reference',
     templateUrl: './scenario-monster-reference.component.html',
     styleUrls: ['./scenario-monster-reference.component.scss']

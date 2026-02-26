@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { from, distinctUntilChanged, map, shareReplay, switchMap } from 'rxjs';
 import { AppContext } from '../../../app-context';
 import { DbService } from '../../../services/db.service';
@@ -7,7 +8,7 @@ import { DbService } from '../../../services/db.service';
 @Component({
   selector: 'app-legend',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChevronToggleComponent],
   templateUrl: './legend.component.html',
   styleUrls: ['./legend.component.scss'],
 })
