@@ -1,6 +1,7 @@
 <div class="legend-container">
   <div class="title-row">
     <h3 (click)="shouldExpand = !shouldExpand" role="button" tabindex="0">Scenario References</h3>
+
     <app-chevron-toggle [expanded]="shouldExpand" (toggle)="shouldExpand = !shouldExpand"></app-chevron-toggle>
   </div>
 

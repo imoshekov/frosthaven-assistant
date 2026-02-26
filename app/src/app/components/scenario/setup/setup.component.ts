@@ -12,6 +12,7 @@ import { WebSocketRole, WebSocketService } from '../../../services/web-socket.se
 import { DbService } from '../../../services/db.service';
 import { XpService } from '../../../services/xp.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation.dialog.component';
+import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, GlobalTelInputDirective, ConfirmationDialogComponent]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective, ConfirmationDialogComponent, ChevronToggleComponent]
 })
 export class SetupComponent {
   scenarioLevel: number = 1;

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
 import { LogEntry, LogService } from '../../../services/log.service';
 import { CommonModule } from '@angular/common';
+import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { AppContext } from '../../../app-context'; // adjust path if needed
 import { NotificationService } from '../../../services/notification.service';
 
@@ -13,7 +14,7 @@ type Updater = (id: string, value: any, log: LogEntry) => void;
   standalone: true,
   templateUrl: './log.component.html',
   styleUrls: ['./log.component.scss'],
-  imports: [CommonModule]
+  imports: [CommonModule, ChevronToggleComponent]
 })
 export class LogComponent {
   readonly pageSize = 10;

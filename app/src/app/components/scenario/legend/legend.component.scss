@@ -1,27 +1,21 @@
-@import '../../../../icons.scss';
-
-:host {
-  display: block;
-}
-
-.loot-container {
+.legend-container {
   .title-row {
     display: inline-flex;
     gap: 8px;
-  }
+}
 
-  .title-row h3 {
+.title-row h3 {
     margin: 0 0 1rem 0;
-    user-select: none;
     cursor: pointer;
+    user-select: none;
     transition: opacity 0.2s ease;
 
     &:hover {
       opacity: 0.8;
     }
-  }
-  
-  /* table styles for loot configuration - matching legend component */
+}
+
+
   .legend-table {
     width: 100%;
     border-collapse: collapse;
@@ -39,33 +33,22 @@
     border-bottom: none;
   }
 
+  /* zebra striping — SAME as monster table */
   .legend-table tr:nth-child(odd) td {
     background: rgba(255, 255, 255, 0.02);
   }
 
+  /* column alignment */
   .legend-table td:first-child {
     text-align: left;
     font-weight: 700;
     letter-spacing: 0.2px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
   }
 
   .legend-table td:last-child {
     text-align: right;
     white-space: nowrap;
     width: 140px;
-  }
-
-  .loot-deck-config {
-    display: block;
-  }
-
-  .icon {
-    flex-shrink: 0;
-    filter: brightness(0) saturate(100%) invert(97%) sepia(15%) saturate(500%) hue-rotate(5deg) brightness(103%) contrast(97%);
-    opacity: var(--font-color-opacity, 1);
+    /* same value column width */
   }
 }

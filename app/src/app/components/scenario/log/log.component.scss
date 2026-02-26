@@ -93,27 +93,14 @@
   display: block;
 }
 
-.chevron {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+
+/* make log header clickable */
+.log-container > h3 {
   cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
-  outline: none;
-  color: var(--font-color);
-  border-radius: 4px;
-  padding: 4px;
-  flex-shrink: 0;
-  vertical-align: middle;
-
-  &.expanded {
-    transform: rotate(180deg);
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+  user-select: none;
+  transition: opacity 0.2s ease;
 }
+.log-container > h3:hover {
+  opacity: 0.8;
+}
+

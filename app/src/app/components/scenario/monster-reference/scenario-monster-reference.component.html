@@ -1,6 +1,6 @@
 <div class="scenario-monster-reference-container">
     <div class="title-row" *ngIf="monsterRows?.length">
-        <h3>Monster References</h3>
+        <h3 (click)="shouldExpand = !shouldExpand" role="button" tabindex="0">Monster References</h3>
 
         <app-chevron-toggle [expanded]="shouldExpand" (toggle)="shouldExpand = !shouldExpand"></app-chevron-toggle>
     </div>

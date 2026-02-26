@@ -2,12 +2,18 @@
   .title-row {
     display: inline-flex;
     gap: 8px;
-}
+  }
 
-.title-row h3 {
+  .title-row h3 {
     margin: 0 0 1rem 0;
-}
+    user-select: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 
   .legend-table {
     width: 100%;
@@ -26,12 +32,10 @@
     border-bottom: none;
   }
 
-  /* zebra striping — SAME as monster table */
   .legend-table tr:nth-child(odd) td {
     background: rgba(255, 255, 255, 0.02);
   }
 
-  /* column alignment */
   .legend-table td:first-child {
     text-align: left;
     font-weight: 700;
@@ -42,6 +46,5 @@
     text-align: right;
     white-space: nowrap;
     width: 140px;
-    /* same value column width */
   }
 }
