@@ -1,4 +1,4 @@
-@import '../../../../icons.scss';
+@use '../../../../icons.scss' as *; // migrated from deprecated @import
 
 :host {
   display: block;
