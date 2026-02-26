@@ -6,13 +6,13 @@ import { AppContext } from '../../../app-context';
 import { DbService } from '../../../services/db.service';
 
 @Component({
-  selector: 'app-legend',
+  selector: 'app-scenario-general-reference',
   standalone: true,
   imports: [CommonModule, ChevronToggleComponent],
-  templateUrl: './legend.component.html',
-  styleUrls: ['./legend.component.scss'],
+  templateUrl: './scenario-general-reference.component.html',
+  styleUrls: ['./scenario-general-reference.component.scss'],
 })
-export class LegendComponent {
+export class ScenarioGeneralReferenceComponent {
   private appContext = inject(AppContext);
   private db = inject(DbService);
   public shouldExpand = true;

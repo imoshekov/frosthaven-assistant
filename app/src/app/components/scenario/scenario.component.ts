@@ -9,10 +9,10 @@ import { CommonModule } from '@angular/common';
 import { RoundComponent } from './round/round.component';
 import { Element, ElementState, ElementType } from '../../types/game-types';
 import { SetupComponent } from './setup/setup.component';
-import { LegendComponent } from './legend/legend.component';
 import { ScenarioMonsterReference } from './monster-reference/scenario-monster-reference.component';
 import { ConnectionStatusComponent } from './connection-status/connection-status.component';
 import { LootComponent } from './loot/loot.component';
+import { ScenarioGeneralReferenceComponent } from './scenario-general-reference/scenario-general-reference.component';
 
 @Component({
   selector: 'app-scenario',
@@ -28,7 +28,7 @@ import { LootComponent } from './loot/loot.component';
     RoundComponent,
     ElementComponent,
     SetupComponent,
-    LegendComponent,
+    ScenarioGeneralReferenceComponent,
     ScenarioMonsterReference,
     ConnectionStatusComponent,
     LootComponent
