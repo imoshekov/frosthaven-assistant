@@ -1,0 +1,23 @@
+<div class="loot-container" *ngIf="scenario">
+  <div class="title-row">
+    <h3>Loot Deck</h3>
+    <div class="chevron" [ngClass]="shouldExpand ? 'expanded' : ''" (click)="shouldExpand = !shouldExpand" tabindex="0"
+      role="button">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+        stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+  </div>
+
+  <div class="loot-deck-config" *ngIf="scenario?.lootDeckConfig" [style.display]="shouldExpand ? null : 'none'">
+    <table class="legend-table">
+      <tbody>
+        <tr *ngFor="let item of scenario.lootDeckConfig | keyvalue; trackBy: trackByKey">
+          <td><span class="icon" [ngClass]="item.key"></span></td>
+          <td>{{ item.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
