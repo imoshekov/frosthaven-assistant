@@ -150,6 +150,14 @@
         background-image: url("./images/fh/loot/money.svg"),
     }
 
+    &.money {
+        background-image: url("./images/fh/loot/money.svg"),
+    }
+    
+    &.random_item {
+        background-image: url("./images/fh/loot/random_item.svg"),
+    }
+
     &.xp {
         background-image: url("./images/status/experience.svg"),
     }

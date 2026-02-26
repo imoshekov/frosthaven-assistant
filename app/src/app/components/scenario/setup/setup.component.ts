@@ -65,14 +65,19 @@ export class SetupComponent {
     this.scenarioLevel = lvl;
     this.appContext.setDefaultLevel(lvl);
   }
-  
   startNewGame() {
+    this.appContext.setScenarioFile(null);
     this.storageService.resetGame();
   }
 
   async loadScenario() {
-    const room1Creatures = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
+    const scenarioFile = await this.storageService.loadFile(this.scenarioId, this.scenarioLevel)
       .catch(error => this.notificationService.emitErrorMessage(`Failed to load scenario: ${error.message}`));
+
+    // keep raw file in context for other components (loot) to consume
+    this.appContext.setScenarioFile(scenarioFile ?? null);
+
+    const room1Creatures = this.storageService.parseScenarioMonsters(scenarioFile, this.scenarioLevel);
 
     this.appContext.setScenarioId(this.scenarioId);
     if (!room1Creatures) return;

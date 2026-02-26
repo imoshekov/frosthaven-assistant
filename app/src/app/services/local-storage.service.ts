@@ -55,8 +55,7 @@ export class LocalStorageService {
       if (!response.ok) {
         throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
       }
-      const data = await response.json();
-      return this.processScenarioData(data, level);
+      return await response.json();
     } catch (error) {
       console.error('Error loading file:', error);
       throw new Error(`Error loading scenario ${scenarioNumber}. Tried: ${url.pathname}`);
@@ -64,8 +63,7 @@ export class LocalStorageService {
   }
 
 
-
-  processScenarioData(data: any, level: number = 1): Creature[] {
+  parseScenarioMonsters(data: any, level: number = 1): Creature[] {
     if (!data.rooms || !data.rooms[0] || !data.rooms[0].monster) return [];
     return data.rooms[0].monster.map((monster: any) => {
       return {

@@ -33,6 +33,10 @@ export class AppContext {
     private readonly _scenarioId$ = new BehaviorSubject<number | null>(null);
     public readonly scenarioId$ = this._scenarioId$.asObservable();
 
+    // raw JSON of the most recently loaded scenario file (from storageService)
+    private readonly _scenarioFile$ = new BehaviorSubject<any | null>(null);
+    public readonly scenarioFile$ = this._scenarioFile$.asObservable();
+
     private elementsSubject = new BehaviorSubject<Element[]>([
         { type: ElementType.Fire, state: ElementState.None },
         { type: ElementType.Ice, state: ElementState.None },
@@ -69,6 +73,14 @@ export class AppContext {
 
     setScenarioId(id: number | null): void {
         this._scenarioId$.next(id);
+    }
+
+    /**
+     * Store the raw scenario data returned by LocalStorageService.loadFile so
+     * other components (loot, etc.) can inspect it without re-fetching.
+     */
+    setScenarioFile(file: any | null): void {
+        this._scenarioFile$.next(file);
     }
 
     getElements(): Element[] {

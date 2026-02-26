@@ -12,6 +12,7 @@ import { SetupComponent } from './setup/setup.component';
 import { LegendComponent } from './legend/legend.component';
 import { ScenarioMonsterReference } from './monster-reference/scenario-monster-reference.component';
 import { ConnectionStatusComponent } from './connection-status/connection-status.component';
+import { LootComponent } from './loot/loot.component';
 
 @Component({
   selector: 'app-scenario',
@@ -29,7 +30,8 @@ import { ConnectionStatusComponent } from './connection-status/connection-status
     SetupComponent,
     LegendComponent,
     ScenarioMonsterReference,
-    ConnectionStatusComponent
+    ConnectionStatusComponent,
+    LootComponent
   ]
 })
 export class ScenarioComponent {
