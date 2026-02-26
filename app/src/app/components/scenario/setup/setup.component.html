@@ -11,7 +11,7 @@
   <div class="section">
     <div class="label-group">
       <label for="scenario-level">Level</label>
-      <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" />
+      <input type="tel" placeholder="#" [(ngModel)]="scenarioLevel" (ngModelChange)="onScenarioLevelChange($event)" />
     </div>
     <button class="action-button" (click)="startNewGame()">New</button>
   </div>

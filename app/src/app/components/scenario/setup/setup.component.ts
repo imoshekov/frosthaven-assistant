@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { LocalStorageService } from '../../../services/local-storage.service';
-import { Creature} from '../../../types/game-types';
+import { Creature } from '../../../types/game-types';
 import { AppContext } from '../../../app-context';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { CommonModule } from '@angular/common';
@@ -23,6 +23,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 })
 export class SetupComponent {
   scenarioLevel: number = 1;
+
+
   scenarioId!: number;
   sectionId!: number;
   sessionId: number = 1;
@@ -57,6 +59,13 @@ export class SetupComponent {
     });
   }
 
+  // update context default level when user changes the value manually
+  onScenarioLevelChange(value: number | string): void {
+    const lvl = Number(value) || 0;
+    this.scenarioLevel = lvl;
+    this.appContext.setDefaultLevel(lvl);
+  }
+  
   startNewGame() {
     this.storageService.resetGame();
   }

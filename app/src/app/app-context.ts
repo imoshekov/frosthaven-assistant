@@ -57,6 +57,16 @@ export class AppContext {
 
     getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
     setRoundNumber(round: number) { this.roundNumberSubject.next(round); }
+
+    /**
+     * The default level used when adding creatures or loading scenarios.  Components
+     * can both subscribe to `defaultLevel$` or call this method to update it.
+     */
+    setDefaultLevel(level: number): void {
+        this.defaultLevel = level;
+        this.defaultLevelSubject.next(level);
+    }
+
     setScenarioId(id: number | null): void {
         this._scenarioId$.next(id);
     }
@@ -224,7 +234,7 @@ export class AppContext {
             const avg = levels.reduce((sum, n) => sum + n, 0) / levels.length;
 
             const defaultLevel = Math.max(1, Math.round(avg / 2));
-            this.defaultLevelSubject.next(defaultLevel);
+            this.setDefaultLevel(defaultLevel);
 
             const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level, total_xp }) => {
                 const charData = this.dataLoader.getData().characters.find(c => c.name === type);
