@@ -46,6 +46,12 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
     return this.appContext.getCreatures().filter(c => !c.aggressive);
   }
 
+  get selectedCharacterName(): string {
+    if (!this.selectedCharacterType) return '';
+    const char = this.characters.find(c => c.type === this.selectedCharacterType);
+    return char?.name || this.selectedCharacterType;
+  }
+
   selectCharacter(type: string): void {
     this.initiativeService.selectCharacter(type);
   }

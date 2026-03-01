@@ -31,7 +31,7 @@
         <img class="char-thumb-sm"
           [src]="'./images/character/thumbnail/fh-' + selectedCharacterType + '.png'"
           (error)="$any($event.target).src='./images/bb/daemon-skull.svg'" />
-        <span class="char-name">{{ selectedCharacterType }}</span>
+        <span class="char-name">{{ selectedCharacterName }}</span>
         <button class="change-btn" (click)="clearCharacterSelection()" title="Change character">↺</button>
       </div>
 
