@@ -4,6 +4,7 @@ import { AppContext } from "../../../app-context";
 import { Element, ElementState } from '../../../types/game-types';
 import { Subscription } from "rxjs";
 import { WebSocketService } from "../../../services/web-socket.service";
+import { InitiativeService } from "../../../services/initiative.service";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class RoundComponent implements OnInit, OnDestroy {
 
     private sub?: Subscription;
 
-    constructor(public appContext: AppContext) { }
+    constructor(public appContext: AppContext, private initiativeService: InitiativeService) { }
 
     ngOnInit() {
         this.sub = this.appContext.roundNumber$.subscribe((round: number) => {
@@ -35,6 +36,7 @@ export class RoundComponent implements OnInit, OnDestroy {
 
     nextRound(): void {
         this.resetAllCreatures();
+        this.applyPendingInitiative();
         this.resetElements();
 
         const newRound = this.roundNumber + 1;
@@ -42,6 +44,21 @@ export class RoundComponent implements OnInit, OnDestroy {
 
         this.appContext.setRoundNumber(newRound);
         this.roundAdvanced.emit(newRound);
+
+        this.initiativeService.onRoundAdvanced();
+    }
+
+    private applyPendingInitiative(): void {
+        const pending = this.initiativeService.getPendingInitiative();
+        const charType = this.initiativeService.getSelectedCharacterType();
+        if (pending === null || !charType) return;
+
+        const character = this.appContext.getCreatures().find(
+            c => c.type === charType && !c.aggressive
+        );
+        if (character?.id) {
+            this.appContext.updateCreatureBaseStat(character.id, 'initiative', pending, false);
+        }
     }
 
     resetAllCreatures(): void {

@@ -13,6 +13,7 @@ import { ScenarioMonsterReference } from './monster-reference/scenario-monster-r
 import { ConnectionStatusComponent } from './connection-status/connection-status.component';
 import { LootComponent } from './loot/loot.component';
 import { ScenarioGeneralReferenceComponent } from './scenario-general-reference/scenario-general-reference.component';
+import { InitiativeBubbleComponent } from './initiative-bubble/initiative-bubble.component';
 
 @Component({
   selector: 'app-scenario',
@@ -31,7 +32,8 @@ import { ScenarioGeneralReferenceComponent } from './scenario-general-reference/
     ScenarioGeneralReferenceComponent,
     ScenarioMonsterReference,
     ConnectionStatusComponent,
-    LootComponent
+    LootComponent,
+    InitiativeBubbleComponent
   ]
 })
 export class ScenarioComponent {
