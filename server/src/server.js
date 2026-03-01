@@ -88,30 +88,59 @@ wss.on('connection', (ws) => {
             }
             switch (data.type) {
                 case 'characters-update': {
+                    const fp = commandFingerprint('characters-update', data);
+                    if (isDuplicateCommand(session, fp, originatingClientId)) {
+                        ws.send(JSON.stringify({ type: 'command-rejected', commandType: 'characters-update' }));
+                        break;
+                    }
                     session.characters = data.characters;
                     session.lastActivity = Date.now();
+                    session.lastCommand = { fingerprint: fp, clientId: originatingClientId };
                     broadcastToSession(currentSessionId, 'characters-update', { characters: data.characters, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'graveyard-update': {
+                    const fp = commandFingerprint('graveyard-update', data);
+                    if (isDuplicateCommand(session, fp, originatingClientId)) {
+                        ws.send(JSON.stringify({ type: 'command-rejected', commandType: 'graveyard-update' }));
+                        break;
+                    }
                     session.graveyard = data.graveyard;
                     session.lastActivity = Date.now();
+                    session.lastCommand = { fingerprint: fp, clientId: originatingClientId };
                     broadcastToSession(currentSessionId, 'graveyard-update', { graveyard: data.graveyard, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'round-update': {
+                    const fp = commandFingerprint('round-update', data);
+                    if (isDuplicateCommand(session, fp, originatingClientId)) {
+                        ws.send(JSON.stringify({ type: 'command-rejected', commandType: 'round-update' }));
+                        break;
+                    }
                     session.roundNumber = data.roundNumber;
                     session.lastActivity = Date.now();
+                    session.lastCommand = { fingerprint: fp, clientId: originatingClientId };
                     broadcastToSession(currentSessionId, 'round-update', { roundNumber: data.roundNumber, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'scenario-update': {
+                    const fp = commandFingerprint('scenario-update', data);
+                    if (isDuplicateCommand(session, fp, originatingClientId)) {
+                        ws.send(JSON.stringify({ type: 'command-rejected', commandType: 'scenario-update' }));
+                        break;
+                    }
                     session.scenarioId = data.scenarioId;
                     session.lastActivity = Date.now();
+                    session.lastCommand = { fingerprint: fp, clientId: originatingClientId };
                     broadcastToSession(currentSessionId, 'scenario-update', { scenarioId: data.scenarioId, originatingClientId: originatingClientId });
                     break;
                 }
                 case 'elements-update': {
+                    const fp = commandFingerprint('elements-update', data);
+                    if (isDuplicateCommand(session, fp, originatingClientId)) {
+                        ws.send(JSON.stringify({ type: 'command-rejected', commandType: 'elements-update' }));
+                        break;
+                    }
                     let newStates = {};
                     if (Array.isArray(data.elements)) {
                         data.elements.forEach(el => { newStates[el.type] = el.state; });
@@ -120,6 +149,7 @@ wss.on('connection', (ws) => {
                     }
                     session.elementStates = newStates;
                     session.lastActivity = Date.now();
+                    session.lastCommand = { fingerprint: fp, clientId: originatingClientId };
 
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
@@ -208,6 +238,7 @@ function createSession(sessionId, data) {
         graveyard: data.graveyard || [],
         elementStates: elementStates,
         lastActivity: Date.now(),
+        lastCommand: null,  // { fingerprint, clientId }
     };
 
     console.log(`Session ${sessionId} created`);
@@ -217,6 +248,41 @@ function createSession(sessionId, data) {
 
 function getSession(sessionId) {
     return sessions[sessionId] || null;
+}
+
+/**
+ * Returns a stable string fingerprint for a command based on its type and
+ * meaningful payload (client identity excluded).  Returns null for message
+ * types that should not be deduplicated (e.g. request-latest-state).
+ */
+function commandFingerprint(type, data) {
+    switch (type) {
+        case 'characters-update': return `${type}:${JSON.stringify(data.characters)}`;
+        case 'graveyard-update':  return `${type}:${JSON.stringify(data.graveyard)}`;
+        case 'round-update':      return `${type}:${data.roundNumber}`;
+        case 'scenario-update':   return `${type}:${data.scenarioId}`;
+        case 'elements-update':   return `${type}:${JSON.stringify(data.elements)}`;
+        default:                  return null;
+    }
+}
+
+/**
+ * Checks whether `clientId` is allowed to run a command with the given
+ * fingerprint in `session`.
+ *
+ * Rules:
+ *   - Always allowed when there is no previous command.
+ *   - Always allowed when the fingerprint differs from the last command.
+ *   - Always allowed when the SAME client as the last command is sending again.
+ *   - Blocked when a DIFFERENT client tries the exact same command.
+ *
+ * Returns true if the command should be blocked.
+ */
+function isDuplicateCommand(session, fingerprint, clientId) {
+    if (!fingerprint) return false;
+    if (!session.lastCommand) return false;
+    if (session.lastCommand.fingerprint !== fingerprint) return false;
+    return session.lastCommand.clientId !== clientId;
 }
 
 function broadcastToSession(sessionId, type, data) {
