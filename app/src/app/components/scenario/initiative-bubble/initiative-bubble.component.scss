@@ -1,0 +1,232 @@
+:host {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+}
+
+.initiative-bubble-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+/* Floating bubble button */
+.bubble-btn {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  color: var(--font-color);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    background: var(--cancel-button-color-2);
+  }
+
+  &.has-pending {
+    background: var(--confirm-button-color-1);
+    border-color: #a3c73a;
+  }
+
+  .bubble-icon {
+    font-style: normal;
+  }
+
+  .bubble-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--secondary-color);
+    color: var(--font-color-dark);
+    font-size: 1rem;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--primary-color);
+  }
+}
+
+/* Panel */
+.bubble-panel {
+  background: var(--container-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: 12px;
+  padding: 1rem;
+  width: 220px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  color: var(--font-color);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 0.5rem;
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--font-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.panel-hint {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0 0 0.6rem;
+}
+
+.locked-hint {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  opacity: 0.7;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Character list */
+.char-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.char-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: var(--font-color);
+  cursor: pointer;
+  font-size: 0.82rem;
+  text-transform: capitalize;
+  transition: background 0.12s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Selected char row */
+.selected-char {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+
+  .char-name {
+    flex: 1;
+    font-size: 0.82rem;
+    text-transform: capitalize;
+  }
+
+  .change-btn {
+    background: transparent;
+    border: none;
+    color: var(--font-color);
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+/* Thumbnails */
+.char-thumb,
+.char-thumb-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--secondary-color);
+}
+
+.char-thumb-sm {
+  width: 28px;
+  height: 28px;
+}
+
+/* Initiative input row */
+.initiative-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  .initiative-input {
+    width: 56px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: 2px solid var(--secondary-color);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--font-color);
+    padding: 0.25rem;
+  }
+
+  .submit-btn {
+    flex: 1;
+    background: var(--confirm-button-color-1);
+    border: none;
+    border-radius: 6px;
+    color: var(--font-color);
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    transition: background 0.12s;
+
+    &:hover {
+      background: var(--confirm-button-color-2);
+    }
+  }
+}
+
+/* Submitted label */
+.submitted-label {
+  font-size: 0.78rem;
+  color: #a3c73a;
+  margin: 0;
+
+  .hint {
+    opacity: 0.6;
+    font-size: 0.72rem;
+  }
+}

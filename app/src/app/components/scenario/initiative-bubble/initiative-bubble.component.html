@@ -1,0 +1,55 @@
+<div class="initiative-bubble-wrapper">
+  <!-- Floating bubble button -->
+  <button class="bubble-btn" (click)="toggleOpen()" [class.has-pending]="pendingInitiative !== null"
+    title="Enter your initiative">
+    <span class="bubble-icon">⚔</span>
+    <span class="bubble-badge" *ngIf="pendingInitiative !== null">{{ pendingInitiative }}</span>
+  </button>
+
+  <!-- Panel -->
+  <div class="bubble-panel" *ngIf="isOpen">
+    <div class="panel-header">
+      <span>My Initiative</span>
+      <button class="close-btn" (click)="close()">✕</button>
+    </div>
+
+    <!-- Character selection (if none selected yet) -->
+    <ng-container *ngIf="!selectedCharacterType">
+      <p class="panel-hint">Select your character:</p>
+      <div class="char-list">
+        <button class="char-btn" *ngFor="let char of characters" (click)="selectCharacter(char.type)">
+          <img class="char-thumb" [src]="'./images/character/thumbnail/fh-' + char.type + '.png'"
+            (error)="$any($event.target).src='./images/bb/daemon-skull.svg'" />
+          <span>{{ char.name || char.type }}</span>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- Initiative input (character selected) -->
+    <ng-container *ngIf="selectedCharacterType">
+      <div class="selected-char">
+        <img class="char-thumb-sm"
+          [src]="'./images/character/thumbnail/fh-' + selectedCharacterType + '.png'"
+          (error)="$any($event.target).src='./images/bb/daemon-skull.svg'" />
+        <span class="char-name">{{ selectedCharacterType }}</span>
+        <button class="change-btn" (click)="clearCharacterSelection()" title="Change character">↺</button>
+      </div>
+
+      <p class="panel-hint">Enter your initiative (secret):</p>
+      <div class="initiative-row">
+        <input
+          type="tel"
+          class="initiative-input"
+          [(ngModel)]="initiativeInput"
+          maxlength="2"
+          placeholder="00"
+          (keyup.enter)="submitInitiative()"
+        />
+        <button class="submit-btn" (click)="submitInitiative()">Submit</button>
+      </div>
+      <p class="submitted-label" *ngIf="pendingInitiative !== null">
+        Ready: <strong>{{ pendingInitiative }}</strong> <span class="hint">(changes until Next Round)</span>
+      </p>
+    </ng-container>
+  </div>
+</div>
