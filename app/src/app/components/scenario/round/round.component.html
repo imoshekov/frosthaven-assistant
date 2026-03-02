@@ -1,9 +1,9 @@
 <div class="section">
   <div>
-    Round {{ roundNumber }}
+    Round
+    <input type="tel" placeholder="#" [(ngModel)]="roundNumber" (blur)="onRoundBlur()" />
   </div>
   <button class="cancel" (click)="nextRound()">
-    Next 
+    Next
   </button>
-
 </div>

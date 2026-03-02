@@ -3,8 +3,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, V
 import { AppContext } from "../../../app-context";
 import { Element, ElementState } from '../../../types/game-types';
 import { Subscription } from "rxjs";
-import { WebSocketService } from "../../../services/web-socket.service";
 import { InitiativeService } from "../../../services/initiative.service";
+import { FormsModule } from "@angular/forms";
+import { GlobalTelInputDirective } from "../../../directives/global-tel-input.directive";
 
 
 @Component({
@@ -12,7 +13,7 @@ import { InitiativeService } from "../../../services/initiative.service";
     templateUrl: './round.component.html',
     styleUrls: ['./round.component.scss'],
     standalone: true,
-    imports: [CommonModule]
+    imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class RoundComponent implements OnInit, OnDestroy {
     roundNumber: number = 1;
@@ -34,18 +35,29 @@ export class RoundComponent implements OnInit, OnDestroy {
         this.sub?.unsubscribe();
     }
 
+
+    onRoundBlur(): void {
+        this.commitRound(this.roundNumber);
+    }
+
     nextRound(): void {
         this.resetAllCreatures();
         this.applyPendingInitiative();
         this.resetElements();
 
-        const newRound = this.roundNumber + 1;
-        this.roundNumber = newRound;
-
-        this.appContext.setRoundNumber(newRound);
-        this.roundAdvanced.emit(newRound);
+        this.commitRound((Number(this.roundNumber) || 0) + 1);
 
         this.initiativeService.onRoundAdvanced();
+    }
+
+    private commitRound(round: unknown): number {
+        const normalized = Math.max(1, Number(round) || 1);
+        this.roundNumber = normalized;
+        this.appContext.setRoundNumber(normalized);
+
+        this.roundAdvanced.emit(normalized);
+
+        return normalized;
     }
 
     private applyPendingInitiative(): void {
@@ -78,7 +90,7 @@ export class RoundComponent implements OnInit, OnDestroy {
             else if (el.state === ElementState.Full) newState = ElementState.Half;
             else newState = el.state;
 
-            return { ...el, state: newState }; 
+            return { ...el, state: newState };
         });
 
         this.appContext.setElements(updatedElements);
