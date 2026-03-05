@@ -11,3 +11,9 @@
         user-select: none;
     }
 }
+
+@media (max-width: 768px) {
+    .round{
+        width: 25px;
+    }
+}

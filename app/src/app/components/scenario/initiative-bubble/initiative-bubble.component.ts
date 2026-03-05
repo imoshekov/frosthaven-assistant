@@ -5,13 +5,14 @@ import { Subject, takeUntil } from 'rxjs';
 import { AppContext } from '../../../app-context';
 import { Creature } from '../../../types/game-types';
 import { InitiativeService } from '../../../services/initiative.service';
+import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 
 @Component({
   selector: 'app-initiative-bubble',
   templateUrl: './initiative-bubble.component.html',
   styleUrls: ['./initiative-bubble.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective]
 })
 export class InitiativeBubbleComponent implements OnInit, OnDestroy {
   isOpen = false;
