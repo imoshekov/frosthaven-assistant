@@ -165,6 +165,28 @@ export class AppContext {
         this.creaturesSubject.next([...creatures]);
     }
 
+    updateCreatureMultipleStats(creatureId: string, patches: Partial<Creature>, applyToAllOfType = false): void {
+        const creatures = this.getCreatures();
+        const creatureToUpdate = this.findCreature(creatureId);
+        if (!creatureToUpdate) return;
+
+        const applyPatches = (c: Creature) => {
+            for (const [key, value] of Object.entries(patches)) {
+                (c as any)[key] = value;
+            }
+        };
+
+        if (applyToAllOfType) {
+            creatures
+                .filter(c => c.type === creatureToUpdate.type)
+                .forEach(c => applyPatches(c));
+        } else {
+            applyPatches(creatureToUpdate);
+        }
+
+        this.creaturesSubject.next([...creatures]);
+    }
+
     toggleCreatureConditions(creatureId: string, condition: CreatureConditions) {
         const creatureToUpdate = this.findCreature(creatureId);
         if (!creatureToUpdate) return;
@@ -200,7 +222,7 @@ export class AppContext {
         this.notificationService.emitInfoMessage(`${creature.name} has been killed!`);
     }
 
-    reviveCreature(creatureId: string, hp?: number): void {
+        reviveCreature(creatureId: string, hp?: number, conditions?: CreatureConditions[]): void {
         const graveyard: Creature[] = this.getGraveyard
             ? this.getGraveyard()
             : (this.graveyardSubject?.value ?? []);
@@ -216,9 +238,12 @@ export class AppContext {
         const newGrave = [...graveyard];
         newGrave.splice(idx, 1);
 
-        //set HP + flags
+        //set HP + conditions + flags
         const lastHp = Number.isFinite(hp as number) ? Number(hp) : undefined;
         revived.hp = Math.max(1, Number(lastHp ?? revived.hp ?? 1));
+        if (conditions !== undefined) {
+            revived.conditions = [...conditions];
+        }
         revived.aggressive = true;
 
         //add back to live list

@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs
 import { LogEntry, LogService } from '../../../services/log.service';
 import { CommonModule } from '@angular/common';
 import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
-import { AppContext } from '../../../app-context'; // adjust path if needed
+import { AppContext } from '../../../app-context';
 import { NotificationService } from '../../../services/notification.service';
 
 type Updater = (id: string, value: any, log: LogEntry) => void;
@@ -23,15 +23,14 @@ export class LogComponent {
   private defaultUpdate!: Updater;
   private undoHandlers!: Record<string, Updater>;
 
-  // local UI state
   readonly currentPage$ = new BehaviorSubject<number>(1);
   private readonly selectedIds$ = new BehaviorSubject<string[]>([]);
 
-  // streams (explicitly typed)
   characters$!: Observable<{ value: string; text: string }[]>;
   filteredAll$!: Observable<LogEntry[]>;
   totalPages$!: Observable<number>;
   filteredLogs$!: Observable<LogEntry[]>;
+  canUndo$!: Observable<boolean>;
 
 
   constructor(
@@ -40,6 +39,7 @@ export class LogComponent {
     private readonly notificationService: NotificationService
   ) {
     this.characters$ = this.logService.characterOptions$;
+    this.canUndo$ = this.logService.canUndo$;
 
     this.filteredAll$ = combineLatest([
       this.logService.logs$,
@@ -62,22 +62,11 @@ export class LogComponent {
         return arr.slice(start, start + this.pageSize);
       })
     );
+
     this.defaultUpdate = (id, value, log) => {
       if (log.stat) {
         const applyToAll = ['armor', 'roundArmor', 'retaliate', 'roundRetaliate'].includes(log.stat);
-
-        this.appContext.updateCreatureBaseStat(
-          id,
-          log.stat as any,
-          value,
-          applyToAll
-        );
-
-        const isEmptyArray = Array.isArray(value) && value.length === 0;
-        const message = isEmptyArray
-          ? `${log.stat} restored to default`
-          : `${log.stat} restored to ${value}`;
-        this.notificationService.emitInfoMessage(message);
+        this.appContext.updateCreatureBaseStat(id, log.stat as any, value, applyToAll);
       }
     };
 
@@ -90,18 +79,13 @@ export class LogComponent {
           ?? (hpFromSnapshot && hpFromSnapshot > 0 ? hpFromSnapshot : undefined)
           ?? hpAnywhere
           ?? 1;
-        this.appContext.reviveCreature(id, hp);
+        const conditions = (log.data?.old?.conditions as any[] | undefined) ?? [];
+        this.appContext.reviveCreature(id, hp, conditions);
       },
       created: (id) => {
         if ((this.appContext as AppContext).killCreature) (this.appContext as AppContext).killCreature(id);
-      },
-      sessionExperience: (id, value) => {
-        this.appContext.updateCreatureBaseStat(id, 'sessionExperience', value);
-        const previousXp = this.appContext.getCreatures().find(c => c.id === id)?.totalXp ?? 0;
-        this.appContext.updateCreatureBaseStat(id, 'totalXp', previousXp - 1);
       }
     };
-
   }
 
   onFilterChange(ev: Event) {
@@ -121,9 +105,26 @@ export class LogComponent {
     if (cur < total) this.currentPage$.next(cur + 1);
   }
 
-  undo(log: LogEntry) {
-    const id = log.creatureId;
-    if (!id) return;
-    (this.undoHandlers[log.stat] ?? this.defaultUpdate)(id, log.oldValue, log);
+  /**
+   * Undo all entries in the most recent batch (same batchId).
+   * Because undoing calls appContext methods which emit on creatures$,
+   * the WebSocket service automatically broadcasts the updated state.
+   */
+  undoLastBatch(): void {
+    const batch = this.logService.getLastBatch();
+    if (batch.length === 0) return;
+
+    // Suppress logging while applying undo so the restoration doesn't
+    // create a new batch that would immediately become the next undo target.
+    this.logService.runWithoutLogging(() => {
+      for (const log of batch) {
+        const id = log.creatureId;
+        if (!id) continue;
+        (this.undoHandlers[log.stat] ?? this.defaultUpdate)(id, log.oldValue, log);
+      }
+    });
+
+    // Remove the batch from the log after it has been applied
+    this.logService.consumeLastBatch();
   }
 }

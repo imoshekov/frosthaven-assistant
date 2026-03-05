@@ -1,6 +1,16 @@
 <div class="log-container">
-  <h3 (click)="shouldShowLog = !shouldShowLog" role="button" tabindex="0">Audit History</h3>
-  <app-chevron-toggle [expanded]="shouldShowLog" (toggle)="shouldShowLog = !shouldShowLog"></app-chevron-toggle>
+  <div class="log-header">
+    <h3 (click)="shouldShowLog = !shouldShowLog" role="button" tabindex="0">Audit History</h3>
+    <app-chevron-toggle [expanded]="shouldShowLog" (toggle)="shouldShowLog = !shouldShowLog"></app-chevron-toggle>
+    <button
+      class="undo-btn"
+      [disabled]="!(canUndo$ | async)"
+      (click)="undoLastBatch()"
+      title="Undo last change">
+      <span class="icon undo"></span>
+      Shit
+    </button>
+  </div>
 
   <div class="log-content" [style.display]="shouldShowLog ? null : 'none'">
     <div class="log-filter" *ngIf="(characters$ | async) as chars">
@@ -17,19 +27,15 @@
           <th>When</th>
           <th>Who</th>
           <th>What</th>
-          <th>Is</th>
-          <th>Shit</th>
+          <th>Value</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of (filteredLogs$ | async)">
+        <tr *ngFor="let log of (filteredLogs$ | async)" [class.batch-top]="log.batchId === (filteredLogs$ | async)?.[0]?.batchId">
           <td>{{ log.time }}</td>
           <td>{{ log.creature }}</td>
           <td>{{ log.stat }}</td>
           <td>{{ log.value }}</td>
-          <td>
-            <button (click)="undo(log)" class="icon undo"></button>
-          </td>
         </tr>
       </tbody>
     </table>
