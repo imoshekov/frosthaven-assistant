@@ -111,6 +111,12 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'scenario-update', { scenarioId: data.scenarioId, originatingClientId: originatingClientId });
                     break;
                 }
+                case 'loot-config-update': {
+                    session.lootDeckConfig = data.lootDeckConfig;
+                    session.lastActivity = Date.now();
+                    broadcastToSession(currentSessionId, 'loot-config-update', { lootDeckConfig: data.lootDeckConfig, originatingClientId: originatingClientId });
+                    break;
+                }
                 case 'elements-update': {
                     let newStates = {};
                     if (Array.isArray(data.elements)) {
@@ -150,7 +156,6 @@ wss.on('connection', (ws) => {
                         scenarioId: session.scenarioId
                     }));
 
-
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
                         state: session.elementStates[key]
@@ -159,6 +164,11 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({
                         type: 'elements-update',
                         elements: elementsArray
+                    }));
+
+                    ws.send(JSON.stringify({
+                        type: 'loot-config-update',
+                        lootDeckConfig: session.lootDeckConfig ?? null
                     }));
 
                     break;
@@ -207,6 +217,7 @@ function createSession(sessionId, data) {
         scenarioId: data.scenarioId || null,
         graveyard: data.graveyard || [],
         elementStates: elementStates,
+        lootDeckConfig: null,
         lastActivity: Date.now(),
     };
 
@@ -277,4 +288,3 @@ setInterval(() => {
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-

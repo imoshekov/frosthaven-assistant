@@ -17,7 +17,8 @@ export enum WebSocketMessageType {
   RoundUpdate = 'round-update',
   GraveyardUpdate = 'graveyard-update',
   CharactersUpdate = 'characters-update',
-  ScenarioUpdate = 'scenario-update'
+  ScenarioUpdate = 'scenario-update',
+  LootConfigUpdate = 'loot-config-update'
 }
 
 export enum ConnectionStatus {
@@ -57,6 +58,7 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.creatures$, WebSocketMessageType.CharactersUpdate, (creatures) => ({ characters: creatures }));
     this.subscribeAndBroadcast(this.appContext.elements$, WebSocketMessageType.ElementsUpdate, (elements) => ({ elements }));
     this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
+    this.subscribeAndBroadcast(this.appContext.scenarioFile$, WebSocketMessageType.LootConfigUpdate, (file) => ({ lootDeckConfig: file?.lootDeckConfig ?? null }));
 
     // Proactively reconnect when the user returns to the tab/app after locking phone
     document.addEventListener('visibilitychange', () => {
@@ -155,6 +157,11 @@ export class WebSocketService {
           break;
         case WebSocketMessageType.ScenarioUpdate:
           this.appContext.setScenarioId(data.scenarioId);
+          break;
+        case WebSocketMessageType.LootConfigUpdate:
+          this.appContext.setScenarioFile(
+            data.lootDeckConfig ? { lootDeckConfig: data.lootDeckConfig } : null
+          );
           break;
         default:
           this.notificationService.emitErrorMessage(`Unhandled message type: ${data.type}`);
