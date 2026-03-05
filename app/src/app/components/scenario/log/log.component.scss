@@ -2,14 +2,47 @@
   display: block;
   overflow-x: auto;
 
-  h3{
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-  > h3 {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 0.5rem;
+  .log-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    h3 {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .undo-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--font-color);
+      background-color: var(--background-color);
+      border: 1px solid var(--font-color);
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+      font-size: 13px;
+      transition: opacity 0.2s ease;
+
+      .icon.undo {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        opacity: 0.75;
+      }
+    }
   }
 
   .log-table {
@@ -17,6 +50,7 @@
     border-collapse: collapse;
     font-size: 15px;
     table-layout: fixed;
+    margin-top: 0.5rem;
   }
 
   .log-table th,
@@ -24,6 +58,11 @@
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid var(--font-color);
+  }
+
+  /* Highlight the most recent batch so users know what will be undone */
+  .log-table tr.batch-top td {
+    background: rgba(255, 255, 255, 0.06);
   }
 
   .log-filter {
@@ -62,7 +101,6 @@
     }
   }
 
-
   .pager {
     display: flex;
     align-items: center;
@@ -80,12 +118,6 @@
     padding: 0.25rem 0.75rem;
     cursor: pointer;
     font-size: 13px;
-
-    &.undo {
-      border: none;
-      width: 20px;
-      height: 20px;
-    }
   }
 }
 
@@ -93,14 +125,11 @@
   display: block;
 }
 
-
-/* make log header clickable */
-.log-container > h3 {
+.log-container .log-header h3 {
   cursor: pointer;
   user-select: none;
   transition: opacity 0.2s ease;
 }
-.log-container > h3:hover {
+.log-container .log-header h3:hover {
   opacity: 0.8;
 }
-

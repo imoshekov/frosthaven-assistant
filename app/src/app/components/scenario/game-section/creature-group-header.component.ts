@@ -67,9 +67,7 @@ export class CreatureGroupHeaderComponent {
 
   onSessionXpClick(creature: Creature) {
     if (!creature.id) return;
-    const current =
-      this.appContext.findCreature(creature.id).sessionExperience ?? 0;
-
+    const current = this.appContext.findCreature(creature.id).sessionExperience ?? 0;
     this.setSessionXp(creature.id, current + 1);
   }
 
@@ -92,24 +90,19 @@ export class CreatureGroupHeaderComponent {
 
     if (delta === 0) return;
 
-    this.appContext.updateCreatureBaseStat(
-      creatureId,
-      'sessionExperience',
-      clamped,
-      true
-    );
-
-    this.applyXpChange(creatureId, delta);
-  }
-
-  private applyXpChange(creatureId: string, deltaXp: number): void {
-    const live = this.appContext.findCreature(creatureId);
-
-    const oldLevel = live.level ?? 1;
-    const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + deltaXp));
+    const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + delta));
     const newLevel = this.xpService.levelFromXp(newTotal);
 
-    this.appContext.updateCreatureBaseStat(creatureId, 'totalXp', newTotal, true);
-    this.appContext.updateCreatureBaseStat(creatureId, 'level', newLevel, true);
+    // Apply all three XP-related fields in a single emission so they
+    // land in one log batch and can be undone together with one click.
+    this.appContext.updateCreatureMultipleStats(
+      creatureId,
+      {
+        sessionExperience: clamped,
+        totalXp: newTotal,
+        level: newLevel,
+      },
+      true
+    );
   }
 }
