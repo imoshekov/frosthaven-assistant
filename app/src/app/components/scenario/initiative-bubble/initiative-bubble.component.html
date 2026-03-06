@@ -1,9 +1,9 @@
 <div class="initiative-bubble-wrapper">
   <!-- Floating bubble button -->
-  <button class="bubble-btn" (click)="toggleOpen()" [class.has-pending]="submittedInitiative !== null"
+  <button class="bubble-btn" (click)="toggleOpen()" [class.has-pending]="hasAnySubmission"
     title="Enter your initiative">
     <span class="bubble-icon">⚔</span>
-    <span class="bubble-badge" *ngIf="submittedInitiative !== null">{{ submittedInitiative }}</span>
+    <span class="bubble-badge" *ngIf="hasSubmitted">{{ submittedInitiative ?? '✓' }}</span>
   </button>
 
   <!-- Panel -->
@@ -68,8 +68,10 @@
         </div>
       </ng-container>
 
-      <p class="submitted-label" *ngIf="submittedInitiative !== null">
-        Ready: <strong>{{ submittedInitiative }}</strong> <span class="hint">(changes until Next Round)</span>
+      <p class="submitted-label" *ngIf="hasSubmitted">
+        <ng-container *ngIf="submittedInitiative !== null">Ready: <strong>{{ submittedInitiative }}</strong></ng-container>
+        <ng-container *ngIf="submittedInitiative === null">Ready ✓</ng-container>
+        <span class="hint"> (changes until Next Round)</span>
       </p>
     </ng-container>
   </div>

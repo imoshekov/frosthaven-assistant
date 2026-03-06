@@ -79,7 +79,31 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
     return this.selectedChar?.initiative ?? 0;
   }
 
-  /** Value shown in the "Ready: X" label and the floating button badge for the selected character. */
+  /** True when this client has an active submission for the selected character. */
+  get hasSubmitted(): boolean {
+    if (!this.selectedCharacterType) return false;
+    if (this.submissions[this.selectedCharacterType] === undefined) return false;
+    const char = this.appContext.getCreatures().find(
+      c => c.type === this.selectedCharacterType && !c.aggressive
+    );
+    return !!char && (char.hiddenInitiative > 0 || char.initiative > 0);
+  }
+
+  /** True when this client has at least one active submission across all characters. */
+  get hasAnySubmission(): boolean {
+    return Object.keys(this.submissions).some(type => {
+      const char = this.appContext.getCreatures().find(c => c.type === type && !c.aggressive);
+      return !!char && (char.hiddenInitiative > 0 || char.initiative > 0);
+    });
+  }
+
+  /**
+   * Value for the badge/label for the selected character:
+   * - Own character with pending hidden initiative: show the number (player can see their own)
+   * - Another player's hidden initiative: null (badge shows ✓ without leaking the value)
+   * - Revealed initiative: show the number (public)
+   * - Round reset: null
+   */
   get submittedInitiative(): number | null {
     if (!this.selectedCharacterType) return null;
     if (this.submissions[this.selectedCharacterType] === undefined) return null;
@@ -87,9 +111,9 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
       c => c.type === this.selectedCharacterType && !c.aggressive
     );
     if (!char) return null;
-    if (char.hiddenInitiative > 0) return char.hiddenInitiative;
-    if (char.initiative > 0) return char.initiative; // revealed
-    return null; // round was reset
+    if (char.hiddenInitiative > 0) return this.isOwnCharacter ? char.hiddenInitiative : null;
+    if (char.initiative > 0) return char.initiative;
+    return null;
   }
 
   selectCharacter(type: string): void {
