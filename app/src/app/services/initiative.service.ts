@@ -9,10 +9,6 @@ export class InitiativeService {
   private selectedCharacterTypeSubject = new BehaviorSubject<string | null>(null);
   public selectedCharacterType$ = this.selectedCharacterTypeSubject.asObservable();
 
-  // In-memory only — never synced to other clients
-  private pendingInitiativeSubject = new BehaviorSubject<number | null>(null);
-  public pendingInitiative$ = this.pendingInitiativeSubject.asObservable();
-
   constructor(private localStorage: LocalStorageService) {
     const saved = this.localStorage.load(this.CHAR_KEY);
     if (saved) {
@@ -31,18 +27,5 @@ export class InitiativeService {
       this.localStorage.clear(this.CHAR_KEY);
     }
     this.selectedCharacterTypeSubject.next(type);
-  }
-
-  getPendingInitiative(): number | null {
-    return this.pendingInitiativeSubject.getValue();
-  }
-
-  setPendingInitiative(value: number): void {
-    this.pendingInitiativeSubject.next(value);
-  }
-
-  /** Called when Next Round is clicked — apply pending and reset for next planning phase. */
-  onRoundAdvanced(): void {
-    this.pendingInitiativeSubject.next(null);
   }
 }

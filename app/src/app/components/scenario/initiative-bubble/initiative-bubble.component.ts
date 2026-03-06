@@ -17,7 +17,6 @@ import { GlobalTelInputDirective } from '../../../directives/global-tel-input.di
 export class InitiativeBubbleComponent implements OnInit, OnDestroy {
   isOpen = false;
   selectedCharacterType: string | null = null;
-  pendingInitiative: number | null = null;
   initiativeInput: string = '';
 
   private unsubscribe$ = new Subject<void>();
@@ -33,14 +32,6 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
       .subscribe(type => {
         this.selectedCharacterType = type;
       });
-
-    this.initiativeService.pendingInitiative$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(value => {
-        this.pendingInitiative = value;
-        this.initiativeInput = value !== null ? String(value) : '';
-      });
-
   }
 
   get characters(): Creature[] {
@@ -53,28 +44,59 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
     return char?.name || this.selectedCharacterType;
   }
 
+  get submittedInitiative(): number | null {
+    if (!this.selectedCharacterType) return null;
+    const char = this.appContext.getCreatures().find(
+      c => c.type === this.selectedCharacterType && !c.aggressive
+    );
+    return char?.hiddenInitiative > 0 ? char.hiddenInitiative : null;
+  }
+
   selectCharacter(type: string): void {
     this.initiativeService.selectCharacter(type);
+    this.refreshInitiativeInput();
   }
 
   submitInitiative(): void {
     const val = parseInt(this.initiativeInput, 10);
-    if (!isNaN(val) && val >= 0 && val <= 99) {
-      this.initiativeService.setPendingInitiative(val);
-      this.isOpen = false;
+    const isValid = !isNaN(val) && val >= 0 && val <= 99 && this.selectedCharacterType;
+    if (!isValid) return;
+
+    const character = this.appContext.getCreatures()
+      .find(c => !c.aggressive && c.type === this.selectedCharacterType);
+    if (character?.id) {
+      this.appContext.updateCreatureMultipleStats(character.id, { hiddenInitiative: val });
     }
+
+    this.initiativeInput = '';
+    this.isOpen = false;
   }
 
   clearCharacterSelection(): void {
     this.initiativeService.selectCharacter(null);
+    this.initiativeInput = '';
   }
 
   toggleOpen(): void {
     this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      this.refreshInitiativeInput();
+    }
   }
 
   close(): void {
     this.isOpen = false;
+  }
+
+  private refreshInitiativeInput(): void {
+    if (!this.selectedCharacterType) {
+      this.initiativeInput = '';
+      return;
+    }
+    const char = this.appContext.getCreatures().find(
+      c => c.type === this.selectedCharacterType && !c.aggressive
+    );
+    this.initiativeInput = String(char.hiddenInitiative ?? '');
   }
 
   ngOnDestroy(): void {

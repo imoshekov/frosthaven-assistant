@@ -107,6 +107,29 @@
    }
  }
 
+ .initiative-status-icon {
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border: 2px solid;
+   cursor: default;
+
+   &.ready {
+     border-color: #2e7d32;
+     color: #fff;
+     background: #4caf50;
+   }
+
+   &.not-ready {
+     border-color: #b71c1c;
+     color: #fff;
+     background: #f44336;
+   }
+ }
+
  img.profile {
    width: 70px;
    height: 70px;

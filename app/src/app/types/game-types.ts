@@ -40,6 +40,7 @@ export interface Creature {
   attackTarget?: number;
   movement?: number | null;
   initiative?: number;
+  hiddenInitiative?: number | null;
   armor?: number;
   retaliate?: number;
   retaliateRange?: number;

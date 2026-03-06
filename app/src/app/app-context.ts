@@ -57,6 +57,15 @@ export class AppContext {
     ) {
         this.addDefaultCharacters();
         this.logService.init(this.creatures$);
+        this.creatures$.subscribe(() => this.revealIfAllReady());
+    }
+
+    private revealIfAllReady(): void {
+        const heroes = this.getCreatures().filter(c => !c.aggressive);
+        if (!heroes.some(c => c.hiddenInitiative > 0)) return;
+        if (heroes.every(c => c.hiddenInitiative > 0 || c.initiative > 0)) {
+            this.revealHeroInitiatives();
+        }
     }
 
     getRoundNumber(): number { return this.roundNumberSubject.getValue(); }
@@ -256,6 +265,17 @@ export class AppContext {
         this.notificationService?.emitInfoMessage?.(`${revived.name} has been revived!`);
     }
 
+
+    /** Reveal all hero initiatives: heroes without initiativeReady get initiative=0 and marked ready. */
+    revealHeroInitiatives(): void {
+        const needsReveal = this.getCreatures().some(c => !c.aggressive && c.hiddenInitiative > 0);
+        if (!needsReveal) return;
+        const creatures = this.getCreatures().map(c => 
+            c.aggressive ? c : { ...c, initiative: (c.hiddenInitiative > 0 ? c.hiddenInitiative : c.initiative), hiddenInitiative: 0 }
+        );
+        console.log(creatures);
+        this.setCreatures(creatures);
+    }
 
     public findCreature(creatureId: string): Creature {
         const creatures = this.getCreatures();
