@@ -266,7 +266,7 @@ export class AppContext {
     }
 
 
-    /** Reveal all hero initiatives: heroes without initiativeReady get initiative=0 and marked ready. */
+    /** Reveal all hero initiatives: heroes without hidden initiative get their regual initiative and marked ready. */
     revealHeroInitiatives(): void {
         const needsReveal = this.getCreatures().some(c => !c.aggressive && c.hiddenInitiative > 0);
         if (!needsReveal) return;
