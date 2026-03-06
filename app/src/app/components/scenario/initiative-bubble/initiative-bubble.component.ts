@@ -17,6 +17,7 @@ import { GlobalTelInputDirective } from '../../../directives/global-tel-input.di
 export class InitiativeBubbleComponent implements OnInit, OnDestroy {
   isOpen = false;
   selectedCharacterType: string | null = null;
+  submissions: Record<string, number> = {}; /** characterType → submitted hiddenInitiative */
   initiativeInput: string = '';
 
   private unsubscribe$ = new Subject<void>();
@@ -29,9 +30,10 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initiativeService.selectedCharacterType$
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(type => {
-        this.selectedCharacterType = type;
-      });
+      .subscribe(type => { this.selectedCharacterType = type; });
+    this.initiativeService.submissions$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(s => { this.submissions = s; });
   }
 
   get characters(): Creature[] {
@@ -44,12 +46,50 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
     return char?.name || this.selectedCharacterType;
   }
 
+  private get selectedChar(): Creature | undefined {
+    return this.appContext.getCreatures().find(
+      c => c.type === this.selectedCharacterType && !c.aggressive
+    );
+  }
+
+  private get isOwnCharacter(): boolean {
+    if (!this.selectedCharacterType) return false;
+    const submittedVal = this.submissions[this.selectedCharacterType];
+    if (submittedVal === undefined) return false;
+    const hidden = this.selectedChar?.hiddenInitiative ?? 0;
+    if (hidden > 0) return hidden === submittedVal;
+    return true; // no pending hidden initiative — character is ours to submit for
+  }
+
+  get initiativeDisplayMode(): 'input' | 'hidden' | 'revealed' {
+    const char = this.selectedChar;
+    if (!char) return 'input';
+
+    if (this.isOwnCharacter) {
+      if (char.initiative > 0 && !(char.hiddenInitiative > 0)) return 'revealed';
+      return 'input';
+    }
+
+    if (char.hiddenInitiative > 0) return 'hidden';
+    if (char.initiative > 0) return 'revealed';
+    return 'input';
+  }
+
+  get revealedInitiative(): number {
+    return this.selectedChar?.initiative ?? 0;
+  }
+
+  /** Value shown in the "Ready: X" label and the floating button badge for the selected character. */
   get submittedInitiative(): number | null {
     if (!this.selectedCharacterType) return null;
+    if (this.submissions[this.selectedCharacterType] === undefined) return null;
     const char = this.appContext.getCreatures().find(
       c => c.type === this.selectedCharacterType && !c.aggressive
     );
-    return char?.hiddenInitiative > 0 ? char.hiddenInitiative : null;
+    if (!char) return null;
+    if (char.hiddenInitiative > 0) return char.hiddenInitiative;
+    if (char.initiative > 0) return char.initiative; // revealed
+    return null; // round was reset
   }
 
   selectCharacter(type: string): void {
@@ -66,6 +106,7 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
       .find(c => !c.aggressive && c.type === this.selectedCharacterType);
     if (character?.id) {
       this.appContext.updateCreatureMultipleStats(character.id, { hiddenInitiative: val });
+      this.initiativeService.setSubmission(this.selectedCharacterType, val);
     }
 
     this.initiativeInput = '';
@@ -93,10 +134,17 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
       this.initiativeInput = '';
       return;
     }
-    const char = this.appContext.getCreatures().find(
-      c => c.type === this.selectedCharacterType && !c.aggressive
-    );
-    this.initiativeInput = String(char.hiddenInitiative ?? '');
+    const char = this.selectedChar;
+    if (!char) {
+      this.initiativeInput = '';
+      return;
+    }
+    // Pre-fill only for own character with a pending hidden initiative
+    if (this.isOwnCharacter && char.hiddenInitiative > 0) {
+      this.initiativeInput = String(char.hiddenInitiative);
+    } else {
+      this.initiativeInput = '';
+    }
   }
 
   ngOnDestroy(): void {

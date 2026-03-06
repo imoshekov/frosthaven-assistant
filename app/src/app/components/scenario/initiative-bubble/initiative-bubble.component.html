@@ -25,7 +25,7 @@
       </div>
     </ng-container>
 
-    <!-- Initiative input (character selected) -->
+    <!-- Initiative area (character selected) -->
     <ng-container *ngIf="selectedCharacterType">
       <div class="selected-char">
         <img class="char-thumb-sm"
@@ -35,19 +35,39 @@
         <button class="change-btn" (click)="clearCharacterSelection()" title="Change character">↺</button>
       </div>
 
-      <p class="panel-hint">Enter your initiative (secret):</p>
-      <div class="initiative-row">
-        <input
-          type="tel"
-          class="initiative-input"
-          [value]="initiativeInput"
-          maxlength="2"
-          placeholder="00"
-          (input)="initiativeInput = $any($event.target).value"
-          (keyup.enter)="submitInitiative()"
-        />
-        <button class="submit-btn" (click)="submitInitiative()">Submit</button>
-      </div>
+      <!-- Input mode: own character with no revealed initiative, or another with no initiative yet -->
+      <ng-container *ngIf="initiativeDisplayMode === 'input'">
+        <p class="panel-hint">Enter initiative (secret):</p>
+        <div class="initiative-row">
+          <input
+            type="tel"
+            class="initiative-input"
+            [value]="initiativeInput"
+            maxlength="2"
+            placeholder="00"
+            (input)="initiativeInput = $any($event.target).value"
+            (keyup.enter)="submitInitiative()"
+          />
+          <button class="submit-btn" (click)="submitInitiative()">Submit</button>
+        </div>
+      </ng-container>
+
+      <!-- Hidden mode: another player's character has submitted but not yet revealed -->
+      <ng-container *ngIf="initiativeDisplayMode === 'hidden'">
+        <p class="panel-hint">Initiative submitted (hidden):</p>
+        <div class="initiative-row">
+          <span class="initiative-display initiative-hidden">??</span>
+        </div>
+      </ng-container>
+
+      <!-- Revealed mode: initiative is public -->
+      <ng-container *ngIf="initiativeDisplayMode === 'revealed'">
+        <p class="panel-hint">Initiative:</p>
+        <div class="initiative-row">
+          <span class="initiative-display">{{ revealedInitiative }}</span>
+        </div>
+      </ng-container>
+
       <p class="submitted-label" *ngIf="submittedInitiative !== null">
         Ready: <strong>{{ submittedInitiative }}</strong> <span class="hint">(changes until Next Round)</span>
       </p>
