@@ -3,7 +3,7 @@ name: build-and-deploy-angular-app
 on:
   push:
     branches:
-      - initiative-input
+      - main
 
 jobs:
   build-and-deploy:
