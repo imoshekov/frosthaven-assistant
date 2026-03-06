@@ -63,8 +63,8 @@ export class AppContext {
     setRoundNumber(round: number) { this.roundNumberSubject.next(round); }
 
     /**
-     * The default level used when adding creatures or loading scenarios.  Components
-     * can both subscribe to `defaultLevel$` or call this method to update it.
+     * The default level used when adding creatures or loading scenarios. 
+     * Components can both subscribe to `defaultLevel$` or call this method to update it.
      */
     setDefaultLevel(level: number): void {
         this.defaultLevel = level;
