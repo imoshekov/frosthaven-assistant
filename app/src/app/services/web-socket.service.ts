@@ -141,11 +141,25 @@ export class WebSocketService {
       }
 
       if (data.originatingClientId === this.clientId) return;
+      // Messages without originatingClientId are server-state-responses (request-latest-state).
+      // Peer broadcasts always carry originatingClientId.
+      const isServerStateResponse = !data.originatingClientId;
       this.updatingFromServer = true;
       switch (data.type) {
-        case WebSocketMessageType.CharactersUpdate:
-          this.appContext.setCreatures(data.characters);
+        case WebSocketMessageType.CharactersUpdate: {
+          const localCreatures = this.appContext.getCreatures();
+          if (isServerStateResponse && !data.characters?.length && localCreatures.length > 0) {
+            // Server has no characters yet (race: first client hasn't pushed yet).
+            // Keep local state and push it so the server gets seeded.
+            this.sendUpdateMessage(WebSocketMessageType.CharactersUpdate, {
+              characters: localCreatures,
+              originatingClientId: this.clientId
+            });
+          } else {
+            this.appContext.setCreatures(data.characters);
+          }
           break;
+        }
         case WebSocketMessageType.GraveyardUpdate:
           this.appContext.setGraveyard(data.graveyard);
           break;
@@ -206,7 +220,9 @@ export class WebSocketService {
     this.sessionIdSubject.next(data.sessionId);
 
     this.connectionStatusSubject.next(ConnectionStatus.Connected);
-    this.requestServerState(this.getSessionId());
+    if (!data.isNewSession) {
+      this.requestServerState(this.getSessionId());
+    }
   }
 
   private requestServerState(sessionId: string | number) {

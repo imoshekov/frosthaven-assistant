@@ -8,9 +8,25 @@
 
   <div class="base-stat row">
     <div class="creature-initiative">
-      <input type="tel" [value]="creature.initiative"
-        (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, true)" maxlength="2"
+      <!-- Monsters: always show initiative input -->
+      <input *ngIf="creature.aggressive" type="tel" [value]="creature.initiative"
+        (blur)="onMonsterInitiativeBlur(creature.id!, $event)" maxlength="2"
         class="stat-input" />
+      <!-- Heroes: show input when all initiatives revealed, icon otherwise -->
+      <ng-container *ngIf="!creature.aggressive">
+        <input *ngIf="initiativesRevealed" type="tel" [value]="creature.initiative"
+          (blur)="appContext.updateCreatureBaseStat(creature.id!, 'initiative', +$event.target.value, false)" maxlength="2"
+          class="stat-input" />
+        <div *ngIf="!initiativesRevealed"
+          class="initiative-status-icon"
+          [class.ready]="creature?.hiddenInitiative > 0 || creature?.initiative > 0"          
+          [class.not-ready]="creature?.hiddenInitiative == 0 && creature?.initiative == 0"
+          [title]="(creature?.hiddenInitiative > 0 || creature?.initiative > 0) ? 'Initiative submitted' : 'Waiting for initiative'">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+          </svg>
+        </div>
+      </ng-container>
     </div>
     <div class="name" *ngIf="creature.aggressive">
       {{ creature.type }}

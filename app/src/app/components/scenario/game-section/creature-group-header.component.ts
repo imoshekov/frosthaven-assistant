@@ -39,6 +39,24 @@ export class CreatureGroupHeaderComponent {
     this.appContext.isGroupSelected = true;
   }
 
+  /**
+   * Hidden mode (icons) is only active when at least one hero has submitted
+   * their initiative but not all have. This protects submitted initiatives as
+   * secrets until everyone is ready, while keeping initiatives visible when
+   * nobody has submitted yet (fresh round state) or all have submitted.
+   */
+  get initiativesRevealed(): boolean {
+    const heroes = this.appContext.getCreatures().filter(c => !c.aggressive);
+    if (heroes.length === 0) return true;
+    return !heroes.some(c => c.hiddenInitiative > 0); // hide only while some have pending hidden initiative
+  }
+
+  onMonsterInitiativeBlur(creatureId: string, event: FocusEvent): void {
+    const value = +(event.target as HTMLInputElement).value;
+    this.appContext.updateCreatureBaseStat(creatureId, 'initiative', value, true);
+    this.appContext.revealHeroInitiatives();
+  }
+
   hasExtraStats(creature: Creature): boolean {
     return (creature.armor + creature.roundArmor > 0) ||
       (creature.retaliate + creature.roundRetaliate > 0) ||

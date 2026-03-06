@@ -29,3 +29,4 @@ server/node_modules/ws/lib/subprotocol.js
 server/node_modules/ws/lib/validation.js
 server/node_modules/ws/lib/websocket-server.js
 server/node_modules/ws/lib/websocket.js
+.claude/settings.local.json

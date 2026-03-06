@@ -5,19 +5,21 @@ import { LocalStorageService } from './local-storage.service';
 @Injectable({ providedIn: 'root' })
 export class InitiativeService {
   private readonly CHAR_KEY = 'initiative_char_type';
+  private readonly SUBMISSIONS_KEY = 'initiative_submissions';
 
   private selectedCharacterTypeSubject = new BehaviorSubject<string | null>(null);
   public selectedCharacterType$ = this.selectedCharacterTypeSubject.asObservable();
 
-  // In-memory only — never synced to other clients
-  private pendingInitiativeSubject = new BehaviorSubject<number | null>(null);
-  public pendingInitiative$ = this.pendingInitiativeSubject.asObservable();
+  /** Map of characterType → submitted hiddenInitiative value for this client. */
+  private submissionsSubject = new BehaviorSubject<Record<string, number>>({});
+  public submissions$ = this.submissionsSubject.asObservable();
 
   constructor(private localStorage: LocalStorageService) {
     const saved = this.localStorage.load(this.CHAR_KEY);
-    if (saved) {
-      this.selectedCharacterTypeSubject.next(saved);
-    }
+    if (saved) this.selectedCharacterTypeSubject.next(saved);
+
+    const savedSubmissions = this.localStorage.load(this.SUBMISSIONS_KEY);
+    if (savedSubmissions) this.submissionsSubject.next(savedSubmissions);
   }
 
   getSelectedCharacterType(): string | null {
@@ -33,16 +35,14 @@ export class InitiativeService {
     this.selectedCharacterTypeSubject.next(type);
   }
 
-  getPendingInitiative(): number | null {
-    return this.pendingInitiativeSubject.getValue();
+  setSubmission(type: string, value: number): void {
+    const updated = { ...this.submissionsSubject.value, [type]: value };
+    this.localStorage.set(this.SUBMISSIONS_KEY, JSON.stringify(updated));
+    this.submissionsSubject.next(updated);
   }
 
-  setPendingInitiative(value: number): void {
-    this.pendingInitiativeSubject.next(value);
-  }
-
-  /** Called when Next Round is clicked — apply pending and reset for next planning phase. */
-  onRoundAdvanced(): void {
-    this.pendingInitiativeSubject.next(null);
+  clearSubmissions(): void {
+    this.localStorage.clear(this.SUBMISSIONS_KEY);
+    this.submissionsSubject.next({});
   }
 }

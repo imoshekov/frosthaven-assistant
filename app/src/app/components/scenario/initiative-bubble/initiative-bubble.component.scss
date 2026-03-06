@@ -35,8 +35,8 @@
   }
 
   &.has-pending {
-    background: var(--confirm-button-color-1);
-    border-color: #a3c73a;
+    background: rgba(95, 125, 75, 0.9);
+    border-color: #2e7d32;
   }
 
   .bubble-icon {
@@ -188,6 +188,26 @@
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+
+  .initiative-display {
+    width: 56px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: 2px solid var(--secondary-color);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--font-color);
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.initiative-hidden {
+      opacity: 0.6;
+      letter-spacing: 2px;
+    }
+  }
 
   .initiative-input {
     width: 56px;
