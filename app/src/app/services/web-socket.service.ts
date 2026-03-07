@@ -37,6 +37,7 @@ export class WebSocketService {
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnecting = false;
+  private reconnectTimer: any = null; // FIX 1: track pending timer so visibilitychange can cancel it
   private role: WebSocketRole;
   private updatingFromServer = false;
   private clientId: string | null = null;
@@ -60,9 +61,17 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
     this.subscribeAndBroadcast(this.appContext.scenarioFile$, WebSocketMessageType.LootConfigUpdate, (file) => ({ lootDeckConfig: file?.lootDeckConfig ?? null }));
 
-    // Proactively reconnect when the user returns to the tab/app after locking phone
+    // FIX 1: Cancel any pending backoff timer before triggering an immediate reconnect.
+    // On mobile, the OS kills the WebSocket when the screen locks or the tab is backgrounded.
+    // Without this, both visibilitychange AND the pending setTimeout in tryReconnect() fire
+    // simultaneously when the user returns, spawning two parallel connect() calls and looping.
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && !this.isConnected && this.getSessionId()) {
+        if (this.reconnectTimer) {
+          clearTimeout(this.reconnectTimer);
+          this.reconnectTimer = null;
+        }
+        this.reconnecting = false;
         this.reconnectAttempts = 0;
         this.connect(this.role);
       }
@@ -89,8 +98,17 @@ export class WebSocketService {
       this.localStorageService.setSessionId(sessionId);
     }
 
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-      this.ws.close(1000, 'Switching session or reconnecting');
+    // FIX 2: Detach all handlers from the old socket before closing it.
+    // Previously, closing an OPEN socket triggered its onclose handler which called
+    // tryReconnect(), racing with the new connection being set up below.
+    if (this.ws) {
+      this.ws.onopen = null;
+      this.ws.onclose = null;
+      this.ws.onerror = null;
+      this.ws.onmessage = null;
+      if (this.ws.readyState === WebSocket.OPEN) {
+        this.ws.close(1000, 'Switching session or reconnecting');
+      }
     }
 
     this.connectionStatusSubject.next(
@@ -195,9 +213,14 @@ export class WebSocketService {
       this.connectionStatusSubject.next(ConnectionStatus.Reconnecting);
 
       const delay = Math.min(500 * Math.pow(2, this.reconnectAttempts - 1), 30000);
-      setTimeout(() => {
-        this.connect(this.role, this.getSessionId());
+
+      // FIX 3: Reset reconnecting flag BEFORE calling connect(), not after.
+      // Previously the flag was reset after connect() returned, meaning the new socket's
+      // onclose could fire first, see reconnecting=false, and kick off another tryReconnect().
+      this.reconnectTimer = setTimeout(() => {
+        this.reconnectTimer = null;
         this.reconnecting = false;
+        this.connect(this.role, this.getSessionId());
       }, delay);
     } else {
       this.reconnecting = false;
