@@ -71,8 +71,8 @@
       <p class="submitted-label" *ngIf="hasSubmitted">
         <ng-container *ngIf="submittedInitiative !== null">Ready: <strong>{{ submittedInitiative }}</strong></ng-container>
         <ng-container *ngIf="submittedInitiative === null">Ready ✓</ng-container>
-        <span class="hint"> (changes until Next Round)</span>
       </p>
+      <p class="hint">{{ initiativesLocked ? 'Round in progress' : 'Changes until Next Round' }}</p>
     </ng-container>
   </div>
 </div>
