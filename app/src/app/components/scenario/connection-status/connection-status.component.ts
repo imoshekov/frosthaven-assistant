@@ -20,7 +20,7 @@ export class ConnectionStatusComponent implements OnInit, OnDestroy {
     [ConnectionStatus.Connecting]:   'Connecting',
     [ConnectionStatus.Reconnecting]: 'Reconnecting',
     [ConnectionStatus.Disconnected]: 'Offline',
-    [ConnectionStatus.Failed]:       'Connection lost',
+    [ConnectionStatus.Failed]:       'Shit',
   };
 
   get label(): string {
