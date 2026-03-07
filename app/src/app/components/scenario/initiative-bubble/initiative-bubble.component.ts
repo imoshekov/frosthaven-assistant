@@ -61,7 +61,20 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
     return true; // no pending hidden initiative — character is ours to submit for
   }
 
+  /**
+   * True once all hero initiatives have been revealed for this round — i.e. every playable
+   * hero has a normal initiative or a hidden initiative set.
+   * In this state no new hidden-initiative submissions are accepted.
+   */
+  get initiativesLocked(): boolean {
+    const creatures = this.appContext.getCreatures();
+    const heroes = creatures.filter(c => !c.aggressive);
+    return heroes.every(c => c.hiddenInitiative > 0) || creatures.some(c => c.initiative > 0);
+  }
+
   get initiativeDisplayMode(): 'input' | 'hidden' | 'revealed' {
+    if (this.initiativesLocked) return 'revealed';
+
     const char = this.selectedChar;
     if (!char) return 'input';
 
@@ -122,6 +135,7 @@ export class InitiativeBubbleComponent implements OnInit, OnDestroy {
   }
 
   submitInitiative(): void {
+    if (this.initiativesLocked) return;
     const val = parseInt(this.initiativeInput, 10);
     const isValid = !isNaN(val) && val >= 0 && val <= 99 && this.selectedCharacterType;
     if (!isValid) return;
