@@ -29,6 +29,14 @@
         flex-direction: row;
         align-items: center;
     }
+
+    .clear-inventory {
+        opacity: 0.7;
+        font-size: 0.85rem;
+        padding: 0.1rem 0.5rem;
+
+        &:hover { opacity: 1; }
+    }
 }
 
 @media (max-width: 768px) {
@@ -40,6 +48,17 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+
+        // 10th resource (last before buttons) spans all 3 columns
+        .materials:last-of-type {
+            grid-column: 1 / -1;
+        }
+
+        // both action buttons span full width
+        .add,
+        .clear-inventory {
+            grid-column: 1 / -1;
+        }
     }
 
     .title {
