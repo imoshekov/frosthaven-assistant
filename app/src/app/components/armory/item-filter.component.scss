@@ -3,6 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.4rem;
+    padding: 5px 10px;
 }
 
 .effect-chip {
@@ -11,7 +12,7 @@
     border-radius: 12px;
     color: var(--font-color-dark);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     padding: 0.2rem 0.65rem;
     transition: background 0.12s, border-color 0.12s;
 
@@ -32,7 +33,7 @@
     border-radius: 12px;
     color: var(--font-color);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.90rem;
     padding: 0.2rem 0.65rem;
 
     &:hover {

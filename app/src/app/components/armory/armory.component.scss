@@ -13,6 +13,10 @@
     margin-bottom: 0.5rem;
 }
 
+.content {
+    border-radius: 10px 10px 0 0;
+}
+
 .filters {
     display: flex;
     flex-direction: row;
@@ -52,7 +56,8 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--content-background-left);
+    background: radial-gradient(var(--content-background-left), var(--content-background-right));
     padding: 0.15rem 0 0.35rem;
     border-bottom: 1px solid var(--content-box-shadow-1);
+    border-radius: 0 0 10px 10px;
 }
