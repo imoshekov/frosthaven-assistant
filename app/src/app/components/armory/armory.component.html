@@ -11,7 +11,9 @@
     <app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
     </app-add-item>
   </div>
-
+</div>
+<div class="sticky-filter-bar">
+  <app-item-filter (filterChanged)="onFilterChanged($event)"></app-item-filter>
 </div>
 <div class="items-container">
   <div class="items-group" *ngFor="let slotType of slots">

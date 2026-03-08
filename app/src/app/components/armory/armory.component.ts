@@ -9,11 +9,12 @@ import { SingleItemComponent } from "./single-item.component";
 import { NotificationService } from "../../services/notification.service";
 import { AppContext } from "../../app-context";
 import { AddItemComponent } from "./add-item.component";
+import { ItemFilterComponent, EFFECT_FILTERS } from "./item-filter.component";
 
 @Component({
     selector: 'app-armory',
     standalone: true,
-    imports: [CommonModule, FormsModule, GlobalTelInputDirective, SingleItemComponent, AddItemComponent],
+    imports: [CommonModule, FormsModule, GlobalTelInputDirective, SingleItemComponent, AddItemComponent, ItemFilterComponent],
     templateUrl: './armory.component.html',
     styleUrls: ['./armory.component.scss']
 })
@@ -34,6 +35,10 @@ export class ArmoryComponent implements OnInit {
     // Track expanded/collapsed state per slot (collapsed by default)
     expanded: Record<string, boolean> = {};
 
+    effectFilter: string | null = null;
+
+    private readonly DIRECT_ACTION_TYPES = new Set(['shield', 'heal', 'move', 'damage', 'push', 'pull', 'jump', 'element', 'pierce', 'range', 'attack', 'retaliate']);
+
     toggleCategory(slot: string): void {
         this.expanded[slot] = !this.expanded[slot];
     }
@@ -49,8 +54,49 @@ export class ArmoryComponent implements OnInit {
         await this.loadUnlockedItems();
     }
 
+    private readonly KNOWN_FILTER_KEYS = new Set(
+        EFFECT_FILTERS.filter(f => f.key !== 'special').map(f => f.key)
+    );
+
     getSlotItems(itemSlot: string): Item[] {
-        return this[itemSlot];
+        const items: Item[] = this[itemSlot] ?? [];
+        if (!this.effectFilter) return items;
+        if (this.effectFilter === 'special') {
+            return items.filter(item =>
+                !Array.from(this.KNOWN_FILTER_KEYS).some(key => this.itemMatchesEffect(item, key))
+            );
+        }
+        return items.filter(item => this.itemMatchesEffect(item, this.effectFilter!));
+    }
+
+    onFilterChanged(effect: string | null): void {
+        this.effectFilter = effect;
+    }
+
+    private itemMatchesEffect(item: Item, effect: string): boolean {
+        // Check DERIVED_EFFECTS map directly (covers items whose descriptions are in rawdata.js)
+        const derivedTags = this.itemLoaderService.getEffectTags(item);
+        if (derivedTags.includes(effect)) return true;
+        if (effect === 'heal' && derivedTags.includes('regenerate')) return true;
+
+        const matchesEntry = (entry: any): boolean => {
+            if (!entry) return false;
+            if (this.DIRECT_ACTION_TYPES.has(effect) && entry.type === effect) return true;
+            if (effect === 'heal' && entry.type === 'condition' && entry.value === 'regenerate') return true;
+            if (!this.DIRECT_ACTION_TYPES.has(effect) && entry.type === 'condition' && entry.value === effect) return true;
+            if (entry.subActions && checkList(entry.subActions)) return true;
+            return false;
+        };
+
+        const checkList = (list: any[]): boolean =>
+            !!list?.some(entry => matchesEntry(entry));
+
+        const allEntries = [
+            ...(item.actions ?? []),
+            ...(Array.isArray(item.actionsBack) ? item.actionsBack : []),
+            ...(Array.isArray((item as any).effects) ? (item as any).effects : []),
+        ];
+        return checkList(allEntries);
     }
 
     private async loadUnlockedItems(): Promise<void> {

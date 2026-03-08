@@ -7,6 +7,168 @@ export class ItemLoaderService {
     HERB_RESOURCE_KEYS = ["arrowvine", "axenut", "corpsecap", "flamefruit", "rockroot", "snowthistle"];
     ALL_RESOURCE_KEYS = ["metal", "lumber", "hide", "gold", ...this.HERB_RESOURCE_KEYS];
 
+    /** Effects derived from rawdata.js item descriptions (auto-generated via extract-item-effects.js) */
+    private readonly DERIVED_EFFECTS: Record<number, string[]> = {
+        1:   ["advantage"],
+        2:   ["attackmodifier"],
+        4:   ["disadvantage"],
+        5:   ["move"],
+        7:   ["range"],
+        11:  ["attackmodifier"],
+        12:  ["damage", "shield"],
+        13:  ["damage"],
+        14:  ["attack"],
+        16:  ["move"],
+        17:  ["disadvantage"],
+        18:  ["move"],
+        20:  ["range"],
+        19:  ["muddle"],
+        21:  ["shield"],
+        22:  ["damage", "shield"],
+        23:  ["move", "shield"],
+        24:  ["muddle", "poison", "wound"],
+        25:  ["regenerate"],
+        26:  ["attackmodifier"],
+        27:  ["push"],
+        28:  ["move"],
+        29:  ["damage"],
+        30:  ["attack"],
+        31:  ["damage"],
+        32:  ["ward"],
+        33:  ["damage", "move"],
+        34:  ["damage"],
+        35:  ["damage", "shield"],
+        36:  ["attackmodifier", "disadvantage"],
+        37:  ["damage", "invisible"],
+        38:  ["move"],
+        39:  ["attack", "pierce"],
+        40:  ["attack", "range"],
+        41:  ["attackmodifier"],
+        42:  ["damage", "shield"],
+        43:  ["push"],
+        44:  ["bless", "curse", "poison"],
+        46:  ["advantage", "attackmodifier"],
+        47:  ["damage", "brittle"],
+        49:  ["attack", "wound"],
+        50:  ["damage", "pierce", "shield"],
+        51:  ["wound"],
+        52:  ["damage", "element"],
+        53:  ["retaliate"],
+        54:  ["card"],
+        55:  ["retaliate"],
+        56:  ["element"],
+        58:  ["attack", "disarm"],
+        61:  ["damage", "shield"],
+        62:  ["move", "regenerate"],
+        63:  ["element", "move"],
+        64:  ["damage", "wound"],
+        65:  ["shield"],
+        67:  ["attack"],
+        68:  ["damage"],
+        69:  ["damage", "element", "shield"],
+        70:  ["damage", "retaliate"],
+        72:  ["element"],
+        75:  ["damage"],
+        78:  ["advantage", "disadvantage"],
+        79:  ["attack"],
+        80:  ["damage", "heal"],
+        81:  ["damage"],
+        82:  ["immobilize"],
+        83:  ["heal"],
+        84:  ["card"],
+        85:  ["attack"],
+        86:  ["element"],
+        87:  ["impair", "stun"],
+        88:  ["range", "retaliate"],
+        89:  ["ward"],
+        90:  ["strengthen"],
+        91:  ["bless"],
+        92:  ["card"],
+        93:  ["attackmodifier"],
+        95:  ["poison"],
+        96:  ["wound"],
+        97:  ["damage"],
+        98:  ["poison", "wound"],
+        99:  ["heal"],
+        100: ["card"],
+        101: ["attack"],
+        102: ["element"],
+        103: ["impair", "stun"],
+        104: ["jump", "move"],
+        105: ["range", "retaliate"],
+        106: ["ward"],
+        107: ["strengthen"],
+        108: ["bless"],
+        109: ["card"],
+        110: ["attackmodifier"],
+        112: ["damage"],
+        113: ["card"],
+        118: ["damage"],
+        122: ["damage", "shield"],
+        123: ["disadvantage"],
+        124: ["jump"],
+        126: ["immobilize"],
+        127: ["poison"],
+        128: ["damage", "shield"],
+        129: ["advantage"],
+        130: ["attackmodifier"],
+        131: ["damage", "shield"],
+        134: ["move"],
+        135: ["pierce"],
+        137: ["damage", "shield"],
+        138: ["disarm", "muddle", "stun"],
+        139: ["attack"],
+        140: ["shield"],
+        141: ["disadvantage", "shield"],
+        144: ["attack", "element"],
+        145: ["attack"],
+        146: ["pull"],
+        147: ["push"],
+        149: ["damage", "shield"],
+        151: ["move"],
+        152: ["shield"],
+        155: ["damage", "shield"],
+        156: ["card"],
+        157: ["damage", "shield"],
+        159: ["damage"],
+        160: ["card"],
+        163: ["stun"],
+        164: ["card"],
+        171: ["card", "damage", "regenerate"],
+        175: ["damage"],
+        178: ["heal"],
+        179: ["immobilize", "move"],
+        180: ["bless"],
+        183: ["disadvantage", "range"],
+        185: ["bane", "brittle", "stun"],
+        187: ["damage"],
+        190: ["attack"],
+        195: ["pierce", "range"],
+        200: ["curse", "element", "regenerate"],
+        201: ["immobilize", "push"],
+        202: ["pierce", "wound"],
+        204: ["damage", "shield"],
+        206: ["attack"],
+        207: ["bane"],
+        208: ["pierce"],
+        209: ["advantage", "attack", "poison", "wound"],
+        210: ["attack"],
+        211: ["damage"],
+        213: ["element", "immobilize", "wound"],
+        215: ["attack", "muddle"],
+        219: ["strengthen"],
+        220: ["card"],
+        221: ["element", "pierce"],
+        225: ["attack", "element", "push"],
+        226: ["attackmodifier"],
+        233: ["curse", "muddle"],
+        234: ["immobilize", "poison"],
+        236: ["card"],
+        238: ["damage"],
+        239: ["damage"],
+        244: ["attack", "move", "range"],
+    };
+
     constructor() { }
 
     getPotionsItems(): Item[] {
@@ -14,7 +176,28 @@ export class ItemLoaderService {
     }
 
     getUnlockedItems(unlockedIds: number[]): Item[] {
-        return this.getData().filter(item => unlockedIds.indexOf(item.id) > -1);
+        return this.getData()
+            .filter(item => unlockedIds.indexOf(item.id) > -1)
+            .map(item => this.augmentWithDerivedEffects(item));
+    }
+
+    getEffectTags(item: Item): string[] {
+        return this.DERIVED_EFFECTS[item.id] ?? [];
+    }
+
+    private augmentWithDerivedEffects(item: Item): Item {
+        const derived = this.DERIVED_EFFECTS[item.id];
+        if (!derived?.length) return item;
+        const existing: any[] = Array.isArray((item as any).effects) ? (item as any).effects : [];
+        const existingTypes = new Set(existing.map((e: any) => e.type === 'condition' ? e.value : e.type));
+        const toAdd = derived
+            .filter(tag => !existingTypes.has(tag))
+            .map(tag => {
+                const isCondition = !['shield', 'heal', 'move', 'damage', 'push', 'pull', 'jump'].includes(tag);
+                return isCondition ? { type: 'condition', value: tag } : { type: tag };
+            });
+        if (!toAdd.length) return item;
+        return { ...item, effects: [...existing, ...toAdd] } as Item;
     }
 
     isPotion(item: Item): boolean {

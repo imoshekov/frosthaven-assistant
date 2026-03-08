@@ -47,3 +47,12 @@
 .title.clickable:hover {
     opacity: 0.9;
 }
+
+.sticky-filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--content-background-left);
+    padding: 0.15rem 0 0.35rem;
+    border-bottom: 1px solid var(--content-box-shadow-1);
+}
