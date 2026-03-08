@@ -31,9 +31,9 @@ export class ArmoryComponent implements OnInit {
     small: Item[];
     potions: Item[];
     RESOURCE_KEYS;
-    selectedItem: Item | null = null;
     // Track expanded/collapsed state per slot (collapsed by default)
     expanded: Record<string, boolean> = {};
+    inventoryFilterActive = false;
 
     effectFilter: string | null = null;
 
@@ -59,14 +59,72 @@ export class ArmoryComponent implements OnInit {
     );
 
     getSlotItems(itemSlot: string): Item[] {
-        const items: Item[] = this[itemSlot] ?? [];
-        if (!this.effectFilter) return items;
-        if (this.effectFilter === 'special') {
-            return items.filter(item =>
-                !Array.from(this.KNOWN_FILTER_KEYS).some(key => this.itemMatchesEffect(item, key))
-            );
+        let items: Item[] = this[itemSlot] ?? [];
+        if (this.effectFilter) {
+            if (this.effectFilter === 'special') {
+                items = items.filter(item =>
+                    !Array.from(this.KNOWN_FILTER_KEYS).some(key => this.itemMatchesEffect(item, key))
+                );
+            } else {
+                items = items.filter(item => this.itemMatchesEffect(item, this.effectFilter!));
+            }
         }
-        return items.filter(item => this.itemMatchesEffect(item, this.effectFilter!));
+        if (this.inventoryFilterActive) {
+            items = items.filter(item => this.itemMatchesMaterials(item));
+        }
+        return items;
+    }
+
+    onInventoryChanged(): void {
+        this.inventoryFilterActive = this.hasInventoryFilter();
+    }
+
+    hasInventoryFilter(): boolean {
+        if (!this.RESOURCE_KEYS) return false;
+        return (this.RESOURCE_KEYS as string[]).some(k => Number(this.inventory[k]) > 0);
+    }
+
+    clearInventory(): void {
+        if (!this.RESOURCE_KEYS) return;
+        for (const k of this.RESOURCE_KEYS as string[]) {
+            this.inventory[k] = 0;
+        }
+        this.inventoryFilterActive = false;
+    }
+
+    /** Returns true if the item's total required resources are all covered by the current inventory.
+     *  Stops recursing at any dep not in the unlocked list (locked by the game). */
+    private itemMatchesMaterials(item: Item): boolean {
+        const total: Partial<ItemResource> = {};
+        // this.all only contains unlocked items — anything not found here is game-locked
+        const byId = (id: number) => (this.all ?? []).find(i => i.id === id);
+        const visited = new Set<number>();
+
+        const collect = (id: number) => {
+            if (visited.has(id)) return;
+            visited.add(id);
+            const it = byId(id);
+            if (!it) return; // locked dep — skip, don't count its resources
+            if (it.resources) {
+                for (const k of Object.keys(it.resources) as (keyof ItemResource)[]) {
+                    const v = Number((it.resources as any)[k] ?? 0);
+                    if (v > 0) (total as any)[k] = ((total as any)[k] ?? 0) + v;
+                }
+            }
+            if (typeof (it as any).cost === 'number' && (it as any).cost > 0) {
+                (total as any)['gold'] = ((total as any)['gold'] ?? 0) + (it as any).cost;
+            }
+            const deps: number[] = Array.isArray((it as any).requiredItems) ? (it as any).requiredItems
+                : Array.isArray((it as any).requires) ? (it as any).requires
+                : Array.isArray((it as any).components) ? (it as any).components : [];
+            for (const cid of deps.filter((x: any) => typeof x === 'number')) collect(cid);
+        };
+
+        collect(item.id);
+
+        const keys = Object.keys(total) as (keyof ItemResource)[];
+        if (keys.length === 0) return false;
+        return keys.every(k => Number((this.inventory as any)[k] ?? 0) >= Number((total as any)[k]));
     }
 
     onFilterChanged(effect: string | null): void {
@@ -105,11 +163,6 @@ export class ArmoryComponent implements OnInit {
         this.loadItems()
     }
 
-    craftItem(item: Item) {
-        this.selectedItem = item;
-        this.printRequirements(item);
-    }
-
     async onItemAdded() {
         await this.loadUnlockedItems();
     }
@@ -141,105 +194,4 @@ export class ArmoryComponent implements OnInit {
         }
     }
 
-    private printRequirements(item: Item) {
-        console.log('[armory] requirements for', item.id);
-
-        const byId = (id: number) => (this.all ?? []).find(i => i.id === id);
-        const getDeps = (it: any): number[] => {
-            const raw =
-                it?.requiredItems ??
-                it?.requires ??
-                it?.components ??
-                it?.dependsOn ??
-                [];
-            return Array.isArray(raw) ? raw.filter((x: any) => typeof x === 'number') : [];
-        };
-
-        const visited = new Set<number>();
-        const deps = new Set<number>();         // dedupe printed deps
-        const locked = new Set<number>();       // track locked for messaging
-        const total: Partial<ItemResource> = {};
-
-        const addResources = (res?: ItemResource) => {
-            if (!res) return;
-
-            // Sum resource counts
-            for (const k of Object.keys(res) as (keyof ItemResource)[]) {
-                const v = Number(res[k] ?? 0);
-                if (v > 0) total[k] = (total[k] ?? 0) + v;
-            }
-        };
-
-        const collect = (id: number) => {
-            if (visited.has(id)) return;
-            visited.add(id);
-
-            const it = byId(id);
-            if (!it) {
-                deps.add(id);
-                locked.add(id);
-                return; // locked deps do not contribute materials
-            }
-
-            // merge resources with cost (if > 0) and pass to addResources
-            const combined: ItemResource = { ...(it.resources ?? {}) } as ItemResource;
-            if (typeof it.cost === 'number' && it.cost > 0) {
-                combined.gold = (combined.gold ?? 0) + it.cost;
-            }
-            addResources(combined);
-
-            const childIds = getDeps(it);
-            for (const cid of childIds) {
-                deps.add(cid);
-                collect(cid);
-            }
-        };
-
-        collect(item.id);
-
-        // 1) Push totals into your inputs bound via [(ngModel)]="inventory[type]"
-        for (const key of this.RESOURCE_KEYS as (keyof ItemResource)[]) {
-            this.inventory[key] = Number(total[key] ?? 0);
-        }
-
-        // 2) Console output
-        const nameOf = (id: number) => byId(id)?.name ?? `${id}`;
-        console.log('--- REQUIREMENTS ---');
-        console.log(`Item: ${nameOf(item.id)}`);
-
-        let anyMat = false;
-        console.log('Materials (incl. dependencies):');
-        for (const key of this.RESOURCE_KEYS as (keyof ItemResource)[]) {
-            const v = this.inventory[key] ?? 0;
-            if (v > 0) {
-                anyMat = true;
-                console.log(`  - ${key}: ${v}`);
-            }
-        }
-        if (!anyMat) console.log('  (none)');
-
-        if (deps.size > 0) {
-            console.log('Dependent items:');
-            for (const id of deps) {
-                const status = locked.has(id) ? '[LOCKED]' : '[Unlocked]';
-                console.log(`  - ${nameOf(id)} (id: ${id}) ${status}`);
-            }
-        } else {
-            console.log('Dependent items: none');
-        }
-        console.log('--------------------');
-
-        // 3) Notify if any locked dependency exists
-        if (locked.size > 0) {
-            const lockedList = Array.from(locked)
-                .map(id => `${nameOf(id)}`)
-                .join(', ');
-            const rootName = nameOf(item.id);
-            const msg = `Cannot craft "${rootName}" — ${lockedList} locked.`;
-            this.notificationService.emitErrorMessage(msg);
-        }
-        else {
-            this.notificationService.emitInfoMessage('required materials loaded');
-        }
-    }
 }
