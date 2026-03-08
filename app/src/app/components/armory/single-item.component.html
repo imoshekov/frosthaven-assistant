@@ -1,10 +1,22 @@
-<div class="container" [class]="{'toggled': toggled || areRequiredItemsToggled}">
-  <div class="item" (click)="craft()">
+<div class="container" [class.toggled]="bubbleOpen">
+  <div class="item" (click)="toggleBubble()">
     <div class="id">{{item.id}}</div>
     <img [src]="getItemSrc(item)" />
-  </div>
-  <div *ngIf=" toggled || areRequiredItemsToggled" class="required-items">
-    <app-single-item *ngFor="let childItem of getRequiredItems()" [item]="childItem" [toggled]="areRequiredItemsToggled" [unlockedItemIds]="unlockedItemIds"
-      (craftItem)="craft($event)"></app-single-item>
+    <div class="req-bubble" *ngIf="bubbleOpen" (click)="$event.stopPropagation()">
+      <ng-container *ngIf="getBubbleRequirements() as reqs">
+        <div class="req-locked" *ngIf="reqs.locked">
+          🔒 Requires a locked item
+        </div>
+        <div class="req-resources" *ngIf="reqs.resources.length > 0">
+          <div class="req-resource" *ngFor="let r of reqs.resources">
+            <div class="icon" [class]="r.key"></div>
+            <span>{{ r.value }}</span>
+          </div>
+        </div>
+        <div class="req-none" *ngIf="!reqs.locked && reqs.resources.length === 0">
+          No requirements
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>

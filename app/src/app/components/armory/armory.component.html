@@ -1,17 +1,17 @@
 <div class="content">
-  <div class="selected" *ngIf="selectedItem">
-    selected: {{ selectedItem.name }} - {{ selectedItem.id }}
-  </div>
   <div class="filters">
-    <div class="materials" *ngFor="let type of RESOURCE_KEYS; let i = index">
+    <div class="materials" *ngFor="let type of RESOURCE_KEYS">
       <div class="icon" [class]="type"></div>
-      <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" />
+      <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" (ngModelChange)="onInventoryChanged()" />
     </div>
-    <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel add">+</button>
+    <button *ngIf="hasInventoryFilter()" class="cancel " (click)="clearInventory()">Clear</button>
+    <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel add">Add</button>
     <app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
     </app-add-item>
   </div>
-
+</div>
+<div class="sticky-filter-bar">
+  <app-item-filter (filterChanged)="onFilterChanged($event)"></app-item-filter>
 </div>
 <div class="items-container">
   <div class="items-group" *ngFor="let slotType of slots">
@@ -21,8 +21,7 @@
     </div>
     <div class="container" *ngIf="isExpanded(slotType)">
       <div *ngFor="let item of getSlotItems(slotType)">
-        <app-single-item [item]="item" [unlockedItemIds]="unlockedItemIds"
-          (craftItem)="craftItem($event)"></app-single-item>
+        <app-single-item [item]="item" [unlockedItemIds]="unlockedItemIds"></app-single-item>
       </div>
     </div>
   </div>

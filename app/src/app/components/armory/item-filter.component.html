@@ -1,0 +1,84 @@
+<div class="filter-row">
+
+  <div class="dropdown-wrapper">
+    <button
+      class="effect-chip"
+      [class.active]="isCombatActive"
+      (click)="toggleDropdown('combat')">
+      Combat {{ combatOpen ? '▾' : '▸' }}
+    </button>
+    <div class="dropdown-panel" *ngIf="combatOpen">
+      <button
+        *ngFor="let ef of combatFilters"
+        class="effect-chip"
+        [class.active]="activeFilter === ef.key"
+        (click)="toggle(ef.key)">
+        {{ ef.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="dropdown-wrapper">
+    <button
+      class="effect-chip"
+      [class.active]="isBuffActive"
+      (click)="toggleDropdown('buff')">
+      Buff {{ buffOpen ? '▾' : '▸' }}
+    </button>
+    <div class="dropdown-panel" *ngIf="buffOpen">
+      <button
+        *ngFor="let ef of buffFilters"
+        class="effect-chip"
+        [class.active]="activeFilter === ef.key"
+        (click)="toggle(ef.key)">
+        {{ ef.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="dropdown-wrapper">
+    <button
+      class="effect-chip"
+      [class.active]="isDebuffActive"
+      (click)="toggleDropdown('debuff')">
+      Debuff {{ debuffOpen ? '▾' : '▸' }}
+    </button>
+    <div class="dropdown-panel" *ngIf="debuffOpen">
+      <button
+        *ngFor="let ef of debuffFilters"
+        class="effect-chip"
+        [class.active]="activeFilter === ef.key"
+        (click)="toggle(ef.key)">
+        {{ ef.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="dropdown-wrapper">
+    <button
+      class="effect-chip"
+      [class.active]="isMovementActive"
+      (click)="toggleDropdown('movement')">
+      Movement {{ movementOpen ? '▾' : '▸' }}
+    </button>
+    <div class="dropdown-panel" *ngIf="movementOpen">
+      <button
+        *ngFor="let ef of movementFilters"
+        class="effect-chip"
+        [class.active]="activeFilter === ef.key"
+        (click)="toggle(ef.key)">
+        {{ ef.label }}
+      </button>
+    </div>
+  </div>
+
+  <button
+    *ngFor="let ef of remainingFilters"
+    class="effect-chip"
+    [class.active]="activeFilter === ef.key"
+    (click)="toggle(ef.key)">
+    {{ ef.label }}
+  </button>
+
+  <button *ngIf="activeFilter" class="clear-chip" (click)="clear()">✕ Clear</button>
+</div>
