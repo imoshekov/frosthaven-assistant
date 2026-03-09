@@ -20,7 +20,7 @@
       opacity: 0.8;
     }
   }
-  
+
   /* table styles for loot configuration - matching legend component */
   .legend-table {
     width: 100%;
@@ -67,5 +67,11 @@
     flex-shrink: 0;
     filter: brightness(0) saturate(100%) invert(97%) sepia(15%) saturate(500%) hue-rotate(5deg) brightness(103%) contrast(97%);
     opacity: var(--font-color-opacity, 1);
+  }
+
+  @media (max-width: 768px) {
+    .title-row{
+      margin-top: 0.5rem;
+    }
   }
 }

@@ -22,8 +22,41 @@
   }
 }
 
+.reference-row {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+
+  app-scenario-general-reference,
+  app-loot {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  // When app-loot is absent from the DOM, scenario reference fills full width
+  app-scenario-general-reference:only-child {
+    flex: 1 1 100%;
+  }
+}
 
 @media (max-width: 768px) {
+  .reference-row {
+    flex-direction: column;
+    gap: 0;
+
+    app-scenario-general-reference,
+    app-loot {
+      flex: unset;
+      width: 100%;
+    }
+
+    app-scenario-general-reference:only-child {
+      flex: unset;
+      width: 100%;
+    }
+  }
+
   .content {
     display: grid;
     grid-template-columns: 1fr auto;

@@ -10,9 +10,11 @@
   <app-game></app-game>
   <app-attack-modal *ngIf="this.appContext.selectedCreature"></app-attack-modal>
   <app-add-monster *ngIf="this.appContext.addMonsterToggled"></app-add-monster>
-  <app-scenario-general-reference></app-scenario-general-reference>
   <app-scenario-monster-reference></app-scenario-monster-reference>
-  <app-loot></app-loot>
+  <div class="reference-row">
+    <app-scenario-general-reference></app-scenario-general-reference>
+    <app-loot *ngIf="appContext.scenarioFile$ | async"></app-loot>
+  </div>
   <app-log></app-log>
   <app-initiative-bubble></app-initiative-bubble>
 </div>
