@@ -4,7 +4,7 @@
       <div class="icon" [class]="type"></div>
       <input type="tel" placeholder="#" [(ngModel)]="inventory[type]" (ngModelChange)="onInventoryChanged()" />
     </div>
-    <button *ngIf="hasInventoryFilter()" class="cancel clear-inventory" (click)="clearInventory()">✕ Clear</button>
+    <button *ngIf="hasInventoryFilter()" class="cancel add" (click)="clearInventory()">Clear</button>
     <button (click)="this.appContext.addItemToggled = !this.appContext.addItemToggled" class="cancel add">Add</button>
     <app-add-item *ngIf="this.appContext.addItemToggled" (itemAdded)="onItemAdded()">
     </app-add-item>

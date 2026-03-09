@@ -29,14 +29,6 @@
         flex-direction: row;
         align-items: center;
     }
-
-    .clear-inventory {
-        opacity: 0.7;
-        font-size: 0.85rem;
-        padding: 0.1rem 0.5rem;
-
-        &:hover { opacity: 1; }
-    }
 }
 
 @media (max-width: 768px) {
@@ -55,8 +47,8 @@
         }
 
         // both action buttons span full width
-        .add,
-        .clear-inventory {
+        .add
+        {
             grid-column: 1 / -1;
         }
     }
