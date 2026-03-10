@@ -20,14 +20,22 @@
 .filters {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 
     .materials {
         display: flex;
         gap: 0.5rem;
         flex-direction: row;
         align-items: center;
+        flex-shrink: 0;
+    }
+
+    .add {
+        flex-shrink: 0;
     }
 }
 
@@ -41,20 +49,27 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
 
-        // 10th resource (last before buttons) spans all 3 columns
+        // last material input spans full width if it ends up alone on a row
         .materials:last-of-type {
             grid-column: 1 / -1;
         }
 
-        // both action buttons span full width
-        .add
-        {
+        // both action buttons always span full width
+        .add {
             grid-column: 1 / -1;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
 
     .title {
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
