@@ -58,6 +58,7 @@ export class AddMonsterComponent {
 
     this.appContext.addCreature(this.creatureFactory.createCreature(creature));
     this.monsterEvent.emit('monster-added');
+    this.notificationService.emitInfoMessage(`${this.type} added successfully!`);
   }
 
 
