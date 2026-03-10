@@ -1,3 +1,10 @@
+.layout {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+}
+
 .modal {
 
   :root.no-scroll,
@@ -6,6 +13,11 @@
     touch-action: none;
   }
 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
   display: flex;
   justify-content: flex-start;
 
