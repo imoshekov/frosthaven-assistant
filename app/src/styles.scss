@@ -19,7 +19,7 @@ body {
     padding: 10px;
     font-size: 22px;
     color: var(--font-color);
-    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
+    background-color: #0b0f15;
     line-height: 1.4;
     -ms-overflow-style: none;
     scrollbar-width: 1px;
@@ -146,9 +146,8 @@ label {
     bottom: 0;
     left: 0;
     right: 0;
-    background-image: radial-gradient(var(--base-color) 2px, var(--base-color-spots) 2px);
-    background-size: calc(10 * 2px) calc(10 * 2px);
-    z-index: 1;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 99;
 }
 
 .modal {
