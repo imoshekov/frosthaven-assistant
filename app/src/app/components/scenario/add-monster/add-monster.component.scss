@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
+  background:  var(--dark-transparent-background);
 }
 
 .layout {
@@ -28,7 +28,9 @@
   padding: 1.5rem;
   width: 90vw;
   max-width: 420px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
+            inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
+            -3px 3px 1px 1px var(--content-box-shadow-4);
 
   .title {
     font-size: 1.5rem;

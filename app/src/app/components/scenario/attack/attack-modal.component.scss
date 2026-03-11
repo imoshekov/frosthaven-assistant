@@ -1,50 +1,65 @@
-  .modal {
+:host {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark-transparent-background);
+    pointer-events: none;
+    width: 100dvw;   /* ← add */
+    height: 100dvh;  /* ← add */
+    overflow: hidden; /* ← add */
+}
 
-      :root.no-scroll,
-      :root.no-scroll body {
-          overflow: hidden;
-          touch-action: none;
-      }
+.modal {
+    display: contents;
 
+    :root.no-scroll,
+    :root.no-scroll body {
+        overflow: hidden;
+        touch-action: none;
+    }
 
+    .content {
+        box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
+            inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
+            -3px 3px 1px 1px var(--content-box-shadow-4);
+        padding: 15px;
+        padding: 15px;
+        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        pointer-events: all;
+        width: 85vw;
+        max-width: 600px;
 
-      .content {
-          box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
-              inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
-              -3px 3px 1px 1px var(--content-box-shadow-4);
-          padding: 15px;
-          padding: 15px;
-          gap: 0.5rem;
-          display: flex;
-          flex-direction: column;
+        .name {
+            font-size: 35px;
+        }
 
-          .name {
-              font-size: 35px;
-          }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-          .buttons {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              gap: 0.5rem;
-          }
+        .damage-preview {
+            margin-top: 0.1em;
+            margin-bottom: 0.1em;
+        }
 
-          .damage-preview {
-              margin-top: 0.1em;
-              margin-bottom: 0.1em;
-          }
+        .stat {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
 
-          .stat {
-              display: flex;
-              flex-direction: row;
-              justify-content: center;
-              align-items: center;
+            .icon.damage {
+                height: 55px;
+            }
+        }
 
-              .icon.damage {
-                  height: 55px;
-              }
-          }
-
-      }
-
-  }
+    }
+}
