@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { LEVEL_XP, MAX_LEVEL, XP_CAP } from '../types/game-types';
+import { LEVEL_XP, MAX_LEVEL } from '../types/game-types';
 
 @Injectable({ providedIn: 'root' })
 export class XpService {
   levelFromXp(xp: number): number {
-    const clamped = Math.min(XP_CAP, Math.max(0, xp));
+    const clamped = Math.max(0, xp);
     let level = 1;
     for (let i = 1; i < LEVEL_XP.length; i++) {
       if (clamped >= LEVEL_XP[i]) level = i + 1;
@@ -13,7 +13,7 @@ export class XpService {
   }
 
   progressToNextLevelPercent(totalXp: number): number {
-    const xp = Math.max(0, Math.min(XP_CAP, totalXp));
+    const xp = Math.max(0, totalXp);
     const level = this.levelFromXp(xp);
 
     if (level >= MAX_LEVEL) return 100;
@@ -24,7 +24,7 @@ export class XpService {
   }
 
   xpToNextLevel(totalXp: number): number {
-    const xp = Math.max(0, Math.min(XP_CAP, totalXp));
+    const xp = Math.max(0, totalXp);
     const level = this.levelFromXp(xp);
 
     if (level >= MAX_LEVEL) return 0;

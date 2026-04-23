@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
-import { Creature, XP_CAP } from '../../../types/game-types';
+import { Creature } from '../../../types/game-types';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { DbService } from '../../../services/db.service';
@@ -108,7 +108,7 @@ export class CreatureGroupHeaderComponent {
 
     if (delta === 0) return;
 
-    const newTotal = Math.max(0, Math.min(XP_CAP, (live.totalXp ?? 0) + delta));
+    const newTotal = Math.max(0, (live.totalXp ?? 0) + delta);
     const newLevel = this.xpService.levelFromXp(newTotal);
 
     // Apply all three XP-related fields in a single emission so they
