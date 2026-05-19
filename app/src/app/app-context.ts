@@ -231,7 +231,7 @@ export class AppContext {
         this.notificationService.emitInfoMessage(`${creature.name} has been killed!`);
     }
 
-        reviveCreature(creatureId: string, hp?: number, conditions?: CreatureConditions[]): void {
+    reviveCreature(creatureId: string, hp?: number, conditions?: CreatureConditions[]): void {
         const graveyard: Creature[] = this.getGraveyard
             ? this.getGraveyard()
             : (this.graveyardSubject?.value ?? []);
@@ -270,7 +270,7 @@ export class AppContext {
     revealHeroInitiatives(): void {
         const needsReveal = this.getCreatures().some(c => !c.aggressive && c.hiddenInitiative > 0);
         if (!needsReveal) return;
-        const creatures = this.getCreatures().map(c => 
+        const creatures = this.getCreatures().map(c =>
             c.aggressive ? c : { ...c, initiative: (c.hiddenInitiative > 0 ? c.hiddenInitiative : c.initiative), hiddenInitiative: 0 }
         );
         console.log(creatures);
@@ -296,7 +296,11 @@ export class AppContext {
             const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level, total_xp }) => {
                 const charData = this.dataLoader.getData().characters.find(c => c.name === type);
                 const stats = charData?.stats?.find(s => s.level === Number(level));
-                const hp = Number(stats?.health) || 10;
+                //added because the default trait for shackles class is +5hp.
+                let hp = Number(stats?.health) || 10;
+                if (type === 'shackles') {
+                    hp += 5;
+                }
                 const traits = charData?.traits ?? [];
 
 
