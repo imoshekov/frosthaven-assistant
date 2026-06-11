@@ -16,10 +16,14 @@
 
 .monster-reference-table {
     width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .ref-table {
     width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0.35);
 }
@@ -90,7 +94,8 @@
 .stat {
     width: auto;
     text-align: left;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
     font-weight: 700;
 }
 
@@ -107,8 +112,14 @@
 
 @media (max-width: 768px) {
 
+    .monster-reference-table {
+        overflow-x: hidden;
+    }
+
     .ref-table {
         table-layout: fixed; // important for mobile
+        width: 100%;
+        max-width: 100%;
     }
 
     .ref-table,
@@ -117,6 +128,8 @@
     .ref-table td {
         display: block;
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .ref-table tr {
@@ -127,6 +140,7 @@
     .ref-table td {
         border-bottom: none;
         padding: 6px 0;
+        overflow-wrap: anywhere;
     }
 
     .ref-table tr:nth-child(odd) {
