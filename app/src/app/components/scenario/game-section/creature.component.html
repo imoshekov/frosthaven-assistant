@@ -9,9 +9,10 @@
                 class="stat-input initiative" />
 
             <div class="header stat">
-                <div class="icon heart">
-                    <input type="tel" [value]="creature.hp"
-                        (blur)="updateCreatureHp(creature.id!, +$event.target.value)" maxlength="3"
+                <div class="base-stat">
+                    <div class="icon heart"></div>
+                    <input type="tel" [value]="getHpDisplayValue(creature)"
+                        (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value))" maxlength="5"
                         class="stat-input" />
                 </div>
                 <app-conditions [creature]="creature" [conditions]="creature.conditions"

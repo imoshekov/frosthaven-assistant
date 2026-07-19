@@ -83,7 +83,7 @@
 
     &.heart {
         background-image: url("./images/root/heart.svg");
-
+        filter: drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color));
     }
 
     &.flying {
@@ -159,7 +159,8 @@
     }
 
     &.xp {
-        background-image: url("./images/status/experience.svg"),
+        background-image: url("./images/status/experience.svg");
+        filter: drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color));
     }
 
     &.level{

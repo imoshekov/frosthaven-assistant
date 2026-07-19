@@ -64,10 +64,26 @@ export class CreatureGroupHeaderComponent {
       (creature.flying)
   }
 
+  getHpDisplayValue(creature: Creature): string {
+    const current = creature.hp ?? 0;
+    const max = creature.maxHp ?? current;
+    return `${current}/${max}`;
+  }
+
+  getHpValueFromInput(value: string | number): number {
+    const raw = `${value}`.trim();
+    if (!raw) return 0;
+
+    const [currentValue] = raw.split('/');
+    const parsed = Number(currentValue);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   updateCreatureHp(creatureId: string, value: number): void {
     const creature = this.appContext.findCreature(creatureId);
+    const maxHp = creature.maxHp ?? creature.hp ?? value;
 
-    const newHp = Math.min(value, creature.maxHp);
+    const newHp = Math.min(value, maxHp);
     this.appContext.updateCreatureBaseStat(creatureId, 'hp', newHp);
 
     if (newHp <= 0) {
