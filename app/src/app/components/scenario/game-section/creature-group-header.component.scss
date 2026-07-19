@@ -259,6 +259,7 @@
          display: flex;
          justify-content: center;
          align-items: center;
+         flex-shrink: 0;
 
          &.shield,
          &.retaliate {
@@ -276,8 +277,8 @@
 
          &.heart,
          &.xp {
-           width: 35px;
-           height: 35px;
+           width: 24px;
+           height: 24px;
          }
 
          &.level {
@@ -290,6 +291,17 @@
 
        .stat-value {
          min-width: 12px;
+       }
+
+       .stat-input {
+         background: transparent;
+         border: none;
+         color: var(--font-color);
+         font-size: 1.3rem;
+         line-height: 1;
+         padding: 0;
+         width: 3.4rem;
+         text-align: left;
        }
      }
    }

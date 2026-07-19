@@ -87,18 +87,16 @@
     <div class="group-stats" *ngIf="!creature.aggressive">
       <div class="stats">
         <div class="base-stat">
-          <div class="icon heart">
-            <input type="tel" [value]="creature.hp" (blur)="updateCreatureHp(creature.id!, +$event.target.value)"
-              maxlength="2" class="stat-input" />
-          </div>
+          <div class="icon heart"></div>
+          <input type="tel" [value]="getHpDisplayValue(creature)" (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value), getMaxHpFromInput($event.target.value))"
+            maxlength="5" class="stat-input" />
         </div>
       </div>
       <div class="stats">
         <div class="base-stat">
-          <div class="icon xp">
-            <input type="tel" [value]="creature.sessionExperience ?? 0" (click)="onSessionXpClick(creature)"
-              (blur)="onSessionXpBlur(creature, $event)" maxlength="2" class="stat-input" />
-          </div>
+          <div class="icon xp"></div>
+          <input type="tel" [value]="creature.sessionExperience ?? 0" (click)="onSessionXpClick(creature)"
+            (blur)="onSessionXpBlur(creature, $event)" maxlength="2" class="stat-input" />
         </div>
       </div>
     </div>

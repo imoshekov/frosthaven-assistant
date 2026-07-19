@@ -64,11 +64,43 @@ export class CreatureGroupHeaderComponent {
       (creature.flying)
   }
 
-  updateCreatureHp(creatureId: string, value: number): void {
-    const creature = this.appContext.findCreature(creatureId);
+  getHpDisplayValue(creature: Creature): string {
+    const current = creature.hp ?? 0;
+    const max = creature.maxHp ?? current;
+    return `${current}/${max}`;
+  }
 
-    const newHp = Math.min(value, creature.maxHp);
+  getHpValueFromInput(value: string | number): number {
+    const raw = `${value}`.trim();
+    if (!raw) return 0;
+
+    const [currentValue] = raw.split('/');
+    const parsed = Number(currentValue);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  getMaxHpFromInput(value: string | number): number | null {
+    const raw = `${value}`.trim();
+    if (!raw) return null;
+
+    const parts = raw.split('/');
+    if (parts.length < 2) return null;
+
+    const parsed = Number(parts[1]);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  updateCreatureHp(creatureId: string, value: number, maxHpValue?: number): void {
+    const creature = this.appContext.findCreature(creatureId);
+    const currentMaxHp = creature.maxHp ?? creature.hp ?? value;
+    const newMaxHp = maxHpValue !== undefined && maxHpValue > 0 ? maxHpValue : currentMaxHp;
+
+    const newHp = Math.min(value, newMaxHp);
     this.appContext.updateCreatureBaseStat(creatureId, 'hp', newHp);
+
+    if (newMaxHp !== currentMaxHp) {
+      this.appContext.updateCreatureBaseStat(creatureId, 'maxHp', newMaxHp);
+    }
 
     if (newHp <= 0) {
       this.appContext.killCreature(creatureId);

@@ -49,6 +49,8 @@ input {
     display: flex;
     flex-direction: row;
     height: 60px;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .header {
@@ -57,19 +59,28 @@ input {
     justify-content: space-around;
     align-items: center;
 
-    .icon.heart {
-        width: 60px;
-        height: 60px;
-        justify-content: center;
+    .base-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
 
-        input {
-            color: white;
-            width: 100%;
-            height: 100%;
-            font-size: 20px;
-            box-sizing: border-box;
-            border: none;
-        }
+    .icon.heart {
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .stat-input {
+        color: var(--font-color);
+        font-size: 20px;
+        box-sizing: border-box;
+        border: none;
+        background: transparent;
+        padding: 0;
+        width: 4.2rem;
+        text-align: left;
     }
 }
 
