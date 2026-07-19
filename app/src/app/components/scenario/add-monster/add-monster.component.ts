@@ -68,6 +68,17 @@ export class AddMonsterComponent {
     document.documentElement.classList.add('no-scroll');
   }
 
+  togglePicker(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (this.pickerOpen) {
+      this.closePicker();
+    } else {
+      this.openPicker();
+    }
+  }
+
   closePicker() {
     this.pickerOpen = false;
     this.filteredMonsters = [];

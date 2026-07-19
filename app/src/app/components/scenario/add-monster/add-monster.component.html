@@ -4,15 +4,12 @@
 
     <div class="form-row">
       <label for="type">Type</label>
-      <input id="type" type="text" [(ngModel)]="type" (input)="onTypeInput()" (focus)="openPicker()" autocomplete="off"
-        inputmode="search" autocapitalize="off" autocorrect="off" placeholder="Select…"   onfocus="if(this.value) this.value=''" />
+      <input id="type" type="text" [(ngModel)]="type" (input)="onTypeInput()" (click)="togglePicker($event)" autocomplete="off"
+        inputmode="search" autocapitalize="off" autocorrect="off" placeholder="Select…" />
     </div>
 
     <div class="monster-picker-overlay" *ngIf="pickerOpen" (click)="closePicker()">
       <div class="monster-picker-sheet" (click)="$event.stopPropagation()">
-        <button type="button" class="picker-close" (click)="closePicker()" aria-label="Close monster picker">
-          ✕
-        </button>
         <div class="monster-type-list">
           <div class="monster-type-item" *ngFor="let monster of filteredMonsters" (mousedown)="$event.preventDefault()"
             (click)="selectMonster(monster)">

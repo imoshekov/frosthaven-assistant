@@ -99,15 +99,7 @@
     &:active { transform: translateY(1px); }
   }
 
-  .picker-close {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0.25rem 0.5rem;
-    height: 36px;
-    border-bottom: 1px solid var(--content-box-shadow-1);
-    cursor: pointer;
-  }
+
 
   .buttons {
     display: flex;
