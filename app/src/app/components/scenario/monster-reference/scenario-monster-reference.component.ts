@@ -12,6 +12,7 @@ import { MonsterAbilityCard } from '../../../types/data-file-types';
 type RangedProfileResult = {
     monsterType: string;
     attackCount: number;
+    attackCardCount: number;
     rangedAttackCount: number;
     meleeAttackCount: number;
     isPrimarilyRanged: boolean;
@@ -102,8 +103,6 @@ export class ScenarioMonsterReference {
                 eliteArmor?: number;
                 normalHp?: number;
                 eliteHp?: number;
-                normalMovement?: number;
-                eliteMovement?: number;
                 normalRetaliate?: number;
                 eliteRetaliate?: number;
                 immunities: string[];
@@ -127,8 +126,6 @@ export class ScenarioMonsterReference {
                     eliteArmor: 0,
                     normalHp: 0,
                     eliteHp: 0,
-                    normalMovement: 0,
-                    eliteMovement: 0,
                     normalRetaliate: 0,
                     eliteRetaliate: 0,
                     immunities: [],
@@ -140,13 +137,11 @@ export class ScenarioMonsterReference {
                 row.eliteAtk = m.attack;
                 row.eliteArmor = m.armor;
                 row.eliteHp = m.hp;
-                row.eliteMovement = m.movement;
                 row.eliteRetaliate = m.retaliate;
             } else {
                 row.normalAtk = m.attack;
                 row.normalArmor = m.armor;
                 row.normalHp = m.hp;
-                row.normalMovement = m.movement;
                 row.normalRetaliate = m.retaliate;
             }
 
@@ -268,18 +263,26 @@ export class ScenarioMonsterReference {
     private analyzeRangedProfile(monster: { type?: string; name?: string; abilityCards?: any[] }): RangedProfileResult {
         const cards = monster.abilityCards ?? [];
         let attackCount = 0;
+        let attackCardCount = 0;
         let rangedAttackCount = 0;
 
         for (const card of cards) {
             const actions = card?.actions ?? [];
+            let cardHasAttack = false;
+
             for (const action of actions) {
                 if (action?.type !== 'attack') continue;
 
+                cardHasAttack = true;
                 attackCount++;
 
                 if (this.isRangedAttackAction(action)) {
                     rangedAttackCount++;
                 }
+            }
+
+            if (cardHasAttack) {
+                attackCardCount++;
             }
         }
 
@@ -297,6 +300,7 @@ export class ScenarioMonsterReference {
         return {
             monsterType: label,
             attackCount,
+            attackCardCount,
             rangedAttackCount,
             meleeAttackCount,
             isPrimarilyRanged,

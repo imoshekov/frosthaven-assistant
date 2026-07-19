@@ -14,10 +14,10 @@
                         <tr>
                             <th class="name-cell">Name</th>
                             <th class="stat hp">HP</th>
-                            <th class="stat attack">Attack Style</th>
+                            <th class="stat attack-style">Attack Style</th>
+                            <th class="stat attack">Attack</th>
                             <th class="stat armor">Armor</th>
                             <th class="stat retaliate">Retaliate</th>
-                            <th class="stat movement">Movement</th>
                             <th class="stat initiative">Initiative</th>
                             <th class="stat immunities" *ngIf="hasAnyImmunities()">Immunities</th>
                         </tr>
@@ -36,11 +36,13 @@
                                 <span class="val">{{ r.eliteHp }} | {{ r.normalHp }}</span>
                             </td>
 
+                            <td class="stat attack-style">
+                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? 'Range' : 'Melee' }}
+                                    {{ r.attackProfile?.isPrimarilyRanged ? ('R' + (r.attackProfile?.rangedAttackCount ?? 0) + ', M' + (r.attackProfile?.meleeAttackCount ?? 0)) : ('M' + (r.attackProfile?.meleeAttackCount ?? 0) + ', R' + (r.attackProfile?.rangedAttackCount ?? 0)) }}</span>
+                            </td>
                             <td class="stat attack">
                                 <span class="icon attack"></span>
-                                <span class="val">{{ r.attackProfile?.isPrimarilyRanged ? '( R )' : '( M )'}} [M{{
-                                    r.attackProfile.meleeAttackCount }}, R{{ r.attackProfile.rangedAttackCount }}] {{
-                                    r.eliteAtk }} | {{ r.normalAtk }}</span>
+                                <span class="val">{{ r.eliteAtk }} | {{ r.normalAtk }}</span>
                             </td>
                             <td class="stat armor">
                                 <span class="icon shield"></span>
@@ -49,10 +51,6 @@
                             <td class="stat retaliate">
                                 <span class="icon retaliate"></span>
                                 <span class="val">{{ r.eliteRetaliate }} | {{ r.normalRetaliate }}</span>
-                            </td>
-                            <td class="stat movement">
-                                <span class="icon move"></span>
-                                <span class="val">{{ r.eliteMovement }} | {{ r.normalMovement }}</span>
                             </td>
                             <td class="stat initiative">
                                 <span class="val">
