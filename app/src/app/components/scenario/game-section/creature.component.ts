@@ -44,12 +44,28 @@ export class CreatureComponent {
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  updateCreatureHp(creatureId: string, value: number): void {
-    const creature = this.appContext.findCreature(creatureId);
-    const maxHp = creature.maxHp ?? creature.hp ?? value;
+  getMaxHpFromInput(value: string | number): number | null {
+    const raw = `${value}`.trim();
+    if (!raw) return null;
 
-    const newHp = Math.min(value, maxHp);
+    const parts = raw.split('/');
+    if (parts.length < 2) return null;
+
+    const parsed = Number(parts[1]);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  updateCreatureHp(creatureId: string, value: number, maxHpValue?: number): void {
+    const creature = this.appContext.findCreature(creatureId);
+    const currentMaxHp = creature.maxHp ?? creature.hp ?? value;
+    const newMaxHp = maxHpValue !== undefined && maxHpValue > 0 ? maxHpValue : currentMaxHp;
+
+    const newHp = Math.min(value, newMaxHp);
     this.appContext.updateCreatureBaseStat(creatureId, 'hp', newHp);
+
+    if (newMaxHp !== currentMaxHp) {
+      this.appContext.updateCreatureBaseStat(creatureId, 'maxHp', newMaxHp);
+    }
 
     if (newHp <= 0) {
       this.appContext.killCreature(creatureId);

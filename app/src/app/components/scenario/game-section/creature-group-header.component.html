@@ -88,7 +88,7 @@
       <div class="stats">
         <div class="base-stat">
           <div class="icon heart"></div>
-          <input type="tel" [value]="getHpDisplayValue(creature)" (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value))"
+          <input type="tel" [value]="getHpDisplayValue(creature)" (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value), getMaxHpFromInput($event.target.value))"
             maxlength="5" class="stat-input" />
         </div>
       </div>

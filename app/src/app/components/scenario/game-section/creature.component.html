@@ -12,7 +12,7 @@
                 <div class="base-stat">
                     <div class="icon heart"></div>
                     <input type="tel" [value]="getHpDisplayValue(creature)"
-                        (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value))" maxlength="5"
+                        (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value), getMaxHpFromInput($event.target.value))" maxlength="5"
                         class="stat-input" />
                 </div>
                 <app-conditions [creature]="creature" [conditions]="creature.conditions"
