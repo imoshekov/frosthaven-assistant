@@ -1,51 +1,225 @@
 :host {
- position: relative;
+  position: relative;
 }
 
 .setup-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  gap: 0.5rem;
+  align-items: stretch;
   background-color: var(--content-background-left);
-  padding: 10px 0;
-  padding-left: 5px;
+  border: 0;
+  border-radius: 0;
+  padding: 0.6rem 2.8rem 0.6rem 0.6rem;
+  box-shadow: none;
 
   .section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 1rem;
-    border-left: 5px solid;
-    gap: 0.5rem;
-    flex: 1 1 0px;
-
-    .label-group {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-
-      label {
-        padding: 0px;
-        font-size: 20px;
-      }
-
-      input {
-        min-width: 60px;
-      }
-    }
+    gap: 0.55rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    min-height: 54px;
   }
 
-  button {
-    border: none;
+  .section.compact {
+    flex: 1 1 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section.standalone-action {
+    flex: 0 0 auto;
+    align-self: center;
+    width: auto;
+    justify-content: center;
+    gap: 0;
+    min-height: 0;
+    border: 0;
+    background: transparent;
+    padding: 0.08rem 0;
+    margin: 0.1rem 0;
+  }
+
+  .section.standalone-action .action-button {
+    margin-left: 0;
+    min-width: 140px;
+  }
+
+  .section.highlight {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .field-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--font-color-dark);
+    background: transparent;
+    border: 0;
+    white-space: nowrap;
+  }
+
+  input[type='tel'] {
+    height: 48px;
+    min-width: 88px;
+    width: 88px;
+    border-radius: 8px;
+    border: 1px solid color-mix(in oklab, var(--font-color-dark) 35%, transparent);
+    background: color-mix(in oklab, var(--content-background-left) 90%, black);
+    padding: 0 0.5rem;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--font-color-dark);
+  }
+
+  input[type='tel']:focus {
+    outline: none;
+    border-color: color-mix(in oklab, var(--secondary-color) 62%, white);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--secondary-color) 35%, transparent);
+  }
+
+  .action-button {
+    border: 1px solid color-mix(in oklab, var(--font-color-dark) 35%, transparent);
+    border-radius: 9px;
+    height: 48px;
+    padding: 0 14px;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    margin-left: 0;
+    min-width: 124px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--secondary-color) 72%, white),
+      var(--secondary-color)
+    );
+    color: var(--font-color-dark);
+    box-shadow:
+      0 2px 0 color-mix(in oklab, var(--secondary-color) 62%, black),
+      0 6px 12px color-mix(in oklab, var(--secondary-color) 22%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 70%, transparent);
+    transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .action-button:hover {
+    filter: brightness(1.08) saturate(1.06);
+    transform: translateY(-1px);
+    box-shadow:
+      0 3px 0 color-mix(in oklab, var(--secondary-color) 62%, black),
+      0 10px 16px color-mix(in oklab, var(--secondary-color) 30%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 70%, transparent);
+  }
+
+  .action-button:active {
+    transform: translateY(1px);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--secondary-color) 62%, black),
+      0 4px 8px color-mix(in oklab, var(--secondary-color) 18%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 55%, transparent);
+  }
+
+  .action-button.cancel {
+    background: var(--primary-color);
+    border: 4px solid var(--content-box-shadow-1);
+    color: var(--font-color);
+    box-shadow: none;
+  }
+
+  .action-button.cancel:hover {
+    background: var(--content-box-shadow-2);
+    transform: none;
+    box-shadow: none;
+  }
+
+  .action-button.cancel:active {
+    transform: none;
+    box-shadow: none;
   }
 }
 
 @media (max-width: 768px) {
   .setup-container {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 0.4rem;
+    padding: 0.45rem;
+    margin-top: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .setup-container .section {
+    width: 100%;
+    flex: 1 1 100%;
+    justify-content: space-between;
+    min-height: 0;
+    padding: 0.38rem 0.45rem;
+    box-sizing: border-box;
+  }
+
+  .setup-container .section.compact {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .setup-container .field-chip {
+    min-width: 4.25rem;
+  }
+
+  .setup-container input[type='tel'] {
+    width: 86px;
+    min-width: 86px;
+  }
+
+  .setup-container .section.standalone-action {
+    min-width: 0;
+    width: 100%;
+    flex: 1 1 100%;
+    align-self: stretch;
+  }
+
+  .setup-container .action-button {
+    margin-left: auto;
+    min-width: 118px;
+  }
+
+  .setup-container .section.standalone-action {
+    justify-content: stretch;
+    margin: 0.08rem 0;
+  }
+
+  .setup-container .section.standalone-action .action-button {
+    margin-left: 0;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  app-chevron-toggle {
+    display: none;
+  }
+
+  app-chevron-toggle.expanded {
+    display: none;
   }
 }
 
@@ -78,8 +252,8 @@
 
 app-chevron-toggle {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   --font-color: var(--font-color-dark);
 }
 
