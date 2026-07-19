@@ -82,6 +82,33 @@ input {
         width: 4.2rem;
         text-align: left;
     }
+
+    app-conditions {
+        display: flex;
+        align-items: center;
+        height: 60px;
+
+        ::ng-deep .container {
+            height: 100%;
+            margin-bottom: 0;
+
+            .conditions {
+                gap: 0.25rem;
+                margin: 0;
+
+                .condition-element {
+                    width: 29px;
+                    height: 29px;
+                    margin: 0;
+
+                    .icon {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
 }
 
 

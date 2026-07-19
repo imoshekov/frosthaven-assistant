@@ -317,4 +317,8 @@ export class ScenarioMonsterReference {
     onImgError(type: string) {
         this.failedPics.add(type);
     }
+
+    hasAnyImmunities(): boolean {
+        return this.monsterRows.some(row => row.immunities?.length > 0);
+    }
 }

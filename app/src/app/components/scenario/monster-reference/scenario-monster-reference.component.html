@@ -8,7 +8,20 @@
     <div *ngIf="vm$ | async as vm" [style.display]="shouldExpand ? null : 'none'">
         <div class="monster-ref">
             <div class="monster-reference-table" *ngIf="monsterRows?.length">
+                <div class="table-legend">Values shown as <strong>Elite | Normal</strong></div>
                 <table class="ref-table">
+                    <thead>
+                        <tr>
+                            <th class="name-cell">Name</th>
+                            <th class="stat hp">HP</th>
+                            <th class="stat attack">Attack Style</th>
+                            <th class="stat armor">Armor</th>
+                            <th class="stat retaliate">Retaliate</th>
+                            <th class="stat movement">Movement</th>
+                            <th class="stat initiative">Initiative</th>
+                            <th class="stat immunities" *ngIf="hasAnyImmunities()">Immunities</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr *ngFor="let r of monsterRows">
                             <td class="name-cell">
@@ -46,7 +59,7 @@
                                     # {{ r.minInitiative }} | {{ r.avgInitiative }} | {{ r.maxInitiative }}
                                 </span>
                             </td>
-                            <td class="stat immunities">
+                            <td class="stat immunities" *ngIf="hasAnyImmunities()">
                                 <ng-container *ngIf="r.immunities?.length">
                                     <span class="val">
                                         <span *ngFor="let imm of r.immunities" class="icon imm" [ngClass]="imm">
