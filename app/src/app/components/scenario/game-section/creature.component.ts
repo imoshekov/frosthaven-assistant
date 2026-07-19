@@ -39,7 +39,7 @@ export class CreatureComponent {
     const raw = `${value}`.trim();
     if (!raw) return 0;
 
-    const [currentValue] = raw.split('/');
+    const [currentValue] = raw.split(/[\/#]/);
     const parsed = Number(currentValue);
     return Number.isFinite(parsed) ? parsed : 0;
   }
@@ -48,7 +48,7 @@ export class CreatureComponent {
     const raw = `${value}`.trim();
     if (!raw) return null;
 
-    const parts = raw.split('/');
+    const parts = raw.split(/[\/#]/);
     if (parts.length < 2) return null;
 
     const parsed = Number(parts[1]);
