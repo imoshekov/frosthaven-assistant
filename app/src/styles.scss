@@ -1,12 +1,12 @@
 @use "icons.scss" as *;
 @use "variables.scss" as *;
-@import url("https://fonts.googleapis.com/css2?family=Skranji&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka&display=swap");
 
 :root { --vh100: 100vh; }
 @supports (height: 100dvh) { :root { --vh100: 100dvh; } }
 
 * {
-    font-family: "Skranji", cursive;
+    font-family: "Fredoka", sans-serif;
 }
 
 body {
