@@ -84,14 +84,12 @@ export class DbService {
 
   async updateCharacterProgress(
     type: string,
-    level: number,
     totalXp: number
   ): Promise<void> {
     const characterTableName = this.isLocalhost() ? 'character_dev' : 'character';
     const { error } = await supabase
       .from(characterTableName)
       .update({
-        level,
         total_xp: totalXp
       })
       .eq('type', type);

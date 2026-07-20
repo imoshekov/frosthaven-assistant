@@ -6,6 +6,7 @@ import { CreatureFactoryService } from './services/creature-factory.service';
 import { LogService } from './services/log.service';
 import { NotificationService } from './services/notification.service';
 import { DbService } from './services/db.service';
+import { XpService } from './services/xp.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppContext {
@@ -53,7 +54,8 @@ export class AppContext {
         private creatureFactory: CreatureFactoryService,
         private readonly logService: LogService,
         private notificationService: NotificationService,
-        private db: DbService
+        private db: DbService,
+        private xpService: XpService
     ) {
         this.addDefaultCharacters();
         this.logService.init(this.creatures$);
@@ -287,15 +289,25 @@ export class AppContext {
     private async addDefaultCharacters() {
         try {
             const selectedCharacters = await this.db.getCharacter();
-            const levels = selectedCharacters.map(c => Number(c.level) || 1);
+            const levels = selectedCharacters.map(c => {
+                const totalXp = Number(c.total_xp);
+                if (Number.isFinite(totalXp)) {
+                    return this.xpService.levelFromXp(totalXp);
+                }
+                return Number(c.level) || 1;
+            });
             const avg = levels.reduce((sum, n) => sum + n, 0) / levels.length;
 
             const defaultLevel = Math.max(1, Math.round(avg / 2));
             this.setDefaultLevel(defaultLevel);
 
             const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level, total_xp }) => {
+                const totalXp = Number(total_xp);
+                const derivedLevel = Number.isFinite(totalXp)
+                    ? this.xpService.levelFromXp(totalXp)
+                    : Number(level) || 1;
                 const charData = this.dataLoader.getData().characters.find(c => c.name === type);
-                const stats = charData?.stats?.find(s => s.level === Number(level));
+                const stats = charData?.stats?.find(s => s.level === derivedLevel);
                 //added because the default trait for shackles class is +5hp.
                 let hp = Number(stats?.health) || 10;
                 if (type === 'shackles') {
@@ -309,9 +321,9 @@ export class AppContext {
                     type,
                     hp,
                     traits,
-                    level: Number(level) || 1,
+                    level: derivedLevel,
                     aggressive: false,
-                    totalXp: Number(total_xp) || 0
+                    totalXp: Number.isFinite(totalXp) ? totalXp : 0
                 });
             });
 

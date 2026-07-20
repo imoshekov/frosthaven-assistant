@@ -180,7 +180,7 @@ export class SetupComponent {
       );
 
       try {
-        await this.db.updateCharacterProgress(live.type, newLevel, newTotalXp);
+        await this.db.updateCharacterProgress(live.type, newTotalXp);
       } catch {
         this.notificationService.emitErrorMessage(`Failed to persist XP for ${live.type}`);
       }
