@@ -64,11 +64,14 @@
           <span *ngIf="creature.attackTarget > 1" class="stat-value">{{ creature.attackTarget }}</span>
         </div>
         <div class="base-stat" *ngIf="creature.armor + creature.roundArmor > 0">
-          <div class="icon shield">{{ creature.armor + creature.roundArmor }}</div>
+          <div class="icon shield"></div>
+          <span class="stat-value">{{ creature.armor + creature.roundArmor }}</span>
         </div>
         <div class="base-stat" *ngIf="creature.retaliate + creature.roundRetaliate > 0">
-          <div class="icon retaliate">{{ creature.retaliate + creature.roundRetaliate }}</div>
-          <div class="icon range" *ngIf="creature.retaliateRange > 0">{{creature.retaliateRange}}</div>
+          <div class="icon retaliate"></div>
+          <span class="stat-value">{{ creature.retaliate + creature.roundRetaliate }}</span>
+          <div class="icon range" *ngIf="creature.retaliateRange > 0"></div>
+          <span *ngIf="creature.retaliateRange > 0" class="stat-value">{{ creature.retaliateRange }}</span>
         </div>
         <div class="traits" *ngIf="creature.aggressive && creature.actions?.length">
           <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
