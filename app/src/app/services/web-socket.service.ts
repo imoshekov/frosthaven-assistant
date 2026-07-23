@@ -158,6 +158,14 @@ export class WebSocketService {
         return this.handleSessionJoined(data);
       }
 
+      // Server tells us our command was a duplicate of another player's recent action.
+      // Roll back local state by syncing from the server.
+      if (data.type === 'command-rejected') {
+        this.notificationService.emitErrorMessage(`Action blocked — another player just did the same thing`);
+        this.requestServerState(this.getSessionId());
+        return;
+      }
+
       if (data.originatingClientId === this.clientId) return;
       // Messages without originatingClientId are server-state-responses (request-latest-state).
       // Peer broadcasts always carry originatingClientId.
