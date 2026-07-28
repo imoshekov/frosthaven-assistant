@@ -27,6 +27,7 @@ export class CreatureFactoryService {
     const creature: Creature = {
       id: this.generateCreatureId(),
       name: creatureInput.aggressive ? this.createCreatureName(creatureInput) : creatureInput.name,
+      namePronunciation: creatureInput.namePronunciation,
       type: creatureInput.type,
       standee: creatureInput.standee ?? '#',
       level: creatureInput.level ?? 1,

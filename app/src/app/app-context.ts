@@ -301,7 +301,7 @@ export class AppContext {
             const defaultLevel = Math.max(1, Math.round(avg / 2));
             this.setDefaultLevel(defaultLevel);
 
-            const defaultCharacters: Creature[] = selectedCharacters.map(({ name, type, level, total_xp }) => {
+            const defaultCharacters: Creature[] = selectedCharacters.map(({ name, name_pronunciation, type, level, total_xp }) => {
                 const totalXp = Number(total_xp);
                 const derivedLevel = Number.isFinite(totalXp)
                     ? this.xpService.levelFromXp(totalXp)
@@ -318,6 +318,7 @@ export class AppContext {
 
                 return this.creatureFactory.createCreature({
                     name,
+                    namePronunciation: name_pronunciation,
                     type,
                     hp,
                     traits,

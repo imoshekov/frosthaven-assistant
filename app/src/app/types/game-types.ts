@@ -29,6 +29,8 @@ export type CreatureRetaliate = {
 export interface Creature {
   id?: string;
   name?: string;
+  /** Phonetic spelling of `name` for speech synthesis. Falls back to `name` when unset. */
+  namePronunciation?: string;
   standee?: number | string,
   type?: string;
   aggressive?: boolean;

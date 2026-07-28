@@ -1,6 +1,8 @@
 export interface CharacterRow {
   id: number;
   name: string;
+  /** Optional phonetic spelling of `name`, used for voice alerts. */
+  name_pronunciation?: string;
   type: string;
   level?: number;
   total_xp?: number;
