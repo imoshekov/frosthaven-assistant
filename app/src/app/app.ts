@@ -5,6 +5,7 @@ import { AppContext } from './app-context';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { WebSocketService } from './services/web-socket.service';
+import { InitiativeNagService } from './services/initiative-nag.service';
 import { VERSION_MAJOR, VERSION_MINOR } from '../environments/version';
 
 
@@ -29,8 +30,11 @@ export class AppComponent {
 
   constructor(
     public appContext: AppContext,
-    public webSocketService: WebSocketService
+    public webSocketService: WebSocketService,
+    private initiativeNagService: InitiativeNagService
   ) {
+    this.initiativeNagService.init();
+
      this.webSocketService.clientId$.subscribe(id => {
       this.clientId = id;
     });
