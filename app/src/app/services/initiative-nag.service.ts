@@ -13,7 +13,7 @@ import { Creature } from '../types/game-types';
  */
 @Injectable({ providedIn: 'root' })
 export class InitiativeNagService implements OnDestroy {
-  private static readonly NAG_DELAY_MS = 4000;
+  private static readonly NAG_DELAY_MS = 15000;
 
   private sub?: Subscription;
   private timer?: ReturnType<typeof setInterval>;
