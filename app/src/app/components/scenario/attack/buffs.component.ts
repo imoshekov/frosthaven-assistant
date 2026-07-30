@@ -10,6 +10,7 @@ enum BuffTypes {
   retaliate = "retaliate",
   roundArmor = "roundArmor",
   roundRetaliate = "roundRetaliate",
+  hp = "hp",
 }
 interface Buffs {
   type: BuffTypes,
@@ -37,8 +38,22 @@ export class BuffsComponent {
   }
 
   publishBuffs() {
-    this.buffs.forEach(buff => {
+    const hpBuff = this.buffs.find(b => b.type === BuffTypes.hp);
+    const otherBuffs = this.buffs.filter(b => b.type !== BuffTypes.hp);
+
+    // Apply other buffs (armor, retaliate) to all creatures of the same type
+    otherBuffs.forEach(buff => {
       this.appContext.updateCreatureBaseStat(this.creature.id!, buff.type, buff.value, true);
     });
+
+    // Apply HP only to creatures matching type AND elite status (the group)
+    if (hpBuff) {
+      const groupCreatures = this.appContext.getCreatures().filter(c =>
+        c.type === this.creature.type && c.isElite === this.creature.isElite
+      );
+      groupCreatures.forEach(c => {
+        this.appContext.updateCreatureMultipleStats(c.id!, { hp: hpBuff.value, maxHp: hpBuff.value });
+      });
+    }
   }
 }
