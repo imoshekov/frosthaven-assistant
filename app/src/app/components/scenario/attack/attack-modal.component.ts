@@ -6,6 +6,7 @@ import { ConditionsComponent } from '../conditions/conditions.component';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { BuffsComponent } from './buffs.component';
 import { FormsModule } from '@angular/forms';
+import { InitiativeService } from '../../../services/initiative.service';
 
 @Component({
   selector: 'app-attack-modal',
@@ -25,8 +26,12 @@ export class AttackModalComponent {
   public selectedCharacterId: string | null = null;
   private tempConditions: CreatureConditions[] = [];
 
-  constructor(public appContext: AppContext) {
+  constructor(
+    public appContext: AppContext,
+    private initiativeService: InitiativeService
+  ) {
     this.creature = appContext.selectedCreature;
+    this.selectedCharacterId = this.getDefaultSelectedCharacterId();
   }
 
   get shouldShowBuffs(): boolean {
@@ -47,6 +52,16 @@ export class AttackModalComponent {
 
   getHeroes(): Creature[] {
     return this.appContext.getCreatures().filter(c => !c.aggressive);
+  }
+
+  private getDefaultSelectedCharacterId(): string | null {
+    const selectedCharacterType = this.initiativeService.getSelectedCharacterType();
+    if (!selectedCharacterType) {
+      return null;
+    }
+
+    const selectedHero = this.getHeroes().find(hero => hero.type === selectedCharacterType);
+    return selectedHero?.id ?? null;
   }
 
   selectCharacter(characterId: string | null): void {
