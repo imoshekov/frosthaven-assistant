@@ -1,0 +1,177 @@
+:host {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.layout {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: var(--dark-transparent-background);
+}
+
+.modal {
+    display: contents;
+
+    :root.no-scroll,
+    :root.no-scroll body {
+        overflow: hidden;
+        touch-action: none;
+    }
+
+    .content {
+        box-shadow: 0px 0px 0px 3px var(--content-box-shadow-1), 0px 0px 4px 3px var(--content-box-shadow-2),
+            inset 0px 0px 7px 0px var(--content-box-shadow-3), 3px 3px 1px 1px var(--content-box-shadow-4),
+            -3px 3px 1px 1px var(--content-box-shadow-4);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        pointer-events: all;
+        width: 90vw;
+        max-width: 500px;
+        background: var(--content-background-left);
+        color: var(--dark-font-color);
+        border: 1px solid var(--content-box-shadow-1);
+        border-radius: 12px;
+        z-index: 2001;
+        gap: 0.75rem;
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            width: 100%;
+            position: relative;
+
+            h2 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin: 0;
+                color: var(--dark-font-color);
+                text-align: center;
+            }
+
+            .close-btn {
+                background: var(--cancel-button-color);
+                border: 1px solid var(--cancel-button-border);
+                color: var(--dark-font-color);
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                padding: 6px 12px;
+                border-radius: 6px;
+                transition: background 0.2s;
+                position: absolute;
+                right: 0;
+
+                &:hover {
+                    background: var(--cancel-button-color-2);
+                }
+            }
+        }
+
+        .stats-container {
+            flex: 1;
+            min-height: 80px;
+            margin-bottom: 0.5rem;
+            overflow-y: auto;
+
+            .damage-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 16px;
+
+                thead {
+                    tr {
+                        border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+
+                        th {
+                            padding: 10px 8px;
+                            text-align: left;
+                            font-weight: 700;
+                            opacity: 0.8;
+                            text-transform: uppercase;
+                            font-size: 13px;
+                            letter-spacing: 0.5px;
+                            color: var(--dark-font-color);
+                        }
+                    }
+                }
+
+                tbody {
+                    tr {
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        transition: background-color 0.2s;
+
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.05);
+                        }
+
+                        td {
+                            padding: 10px 8px;
+                            color: var(--dark-font-color);
+                            font-size: 16px;
+                            text-align: left;
+
+                            &.character-col {
+                                font-weight: 500;
+                            }
+
+                            &.damage-col {
+                                font-weight: 600;
+                                color: var(--dark-font-color);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .empty-state {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80px;
+                opacity: 0.6;
+                color: var(--dark-font-color);
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+
+            button {
+                background: var(--cancel-button-color);
+                border: 1px solid var(--cancel-button-border);
+                color: var(--dark-font-color);
+                padding: 10px 24px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                transition: background 0.2s;
+
+                &:hover {
+                    background: var(--cancel-button-color-2);
+                }
+            }
+        }
+    }
+}
