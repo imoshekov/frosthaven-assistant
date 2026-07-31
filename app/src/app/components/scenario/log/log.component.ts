@@ -84,6 +84,9 @@ export class LogComponent {
       },
       created: (id) => {
         if ((this.appContext as AppContext).killCreature) (this.appContext as AppContext).killCreature(id);
+      },
+      damage: (_id, _value, log) => {
+        this.appContext.undoDamage(log.creature, log.value);
       }
     };
   }
@@ -118,9 +121,14 @@ export class LogComponent {
     // create a new batch that would immediately become the next undo target.
     this.logService.runWithoutLogging(() => {
       for (const log of batch) {
-        const id = log.creatureId;
-        if (!id) continue;
-        (this.undoHandlers[log.stat] ?? this.defaultUpdate)(id, log.oldValue, log);
+        const handler = this.undoHandlers[log.stat];
+        if (handler) {
+          handler(log.creatureId ?? '', log.oldValue, log);
+        } else {
+          const id = log.creatureId;
+          if (!id) continue;
+          this.defaultUpdate(id, log.oldValue, log);
+        }
       }
     });
 

@@ -296,6 +296,12 @@ export class AppContext {
         this.damageTrackerSubject.next({ ...this.damageTracker });
     }
 
+    undoDamage(characterType: string, damage: number): void {
+        if (!characterType || damage <= 0) return;
+        this.damageTracker[characterType] = Math.max(0, (this.damageTracker[characterType] || 0) - damage);
+        this.damageTrackerSubject.next({ ...this.damageTracker });
+    }
+
     getDamageTracker(): Record<string, number> {
         return { ...this.damageTracker };
     }

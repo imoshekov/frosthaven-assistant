@@ -7,6 +7,7 @@ import { GlobalTelInputDirective } from '../../../directives/global-tel-input.di
 import { BuffsComponent } from './buffs.component';
 import { FormsModule } from '@angular/forms';
 import { InitiativeService } from '../../../services/initiative.service';
+import { LogService } from '../../../services/log.service';
 
 @Component({
   selector: 'app-attack-modal',
@@ -28,7 +29,8 @@ export class AttackModalComponent {
 
   constructor(
     public appContext: AppContext,
-    private initiativeService: InitiativeService
+    private initiativeService: InitiativeService,
+    private logService: LogService
   ) {
     this.creature = appContext.selectedCreature;
     this.selectedCharacterId = this.getDefaultSelectedCharacterId();
@@ -111,16 +113,19 @@ export class AttackModalComponent {
   }
 
   confirm() {
+    const currentHp = this.creature?.hp ?? 0;
     this.attackCreature();
     this.tempConditions.forEach(condition => {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
     
-    // Record damage if a character is selected
+    // Record damage if a character is selected, capped at the monster's HP before the attack
     if (this.selectedCharacterId && this.damage > 0) {
       const selectedChar = this.appContext.getCreatures().find(c => c.id === this.selectedCharacterId);
       if (selectedChar && selectedChar.type) {
-        this.appContext.recordDamage(selectedChar.type, this.damage);
+        const effectiveDamage = Math.min(this.damage, currentHp);
+        this.appContext.recordDamage(selectedChar.type, effectiveDamage);
+        this.logService.appendDamageToLastBatch(selectedChar.type, effectiveDamage);
       }
     }
     

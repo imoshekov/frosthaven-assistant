@@ -204,5 +204,25 @@ export class LogService {
     };
   }
 
+  /**
+   * Appends a synthetic "damage" entry to the most recent batch so that
+   * undoing the batch also reverses the damage-tracker contribution.
+   */
+  appendDamageToLastBatch(characterType: string, damage: number): void {
+    if (this.pauseLogging || damage <= 0) return;
+    const logs = this.logsSubject.value;
+    const batchId = logs.length > 0 ? logs[0].batchId : this.randId();
+    const entry: LogEntry = {
+      id: this.randId(),
+      batchId,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      creature: characterType,
+      stat: 'damage',
+      value: damage,
+      oldValue: 0,
+    };
+    this.logsSubject.next([entry, ...logs]);
+  }
+
   private randId(): string { return Math.random().toString(36).slice(2, 10); }
 }
