@@ -22,6 +22,7 @@ export class AttackModalComponent {
   public attack = 0;
   public armorPen = 0;
   public damage = 0;
+  public selectedCharacterId: string | null = null;
   private tempConditions: CreatureConditions[] = [];
 
   constructor(public appContext: AppContext) {
@@ -42,6 +43,14 @@ export class AttackModalComponent {
       retaliate > 0 ||
       roundRetaliate > 0
     );
+  }
+
+  getHeroes(): Creature[] {
+    return this.appContext.getCreatures().filter(c => !c.aggressive);
+  }
+
+  selectCharacter(characterId: string | null): void {
+    this.selectedCharacterId = this.selectedCharacterId === characterId ? null : characterId;
   }
 
   toggleCondition(condition: CreatureConditions) {

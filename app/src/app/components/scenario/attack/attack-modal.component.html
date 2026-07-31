@@ -3,6 +3,19 @@
     <div class="content">
         <div class="name">{{this.appContext.isGroupSelected && creature.aggressive ? creature.type : creature.name}}
         </div>
+        <div class="character-selector" *ngIf="!appContext.isGroupSelected">
+            <div class="characters">
+                <div *ngFor="let hero of getHeroes()" 
+                     class="character-slot" 
+                     [class.selected]="selectedCharacterId === hero.id"
+                     [class.unselected]="selectedCharacterId !== null && selectedCharacterId !== hero.id"
+                     (click)="selectCharacter(hero.id || null)">
+                    <img [src]="'./images/character/thumbnail/fh-' + hero.type + '.png'" 
+                         [title]="hero.name"
+                         (error)="$event.target.src='./images/bb/daemon-skull.svg'" />
+                </div>
+            </div>
+        </div>
         <app-buffs [creature]="creature" *ngIf="this.appContext.isGroupSelected"></app-buffs>
         <div class="attack" *ngIf="!this.appContext.isGroupSelected">
             <div class="stat">

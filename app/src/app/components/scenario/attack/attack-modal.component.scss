@@ -38,6 +38,52 @@
             font-size: 35px;
         }
 
+        .character-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            margin: 0.5rem 0;
+
+            .characters {
+                display: flex;
+                flex-direction: row;
+                gap: 0.8rem;
+                align-items: center;
+                justify-content: center;
+
+                .character-slot {
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                    border-radius: 50%;
+                    padding: 2px;
+                    transition: all 0.2s ease;
+                    opacity: 1;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 1px solid var(--secondary-color);
+                    }
+
+                    &:hover:not(.unselected) {
+                        transform: scale(1.1);
+                    }
+
+                    &.selected {
+                        box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+                    }
+
+                    &.unselected {
+                        opacity: 0.35;
+                        cursor: default;
+                    }
+                }
+            }
+        }
+
         .buttons {
             display: flex;
             justify-content: center;
