@@ -18,6 +18,10 @@ export class AppContext {
     public shouldShowSetup: boolean = true;
     public shouldShowAudit: boolean = false;
     public scenarioCreatureList: Creature[] = [];
+    public damageTracker: Record<string, number> = {};
+
+    private damageTrackerSubject = new BehaviorSubject<Record<string, number>>({});
+    damageTracker$ = this.damageTrackerSubject.asObservable();
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
@@ -284,6 +288,26 @@ export class AppContext {
         const creature = creatures.find(c => c.id === creatureId);
         if (!creature) throw Error("Creature not found");
         return creature;
+    }
+
+    recordDamage(characterType: string, damage: number): void {
+        if (!characterType || damage <= 0) return;
+        this.damageTracker[characterType] = (this.damageTracker[characterType] || 0) + damage;
+        this.damageTrackerSubject.next({ ...this.damageTracker });
+    }
+
+    getDamageTracker(): Record<string, number> {
+        return { ...this.damageTracker };
+    }
+
+    setDamageTracker(tracker: Record<string, number>): void {
+        this.damageTracker = { ...tracker };
+        this.damageTrackerSubject.next(this.damageTracker);
+    }
+
+    resetDamageTracker(): void {
+        this.damageTracker = {};
+        this.damageTrackerSubject.next(this.damageTracker);
     }
 
     private async addDefaultCharacters() {

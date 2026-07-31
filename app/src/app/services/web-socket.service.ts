@@ -18,7 +18,8 @@ export enum WebSocketMessageType {
   GraveyardUpdate = 'graveyard-update',
   CharactersUpdate = 'characters-update',
   ScenarioUpdate = 'scenario-update',
-  LootConfigUpdate = 'loot-config-update'
+  LootConfigUpdate = 'loot-config-update',
+  DamageTrackerUpdate = 'damage-tracker-update'
 }
 
 export enum ConnectionStatus {
@@ -60,6 +61,7 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.elements$, WebSocketMessageType.ElementsUpdate, (elements) => ({ elements }));
     this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
     this.subscribeAndBroadcast(this.appContext.scenarioFile$, WebSocketMessageType.LootConfigUpdate, (file) => ({ lootDeckConfig: file?.lootDeckConfig ?? null }));
+    this.subscribeAndBroadcast(this.appContext.damageTracker$, WebSocketMessageType.DamageTrackerUpdate, (tracker) => ({ damageTracker: tracker }));
 
     // FIX 1: Cancel any pending backoff timer before triggering an immediate reconnect.
     // On mobile, the OS kills the WebSocket when the screen locks or the tab is backgrounded.
@@ -128,7 +130,8 @@ export class WebSocketService {
         ...(sessionToJoin != null && { sessionId: sessionToJoin }),
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
-        elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : []
+        elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : [],
+        damageTracker: this.role === WebSocketRole.Host ? this.appContext.getDamageTracker() : {}
       };
 
       this.ws.send(JSON.stringify(joinSessionPayload));
@@ -194,6 +197,9 @@ export class WebSocketService {
           this.appContext.setScenarioFile(
             data.lootDeckConfig ? { lootDeckConfig: data.lootDeckConfig } : null
           );
+          break;
+        case WebSocketMessageType.DamageTrackerUpdate:
+          this.appContext.setDamageTracker(data.damageTracker);
           break;
         default:
           this.notificationService.emitErrorMessage(`Unhandled message type: ${data.type}`);

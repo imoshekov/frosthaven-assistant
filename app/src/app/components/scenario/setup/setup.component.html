@@ -44,6 +44,10 @@
   </div>
 
   <div class="section">
+    <button class="action-button" (click)="openDamageStats()">Show Stats</button>
+  </div>
+
+  <div class="section">
     <div class="label-group">
       <label for="bonus-xp">Bonus XP</label>
       <input type="tel" placeholder="#" [(ngModel)]="bonusXp" />
@@ -61,3 +65,8 @@
   (confirmed)="onEndGameConfirmed()"
   (cancelled)="onEndGameCancelled()">
 </app-confirmation-dialog>
+
+<app-damage-stats-modal
+  [isVisible]="showDamageStats"
+  (closed)="closeDamageStats()">
+</app-damage-stats-modal>

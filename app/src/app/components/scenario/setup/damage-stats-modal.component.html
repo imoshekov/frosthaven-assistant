@@ -1,0 +1,33 @@
+<div class="layout" *ngIf="isVisible" (click)="close()"></div>
+<div class="modal" *ngIf="isVisible">
+    <div class="content">
+        <div class="header">
+            <h2>Damage Stats</h2>
+            <button class="close-btn" (click)="close()">✕</button>
+        </div>
+        
+        <div class="stats-container">
+            <table class="damage-table">
+                <thead>
+                    <tr>
+                        <th class="character-col">Character</th>
+                        <th class="damage-col">Damage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let stat of getDamageStats()">
+                        <td class="character-col">{{ stat.name }}</td>
+                        <td class="damage-col">{{ stat.damage }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="empty-state" *ngIf="getDamageStats().length === 0">
+                <p>No damage recorded yet</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="close-btn-footer" (click)="close()">Close</button>
+        </div>
+    </div>
+</div>

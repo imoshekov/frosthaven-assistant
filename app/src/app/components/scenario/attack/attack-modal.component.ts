@@ -100,6 +100,15 @@ export class AttackModalComponent {
     this.tempConditions.forEach(condition => {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
+    
+    // Record damage if a character is selected
+    if (this.selectedCharacterId && this.damage > 0) {
+      const selectedChar = this.appContext.getCreatures().find(c => c.id === this.selectedCharacterId);
+      if (selectedChar && selectedChar.type) {
+        this.appContext.recordDamage(selectedChar.type, this.damage);
+      }
+    }
+    
     this.buffsComponent?.publishBuffs();
     this.close();
   }

@@ -13,6 +13,7 @@ import { DbService } from '../../../services/db.service';
 import { XpService } from '../../../services/xp.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation.dialog.component';
 import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
+import { DamageStatsModalComponent } from './damage-stats-modal.component';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.comp
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, GlobalTelInputDirective, ConfirmationDialogComponent, ChevronToggleComponent]
+  imports: [CommonModule, FormsModule, GlobalTelInputDirective, ConfirmationDialogComponent, ChevronToggleComponent, DamageStatsModalComponent]
 })
 export class SetupComponent {
   scenarioLevel: number = 1;
@@ -34,6 +35,7 @@ export class SetupComponent {
   // Confirmation dialog state
   showEndGameConfirmation: boolean = false;
   endGameConfirmationMessage: string = '';
+  showDamageStats: boolean = false;
 
   constructor(
     private notificationService: NotificationService,
@@ -189,5 +191,13 @@ export class SetupComponent {
 
   onEndGameCancelled(): void {
     this.showEndGameConfirmation = false;
+  }
+
+  openDamageStats(): void {
+    this.showDamageStats = true;
+  }
+
+  closeDamageStats(): void {
+    this.showDamageStats = false;
   }
 }
