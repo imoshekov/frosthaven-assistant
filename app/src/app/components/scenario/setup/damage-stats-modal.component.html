@@ -5,9 +5,22 @@
             <h2>Damage Stats</h2>
             <button class="close-btn" (click)="close()">✕</button>
         </div>
+
+        <div class="view-selector">
+            <select [(ngModel)]="view" (ngModelChange)="onViewChange()" class="view-dropdown">
+                <option value="session">This Session</option>
+                <option value="alltime">All Time</option>
+            </select>
+        </div>
         
         <div class="stats-container">
-            <table class="damage-table">
+            <div class="loading-state" *ngIf="isLoadingAllTime">
+                <p>Loading...</p>
+            </div>
+            <div class="error-state" *ngIf="allTimeError">
+                <p>{{ allTimeError }}</p>
+            </div>
+            <table class="damage-table" *ngIf="!isLoadingAllTime && !allTimeError">
                 <thead>
                     <tr>
                         <th class="icon-col"></th>
@@ -17,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let stat of getDamageStats()">
+                    <tr *ngFor="let stat of getDisplayStats()">
                         <td class="icon-col">
                             <img class="char-icon"
                                  [src]="'./images/character/thumbnail/fh-' + stat.type + '.png'"
@@ -30,10 +43,11 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="empty-state" *ngIf="getDamageStats().length === 0">
+            <div class="empty-state" *ngIf="!isLoadingAllTime && !allTimeError && getDisplayStats().length === 0">
                 <p>No damage recorded yet</p>
             </div>
         </div>
+
 
         <div class="buttons">
             <button class="close-btn-footer" (click)="close()">Close</button>

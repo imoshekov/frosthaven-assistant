@@ -20,3 +20,10 @@ export interface ScenarioReferenceRow {
   hazardous_terrain: number;
   bonus_experience: number;
 }
+
+export interface DamageHistoryRow {
+  character_name: string;
+  character_type: string;
+  damage: number;
+  kills: number;
+}
