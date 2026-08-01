@@ -1,6 +1,6 @@
 
 <app-chevron-toggle [expanded]="appContext.shouldShowSetup" (toggle)="appContext.shouldShowSetup = !appContext.shouldShowSetup" [ngClass]="appContext.shouldShowSetup ? 'expanded' : ''"></app-chevron-toggle>
-<div class="setup-container row content" [style.display]="appContext.shouldShowSetup ? null : 'none'">
+<div class="setup-container content" [style.display]="appContext.shouldShowSetup ? null : 'none'">
   <div class="section">
     <div class="label-group">
       <label for="scenario-level">Level</label>
@@ -26,30 +26,28 @@
   </div>
 
   <div class="section">
-    <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">
-      Add Monster</button>
+    <button class="action-button" (click)="this.appContext.addMonsterToggled = !this.appContext.addMonsterToggled">Monster</button>
   </div>
 
   <div class="section">
-    <button class="action-button" (click)="startSession()">
-      Host</button>
+    <button class="action-button" (click)="startSession()">Host</button>
   </div>
 
   <div class="section">
     <div class="label-group">
-      <label for="scenario-id">ID</label>
+      <label for="session-id">ID</label>
       <input type="tel" placeholder="1" [(ngModel)]="sessionId" />
     </div>
     <button class="action-button" (click)="joinSession()">Join</button>
   </div>
 
   <div class="section">
-    <button class="action-button" (click)="openDamageStats()">Show Stats</button>
+    <button class="action-button" (click)="openDamageStats()">Stats</button>
   </div>
 
   <div class="section">
     <div class="label-group">
-      <label for="bonus-xp">Bonus XP</label>
+      <label for="bonus-xp">XP</label>
       <input type="tel" placeholder="#" [(ngModel)]="bonusXp" />
     </div>
     <button class="action-button" (click)="endGame()">End</button>
