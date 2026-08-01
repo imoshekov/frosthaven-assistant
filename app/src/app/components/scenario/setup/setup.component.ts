@@ -187,6 +187,27 @@ export class SetupComponent {
         this.notificationService.emitErrorMessage(`Failed to persist XP for ${live.type}`);
       }
     }
+
+    // Persist damage stats
+    const damageTracker = this.appContext.getDamageTracker();
+    const killTracker = this.appContext.getKillTracker();
+    const allTypes = new Set([...Object.keys(damageTracker), ...Object.keys(killTracker)]);
+    const damageRows = Array.from(allTypes).map(type => {
+      const character = this.appContext.getCreatures().find(c => c.type === type);
+      const name = character?.name || type.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      return {
+        character_name: name,
+        character_type: type,
+        damage: damageTracker[type] || 0,
+        kills: killTracker[type] || 0,
+      };
+    });
+
+    try {
+      await this.db.insertDamageHistory(damageRows);
+    } catch {
+      this.notificationService.emitErrorMessage('Failed to persist damage history');
+    }
   }
 
   onEndGameCancelled(): void {

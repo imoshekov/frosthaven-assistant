@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { ItemSlot } from '../types/item-types';
-import { CharacterRow, CraftableItemRow, ScenarioReferenceRow } from '../types/db-types';
+import { CharacterRow, CraftableItemRow, DamageHistoryRow, ScenarioReferenceRow } from '../types/db-types';
 
 
 const url = 'https://ymlekirbwjanuxrclsgf.supabase.co';
@@ -104,6 +104,24 @@ export class DbService {
       .from('craftable_item')
       .insert({ id, type, sub_type });
     if (error) throw error;
+  }
+
+  async insertDamageHistory(rows: DamageHistoryRow[]): Promise<void> {
+    if (rows.length === 0) return;
+    const tableName = this.isLocalhost() ? 'damage_history_dev' : 'damage_history';
+    const { error } = await supabase
+      .from(tableName)
+      .insert(rows);
+    if (error) throw error;
+  }
+
+  async getDamageHistory(): Promise<DamageHistoryRow[]> {
+    const tableName = this.isLocalhost() ? 'damage_history_dev' : 'damage_history';
+    const { data, error } = await supabase
+      .from(tableName)
+      .select('character_name, character_type, damage, kills');
+    if (error) throw error;
+    return (data ?? []) as DamageHistoryRow[];
   }
 }
 

@@ -79,11 +79,53 @@
             }
         }
 
+        .view-selector {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 0.25rem;
+
+            .view-dropdown {
+                background: var(--content-background-left);
+                color: var(--dark-font-color);
+                border: 1px solid var(--cancel-button-border);
+                border-radius: 6px;
+                padding: 6px 10px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                outline: none;
+
+                &:hover {
+                    border-color: var(--content-box-shadow-1);
+                }
+            }
+        }
+
         .stats-container {
             flex: 1;
             min-height: 80px;
             margin-bottom: 0.5rem;
             overflow-y: auto;
+
+            .loading-state,
+            .error-state {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80px;
+                opacity: 0.7;
+                color: var(--dark-font-color);
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                }
+            }
+
+            .error-state {
+                opacity: 1;
+                color: var(--cancel-button-border, #c0392b);
+            }
 
             .damage-table {
                 width: 100%;
