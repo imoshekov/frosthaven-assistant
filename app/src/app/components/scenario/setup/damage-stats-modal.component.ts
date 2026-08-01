@@ -15,13 +15,17 @@ export class DamageStatsModalComponent {
 
   constructor(public appContext: AppContext) {}
 
-  getDamageStats(): Array<{ name: string; damage: number }> {
-    const tracker = this.appContext.getDamageTracker();
-    return Object.entries(tracker).map(([type, damage]) => {
+  getDamageStats(): Array<{ name: string; type: string; damage: number; kills: number }> {
+    const damageTracker = this.appContext.getDamageTracker();
+    const killTracker = this.appContext.getKillTracker();
+    const allTypes = new Set([...Object.keys(damageTracker), ...Object.keys(killTracker)]);
+    return Array.from(allTypes).map(type => {
       const character = this.appContext.getCreatures().find(c => c.type === type);
       return {
         name: character?.name || this.formatCharacterName(type),
-        damage
+        type,
+        damage: damageTracker[type] || 0,
+        kills: killTracker[type] || 0,
       };
     }).sort((a, b) => b.damage - a.damage);
   }

@@ -19,9 +19,12 @@ export class AppContext {
     public shouldShowAudit: boolean = false;
     public scenarioCreatureList: Creature[] = [];
     public damageTracker: Record<string, number> = {};
+    public killTracker: Record<string, number> = {};
 
     private damageTrackerSubject = new BehaviorSubject<Record<string, number>>({});
+    private killTrackerSubject = new BehaviorSubject<Record<string, number>>({});
     damageTracker$ = this.damageTrackerSubject.asObservable();
+    killTracker$ = this.killTrackerSubject.asObservable();
 
     private creaturesSubject = new BehaviorSubject<Creature[]>([]);
     creatures$ = this.creaturesSubject.asObservable();
@@ -314,6 +317,32 @@ export class AppContext {
     resetDamageTracker(): void {
         this.damageTracker = {};
         this.damageTrackerSubject.next(this.damageTracker);
+    }
+
+    recordKill(characterType: string): void {
+        if (!characterType) return;
+        this.killTracker[characterType] = (this.killTracker[characterType] || 0) + 1;
+        this.killTrackerSubject.next({ ...this.killTracker });
+    }
+
+    undoKill(characterType: string): void {
+        if (!characterType) return;
+        this.killTracker[characterType] = Math.max(0, (this.killTracker[characterType] || 0) - 1);
+        this.killTrackerSubject.next({ ...this.killTracker });
+    }
+
+    getKillTracker(): Record<string, number> {
+        return { ...this.killTracker };
+    }
+
+    setKillTracker(tracker: Record<string, number>): void {
+        this.killTracker = { ...tracker };
+        this.killTrackerSubject.next(this.killTracker);
+    }
+
+    resetKillTracker(): void {
+        this.killTracker = {};
+        this.killTrackerSubject.next(this.killTracker);
     }
 
     private async addDefaultCharacters() {

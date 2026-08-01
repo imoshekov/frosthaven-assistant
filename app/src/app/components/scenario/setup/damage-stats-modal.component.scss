@@ -103,6 +103,11 @@
                             font-size: 13px;
                             letter-spacing: 0.5px;
                             color: var(--dark-font-color);
+
+                            &.icon-col {
+                                width: 36px;
+                                padding: 4px 6px;
+                            }
                         }
                     }
                 }
@@ -122,11 +127,30 @@
                             font-size: 16px;
                             text-align: left;
 
+                            &.icon-col {
+                                width: 36px;
+                                padding: 4px 6px;
+                                text-align: center;
+
+                                .char-icon {
+                                    width: 28px;
+                                    height: 28px;
+                                    border-radius: 50%;
+                                    object-fit: cover;
+                                    display: block;
+                                }
+                            }
+
                             &.character-col {
                                 font-weight: 500;
                             }
 
                             &.damage-col {
+                                font-weight: 600;
+                                color: var(--dark-font-color);
+                            }
+
+                            &.kills-col {
                                 font-weight: 600;
                                 color: var(--dark-font-color);
                             }

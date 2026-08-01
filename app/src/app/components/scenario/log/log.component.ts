@@ -87,6 +87,9 @@ export class LogComponent {
       },
       damage: (_id, _value, log) => {
         this.appContext.undoDamage(log.creature, log.value);
+      },
+      kill: (_id, _value, log) => {
+        this.appContext.undoKill(log.creature);
       }
     };
   }

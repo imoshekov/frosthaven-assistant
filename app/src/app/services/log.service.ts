@@ -224,5 +224,21 @@ export class LogService {
     this.logsSubject.next([entry, ...logs]);
   }
 
+  appendKillToLastBatch(characterType: string): void {
+    if (this.pauseLogging) return;
+    const logs = this.logsSubject.value;
+    const batchId = logs.length > 0 ? logs[0].batchId : this.randId();
+    const entry: LogEntry = {
+      id: this.randId(),
+      batchId,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      creature: characterType,
+      stat: 'kill',
+      value: 1,
+      oldValue: 0,
+    };
+    this.logsSubject.next([entry, ...logs]);
+  }
+
   private randId(): string { return Math.random().toString(36).slice(2, 10); }
 }

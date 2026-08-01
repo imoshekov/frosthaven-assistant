@@ -10,14 +10,23 @@
             <table class="damage-table">
                 <thead>
                     <tr>
+                        <th class="icon-col"></th>
                         <th class="character-col">Character</th>
                         <th class="damage-col">Damage</th>
+                        <th class="kills-col">Kills</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let stat of getDamageStats()">
+                        <td class="icon-col">
+                            <img class="char-icon"
+                                 [src]="'./images/character/thumbnail/fh-' + stat.type + '.png'"
+                                 [alt]="stat.name"
+                                 (error)="$event.target.src='./images/bb/daemon-skull.svg'" />
+                        </td>
                         <td class="character-col">{{ stat.name }}</td>
                         <td class="damage-col">{{ stat.damage }}</td>
+                        <td class="kills-col">{{ stat.kills }}</td>
                     </tr>
                 </tbody>
             </table>

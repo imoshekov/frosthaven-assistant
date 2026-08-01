@@ -126,6 +126,10 @@ export class AttackModalComponent {
         const effectiveDamage = Math.min(this.damage, currentHp);
         this.appContext.recordDamage(selectedChar.type, effectiveDamage);
         this.logService.appendDamageToLastBatch(selectedChar.type, effectiveDamage);
+        if (this.damage >= currentHp) {
+          this.appContext.recordKill(selectedChar.type);
+          this.logService.appendKillToLastBatch(selectedChar.type);
+        }
       }
     }
     

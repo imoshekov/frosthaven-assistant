@@ -19,7 +19,8 @@ export enum WebSocketMessageType {
   CharactersUpdate = 'characters-update',
   ScenarioUpdate = 'scenario-update',
   LootConfigUpdate = 'loot-config-update',
-  DamageTrackerUpdate = 'damage-tracker-update'
+  DamageTrackerUpdate = 'damage-tracker-update',
+  KillTrackerUpdate = 'kill-tracker-update'
 }
 
 export enum ConnectionStatus {
@@ -62,6 +63,7 @@ export class WebSocketService {
     this.subscribeAndBroadcast(this.appContext.scenarioId$, WebSocketMessageType.ScenarioUpdate, (scenarioId) => ({ scenarioId }));
     this.subscribeAndBroadcast(this.appContext.scenarioFile$, WebSocketMessageType.LootConfigUpdate, (file) => ({ lootDeckConfig: file?.lootDeckConfig ?? null }));
     this.subscribeAndBroadcast(this.appContext.damageTracker$, WebSocketMessageType.DamageTrackerUpdate, (tracker) => ({ damageTracker: tracker }));
+    this.subscribeAndBroadcast(this.appContext.killTracker$, WebSocketMessageType.KillTrackerUpdate, (tracker) => ({ killTracker: tracker }));
 
     // FIX 1: Cancel any pending backoff timer before triggering an immediate reconnect.
     // On mobile, the OS kills the WebSocket when the screen locks or the tab is backgrounded.
@@ -200,6 +202,9 @@ export class WebSocketService {
           break;
         case WebSocketMessageType.DamageTrackerUpdate:
           this.appContext.setDamageTracker(data.damageTracker);
+          break;
+        case WebSocketMessageType.KillTrackerUpdate:
+          this.appContext.setKillTracker(data.killTracker);
           break;
         default:
           this.notificationService.emitErrorMessage(`Unhandled message type: ${data.type}`);
