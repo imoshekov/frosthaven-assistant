@@ -133,7 +133,8 @@ export class WebSocketService {
         characters: this.role === WebSocketRole.Host ? this.appContext.getCreatures() : [],
         roundNumber: this.role === WebSocketRole.Host ? this.appContext.getRoundNumber() : 1,
         elementStates: this.role === WebSocketRole.Host ? this.appContext.getElements() : [],
-        damageTracker: this.role === WebSocketRole.Host ? this.appContext.getDamageTracker() : {}
+        damageTracker: this.role === WebSocketRole.Host ? this.appContext.getDamageTracker() : {},
+        killTracker: this.role === WebSocketRole.Host ? this.appContext.getKillTracker() : {}
       };
 
       this.ws.send(JSON.stringify(joinSessionPayload));

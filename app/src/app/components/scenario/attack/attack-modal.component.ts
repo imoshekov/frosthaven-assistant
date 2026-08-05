@@ -33,7 +33,6 @@ export class AttackModalComponent {
     private logService: LogService
   ) {
     this.creature = appContext.selectedCreature;
-    this.selectedCharacterId = this.getDefaultSelectedCharacterId();
   }
 
   get shouldShowBuffs(): boolean {
@@ -119,13 +118,12 @@ export class AttackModalComponent {
       this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
     });
     
-    // Record damage if a character is selected, capped at the monster's HP before the attack
+    // Record full damage (not capped at monster HP) if a character is selected
     if (this.selectedCharacterId && this.damage > 0) {
       const selectedChar = this.appContext.getCreatures().find(c => c.id === this.selectedCharacterId);
       if (selectedChar && selectedChar.type) {
-        const effectiveDamage = Math.min(this.damage, currentHp);
-        this.appContext.recordDamage(selectedChar.type, effectiveDamage);
-        this.logService.appendDamageToLastBatch(selectedChar.type, effectiveDamage);
+        this.appContext.recordDamage(selectedChar.type, this.damage);
+        this.logService.appendDamageToLastBatch(selectedChar.type, this.damage);
         if (this.damage >= currentHp) {
           this.appContext.recordKill(selectedChar.type);
           this.logService.appendKillToLastBatch(selectedChar.type);

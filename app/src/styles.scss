@@ -58,6 +58,12 @@ button {
         &:hover {
             background-color: var(--confirm-button-color-2);
         }
+
+        &:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
     }
 
     &.cancel {

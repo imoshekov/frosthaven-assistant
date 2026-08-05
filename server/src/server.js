@@ -18,7 +18,8 @@ const SESSION_DEFAULT_DATA = {
     round: 1,
     graveyard: [],
     scenarioId: null,
-    damageTracker: {}
+    damageTracker: {},
+    killTracker: {}
 }
 
 const sessions = {};
@@ -145,6 +146,12 @@ wss.on('connection', (ws) => {
                     broadcastToSession(currentSessionId, 'damage-tracker-update', { damageTracker: data.damageTracker, originatingClientId });
                     break;
                 }
+                case 'kill-tracker-update': {
+                    session.killTracker = data.killTracker;
+                    session.lastActivity = Date.now();
+                    broadcastToSession(currentSessionId, 'kill-tracker-update', { killTracker: data.killTracker, originatingClientId });
+                    break;
+                }
                 case 'request-latest-state': {
                     session.lastActivity = Date.now();
 
@@ -181,6 +188,11 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({
                         type: 'damage-tracker-update',
                         damageTracker: session.damageTracker
+                    }));
+
+                    ws.send(JSON.stringify({
+                        type: 'kill-tracker-update',
+                        killTracker: session.killTracker
                     }));
 
                     break;
@@ -231,6 +243,7 @@ function createSession(sessionId, data) {
         elementStates: elementStates,
         lootDeckConfig: null,
         damageTracker: data.damageTracker || {},
+        killTracker: data.killTracker || {},
         lastActivity: Date.now(),
     };
 
