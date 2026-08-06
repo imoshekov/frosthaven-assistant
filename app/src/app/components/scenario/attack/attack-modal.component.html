@@ -8,7 +8,6 @@
                 <div *ngFor="let hero of getHeroes()" 
                      class="character-slot" 
                      [class.selected]="selectedCharacterId === hero.id"
-                     [class.unselected]="selectedCharacterId !== null && selectedCharacterId !== hero.id"
                      (click)="selectCharacter(hero.id || null)">
                     <img [src]="'./images/character/thumbnail/fh-' + hero.type + '.png'" 
                          [title]="hero.name"
@@ -23,7 +22,7 @@
                 <input type="tel" [(ngModel)]="attack" (ngModelChange)="calculateDamage()" maxlength="3"
                     class="stat-input" />
             </div>
-            <div class="stat" *ngIf="creature.armor + creature.roundArmor > 0">
+            <div class="stat">
                 <div class="icon pierce"></div>
                 <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3"
                     class="stat-input" />
