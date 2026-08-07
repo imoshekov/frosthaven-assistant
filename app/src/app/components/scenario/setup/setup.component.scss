@@ -120,6 +120,7 @@ app-chevron-toggle {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 1;
   --font-color: var(--font-color-dark);
 }
 

@@ -1,16 +1,16 @@
 <div class="container">
     <div *ngIf="shouldShowBuffs" class="buffs">
-        <div class="armor stat">
-            {{creature.armor + creature.roundArmor}}
-            <div class="icon shield"></div>
-        </div>
         <div class="retaliate stat">
-            {{creature.retaliate + creature.roundRetaliate}}
             <div class="icon retaliate"></div>
+            {{creature.retaliate + creature.roundRetaliate}}
+        </div>
+        <div class="armor stat">
+            <div class="icon shield"></div>
+            {{creature.armor + creature.roundArmor}}
         </div>
         <div class="retaliate stat" *ngIf="creature.retaliateRange > 0">
-            {{creature.retaliateRange}}
             <div class="icon range"></div>
+            {{creature.retaliateRange}}
         </div>
     </div>
 
