@@ -96,8 +96,9 @@ export class ScenarioComponent implements OnInit, OnDestroy {
     const currentIndex = shared === null ? -1 : ELEMENT_HOLD_CYCLE.indexOf(shared);
     const next = ELEMENT_HOLD_CYCLE[(currentIndex + 1) % ELEMENT_HOLD_CYCLE.length];
 
-    this.appContext.setElements(
-      this.appContext.getElements().map(el => ({ ...el, holdRounds: next }))
+    this.appContext.setElementHolds(
+      this.appContext.getElements().map(el => el.type),
+      next
     );
   }
 }

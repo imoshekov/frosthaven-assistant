@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
-import { LogEntry, LogService } from '../../../services/log.service';
+import { LogEntry, LogService, ELEMENT_HOLD_STAT } from '../../../services/log.service';
 import { CommonModule } from '@angular/common';
 import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { AppContext } from '../../../app-context';
@@ -90,6 +90,11 @@ export class LogComponent {
       },
       kill: (_id, _value, log) => {
         this.appContext.undoKill(log.creature);
+      },
+      [ELEMENT_HOLD_STAT]: (_id, _value, log) => {
+        if (log.elementType) {
+          this.appContext.setElementHold(log.elementType, Number(log.oldValue) || 0);
+        }
       }
     };
   }

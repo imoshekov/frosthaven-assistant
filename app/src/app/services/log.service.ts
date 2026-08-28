@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { pairwise, map, filter } from 'rxjs/operators';
-import { Creature } from '../types/game-types';
+import { Creature, ELEMENT_HOLD_INDEFINITE, ElementType } from '../types/game-types';
+
+export const ELEMENT_HOLD_STAT = 'element hold';
 
 export interface LogEntry {
   id: string;
@@ -12,6 +14,7 @@ export interface LogEntry {
   stat: string;
   value: any;
   oldValue: any;
+  elementType?: ElementType;
   data?: {
     new?: Partial<Creature>;
     old?: Partial<Creature>;
@@ -202,6 +205,35 @@ export class LogService {
       conditions: c.conditions ? [...c.conditions] : [],
       aggressive: (c as any)?.aggressive
     };
+  }
+
+  /** Logs element hold changes as a single batch so they can be undone together. */
+  logElementHolds(changes: { type: ElementType; holdRounds: number; oldHoldRounds: number }[]): void {
+    if (this.pauseLogging) return;
+
+    const relevant = changes.filter(c => c.holdRounds !== c.oldHoldRounds);
+    if (relevant.length === 0) return;
+
+    const batchId = this.randId();
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const entries: LogEntry[] = relevant.map(c => ({
+      id: this.randId(),
+      batchId,
+      time,
+      creature: c.type,
+      stat: ELEMENT_HOLD_STAT,
+      value: this.holdLabel(c.holdRounds),
+      oldValue: c.oldHoldRounds,
+      elementType: c.type
+    }));
+
+    this.logsSubject.next([...entries, ...this.logsSubject.value]);
+  }
+
+  private holdLabel(holdRounds: number): string {
+    if (holdRounds === ELEMENT_HOLD_INDEFINITE) return 'held indefinitely';
+    if (holdRounds > 0) return `held ${holdRounds} round${holdRounds === 1 ? '' : 's'}`;
+    return 'released';
   }
 
   /**

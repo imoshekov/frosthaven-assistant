@@ -117,10 +117,22 @@ export class AppContext {
     }
 
     setElementHold(type: ElementType, holdRounds: number): void {
-        const updated = this.getElements().map(el =>
-            el.type === type ? { ...el, holdRounds } : el
-        );
+        this.setElementHolds([type], holdRounds);
+    }
+
+    /** Applies the same hold to several elements and logs them as one undoable batch. */
+    setElementHolds(types: ElementType[], holdRounds: number): void {
+        const targets = new Set(types);
+        const changes: { type: ElementType; holdRounds: number; oldHoldRounds: number }[] = [];
+
+        const updated = this.getElements().map(el => {
+            if (!targets.has(el.type)) return el;
+            changes.push({ type: el.type, holdRounds, oldHoldRounds: el.holdRounds ?? 0 });
+            return { ...el, holdRounds };
+        });
+
         this.setElements(updated);
+        this.logService.logElementHolds(changes);
     }
 
     getCreatures(): Creature[] {
