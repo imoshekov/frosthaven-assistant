@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { AppContext } from "../../../app-context";
-import { Element, ElementState } from '../../../types/game-types';
+import { Element, ELEMENT_HOLD_INDEFINITE, ElementState } from '../../../types/game-types';
 import { Subscription } from "rxjs";
 import { FormsModule } from "@angular/forms";
 import { GlobalTelInputDirective } from "../../../directives/global-tel-input.directive";
@@ -68,6 +68,11 @@ export class RoundComponent implements OnInit, OnDestroy {
 
     private resetElements(): void {
         const updatedElements = this.appContext.getElements().map(el => {
+            const hold = el.holdRounds ?? 0;
+
+            if (hold === ELEMENT_HOLD_INDEFINITE) return el;
+            if (hold > 0) return { ...el, holdRounds: hold - 1 };
+
             let newState: ElementState;
             if (el.state === ElementState.Half) newState = ElementState.None;
             else if (el.state === ElementState.Full) newState = ElementState.Half;

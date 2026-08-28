@@ -82,7 +82,14 @@ export enum ElementType {
 export interface Element {
   type: ElementType;
   state: ElementState;
+  /** Rounds the element keeps its current state. -1 holds it until manually released. */
+  holdRounds?: number;
 }
+
+export const ELEMENT_HOLD_INDEFINITE = -1;
+
+/** Values cycled through by the element hold control. */
+export const ELEMENT_HOLD_CYCLE = [0, 1, 2, 3, ELEMENT_HOLD_INDEFINITE];
 
 export const LEVEL_XP = [0, 45, 95, 150, 210, 275, 345, 420, 500]; 
 export const MAX_LEVEL = 9;

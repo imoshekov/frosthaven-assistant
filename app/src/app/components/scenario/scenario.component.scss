@@ -12,6 +12,41 @@
   .elements-row {
     display: flex;
     gap: 6px;
+    align-items: center;
+  }
+
+  .hold-all {
+    margin-left: 6px;
+    height: 26px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid var(--font-color-dark);
+    border-radius: 13px;
+    background-color: var(--content-background-right);
+    color: var(--font-color-dark);
+    cursor: pointer;
+    opacity: 0.35;
+    transition: opacity .2s ease;
+
+    &:hover,
+    &:focus-visible,
+    &.active {
+      opacity: 1;
+    }
+
+    .lock {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+    }
+
+    .hold-count {
+      font-size: 12px;
+      line-height: 1;
+      font-weight: bold;
+    }
   }
   
   .connection-status {

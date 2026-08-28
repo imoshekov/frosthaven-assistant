@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Element, ElementState} from '../../../types/game-types';
+import { Element, ELEMENT_HOLD_CYCLE, ELEMENT_HOLD_INDEFINITE, ElementState } from '../../../types/game-types';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
 
@@ -68,5 +68,34 @@ export class ElementComponent {
 
     // Update local element immediately
     this.element = { ...this.element, state: next };
+  }
+
+  get holdRounds(): number {
+    return this.element.holdRounds ?? 0;
+  }
+
+  get isHeld(): boolean {
+    return this.holdRounds !== 0;
+  }
+
+  get holdLabel(): string {
+    if (this.holdRounds === ELEMENT_HOLD_INDEFINITE) return '\u221e';
+    return this.holdRounds > 0 ? String(this.holdRounds) : '';
+  }
+
+  get holdTooltip(): string {
+    if (this.holdRounds === ELEMENT_HOLD_INDEFINITE) return 'Held until released';
+    if (this.holdRounds > 0) return `Held for ${this.holdRounds} more round${this.holdRounds === 1 ? '' : 's'}`;
+    return 'Hold this element at its current state';
+  }
+
+  cycleHold(event: MouseEvent): void {
+    event.stopPropagation();
+
+    const currentIndex = ELEMENT_HOLD_CYCLE.indexOf(this.holdRounds);
+    const next = ELEMENT_HOLD_CYCLE[(currentIndex + 1) % ELEMENT_HOLD_CYCLE.length];
+
+    this.appContext.setElementHold(this.element.type, next);
+    this.element = { ...this.element, holdRounds: next };
   }
 }

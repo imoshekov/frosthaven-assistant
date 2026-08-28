@@ -116,6 +116,13 @@ export class AppContext {
         this.setElements(updated);
     }
 
+    setElementHold(type: ElementType, holdRounds: number): void {
+        const updated = this.getElements().map(el =>
+            el.type === type ? { ...el, holdRounds } : el
+        );
+        this.setElements(updated);
+    }
+
     getCreatures(): Creature[] {
         return this.creaturesSubject.value;
     }

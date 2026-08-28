@@ -1,4 +1,4 @@
-<div class="element-container">
+<div class="element-container" [class.held]="isHeld">
   <svg class="element-icon"
       viewBox="0 0 197.55556 197.55556"
       (click)="toggleColor();"
@@ -37,4 +37,19 @@
       </path>
     </g>
   </svg>
+
+  <button type="button"
+          class="hold-badge"
+          [class.active]="isHeld"
+          [attr.aria-label]="holdTooltip"
+          [attr.aria-pressed]="isHeld"
+          [title]="holdTooltip"
+          (click)="cycleHold($event)">
+    <span *ngIf="isHeld; else lockIcon" class="hold-count">{{ holdLabel }}</span>
+    <ng-template #lockIcon>
+      <svg class="lock" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0z" />
+      </svg>
+    </ng-template>
+  </button>
 </div>

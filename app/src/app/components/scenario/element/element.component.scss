@@ -3,6 +3,50 @@
   height: 45px;
   display: flex;
   gap: 8px;
+  position: relative;
+}
+
+.hold-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--font-color-dark);
+  border-radius: 50%;
+  background-color: var(--content-background-right);
+  color: var(--font-color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity .2s ease;
+
+  &:hover,
+  &:focus-visible,
+  &.active {
+    opacity: 1;
+  }
+
+  .lock {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+  }
+
+  .hold-count {
+    font-size: 11px;
+    line-height: 1;
+    font-weight: bold;
+  }
+}
+
+.element-container.held .element-icon {
+  outline: 2px solid var(--font-color-dark);
+  outline-offset: -1px;
+  border-radius: 50%;
 }
 
 
