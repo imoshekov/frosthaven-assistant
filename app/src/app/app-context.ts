@@ -229,13 +229,17 @@ export class AppContext {
         if (!creatureToUpdate) return;
 
         const conditions = creatureToUpdate.conditions || [];
+        const conditionRounds = { ...creatureToUpdate.conditionRounds };
 
         const index = conditions.indexOf(condition);
         if (index > -1) {
             creatureToUpdate.conditions = conditions.filter(c => c !== condition);
+            delete conditionRounds[condition];
         } else {
             creatureToUpdate.conditions = [...conditions, condition];
+            conditionRounds[condition] = this.getRoundNumber();
         }
+        creatureToUpdate.conditionRounds = conditionRounds;
         this.creaturesSubject.next([...this.getCreatures()]);
     }
 

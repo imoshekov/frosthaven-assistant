@@ -57,6 +57,22 @@
                 filter: none;
                 pointer-events: none;
             }
+
+            .round-badge {
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                min-width: 14px;
+                height: 14px;
+                padding: 0 2px;
+                border-radius: 50%;
+                background: #222;
+                color: #fff;
+                font-size: 10px;
+                line-height: 14px;
+                text-align: center;
+                pointer-events: none;
+            }
         }
 
     }

@@ -15,6 +15,7 @@ export class ConditionsComponent implements OnInit {
   @Input() conditions: CreatureConditions[];
   @Input() immunities: CreatureConditions[];
   @Input() shouldShowBuffs: boolean;
+  @Input() showConditionRounds = false;
   private activeConditions: CreatureConditions[] = [];
   private activeImmunities: CreatureConditions[] = [];
 
@@ -44,6 +45,10 @@ export class ConditionsComponent implements OnInit {
 
   isImmune(immunity: CreatureConditions): boolean {
     return this.activeImmunities.includes(immunity);
+  }
+
+  getConditionRound(condition: CreatureConditions): number | undefined {
+    return this.creature?.conditionRounds?.[condition];
   }
 
   private removeCondition(value: string) {

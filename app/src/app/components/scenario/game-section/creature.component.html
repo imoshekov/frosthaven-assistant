@@ -15,7 +15,7 @@
                         (blur)="updateCreatureHp(creature.id!, getHpValueFromInput($event.target.value), getMaxHpFromInput($event.target.value))" maxlength="5"
                         class="stat-input" />
                 </div>
-                <app-conditions [creature]="creature" [conditions]="creature.conditions"
+                <app-conditions [creature]="creature" [conditions]="creature.conditions" [showConditionRounds]="true"
                     (conditionToggled)="toggleCondition($event)"></app-conditions>
             </div>
         </div>

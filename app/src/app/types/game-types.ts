@@ -49,6 +49,8 @@ export interface Creature {
   flying?: boolean;
   boss?: boolean;
   conditions?: CreatureConditions[];
+  /** Round number each active condition was applied on, keyed by condition. */
+  conditionRounds?: Partial<Record<CreatureConditions, number>>;
   immunities?: CreatureConditions[];
   roundArmor?: number,
   roundRetaliate?: number,
