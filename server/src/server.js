@@ -8,12 +8,12 @@ const SESSION_TIMEOUT = 8 * 60 * 60 * 1000; //8hours
 const SESSION_DEFAULT_DATA = {
     characters: {},
     elements: {
-        fire: 'none',
-        ice: 'none',
-        earth: 'none',
-        air: 'none',
-        light: 'none',
-        dark: 'none'
+        fire: { state: 'none', holdRounds: 0 },
+        ice: { state: 'none', holdRounds: 0 },
+        earth: { state: 'none', holdRounds: 0 },
+        air: { state: 'none', holdRounds: 0 },
+        light: { state: 'none', holdRounds: 0 },
+        dark: { state: 'none', holdRounds: 0 }
     },
     round: 1,
     graveyard: [],
@@ -122,7 +122,7 @@ wss.on('connection', (ws) => {
                 case 'elements-update': {
                     let newStates = {};
                     if (Array.isArray(data.elements)) {
-                        data.elements.forEach(el => { newStates[el.type] = el.state; });
+                        data.elements.forEach(el => { newStates[el.type] = { state: el.state, holdRounds: el.holdRounds ?? 0 }; });
                     } else {
                         newStates = data.elements;
                     }
@@ -131,7 +131,8 @@ wss.on('connection', (ws) => {
 
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
-                        state: session.elementStates[key]
+                        state: session.elementStates[key].state,
+                        holdRounds: session.elementStates[key].holdRounds ?? 0
                     }));
 
                     broadcastToSession(currentSessionId, 'elements-update', {
@@ -172,7 +173,8 @@ wss.on('connection', (ws) => {
 
                     const elementsArray = Object.keys(session.elementStates).map(key => ({
                         type: key,
-                        state: session.elementStates[key]
+                        state: session.elementStates[key].state,
+                        holdRounds: session.elementStates[key].holdRounds ?? 0
                     }));
 
                     ws.send(JSON.stringify({
@@ -228,7 +230,7 @@ function createSession(sessionId, data) {
 
     if (Array.isArray(data.elementStates)) {
         data.elementStates.forEach(el => {
-            elementStates[el.type] = el.state;
+            elementStates[el.type] = { state: el.state, holdRounds: el.holdRounds ?? 0 };
         });
     } else {
         elementStates = { ...SESSION_DEFAULT_DATA.elements };
