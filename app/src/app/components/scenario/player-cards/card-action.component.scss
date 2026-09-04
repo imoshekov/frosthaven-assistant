@@ -1,0 +1,192 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.4rem;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+
+  .icon {
+    // icons.scss sizes .icon at 35px, which is far too large inside a card half.
+    width: 1.5rem;
+    height: 1.5rem;
+    flex: 0 0 auto;
+  }
+
+  .action-value {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .action-label {
+    font-size: 0.75rem;
+    text-transform: lowercase;
+    opacity: 0.75;
+    border: 1px solid currentColor;
+    border-radius: 0.2rem;
+    padding: 0 0.25rem;
+  }
+
+  // The FH convention for a modifier riding on its parent action.
+  &.small {
+    .icon { width: 1.05rem; height: 1.05rem; }
+    .action-value { font-size: 0.8rem; }
+  }
+}
+
+// Sub-actions modify their parent, so they read as attached rather than sibling.
+.sub-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.3rem;
+  padding-left: 0.3rem;
+  border-left: 1px solid rgba(127, 127, 127, 0.35);
+}
+
+.action-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+
+  // `concatenation` exists to make its children read as one inline phrase.
+  &.inline {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  &.boxed {
+    border: 1px solid rgba(127, 127, 127, 0.5);
+    border-radius: 0.25rem;
+    padding: 0.15rem 0.3rem;
+  }
+}
+
+
+.action-text {
+  font-size: 0.82rem;
+  line-height: 1.3;
+  flex: 1 1 100%;
+
+  &.small {
+    font-size: 0.75rem;
+    opacity: 0.9;
+  }
+
+  // Makes a gap in the card data obvious instead of silently printing %a.b.c%.
+  &.unresolved {
+    text-decoration: underline wavy rgba(200, 60, 60, 0.9);
+  }
+}
+
+// A conditional bonus reads as an offer, so it gets its own bordered chip rather
+// than sitting inline with the effects that always apply.
+.element-bonus {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.35rem;
+  border: 1px dashed var(--content-box-shadow-1, rgba(127, 127, 127, 0.7));
+  border-radius: 0.25rem;
+
+  .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .consume-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.8;
+  }
+
+  .bonus-arrow {
+    opacity: 0.7;
+  }
+}
+
+.summon {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  flex: 1 1 100%;
+
+  .summon-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .summon-name {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+  }
+
+  .summon-stats {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .summon-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+
+    .icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .summon-image {
+    max-width: 6rem;
+    margin-top: 0.15rem;
+  }
+}
+
+// Persistent-ability slot track printed on the card. Display only — the app never
+// advances the token.
+.persistent-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.persistent-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1px solid rgba(127, 127, 127, 0.7);
+  border-radius: 0.15rem;
+
+  .slot-xp {
+    font-size: 0.62rem;
+    font-weight: 700;
+    opacity: 0.9;
+  }
+}
+
+// icons.scss has no .summon glyph in the fh set, so the marker is drawn locally.
+.icon.summon-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}

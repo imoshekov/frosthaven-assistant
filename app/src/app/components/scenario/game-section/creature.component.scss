@@ -38,6 +38,44 @@
         text-align: center;
         user-select: none;
     }
+
+    // The name is the only trait that can ever be interactive — it opens the card
+    // execution panel once both of the hero's cards are set. Without that, it stays
+    // exactly like any other non-interactive trait.
+    .name-trait {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+
+        .icon.attack {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        // Matches the "Attack" button's height under enemies, so the clickable name
+        // reads as an equally prominent action bar. Non-clickable names keep the
+        // compact default height from .trait.
+        &.clickable {
+            height: 42px;
+            cursor: pointer;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+            }
+        }
+    }
+
+    // Every class prints exactly 3 traits, so a clickable name is always followed by
+    // 3 sibling .trait rows. Measured baseline (non-clickable): each row is ~22.4px
+    // tall (1rem / 1.4 line-height, no padding), for a 4-row total of ~101.6px.
+    // Compress the 3 trait rows so the column's total height stays the same once the
+    // name grows to 42px: (101.6 - 42 - 3*4 gap) / 3 rows ≈ 15.85px per row, which at
+    // the same 1rem font-size means a line-height of ~0.99.
+    .name-trait.clickable ~ .trait {
+        line-height: 0.99;
+    }
 }
 
 input {

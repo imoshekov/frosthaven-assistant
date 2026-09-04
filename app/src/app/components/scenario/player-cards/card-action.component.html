@@ -1,0 +1,90 @@
+@for (action of actions; track $index) {
+  @if (isLayoutOnly(action)) {
+    <!-- Structural wrappers draw nothing themselves, just group their children. -->
+    <span class="action-group"
+          [class.boxed]="action.type === 'forceBox' || action.type === 'boxFhSubActions'">
+      @if (depth < maxDepth) {
+        <app-card-action [actions]="action.subActions ?? []" [depth]="depth + 1"></app-card-action>
+      }
+    </span>
+  } @else if (isText(action)) {
+    <span class="action-text" [class.small]="action.small" [class.unresolved]="isUnresolved(action)">
+      {{ textOf(action) }}
+    </span>
+  } @else if (isElementBonus(action)) {
+    <!-- An offer, not an effect: only available while the elements are active, and it
+         consumes them if taken. The execution panel is what actually applies it. -->
+    <span class="element-bonus">
+      <span class="consume-label">{{ consumeLabel(action) }}</span>
+      @for (icon of elementIcons(action); track icon) {
+        <span class="icon" [ngClass]="icon"></span>
+      }
+      <span class="bonus-arrow">→</span>
+      @if (depth < maxDepth) {
+        <app-card-action [actions]="action.subActions ?? []" [depth]="depth + 1"></app-card-action>
+      }
+    </span>
+  } @else if (isSummon(action)) {
+    @if (summonOf(action); as summon) {
+      <span class="summon">
+        <span class="icon summon-icon"></span>
+        <span class="summon-body">
+          <span class="summon-name">
+            {{ summon.count && summon.count > 1 ? summon.count + '× ' : '' }}{{ summon.name }}
+          </span>
+          <span class="summon-stats">
+            @for (stat of summonStats(summon); track stat.icon) {
+              <span class="summon-stat">
+                <span class="icon" [ngClass]="stat.icon"></span>{{ stat.value }}
+              </span>
+            }
+          </span>
+          @if (summon.abilities?.length && depth < maxDepth) {
+            <app-card-action [actions]="summon.abilities ?? []" [depth]="depth + 1"></app-card-action>
+          }
+          @for (note of summon.notes ?? []; track $index) {
+            <span class="action-text small">{{ note }}</span>
+          }
+          <!-- The schema's one sanctioned outside reference, for printed detail it
+               cannot express. -->
+          @if (summon.image) {
+            <img class="summon-image" [src]="imagePath(summon.image)" [alt]="summon.name" />
+          }
+        </span>
+      </span>
+    }
+  } @else if (isPersistentTrack(action)) {
+    <span class="persistent-track" title="Persistent ability track">
+      @for (slot of slotsOf(action); track $index) {
+        <span class="persistent-slot">
+          @if (slot.xp) {
+            <span class="slot-xp">{{ slot.xp }}</span>
+          }
+        </span>
+      }
+    </span>
+  } @else {
+    <span class="action" [class.small]="action.small">
+      @if (action.type === 'element') {
+        @for (icon of elementIcons(action); track icon) {
+          <span class="icon" [ngClass]="icon"></span>
+        }
+      } @else if (iconClassFor(action)) {
+        <span class="icon" [ngClass]="iconClassFor(action)"></span>
+      } @else if (fallbackLabel(action)) {
+        <span class="action-label">{{ fallbackLabel(action) }}</span>
+      }
+      @if (displayValue(action)) {
+        <span class="action-value">{{ displayValue(action) }}</span>
+      }
+
+      <!-- Sub-actions are modifiers on this action (range, target, a condition it
+           inflicts), so they nest visually rather than reading as separate actions. -->
+      @if (action.subActions?.length && depth < maxDepth) {
+        <span class="sub-actions">
+          <app-card-action [actions]="action.subActions ?? []" [depth]="depth + 1"></app-card-action>
+        </span>
+      }
+    </span>
+  }
+}

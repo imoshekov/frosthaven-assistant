@@ -3,7 +3,10 @@
   <button class="bubble-btn" (click)="toggleOpen()" [class.has-pending]="hasAnySubmission"
     title="Enter your initiative">
     <span class="bubble-icon">⚔</span>
-    <span class="bubble-badge" *ngIf="hasSubmitted">{{ submittedInitiative ?? '✓' }}</span>
+    <span class="bubble-badge" *ngIf="hasSubmitted">
+      <ng-container *ngIf="submittedInitiativePair as pair">{{ pair.main }}</ng-container>
+      <ng-container *ngIf="!submittedInitiativePair">✓</ng-container>
+    </span>
   </button>
 
   <!-- Panel -->
@@ -37,18 +40,52 @@
 
       <!-- Input mode: own character with no revealed initiative, or another with no initiative yet -->
       <ng-container *ngIf="initiativeDisplayMode === 'input'">
-        <p class="panel-hint">Enter initiative (secret):</p>
+        <p class="panel-hint">Enter both card initiatives (secret):</p>
+        <div class="initiative-row pair">
+          <label class="initiative-field">
+            <span class="field-label">Main Card</span>
+            <span class="input-wrap">
+              <input
+                type="tel"
+                class="initiative-input"
+                [value]="mainInput"
+                maxlength="2"
+                placeholder="00"
+                (input)="mainInput = $any($event.target).value"
+                (keyup.enter)="submitInitiative()"
+              />
+              <span class="unknown-badge" *ngIf="mainInitiativeUnknown"
+                title="No card at this initiative — check the printed value">!</span>
+            </span>
+          </label>
+          <label class="initiative-field">
+            <span class="field-label">Second Card</span>
+            <span class="input-wrap">
+              <input
+                type="tel"
+                class="initiative-input"
+                [value]="secondaryInput"
+                maxlength="2"
+                placeholder="00"
+                (input)="secondaryInput = $any($event.target).value"
+                (keyup.enter)="submitInitiative()"
+              />
+              <span class="unknown-badge" *ngIf="secondaryInitiativeUnknown"
+                title="No card at this initiative — check the printed value">!</span>
+            </span>
+          </label>
+        </div>
+
+        <p class="validation" *ngIf="pairIsDuplicate">
+          Both cards have the same initiative — you cannot play one card twice.
+        </p>
+
         <div class="initiative-row">
-          <input
-            type="tel"
-            class="initiative-input"
-            [value]="initiativeInput"
-            maxlength="2"
-            placeholder="00"
-            (input)="initiativeInput = $any($event.target).value"
-            (keyup.enter)="submitInitiative()"
-          />
-          <button class="submit-btn" (click)="submitInitiative()">Submit</button>
+          <button class="submit-btn" [disabled]="!canSubmit" (click)="submitInitiative()">Submit</button>
+          <button class="long-rest-btn" [disabled]="initiativesLocked" (click)="longRest()"
+            title="Play no cards — initiative 99, turn already done once revealed">
+            Long rest
+          </button>
         </div>
       </ng-container>
 
@@ -56,6 +93,7 @@
       <ng-container *ngIf="initiativeDisplayMode === 'hidden'">
         <p class="panel-hint">Initiative submitted (hidden):</p>
         <div class="initiative-row">
+          <span class="initiative-display initiative-hidden">??</span>
           <span class="initiative-display initiative-hidden">??</span>
         </div>
       </ng-container>
@@ -65,12 +103,17 @@
         <p class="panel-hint">Initiative:</p>
         <div class="initiative-row">
           <span class="initiative-display">{{ revealedInitiative }}</span>
+          <span class="initiative-display" *ngIf="revealedSecondaryInitiative">
+            {{ revealedSecondaryInitiative }}
+          </span>
         </div>
       </ng-container>
 
       <p class="submitted-label" *ngIf="hasSubmitted">
-        <ng-container *ngIf="submittedInitiative !== null">Ready: <strong>{{ submittedInitiative }}</strong></ng-container>
-        <ng-container *ngIf="submittedInitiative === null">Ready ✓</ng-container>
+        <ng-container *ngIf="submittedInitiativePair as pair">
+          Ready: <strong>{{ pair.main }}</strong> / <strong>{{ pair.secondary }}</strong>
+        </ng-container>
+        <ng-container *ngIf="!submittedInitiativePair">Ready ✓</ng-container>
       </p>
       <p class="hint">{{ initiativesLocked ? 'Round in progress' : 'Changes until Next Round' }}</p>
     </ng-container>

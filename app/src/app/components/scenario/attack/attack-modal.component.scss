@@ -105,10 +105,51 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
+            gap: 0.3rem;
 
             .icon.damage {
                 height: 55px;
             }
+
+            .stat-input:disabled {
+                opacity: 0.4;
+            }
+        }
+
+        // Off by default: a dark outline that reads clearly against the parchment
+        // background (--secondary-color is a pale cream, nearly the same color as the
+        // page itself, and disappeared here). On: filled red, so "armor is being
+        // ignored" reads at a glance rather than needing the tooltip.
+        .ignore-armor-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 50%;
+            border: 2px solid var(--font-color-dark);
+            background: transparent;
+            color: var(--font-color-dark);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+            svg { width: 28px; height: 28px; }
+
+            &:hover { border-color: var(--primary-color); color: var(--primary-color); }
+
+            &.active {
+                border-color: var(--primary-color);
+                background: var(--primary-color);
+                color: var(--font-color);
+            }
+        }
+
+        .custom-hint {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.85;
+            margin: 0.25rem 0 0;
         }
 
     }

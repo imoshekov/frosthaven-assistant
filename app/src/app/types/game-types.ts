@@ -1,4 +1,5 @@
 import { MonsterAbilityCard } from "./data-file-types";
+import { CardSlot, HalfDisposition } from "./character-card-types";
 
 export enum CreatureConditions {
   poison = "poison",
@@ -34,12 +35,30 @@ export interface Creature {
   standee?: number | string,
   type?: string;
   aggressive?: boolean;
+  /**
+   * True for a summoned figure. A summon is friendly like a hero (`aggressive` is
+   * false) but statted and managed like a monster, so most hero-only logic keys off
+   * `isHero()` rather than `!aggressive`. Summons only ever enter play through a card's
+   * summon action.
+   */
+  isSummon?: boolean;
+  /**
+   * The hero who summoned it. A summon has no initiative of its own — it acts on its
+   * owner's, immediately before them — so ordering borrows the owner's value.
+   */
+  summonOwnerId?: string;
+  /** Token art for a summon, as a path under `/images`, taken from the card. */
+  summonImage?: string;
+  /** Attack range printed on a summon token. Monsters get range from ability cards. */
+  range?: number;
   isElite?: boolean; 
   level?: number; 
   hp?: number;
   maxHp?: number;
   attack?: number;
   attackTarget?: number;
+  /** Fixed armor penetration a summon's printed attack carries. Monsters get pierce from the attack-modifier deck instead. */
+  pierce?: number;
   movement?: number | null;
   initiative?: number;
   hiddenInitiative?: number | null;
@@ -63,6 +82,31 @@ export interface Creature {
   actions?: CreatureAction[];
   abilityCards?: MonsterAbilityCard[]; 
   totalXp?: number;
+
+  // --- Hero card turn state (predicates live in turn-state.util.ts) -----------
+  // Only meaningful when `aggressive` is false. Monster turns stay fully manual.
+
+  /** The second played card's initiative, before reveal. Mirrors `hiddenInitiative`. */
+  secondaryHiddenInitiative?: number | null;
+  /** The second played card's initiative, once revealed. Mirrors `initiative`. */
+  secondaryInitiative?: number;
+
+  /**
+   * The two played cards, held as ids rather than objects: the whole `Creature[]` is
+   * broadcast on every state change, and monsters already ship entire decks that way.
+   * `cardId` is unique across all 17 Frosthaven decks, so an id alone resolves a card.
+   */
+  cardAId?: number | null;
+  cardBId?: number | null;
+
+  /** Which card supplied the spent top half, and whether it was executed or skipped. */
+  topHalfSlot?: CardSlot | null;
+  topHalfState?: HalfDisposition | null;
+  bottomHalfSlot?: CardSlot | null;
+  bottomHalfState?: HalfDisposition | null;
+
+  /** Set when both halves are spent, or forced by "End Turn Early". */
+  isTurnCompleted?: boolean;
 }
 
 

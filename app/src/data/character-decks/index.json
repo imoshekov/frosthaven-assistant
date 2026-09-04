@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "source": "gloomhavensecretariat/data/fh/character/deck",
+  "classes": [
+    "astral",
+    "banner-spear",
+    "blinkblade",
+    "boneshaper",
+    "coral",
+    "deathwalker",
+    "drifter",
+    "drill",
+    "fist",
+    "geminate",
+    "kelp",
+    "meteor",
+    "prism",
+    "shackles",
+    "shards",
+    "snowflake",
+    "trap"
+  ]
+}

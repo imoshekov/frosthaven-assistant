@@ -1,0 +1,339 @@
+<div class="layout" (click)="close()"></div>
+
+<div class="modal" *ngIf="hero as actingHero">
+  <div class="content">
+
+    <!-- Header ------------------------------------------------------------- -->
+    <div class="panel-header">
+      <img class="portrait" [src]="heroPortrait" [alt]="actingHero.name" (error)="onImgError($event)" />
+      <div class="who">
+        <div class="name">{{ actingHero.name }}</div>
+        <div class="sub">
+          level {{ actingHero.level }}
+          <span class="initiatives">
+            <span class="init" title="Main Card initiative">
+              {{ initiativeFor('A') || '–' }}
+            </span>
+            /
+            <span class="init" title="Second Card initiative">
+              {{ initiativeFor('B') || '–' }}
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="turn-state" *ngIf="isTurnComplete">turn complete ✓</div>
+      <button type="button" class="close-btn" (click)="close()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Card chooser: only when an initiative is genuinely ambiguous -------- -->
+    <ng-container *ngFor="let slot of slots; trackBy: trackSlot">
+      <div class="card-chooser" *ngIf="needsChoice(slot)">
+        <div class="chooser-label">
+          Initiative {{ initiativeFor(slot) }} matches more than one card — which did you play?
+        </div>
+        <div class="chooser-options">
+          <button type="button"
+                  *ngFor="let candidate of candidatesFor(slot); trackBy: trackCandidate"
+                  class="chooser-option"
+                  (click)="chooseCard(slot, candidate.card.cardId)">
+            {{ candidateLabel(candidate) }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Card halves -------------------------------------------------------- -->
+    <div class="halves">
+      <div class="half-tile"
+           *ngFor="let tile of tiles; trackBy: trackTile"
+           [class.spent]="isTileSpent(tile)"
+           [class.disabled]="isTileDisabled(tile)"
+           [class.selected]="isTileSelected(tile)"
+           [class.is-default]="tile.source === 'default'">
+
+        <div class="tile-head" (click)="selectTile(tile)">
+          <span class="tile-slot">{{ tile.source === 'default' ? 'mat' : tile.source }} · {{ tile.half }}</span>
+          <span class="tile-name">{{ tile.label }}</span>
+          <span class="tile-badge" *ngIf="tileDisposition(tile) as disposition">{{ disposition }}</span>
+        </div>
+
+        <div class="tile-body" (click)="selectTile(tile)">
+          <!-- Halves with real action data render it. -->
+          <app-card-action *ngIf="hasData(tile.content)" [actions]="tile.content?.actions ?? []"></app-card-action>
+
+          <!-- 878 of 1008 Frosthaven halves have no action data yet, so say so plainly
+               rather than rendering an empty tile. -->
+          <div class="no-data" *ngIf="tile.content && !hasData(tile.content)">
+            No card data yet — read the printed card and enter the value below.
+          </div>
+          <div class="no-data" *ngIf="!tile.content">
+            No card bound for this slot.
+          </div>
+
+          <div class="tile-flags" *ngIf="tile.content">
+            <span class="flag xp" *ngIf="tile.content.xp">XP {{ tile.content.xp }}</span>
+            <span class="flag" *ngIf="tile.content.lost">lost</span>
+            <span class="flag" *ngIf="tile.content.persistent">persistent</span>
+            <span class="flag" *ngIf="tile.content.round">round bonus</span>
+          </div>
+        </div>
+
+        <div class="tile-actions">
+          <button type="button" class="skip" *ngIf="!isTileSpent(tile)"
+                  [disabled]="isTileDisabled(tile)" (click)="skip(tile)">
+            Skip
+          </button>
+          <button type="button" class="undo" *ngIf="isTileSpent(tile)" (click)="undoHalf(tile)"
+                  title="Take this half back: the damage and conditions it applied, the XP and shield it gave, and its damage on the Stats screen. Elements and summons stay as they are.">
+            Undo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resolution of the selected half ------------------------------------ -->
+    <div class="resolve" *ngIf="selectedTile as tile">
+      <div class="resolve-head">
+        Resolving <strong>{{ tile.half }}</strong> of <strong>{{ tile.label }}</strong>
+      </div>
+
+      <!-- Manual value entry for halves with no authored data. -->
+      <div class="manual" *ngIf="isSelectedUnauthored">
+        <label>
+          <span class="icon attack"></span>
+          Attack value
+          <input type="tel" maxlength="3" class="stat-input" [(ngModel)]="manualAttack" />
+        </label>
+      </div>
+
+      <!-- The half's attacks, in printed order. Each is resolved on its own: one
+           target (or several one at a time, for a multi-target one), its own drawn
+           modifier, and its own +/- adjustment for a bonus the card can't know about.
+           A spent attack greys out and can't be aimed at anything else. -->
+      <div class="attack-list" *ngIf="selectedAttacks.length">
+        <div class="attack-row"
+             *ngFor="let attack of selectedAttacks; let i = index; trackBy: trackAttack"
+             [class.done]="isAttackDone(i)"
+             [class.current]="isAttackCurrent(i)">
+          <span class="attack-order" *ngIf="isMultiAttack">{{ i + 1 }}</span>
+          <span class="icon attack"></span>
+          <span class="attack-value">{{ attackDisplayValue(i) }}</span>
+          <span class="attack-delta" *ngIf="adjustmentFor(i)">
+            ({{ adjustmentFor(i) > 0 ? '+' : '' }}{{ adjustmentFor(i) }})
+          </span>
+
+          <span class="attack-tags">
+            <span class="tag" *ngIf="isAttackMultiTarget(i)" title="Hits several targets, one at a time">
+              multi-target
+            </span>
+            <span class="tag done-tag" *ngIf="isAttackDone(i)">spent</span>
+          </span>
+
+          <span class="attack-adjust" *ngIf="!isAttackDone(i)">
+            <button type="button" (click)="adjustAttack(i, -1)"
+                    title="Lower this attack's value for this turn">−</button>
+            <button type="button" (click)="adjustAttack(i, 1)"
+                    title="Raise this attack's value for this turn">+</button>
+          </span>
+        </div>
+      </div>
+
+      <!-- What the card says this half does. The attack itself is only repeated here
+           for a manually-entered value, which has no row in the list above. -->
+      <div class="annotations">
+        <span class="annotation" *ngIf="selectedAttackValue > 0 && !selectedAttacks.length">
+          <span class="icon attack"></span>{{ selectedAttackValue }}
+        </span>
+        <span class="annotation" *ngIf="selectedHealValue > 0">
+          <span class="icon heal"></span>{{ selectedHealValue }}
+        </span>
+        <span class="annotation" *ngIf="selectedPierce > 0">
+          <span class="icon pierce"></span>{{ selectedPierce }}
+        </span>
+        <span class="annotation" *ngIf="effectiveIgnoreArmorForDamage" title="Ignores the target's armor entirely">
+          <span class="icon ignoreArmor"></span>
+        </span>
+        <span class="annotation" *ngIf="selectedShield > 0">
+          <span class="icon shield"></span>{{ selectedShield }}
+        </span>
+        <span class="annotation" *ngIf="selectedRetaliate > 0">
+          <span class="icon retaliate"></span>{{ selectedRetaliate }}
+        </span>
+        <span class="annotation cond" *ngFor="let condition of selectedConditions">
+          <span class="icon" [ngClass]="condition"></span>
+        </span>
+        <span class="annotation" *ngFor="let element of selectedElements">
+          <span class="icon" [ngClass]="'elem-' + element"></span>
+        </span>
+        <span class="annotation" *ngIf="selectedXp + takenBonusXp > 0">
+          <span class="icon xp"></span>{{ selectedXp + takenBonusXp }}
+        </span>
+      </div>
+
+      <!-- Summons are brought into play by Execute; they act on this hero's
+           initiative, immediately before them. -->
+      <div class="summon-preview" *ngIf="selectedSummons.length">
+        <div class="summon-label">Brings into play on Execute:</div>
+        <div class="summon-row" *ngFor="let summon of selectedSummons">
+          <span class="summon-name">
+            {{ summon.count && summon.count > 1 ? summon.count + '× ' : '' }}{{ summon.name }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.health !== undefined">
+            <span class="icon heart"></span>{{ summon.health }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.attack !== undefined">
+            <span class="icon attack"></span>{{ summon.attack }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.movement !== undefined">
+            <span class="icon move"></span>{{ summon.movement }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.range !== undefined">
+            <span class="icon range"></span>{{ summon.range }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.armor !== undefined">
+            <span class="icon shield"></span>{{ summon.armor }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.retaliate !== undefined">
+            <span class="icon retaliate"></span>{{ summon.retaliate }}
+          </span>
+          <span class="summon-stat" *ngIf="summon.flying"><span class="icon flying"></span></span>
+        </div>
+      </div>
+
+      <!-- Conditional element bonuses: offered only while their elements are active,
+           and consumed only if the player takes them. -->
+      <div class="element-bonuses" *ngIf="selectedElementBonuses.length">
+        <div class="bonuses-label">Element bonuses</div>
+        <div class="bonus-row"
+             *ngFor="let bonus of selectedElementBonuses; let i = index"
+             [class.unavailable]="!isBonusAvailable(bonus)"
+             [class.taken]="isBonusTaken(i)">
+          <button type="button" class="bonus-toggle"
+                  [disabled]="!isBonusAvailable(bonus)"
+                  [attr.aria-pressed]="isBonusTaken(i)"
+                  (click)="toggleBonus(i, bonus)">
+            <span class="check">{{ isBonusTaken(i) ? '☑' : '☐' }}</span>
+            <span class="consume">
+              {{ bonus.consumeMode === 'any' ? 'Consume one of' : 'Consume' }}
+              <span class="icon" *ngFor="let el of elementsOf(bonus)" [ngClass]="'elem-' + el"></span>
+            </span>
+            <span class="grants">
+              <app-card-action [actions]="bonus.subActions ?? []"></app-card-action>
+            </span>
+          </button>
+
+          <!-- Which element to spend, when the bonus accepts either. -->
+          <div class="element-choice" *ngIf="isBonusTaken(i) && bonus.consumeMode === 'any'">
+            <span class="choice-label">Spend:</span>
+            <button type="button"
+                    *ngFor="let el of elementsOf(bonus)"
+                    class="choice-btn"
+                    [class.active]="chosenElement(i, bonus) === el"
+                    [disabled]="!isElementAvailable(el)"
+                    (click)="chooseBonusElement(i, el)">
+              <span class="icon" [ngClass]="'elem-' + el"></span>
+            </button>
+          </div>
+
+          <span class="requires" *ngIf="!isBonusAvailable(bonus)">not active</span>
+        </div>
+      </div>
+
+      <!-- Target picker, same portrait strip the attack modal uses. A simultaneous
+           multi-select lets the player tap on as many as apply — an unknown number,
+           since the app has no board to count adjacency or range from. A multi-target
+           attack instead takes one enemy at a time, each with its own modifier draw,
+           and drops the ones it has already struck. -->
+      <div class="targets" *ngIf="needsTarget">
+        <div class="targets-label">
+          {{ targetsAreHeroes ? 'Heal which ally?' : (isMultiSelect ? 'Attack which enemies?' : 'Attack which enemy?') }}
+          <span class="hint" *ngIf="isSequentialAttack">
+            one at a time — each target draws its own modifier
+          </span>
+        </div>
+        <div class="target-strip">
+          <div *ngFor="let option of targetOptions; trackBy: trackCreature"
+               class="target-slot"
+               [class.selected]="isTargetSelected(option.id)"
+               [class.elite]="option.isElite"
+               [title]="option.name"
+               (click)="selectTarget(option.id || null)">
+            <img [src]="targetPortrait(option)" [alt]="option.name"
+                 (error)="$event.target.src='./images/bb/daemon-skull.svg'" />
+            <span class="target-standee" *ngIf="option.standee">{{ option.standee }}</span>
+          </div>
+        </div>
+        <!-- Struck once already, so out of this attack action for good. A later attack
+             action on the same half may hit them again. -->
+        <div class="struck" *ngIf="struckTargets.length">
+          Already hit by this attack:
+          <span class="struck-name" *ngFor="let hit of struckTargets; trackBy: trackCreature">{{ hit.name }}</span>
+        </div>
+        <div class="struck" *ngIf="allTargetsStruck">
+          Every enemy has been struck by this attack — {{ finishAttackLabel }}.
+        </div>
+      </div>
+
+      <!-- Attack modifier quick-apply. Shown only for an actual attack — a half that
+           just heals or applies conditions draws nothing — and hidden once Custom has
+           supplied final values, which bypass the draw entirely. -->
+      <div class="modifier-row" *ngIf="needsModifier">
+        <div class="modifier-label">
+          Attack modifier drawn:
+          <span class="required" *ngIf="awaitingModifier">required</span>
+        </div>
+        <div class="modifier-buttons">
+          <button type="button"
+                  *ngFor="let mod of modifiers; trackBy: trackModifier"
+                  class="modifier-btn"
+                  [class.active]="modifier === mod.value"
+                  [class.miss]="mod.value === 'miss'"
+                  [class.crit]="mod.value === 'x2'"
+                  [title]="mod.title"
+                  (click)="setModifier(mod.value)">
+            {{ mod.label }}
+          </button>
+        </div>
+      </div>
+
+      <p class="custom-note" *ngIf="customOverride">
+        Using custom values from the attack dialog: Attack {{ customOverride.attack }}, Pierce {{ customOverride.armorPen }}<ng-container *ngIf="customOverride.conditions.length">, plus conditions</ng-container>.
+      </p>
+
+      <div class="preview" *ngIf="damagePreview as preview">
+        <span class="preview-total">{{ preview.damage }} damage</span>
+        <span class="preview-breakdown">{{ preview.breakdown.join('  ·  ') }}</span>
+      </div>
+
+      <!-- Positional actions cannot be applied; this app has no board. -->
+      <div class="note" *ngIf="!needsTarget && !selectedSummons.length && hasData(tile.content)">
+        Nothing to apply automatically — movement and positioning are resolved on the board.
+      </div>
+
+      <div class="resolve-buttons">
+        <button type="button" class="execute" [disabled]="!canExecute" (click)="execute()">
+          {{ executeLabel }}
+        </button>
+        <!-- Only a multi-target attack needs this: it lands one strike per press, so
+             something has to say when the attack is over. -->
+        <button type="button" class="finish" *ngIf="isSequentialAttack" (click)="finishAttack()">
+          {{ finishAttackLabel }}
+        </button>
+        <button type="button" class="custom" [disabled]="!targetId || isMultiSelect" (click)="openCustom()">
+          Custom…
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer ------------------------------------------------------------- -->
+    <div class="panel-footer">
+      <button type="button" class="footer-btn" *ngIf="!isTurnComplete" (click)="endTurnEarly()">
+        End turn early
+      </button>
+      <button type="button" class="footer-btn" *ngIf="isTurnComplete" (click)="reopenTurn()">
+        Reopen turn
+      </button>
+      <button type="button" class="footer-btn done" (click)="close()">Done</button>
+    </div>
+  </div>
+</div>

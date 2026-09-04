@@ -5,11 +5,11 @@
         </div>
         <div class="character-selector" *ngIf="!appContext.isGroupSelected">
             <div class="characters">
-                <div *ngFor="let hero of getHeroes()" 
-                     class="character-slot" 
+                <div *ngFor="let hero of getHeroes()"
+                     class="character-slot"
                      [class.selected]="selectedCharacterId === hero.id"
                      (click)="selectCharacter(hero.id || null)">
-                    <img [src]="'./images/character/thumbnail/fh-' + hero.type + '.png'" 
+                    <img [src]="attackerPortrait(hero)"
                          [title]="hero.name"
                          (error)="$event.target.src='./images/bb/daemon-skull.svg'" />
                 </div>
@@ -26,7 +26,16 @@
                 <div class="stat">
                     <div class="icon pierce"></div>
                     <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3"
-                        class="stat-input" />
+                        [disabled]="ignoreArmor" class="stat-input" />
+                    <button type="button" class="ignore-armor-btn" [class.active]="ignoreArmor"
+                        (click)="toggleIgnoreArmor()"
+                        [title]="ignoreArmor ? 'Ignoring the target\'s armor — click to stop' : 'Ignore the target\'s armor entirely'">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9c-4-1.5-7-4.5-7-9V6l7-3z" />
+                            <path d="M9.5 8l2 3l-2.5 2l3 3.5" />
+                        </svg>
+                    </button>
                 </div>
             </div>
             <div class="damage-preview">
@@ -38,6 +47,9 @@
             (conditionToggled)="toggleCondition($event)">
         </app-conditions>
 
+        <p class="custom-hint" *ngIf="openedFromCardPanel">
+            These values are applied when you click Execute back on the card.
+        </p>
         <div class="buttons">
             <button type="button" class="cancel" (click)="close()">Cancel</button>
             <button type="button" class="confirm" (click)="confirm()" [disabled]="!appContext.isGroupSelected && !selectedCharacterId">Confirm</button>

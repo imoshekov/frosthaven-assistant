@@ -20,6 +20,7 @@
     <app-connection-status class="connection-status" />
   </div>
   <app-game></app-game>
+  <app-player-card-execution-panel *ngIf="appContext.cardPanelCreatureId"></app-player-card-execution-panel>
   <app-attack-modal *ngIf="this.appContext.selectedCreature"></app-attack-modal>
   <app-add-monster *ngIf="this.appContext.addMonsterToggled"></app-add-monster>
   <app-scenario-monster-reference></app-scenario-monster-reference>

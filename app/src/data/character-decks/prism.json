@@ -1,0 +1,582 @@
+{
+  "characterClass": "prism",
+  "edition": "fh",
+  "handSize": 11,
+  "cards": [
+    {
+      "cardId": 387,
+      "name": "Plated Defense",
+      "level": 1,
+      "initiative": 80,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Armored Tank",
+              "health": 6,
+              "attack": 2,
+              "movement": 2,
+              "armor": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 388,
+      "name": "Reconstructive Aid",
+      "level": 1,
+      "initiative": 90,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Repair Drone",
+              "health": 3,
+              "attack": 1,
+              "movement": 2,
+              "range": 3,
+              "flying": true,
+              "abilities": [
+                {
+                  "type": "heal",
+                  "value": 1
+                }
+              ],
+              "notes": [
+                "Heals an ally within Range 3 (exact wording not authored upstream yet)."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 389,
+      "name": "Hunter Killer",
+      "level": 1,
+      "initiative": 84,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Jackal Mech",
+              "health": 4,
+              "attack": 2,
+              "movement": 3,
+              "retaliate": 1,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "wound"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 390,
+      "name": "Coiled Limbs",
+      "level": 1,
+      "initiative": 82,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Leaper",
+              "health": 7,
+              "attack": 1,
+              "movement": 5,
+              "armor": 1,
+              "notes": [
+                "Ability text not authored upstream yet."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 391,
+      "name": "Aimed Assault",
+      "level": 1,
+      "initiative": 88,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Sniper Turret",
+              "health": 3,
+              "attack": 2,
+              "range": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 392,
+      "name": "Launch Pod",
+      "level": 1,
+      "initiative": 77,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 393,
+      "name": "Faceless Entity",
+      "level": 1,
+      "initiative": 12,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 394,
+      "name": "Prepare for Deployment",
+      "level": 1,
+      "initiative": 64,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 395,
+      "name": "Reaper Function",
+      "level": 1,
+      "initiative": 32,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 396,
+      "name": "High Impact Projectiles",
+      "level": 1,
+      "initiative": 16,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 397,
+      "name": "Interference",
+      "level": 1,
+      "initiative": 21,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 398,
+      "name": "Shocking Pulse",
+      "level": "X",
+      "initiative": 86,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Arcing Generator",
+              "health": 5,
+              "attack": 2,
+              "movement": 4,
+              "abilities": [
+                {
+                  "type": "pierce",
+                  "value": 2
+                }
+              ],
+              "notes": [
+                "Targets all adjacent enemies."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 399,
+      "name": "Remote Control",
+      "level": "X",
+      "initiative": 48,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 400,
+      "name": "Reassemble",
+      "level": "X",
+      "initiative": 27,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 401,
+      "name": "Force Field",
+      "level": 2,
+      "initiative": 78,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Dampening Unit",
+              "health": 5,
+              "attack": 1,
+              "movement": 2,
+              "range": 2,
+              "notes": [
+                "Ability text not authored upstream yet."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 402,
+      "name": "Long Range Missile",
+      "level": 2,
+      "initiative": 19,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 403,
+      "name": "Rapid Fire",
+      "level": 3,
+      "initiative": 92,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Machine Bolter",
+              "health": 3,
+              "attack": 2,
+              "range": 3,
+              "attackTarget": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 404,
+      "name": "Hijack",
+      "level": 3,
+      "initiative": 40,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 405,
+      "name": "Plague Protocol",
+      "level": 4,
+      "initiative": 98,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Toxin Distributor",
+              "health": 6,
+              "attack": 2,
+              "movement": 2,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "poison"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 406,
+      "name": "Divergent Destruction",
+      "level": 4,
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 407,
+      "name": "Net Dispersal",
+      "level": 5,
+      "initiative": 94,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Trapping Unit",
+              "health": 7,
+              "attack": 2,
+              "movement": 3,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "immobilize"
+                }
+              ],
+              "notes": [
+                "Ability text not authored upstream yet."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 408,
+      "name": "Code Geminate",
+      "level": 5,
+      "initiative": 28,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 409,
+      "name": "Spinning Blades",
+      "level": 6,
+      "initiative": 79,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Sword Propeller",
+              "health": 1,
+              "attack": 2,
+              "movement": 5,
+              "notes": [
+                "Ability text not authored upstream yet."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 410,
+      "name": "Triage Program",
+      "level": 6,
+      "initiative": 13,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 411,
+      "name": "Mortar Shells",
+      "level": 7,
+      "initiative": 85,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Bombardier",
+              "health": 5,
+              "attack": 2,
+              "movement": 1,
+              "range": 4,
+              "notes": [
+                "Attacks in a printed area pattern (hex patterns are not modeled by this app)."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 412,
+      "name": "Recall",
+      "level": 7,
+      "initiative": 91,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 413,
+      "name": "Swarming Bulwark",
+      "level": 8,
+      "initiative": 96,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Shield Spider",
+              "health": 7,
+              "attack": 2,
+              "movement": 3,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "ward"
+                }
+              ],
+              "notes": [
+                "Grants Ward at Range 4 (exact wording not authored upstream yet)."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 414,
+      "name": "Burning Slash",
+      "level": 8,
+      "initiative": 29,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 415,
+      "name": "Heavy metal",
+      "level": 9,
+      "initiative": 76,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Sledge Driver",
+              "health": 9,
+              "attack": 4,
+              "movement": 2,
+              "armor": 1,
+              "abilities": [
+                {
+                  "type": "pierce",
+                  "value": 3
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 416,
+      "name": "Disassemble",
+      "level": 9,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}

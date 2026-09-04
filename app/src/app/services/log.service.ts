@@ -22,8 +22,23 @@ export interface LogEntry {
 }
 
 export const CREATURE_AUDIT_FIELDS = [
-  'name', 'standee', 'level', 'initiative', 'hp', 'aggressive', 'armor', 'roundArmor', 'retaliate', 'roundRetaliate', 'conditions', 'sessionExperience', 'totalXp'
+  'name', 'standee', 'level', 'initiative', 'hp', 'aggressive', 'armor', 'roundArmor', 'retaliate', 'roundRetaliate', 'conditions', 'sessionExperience', 'totalXp',
+  // Hero card turn state. All scalars, so LogService.diff picks them up and
+  // LogComponent's defaultUpdate handler restores them — no new undo handler needed.
+  // 'secondaryHiddenInitiative' is deliberately absent: it is a secret value, matching
+  // the existing exclusion of 'hiddenInitiative'.
+  'secondaryInitiative', 'cardAId', 'cardBId',
+  'topHalfSlot', 'topHalfState', 'bottomHalfSlot', 'bottomHalfState', 'isTurnCompleted'
 ] as const satisfies readonly (keyof Creature)[];
+
+/**
+ * Turn-state fields worth auditing (so Undo restores them) but not worth rendering:
+ * advancing a round would otherwise flood the visible log with a dozen rows per hero.
+ * Filtered in LogComponent's display stream only — undo reads the unfiltered batch.
+ */
+export const HIDDEN_LOG_STATS: ReadonlySet<string> = new Set([
+  'cardAId', 'cardBId', 'topHalfSlot', 'bottomHalfSlot', 'secondaryInitiative'
+]);
 
 export type AuditKey = typeof CREATURE_AUDIT_FIELDS[number];
 

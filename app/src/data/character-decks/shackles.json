@@ -1,0 +1,393 @@
+{
+  "characterClass": "shackles",
+  "edition": "fh",
+  "handSize": 10,
+  "cards": [
+    {
+      "cardId": 301,
+      "name": "Shared Affliction",
+      "level": 1,
+      "initiative": 61,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 302,
+      "name": "Line of Transference",
+      "level": 1,
+      "initiative": 25,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 303,
+      "name": "Transferred Injury",
+      "level": 1,
+      "initiative": 74,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 304,
+      "name": "The Agony of Others",
+      "level": 1,
+      "initiative": 78,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 305,
+      "name": "Unending Torment",
+      "level": 1,
+      "initiative": 29,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 306,
+      "name": "Blood Ritual",
+      "level": 1,
+      "initiative": 56,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 307,
+      "name": "Scarred Effigy",
+      "level": 1,
+      "initiative": 19,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Flesh Fiend",
+              "health": 7,
+              "attack": 1,
+              "movement": 2,
+              "notes": [
+                "Ability text not authored upstream yet."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 308,
+      "name": "Explosive Wounds",
+      "level": 1,
+      "initiative": 43,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 309,
+      "name": "Cleansing Fire",
+      "level": 1,
+      "initiative": 64,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 310,
+      "name": "Swift Vengeance",
+      "level": 1,
+      "initiative": 21,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 311,
+      "name": "Delayed Malady",
+      "level": "X",
+      "initiative": 90,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 312,
+      "name": "Unstable Effigy",
+      "level": "X",
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Flesh Bomb",
+              "health": 3,
+              "attack": 2,
+              "movement": 3,
+              "abilities": [
+                {
+                  "type": "attack",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "elements": [
+                    "fire"
+                  ]
+                }
+              ],
+              "notes": [
+                "On death: performs this attack."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 313,
+      "name": "Pleasure in Pain",
+      "level": "X",
+      "initiative": 47,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 314,
+      "name": "Reversal of Fate",
+      "level": 2,
+      "initiative": 23,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 315,
+      "name": "Infection Purge",
+      "level": 2,
+      "initiative": 45,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 316,
+      "name": "Burned at Both Ends",
+      "level": 3,
+      "initiative": 30,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 317,
+      "name": "Reprisal",
+      "level": 3,
+      "initiative": 70,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 318,
+      "name": "Mirrored Misery",
+      "level": 4,
+      "initiative": 72,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 319,
+      "name": "Down to the Dirt",
+      "level": 4,
+      "initiative": 39,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 320,
+      "name": "Chained by Spite",
+      "level": 5,
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 321,
+      "name": "Chained by Despair",
+      "level": 5,
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 322,
+      "name": "Hopelessness",
+      "level": 6,
+      "initiative": 83,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 323,
+      "name": "Phantom Limb",
+      "level": 6,
+      "initiative": 75,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 324,
+      "name": "Reject the Gift",
+      "level": 7,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 325,
+      "name": "Penance",
+      "level": 7,
+      "initiative": 12,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 326,
+      "name": "Wave of Anguish",
+      "level": 8,
+      "initiative": 68,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 327,
+      "name": "Wracked with Pain",
+      "level": 8,
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 328,
+      "name": "Redemption",
+      "level": 9,
+      "initiative": 33,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 329,
+      "name": "The End of Everything",
+      "level": 9,
+      "initiative": 99,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}
