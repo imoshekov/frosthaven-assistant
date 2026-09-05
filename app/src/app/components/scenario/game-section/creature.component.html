@@ -1,7 +1,8 @@
 <div>
     <div [class]="creature.type" [ngClass]="[
        creature.boss ? 'boss' : (creature.isElite ? 'elite' : 'non-elite'),
-       creature.aggressive ? '' : 'friendly'
+       creature.aggressive ? '' : 'friendly',
+       creature.isSummon ? 'summon' : ''
      ]" class="container">
         <!-- Summons take the monster row: a standee number, editable HP and
              conditions. They are real figures that take damage and can be healed. -->
@@ -35,6 +36,13 @@
             </div>
         </ng-template>
 
+    </div>
+    <!-- Literal prose printed on the token, e.g. a perform effect no stat field covers.
+         Clamped in the scss so a long note can't stretch the whole row's height; the
+         title attribute carries the full text for a hover tooltip. -->
+    <div class="summon-notes" *ngIf="creature.isSummon && creature.summonNotes?.length"
+        [title]="creature.summonNotes.join(' ')">
+        <div *ngFor="let note of creature.summonNotes">{{ note }}</div>
     </div>
     <button *ngIf="isMonsterLike" class="open-modal button attack" (click)="openConditionModal()">
         <div class="icon attack"></div>Attack

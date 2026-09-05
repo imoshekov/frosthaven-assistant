@@ -9,9 +9,6 @@
       "level": 1,
       "initiative": 80,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -20,8 +17,28 @@
               "health": 6,
               "attack": 2,
               "movement": 2,
-              "armor": 1
+              "armor": 1,
+              "image": "summons/thumbnail/fh-armored-tank.png",
+              "notes": [
+                "Mode: gain 1 shield, -1 to all movements."
+              ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "shield",
+            "value": 1
+          },
+          {
+            "type": "retaliate",
+            "value": 1
           }
         ]
       }
@@ -49,12 +66,22 @@
                 {
                   "type": "heal",
                   "value": 1
+                },
+                { 
+                  "type": "heal", 
+                  "value": 2,
+                  "selfOnly": true 
                 }
               ],
               "notes": [
-                "Heals an ally within Range 3 (exact wording not authored upstream yet)."
+                "Heals an ally 1hp within Range 3",
+                "Mode: self-heal for 2hp"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
           }
         ]
       }
@@ -65,9 +92,6 @@
       "level": 1,
       "initiative": 84,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -77,13 +101,29 @@
               "attack": 2,
               "movement": 3,
               "retaliate": 1,
+              "image": "summons/thumbnail/fh-jackal-mech.png",
               "abilities": [
                 {
                   "type": "condition",
                   "value": "wound"
                 }
+              ],
+              "notes": [
+                "Mode: suffer 2dmg at start of turn, +1 to all mele attacks"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1
           }
         ]
       }
@@ -94,9 +134,6 @@
       "level": 1,
       "initiative": 82,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -106,12 +143,21 @@
               "attack": 1,
               "movement": 5,
               "armor": 1,
+              "image": "summons/thumbnail/fh-leaper.png",
               "notes": [
-                "Ability text not authored upstream yet."
+                "Jumps. Focus on farthest from HIVE enemy", 
+                "Mode: all moves hsve jump."
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
           }
         ]
+      },
+      "bottom": {
+        "actions": []
       }
     },
     {
@@ -120,9 +166,6 @@
       "level": 1,
       "initiative": 88,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -130,8 +173,24 @@
               "name": "Sniper Turret",
               "health": 3,
               "attack": 2,
-              "range": 4
+              "range": 4,
+              "image": "summons/thumbnail/fh-sniper-turret.png",
+              "notes": [
+                "Mode: mele attacks have 2 range, -1 to all moves"
+              ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1
           }
         ]
       }
@@ -142,10 +201,21 @@
       "level": 1,
       "initiative": 77,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "heal", 
+            "value": 2, 
+            "selfOnly": true 
+          }
+        ]
       }
     },
     {
@@ -154,7 +224,16 @@
       "level": 1,
       "initiative": 12,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          },
+          {
+            "type": "attack",
+            "value": 2
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -166,7 +245,17 @@
       "level": 1,
       "initiative": 64,
       "top": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "heal", 
+            "value": 4, 
+            "selfOnly": true 
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -178,7 +267,17 @@
       "level": 1,
       "initiative": 32,
       "top": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "attack", 
+            "value": 2, 
+            "multiTarget": 3
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -190,7 +289,13 @@
       "level": 1,
       "initiative": 16,
       "top": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "attack", 
+            "value": 2, 
+            "multiTarget": 2
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -202,7 +307,18 @@
       "level": 1,
       "initiative": 21,
       "top": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "heal", 
+            "value": 2,
+            "selfOnly": true 
+          },
+          { 
+            "type": "attack", 
+            "value": 1, 
+            "multiTarget": true
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -214,9 +330,6 @@
       "level": "X",
       "initiative": 86,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -231,10 +344,31 @@
                   "value": 2
                 }
               ],
+              "image": "summons/thumbnail/fh-arcing-generator.png",
               "notes": [
-                "Targets all adjacent enemies."
+                "Pierce only for adjacent enemies", 
+                "Mode: -1dmg and +5pierce for all attacks."
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "muddle",
+            "multiTarget": true
+          },
+          {
+            "type": "attack",
+            "value": 1,
+            "ignoreArmor": true,
+            "multiTarget": true
           }
         ]
       }
@@ -245,7 +379,16 @@
       "level": "X",
       "initiative": 48,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -269,9 +412,6 @@
       "level": 2,
       "initiative": 78,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -281,12 +421,21 @@
               "attack": 1,
               "movement": 2,
               "range": 2,
+              "image": "summons/thumbnail/fh-dampening-unit.png",
               "notes": [
-                "Ability text not authored upstream yet."
+                "Adjacent allies get 1 shield",
+                "Mode: 2 shield for first attack."
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
           }
         ]
+      },
+      "bottom": {
+        "actions": []
       }
     },
     {
@@ -295,7 +444,12 @@
       "level": 2,
       "initiative": 19,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -307,9 +461,6 @@
       "level": 3,
       "initiative": 92,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -318,10 +469,21 @@
               "health": 3,
               "attack": 2,
               "range": 3,
-              "attackTarget": 2
+              "attackTarget": 2,
+              "image": "summons/thumbnail/fh-machine-bolter.png",
+              "notes": [
+                "Mode: +1 target and -1 range to all range attacks"
+              ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
           }
         ]
+      },
+      "bottom": {
+        "actions": []
       }
     },
     {
@@ -330,10 +492,24 @@
       "level": 3,
       "initiative": 40,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          }
+        ]
       }
     },
     {
@@ -342,9 +518,6 @@
       "level": 4,
       "initiative": 98,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -353,13 +526,29 @@
               "health": 6,
               "attack": 2,
               "movement": 2,
+              "image": "summons/thumbnail/fh-toxin-distributor.png",
               "abilities": [
                 {
                   "type": "condition",
                   "value": "poison"
                 }
+              ], 
+              "notes": [
+                "Mode: cannot heal, all attacks have poison"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "shield",
+            "value": 2
           }
         ]
       }
@@ -370,10 +559,30 @@
       "level": 4,
       "initiative": 22,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          },
+          {
+            "type": "attack",
+            "value": 3
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack", 
+            "value": 1,
+            "ignoreArmor": true, 
+            "multiTarget": true
+          }
+        ]
       }
     },
     {
@@ -382,9 +591,6 @@
       "level": 5,
       "initiative": 94,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -399,10 +605,25 @@
                   "value": "immobilize"
                 }
               ],
+              "image": "summons/thumbnail/fh-trapping-unit.png",
               "notes": [
-                "Ability text not authored upstream yet."
+                "Reduce attacks taken: -1 for each negative conditions on attacker",
+                "Mode: Cannot move, attacks cause immobilize"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "immobilize",
+            "multiTarget": 3
           }
         ]
       }
@@ -413,7 +634,12 @@
       "level": 5,
       "initiative": 28,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -425,9 +651,6 @@
       "level": 6,
       "initiative": 79,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -436,10 +659,26 @@
               "health": 1,
               "attack": 2,
               "movement": 5,
+              "flying": true,
+              "image": "summons/thumbnail/fh-sword-propeller.png",
               "notes": [
-                "Ability text not authored upstream yet."
+                "Give wound to everyone adjacent and self on end turn",
+                "Mode: On turn end, one adjasent enemy suffers 2dmg, you suffer 1dmg"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "multiTarget": 2 
           }
         ]
       }
@@ -450,10 +689,26 @@
       "level": 6,
       "initiative": 13,
       "top": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "heal", 
+            "value": 5,
+            "selfOnly": true 
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          { 
+            "type": "heal", 
+            "value": 2,
+            "selfOnly": true 
+          }
+        ]
       }
     },
     {
@@ -462,9 +717,6 @@
       "level": 7,
       "initiative": 85,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -474,10 +726,25 @@
               "attack": 2,
               "movement": 1,
               "range": 4,
+              "attackTarget": 3,
+              "image": "summons/thumbnail/fh-bombardier.png",
               "notes": [
-                "Attacks in a printed area pattern (hex patterns are not modeled by this app)."
+                "Mode: when you suffer dmg, 1 adjasent ally suffers 1dmg",
+                "2 push to all attacks"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
           }
         ]
       }
@@ -500,9 +767,6 @@
       "level": 8,
       "initiative": 96,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -517,12 +781,21 @@
                   "value": "ward"
                 }
               ],
+              "image": "summons/thumbnail/fh-shield-spider.png",
               "notes": [
-                "Grants Ward at Range 4 (exact wording not authored upstream yet)."
+                "End of turn: ward at range 4",
+                "Mode: start of turn, ward self"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
           }
         ]
+      },
+      "bottom": {
+        "actions": []
       }
     },
     {
@@ -531,10 +804,33 @@
       "level": 8,
       "initiative": 29,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "multiTarget": 3,
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "wound", 
+                "small": true 
+              }
+            ]
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "wound", 
+            "multiTarget": true
+          }
+        ]
       }
     },
     {
@@ -543,9 +839,6 @@
       "level": 9,
       "initiative": 76,
       "top": {
-        "actions": []
-      },
-      "bottom": {
         "actions": [
           {
             "type": "summon",
@@ -555,13 +848,35 @@
               "attack": 4,
               "movement": 2,
               "armor": 1,
+              "image": "summons/thumbnail/fh-sledge-driver.png",
               "abilities": [
                 {
                   "type": "pierce",
                   "value": 3
                 }
+              ],
+              "notes": [
+                "+15 to initiative, +3 to first attack"
               ]
             }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack", 
+            "value": 2, 
+            "ignoreArmor": true,
+            "multiTarget": true
+          },
+          {
+            "type": "shield",
+            "value": 2
           }
         ]
       }
@@ -572,10 +887,34 @@
       "level": 9,
       "initiative": 20,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          },
+          {
+            "type": "attack",
+            "value": 2
+          },
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "bane",
+            "multiTarget": true
+          },
+          {
+            "type": "condition",
+            "value": "brittle",
+            "multiTarget": true
+          }
+        ]
       }
     }
   ]

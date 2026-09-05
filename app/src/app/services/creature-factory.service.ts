@@ -126,6 +126,7 @@ export class CreatureFactoryService {
       isSummon: true,
       summonOwnerId: owner.id,
       summonImage: summon.image,
+      summonNotes: summon.notes ?? [],
 
       // A summon never has its own initiative: ordering borrows the owner's.
       initiative: 0,

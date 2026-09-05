@@ -91,6 +91,29 @@ input {
     gap: 0.5rem;
 }
 
+// A summon token prints far less than a monster's full stat line, so its standee
+// row (standee number, HP, conditions) reads better compact.
+.container.summon {
+    .creature-standee {
+        height: 42px;
+    }
+
+    .header {
+        .stat-input {
+            font-size: 15px;
+        }
+
+        app-conditions {
+            height: 42px;
+
+            ::ng-deep .container .conditions .condition-element {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+}
+
 .header {
     display: flex;
     flex-direction: row;
@@ -149,6 +172,30 @@ input {
     }
 }
 
+
+.summon-notes {
+    font-size: 0.7rem;
+    font-style: italic;
+    text-align: center;
+    opacity: 0.85;
+    padding: 0 0.5rem 0.4rem;
+    cursor: default;
+    line-height: 1.1;
+
+    // Bounded to ~2 lines total so several notes together can't stretch the row's
+    // height to match this card; the title attribute on the host element carries
+    // the full text on hover. Each note is its own line (div), so this is a
+    // max-height/overflow clamp rather than -webkit-line-clamp, which does not
+    // clamp reliably across separate block children.
+    max-height: 2.2em;
+    overflow: hidden;
+
+    div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
 
 button.open-modal {
     height: 42px;

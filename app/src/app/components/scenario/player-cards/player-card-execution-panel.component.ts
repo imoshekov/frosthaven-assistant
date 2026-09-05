@@ -1169,7 +1169,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
       Object.assign(
         targetPatch,
-        this.appContext.buildAddConditionsPatch(target, this.effectiveConditionsForExecution)
+        this.appContext.buildAddConditionsPatch(target, this.effectiveConditionsForExecution, this.hero)
       );
 
       // Ward and brittle are spent modifying the damage above and come off the target.

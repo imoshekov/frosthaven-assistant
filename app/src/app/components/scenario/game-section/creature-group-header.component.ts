@@ -56,6 +56,17 @@ export class CreatureGroupHeaderComponent {
     return isInitiativeSubmitted(creature);
   }
 
+  /**
+   * A summon's plate should read as its owner's, so it borrows the owner's class
+   * color instead of the generic friendly color used as a fallback if the owner
+   * can't be found (e.g. mid-removal).
+   */
+  getSummonBackground(creature: Creature): string | null {
+    if (!creature.isSummon || !creature.summonOwnerId) return null;
+    const owner = this.appContext.getCreatures().find(c => c.id === creature.summonOwnerId);
+    return owner ? `var(--${owner.type}-color)` : null;
+  }
+
   getCreaturePic(creature: Creature): string {
     if (creature.isSummon) {
       // Token art is optional on a card; fall back to the generic summon token.

@@ -39,11 +39,24 @@
      background: var(--friendly-color);
      border: 2px dashed var(--secondary-color);
      box-sizing: border-box;
+     min-height: 100px;
+     padding-bottom: 6px;
 
      .summon-name {
        font-size: 1rem;
        text-transform: capitalize;
        text-align: center;
+     }
+
+     img.profile {
+       width: 50px;
+       height: 50px;
+     }
+
+     .group-stats .icon.attack,
+     .group-stats .icon.move {
+       width: 24px;
+       height: 24px;
      }
    }
 

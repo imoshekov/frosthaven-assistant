@@ -16,6 +16,18 @@ export enum CreatureConditions {
   regenerate = "regenerate"
 }
 
+/**
+ * Conditions that only ever benefit their recipient. By the rules these can only be
+ * placed on allies (a hero/summon on another hero/summon, a monster on another
+ * monster) - never on an enemy of whoever is applying them.
+ */
+export const POSITIVE_CONDITIONS: CreatureConditions[] = [
+  CreatureConditions.ward,
+  CreatureConditions.invisible,
+  CreatureConditions.strengthen,
+  CreatureConditions.regenerate
+];
+
 export interface CreatureAction {
   type: string;
   value?: string | number;
@@ -49,6 +61,8 @@ export interface Creature {
   summonOwnerId?: string;
   /** Token art for a summon, as a path under `/images`, taken from the card. */
   summonImage?: string;
+  /** Literal prose printed on a summon token that no stat field can express. */
+  summonNotes?: string[];
   /** Attack range printed on a summon token. Monsters get range from ability cards. */
   range?: number;
   isElite?: boolean; 

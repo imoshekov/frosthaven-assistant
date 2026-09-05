@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Creature, CreatureConditions, Element, ElementState, ElementType } from './types/game-types';
+import { Creature, CreatureConditions, Element, ElementState, ElementType, POSITIVE_CONDITIONS } from './types/game-types';
 import { CardHalfName, CardSlot, CardSummon, HalfDisposition } from './types/character-card-types';
 import { allHeroesSubmitted, isHalfSpent, isHero } from './types/turn-state.util';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -350,13 +350,21 @@ export class AppContext {
      * emitting, so it can be folded into a larger single-emission patch.
      * Conditions the target is immune to are ignored, as are values that are not
      * creature conditions at all (bless and curse are attack-modifier cards).
+     * When `actor` is given, positive conditions (ward, invisible, strengthen,
+     * regenerate) are dropped unless the actor and the target are on the same side -
+     * by the rules those can only be placed on allies, never on an enemy.
      */
-    buildAddConditionsPatch(creature: Creature, conditions: CreatureConditions[]): Partial<Creature> {
+    buildAddConditionsPatch(creature: Creature, conditions: CreatureConditions[], actor?: Creature): Partial<Creature> {
         const immunities = creature.immunities ?? [];
         const current = creature.conditions ?? [];
         const conditionRounds = { ...creature.conditionRounds };
 
-        const added = conditions.filter(c => !current.includes(c) && !immunities.includes(c));
+        const isAlly = !actor || !!actor.aggressive === !!creature.aggressive;
+        const added = conditions.filter(c =>
+            !current.includes(c) &&
+            !immunities.includes(c) &&
+            (isAlly || !POSITIVE_CONDITIONS.includes(c))
+        );
         if (added.length === 0) return {};
 
         for (const condition of added) {

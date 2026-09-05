@@ -5,7 +5,8 @@
          : 'non-elite',
        creature.aggressive ? '' : (creature.isSummon ? 'summon' : 'character'),
        creature.isTurnCompleted ? 'turn-completed' : ''
-     ]">
+     ]"
+     [style.background]="getSummonBackground(creature)">
 
   <div class="base-stat row">
     <!-- Summons act on their owner's initiative, so they show none of their own. -->
