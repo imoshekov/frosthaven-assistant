@@ -305,6 +305,19 @@
         <span class="preview-breakdown">{{ preview.breakdown.join('  ·  ') }}</span>
       </div>
 
+      <!-- Retaliate answers the attack itself, so it lands even on a miss or a fully
+           blocked hit. The app has no board, so whether the hero was inside the
+           retaliate range is the one part the player has to answer. -->
+      <label class="retaliate-row" *ngIf="retaliateTotal > 0">
+        <input type="checkbox" [checked]="applyRetaliate" (change)="toggleRetaliate()" />
+        <span class="icon retaliate"></span>
+        <span>
+          Retaliate {{ retaliateTotal }}<ng-container *ngIf="retaliateRange > 1"> (range {{ retaliateRange }})</ng-container>
+          back at {{ hero?.name }}
+        </span>
+        <span class="retaliate-hint">uncheck if out of range</span>
+      </label>
+
       <!-- Positional actions cannot be applied; this app has no board. -->
       <div class="note" *ngIf="!needsTarget && !selectedSummons.length && hasData(tile.content)">
         Nothing to apply automatically — movement and positioning are resolved on the board.

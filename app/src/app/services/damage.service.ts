@@ -22,6 +22,12 @@ export interface DamageResult {
   damage: number;
   /** Human-readable steps, for the execution panel's live preview. */
   breakdown: string[];
+  /**
+   * One-shot conditions this attack used up on the target — ward and brittle, which
+   * the rules remove the moment they modify an instance of damage. The caller is
+   * responsible for taking them off the creature; this service computes only.
+   */
+  consumedConditions: CreatureConditions[];
 }
 
 /**
@@ -31,8 +37,9 @@ export interface DamageResult {
  * Extracted from AttackModalComponent.calculateDamage(), which applied the target's
  * condition effects in whatever order they happened to sit in the `conditions` array —
  * so a target warded-then-poisoned took different damage from one poisoned-then-warded.
- * The order is fixed here: modifier, then armour (reduced by pierce), then poison,
- * then brittle/ward.
+ *
+ * The order is the rulebook's: poison raises the *attack value*, then the modifier
+ * card, then shield (reduced by pierce), then brittle/ward on the damage that lands.
  */
 @Injectable({ providedIn: 'root' })
 export class DamageService {
@@ -41,19 +48,27 @@ export class DamageService {
     const { baseAttack, modifier, target } = input;
     const armorPen = input.armorPen ?? 0;
     const breakdown: string[] = [];
+    const conditions = target.conditions ?? [];
 
-    // 1. Attack modifier. A miss short-circuits: no armour, no condition maths.
-    let damage = applyAttackModifier(baseAttack, modifier);
+    // 1. Poison. "All attacks targeting the figure gain +1" — it raises the *attack
+    // value*, so it is part of what the modifier card multiplies and what shield is
+    // then subtracted from. It used to be added at the very end instead, which both
+    // dropped it out of a ×2 and lost it entirely whenever shield blocked the attack.
+    const poisoned = conditions.includes(CreatureConditions.poison);
+    const attackValue = baseAttack + (poisoned ? 1 : 0);
+
+    // 2. Attack modifier. A miss short-circuits: no shield, no condition maths, and
+    // nothing is used up — a null deals no damage, so no damage instance occurs.
+    let damage = applyAttackModifier(attackValue, modifier);
     if (modifier === 'miss') {
-      return { damage: 0, breakdown: ['Miss — no damage'] };
+      return { damage: 0, breakdown: ['Miss — no damage'], consumedConditions: [] };
     }
-    breakdown.push(
-      modifier === undefined || modifier === null || modifier === 0
-        ? `Attack ${baseAttack}`
-        : `Attack ${baseAttack} ${attackModifierLabel(modifier)} = ${damage}`
-    );
+    breakdown.push(poisoned ? `Attack ${baseAttack} + poison = ${attackValue}` : `Attack ${baseAttack}`);
+    if (modifier !== undefined && modifier !== null && modifier !== 0) {
+      breakdown.push(`${attackModifierLabel(modifier)} = ${damage}`);
+    }
 
-    // 2. Armour, reduced by pierce and never negative — unless ignored outright, which
+    // 3. Shield, reduced by pierce and never negative — unless ignored outright, which
     // beats any amount of pierce and so skips this step altogether.
     const printedArmor = (target.armor ?? 0) + (target.roundArmor ?? 0);
     if (input.ignoreArmor) {
@@ -71,33 +86,44 @@ export class DamageService {
     }
     damage = Math.max(damage, 0);
 
-    // A blocked attack still deals no condition-modified damage.
+    // A fully blocked attack lands no instance of damage, so brittle and ward have
+    // nothing to modify and stay on the target for the next attack.
     if (damage <= 0) {
-      return { damage: 0, breakdown: [...breakdown, 'Blocked — no damage'] };
+      return { damage: 0, breakdown: [...breakdown, 'Blocked — no damage'], consumedConditions: [] };
     }
 
-    const conditions = target.conditions ?? [];
-
-    // 3. Poison adds a flat 1.
-    if (conditions.includes(CreatureConditions.poison)) {
-      damage += 1;
-      breakdown.push(`+ poison = ${damage}`);
-    }
-
-    // 4. Brittle doubles and ward halves; held together they cancel.
+    // 4. Brittle doubles and ward halves (rounded down); held together they cancel.
+    // All three cases are one-shot: the condition is spent modifying this instance of
+    // damage and comes off the target, which is what `consumedConditions` reports.
     const brittle = conditions.includes(CreatureConditions.brittle);
     const ward = conditions.includes(CreatureConditions.ward);
+    const consumedConditions: CreatureConditions[] = [];
     if (brittle && ward) {
-      breakdown.push('brittle and ward cancel');
+      consumedConditions.push(CreatureConditions.brittle, CreatureConditions.ward);
+      breakdown.push('brittle and ward cancel, both removed');
     } else if (brittle) {
       damage *= 2;
+      consumedConditions.push(CreatureConditions.brittle);
       breakdown.push(`× brittle = ${damage}`);
     } else if (ward) {
       damage = Math.floor(damage / 2);
+      consumedConditions.push(CreatureConditions.ward);
       breakdown.push(`÷ ward = ${damage}`);
     }
 
-    return { damage: Math.max(damage, 0), breakdown };
+    return { damage: Math.max(damage, 0), breakdown, consumedConditions };
+  }
+
+  /**
+   * What a target deals back to whoever just attacked it.
+   *
+   * Retaliate triggers on *being attacked*, not on taking damage, so it fires even
+   * when the attack misses or is blocked outright — the caller applies it whenever an
+   * attack was made. Range is the caller's problem: this app has no board, so whether
+   * the attacker actually stood within the retaliate range is the player's call.
+   */
+  retaliateDamage(target: Pick<Creature, 'retaliate' | 'roundRetaliate'>): number {
+    return Math.max((target.retaliate ?? 0) + (target.roundRetaliate ?? 0), 0);
   }
 
   /**

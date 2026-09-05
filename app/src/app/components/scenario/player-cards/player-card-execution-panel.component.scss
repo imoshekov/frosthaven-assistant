@@ -629,6 +629,34 @@
   opacity: 0.8;
 }
 
+// The target's retaliate, coming back at the hero on Execute.
+.retaliate-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--content-box-shadow-1);
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  input {
+    cursor: pointer;
+  }
+
+  .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .retaliate-hint {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-style: italic;
+    opacity: 0.7;
+  }
+}
+
 // --- Summons brought into play by this half ---------------------------------
 
 .summon-preview {

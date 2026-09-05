@@ -41,6 +41,16 @@
             <div class="damage-preview">
                 total: {{ damage || 0 }}
             </div>
+            <!-- Retaliate is provoked by the attack itself, so it applies even when the
+                 attack misses or is fully blocked. Only the range is the player's call,
+                 this app having no board to measure it on. -->
+            <label class="retaliate-row" *ngIf="retaliateDamage > 0 && selectedCharacterId">
+                <input type="checkbox" [checked]="applyRetaliate" (change)="toggleRetaliate()" />
+                <span>
+                    Retaliate {{ retaliateDamage }}<ng-container *ngIf="creature.retaliateRange > 1"> (range {{ creature.retaliateRange }})</ng-container>
+                    back at the attacker
+                </span>
+            </label>
         </div>
         <app-conditions *ngIf="!appContext.isGroupSelected" [creature]="creature" [conditions]="conditions"
             [immunities]="creature.immunities" [shouldShowBuffs]="shouldShowBuffs"

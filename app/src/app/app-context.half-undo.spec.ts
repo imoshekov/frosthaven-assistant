@@ -37,12 +37,13 @@ describe('AppContext card-half undo', () => {
 
   /** A half that hit `mob` for 8, poisoned it, and earned the hero 2 XP. */
   const execution = (over: Partial<HalfExecution> = {}): HalfExecution => ({
-    targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [CreatureConditions.poison], killed: false }],
+    targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [CreatureConditions.poison], removedConditions: [], killed: false }],
     damageCredited: 8,
     killsCredited: 0,
     xpGained: 2,
     shieldGained: 0,
     retaliateGained: 0,
+    retaliateSuffered: 0,
     ...over,
   });
 
@@ -138,7 +139,7 @@ describe('AppContext card-half undo', () => {
       appContext.recordKill('drifter');
       appContext.killCreature('mob');
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'mob', hpBefore: 3, addedConditions: [], killed: true }],
+        targets: [{ creatureId: 'mob', hpBefore: 3, addedConditions: [], removedConditions: [], killed: true }],
         damageCredited: 3,
         killsCredited: 1,
       }));
@@ -192,11 +193,11 @@ describe('AppContext card-half undo', () => {
 
       // Two strikes of one multi-attack half, 4 damage each.
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [CreatureConditions.poison], killed: false }],
+        targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [CreatureConditions.poison], removedConditions: [], killed: false }],
         damageCredited: 4, xpGained: 0,
       }));
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'mob', hpBefore: 16, addedConditions: [CreatureConditions.wound], killed: false }],
+        targets: [{ creatureId: 'mob', hpBefore: 16, addedConditions: [CreatureConditions.wound], removedConditions: [], killed: false }],
         damageCredited: 4, xpGained: 0,
       }));
       appContext.recordDamage('drifter', 8);
@@ -210,10 +211,10 @@ describe('AppContext card-half undo', () => {
     it('records both strikes targets when they hit different enemies', () => {
       appContext.setCreatures([hero(), mob({ id: 'a', hp: 5 }), mob({ id: 'b', hp: 6 })]);
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'a', hpBefore: 9, addedConditions: [], killed: false }], xpGained: 0, damageCredited: 4,
+        targets: [{ creatureId: 'a', hpBefore: 9, addedConditions: [], removedConditions: [], killed: false }], xpGained: 0, damageCredited: 4,
       }));
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'b', hpBefore: 10, addedConditions: [], killed: false }], xpGained: 0, damageCredited: 4,
+        targets: [{ creatureId: 'b', hpBefore: 10, addedConditions: [], removedConditions: [], killed: false }], xpGained: 0, damageCredited: 4,
       }));
 
       appContext.undoCardHalf('hero', 'top');
@@ -274,10 +275,10 @@ describe('AppContext card-half undo', () => {
     it('undoing the top half leaves the bottom half effects in place', () => {
       appContext.setCreatures([hero({ bottomHalfState: 'executed' }), mob({ hp: 6 })]);
       appContext.recordHalfExecution('hero', 'top', execution({
-        targets: [{ creatureId: 'mob', hpBefore: 12, addedConditions: [], killed: false }], xpGained: 0, damageCredited: 6,
+        targets: [{ creatureId: 'mob', hpBefore: 12, addedConditions: [], removedConditions: [], killed: false }], xpGained: 0, damageCredited: 6,
       }));
       appContext.recordHalfExecution('hero', 'bottom', execution({
-        targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [], killed: false }], xpGained: 0, damageCredited: 8,
+        targets: [{ creatureId: 'mob', hpBefore: 20, addedConditions: [], removedConditions: [], killed: false }], xpGained: 0, damageCredited: 8,
       }));
       appContext.recordDamage('drifter', 14);
 

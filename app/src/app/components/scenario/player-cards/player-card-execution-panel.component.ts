@@ -111,6 +111,13 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   attackAdjustments = new Map<number, number>();
   /** Attack value typed in by hand, for halves with no authored action data. */
   manualAttack = 0;
+  /**
+   * Whether the target's retaliate comes back at the hero. On by default, because an
+   * attack that provokes it is the normal case, but the app has no board and so cannot
+   * know whether the hero stood inside the retaliate range — a ranged attacker turns
+   * this off. Reset with each half.
+   */
+  applyRetaliate = true;
 
   /**
    * Values handed back from the attack modal after "Custom…", once the player
@@ -325,6 +332,25 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.takenBonuses.clear();
     this.bonusElementChoice.clear();
     this.customOverride = null;
+    this.applyRetaliate = true;
+  }
+
+  /**
+   * Retaliate the currently aimed-at target(s) would deal back. Zero unless this half
+   * actually attacks: retaliate answers an attack, not a heal or a bare condition.
+   */
+  get retaliateTotal(): number {
+    if (this.effectiveBaseAttack <= 0) return 0;
+    return this.targets.reduce((sum, t) => sum + this.damageService.retaliateDamage(t), 0);
+  }
+
+  /** The longest retaliate range among the aimed-at targets, for the prompt's label. */
+  get retaliateRange(): number {
+    return this.targets.reduce((max, t) => Math.max(max, Number(t.retaliateRange) || 0), 0);
+  }
+
+  toggleRetaliate(): void {
+    this.applyRetaliate = !this.applyRetaliate;
   }
 
   get selectedTile(): HalfTile | null {
@@ -984,11 +1010,14 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     killedIds: string[];
     /** What each target had before this strike, for the half's Undo. */
     effects: HalfEffectOnTarget[];
+    /** HP the hero loses to the retaliate of everything this strike attacked. */
+    retaliateSuffered: number;
   } {
     const patches: { creatureId: string; patch: Partial<Creature> }[] = [];
     const killedIds: string[] = [];
     const effects: HalfEffectOnTarget[] = [];
     let totalDamage = 0;
+    let retaliateSuffered = 0;
 
     for (const target of targets) {
       if (!target.id) continue;
@@ -996,16 +1025,22 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       const hpBefore = target.hp ?? 0;
       const conditionsBefore = target.conditions ?? [];
       let damageDealt = 0;
+      let consumed: CreatureConditions[] = [];
 
       if (this.effectiveBaseAttack > 0) {
-        damageDealt = this.damageService.compute({
+        const result = this.damageService.compute({
           baseAttack: this.effectiveBaseAttack,
           modifier: this.effectiveModifierForDamage,
           armorPen: this.effectiveArmorPenForDamage,
           ignoreArmor: this.effectiveIgnoreArmorForDamage,
           target,
-        }).damage;
+        });
+        damageDealt = result.damage;
+        consumed = result.consumedConditions;
         targetPatch.hp = hpBefore - damageDealt;
+        // Being attacked is what triggers retaliate, so this counts a missed and a
+        // blocked strike too — only the player's "in range" call gates it.
+        if (this.applyRetaliate) retaliateSuffered += this.damageService.retaliateDamage(target);
       } else if (this.selectedHealValue > 0) {
         targetPatch.hp = this.damageService.computeHeal(target, this.selectedHealValue);
       }
@@ -1014,6 +1049,16 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
         targetPatch,
         this.appContext.buildAddConditionsPatch(target, this.effectiveConditionsForExecution)
       );
+
+      // Ward and brittle are spent modifying the damage above and come off the target.
+      // Applied after the additions, and read off the target as it was *before* them,
+      // so a brittle this very attack inflicted is not immediately consumed by it.
+      if (consumed.length > 0) {
+        Object.assign(
+          targetPatch,
+          this.appContext.buildRemoveConditionsPatch({ ...target, ...targetPatch } as Creature, consumed)
+        );
+      }
 
       if (Object.keys(targetPatch).length > 0) {
         patches.push({ creatureId: target.id, patch: targetPatch });
@@ -1025,16 +1070,17 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
       // Only what this strike actually added: buildAddConditionsPatch skips whatever
       // the target already had or is immune to, so undoing can't strip those.
+      const conditionsAfter = targetPatch.conditions ?? conditionsBefore;
       effects.push({
         creatureId: target.id,
         hpBefore,
-        addedConditions: (targetPatch.conditions ?? conditionsBefore)
-          .filter(c => !conditionsBefore.includes(c)),
+        addedConditions: conditionsAfter.filter(c => !conditionsBefore.includes(c)),
+        removedConditions: conditionsBefore.filter(c => !conditionsAfter.includes(c)),
         killed,
       });
     }
 
-    return { patches, totalDamage, killedIds, effects };
+    return { patches, totalDamage, killedIds, effects, retaliateSuffered };
   }
 
   /**
@@ -1043,7 +1089,18 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * Applies only — moving on is the caller's job.
    */
   private applyStrike(): void {
-    const { patches, totalDamage, killedIds, effects } = this.computeTargetPatches(this.targets);
+    const { patches, totalDamage, killedIds, effects, retaliateSuffered } =
+      this.computeTargetPatches(this.targets);
+
+    // The hero's own HP loss rides in the same patch list, so one strike stays one
+    // log entry and one Undo.
+    const hero = this.hero;
+    if (retaliateSuffered > 0 && hero?.id) {
+      patches.push({
+        creatureId: hero.id,
+        patch: { hp: Math.max((hero.hp ?? 0) - retaliateSuffered, 0) },
+      });
+    }
 
     if (patches.length > 0) {
       this.appContext.applyCreaturePatches(patches);
@@ -1061,7 +1118,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       this.appContext.killCreature(id);
     }
 
-    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0);
+    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered);
   }
 
   /**
@@ -1076,6 +1133,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     xpGained: number,
     shieldGained: number,
     retaliateGained: number,
+    retaliateSuffered: number,
   ): void {
     const hero = this.hero;
     const selection = this.selected;
@@ -1088,6 +1146,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       xpGained,
       shieldGained,
       retaliateGained,
+      retaliateSuffered,
     });
   }
 
@@ -1159,10 +1218,19 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     // An attack with no modifier drawn applies nothing, whichever way finalizing was
     // reached — the same rule execute() enforces through canExecute, restated here so
     // no other caller can land a strike without a draw.
-    const { patches: targetPatches, totalDamage, killedIds, effects } = this.awaitingModifier
-      ? { patches: [], totalDamage: 0, killedIds: [] as string[], effects: [] as HalfEffectOnTarget[] }
+    const { patches: targetPatches, totalDamage, killedIds, effects, retaliateSuffered } = this.awaitingModifier
+      ? {
+        patches: [], totalDamage: 0, killedIds: [] as string[],
+        effects: [] as HalfEffectOnTarget[], retaliateSuffered: 0,
+      }
       : this.computeTargetPatches(this.targets);
     patches.push(...targetPatches);
+
+    // Set on the hero's own patch rather than pushed as a second one, so the shield,
+    // XP and HP loss all reach applyCreaturePatches as a single change to this hero.
+    if (retaliateSuffered > 0) {
+      heroPatch.hp = Math.max((hero.hp ?? 0) - retaliateSuffered, 0);
+    }
 
     patches.push({ creatureId: hero.id, patch: heroPatch });
     this.appContext.applyCreaturePatches(patches);
@@ -1177,6 +1245,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       xpGained,
       this.selectedShield,
       this.selectedRetaliate,
+      retaliateSuffered,
     );
 
     // Summons enter play only through a card action, which is here. Emitted after the

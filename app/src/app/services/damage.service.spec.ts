@@ -55,13 +55,51 @@ describe('DamageService', () => {
     });
   });
 
-  describe('target conditions', () => {
-    it('poison adds one', () => {
+  /**
+   * "All attacks targeting the figure gain +1" — poison raises the *attack value*, so
+   * the modifier card multiplies it and shield is subtracted from the total. It used
+   * to be tacked on at the very end, which both left it out of a ×2 and threw it away
+   * whenever shield blocked the attack outright.
+   */
+  describe('poison', () => {
+    it('adds one to the attack', () => {
       expect(service.compute({
         baseAttack: 3, target: target({ conditions: [CreatureConditions.poison] }),
       }).damage).toBe(4);
     });
 
+    it('is doubled along with the rest of the attack by a x2', () => {
+      expect(service.compute({
+        baseAttack: 3, modifier: 'x2', target: target({ conditions: [CreatureConditions.poison] }),
+      }).damage).toBe(8); // (3 + 1) × 2, not (3 × 2) + 1
+    });
+
+    it('survives a shield that would otherwise block the attack outright', () => {
+      expect(service.compute({
+        baseAttack: 3, target: target({ armor: 3, conditions: [CreatureConditions.poison] }),
+      }).damage).toBe(1); // (3 + 1) − 3
+    });
+
+    it('is still blocked by a shield big enough to stop the poisoned total', () => {
+      expect(service.compute({
+        baseAttack: 3, target: target({ armor: 4, conditions: [CreatureConditions.poison] }),
+      }).damage).toBe(0);
+    });
+
+    it('is not used up by the attack — it lasts until the figure is healed', () => {
+      expect(service.compute({
+        baseAttack: 3, target: target({ conditions: [CreatureConditions.poison] }),
+      }).consumedConditions).toEqual([]);
+    });
+
+    it('adds nothing on a miss', () => {
+      expect(service.compute({
+        baseAttack: 3, modifier: 'miss', target: target({ conditions: [CreatureConditions.poison] }),
+      }).damage).toBe(0);
+    });
+  });
+
+  describe('target conditions', () => {
     it('brittle doubles', () => {
       expect(service.compute({
         baseAttack: 3, target: target({ conditions: [CreatureConditions.brittle] }),
@@ -105,6 +143,80 @@ describe('DamageService', () => {
     });
   });
 
+  /**
+   * Ward and brittle modify one instance of damage and are then gone. The service
+   * reports which ones it spent; taking them off the creature is the caller's job.
+   */
+  describe('one-shot conditions', () => {
+    it('reports the brittle it doubled with', () => {
+      expect(service.compute({
+        baseAttack: 3, target: target({ conditions: [CreatureConditions.brittle] }),
+      }).consumedConditions).toEqual([CreatureConditions.brittle]);
+    });
+
+    it('reports the ward it halved with', () => {
+      expect(service.compute({
+        baseAttack: 4, target: target({ conditions: [CreatureConditions.ward] }),
+      }).consumedConditions).toEqual([CreatureConditions.ward]);
+    });
+
+    it('spends a ward even when halving leaves nothing', () => {
+      // 1 damage halved is 0, but the instance of damage still happened.
+      const result = service.compute({
+        baseAttack: 1, target: target({ conditions: [CreatureConditions.ward] }),
+      });
+      expect(result.damage).toBe(0);
+      expect(result.consumedConditions).toEqual([CreatureConditions.ward]);
+    });
+
+    it('spends both when they cancel each other out', () => {
+      expect(service.compute({
+        baseAttack: 5,
+        target: target({ conditions: [CreatureConditions.brittle, CreatureConditions.ward] }),
+      }).consumedConditions).toEqual([CreatureConditions.brittle, CreatureConditions.ward]);
+    });
+
+    it('spends nothing on a miss — no damage instance, nothing to modify', () => {
+      expect(service.compute({
+        baseAttack: 5, modifier: 'miss', target: target({ conditions: [CreatureConditions.ward] }),
+      }).consumedConditions).toEqual([]);
+    });
+
+    it('spends nothing when shield blocks the attack outright', () => {
+      expect(service.compute({
+        baseAttack: 2, target: target({ armor: 5, conditions: [CreatureConditions.ward] }),
+      }).consumedConditions).toEqual([]);
+    });
+
+    it('leaves an unrelated condition alone', () => {
+      expect(service.compute({
+        baseAttack: 3, target: target({ conditions: [CreatureConditions.wound] }),
+      }).consumedConditions).toEqual([]);
+    });
+  });
+
+  /**
+   * Retaliate answers the attack, not the damage — so it fires on a miss and on a
+   * fully blocked hit alike. Range is not modelled: this app has no board.
+   */
+  describe('retaliate', () => {
+    it('is zero for a target with none', () => {
+      expect(service.retaliateDamage(target())).toBe(0);
+    });
+
+    it('reads the printed value', () => {
+      expect(service.retaliateDamage(target({ retaliate: 2 }))).toBe(2);
+    });
+
+    it('adds a round-long retaliate on top', () => {
+      expect(service.retaliateDamage(target({ retaliate: 2, roundRetaliate: 1 }))).toBe(3);
+    });
+
+    it('never goes negative', () => {
+      expect(service.retaliateDamage(target({ retaliate: -3 }))).toBe(0);
+    });
+  });
+
   describe('healing', () => {
     it('raises hp', () => {
       expect(service.computeHeal(target({ hp: 4, maxHp: 10 }), 3)).toBe(7);
@@ -124,7 +236,7 @@ describe('DamageService', () => {
       baseAttack: 3, modifier: 'x2',
       target: target({ armor: 1, conditions: [CreatureConditions.poison] }),
     });
-    expect(result.damage).toBe(6); // (3*2) - 1 = 5, +1 poison
+    expect(result.damage).toBe(7); // (3 + 1 poison) × 2 = 8, − 1 shield
     expect(result.breakdown.length).toBeGreaterThan(1);
   });
 });

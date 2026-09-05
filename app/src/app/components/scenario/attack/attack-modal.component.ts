@@ -31,8 +31,19 @@ export class AttackModalComponent {
    */
   public ignoreArmor = false;
   public damage = 0;
+  /**
+   * Whether the target's retaliate comes back at the attacking hero. On by default —
+   * an attack normally provokes it — but the app has no board, so a ranged attacker
+   * outside the retaliate range turns it off.
+   */
+  public applyRetaliate = true;
   public selectedCharacterId: string | null = null;
   private tempConditions: CreatureConditions[] = [];
+  /**
+   * The one-shot conditions the pending attack will use up on the target (ward,
+   * brittle). Recomputed with the damage, applied on confirm.
+   */
+  private consumedConditions: CreatureConditions[] = [];
   /**
    * True when opened via the card execution panel's "Custom" button. In that case
    * Confirm hands the adjusted values back to the panel instead of applying them —
@@ -154,20 +165,56 @@ export class AttackModalComponent {
     }
     const calculatedDamage = this.calculateDamage();
     const resultHp = this.creature.hp - calculatedDamage;
-    this.appContext.updateCreatureBaseStat(this.creature.id!, 'hp', this.creature.hp - calculatedDamage);
+
+    // The HP loss and the ward/brittle this attack used up go in one patch, so the log
+    // shows a single change and one Undo puts both back.
+    const patch: Partial<Creature> = { hp: resultHp };
+    Object.assign(
+      patch,
+      this.appContext.buildRemoveConditionsPatch(this.creature, this.consumedConditions)
+    );
+    this.appContext.updateCreatureMultipleStats(this.creature.id!, patch);
+
     if (resultHp <= 0) {
       this.appContext.killCreature(this.creature.id!);
     }
+
+    this.retaliateAgainstAttacker();
+  }
+
+  /**
+   * Sends the target's retaliate back at the attacking hero. Triggered by the attack
+   * rather than by the damage, so a blocked hit still provokes it; the player has
+   * already said whether the attacker stood within its range.
+   */
+  private retaliateAgainstAttacker(): void {
+    const retaliate = this.retaliateDamage;
+    if (!this.applyRetaliate || retaliate <= 0 || !this.selectedCharacterId) return;
+
+    const attacker = this.appContext.getCreatures().find(c => c.id === this.selectedCharacterId);
+    if (!attacker?.id) return;
+    this.appContext.updateCreatureBaseStat(attacker.id, 'hp', Math.max((attacker.hp ?? 0) - retaliate, 0));
   }
 
   calculateDamage(): number {
-    this.damage = this.damageService.compute({
+    const result = this.damageService.compute({
       baseAttack: Number(this.attack) || 0,
       armorPen: Number(this.armorPen) || 0,
       ignoreArmor: this.ignoreArmor,
       target: this.creature,
-    }).damage;
+    });
+    this.damage = result.damage;
+    this.consumedConditions = result.consumedConditions;
     return this.damage;
+  }
+
+  /** What this target deals back to its attacker, before the range question. */
+  get retaliateDamage(): number {
+    return this.creature ? this.damageService.retaliateDamage(this.creature) : 0;
+  }
+
+  toggleRetaliate(): void {
+    this.applyRetaliate = !this.applyRetaliate;
   }
 
   confirm() {

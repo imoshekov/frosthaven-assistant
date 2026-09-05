@@ -142,14 +142,20 @@ and the DM taps on however many the printed range actually covers:
 
 Set `multiTarget: true` directly on the `attack` action. The execution panel then:
 
-1. Lets the player select any number of targets (a toggle strip, not a single pick).
-2. Draws **one** attack modifier for the whole strike — real Frosthaven rules apply one
-   modifier card to every target a multi-target attack hits, not one draw each.
-3. Still computes each target's damage independently: the shared modifier and pierce
-   apply to all of them, but each target's own armour and conditions (poison, brittle,
-   ward) tell their damage apart, same as `DamageService.compute()` always does.
-4. Applies every target's damage and conditions in the same patch batch the half's XP,
-   shield/retaliate and spent-flag land in — one Undo reverses all of it.
+1. Resolves it **one target at a time**, each with its own modifier draw. That is the
+   rule: *"Each targeted figure is attacked separately, drawing a modifier card for each
+   one."* Press Execute per target; "Done" ends the attack.
+2. Refuses to hit the same figure twice — a struck target drops out of the strip for the
+   rest of that attack action, and comes back for the next one.
+3. Computes each target's damage independently: its own shield, poison, ward and brittle
+   apply to its own strike, and the per-attack +/- adjustment carries across all of them
+   because it belongs to the attack rather than to the strike.
+4. Applies each strike as its own patch batch, so each is separately visible in the log;
+   the half's XP, shield/retaliate and spent-flag land with the final one, and the tile's
+   Undo reverses the whole half at once.
+
+A `multiTarget` half with **no** attack — "Muddle all adjacent enemies", say — has no
+modifier to draw and so is applied to every selected target at once, from a toggle strip.
 
 "Custom…" (the manual attack-modal override) isn't offered for a `multiTarget` attack —
 it and `customOverride` only ever carry one target's worth of values. Don't set
@@ -364,7 +370,7 @@ The panel changes game state for these:
 
 | Type | Effect |
 | --- | --- |
-| `attack` | Feeds the damage pipeline against the chosen target, via the modifier row. More than one `attack` in a half is resolved as independent strikes, one at a time — see Rule 4. `multiTarget: true` instead lets one strike hit several targets with a single draw — see Rule 5. |
+| `attack` | Feeds the damage pipeline against the chosen target, via the modifier row. More than one `attack` in a half is resolved as independent strikes, one at a time — see Rule 4. `multiTarget: true` resolves one attack against several targets, one draw each — see Rule 5. |
 | `heal` | Raises the target's HP, capped at `maxHp`. Targets allies. |
 | `condition` | Applied to the target, skipping immunities. |
 | `element` | Infuses every element in `elements`. |
@@ -374,6 +380,17 @@ The panel changes game state for these:
 | `summon` | Brings a real figure onto the board, on the owner's initiative. See Rule 6. |
 | `pierce` | Read to annotate the attack's armor penetration, not applied on its own. |
 | `ignoreArmor` | Nested under an `attack` the same way `pierce`/`condition` are. Skips the target's shield entirely for that strike — stronger than any amount of pierce, and combines freely with whatever else the attack does (poison, wound, …). No `value`. |
+
+Three things the panel does to a target on its own, with nothing to author for them:
+
+- a **poisoned** target's `+1` is added to the attack value, so the modifier card
+  multiplies it and shield is subtracted from the poisoned total;
+- **ward** and **brittle** modify the one instance of damage they meet and are then
+  removed — both at once, and cancelling, if the target had both. A missed or fully
+  blocked attack leaves them alone: no damage, nothing to modify;
+- a target's **retaliate** is dealt back to the acting hero. It answers the attack, not
+  the damage, so it lands on a miss too. The panel asks before applying it, since this
+  app has no board to say whether the hero stood inside the retaliate range.
 
 ### Rendered but never applied
 

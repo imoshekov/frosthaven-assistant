@@ -37,6 +37,13 @@ export interface HalfEffectOnTarget {
      * immune to, so undoing cannot strip a condition somebody else inflicted.
      */
     addedConditions: CreatureConditions[];
+    /**
+     * One-shot conditions this half used up on the target — ward and brittle, which
+     * the rules take off the moment they modify damage. Undo puts them back, minus
+     * their original round marker: what round they were applied in is not worth
+     * carrying through the journal for a condition that is about to be re-applied.
+     */
+    removedConditions: CreatureConditions[];
     /** Killed by this half, so undo has to bring it back out of the graveyard. */
     killed: boolean;
 }
@@ -62,6 +69,8 @@ export interface HalfExecution {
     xpGained: number;
     shieldGained: number;
     retaliateGained: number;
+    /** HP the hero lost to its targets' retaliate while resolving this half. */
+    retaliateSuffered: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -352,6 +361,21 @@ export class AppContext {
         return { conditions: [...current, ...added], conditionRounds };
     }
 
+    /**
+     * The mirror of `buildAddConditionsPatch`, for the one-shot conditions an attack
+     * uses up (ward, brittle). Same single-emission story: the removal folds into the
+     * same patch as the damage that triggered it.
+     */
+    buildRemoveConditionsPatch(creature: Creature, conditions: CreatureConditions[]): Partial<Creature> {
+        const current = creature.conditions ?? [];
+        const removed = conditions.filter(c => current.includes(c));
+        if (removed.length === 0) return {};
+
+        const conditionRounds = { ...creature.conditionRounds };
+        for (const condition of removed) delete conditionRounds[condition];
+        return { conditions: current.filter(c => !removed.includes(c)), conditionRounds };
+    }
+
     toggleCreatureConditions(creatureId: string, condition: CreatureConditions) {
         const creatureToUpdate = this.findCreature(creatureId);
         if (!creatureToUpdate) return;
@@ -605,7 +629,11 @@ export class AppContext {
         if (!existing) {
             this.halfExecutions.set(key, {
                 ...effect,
-                targets: effect.targets.map(t => ({ ...t, addedConditions: [...t.addedConditions] })),
+                targets: effect.targets.map(t => ({
+                    ...t,
+                    addedConditions: [...t.addedConditions],
+                    removedConditions: [...t.removedConditions],
+                })),
             });
             return;
         }
@@ -614,9 +642,14 @@ export class AppContext {
             const already = existing.targets.find(t => t.creatureId === incoming.creatureId);
             if (already) {
                 already.addedConditions = [...new Set([...already.addedConditions, ...incoming.addedConditions])];
+                already.removedConditions = [...new Set([...already.removedConditions, ...incoming.removedConditions])];
                 already.killed = already.killed || incoming.killed;
             } else {
-                existing.targets.push({ ...incoming, addedConditions: [...incoming.addedConditions] });
+                existing.targets.push({
+                    ...incoming,
+                    addedConditions: [...incoming.addedConditions],
+                    removedConditions: [...incoming.removedConditions],
+                });
             }
         }
 
@@ -625,6 +658,7 @@ export class AppContext {
         existing.xpGained += effect.xpGained;
         existing.shieldGained += effect.shieldGained;
         existing.retaliateGained += effect.retaliateGained;
+        existing.retaliateSuffered += effect.retaliateSuffered;
     }
 
     /** What a half applied, for tests and for the panel's own bookkeeping. */
@@ -660,8 +694,7 @@ export class AppContext {
         // conditions can be patched, and reviveCreature restores both as it goes.
         for (const target of executed.targets) {
             if (!target.killed) continue;
-            const conditions = this.conditionsWithout(target.creatureId, target.addedConditions, true);
-            this.reviveCreature(target.creatureId, target.hpBefore, conditions);
+            this.reviveCreature(target.creatureId, target.hpBefore, this.conditionsBefore(target, true));
         }
 
         const patches: { creatureId: string; patch: Partial<Creature> }[] = [];
@@ -671,8 +704,8 @@ export class AppContext {
             if (!creature) continue;
 
             const targetPatch: Partial<Creature> = { hp: target.hpBefore };
-            if (target.addedConditions.length > 0) {
-                targetPatch.conditions = this.conditionsWithout(target.creatureId, target.addedConditions, false);
+            if (target.addedConditions.length > 0 || target.removedConditions.length > 0) {
+                targetPatch.conditions = this.conditionsBefore(target, false);
             }
             patches.push({ creatureId: target.creatureId, patch: targetPatch });
         }
@@ -691,6 +724,13 @@ export class AppContext {
             if (executed.retaliateGained > 0) {
                 patch.roundRetaliate = Math.max(0, (hero.roundRetaliate ?? 0) - executed.retaliateGained);
             }
+            // HP the hero lost to its targets' retaliate. Given back rather than reset
+            // to a remembered value: the hero may have been healed or hurt by something
+            // else since, and only this half's share belongs to this undo.
+            if (executed.retaliateSuffered > 0) {
+                const restored = (hero.hp ?? 0) + executed.retaliateSuffered;
+                patch.hp = hero.maxHp ? Math.min(restored, hero.maxHp) : restored;
+            }
         }
 
         // The hero's own flags ride along, so one emission covers the whole reversal.
@@ -706,19 +746,19 @@ export class AppContext {
     }
 
     /**
-     * A creature's conditions minus the ones a half added, leaving anything inflicted
-     * from elsewhere in place. Reads the graveyard copy for a creature that was killed.
+     * A creature's conditions as they stood before a half touched it: minus what the
+     * half inflicted, plus the one-shot ward/brittle it used up. Anything inflicted or
+     * cleared from elsewhere in between is left alone. Reads the graveyard copy for a
+     * creature that was killed.
      */
-    private conditionsWithout(
-        creatureId: string,
-        added: CreatureConditions[],
-        fromGraveyard: boolean
-    ): CreatureConditions[] {
+    private conditionsBefore(target: HalfEffectOnTarget, fromGraveyard: boolean): CreatureConditions[] {
         const source = fromGraveyard
-            ? this.graveyardSubject.value.find(c => c.id === creatureId)
-            : this.getCreatures().find(c => c.id === creatureId);
+            ? this.graveyardSubject.value.find(c => c.id === target.creatureId)
+            : this.getCreatures().find(c => c.id === target.creatureId);
         const current = source?.conditions ?? [];
-        return current.filter(c => !added.includes(c));
+        const kept = current.filter(c => !target.addedConditions.includes(c));
+        const restored = target.removedConditions.filter(c => !kept.includes(c));
+        return [...kept, ...restored];
     }
 
     /** "End Turn Early": marks any unspent half skipped and completes the turn. */
