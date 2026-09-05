@@ -124,7 +124,7 @@
 
           <span class="attack-tags">
             <span class="tag" *ngIf="isAttackMultiTarget(i)" title="Hits several targets, one at a time">
-              multi-target
+              {{ attackTargetLimit(i) ? 'up to ' + attackTargetLimit(i) + ' targets' : 'multi-target' }}
             </span>
             <span class="tag done-tag" *ngIf="isAttackDone(i)">spent</span>
           </span>
@@ -138,14 +138,38 @@
         </div>
       </div>
 
+      <!-- The half's heal, if any, with its own +/- adjustment for a bonus the card
+           can't know about — the same idea as the attack row above. `selfOnly` always
+           lands on the acting hero, so it's tagged rather than needing a picked
+           target. -->
+      <div class="attack-list" *ngIf="hasSelectedHeal">
+        <div class="attack-row">
+          <span class="icon heal"></span>
+          <span class="attack-value">{{ healDisplayValue }}</span>
+          <span class="attack-delta" *ngIf="healAdjustment">
+            ({{ healAdjustment > 0 ? '+' : '' }}{{ healAdjustment }})
+          </span>
+
+          <span class="attack-tags">
+            <span class="tag" *ngIf="isCurrentHealSelfOnly" title="Applies to the acting hero, not a picked target">
+              self
+            </span>
+          </span>
+
+          <span class="attack-adjust">
+            <button type="button" (click)="adjustHeal(-1)"
+                    title="Lower this heal's value for this turn">−</button>
+            <button type="button" (click)="adjustHeal(1)"
+                    title="Raise this heal's value for this turn">+</button>
+          </span>
+        </div>
+      </div>
+
       <!-- What the card says this half does. The attack itself is only repeated here
            for a manually-entered value, which has no row in the list above. -->
       <div class="annotations">
         <span class="annotation" *ngIf="selectedAttackValue > 0 && !selectedAttacks.length">
           <span class="icon attack"></span>{{ selectedAttackValue }}
-        </span>
-        <span class="annotation" *ngIf="selectedHealValue > 0">
-          <span class="icon heal"></span>{{ selectedHealValue }}
         </span>
         <span class="annotation" *ngIf="selectedPierce > 0">
           <span class="icon pierce"></span>{{ selectedPierce }}
@@ -250,6 +274,10 @@
           <span class="hint" *ngIf="isSequentialAttack">
             one at a time — each target draws its own modifier
           </span>
+          <!-- `multiTarget: N`: the card caps how many this action may hit. -->
+          <span class="hint" *ngIf="targetLimit">
+            up to {{ targetLimit }} — {{ targetsRemaining }} left
+          </span>
         </div>
         <div class="target-strip">
           <div *ngFor="let option of targetOptions; trackBy: trackCreature"
@@ -270,7 +298,12 @@
           <span class="struck-name" *ngFor="let hit of struckTargets; trackBy: trackCreature">{{ hit.name }}</span>
         </div>
         <div class="struck" *ngIf="allTargetsStruck">
-          Every enemy has been struck by this attack — {{ finishAttackLabel }}.
+          <ng-container *ngIf="targetLimitReached; else noEnemiesLeft">
+            This attack has hit all {{ targetLimit }} of its targets — {{ finishAttackLabel }}.
+          </ng-container>
+          <ng-template #noEnemiesLeft>
+            Every enemy has been struck by this attack — {{ finishAttackLabel }}.
+          </ng-template>
         </div>
       </div>
 

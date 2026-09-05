@@ -164,17 +164,32 @@ export interface CardAction {
   subActions?: CardAction[];
   /** FH convention for a modifier riding on its parent action; renders smaller. */
   small?: boolean;
+  /**
+   * `heal`/`condition` only. Applies to the acting hero rather than the picked
+   * target — a self-heal or a self-inflicted condition (Strengthen, Muddle, …)
+   * printed alongside an attack or a targeted effect on the same half. Excluded
+   * from `selectedHealValue`/`selectedConditions` (the target-facing values) and
+   * applied instead through `selectedSelfHealValue`/`selectedSelfConditions` in the
+   * execution panel, so it never needs a picked target and never lands on one.
+   */
+  selfOnly?: boolean;
   enhancementTypes?: EnhancementTypeName[];
   /**
-   * `attack` only. True when this strike can hit more than one target — an unknown
-   * number, since the app has no board to count how many the card's printed range
-   * covers. The player picks as many targets as apply; one drawn modifier and one
-   * pierce value apply to all of them, but each target's own armour and conditions
-   * still compute its damage independently. Never combine with `elementBonus`'s own
-   * nested `attack` — that one only ever adds to the base value (see `takenBonusAttack`
-   * in the execution panel), it never targets on its own.
+   * This action hits more than one target. `true` leaves the count open — "each
+   * adjacent enemy", an unknown number the app has no board to count, so the player
+   * picks as many as apply. A **number** is a hard cap the card prints: `2` for
+   * "attack up to 2 enemies", and the picker stops offering targets once that many
+   * have been hit.
+   *
+   * On an `attack`, every target is still a separate strike with its own modifier
+   * draw, and no target may be hit twice by the same attack action — two independent
+   * `attack` actions are how a card hits one enemy twice (see `collectAttacks`).
+   * One pierce value applies to all of them, but each target's own armour and
+   * conditions compute its damage independently. Never combine with `elementBonus`'s
+   * own nested `attack` — that one only ever adds to the base value (see
+   * `takenBonusAttack` in the execution panel), it never targets on its own.
    */
-  multiTarget?: boolean;
+  multiTarget?: boolean | number;
   /** Literal English prose. The only place prose lives — never an i18n key. */
   text?: string;
 

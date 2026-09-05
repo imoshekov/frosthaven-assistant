@@ -71,6 +71,10 @@ export interface HalfExecution {
     retaliateGained: number;
     /** HP the hero lost to its targets' retaliate while resolving this half. */
     retaliateSuffered: number;
+    /** HP a `selfOnly` heal on this half added to the acting hero. */
+    selfHealGained: number;
+    /** Conditions a `selfOnly` condition on this half applied to the acting hero. */
+    selfConditionsGained: CreatureConditions[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -634,6 +638,7 @@ export class AppContext {
                     addedConditions: [...t.addedConditions],
                     removedConditions: [...t.removedConditions],
                 })),
+                selfConditionsGained: [...effect.selfConditionsGained],
             });
             return;
         }
@@ -659,6 +664,8 @@ export class AppContext {
         existing.shieldGained += effect.shieldGained;
         existing.retaliateGained += effect.retaliateGained;
         existing.retaliateSuffered += effect.retaliateSuffered;
+        existing.selfHealGained += effect.selfHealGained;
+        existing.selfConditionsGained = [...new Set([...existing.selfConditionsGained, ...effect.selfConditionsGained])];
     }
 
     /** What a half applied, for tests and for the panel's own bookkeeping. */
@@ -724,12 +731,18 @@ export class AppContext {
             if (executed.retaliateGained > 0) {
                 patch.roundRetaliate = Math.max(0, (hero.roundRetaliate ?? 0) - executed.retaliateGained);
             }
-            // HP the hero lost to its targets' retaliate. Given back rather than reset
-            // to a remembered value: the hero may have been healed or hurt by something
-            // else since, and only this half's share belongs to this undo.
-            if (executed.retaliateSuffered > 0) {
-                const restored = (hero.hp ?? 0) + executed.retaliateSuffered;
-                patch.hp = hero.maxHp ? Math.min(restored, hero.maxHp) : restored;
+            // HP a `selfOnly` heal added and/or the hero lost to its targets' retaliate.
+            // Given back rather than reset to a remembered value: the hero may have been
+            // healed or hurt by something else since, and only this half's share belongs
+            // to this undo.
+            if (executed.selfHealGained > 0 || executed.retaliateSuffered > 0) {
+                const restored = (hero.hp ?? 0) - executed.selfHealGained + executed.retaliateSuffered;
+                patch.hp = hero.maxHp ? Math.min(Math.max(restored, 0), hero.maxHp) : Math.max(restored, 0);
+            }
+            // A `selfOnly` condition this half applied to the hero itself, the same way
+            // a target's own conditions are stripped above.
+            if (executed.selfConditionsGained.length > 0) {
+                patch.conditions = (hero.conditions ?? []).filter(c => !executed.selfConditionsGained.includes(c));
             }
         }
 

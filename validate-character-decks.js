@@ -218,6 +218,14 @@ function main() {
             err(`${where} ${halfName}: unknown condition "${a.value}"`);
           }
 
+          // multiTarget is `true` (open-ended) or a printed cap of 2 or more. A cap of
+          // 1 is just a normal single-target action, and anything else is a typo.
+          if (a.multiTarget !== undefined && typeof a.multiTarget !== 'boolean') {
+            if (!Number.isInteger(a.multiTarget) || a.multiTarget < 2) {
+              err(`${where} ${halfName}: multiTarget must be true or an integer >= 2, got ${JSON.stringify(a.multiTarget)}`);
+            }
+          }
+
           if (a.enhancementTypes !== undefined) {
             if (!Array.isArray(a.enhancementTypes) || a.enhancementTypes.length === 0) {
               err(`${where} ${halfName}: enhancementTypes must be a non-empty array`);

@@ -44,6 +44,8 @@ describe('AppContext card-half undo', () => {
     shieldGained: 0,
     retaliateGained: 0,
     retaliateSuffered: 0,
+    selfHealGained: 0,
+    selfConditionsGained: [],
     ...over,
   });
 

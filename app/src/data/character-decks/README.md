@@ -119,6 +119,13 @@ never leak onto the other attack in the pair. An action that sits beside the att
 rather than nested under one of them (a self-buff a single-attack half grants
 regardless, say) still applies every time, same as always.
 
+Each `attack` here is a **fresh, independent action**, so the second one *may* strike
+the same enemy the first one just hit — that's the normal case for "Vile Assault"
+above, both aimed at one foe. The picked target even survives from one attack to the
+next so re-aiming isn't busywork. This is the opposite of Rule 5's `multiTarget`, where
+every strike belongs to the *same* attack action and so may never repeat a target — see
+the comparison table there for which of the two a given card wants.
+
 Don't put two attacks under one `subActions` tree, and don't put an unrelated attack's
 condition on the wrong one — `collectAttacks()` in
 [`character-card-types.ts`](../../app/types/character-card-types.ts) walks the
@@ -126,13 +133,12 @@ half looking for independent `attack` actions (skipping over `elementBonus`, who
 nested `attack` is a bonus to add to the base value, not a separate strike — see Rule 3
 and `takenBonusAttack`).
 
-## Rule 5: `multiTarget` is one attack hitting an unknown number of targets
+## Rule 5: `multiTarget` is one attack action hitting several targets
 
-Distinct from Rule 4: a multi-*attack* half is several separate strikes, each with its
-own modifier draw. A multi-*target* attack is a **single** strike that hits more than
-one creature — e.g. "Attack 2 to all adjacent enemies". The app has no board, so it
-can't count who's adjacent or in range; instead the half offers every hostile creature
-and the DM taps on however many the printed range actually covers:
+Distinct from Rule 4: a multi-*attack* half is several separate attack actions. A
+multi-*target* attack is **one** attack action aimed at more than one creature — e.g.
+"Attack 2 to all adjacent enemies". Set `multiTarget` directly on the `attack` action,
+either open-ended or with a printed cap:
 
 ```json
 {
@@ -140,7 +146,24 @@ and the DM taps on however many the printed range actually covers:
 }
 ```
 
-Set `multiTarget: true` directly on the `attack` action. The execution panel then:
+`true` means **however many apply** — "all adjacent enemies", "every enemy in range".
+The app has no board, so it can't count who's adjacent; the half offers every hostile
+creature and the DM taps on however many the printed range actually covers.
+
+A **number** is the cap the card prints — "Attack 3, target 2" / "attack up to 2
+enemies":
+
+```json
+{
+  "actions": [{ "type": "attack", "value": 3, "multiTarget": 2 }]
+}
+```
+
+The panel then stops offering targets once that many have been hit, and the label
+counts down ("up to 2 — 1 left"). Use an integer of 2 or more; `1` is just a normal
+single-target attack, and the validator rejects it.
+
+Either way, the execution panel:
 
 1. Resolves it **one target at a time**, each with its own modifier draw. That is the
    rule: *"Each targeted figure is attacked separately, drawing a modifier card for each
@@ -155,14 +178,38 @@ Set `multiTarget: true` directly on the `attack` action. The execution panel the
    Undo reverses the whole half at once.
 
 A `multiTarget` half with **no** attack — "Muddle all adjacent enemies", say — has no
-modifier to draw and so is applied to every selected target at once, from a toggle strip.
+modifier to draw and so is applied to every selected target at once, from a toggle
+strip. A cap works there too: `multiTarget: 2` on the `condition` stops the player
+selecting a third (deselecting still works, so targets can be swapped).
+
+### Choosing between Rule 4 and Rule 5
+
+The two look alike on the table but differ on **whether one enemy can be hit twice**:
+
+| The card says | Author it as | Same enemy twice? |
+| --- | --- | --- |
+| "Attack 3, target 2" — up to 2 enemies | one `attack`, `"multiTarget": 2` | **No.** A struck target drops out of the strip for the rest of that attack action. |
+| "Attack 2. Attack 2." — two strikes | two `attack` actions (Rule 4) | **Yes.** Each is a fresh action; the picked target even carries over, so re-hitting is the default. |
+| "Attack 2 to all adjacent enemies" | one `attack`, `"multiTarget": true` | **No**, and no cap either — the DM taps whoever is in range. |
+
+```json
+// (a) one attack, up to 2 different enemies — 2 modifier draws, no repeats
+{ "actions": [{ "type": "attack", "value": 3, "multiTarget": 2 }] }
+
+// (b) two attacks — 2 modifier draws, may both land on the same enemy
+{ "actions": [{ "type": "attack", "value": 2 }, { "type": "attack", "value": 2 }] }
+```
+
+The two combine: two independent `multiTarget` attacks in a row each get their own
+no-repeat set, so the second may re-strike whoever the first already hit — see
+`doubleSweep` in `player-card-execution-panel.multitarget.spec.ts`.
 
 "Custom…" (the manual attack-modal override) isn't offered for a `multiTarget` attack —
 it and `customOverride` only ever carry one target's worth of values. Don't set
-`multiTarget` on a `heal`; healing always targets one ally, chosen the normal way. Don't
-combine it with a fixed printed target count either — the "Not part of the schema"
-list further down already excludes `target`/`specialTarget`, and `multiTarget` doesn't
-reintroduce a count, it just says "more than one, DM's call."
+`multiTarget` on a `heal`; healing always targets one ally, chosen the normal way. And
+`multiTarget: N` is the *only* way to write a target count — the "Not part of the
+schema" list further down still excludes `target`/`specialTarget`, which were
+descriptive annotations rather than something the panel enforces.
 
 ## Rule 6: summons are real figures, created only by cards
 
@@ -339,7 +386,8 @@ data this app models. See "Not part of the schema" below.
 | `elements` | `element`: what is infused. `elementBonus`: what is consumed. One or more of the six elements below. |
 | `consumeMode` | `elementBonus` only: `all` or `any`. |
 | `enhancementTypes` | The enhancement-sticker slots printed on the action. Not applied by this app; kept because it's printed. One or more of the enhancement types below. |
-| `multiTarget` | `attack` only: `true` lets the player pick more than one target for this strike. See Rule 5. |
+| `multiTarget` | More than one target for this action: `true` for however many apply, or an integer ≥ 2 for a printed cap ("up to 2 enemies"). See Rule 5. |
+| `selfOnly` | `heal`/`condition` only: applies to the acting hero instead of a picked target. No target selection is needed for it. |
 | `summon` | `summon` only: the figure's inline stat line — see Rule 6 for every field. |
 | `slots` | `persistentTrack` only: one entry per printed slot, with its `xp`. |
 | `image` | Relative to `app/src/images`. The one sanctioned outside reference. |
@@ -371,8 +419,8 @@ The panel changes game state for these:
 | Type | Effect |
 | --- | --- |
 | `attack` | Feeds the damage pipeline against the chosen target, via the modifier row. More than one `attack` in a half is resolved as independent strikes, one at a time — see Rule 4. `multiTarget: true` resolves one attack against several targets, one draw each — see Rule 5. |
-| `heal` | Raises the target's HP, capped at `maxHp`. Targets allies. |
-| `condition` | Applied to the target, skipping immunities. |
+| `heal` | Raises the target's HP, capped at `maxHp`. Targets allies. `selfOnly: true` heals the acting hero instead — no target picked for it. |
+| `condition` | Applied to the target, skipping immunities. `selfOnly: true` applies it to the acting hero instead — no target picked for it. |
 | `element` | Infuses every element in `elements`. |
 | `elementBonus` | Offered when available; consumes `elements` if the player takes it. |
 | `xp` | Experience for the acting hero. |
@@ -380,6 +428,68 @@ The panel changes game state for these:
 | `summon` | Brings a real figure onto the board, on the owner's initiative. See Rule 6. |
 | `pierce` | Read to annotate the attack's armor penetration, not applied on its own. |
 | `ignoreArmor` | Nested under an `attack` the same way `pierce`/`condition` are. Skips the target's shield entirely for that strike — stronger than any amount of pierce, and combines freely with whatever else the attack does (poison, wound, …). No `value`. |
+
+**`pierce`** — nested under the `attack` it belongs to, same as `condition`. "Attack 3, Pierce 2":
+
+```json
+{
+  "actions": [{
+    "type": "attack", "value": 3,
+    "subActions": [{ "type": "pierce", "value": 2 }]
+  }]
+}
+```
+
+**`ignoreArmor`** — same nesting, no `value` at all; its presence is the whole effect.
+"Attack 2, ignoring the target's shield entirely":
+
+```json
+{
+  "actions": [{
+    "type": "attack", "value": 2,
+    "subActions": [{ "type": "ignoreArmor" }]
+  }]
+}
+```
+
+Don't combine the two on the same attack — `ignoreArmor` already beats any amount of
+pierce, so a `pierce` alongside it would just be dead data. They combine freely with
+`condition`, though — "Attack 3, Pierce 2, Poison" nests both under the one `attack`:
+
+```json
+{
+  "actions": [{
+    "type": "attack", "value": 3,
+    "subActions": [
+      { "type": "pierce", "value": 2 },
+      { "type": "condition", "value": "poison", "small": true }
+    ]
+  }]
+}
+```
+
+**`selfOnly`** — on a `heal` or `condition` action, always the acting hero, never the
+picked target; no target selection is required for it. "Attack 3, Heal 2 self":
+
+```json
+{
+  "actions": [
+    { "type": "attack", "value": 3 },
+    { "type": "heal", "value": 2, "selfOnly": true }
+  ]
+}
+```
+
+A self-inflicted condition works the same way — "Strengthen self":
+
+```json
+{
+  "actions": [{ "type": "condition", "value": "strengthen", "selfOnly": true }]
+}
+```
+
+Don't set `selfOnly` on a `heal`/`condition` meant for an ally or enemy — that's the
+default (target-picked) behavior already; `selfOnly` is only for the acting hero.
 
 Three things the panel does to a target on its own, with nothing to author for them:
 

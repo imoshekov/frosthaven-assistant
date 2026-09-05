@@ -109,6 +109,13 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * rest of the half's resolution state once the half is spent.
    */
   attackAdjustments = new Map<number, number>();
+  /**
+   * The +/- adjustment on the half's heal value, for a bonus the card can't know
+   * about — the same idea as `attackAdjustments`, but a half has at most one
+   * target-facing (or one self-only) heal, so this doesn't need to be keyed by
+   * index. Reset with the rest of the half's resolution state.
+   */
+  healAdjustment = 0;
   /** Attack value typed in by hand, for halves with no authored action data. */
   manualAttack = 0;
   /**
@@ -329,6 +336,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.struckTargetIds.clear();
     this.attackIndex = 0;
     this.attackAdjustments.clear();
+    this.healAdjustment = 0;
     this.takenBonuses.clear();
     this.bonusElementChoice.clear();
     this.customOverride = null;
@@ -452,17 +460,64 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return !!this.selectedAttacks[index]?.multiTarget;
   }
 
+  /** That attack's own `multiTarget: N` cap, for its row's tag. Null when uncapped. */
+  attackTargetLimit(index: number): number | null {
+    const limit = this.selectedAttacks[index]?.multiTarget;
+    return typeof limit === 'number' && limit > 0 ? limit : null;
+  }
+
   /**
    * The half's printed heal plus whatever a taken element bonus adds to it. Read
    * through the scoped walker so a heal that only exists *inside* a bonus isn't
    * applied for free — that one arrives via `takenBonusHeal` once the bonus is taken.
    */
+  /** Every `heal` action on the half, self-only and target-facing alike. */
+  private get healActions(): CardAction[] {
+    return collectActionsScoped(this.selectedContent?.actions, 'heal', null);
+  }
+
   get selectedHealValue(): number {
     if (this.isSelectedUnauthored) return 0;
-    const heal = findActionScoped(this.selectedContent?.actions, 'heal', null);
-    const printed = heal ? actionValue(heal) : 0;
-    if (printed <= 0 && this.takenBonusHeal <= 0) return 0;
-    return printed + this.takenBonusHeal;
+    const heal = this.healActions.find(a => !a.selfOnly);
+    if (!heal) return this.takenBonusHeal > 0 ? this.takenBonusHeal : 0;
+    return Math.max(actionValue(heal) + this.takenBonusHeal + this.healAdjustment, 0);
+  }
+
+  /**
+   * A heal the card flags `selfOnly` — always the acting hero, never the picked
+   * target, so it applies once at `finalizeHalf()` alongside XP/shield/retaliate
+   * rather than through `computeTargetPatches`.
+   */
+  get selectedSelfHealValue(): number {
+    const heal = this.healActions.find(a => a.selfOnly);
+    return heal ? Math.max(actionValue(heal) + this.healAdjustment, 0) : 0;
+  }
+
+  /** Whether the half prints a heal at all — target-facing or self-only — for the +/- row. */
+  get hasSelectedHeal(): boolean {
+    return this.healActions.length > 0 && !this.isSelectedUnauthored;
+  }
+
+  /** Whichever heal is on the half — target-facing takes priority, same as `adjustHeal`. */
+  get healDisplayValue(): number {
+    return this.healActions.some(a => !a.selfOnly) ? this.selectedHealValue : this.selectedSelfHealValue;
+  }
+
+  /** Whether the heal row's value is the acting hero's own (`self` tag) or a picked target's. */
+  get isCurrentHealSelfOnly(): boolean {
+    return !this.healActions.some(a => !a.selfOnly) && this.healActions.some(a => a.selfOnly);
+  }
+
+  /** Nudges the half's heal value, the same +/- idea `adjustAttack` offers an attack. */
+  adjustHeal(delta: number): void {
+    const heal = this.healActions.find(a => !a.selfOnly) ?? this.healActions.find(a => a.selfOnly);
+    if (!heal) return;
+
+    // Clamp so the printed value can be reduced to 0 but never past it, matching
+    // adjustAttack's floor.
+    const bonus = heal.selfOnly ? 0 : this.takenBonusHeal;
+    const floor = -(actionValue(heal) + bonus);
+    this.healAdjustment = Math.max(this.healAdjustment + delta, floor);
   }
 
   /** Pierce for the current attack — scoped so one attack's pierce isn't applied to another. */
@@ -639,8 +694,21 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   get selectedConditions(): CreatureConditions[] {
     const printed = collectActionsScoped(this.selectedContent?.actions, 'condition', this.currentAttack)
+      .filter(a => !a.selfOnly)
       .map(a => String(a.value));
     return [...new Set([...this.toCreatureConditions(printed), ...this.takenBonusConditions])];
+  }
+
+  /**
+   * Conditions the card flags `selfOnly` — always the acting hero, never the
+   * picked target. Unscoped by `currentAttack`: like a self-heal, a self-inflicted
+   * condition applies once for the whole half, at `finalizeHalf()`, not per strike.
+   */
+  get selectedSelfConditions(): CreatureConditions[] {
+    const printed = collectActionsScoped(this.selectedContent?.actions, 'condition', null)
+      .filter(a => a.selfOnly)
+      .map(a => String(a.value));
+    return this.toCreatureConditions(printed);
   }
 
   /**
@@ -713,6 +781,10 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * attack, so this filter costs nothing in the ordinary case.
    */
   get targetOptions(): Creature[] {
+    // A capped multi-target attack ("up to 2 enemies") has nobody left to offer once
+    // it has struck its limit — the only way on is to finish the attack.
+    if (this.isSequentialAttack && this.targetLimitReached) return [];
+
     return this.appContext.getCreatures()
       .filter(c => !!c.aggressive !== this.targetsAreHeroes)
       .filter(c => !c.id || !this.struckTargetIds.has(c.id))
@@ -724,20 +796,53 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Whether the current action can hit more than one target — an unknown number, the
-   * player's choice of which, e.g. "Attack 2 to each adjacent enemy" or "Muddle each
-   * adjacent enemy" with no attack at all. A single drawn modifier applies to all of
-   * them; only each target's own armour/conditions still tell their damage apart.
-   *
-   * When the half has an attack, `multiTarget` is read off it — see `currentAttack`.
-   * A half with no attack (a pure condition or heal) has no such anchor, so this
-   * falls back to whatever action actually needs a target: a `heal`, or any
-   * `condition` (unscoped, same as `selectedConditions` in that case).
+   * The action whose `multiTarget` governs this resolution: the attack being resolved,
+   * or — for a half with no attack — whatever else needs a target, a `heal` or any
+   * `condition` (unscoped, same as `selectedConditions` in that case). One lookup
+   * behind both "is this multi-target at all" and the cap `multiTarget: N` sets.
+   */
+  private get multiTargetAction(): CardAction | null {
+    if (this.currentAttack) return this.currentAttack.multiTarget ? this.currentAttack : null;
+    const heal = findAction(this.selectedContent?.actions, 'heal');
+    if (heal?.multiTarget) return heal;
+    return collectActionsScoped(this.selectedContent?.actions, 'condition', null)
+      .find(a => a.multiTarget) ?? null;
+  }
+
+  /**
+   * Whether the current action can hit more than one target, e.g. "Attack 2 to each
+   * adjacent enemy" or "Muddle each adjacent enemy" with no attack at all. How many
+   * is `targetLimit`: open-ended for `multiTarget: true`, capped for `multiTarget: N`.
    */
   get isCurrentAttackMultiTarget(): boolean {
-    if (this.currentAttack) return !!this.currentAttack.multiTarget;
-    if (findAction(this.selectedContent?.actions, 'heal')?.multiTarget) return true;
-    return collectActionsScoped(this.selectedContent?.actions, 'condition', null).some(a => a.multiTarget);
+    return !!this.multiTargetAction;
+  }
+
+  /**
+   * The most targets this action may hit, from `multiTarget: N` — null when
+   * `multiTarget: true` leaves it open, which is an unknown number the app has no
+   * board to work out and so leaves to the DM.
+   */
+  get targetLimit(): number | null {
+    const limit = this.multiTargetAction?.multiTarget;
+    return typeof limit === 'number' && limit > 0 ? limit : null;
+  }
+
+  /**
+   * Targets this action may still take, or null when uncapped. Counts the ones already
+   * struck for a sequential attack, and the ones currently picked for a multi-select —
+   * the two ways a target gets used up.
+   */
+  get targetsRemaining(): number | null {
+    const limit = this.targetLimit;
+    if (limit === null) return null;
+    const used = this.isSequentialAttack ? this.struckTargetIds.size : this.selectedTargetIds.size;
+    return Math.max(limit - used, 0);
+  }
+
+  /** True once `multiTarget: N` has had its N targets, so no more may be taken. */
+  get targetLimitReached(): boolean {
+    return this.targetsRemaining === 0;
   }
 
   /**
@@ -798,11 +903,22 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   selectTarget(id: string | null): void {
     if (this.isMultiSelect) {
       if (!id) return;
-      if (this.selectedTargetIds.has(id)) this.selectedTargetIds.delete(id);
-      else this.selectedTargetIds.add(id);
+      if (this.selectedTargetIds.has(id)) {
+        this.selectedTargetIds.delete(id);
+        return;
+      }
+      // `multiTarget: N` caps how many may be picked at once. Deselecting still works
+      // above, so the player swaps a target rather than being stuck.
+      if (this.targetLimitReached) return;
+      this.selectedTargetIds.add(id);
       return;
     }
-    this.targetId = this.targetId === id ? null : id;
+    // Clearing the current target is always allowed; aiming at a new one is not, once
+    // a capped attack has struck its N. `targetOptions` empties then, so the strip
+    // offers nobody — but the rule belongs here too, not only in the view.
+    const clearing = this.targetId === id;
+    if (!clearing && this.isSequentialAttack && this.targetLimitReached) return;
+    this.targetId = clearing ? null : id;
   }
 
   targetPortrait(creature: Creature): string {
@@ -825,10 +941,12 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * Whether this resolution is an attack at all, and so needs a drawn modifier before
    * it can be executed. False for a half that only heals or applies conditions —
    * nothing is drawn for those, so the row stays hidden and Execute stays open. Also
-   * false once "Custom…" has supplied final numbers, which bypass the draw entirely.
+   * false once "Custom…" has supplied final numbers, which bypass the draw entirely,
+   * and false for an `ignoreArmor` attack — that's direct damage, unaffected by (and
+   * so not drawn from) the modifier deck.
    */
   get needsModifier(): boolean {
-    return this.selectedAttackValue > 0 && !this.customOverride;
+    return this.selectedAttackValue > 0 && !this.customOverride && !this.selectedIgnoreArmor;
   }
 
   /** An attack is waiting on its modifier draw — what blocks Execute, and says why. */
@@ -911,6 +1029,10 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   get canExecute(): boolean {
     if (!this.selected || !this.hero) return false;
     if (this.needsTarget && !this.hasChosenTarget) return false;
+    // A capped attack has no strike left to land once it has hit its N targets — the
+    // only way on is to finish the attack. Restated here rather than left to the empty
+    // target strip, so no path can slip a free extra hit past the cap.
+    if (this.isSequentialAttack && this.targetLimitReached) return false;
     // An attack resolves off a drawn modifier card, so there is nothing to apply
     // until one is drawn — ±0 has to be picked deliberately, not assumed.
     if (this.awaitingModifier) return false;
@@ -1118,7 +1240,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       this.appContext.killCreature(id);
     }
 
-    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered);
+    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered, 0, []);
   }
 
   /**
@@ -1134,6 +1256,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     shieldGained: number,
     retaliateGained: number,
     retaliateSuffered: number,
+    selfHealGained: number,
+    selfConditionsGained: CreatureConditions[],
   ): void {
     const hero = this.hero;
     const selection = this.selected;
@@ -1147,6 +1271,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       shieldGained,
       retaliateGained,
       retaliateSuffered,
+      selfHealGained,
+      selfConditionsGained,
     });
   }
 
@@ -1226,10 +1352,36 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       : this.computeTargetPatches(this.targets);
     patches.push(...targetPatches);
 
+    // A `selfOnly` heal/condition always lands on the acting hero, never the picked
+    // target, so it's computed here rather than through computeTargetPatches — same
+    // reasoning as shield/retaliate/XP just above: once per half, on the hero's own
+    // patch, not a separate creaturePatches entry.
+    let heroHp = hero.hp ?? 0;
+    let selfHealGained = 0;
+    const selfHeal = this.selectedSelfHealValue;
+    if (selfHeal > 0) {
+      const healedHp = this.damageService.computeHeal(hero, selfHeal);
+      selfHealGained = healedHp - heroHp;
+      heroHp = healedHp;
+    }
     // Set on the hero's own patch rather than pushed as a second one, so the shield,
-    // XP and HP loss all reach applyCreaturePatches as a single change to this hero.
+    // XP, self-heal and HP loss all reach applyCreaturePatches as a single change to
+    // this hero.
     if (retaliateSuffered > 0) {
-      heroPatch.hp = Math.max((hero.hp ?? 0) - retaliateSuffered, 0);
+      heroHp = Math.max(heroHp - retaliateSuffered, 0);
+    }
+    if (selfHeal > 0 || retaliateSuffered > 0) {
+      heroPatch.hp = heroHp;
+    }
+
+    const selfConditions = this.selectedSelfConditions;
+    let selfConditionsGained: CreatureConditions[] = [];
+    if (selfConditions.length > 0) {
+      const conditionPatch = this.appContext.buildAddConditionsPatch(hero, selfConditions);
+      if (conditionPatch.conditions) {
+        selfConditionsGained = conditionPatch.conditions.filter(c => !(hero.conditions ?? []).includes(c));
+        Object.assign(heroPatch, conditionPatch);
+      }
     }
 
     patches.push({ creatureId: hero.id, patch: heroPatch });
@@ -1246,6 +1398,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       this.selectedShield,
       this.selectedRetaliate,
       retaliateSuffered,
+      selfHealGained,
+      selfConditionsGained,
     );
 
     // Summons enter play only through a card action, which is here. Emitted after the
@@ -1287,6 +1441,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.customOverride = null;
     this.attackIndex = 0;
     this.attackAdjustments.clear();
+    this.healAdjustment = 0;
   }
 
   // --- ngFor identity -------------------------------------------------------
