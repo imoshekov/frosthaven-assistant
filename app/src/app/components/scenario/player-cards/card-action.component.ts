@@ -61,11 +61,23 @@ export class CardActionComponent {
   }
 
   /**
-   * A conditional bonus: available only while its elements are active, and consuming
-   * them if the player takes it. Rendered as an offer, never as a plain effect.
+   * A conditional bonus: available only while its cost can be paid (or, for a
+   * `textBonus`, only while the player judges its printed condition true), and
+   * charging that cost if taken. Rendered as an offer, never as a plain effect.
    */
-  isElementBonus(action: CardAction): boolean {
-    return action.type === 'elementBonus';
+  isConditionalBonus(action: CardAction): boolean {
+    return action.type === 'elementBonus' || action.type === 'sufferDamageBonus'
+      || action.type === 'textBonus';
+  }
+
+  /** The HP-paid bonus, whose cost is a damage icon rather than a row of elements. */
+  isSelfDamageBonus(action: CardAction): boolean {
+    return action.type === 'sufferDamageBonus';
+  }
+
+  /** The bonus gated on a printed condition the player judges, not a cost they pay. */
+  isTextBonus(action: CardAction): boolean {
+    return action.type === 'textBonus';
   }
 
   isSummon(action: CardAction): boolean {
@@ -81,11 +93,17 @@ export class CardActionComponent {
     return (action.elements ?? []).map(el => `elem-${el}`);
   }
 
-  /** "consume ICE" vs "consume ICE or AIR". */
+  /** "consume ICE" vs "consume ICE or AIR", or "suffer" for the HP-paid bonus. */
   consumeLabel(action: CardAction): string {
+    if (this.isSelfDamageBonus(action)) return 'suffer';
     const elements = action.elements ?? [];
     if (elements.length <= 1) return 'consume';
     return action.consumeMode === 'any' ? 'consume one of' : 'consume';
+  }
+
+  /** The HP cost printed beside the damage icon on a `sufferDamageBonus`. */
+  selfDamageCost(action: CardAction): string {
+    return String(action.value ?? '');
   }
 
   summonOf(action: CardAction): CardSummon | null {
@@ -115,6 +133,15 @@ export class CardActionComponent {
   /** True when text still holds an unresolved %placeholder%, so it can be flagged. */
   isUnresolved(action: CardAction): boolean {
     return this.isText(action) && this.textOf(action).includes('%');
+  }
+
+  /**
+   * Whether this action carries the `ignoreArmor: true` flag, which prints the same
+   * icon the `{ type: 'ignoreArmor' }` subAction does. Without this the preferred
+   * (flag) spelling would apply its effect but draw nothing on the tile.
+   */
+  hasIgnoreArmorFlag(action: CardAction): boolean {
+    return !!action.ignoreArmor;
   }
 
   iconClassFor(action: CardAction): string | null {

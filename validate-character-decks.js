@@ -26,15 +26,20 @@ const CONDITION_NAMES = new Set([
   'poison', 'wound', 'muddle', 'immobilize', 'bane', 'stun', 'disarm', 'brittle',
   'ward', 'invisible', 'strengthen', 'regenerate', 'bless', 'curse',
 ]);
+// Mirrors CardAction['valueType'] in character-card-types.ts. `minus`/`subtract` are
+// not just display now — a bonus subAction's sign comes from this field, so a typo
+// here would silently apply as `add` instead of erroring.
+const VALUE_TYPES = new Set(['plus', 'minus', 'add', 'subtract', 'fixed']);
 
 const EXECUTABLE_TYPES = new Set([
   'attack', 'heal', 'condition', 'element',
-  'elementBonus', 'xp', 'pierce', 'shield', 'retaliate', 'ignoreArmor',
+  'elementBonus', 'sufferDamage', 'sufferDamageBonus', 'textBonus',
+  'xp', 'pierce', 'shield', 'retaliate', 'ignoreArmor',
 ]);
 const DISPLAY_TYPES = new Set([
   'text', 'summon', 'persistentTrack', 'forceBox',
   'boxFhSubActions', 'extra', 'fly', 'grant', 'special', 'trigger', 'hint',
-  'damage', 'sufferDamage', 'teleport', 'swing', 'spawn', 'grid', 'box',
+  'damage', 'teleport', 'swing', 'spawn', 'grid', 'box',
 ]);
 
 /**
@@ -218,6 +223,47 @@ function main() {
             err(`${where} ${halfName}: unknown condition "${a.value}"`);
           }
 
+          if (a.targetAlly !== undefined) {
+            if (a.type !== 'condition' && a.type !== 'attack') {
+              err(`${where} ${halfName}: targetAlly only applies to 'condition' or 'attack', not '${a.type}'`);
+            }
+            if (a.selfOnly) {
+              err(`${where} ${halfName}: ${a.type} can't be both selfOnly and targetAlly`);
+            }
+          }
+
+          // The `ignoreArmor: true` flag belongs on the attack it modifies. Anywhere
+          // else it is inert — nothing reads it off a heal or a condition — so catch
+          // it here rather than letting it look authored and do nothing.
+          if (a.ignoreArmor !== undefined) {
+            if (a.type !== 'attack') {
+              err(`${where} ${halfName}: ignoreArmor only applies to 'attack', not '${a.type}'`);
+            }
+            if (typeof a.ignoreArmor !== 'boolean') {
+              err(`${where} ${halfName}: ignoreArmor must be true or false`);
+            }
+            usedIconTypes.add('ignoreArmor');
+          }
+
+          // "Attack X" / "Heal X" — a value the card leaves to the player, typed into
+          // the panel when the half is resolved. Only these three read it; anywhere
+          // else the string coerces to 0 through actionValue and the action does
+          // nothing. Pair it with a `text` subAction saying what X is, the way the
+          // drifter cards do ("where X is the number of hexes you moved").
+          const isManualX = typeof a.value === 'string' && a.value.trim().toUpperCase() === 'X';
+          if (isManualX) {
+            if (a.type !== 'attack' && a.type !== 'heal' && a.type !== 'sufferDamage') {
+              err(`${where} ${halfName}: "value": "X" only applies to 'attack', 'heal' or 'sufferDamage', not '${a.type}'`);
+            }
+            if (a.valueType !== undefined) {
+              err(`${where} ${halfName}: "value": "X" is the whole value; drop valueType`);
+            }
+          }
+
+          if (a.valueType !== undefined && !VALUE_TYPES.has(a.valueType)) {
+            err(`${where} ${halfName}: unknown valueType "${a.valueType}"`);
+          }
+
           // multiTarget is `true` (open-ended) or a printed cap of 2 or more. A cap of
           // 1 is just a normal single-target action, and anything else is a typo.
           if (a.multiTarget !== undefined && typeof a.multiTarget !== 'boolean') {
@@ -237,8 +283,13 @@ function main() {
           }
 
           // 'condition' and 'element' are containers: the icon comes from their value
-          // (e.g. .icon.wound, .icon.elem-ice), not from the type name.
-          const iconExempt = new Set(['condition', 'element', 'elementBonus', 'xp']);
+          // (e.g. .icon.wound, .icon.elem-ice), not from the type name. The two
+          // sufferDamage types share the one `.icon.damage` art rather than owning a
+          // class each, so neither names an icon after itself either.
+          const iconExempt = new Set([
+            'condition', 'element', 'elementBonus', 'sufferDamage', 'sufferDamageBonus',
+            'textBonus', 'xp',
+          ]);
           if (EXECUTABLE_TYPES.has(a.type) && !iconExempt.has(a.type)) {
             usedIconTypes.add(a.type);
           }
@@ -265,6 +316,40 @@ function main() {
           }
           if (a.type === 'element' && a.consumeMode !== undefined) {
             err(`${where} ${halfName}: 'element' infuses; use 'elementBonus' to consume`);
+          }
+
+          // A textBonus is gated on a condition nothing in this app can compute, so
+          // the printed text is the whole offer — required, not merely helpful — and
+          // there is nothing to consume, so elements/consumeMode/value would be dead.
+          if (a.type === 'textBonus') {
+            if (typeof a.text !== 'string' || !a.text.trim()) {
+              err(`${where} ${halfName}: textBonus needs non-empty text describing the condition`);
+            }
+            if (!Array.isArray(a.subActions) || a.subActions.length === 0) {
+              err(`${where} ${halfName}: textBonus grants nothing (no subActions)`);
+            }
+            if (a.elements !== undefined || a.consumeMode !== undefined || a.value !== undefined) {
+              err(`${where} ${halfName}: textBonus is judged by the player, not paid for — drop elements/consumeMode/value`);
+            }
+          }
+
+          // Both self-damage types are priced in `value`, and both draw the shared
+          // damage icon. A cost of 0 is not a cost: that's an unconditional effect
+          // authored as a bargain, which the panel would offer for nothing. The one
+          // exception is a `sufferDamage` printed as "Suffer X" — the player supplies
+          // it, so it has no fixed positive value to check here. A bonus's price stays
+          // fixed regardless: "X" already errored above for `sufferDamageBonus`.
+          if (a.type === 'sufferDamage' || a.type === 'sufferDamageBonus') {
+            if (!(isManualX && a.type === 'sufferDamage') && !(Number(a.value) > 0)) {
+              err(`${where} ${halfName}: ${a.type} needs a positive value — the HP it costs the hero`);
+            }
+            if (a.selfOnly !== undefined) {
+              err(`${where} ${halfName}: ${a.type} is always the acting hero; drop selfOnly`);
+            }
+            usedIconTypes.add('damage');
+          }
+          if (a.type === 'sufferDamageBonus' && (!Array.isArray(a.subActions) || a.subActions.length === 0)) {
+            err(`${where} ${halfName}: sufferDamageBonus grants nothing (no subActions)`);
           }
           if (a.type === 'xp' && !(Number(a.value) > 0)) {
             err(`${where} ${halfName}: xp action needs a positive value`);

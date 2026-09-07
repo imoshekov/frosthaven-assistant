@@ -97,6 +97,13 @@ describe('DamageService', () => {
         baseAttack: 3, modifier: 'miss', target: target({ conditions: [CreatureConditions.poison] }),
       }).damage).toBe(0);
     });
+
+    it('does not apply against an ignoreArmor attack — that is direct damage, unaffected by it', () => {
+      expect(service.compute({
+        baseAttack: 3, ignoreArmor: true,
+        target: target({ conditions: [CreatureConditions.poison] }),
+      }).damage).toBe(3); // not 4
+    });
   });
 
   describe('target conditions', () => {
@@ -228,6 +235,51 @@ describe('DamageService', () => {
 
     it('never lowers hp', () => {
       expect(service.computeHeal(target({ hp: 8, maxHp: 10 }), -4)).toBe(8);
+    });
+  });
+
+  describe('healing and wound/poison', () => {
+    it('a wounded target heals normally, and wound comes off', () => {
+      const result = service.computeHealResult(
+        target({ hp: 4, maxHp: 10, conditions: [CreatureConditions.wound] }), 3,
+      );
+      expect(result.hp).toBe(7);
+      expect(result.consumedConditions).toEqual([CreatureConditions.wound]);
+    });
+
+    it('a poisoned target keeps its HP — the heal is withheld — and poison comes off', () => {
+      const result = service.computeHealResult(
+        target({ hp: 4, maxHp: 10, conditions: [CreatureConditions.poison] }), 3,
+      );
+      expect(result.hp).toBe(4); // unchanged, not 7
+      expect(result.consumedConditions).toEqual([CreatureConditions.poison]);
+    });
+
+    it('an unconditioned target heals normally with nothing consumed', () => {
+      const result = service.computeHealResult(target({ hp: 4, maxHp: 10 }), 3);
+      expect(result.hp).toBe(7);
+      expect(result.consumedConditions).toEqual([]);
+    });
+
+    it('both wound and poison come off; poison still blocks the HP gain', () => {
+      const result = service.computeHealResult(
+        target({
+          hp: 4, maxHp: 10,
+          conditions: [CreatureConditions.wound, CreatureConditions.poison],
+        }),
+        3,
+      );
+      expect(result.hp).toBe(4);
+      expect(result.consumedConditions).toEqual(
+        jasmine.arrayWithExactContents([CreatureConditions.wound, CreatureConditions.poison]),
+      );
+    });
+
+    it('still caps a landed heal at max hp', () => {
+      const result = service.computeHealResult(
+        target({ hp: 9, maxHp: 10, conditions: [CreatureConditions.wound] }), 5,
+      );
+      expect(result.hp).toBe(10);
     });
   });
 

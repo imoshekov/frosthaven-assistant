@@ -64,6 +64,21 @@ describe('CardActionComponent', () => {
     expect(el.textContent).not.toContain('undefined');
   });
 
+  it('draws the same icon for the ignoreArmor flag spelling', () => {
+    // `ignoreArmor: true` on the attack, rather than a nested subAction — the two
+    // must be indistinguishable on the tile.
+    const el = render([{ type: 'attack', value: '3', ignoreArmor: true }]);
+
+    expect(el.querySelector('.icon.ignoreArmor')).toBeTruthy();
+    expect(el.textContent).toContain('3');
+    expect(el.textContent).not.toContain('undefined');
+  });
+
+  it('draws no ignore-armor icon for an ordinary attack', () => {
+    const el = render([{ type: 'attack', value: '3' }]);
+    expect(el.querySelector('.icon.ignoreArmor')).toBeNull();
+  });
+
   it('signs values according to valueType', () => {
     expect(component.displayValue({ type: 'shield', value: 1, valueType: 'minus' })).toBe('−1');
     expect(component.displayValue({ type: 'attack', value: 2, valueType: 'add' })).toBe('+2');
@@ -104,6 +119,76 @@ describe('CardActionComponent', () => {
       expect(el.querySelector('.icon.elem-ice')).toBeTruthy();
       expect(el.querySelector('.icon.elem-air')).toBeTruthy();
       expect(el.textContent!.toLowerCase()).toContain('one of');
+    });
+  });
+
+  describe('self-damage', () => {
+    it('renders a mandatory cost with the damage icon and its value', () => {
+      const el = render([{ type: 'sufferDamage', value: 2 }]);
+      expect(el.querySelector('.icon.damage')).toBeTruthy();
+      expect(el.textContent).toContain('2');
+    });
+
+    it('renders an HP-paid bonus as an offer, like an element one', () => {
+      const el = render([{
+        type: 'sufferDamageBonus', value: 1,
+        subActions: [
+          { type: 'attack', value: 3, valueType: 'add', small: true },
+          { type: 'xp', value: 1 },
+        ],
+      }]);
+
+      const bonus = el.querySelector('.element-bonus');
+      expect(bonus).toBeTruthy();
+      expect(bonus!.textContent!.toLowerCase()).toContain('suffer');
+      // Its cost, then what it grants — no element icons anywhere on it.
+      expect(bonus!.querySelector('.icon.damage')).toBeTruthy();
+      expect(bonus!.querySelector('[class*="elem-"]')).toBeNull();
+      expect(bonus!.querySelector('.icon.xp')).toBeTruthy();
+      expect(bonus!.textContent).toContain('+3');
+    });
+
+    it('does not print the cost twice on the bonus', () => {
+      // The cost is rendered by the bonus branch itself; the generic value slot must
+      // not also emit it.
+      const el = render([{
+        type: 'sufferDamageBonus', value: 1,
+        subActions: [{ type: 'xp', value: 1 }],
+      }]);
+
+      expect(el.textContent!.match(/1/g)!.length).toBe(2); // the cost, and the XP
+    });
+  });
+
+  describe('text bonus', () => {
+    it('prints the condition itself instead of a consume label or icons', () => {
+      // shackles #319 "Down to the Dirt": +3 Attack and 1 XP if HP < half max.
+      const el = render([{
+        type: 'textBonus',
+        text: 'if your current hit point value is less than half your maximum hit point value',
+        subActions: [
+          { type: 'attack', value: 3, valueType: 'add', small: true },
+          { type: 'xp', value: 1 },
+        ],
+      }]);
+
+      const bonus = el.querySelector('.element-bonus');
+      expect(bonus).toBeTruthy();
+      expect(bonus!.textContent).toContain('less than half your maximum hit point value');
+      // No cost to render: no consumed elements, no damage icon.
+      expect(bonus!.querySelector('[class*="elem-"]')).toBeNull();
+      expect(bonus!.querySelector('.icon.damage')).toBeNull();
+      expect(bonus!.querySelector('.icon.xp')).toBeTruthy();
+      expect(bonus!.textContent).toContain('+3');
+    });
+
+    it('is recognised as a conditional bonus, offered rather than applied outright', () => {
+      const el = render([{
+        type: 'textBonus', text: 'if an ally is adjacent to the target',
+        subActions: [{ type: 'xp', value: 1 }],
+      }]);
+      expect(el.querySelector('.element-bonus')).toBeTruthy();
+      expect(el.querySelector('.bonus-arrow')).toBeTruthy();
     });
   });
 

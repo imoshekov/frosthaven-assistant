@@ -107,6 +107,14 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
     opacity: 0.8;
+
+    // A textBonus's condition is printed prose, not a short "consume ICE" —
+    // read normally rather than shouted in small caps.
+    &.text {
+      text-transform: none;
+      font-style: italic;
+      font-size: 0.75rem;
+    }
   }
 
   .bonus-arrow {

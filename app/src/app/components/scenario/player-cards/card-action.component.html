@@ -11,13 +11,24 @@
     <span class="action-text" [class.small]="action.small" [class.unresolved]="isUnresolved(action)">
       {{ textOf(action) }}
     </span>
-  } @else if (isElementBonus(action)) {
-    <!-- An offer, not an effect: only available while the elements are active, and it
-         consumes them if taken. The execution panel is what actually applies it. -->
+  } @else if (isConditionalBonus(action)) {
+    <!-- An offer, not an effect: available only while its cost can be paid — the
+         elements active, or the HP to spare — or, for a textBonus, only while the
+         player judges its printed condition true. Charged (or checked off) if taken.
+         The execution panel is what actually applies it. -->
     <span class="element-bonus">
-      <span class="consume-label">{{ consumeLabel(action) }}</span>
-      @for (icon of elementIcons(action); track icon) {
-        <span class="icon" [ngClass]="icon"></span>
+      @if (isTextBonus(action)) {
+        <span class="consume-label text">{{ action.text }}</span>
+      } @else {
+        <span class="consume-label">{{ consumeLabel(action) }}</span>
+        @if (isSelfDamageBonus(action)) {
+          <span class="icon damage"></span>
+          <span class="action-value">{{ selfDamageCost(action) }}</span>
+        } @else {
+          @for (icon of elementIcons(action); track icon) {
+            <span class="icon" [ngClass]="icon"></span>
+          }
+        }
       }
       <span class="bonus-arrow">→</span>
       @if (depth < maxDepth) {
@@ -76,6 +87,12 @@
       }
       @if (displayValue(action)) {
         <span class="action-value">{{ displayValue(action) }}</span>
+      }
+
+      <!-- The `ignoreArmor: true` flag prints the same icon its subAction spelling
+           does, so both forms look identical on the tile. -->
+      @if (hasIgnoreArmorFlag(action)) {
+        <span class="icon ignoreArmor"></span>
       }
 
       <!-- Sub-actions are modifiers on this action (range, target, a condition it

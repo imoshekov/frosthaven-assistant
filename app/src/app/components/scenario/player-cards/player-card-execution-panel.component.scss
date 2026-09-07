@@ -332,6 +332,15 @@
   color: var(--font-color-dark);
 }
 
+// The box for a card that prints "Attack X" / "Heal X" and leaves the number to the
+// player. Narrower than a full stat input: it sits inline in an attack row, where the
+// icon and the resolved total are already competing for the width.
+.attack-x-input {
+  width: 2.6rem;
+  font-size: 0.9rem;
+  padding: 0.1rem 0.2rem;
+}
+
 // One row per attack the half prints. The row being resolved is outlined; a spent one
 // fades and strikes through, the same visual language the half tiles use for spent.
 .attack-list {
@@ -824,6 +833,13 @@
       align-items: center;
       gap: 0.2rem;
       white-space: nowrap;
+
+      // A textBonus's condition is prose, not a short "consume ICE" — let it wrap
+      // instead of forcing the row wide.
+      &.text {
+        white-space: normal;
+        font-style: italic;
+      }
     }
 
     .icon { width: 1.2rem; height: 1.2rem; }

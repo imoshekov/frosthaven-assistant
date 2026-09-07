@@ -17,14 +17,16 @@ import {
   BENEFICIAL_CONDITIONS,
   NON_CREATURE_CONDITIONS,
   actionValue,
+  bonusSelfDamage,
   bonusXp,
   collectActions,
   collectAttacks,
   collectActionsScoped,
-  collectElementBonuses,
+  collectConditionalBonuses,
   findAction,
   findActionScoped,
   hasCardData,
+  isManualValue,
   sumUnconditionalXp,
 } from '../../../types/character-card-types';
 import {
@@ -116,8 +118,28 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * index. Reset with the rest of the half's resolution state.
    */
   healAdjustment = 0;
+  /**
+   * The value typed in for a `"value": "X"` heal. Unindexed for the same reason
+   * `healAdjustment` is: a half prints at most one target-facing heal and one
+   * self-only one, so there is never a second box to keep apart.
+   */
+  manualHealValue = 0;
+  /**
+   * The value typed in for a `"value": "X"` sufferDamage — "Suffer X, where X is the
+   * number of enemies hit," say. Unindexed for the same reason `manualHealValue` is: a
+   * half charges self-damage once, never per-strike, so there is only ever one box.
+   */
+  manualSelfDamageValue = 0;
   /** Attack value typed in by hand, for halves with no authored action data. */
   manualAttack = 0;
+  /**
+   * Values typed in for the half's `"value": "X"` attacks, keyed by their index in
+   * `selectedAttacks` — the same keying as `attackAdjustments`, and for the same
+   * reason: a multi-attack half can pair a variable strike with a fixed one, and the
+   * two must not share a box. Distinct from `manualAttack`, which serves a half with
+   * no authored data at all rather than an authored attack whose value is left open.
+   */
+  manualAttackValues = new Map<number, number>();
   /**
    * Whether the target's retaliate comes back at the hero. On by default, because an
    * attack that provokes it is the normal case, but the app has no board and so cannot
@@ -136,8 +158,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   customOverride: CustomAttackResult | null = null;
 
   /**
-   * Conditional element bonuses the player has chosen to take, keyed by their index in
-   * `selectedElementBonuses`. Taking one consumes its element(s) on execution.
+   * Conditional bonuses the player has chosen to take, keyed by their index in
+   * `selectedBonuses`. Taking one pays its cost on execution — the element(s) for an
+   * `elementBonus`, HP for a `sufferDamageBonus`.
    */
   takenBonuses = new Set<number>();
   /**
@@ -336,6 +359,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.struckTargetIds.clear();
     this.attackIndex = 0;
     this.attackAdjustments.clear();
+    this.manualAttackValues.clear();
+    this.manualHealValue = 0;
+    this.manualSelfDamageValue = 0;
     this.healAdjustment = 0;
     this.takenBonuses.clear();
     this.bonusElementChoice.clear();
@@ -348,7 +374,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * actually attacks: retaliate answers an attack, not a heal or a bare condition.
    */
   get retaliateTotal(): number {
-    if (this.effectiveBaseAttack <= 0) return 0;
+    if (!this.isResolvingAttack) return 0;
     return this.targets.reduce((sum, t) => sum + this.damageService.retaliateDamage(t), 0);
   }
 
@@ -411,9 +437,50 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   get selectedAttackValue(): number {
     if (this.isSelectedUnauthored) return Number(this.manualAttack) || 0;
-    const base = this.currentAttack ? actionValue(this.currentAttack) : 0;
-    if (base <= 0) return base;
+    const attack = this.currentAttack;
+    if (!attack) return 0;
+
+    // An "Attack X" is worth whatever the player typed, and stays a live attack even
+    // at 0 — so it does not take the short-circuit below, and bonuses and the +/- row
+    // still stack onto it exactly as they would onto a printed value.
+    const manual = isManualValue(attack);
+    const base = manual ? this.manualAttackValueFor(this.attackIndex) : actionValue(attack);
+    if (base <= 0 && !manual) return base;
     return Math.max(base + this.takenBonusAttack + this.adjustmentFor(this.attackIndex), 0);
+  }
+
+  // --- "Attack X": a value the card leaves to the player ---------------------
+
+  /** Whether the attack at `index` prints "X" instead of a number. */
+  isManualAttack(index: number): boolean {
+    return isManualValue(this.selectedAttacks[index]);
+  }
+
+  /** Whether the strike being resolved right now is an "Attack X". */
+  get isCurrentAttackManual(): boolean {
+    return isManualValue(this.currentAttack ?? undefined);
+  }
+
+  /** What the player has typed for one "Attack X", 0 until they type something. */
+  manualAttackValueFor(index: number): number {
+    return this.manualAttackValues.get(index) ?? 0;
+  }
+
+  /** Stores a typed "Attack X" value. Refused once that attack has been resolved. */
+  setManualAttackValue(index: number, value: number | string): void {
+    if (this.isAttackDone(index)) return;
+    const n = Number(value);
+    this.manualAttackValues.set(index, Number.isFinite(n) ? Math.max(n, 0) : 0);
+  }
+
+  /**
+   * Whether this resolution is an attack at all, as opposed to a heal or a bare
+   * condition. Deliberately not `effectiveBaseAttack > 0`: an "Attack X" the player
+   * entered 0 for is still an attack, so it takes a target, draws a modifier, provokes
+   * the target's retaliate and lands its conditions — it simply deals no damage.
+   */
+  get isResolvingAttack(): boolean {
+    return this.effectiveBaseAttack > 0 || this.isCurrentAttackManual;
   }
 
   // --- Per-attack value adjustment ------------------------------------------
@@ -429,8 +496,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   attackDisplayValue(index: number): number {
     const attack = this.selectedAttacks[index];
     if (!attack) return 0;
+    const base = isManualValue(attack) ? this.manualAttackValueFor(index) : actionValue(attack);
     const bonus = index === this.attackIndex ? this.takenBonusAttack : 0;
-    return Math.max(actionValue(attack) + bonus + this.adjustmentFor(index), 0);
+    return Math.max(base + bonus + this.adjustmentFor(index), 0);
   }
 
   /** Nudges one attack's value. Refused for an attack already spent. */
@@ -440,8 +508,10 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     if (!attack) return;
 
     // Clamp so the printed value can be reduced to 0 but never past it — a negative
-    // attack is not a thing, and DamageService would floor it anyway.
-    const floor = -(actionValue(attack) + (index === this.attackIndex ? this.takenBonusAttack : 0));
+    // attack is not a thing, and DamageService would floor it anyway. For an
+    // "Attack X" the typed value is what the adjustment is measured against.
+    const base = isManualValue(attack) ? this.manualAttackValueFor(index) : actionValue(attack);
+    const floor = -(base + (index === this.attackIndex ? this.takenBonusAttack : 0));
     this.attackAdjustments.set(index, Math.max(this.adjustmentFor(index) + delta, floor));
   }
 
@@ -480,7 +550,29 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     if (this.isSelectedUnauthored) return 0;
     const heal = this.healActions.find(a => !a.selfOnly);
     if (!heal) return this.takenBonusHeal > 0 ? this.takenBonusHeal : 0;
-    return Math.max(actionValue(heal) + this.takenBonusHeal + this.healAdjustment, 0);
+    const base = isManualValue(heal) ? this.manualHealValue : actionValue(heal);
+    return Math.max(base + this.takenBonusHeal + this.healAdjustment, 0);
+  }
+
+  /** A `"value": "X"` heal aimed at a target — drifter "Survivalist" and the like. */
+  get hasManualTargetHeal(): boolean {
+    return isManualValue(this.healActions.find(a => !a.selfOnly));
+  }
+
+  /**
+   * Whether the heal row shown on the panel is an "X" the player supplies. Checks
+   * *either* heal rather than only the target-facing one: a half pairing a printed
+   * "Heal 2" with a self-only "Heal X" still needs the box, and `manualHealValue` is
+   * only ever read by whichever of the two actually carries the `"X"`.
+   */
+  get isCurrentHealManual(): boolean {
+    return this.healActions.some(isManualValue);
+  }
+
+  /** Stores the typed value for a "Heal X". */
+  setManualHealValue(value: number | string): void {
+    const n = Number(value);
+    this.manualHealValue = Number.isFinite(n) ? Math.max(n, 0) : 0;
   }
 
   /**
@@ -490,7 +582,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   get selectedSelfHealValue(): number {
     const heal = this.healActions.find(a => a.selfOnly);
-    return heal ? Math.max(actionValue(heal) + this.healAdjustment, 0) : 0;
+    if (!heal) return 0;
+    const base = isManualValue(heal) ? this.manualHealValue : actionValue(heal);
+    return Math.max(base + this.healAdjustment, 0);
   }
 
   /** Whether the half prints a heal at all — target-facing or self-only — for the +/- row. */
@@ -516,7 +610,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     // Clamp so the printed value can be reduced to 0 but never past it, matching
     // adjustAttack's floor.
     const bonus = heal.selfOnly ? 0 : this.takenBonusHeal;
-    const floor = -(actionValue(heal) + bonus);
+    const base = isManualValue(heal) ? this.manualHealValue : actionValue(heal);
+    const floor = -(base + bonus);
     this.healAdjustment = Math.max(this.healAdjustment + delta, floor);
   }
 
@@ -531,18 +626,31 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * same way pierce is, so it doesn't leak from one attack of a multi-attack half into
    * another. Combines with whatever else that attack does (poison, wound, …), same as
    * pierce and condition already do.
+   *
+   * Both spellings count: the `ignoreArmor: true` flag on the attack itself (preferred,
+   * and what most authored cards use), or the older `{ type: 'ignoreArmor' }` subAction
+   * nested under it. The flag is read off `currentAttack`, so it is per-strike already.
    */
   get selectedIgnoreArmor(): boolean {
+    if (this.currentAttack?.ignoreArmor) return true;
     return !!findActionScoped(this.selectedContent?.actions, 'ignoreArmor', this.currentAttack);
   }
 
+  /**
+   * The half's printed `shield` — scoped like `healActions`/`selectedConditions`, so a
+   * `shield` nested inside an `elementBonus`/`sufferDamageBonus`/`textBonus` (its
+   * grant, not a printed value beside it) is excluded here and only counted through
+   * `takenBonusShield` once the bonus is actually taken. `findAction` would not have
+   * made that distinction — it has no notion of a conditional-bonus boundary.
+   */
   get selectedShield(): number {
-    const shield = findAction(this.selectedContent?.actions, 'shield');
+    const shield = findActionScoped(this.selectedContent?.actions, 'shield', null);
     return shield ? actionValue(shield) : 0;
   }
 
+  /** Same scoping as `selectedShield`, for the same reason. */
   get selectedRetaliate(): number {
-    const retaliate = findAction(this.selectedContent?.actions, 'retaliate');
+    const retaliate = findActionScoped(this.selectedContent?.actions, 'retaliate', null);
     return retaliate ? actionValue(retaliate) : 0;
   }
 
@@ -555,12 +663,33 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return (this.selectedContent?.xp ?? 0) + sumUnconditionalXp(this.selectedContent?.actions);
   }
 
-  // --- Conditional element bonuses ------------------------------------------
-  // A bonus is an offer: it shows only while its elements are active, and taking it
-  // consumes them. Nothing here applies automatically.
+  // --- Conditional bonuses --------------------------------------------------
+  // A bonus is an offer: it shows only while it can be taken, and taking it pays
+  // whatever it costs — elements for an `elementBonus`, HP for a `sufferDamageBonus`,
+  // or nothing at all for a `textBonus`, whose "cost" is the player judging its printed
+  // condition true. Nothing here applies automatically.
 
-  get selectedElementBonuses(): CardAction[] {
-    return collectElementBonuses(this.selectedContent?.actions, this.currentAttack);
+  get selectedBonuses(): CardAction[] {
+    return collectConditionalBonuses(this.selectedContent?.actions, this.currentAttack);
+  }
+
+  /** A bonus bought with HP rather than elements. */
+  isSelfDamageBonus(bonus: CardAction): boolean {
+    return bonus.type === 'sufferDamageBonus';
+  }
+
+  /**
+   * A bonus gated on a condition this app has no state to compute — "if you are the
+   * only hero adjacent to the target". The checkbox means "this is true," not "I
+   * choose this," so it carries no cost and is always offered.
+   */
+  isTextBonus(bonus: CardAction): boolean {
+    return bonus.type === 'textBonus';
+  }
+
+  /** What taking this bonus costs the hero in HP. Zero for an element bonus. */
+  bonusSelfDamageCost(bonus: CardAction): number {
+    return bonusSelfDamage(bonus);
   }
 
   private elementState(element: ElementType): ElementState {
@@ -580,15 +709,32 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Whether the bonus can be taken at all: 'any' needs one of its elements active,
-   * 'all' needs every one of them.
+   * Whether the bonus can be taken at all — whether its cost can actually be paid.
+   *
+   * For an element bonus: 'any' needs one of its elements active, 'all' needs every one
+   * of them. For an HP bonus: the hero must have *more* HP than it costs, not merely
+   * as much. Paying down to exactly zero is exhaustion, not a bargain, and this app has
+   * no exhaustion state to put them in — so the offer is withheld rather than silently
+   * flooring the hero at 0 HP and leaving them standing. A `textBonus` has no cost to
+   * check — the player's own judgment of the printed text *is* the check — so it is
+   * always available.
    */
   isBonusAvailable(bonus: CardAction): boolean {
+    if (this.isSelfDamageBonus(bonus)) {
+      const cost = this.bonusSelfDamageCost(bonus);
+      return cost > 0 && (this.hero?.hp ?? 0) > cost;
+    }
+    if (this.isTextBonus(bonus)) return true;
     const elements = this.elementsOf(bonus);
     if (elements.length === 0) return false;
     return bonus.consumeMode === 'any'
       ? elements.some(e => this.isElementAvailable(e))
       : elements.every(e => this.isElementAvailable(e));
+  }
+
+  /** Why a bonus is greyed out, for the row's tag. Never shown for a `textBonus`. */
+  bonusUnavailableReason(bonus: CardAction): string {
+    return this.isSelfDamageBonus(bonus) ? 'not enough HP' : 'not active';
   }
 
   isBonusTaken(index: number): boolean {
@@ -622,7 +768,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   private get takenBonusList(): { bonus: CardAction; index: number }[] {
-    return this.selectedElementBonuses
+    return this.selectedBonuses
       .map((bonus, index) => ({ bonus, index }))
       .filter(({ bonus, index }) => this.takenBonuses.has(index) && this.isBonusAvailable(bonus));
   }
@@ -641,14 +787,55 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return this.sumTakenBonus('heal');
   }
 
+  /**
+   * Shield added (or, with `valueType: 'minus'`/`'subtract'`, removed) by the bonuses
+   * the player has taken — a downside on an otherwise-beneficial bonus, e.g. "if you
+   * use it, remove 1 shield". Combined with the half's own printed `shield` by
+   * `totalShield`, the same pairing `selectedHealValue`/`takenBonusHeal` already are.
+   */
+  get takenBonusShield(): number {
+    return this.sumTakenBonus('shield');
+  }
+
+  /** The half's printed `shield` plus whatever the taken bonuses add or remove. */
+  get totalShield(): number {
+    return this.selectedShield + this.takenBonusShield;
+  }
+
+  /**
+   * Retaliate added (or removed) by the taken bonuses — shackles #317 "Reprisal" pays
+   * Air for `retaliate +1`. Without this the element was spent and the retaliate stayed
+   * at its printed value, exactly the way `takenBonusHeal` was added for the heal.
+   */
+  get takenBonusRetaliate(): number {
+    return this.sumTakenBonus('retaliate');
+  }
+
+  /** The half's printed `retaliate` plus whatever the taken bonuses add or remove. */
+  get totalRetaliate(): number {
+    return this.selectedRetaliate + this.takenBonusRetaliate;
+  }
+
   private sumTakenBonus(type: string): number {
     let total = 0;
     for (const { bonus } of this.takenBonusList) {
       for (const action of bonus.subActions ?? []) {
-        if (action.type === type) total += actionValue(action);
+        if (action.type === type) total += this.signedBonusDelta(action);
       }
     }
     return total;
+  }
+
+  /**
+   * A bonus subAction's value, signed by its `valueType` the same way its `−N`/`+N`
+   * display already is: `valueType: 'minus'`/`'subtract'` means *remove* this much,
+   * everything else (including no `valueType` at all) means *add* it. The printed
+   * number is always a magnitude — `valueType` alone carries the direction, matching
+   * how the card itself prints it.
+   */
+  private signedBonusDelta(action: CardAction): number {
+    const magnitude = Math.abs(actionValue(action));
+    return action.valueType === 'minus' || action.valueType === 'subtract' ? -magnitude : magnitude;
   }
 
   /**
@@ -670,6 +857,45 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   /** XP added by the bonuses the player has taken. */
   get takenBonusXp(): number {
     return this.takenBonusList.reduce((sum, { bonus }) => sum + bonusXp(bonus), 0);
+  }
+
+  // --- Self-damage ----------------------------------------------------------
+  // HP the half costs its own player. Applied once per half at finalizeHalf(), never
+  // per strike — the same treatment a `selfOnly` heal or condition gets, and for the
+  // same reason: it lands on the hero, not on anything they picked.
+
+  /**
+   * HP the half charges outright — its printed `sufferDamage`, which is not optional.
+   * A `"value": "X"` one is worth whatever the player typed instead of a fixed cost.
+   */
+  get selectedSelfDamage(): number {
+    if (this.isSelectedUnauthored) return 0;
+    return collectActionsScoped(this.selectedContent?.actions, 'sufferDamage', null)
+      .reduce((total, action) => total + Math.max(
+        isManualValue(action) ? this.manualSelfDamageValue : actionValue(action), 0
+      ), 0);
+  }
+
+  /** Whether the half's `sufferDamage` is a `"value": "X"` the player supplies. */
+  get isSelfDamageManual(): boolean {
+    return collectActionsScoped(this.selectedContent?.actions, 'sufferDamage', null)
+      .some(isManualValue);
+  }
+
+  /** Stores the typed value for a manual `sufferDamage` ("Suffer X"). */
+  setManualSelfDamageValue(value: number | string): void {
+    const n = Number(value);
+    this.manualSelfDamageValue = Number.isFinite(n) ? Math.max(n, 0) : 0;
+  }
+
+  /** HP the bonuses the player has taken charge on top of that. */
+  get takenBonusSelfDamage(): number {
+    return this.takenBonusList.reduce((sum, { bonus }) => sum + bonusSelfDamage(bonus), 0);
+  }
+
+  /** Every HP this resolution costs the hero, mandatory and opted-into together. */
+  get totalSelfDamage(): number {
+    return this.selectedSelfDamage + this.takenBonusSelfDamage;
   }
 
   /** Every element that taking the chosen bonuses will consume. */
@@ -748,7 +974,12 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   get needsTarget(): boolean {
-    return this.selectedAttackValue > 0 || this.selectedHealValue > 0 || this.selectedConditions.length > 0;
+    return this.isResolvingAttack
+      || this.selectedHealValue > 0
+      // A "Heal X" needs its ally picked before a value has been typed, or the strip
+      // would only appear once the box was filled in.
+      || this.hasManualTargetHeal
+      || this.selectedConditions.length > 0;
   }
 
   /**
@@ -756,17 +987,39 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    *
    * A half with no attack whose only conditions are beneficial ones is a buff — e.g.
    * snowflake "Frigid Growth" (Strengthen) or "Storm Wall" (Ward). Without this the
-   * target strip offered monsters and the buff landed on an enemy. A half mixing a
-   * buff with a debuff stays on enemies: that's an attack-shaped card, and the DM can
-   * apply the odd one out by hand.
+   * target strip offered monsters and the buff landed on an enemy. A `targetAlly`
+   * condition earns the same treatment even when it's a debuff — a card that curses
+   * or wounds a picked ally/summon rather than a foe. A half mixing either of those
+   * with an ordinary enemy-facing condition stays on enemies: that's an attack-shaped
+   * card, and the DM can apply the odd one out by hand.
+   *
+   * An `attack` flagged `targetAlly` is the same idea aimed at a strike rather than a
+   * condition — a card that deliberately damages an ally/summon. It's read off
+   * `currentAttack`, so it's scoped to the strike actually being resolved: a
+   * multi-attack half where only one of its attacks carries the flag offers allies for
+   * that strike and enemies for the other, same as `pierce`/`condition` already scope
+   * per-attack.
    */
   get targetsAreHeroes(): boolean {
-    if (this.selectedAttackValue > 0) return false;
-    if (this.selectedHealValue > 0) return true;
+    if (this.isResolvingAttack) return !!this.currentAttack?.targetAlly;
+    if (this.selectedHealValue > 0 || this.hasManualTargetHeal) return true;
 
     const conditions = this.selectedConditions;
-    return conditions.length > 0
-      && conditions.every(c => BENEFICIAL_CONDITIONS.has(c as unknown as ConditionName));
+    if (conditions.length === 0) return false;
+
+    // Names an explicit `targetAlly` condition prints, so a debuff aimed at a picked
+    // ally/summon earns the same target-strip switch a beneficial condition gets.
+    // Bonus-granted conditions carry no such flag and fall back to the beneficial
+    // check below, same as before this existed.
+    const targetAllyNames = new Set(
+      collectActionsScoped(this.selectedContent?.actions, 'condition', this.currentAttack)
+        .filter(a => !a.selfOnly && a.targetAlly)
+        .map(a => String(a.value))
+    );
+
+    return conditions.every(c =>
+      BENEFICIAL_CONDITIONS.has(c as unknown as ConditionName) || targetAllyNames.has(c)
+    );
   }
 
   /**
@@ -946,7 +1199,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * so not drawn from) the modifier deck.
    */
   get needsModifier(): boolean {
-    return this.selectedAttackValue > 0 && !this.customOverride && !this.selectedIgnoreArmor;
+    return this.isResolvingAttack && !this.customOverride && !this.selectedIgnoreArmor;
   }
 
   /** An attack is waiting on its modifier draw — what blocks Execute, and says why. */
@@ -1149,7 +1402,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       let damageDealt = 0;
       let consumed: CreatureConditions[] = [];
 
-      if (this.effectiveBaseAttack > 0) {
+      if (this.isResolvingAttack) {
         const result = this.damageService.compute({
           baseAttack: this.effectiveBaseAttack,
           modifier: this.effectiveModifierForDamage,
@@ -1164,7 +1417,11 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
         // blocked strike too — only the player's "in range" call gates it.
         if (this.applyRetaliate) retaliateSuffered += this.damageService.retaliateDamage(target);
       } else if (this.selectedHealValue > 0) {
-        targetPatch.hp = this.damageService.computeHeal(target, this.selectedHealValue);
+        // Wound comes off and the heal lands normally; poison comes off too, but
+        // blocks the heal itself — see DamageService.computeHealResult.
+        const result = this.damageService.computeHealResult(target, this.selectedHealValue);
+        targetPatch.hp = result.hp;
+        consumed = result.consumedConditions;
       }
 
       Object.assign(
@@ -1187,7 +1444,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       }
 
       totalDamage += damageDealt;
-      const killed = this.effectiveBaseAttack > 0 && hpBefore - damageDealt <= 0;
+      const killed = this.isResolvingAttack && hpBefore - damageDealt <= 0;
       if (killed) killedIds.push(target.id);
 
       // Only what this strike actually added: buildAddConditionsPatch skips whatever
@@ -1240,7 +1497,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       this.appContext.killCreature(id);
     }
 
-    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered, 0, []);
+    // Self-damage is deliberately 0 here: it is a per-half cost, charged once by
+    // finalizeHalf(), not by each strike of a multi-attack or multi-target half.
+    this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered, 0, [], 0);
   }
 
   /**
@@ -1258,6 +1517,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     retaliateSuffered: number,
     selfHealGained: number,
     selfConditionsGained: CreatureConditions[],
+    selfDamageSuffered: number,
+    selfHealConditionsRemoved: CreatureConditions[] = [],
   ): void {
     const hero = this.hero;
     const selection = this.selected;
@@ -1273,6 +1534,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       retaliateSuffered,
       selfHealGained,
       selfConditionsGained,
+      selfDamageSuffered,
+      selfHealConditionsRemoved,
     });
   }
 
@@ -1323,11 +1586,16 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     if (isHalfSpent(hero, otherHalf)) heroPatch.isTurnCompleted = true;
 
     // Shield and retaliate from a card last the round, matching roundArmor semantics.
-    if (this.selectedShield > 0) {
-      heroPatch.roundArmor = (hero.roundArmor ?? 0) + this.selectedShield;
+    // Shield's total includes whatever a taken bonus added or removed — a bonus can
+    // net negative ("remove 1 shield" as its downside), so this checks !== 0 rather
+    // than > 0, and floors the hero's own round shield at 0 rather than going negative.
+    const shieldDelta = this.totalShield;
+    if (shieldDelta !== 0) {
+      heroPatch.roundArmor = Math.max(0, (hero.roundArmor ?? 0) + shieldDelta);
     }
-    if (this.selectedRetaliate > 0) {
-      heroPatch.roundRetaliate = (hero.roundRetaliate ?? 0) + this.selectedRetaliate;
+    const retaliateDelta = this.totalRetaliate;
+    if (retaliateDelta !== 0) {
+      heroPatch.roundRetaliate = Math.max(0, (hero.roundRetaliate ?? 0) + retaliateDelta);
     }
 
     // Experience: the half's printed XP, plus any conditional bonus taken. Folded into
@@ -1359,18 +1627,30 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     let heroHp = hero.hp ?? 0;
     let selfHealGained = 0;
     const selfHeal = this.selectedSelfHealValue;
+    // Wound comes off and the heal lands normally; poison comes off too, but blocks
+    // the heal itself — see DamageService.computeHealResult.
+    let selfHealConsumedConditions: CreatureConditions[] = [];
     if (selfHeal > 0) {
-      const healedHp = this.damageService.computeHeal(hero, selfHeal);
-      selfHealGained = healedHp - heroHp;
-      heroHp = healedHp;
+      const result = this.damageService.computeHealResult(hero, selfHeal);
+      selfHealGained = result.hp - heroHp;
+      heroHp = result.hp;
+      selfHealConsumedConditions = result.consumedConditions;
     }
     // Set on the hero's own patch rather than pushed as a second one, so the shield,
     // XP, self-heal and HP loss all reach applyCreaturePatches as a single change to
     // this hero.
-    if (retaliateSuffered > 0) {
-      heroHp = Math.max(heroHp - retaliateSuffered, 0);
+    //
+    // Self-damage is a cost the card charges its own player, so — like retaliate — it
+    // is taken off the hero directly: no modifier is drawn for it and shield does not
+    // reduce it, since shield answers an attack. Floored at 0 rather than killing the
+    // hero, matching how retaliate has always been applied here; exhaustion is a board
+    // state this app does not model.
+    const selfDamage = this.totalSelfDamage;
+    const hpLost = retaliateSuffered + selfDamage;
+    if (hpLost > 0) {
+      heroHp = Math.max(heroHp - hpLost, 0);
     }
-    if (selfHeal > 0 || retaliateSuffered > 0) {
+    if (selfHeal > 0 || hpLost > 0) {
       heroPatch.hp = heroHp;
     }
 
@@ -1384,6 +1664,16 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Wound/poison the self-heal consumed, read off the hero as patched so far (any
+    // condition the half just added above is accounted for), same as ward/brittle
+    // removal reads the target as patched in computeTargetPatches.
+    if (selfHealConsumedConditions.length > 0) {
+      Object.assign(
+        heroPatch,
+        this.appContext.buildRemoveConditionsPatch({ ...hero, ...heroPatch } as Creature, selfHealConsumedConditions)
+      );
+    }
+
     patches.push({ creatureId: hero.id, patch: heroPatch });
     this.appContext.applyCreaturePatches(patches);
 
@@ -1395,11 +1685,13 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       totalDamage,
       killedIds.length,
       xpGained,
-      this.selectedShield,
-      this.selectedRetaliate,
+      shieldDelta,
+      retaliateDelta,
       retaliateSuffered,
       selfHealGained,
       selfConditionsGained,
+      selfDamage,
+      selfHealConsumedConditions,
     );
 
     // Summons enter play only through a card action, which is here. Emitted after the
@@ -1441,6 +1733,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.customOverride = null;
     this.attackIndex = 0;
     this.attackAdjustments.clear();
+    this.manualAttackValues.clear();
+    this.manualHealValue = 0;
+    this.manualSelfDamageValue = 0;
     this.healAdjustment = 0;
   }
 

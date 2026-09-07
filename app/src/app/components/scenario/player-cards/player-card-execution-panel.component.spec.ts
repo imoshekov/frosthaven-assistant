@@ -126,22 +126,22 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
   });
 
   it('finds the bonus on the selected half', () => {
-    expect(panel.selectedElementBonuses.length).toBe(1);
-    expect(panel.selectedElementBonuses[0].elements).toEqual(['ice']);
+    expect(panel.selectedBonuses.length).toBe(1);
+    expect(panel.selectedBonuses[0].elements).toEqual(['ice']);
   });
 
   it('does not offer the bonus while its element is inactive', () => {
-    const bonus = panel.selectedElementBonuses[0];
+    const bonus = panel.selectedBonuses[0];
     expect(panel.isBonusAvailable(bonus)).toBe(false);
   });
 
   it('offers the bonus once the element is active', () => {
     setElements([ElementType.Ice]);
-    expect(panel.isBonusAvailable(panel.selectedElementBonuses[0])).toBe(true);
+    expect(panel.isBonusAvailable(panel.selectedBonuses[0])).toBe(true);
   });
 
   it('refuses to take an unavailable bonus', () => {
-    panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+    panel.toggleBonus(0, panel.selectedBonuses[0]);
     expect(panel.isBonusTaken(0)).toBe(false);
   });
 
@@ -156,7 +156,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
   it('adds the bonus attack and xp once taken', () => {
     setElements([ElementType.Ice]);
-    panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+    panel.toggleBonus(0, panel.selectedBonuses[0]);
 
     expect(panel.isBonusTaken(0)).toBe(true);
     expect(panel.selectedAttackValue).toBe(3);   // 1 printed + 2 bonus
@@ -166,7 +166,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
   it('untoggles back to the printed values', () => {
     setElements([ElementType.Ice]);
-    const bonus = panel.selectedElementBonuses[0];
+    const bonus = panel.selectedBonuses[0];
     panel.toggleBonus(0, bonus);
     panel.toggleBonus(0, bonus);
 
@@ -177,7 +177,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
   it('consumes the element on execution, and awards the xp', () => {
     setElements([ElementType.Ice]);
-    panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+    panel.toggleBonus(0, panel.selectedBonuses[0]);
     panel.targetId = 'mob';
     panel.modifier = 0;
 
@@ -210,12 +210,12 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
     it('is available when only one of the two elements is active', () => {
       setElements([ElementType.Air]);
-      expect(panel.isBonusAvailable(panel.selectedElementBonuses[0])).toBe(true);
+      expect(panel.isBonusAvailable(panel.selectedBonuses[0])).toBe(true);
     });
 
     it('defaults to spending the available element', () => {
       setElements([ElementType.Air]);
-      const bonus = panel.selectedElementBonuses[0];
+      const bonus = panel.selectedBonuses[0];
       panel.toggleBonus(0, bonus);
 
       expect(panel.chosenElement(0, bonus)).toBe(ElementType.Air);
@@ -224,7 +224,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
     it('spends only the element the player picked', () => {
       setElements([ElementType.Ice, ElementType.Air]);
-      const bonus = panel.selectedElementBonuses[0];
+      const bonus = panel.selectedBonuses[0];
       panel.toggleBonus(0, bonus);
       panel.chooseBonusElement(0, ElementType.Ice);
 
@@ -233,7 +233,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
     it('will not pick an element that is not active', () => {
       setElements([ElementType.Air]);
-      const bonus = panel.selectedElementBonuses[0];
+      const bonus = panel.selectedBonuses[0];
       panel.toggleBonus(0, bonus);
       panel.chooseBonusElement(0, ElementType.Ice);
 
@@ -243,7 +243,7 @@ describe('PlayerCardExecutionPanelComponent element bonuses', () => {
 
   it('clears taken bonuses when a different half is selected', () => {
     setElements([ElementType.Ice]);
-    panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+    panel.toggleBonus(0, panel.selectedBonuses[0]);
     expect(panel.isBonusTaken(0)).toBe(true);
 
     panel.selectTile({

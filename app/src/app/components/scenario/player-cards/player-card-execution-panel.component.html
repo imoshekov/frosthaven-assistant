@@ -117,12 +117,31 @@
              [class.current]="isAttackCurrent(i)">
           <span class="attack-order" *ngIf="isMultiAttack">{{ i + 1 }}</span>
           <span class="icon attack"></span>
-          <span class="attack-value">{{ attackDisplayValue(i) }}</span>
+
+          <!-- "Attack X": the card leaves the value to the player, so this strike gets
+               a box instead of a printed number. Still shows the resolved total beside
+               it, since bonuses and the +/- row stack onto whatever was typed. -->
+          <ng-container *ngIf="isManualAttack(i) && !isAttackDone(i); else printedAttackValue">
+            <input type="tel" maxlength="3" class="stat-input attack-x-input"
+                   [value]="manualAttackValueFor(i)"
+                   (input)="setManualAttackValue(i, $any($event.target).value)"
+                   title="This card prints Attack X — type the value" />
+            <span class="attack-value" *ngIf="attackDisplayValue(i) !== manualAttackValueFor(i)">
+              = {{ attackDisplayValue(i) }}
+            </span>
+          </ng-container>
+          <ng-template #printedAttackValue>
+            <span class="attack-value">{{ attackDisplayValue(i) }}</span>
+          </ng-template>
+
           <span class="attack-delta" *ngIf="adjustmentFor(i)">
             ({{ adjustmentFor(i) > 0 ? '+' : '' }}{{ adjustmentFor(i) }})
           </span>
 
           <span class="attack-tags">
+            <span class="tag" *ngIf="isManualAttack(i)" title="The card prints Attack X — the player supplies the value">
+              X
+            </span>
             <span class="tag" *ngIf="isAttackMultiTarget(i)" title="Hits several targets, one at a time">
               {{ attackTargetLimit(i) ? 'up to ' + attackTargetLimit(i) + ' targets' : 'multi-target' }}
             </span>
@@ -145,12 +164,30 @@
       <div class="attack-list" *ngIf="hasSelectedHeal">
         <div class="attack-row">
           <span class="icon heal"></span>
-          <span class="attack-value">{{ healDisplayValue }}</span>
+
+          <!-- "Heal X", the same bargain the attack row offers: the card leaves the
+               value to the player, so this row gets a box instead of a number. -->
+          <ng-container *ngIf="isCurrentHealManual; else printedHealValue">
+            <input type="tel" maxlength="3" class="stat-input attack-x-input"
+                   [value]="manualHealValue"
+                   (input)="setManualHealValue($any($event.target).value)"
+                   title="This card prints Heal X — type the value" />
+            <span class="attack-value" *ngIf="healDisplayValue !== manualHealValue">
+              = {{ healDisplayValue }}
+            </span>
+          </ng-container>
+          <ng-template #printedHealValue>
+            <span class="attack-value">{{ healDisplayValue }}</span>
+          </ng-template>
+
           <span class="attack-delta" *ngIf="healAdjustment">
             ({{ healAdjustment > 0 ? '+' : '' }}{{ healAdjustment }})
           </span>
 
           <span class="attack-tags">
+            <span class="tag" *ngIf="isCurrentHealManual" title="The card prints Heal X — the player supplies the value">
+              X
+            </span>
             <span class="tag" *ngIf="isCurrentHealSelfOnly" title="Applies to the acting hero, not a picked target">
               self
             </span>
@@ -177,11 +214,14 @@
         <span class="annotation" *ngIf="effectiveIgnoreArmorForDamage" title="Ignores the target's armor entirely">
           <span class="icon ignoreArmor"></span>
         </span>
-        <span class="annotation" *ngIf="selectedShield > 0">
-          <span class="icon shield"></span>{{ selectedShield }}
+        <!-- The half's printed shield plus whatever a taken bonus adds or removes —
+             shown even when that nets to 0 or negative, since a bonus with no printed
+             shield of its own ("remove 1 shield") still needs to be visible. -->
+        <span class="annotation" *ngIf="totalShield !== 0 || selectedShield > 0">
+          <span class="icon shield"></span>{{ totalShield }}
         </span>
-        <span class="annotation" *ngIf="selectedRetaliate > 0">
-          <span class="icon retaliate"></span>{{ selectedRetaliate }}
+        <span class="annotation" *ngIf="totalRetaliate !== 0 || selectedRetaliate > 0">
+          <span class="icon retaliate"></span>{{ totalRetaliate }}
         </span>
         <span class="annotation cond" *ngFor="let condition of selectedConditions">
           <span class="icon" [ngClass]="condition"></span>
@@ -191,6 +231,21 @@
         </span>
         <span class="annotation" *ngIf="selectedXp + takenBonusXp > 0">
           <span class="icon xp"></span>{{ selectedXp + takenBonusXp }}
+        </span>
+        <!-- HP this half costs its own player, printed cost and taken bonuses together.
+             A "Suffer X" half shows the box even at 0 typed, the same way "Attack X"
+             and "Heal X" do. -->
+        <span class="annotation self-damage" *ngIf="totalSelfDamage > 0 || isSelfDamageManual"
+              [title]="hero?.name + ' suffers this on Execute — shield does not reduce it'">
+          <span class="icon damage"></span>
+          <ng-container *ngIf="isSelfDamageManual; else printedSelfDamage">
+            <input type="tel" maxlength="3" class="stat-input attack-x-input"
+                   [value]="manualSelfDamageValue"
+                   (input)="setManualSelfDamageValue($any($event.target).value)"
+                   title="This card prints Suffer X — type the value" />
+          </ng-container>
+          <ng-template #printedSelfDamage>{{ totalSelfDamage }}</ng-template>
+          <span class="self-tag">self</span>
         </span>
       </div>
 
@@ -224,12 +279,12 @@
         </div>
       </div>
 
-      <!-- Conditional element bonuses: offered only while their elements are active,
-           and consumed only if the player takes them. -->
-      <div class="element-bonuses" *ngIf="selectedElementBonuses.length">
-        <div class="bonuses-label">Element bonuses</div>
+      <!-- Conditional bonuses: offered only while their cost can be paid — the elements
+           active, or the HP to spare — and charged only if the player takes them. -->
+      <div class="element-bonuses" *ngIf="selectedBonuses.length">
+        <div class="bonuses-label">Bonuses</div>
         <div class="bonus-row"
-             *ngFor="let bonus of selectedElementBonuses; let i = index"
+             *ngFor="let bonus of selectedBonuses; let i = index"
              [class.unavailable]="!isBonusAvailable(bonus)"
              [class.taken]="isBonusTaken(i)">
           <button type="button" class="bonus-toggle"
@@ -237,10 +292,23 @@
                   [attr.aria-pressed]="isBonusTaken(i)"
                   (click)="toggleBonus(i, bonus)">
             <span class="check">{{ isBonusTaken(i) ? '☑' : '☐' }}</span>
-            <span class="consume">
-              {{ bonus.consumeMode === 'any' ? 'Consume one of' : 'Consume' }}
-              <span class="icon" *ngFor="let el of elementsOf(bonus)" [ngClass]="'elem-' + el"></span>
+            <span class="consume" *ngIf="isSelfDamageBonus(bonus); else notSelfDamage">
+              Suffer
+              <span class="icon damage"></span>{{ bonusSelfDamageCost(bonus) }}
             </span>
+            <ng-template #notSelfDamage>
+              <!-- No cost to pay — the card describes a condition and the player
+                   decides, by looking at the board, whether it's true right now. -->
+              <span class="consume text" *ngIf="isTextBonus(bonus); else elementCost">
+                {{ bonus.text }}
+              </span>
+            </ng-template>
+            <ng-template #elementCost>
+              <span class="consume">
+                {{ bonus.consumeMode === 'any' ? 'Consume one of' : 'Consume' }}
+                <span class="icon" *ngFor="let el of elementsOf(bonus)" [ngClass]="'elem-' + el"></span>
+              </span>
+            </ng-template>
             <span class="grants">
               <app-card-action [actions]="bonus.subActions ?? []"></app-card-action>
             </span>
@@ -259,7 +327,7 @@
             </button>
           </div>
 
-          <span class="requires" *ngIf="!isBonusAvailable(bonus)">not active</span>
+          <span class="requires" *ngIf="!isBonusAvailable(bonus)">{{ bonusUnavailableReason(bonus) }}</span>
         </div>
       </div>
 
@@ -352,7 +420,7 @@
       </label>
 
       <!-- Positional actions cannot be applied; this app has no board. -->
-      <div class="note" *ngIf="!needsTarget && !selectedSummons.length && hasData(tile.content)">
+      <div class="note" *ngIf="!needsTarget && !selectedSummons.length && !totalSelfDamage && !isSelfDamageManual && hasData(tile.content)">
         Nothing to apply automatically — movement and positioning are resolved on the board.
       </div>
 

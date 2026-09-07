@@ -46,6 +46,8 @@ describe('AppContext card-half undo', () => {
     retaliateSuffered: 0,
     selfHealGained: 0,
     selfConditionsGained: [],
+    selfDamageSuffered: 0,
+    selfHealConditionsRemoved: [],
     ...over,
   });
 
@@ -99,6 +101,67 @@ describe('AppContext card-half undo', () => {
       expect(creature('hero')!.topHalfState).toBeNull();
       expect(creature('hero')!.topHalfSlot).toBeNull();
       expect(creature('hero')!.isTurnCompleted).toBe(false);
+    });
+  });
+
+  /**
+   * HP the half charged its own player — a `sufferDamage` cost, or a
+   * `sufferDamageBonus` the player chose to pay. Given back, not reset to a remembered
+   * value: something else may have hurt or healed the hero since, and only this half's
+   * share belongs to this undo.
+   */
+  describe('self-damage the half charged', () => {
+    it('gives the HP back', () => {
+      appContext.setCreatures([hero({ hp: 8 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({ selfDamageSuffered: 2 }));
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(10);
+    });
+
+    it('gives back only its own share, leaving later damage alone', () => {
+      // Cost 2, then something else hit the hero for 3: 10 → 8 → 5.
+      appContext.setCreatures([hero({ hp: 5 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({ selfDamageSuffered: 2 }));
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(7);
+    });
+
+    it('adds to retaliate rather than replacing it', () => {
+      // 10 − 2 cost − 3 retaliate = 5, and undoing restores both.
+      appContext.setCreatures([hero({ hp: 5 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        selfDamageSuffered: 2, retaliateSuffered: 3,
+      }));
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(10);
+    });
+
+    it('never gives back more than the hero can hold', () => {
+      appContext.setCreatures([hero({ hp: 9 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({ selfDamageSuffered: 4 }));
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(10);
+    });
+
+    it('accumulates across the strikes of one half', () => {
+      appContext.setCreatures([hero({ hp: 7 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({ selfDamageSuffered: 1 }));
+      appContext.recordHalfExecution('hero', 'top', execution({ selfDamageSuffered: 2 }));
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(10);
+    });
+
+    it('leaves the hero alone when the half cost nothing', () => {
+      appContext.setCreatures([hero({ hp: 6 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution());
+
+      appContext.undoCardHalf('hero', 'top');
+      expect(creature('hero')!.hp).toBe(6);
     });
   });
 
@@ -186,6 +249,65 @@ describe('AppContext card-half undo', () => {
 
       expect(creature('hero')!.roundArmor).toBe(1);   // the other 1 came from elsewhere
       expect(creature('hero')!.roundRetaliate).toBe(1);
+    });
+
+    it('gives back shield a bonus removed — a negative shieldGained', () => {
+      // A "remove 1 shield" bonus with no printed shield of its own left roundArmor
+      // where it was minus 1, floored at 0. Undo has to raise it back by that 1.
+      appContext.setCreatures([hero({ roundArmor: 0 }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        xpGained: 0, shieldGained: -1,
+      }));
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(creature('hero')!.roundArmor).toBe(1);
+    });
+  });
+
+  describe('wound/poison a selfOnly heal removed', () => {
+    it('gives the poison back, along with the HP it never actually granted', () => {
+      appContext.setCreatures([hero({ hp: 4, conditions: [] }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        xpGained: 0, selfHealGained: 0,
+        selfHealConditionsRemoved: [CreatureConditions.poison],
+      }));
+
+      appContext.undoCardHalf('hero', 'top');
+
+      // Poison blocked the heal, so selfHealGained was 0 — nothing to give back on
+      // the HP side, but the condition itself has to come back.
+      expect(creature('hero')!.hp).toBe(4);
+      expect(creature('hero')!.conditions).toEqual([CreatureConditions.poison]);
+    });
+
+    it('gives the wound back, along with the HP the heal did grant', () => {
+      appContext.setCreatures([hero({ hp: 9, conditions: [] }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        xpGained: 0, selfHealGained: 5,
+        selfHealConditionsRemoved: [CreatureConditions.wound],
+      }));
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(creature('hero')!.hp).toBe(4);   // 9 - 5 given back
+      expect(creature('hero')!.conditions).toEqual([CreatureConditions.wound]);
+    });
+
+    it('does not clobber a selfOnly condition the same half also applied', () => {
+      appContext.setCreatures([hero({ hp: 9, conditions: [CreatureConditions.strengthen] }), mob()]);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        xpGained: 0, selfHealGained: 5,
+        selfConditionsGained: [CreatureConditions.strengthen],
+        selfHealConditionsRemoved: [CreatureConditions.wound],
+      }));
+
+      appContext.undoCardHalf('hero', 'top');
+
+      // strengthen (gained by the half) comes off; wound (removed by the heal) comes
+      // back — the two operate on the same conditions array without stepping on each
+      // other.
+      expect(creature('hero')!.conditions).toEqual([CreatureConditions.wound]);
     });
   });
 

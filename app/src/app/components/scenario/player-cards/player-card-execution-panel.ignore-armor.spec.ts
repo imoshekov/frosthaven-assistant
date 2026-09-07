@@ -46,9 +46,28 @@ describe('PlayerCardExecutionPanelComponent card-printed ignore armor', () => {
     bottom: { actions: [] },
   };
 
+  // The preferred spelling: a flag on the attack rather than a nested subAction.
+  const flagForm: CharacterAbilityCard = {
+    cardId: 502, name: 'Flag Form', level: 1, initiative: 42,
+    top: { actions: [{ type: 'attack', value: 3, ignoreArmor: true }] },
+    bottom: { actions: [{ type: 'attack', value: 3 }] },
+  };
+
+  // Two independent strikes, flag spelling: only the first ignores armor.
+  const flagOneOfTwo: CharacterAbilityCard = {
+    cardId: 503, name: 'Flag One of Two', level: 1, initiative: 43,
+    top: {
+      actions: [
+        { type: 'attack', value: 3, ignoreArmor: true },
+        { type: 'attack', value: 3 },
+      ],
+    },
+    bottom: { actions: [] },
+  };
+
   const deck: CharacterDeck = {
     characterClass: 'drifter', edition: 'fh',
-    cards: [shieldBreaker, oneOfTwo],
+    cards: [shieldBreaker, oneOfTwo, flagForm, flagOneOfTwo],
   };
 
   beforeEach(() => {
@@ -154,5 +173,51 @@ describe('PlayerCardExecutionPanelComponent card-printed ignore armor', () => {
     panel.customOverride = { attack: 3, armorPen: 0, conditions: [], ignoreArmor: false };
 
     expect(panel.effectiveIgnoreArmorForDamage).toBe(false);
+  });
+
+  /**
+   * `ignoreArmor: true` written straight on the attack, the way `multiTarget` and
+   * `targetAlly` are. Most authored cards use this spelling; it used to be read by
+   * nothing at all, so the shield still applied.
+   */
+  describe('the ignoreArmor flag on the attack itself', () => {
+    beforeEach(() => { creatures[0].cardAId = 502; });
+
+    it('is read off the attack, same as the subAction spelling', () => {
+      panel.selectTile({ source: 'A', half: 'top', card: flagForm, content: flagForm.top, label: 'Flag Form' });
+      expect(panel.selectedIgnoreArmor).toBe(true);
+      expect(panel.effectiveIgnoreArmorForDamage).toBe(true);
+    });
+
+    it('actually bypasses the shield when the strike lands', () => {
+      panel.selectTile({ source: 'A', half: 'top', card: flagForm, content: flagForm.top, label: 'Flag Form' });
+      panel.selectTarget('mob');
+      panel.setModifier(0);
+      panel.execute();
+
+      // Armor 5 would have blocked an Attack 3 outright without the flag.
+      expect(creatures.find(c => c.id === 'mob')!.hp).toBe(20 - 3);
+    });
+
+    it('is false for an attack that does not carry it', () => {
+      panel.selectTile({ source: 'A', half: 'bottom', card: flagForm, content: flagForm.bottom, label: 'Flag Form' });
+      expect(panel.selectedIgnoreArmor).toBe(false);
+    });
+
+    it('scopes per-strike in a multi-attack half, same as the subAction form', () => {
+      creatures[0].cardAId = 503;
+      panel.selectTile({ source: 'A', half: 'top', card: flagOneOfTwo, content: flagOneOfTwo.top, label: 'Flag One of Two' });
+
+      expect(panel.selectedIgnoreArmor).toBe(true);
+      panel.selectTarget('mob');
+      panel.setModifier(0);
+      panel.execute(); // first strike: ignores armor, 3 through
+      expect(creatures.find(c => c.id === 'mob')!.hp).toBe(20 - 3);
+
+      expect(panel.selectedIgnoreArmor).toBe(false); // second strike carries no flag
+      panel.setModifier(0);
+      panel.execute(); // 3 − 5 armor = blocked
+      expect(creatures.find(c => c.id === 'mob')!.hp).toBe(20 - 3);
+    });
   });
 });

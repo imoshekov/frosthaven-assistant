@@ -194,14 +194,14 @@ describe('PlayerCardExecutionPanelComponent review regressions', () => {
 
     it('withholds a condition the bonus grants while it is untaken', () => {
       infuse(ElementType.Light);
-      expect(panel.selectedElementBonuses.length).toBe(1);
+      expect(panel.selectedBonuses.length).toBe(1);
       expect(panel.isBonusTaken(0)).toBe(false);
       expect(panel.selectedConditions).toEqual([]);
     });
 
     it('grants it once the bonus is taken', () => {
       infuse(ElementType.Light);
-      panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+      panel.toggleBonus(0, panel.selectedBonuses[0]);
 
       expect(panel.isBonusTaken(0)).toBe(true);
       expect(panel.selectedConditions).toEqual([CreatureConditions.disarm]);
@@ -209,7 +209,7 @@ describe('PlayerCardExecutionPanelComponent review regressions', () => {
 
     it('applies it to the struck target, and only then', () => {
       infuse(ElementType.Light);
-      panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+      panel.toggleBonus(0, panel.selectedBonuses[0]);
       panel.selectTarget('mob');
       panel.setModifier(0);
       panel.execute();
@@ -228,7 +228,7 @@ describe('PlayerCardExecutionPanelComponent review regressions', () => {
 
     it('withdraws the condition again when the bonus is untaken', () => {
       infuse(ElementType.Light);
-      const bonus = panel.selectedElementBonuses[0];
+      const bonus = panel.selectedBonuses[0];
       panel.toggleBonus(0, bonus);
       panel.toggleBonus(0, bonus);
 
@@ -236,8 +236,8 @@ describe('PlayerCardExecutionPanelComponent review regressions', () => {
     });
 
     it('cannot be taken at all while its element is unavailable', () => {
-      expect(panel.isBonusAvailable(panel.selectedElementBonuses[0])).toBe(false);
-      panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+      expect(panel.isBonusAvailable(panel.selectedBonuses[0])).toBe(false);
+      panel.toggleBonus(0, panel.selectedBonuses[0]);
 
       expect(panel.isBonusTaken(0)).toBe(false);
       expect(panel.selectedConditions).toEqual([]);
@@ -255,12 +255,12 @@ describe('PlayerCardExecutionPanelComponent review regressions', () => {
     });
 
     it('raises the heal once the bonus is taken', () => {
-      panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+      panel.toggleBonus(0, panel.selectedBonuses[0]);
       expect(panel.selectedHealValue).toBe(2);
     });
 
     it('applies the raised heal, not the printed one', () => {
-      panel.toggleBonus(0, panel.selectedElementBonuses[0]);
+      panel.toggleBonus(0, panel.selectedBonuses[0]);
       panel.selectTarget('ally');
       panel.execute();
 

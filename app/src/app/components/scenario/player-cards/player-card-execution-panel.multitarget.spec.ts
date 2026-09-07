@@ -377,3 +377,110 @@ describe('PlayerCardExecutionPanelComponent multi-target with no attack', () => 
     expect(heroPatch?.bottomHalfState).toBe('executed');
   });
 });
+
+/**
+ * `multiTarget: true` on a `heal` — the same "no attack, no modifier draw, applied to
+ * every selected target at once" shape as a multi-target `condition`. Not documented
+ * for a long stretch (the README said not to do this at all), but the panel has
+ * supported it the whole time — `multiTargetAction` checks `heal?.multiTarget`
+ * explicitly, right alongside the `condition` case above.
+ */
+describe('PlayerCardExecutionPanelComponent multi-target heal', () => {
+  let panel: PlayerCardExecutionPanelComponent;
+  let creatures: Creature[];
+  let elements: Element[];
+
+  const groupMend: CharacterAbilityCard = {
+    cardId: 280, name: 'Group Mend', level: 1, initiative: 30,
+    top: { actions: [{ type: 'heal', value: 3, multiTarget: true }] },
+    bottom: { actions: [] },
+  };
+
+  const deck: CharacterDeck = {
+    characterClass: 'drifter', edition: 'fh', cards: [groupMend],
+  };
+
+  beforeEach(() => {
+    elements = (Object.values(ElementType) as ElementType[]).map(type => ({ type, state: 0 as any }));
+    creatures = [
+      {
+        id: 'hero', type: 'drifter', aggressive: false, level: 1,
+        initiative: 30, secondaryInitiative: 0, cardAId: 280, cardBId: null,
+        hp: 10, maxHp: 10, totalXp: 0, sessionExperience: 0,
+      },
+      { id: 'ally1', type: 'drifter', aggressive: false, hp: 4, maxHp: 10, conditions: [] },
+      { id: 'ally2', type: 'drifter', aggressive: false, hp: 5, maxHp: 8, conditions: [] },
+    ];
+
+    const appContextStub: Partial<AppContext> = {
+      cardPanelCreatureId: 'hero',
+      creatures$: new Subject<Creature[]>().asObservable(),
+      customAttackResult$: new Subject<CustomAttackResult>().asObservable(),
+      getCreatures: () => creatures,
+      getElements: () => elements,
+      setElementState: () => { },
+      applyCreaturePatches: (patches) => {
+        for (const { creatureId, patch } of patches) {
+          const c = creatures.find(x => x.id === creatureId);
+          if (c) Object.assign(c, patch);
+        }
+      },
+      buildAddConditionsPatch: () => ({}),
+      buildRemoveConditionsPatch: () => ({}),
+      autoBindHeroCards: () => Promise.resolve(),
+      recordDamage: () => { },
+      recordKill: () => { },
+      killCreature: () => { },
+      recordHalfExecution: () => { },
+    };
+
+    const deckServiceStub: Partial<CharacterDeckService> = {
+      loadDeck: () => Promise.resolve(deck),
+      getLoadedDeck: () => deck,
+      resolve: () => [],
+      cardById: (id) => deck.cards.find(c => c.cardId === id) ?? null,
+      hasPackedInitiatives: () => false,
+    };
+
+    TestBed.configureTestingModule({
+      imports: [PlayerCardExecutionPanelComponent],
+      providers: [
+        { provide: AppContext, useValue: appContextStub },
+        { provide: CharacterDeckService, useValue: deckServiceStub },
+        { provide: LogService, useValue: { appendDamageToLastBatch: () => { }, appendKillToLastBatch: () => { } } },
+      ],
+    });
+
+    panel = TestBed.createComponent(PlayerCardExecutionPanelComponent).componentInstance;
+    panel.selectTile({ source: 'A', half: 'top', card: groupMend, content: groupMend.top, label: 'Group Mend' });
+  });
+
+  it('flags the half as multi-target even though it has no attack action', () => {
+    expect(panel.currentAttack).toBeNull();
+    expect(panel.isCurrentAttackMultiTarget).toBe(true);
+    expect(panel.isMultiSelect).toBe(true);
+  });
+
+  it('offers allies, not enemies, from the toggle strip', () => {
+    expect(panel.targetOptions.map(c => c.id)).toEqual(jasmine.arrayWithExactContents(['hero', 'ally1', 'ally2']));
+  });
+
+  it('heals every selected ally on execute, each capped at their own max', () => {
+    panel.selectTarget('ally1');
+    panel.selectTarget('ally2');
+    panel.execute();
+
+    expect(creatures.find(c => c.id === 'ally1')!.hp).toBe(7);   // 4 + 3
+    expect(creatures.find(c => c.id === 'ally2')!.hp).toBe(8);   // 5 + 3, capped at maxHp 8
+  });
+
+  it('leaves a deselected ally untouched', () => {
+    panel.selectTarget('ally1');
+    panel.selectTarget('ally2');
+    panel.selectTarget('ally2'); // toggle off
+    panel.execute();
+
+    expect(creatures.find(c => c.id === 'ally1')!.hp).toBe(7);
+    expect(creatures.find(c => c.id === 'ally2')!.hp).toBe(5);   // untouched
+  });
+});

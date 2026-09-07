@@ -177,7 +177,7 @@
         "actions": [
           {
             "type": "attack",
-            "value": 0
+            "value": "X"
           }
         ]
       },
@@ -308,7 +308,7 @@
           },
           {
             "type": "attack",
-            "value": 0,
+            "value": "X",
             "subActions": [
               { "type": "ignoreArmor" }]
           }
@@ -355,7 +355,7 @@
         "actions": [
           {
             "type": "attack",
-            "value": 0,
+            "value": "X",
             "subActions": [
               { "type": "ignoreArmor" }]
           }
@@ -443,7 +443,7 @@
         "actions": [
           { 
             "type": "attack", 
-            "value": 0, 
+            "value": "X", 
             "multiTarget": 2 
           },
           {
@@ -552,7 +552,7 @@
         "actions": [
           {
             "type": "attack",
-            "value": 0,
+            "value": "X",
             "multiTarget": true
           }
         ]

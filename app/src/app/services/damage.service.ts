@@ -54,7 +54,9 @@ export class DamageService {
     // value*, so it is part of what the modifier card multiplies and what shield is
     // then subtracted from. It used to be added at the very end instead, which both
     // dropped it out of a ×2 and lost it entirely whenever shield blocked the attack.
-    const poisoned = conditions.includes(CreatureConditions.poison);
+    // `ignoreArmor` is this app's "direct damage" attack — no modifier draw either
+    // (see `needsModifier`) — so poison's attack-value bump does not apply to it.
+    const poisoned = conditions.includes(CreatureConditions.poison) && !input.ignoreArmor;
     const attackValue = baseAttack + (poisoned ? 1 : 0);
 
     // 2. Attack modifier. A miss short-circuits: no shield, no condition maths, and
@@ -134,5 +136,35 @@ export class DamageService {
     const current = target.hp ?? 0;
     const max = target.maxHp ?? current;
     return Math.max(Math.min(current + Math.max(amount, 0), max), current);
+  }
+
+  /**
+   * A heal's effect on the target's wound/poison, alongside its HP:
+   *
+   * - **wound** comes off a healed target and the heal lands normally — the usual
+   *   case, nothing withheld.
+   * - **poison** comes off too, but the heal itself is withheld entirely: a poisoned
+   *   target's HP does not move. Poison and a heal don't mix — the poison has to go
+   *   before HP does.
+   *
+   * A target with both loses both conditions; poison's HP-block still applies, so the
+   * wound removal is "free" (no HP gained) rather than riding along on a heal that did
+   * land. `consumedConditions` is the caller's list to remove — this only computes.
+   */
+  computeHealResult(
+    target: Pick<Creature, 'hp' | 'maxHp' | 'conditions'>,
+    amount: number,
+  ): { hp: number; consumedConditions: CreatureConditions[] } {
+    const conditions = target.conditions ?? [];
+    const consumedConditions: CreatureConditions[] = [];
+    if (conditions.includes(CreatureConditions.wound)) {
+      consumedConditions.push(CreatureConditions.wound);
+    }
+
+    const poisoned = conditions.includes(CreatureConditions.poison);
+    if (poisoned) consumedConditions.push(CreatureConditions.poison);
+
+    const hp = poisoned ? (target.hp ?? 0) : this.computeHeal(target, amount);
+    return { hp, consumedConditions };
   }
 }

@@ -67,14 +67,32 @@ export interface HalfExecution {
     /** Kills credited to the acting hero's type, same. */
     killsCredited: number;
     xpGained: number;
+    /**
+     * The hero's own round-long shield, printed plus whatever a taken bonus added or
+     * removed — negative when a bonus's downside outweighs (or stands alone against)
+     * any printed shield, e.g. "if you use it, remove 1 shield".
+     */
     shieldGained: number;
+    /** The hero's round-long retaliate, printed plus any bonus delta — same as above. */
     retaliateGained: number;
     /** HP the hero lost to its targets' retaliate while resolving this half. */
     retaliateSuffered: number;
     /** HP a `selfOnly` heal on this half added to the acting hero. */
     selfHealGained: number;
+    /**
+     * HP the hero paid for this half itself: its `sufferDamage` cost, plus the cost of
+     * any `sufferDamageBonus` they chose to take. Separate from `retaliateSuffered`
+     * because it is a price the card charges, not something a target dealt back.
+     */
+    selfDamageSuffered: number;
     /** Conditions a `selfOnly` condition on this half applied to the acting hero. */
     selfConditionsGained: CreatureConditions[];
+    /**
+     * Wound/poison a `selfOnly` heal took off the acting hero — see
+     * DamageService.computeHealResult. Tracked separately from `selfConditionsGained`
+     * (an addition) since this is a removal Undo has to give back.
+     */
+    selfHealConditionsRemoved: CreatureConditions[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -647,6 +665,7 @@ export class AppContext {
                     removedConditions: [...t.removedConditions],
                 })),
                 selfConditionsGained: [...effect.selfConditionsGained],
+                selfHealConditionsRemoved: [...effect.selfHealConditionsRemoved],
             });
             return;
         }
@@ -673,7 +692,9 @@ export class AppContext {
         existing.retaliateGained += effect.retaliateGained;
         existing.retaliateSuffered += effect.retaliateSuffered;
         existing.selfHealGained += effect.selfHealGained;
+        existing.selfDamageSuffered += effect.selfDamageSuffered;
         existing.selfConditionsGained = [...new Set([...existing.selfConditionsGained, ...effect.selfConditionsGained])];
+        existing.selfHealConditionsRemoved = [...new Set([...existing.selfHealConditionsRemoved, ...effect.selfHealConditionsRemoved])];
     }
 
     /** What a half applied, for tests and for the panel's own bookkeeping. */
@@ -733,24 +754,31 @@ export class AppContext {
                 patch.totalXp = newTotal;
                 patch.level = this.xpService.levelFromXp(newTotal);
             }
-            if (executed.shieldGained > 0) {
+            // !== 0 rather than > 0: a bonus's "remove 1 shield" downside can leave
+            // this negative, and that still has to be given back on undo.
+            if (executed.shieldGained !== 0) {
                 patch.roundArmor = Math.max(0, (hero.roundArmor ?? 0) - executed.shieldGained);
             }
-            if (executed.retaliateGained > 0) {
+            // !== 0 for the same reason `shieldGained` is: a bonus can move this in
+            // either direction, and both have to be given back.
+            if (executed.retaliateGained !== 0) {
                 patch.roundRetaliate = Math.max(0, (hero.roundRetaliate ?? 0) - executed.retaliateGained);
             }
-            // HP a `selfOnly` heal added and/or the hero lost to its targets' retaliate.
-            // Given back rather than reset to a remembered value: the hero may have been
-            // healed or hurt by something else since, and only this half's share belongs
-            // to this undo.
-            if (executed.selfHealGained > 0 || executed.retaliateSuffered > 0) {
-                const restored = (hero.hp ?? 0) - executed.selfHealGained + executed.retaliateSuffered;
+            // HP a `selfOnly` heal added, and HP the hero lost — to its targets'
+            // retaliate, or to the half's own `sufferDamage` cost. Given back rather
+            // than reset to a remembered value: the hero may have been healed or hurt by
+            // something else since, and only this half's share belongs to this undo.
+            const hpLost = executed.retaliateSuffered + executed.selfDamageSuffered;
+            if (executed.selfHealGained > 0 || hpLost > 0) {
+                const restored = (hero.hp ?? 0) - executed.selfHealGained + hpLost;
                 patch.hp = hero.maxHp ? Math.min(Math.max(restored, 0), hero.maxHp) : Math.max(restored, 0);
             }
             // A `selfOnly` condition this half applied to the hero itself, the same way
-            // a target's own conditions are stripped above.
-            if (executed.selfConditionsGained.length > 0) {
-                patch.conditions = (hero.conditions ?? []).filter(c => !executed.selfConditionsGained.includes(c));
+            // a target's own conditions are stripped above — and the wound/poison a
+            // `selfOnly` heal took off, given back the same way a target's are above.
+            if (executed.selfConditionsGained.length > 0 || executed.selfHealConditionsRemoved.length > 0) {
+                const withoutGained = (hero.conditions ?? []).filter(c => !executed.selfConditionsGained.includes(c));
+                patch.conditions = [...new Set([...withoutGained, ...executed.selfHealConditionsRemoved])];
             }
         }
 

@@ -29,6 +29,27 @@ export enum ExecutableActionType {
    * `consumeMode` for whether all listed elements are consumed or just one.
    */
   elementBonus = 'elementBonus',
+  /**
+   * HP the acting hero loses for playing this half — "suffer 1 damage". Mandatory and
+   * unavoidable: unlike an attack it draws no modifier and is reduced by nothing, since
+   * shield and ward answer an attack, not a cost the card charges its own player.
+   * Always the hero, so it needs no `selfOnly` and never takes a target.
+   */
+  sufferDamage = 'sufferDamage',
+  /**
+   * An optional bonus paid for in HP instead of elements — the `elementBonus` bargain
+   * with a different currency. `value` is the damage the hero suffers to take it, and
+   * it is offered only while they have the HP to spare. Never applied automatically.
+   */
+  sufferDamageBonus = 'sufferDamageBonus',
+  /**
+   * A bonus gated on a printed condition this app has no state for — "if you are the
+   * only hero adjacent to the target", "if an ally is affected by an element" — so
+   * nothing computes whether it applies. The player reads `text` and judges it
+   * themselves; the checkbox means "this is true right now," not "I choose this."
+   * Never applied automatically, same as `elementBonus`/`sufferDamageBonus`.
+   */
+  textBonus = 'textBonus',
   /** Immediate experience for the acting hero. */
   xp = 'xp',
   shield = 'shield',
@@ -36,8 +57,9 @@ export enum ExecutableActionType {
   pierce = 'pierce',
   /**
    * Bypasses the target's shield entirely, beating any amount of pierce alongside it.
-   * A nested `attack` subAction, the same way `condition`/`pierce` are — so it renders
-   * on the card and combines with whatever else that attack does (poison, wound, …).
+   * The subAction spelling, nested under an `attack` the way `condition`/`pierce` are.
+   * Prefer the `ignoreArmor: true` **property** on the attack (see `CardAction`) —
+   * this form stays supported for the cards already authored with it.
    */
   ignoreArmor = 'ignoreArmor',
 }
@@ -100,6 +122,24 @@ export const NON_CREATURE_CONDITIONS: ReadonlySet<ConditionName> = new Set(['ble
 export const BENEFICIAL_CONDITIONS: ReadonlySet<ConditionName> = new Set([
   'strengthen', 'regenerate', 'ward', 'invisible', 'bless',
 ]);
+
+/**
+ * The three action types that are an *offer* rather than an effect: the player may
+ * take one — paying its cost (elements for `elementBonus`, HP for `sufferDamageBonus`)
+ * or judging its printed condition true (`textBonus`) — and only then does anything
+ * under it apply. Every "what does this half do" walk has to skip their subtrees, or a
+ * card grants for free what it means to gate.
+ */
+export const CONDITIONAL_BONUS_TYPES: ReadonlySet<string> = new Set([
+  ExecutableActionType.elementBonus,
+  ExecutableActionType.sufferDamageBonus,
+  ExecutableActionType.textBonus,
+]);
+
+/** Whether an action is an offer whose contents are locked behind taking it. */
+export function isConditionalBonus(action: CardAction): boolean {
+  return CONDITIONAL_BONUS_TYPES.has(String(action.type));
+}
 
 /** A slot on a persistent-ability track, and the XP for advancing into it. */
 export interface CardPersistentSlot {
@@ -173,6 +213,37 @@ export interface CardAction {
    * execution panel, so it never needs a picked target and never lands on one.
    */
   selfOnly?: boolean;
+  /**
+   * `condition` or `attack` only. Marks a picked (not self-inflicted) effect as
+   * landing on an ally/summon instead of an enemy:
+   *
+   * - on a `condition`, a card that curses or wounds a targeted teammate rather than
+   *   the acting hero (that's `selfOnly`) or a foe (the default). `targetsAreHeroes`
+   *   in the execution panel switches the target strip to heroes/summons when every
+   *   non-self condition on the half is either beneficial or flagged this way.
+   * - on an `attack`, a card whose strike is aimed at an ally/summon instead of an
+   *   enemy — e.g. a friendly-fire drawback, or a "deal damage to your summon to
+   *   trigger X" cost. Scoped to that one `attack` action (per-strike for a
+   *   multi-attack half, same as `pierce`/`condition`), so only that strike offers
+   *   allies; another attack on the same half without the flag still targets enemies.
+   *
+   * Still needs a target chosen from the strip either way. Mutually exclusive with
+   * `selfOnly` — the validator rejects both on the same action.
+   */
+  targetAlly?: boolean;
+  /**
+   * `attack` only. This strike bypasses the target's shield entirely — its `armor` and
+   * `roundArmor` both count as 0, which beats any amount of pierce, and it draws no
+   * attack modifier either (see `needsModifier`): this app treats it as direct damage.
+   * Poison's +1 does not apply to it for the same reason.
+   *
+   * The preferred spelling, parallel to `multiTarget` and `targetAlly` — it carries no
+   * value and belongs to exactly one attack, so it reads better as a flag than as a
+   * child action. The older `{ "type": "ignoreArmor" }` subAction means the same thing
+   * and still works; `selectedIgnoreArmor` accepts either, and both scope per-strike in
+   * a multi-attack half.
+   */
+  ignoreArmor?: boolean;
   enhancementTypes?: EnhancementTypeName[];
   /**
    * This action hits more than one target. `true` leaves the count open — "each
@@ -190,7 +261,12 @@ export interface CardAction {
    * `takenBonusAttack` in the execution panel), it never targets on its own.
    */
   multiTarget?: boolean | number;
-  /** Literal English prose. The only place prose lives — never an i18n key. */
+  /**
+   * Literal English prose. The only place prose lives — never an i18n key. On a
+   * `textBonus`, this is the printed condition itself ("if you are the only hero
+   * adjacent to the target") — required there, since it's the only thing telling the
+   * player what they're judging.
+   */
   text?: string;
 
   /**
@@ -294,6 +370,22 @@ export function actionValue(action: CardAction | undefined): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+/**
+ * The printed "Attack X" — a value the card leaves to the player, typed into the
+ * execution panel when the half is resolved rather than fixed in the data.
+ *
+ * Spelled as the literal string `"X"`, matching both the printed card and the way this
+ * schema already writes a variable card `level`. This is the one place that literal is
+ * interpreted: everywhere else keeps reading values through `actionValue`, which
+ * coerces `"X"` to 0 and so stays safe for any code that has not been taught about it.
+ *
+ * An entered 0 is a real attack, not an absent one — it still takes a target, draws a
+ * modifier, provokes retaliate and lands whatever conditions ride on it.
+ */
+export function isManualValue(action: CardAction | undefined): boolean {
+  return typeof action?.value === 'string' && action.value.trim().toUpperCase() === 'X';
+}
+
 /** Depth-first search for the first action of a given type in a half's action tree. */
 export function findAction(actions: CardAction[] | undefined, type: string): CardAction | null {
   for (const action of actions ?? []) {
@@ -329,7 +421,7 @@ export function collectAttacks(actions: CardAction[] | undefined): CardAction[] 
       out.push(action);
       continue;
     }
-    if (action.type === ExecutableActionType.elementBonus) continue;
+    if (isConditionalBonus(action)) continue;
     out.push(...collectAttacks(action.subActions));
   }
   return out;
@@ -341,13 +433,13 @@ export function collectAttacks(actions: CardAction[] | undefined): CardAction[] 
  * - when `currentAttack` is given, every *other* independent attack, so a condition or
  *   pierce nested under one attack of a multi-attack half doesn't leak into another
  *   attack's resolution;
- * - always, an `elementBonus`, because everything under one is an **offer**. Whatever a
- *   bonus grants only applies if the player takes it and pays the element, so it must
- *   never be picked up by a plain "what does this half do" scan — that's how a Disarm
- *   locked behind a Light bonus (snowflake #342) used to land for free. The taken
- *   bonuses are read separately, from `collectElementBonuses` plus the panel's
- *   `takenBonus*` getters. Matches how `collectAttacks` and `sumUnconditionalXp`
- *   already treat them.
+ * - always, a conditional bonus, because everything under one is an **offer**. Whatever
+ *   a bonus grants only applies if the player takes it and pays its cost — elements for
+ *   `elementBonus`, HP for `sufferDamageBonus` — so it must never be picked up by a
+ *   plain "what does this half do" scan; that's how a Disarm locked behind a Light bonus
+ *   (snowflake #342) used to land for free. The taken bonuses are read separately, from
+ *   `collectConditionalBonuses` plus the panel's `takenBonus*` getters. Matches how
+ *   `collectAttacks` and `sumUnconditionalXp` already treat them.
  *
  * Actions nested under neither (a self-buff alongside a single attack, say) always
  * apply.
@@ -360,9 +452,9 @@ export function collectActionsScoped(
   const out: CardAction[] = [];
   for (const action of actions ?? []) {
     if (action.type === type) out.push(action);
-    // The bonus action itself is collected above (that's how collectElementBonuses
+    // The bonus action itself is collected above (that's how collectConditionalBonuses
     // finds them); only what it *grants* is out of reach until it's taken.
-    if (action.type === ExecutableActionType.elementBonus) continue;
+    if (isConditionalBonus(action)) continue;
     if (currentAttack && action.type === ExecutableActionType.attack && action !== currentAttack) continue;
     out.push(...collectActionsScoped(action.subActions, type, currentAttack));
   }
@@ -379,17 +471,29 @@ export function findActionScoped(
 }
 
 /**
- * Every conditional element bonus in a half, in document order. Scoped to
- * `currentAttack` when given, the same way `collectActionsScoped` is — see there.
+ * Every conditional bonus in a half — element-paid and HP-paid alike — in document
+ * order. Scoped to `currentAttack` when given, the same way `collectActionsScoped` is.
  *
- * These are offers, not effects: the panel shows one only when its elements are
- * active, and consumes them only if the player takes it.
+ * These are offers, not effects: the panel shows one only when its cost can be met, and
+ * charges that cost only if the player takes it. Both kinds share one list because they
+ * share one flow: the panel indexes `takenBonuses` into exactly this order.
  */
-export function collectElementBonuses(
+export function collectConditionalBonuses(
   actions: CardAction[] | undefined,
   currentAttack: CardAction | null = null,
 ): CardAction[] {
-  return collectActionsScoped(actions, ExecutableActionType.elementBonus, currentAttack);
+  const out: CardAction[] = [];
+  for (const action of actions ?? []) {
+    if (isConditionalBonus(action)) {
+      // Collected, but not descended into: a bonus nested inside another bonus is not
+      // a thing any card prints, and the inner one would have no cost of its own.
+      out.push(action);
+      continue;
+    }
+    if (currentAttack && action.type === ExecutableActionType.attack && action !== currentAttack) continue;
+    out.push(...collectConditionalBonuses(action.subActions, currentAttack));
+  }
+  return out;
 }
 
 /**
@@ -399,11 +503,35 @@ export function collectElementBonuses(
 export function sumUnconditionalXp(actions: CardAction[] | undefined): number {
   let total = 0;
   for (const action of actions ?? []) {
-    if (action.type === ExecutableActionType.elementBonus) continue;
+    if (isConditionalBonus(action)) continue;
     if (action.type === ExecutableActionType.xp) total += actionValue(action);
     total += sumUnconditionalXp(action.subActions);
   }
   return total;
+}
+
+/**
+ * HP the hero pays to take a bonus: the `value` of a `sufferDamageBonus`, and zero for
+ * an `elementBonus`, which is paid for in elements instead.
+ */
+export function bonusSelfDamage(bonus: CardAction): number {
+  if (bonus.type !== ExecutableActionType.sufferDamageBonus) return 0;
+  return Math.max(actionValue(bonus), 0);
+}
+
+/**
+ * HP the acting hero loses outright for playing this half — every `sufferDamage` on it,
+ * summed. Scoped like every other "what does this half do" walk, so a `sufferDamage`
+ * that only exists inside a bonus is not charged until that bonus is taken.
+ *
+ * **Not the panel's own path.** `selectedSelfDamage` walks the same actions itself,
+ * because a `"value": "X"` cost is worth whatever the player typed into the panel —
+ * state this pure function has no access to. Use it only where that distinction
+ * genuinely does not matter; anything resolving a real half wants the panel's value.
+ */
+export function sumSelfDamage(actions: CardAction[] | undefined): number {
+  return collectActionsScoped(actions, ExecutableActionType.sufferDamage, null)
+    .reduce((total, action) => total + Math.max(actionValue(action), 0), 0);
 }
 
 /** XP granted by taking a specific conditional bonus. */
