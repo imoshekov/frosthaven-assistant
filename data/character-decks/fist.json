@@ -1,0 +1,331 @@
+{
+  "characterClass": "fist",
+  "edition": "fh",
+  "handSize": 8,
+  "cards": [
+    {
+      "cardId": 360,
+      "name": "One with the Mountain",
+      "level": 1,
+      "initiative": 83,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 361,
+      "name": "Cold Boulder",
+      "level": 1,
+      "initiative": 70,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 362,
+      "name": "Frost Eruption",
+      "level": 1,
+      "initiative": 61,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 363,
+      "name": "Fury of the Mountain",
+      "level": 1,
+      "initiative": 23,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 364,
+      "name": "Encased Punch",
+      "level": 1,
+      "initiative": 19,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 365,
+      "name": "Voice from Below",
+      "level": 1,
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 366,
+      "name": "Piercing Pummel",
+      "level": 1,
+      "initiative": 30,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 367,
+      "name": "Ice Blast",
+      "level": 1,
+      "initiative": 32,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 368,
+      "name": "Shard Launch",
+      "level": "X",
+      "initiative": 52,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 369,
+      "name": "Primal Bellow",
+      "level": "X",
+      "initiative": 84,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 370,
+      "name": "Freezing Shell",
+      "level": "X",
+      "initiative": 17,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 371,
+      "name": "Draw of the Bedrock",
+      "level": 2,
+      "initiative": 10,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 372,
+      "name": "Crushing Crystals",
+      "level": 2,
+      "initiative": 67,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 373,
+      "name": "Lacerating Eruption",
+      "level": 3,
+      "initiative": 51,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 374,
+      "name": "Frozen Over",
+      "level": 3,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 375,
+      "name": "The Mountain s Fist",
+      "level": 4,
+      "initiative": 16,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 376,
+      "name": "Packed Solid",
+      "level": 4,
+      "initiative": 55,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 377,
+      "name": "Preserved Fury",
+      "level": 5,
+      "initiative": 49,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 378,
+      "name": "Ice Uppercut",
+      "level": 5,
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 379,
+      "name": "Thick Frost",
+      "level": 6,
+      "initiative": 21,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 380,
+      "name": "Glacier Slam",
+      "level": 6,
+      "initiative": 84,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 381,
+      "name": "Gift of the Mountain",
+      "level": 7,
+      "initiative": 73,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 382,
+      "name": "Seeing Stars",
+      "level": 7,
+      "initiative": 29,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 383,
+      "name": "Shattering Blow",
+      "level": 8,
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 384,
+      "name": "Draw Strength",
+      "level": 8,
+      "initiative": 28,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 385,
+      "name": "Bring Down the Mountain",
+      "level": 9,
+      "initiative": 9,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 386,
+      "name": "Frozen Spike",
+      "level": 9,
+      "initiative": 33,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}

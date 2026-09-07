@@ -1,0 +1,1094 @@
+{
+  "characterClass": "shackles",
+  "edition": "fh",
+  "handSize": 10,
+  "cards": [
+    {
+      "cardId": 301,
+      "name": "Shared Affliction",
+      "level": 1,
+      "initiative": 61,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          { 
+            "type": "element",
+            "elements": ["air"] 
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 302,
+      "name": "Line of Transference",
+      "level": 1,
+      "initiative": 25,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [{ 
+                  "type": "attack", 
+                  "value": 2, 
+                  "valueType": "add",
+                  "small": true 
+                }]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 303,
+      "name": "Transferred Injury",
+      "level": 1,
+      "initiative": 74,
+      "top": {
+        "actions": [
+          { 
+            "type": "heal", 
+            "value": 1,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "heal", 
+                    "value": 1, 
+                    "valueType": "add",
+                    "small": true 
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "heal", 
+                    "value": 1, 
+                    "valueType": "add",
+                    "small": true 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "attack",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 3
+          },
+          { 
+            "type": "condition", 
+            "value": "wound", 
+            "selfOnly": true 
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 304,
+      "name": "The Agony of Others",
+      "level": 1,
+      "initiative": 78,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "attack", 
+                    "value": 1, 
+                    "valueType": "add",
+                    "small": true 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 305,
+      "name": "Unending Torment",
+      "level": 1,
+      "initiative": 29,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 5,
+            "selfOnly": true
+          },
+          { 
+            "type": "condition", 
+            "value": "immobilize", 
+            "selfOnly": true,
+            "subActions": [
+              { 
+                "type": "element", 
+                "elements": ["fire"] 
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 5,
+            "selfOnly": true
+          },
+          { 
+            "type": "condition", 
+            "value": "muddle", 
+            "selfOnly": true,
+            "subActions": [
+              { 
+                "type": "element", 
+                "elements": ["air"] 
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 306,
+      "name": "Blood Ritual",
+      "level": 1,
+      "initiative": 56,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 4         
+          },
+          { 
+            "type": "sufferDamage", 
+            "value": 2 
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 307,
+      "name": "Scarred Effigy",
+      "level": 1,
+      "initiative": 19,
+      "top": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Flesh Fiend",
+              "health": 7,
+              "attack": 1,
+              "movement": 2,
+              "image": "summons/thumbnail/fh-flesh-fiend.png",
+              "notes": [
+                "Ignores retaliate",
+                "You can take dmg instead of the summon taking it"
+              ]
+            }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "retaliate",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 308,
+      "name": "Explosive Wounds",
+      "level": 1,
+      "initiative": 43,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "ignoreArmor": true,
+            "targetAlly": true
+          },
+          {
+            "type": "attack",
+            "value": 2,
+            "ignoreArmor": true,
+            "multiTarget": true,
+            "subActions": [
+              { 
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack", 
+                    "value": 1, 
+                    "valueType": "add",
+                    "small": true 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 309,
+      "name": "Cleansing Fire",
+      "level": 1,
+      "initiative": 64,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "subActions": [
+              { 
+                "type": "condition", 
+                "value": "wound", 
+                "small": true 
+              }
+            ]
+          },
+          { 
+            "type": "attack", 
+            "value": 1, 
+            "multiTarget": true,
+            "ignoreArmor": true
+          },
+          { 
+            "type": "attack", 
+            "value": 1, 
+            "targetAlly": true,
+            "multiTarget": true,
+            "ignoreArmor": true
+          },
+          { 
+            "type": "element",
+            "elements": ["fire"] 
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 1,
+            "selfOnly": true
+          },
+          {
+            "type": "heal",
+            "value": 2,
+            "selfOnly": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 310,
+      "name": "Swift Vengeance",
+      "level": 1,
+      "initiative": 21,
+      "top": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "curse",
+            "multiTarget": true
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air"],
+            "consumeMode": "all",
+            "text": "Move +2",
+            "subActions": [
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 311,
+      "name": "Delayed Malady",
+      "level": "X",
+      "initiative": 90,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 312,
+      "name": "Unstable Effigy",
+      "level": "X",
+      "initiative": 18,
+      "top": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Flesh Bomb",
+              "health": 3,
+              "attack": 2,
+              "movement": 3,
+              "abilities": [
+                {
+                  "type": "attack",
+                  "value": 2
+                },
+                {
+                  "type": "element",
+                  "elements": ["fire"]
+                }
+              ],
+              "image": "summons/thumbnail/fh-flesh-bomb.png",
+              "notes": [
+                "On death: performs attack on all enemies within range 2, infuses fire."
+              ]
+            }
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "immobilize",
+            "multiTarget": true
+          },
+          {
+            "type": "condition",
+            "value": "immobilize",
+            "selfOnly": true
+          },
+          {
+            "type": "element",
+            "elements": ["air"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 313,
+      "name": "Pleasure in Pain",
+      "level": "X",
+      "initiative": 47,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 3
+          },
+          {
+            "type": "heal",
+            "value": 3,
+            "selfOnly": true
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "poison",
+            "selfOnly": true
+          },
+          {
+            "type": "condition",
+            "value": "poison",
+            "targetAlly": true
+          },
+          { 
+            "type": "attack", 
+            "value": 1, 
+            "multiTarget": true,
+            "ignoreArmor": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 314,
+      "name": "Reversal of Fate",
+      "level": 2,
+      "initiative": 23,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 5,
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "bless",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "attack",
+            "value": 5,
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "curse",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 315,
+      "name": "Infection Purge",
+      "level": 2,
+      "initiative": 45,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1, 
+            "ignoreArmor": true,
+            "multiTarget": 2 
+          },
+          {
+            "type": "attack",
+            "value": 1, 
+            "ignoreArmor": true,
+            "selfOnly": true 
+          },
+          { 
+            "type": "element",
+            "elements": ["fire"] 
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 316,
+      "name": "Burned at Both Ends",
+      "level": 3,
+      "initiative": 30,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 4, 
+            "ignoreArmor": true,
+            "selfOnly": true 
+          },
+          {
+            "type": "attack",
+            "value": 4, 
+            "ignoreArmor": true,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "attack", 
+                    "value": 2, 
+                    "valueType": "add", 
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                   }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "disarm"
+          },
+          {
+            "type": "condition",
+            "value": "disarm",
+            "selfOnly": true
+          },
+          {
+            "type": "element",
+            "elements": ["fire"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 317,
+      "name": "Reprisal",
+      "level": 3,
+      "initiative": 70,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 2,
+            "selfOnly": true
+          },
+          {
+            "type": "retaliate",
+            "value": 3,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "retaliate", 
+                    "value": 1, 
+                    "valueType": "add", 
+                    "small": true 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 318,
+      "name": "Mirrored Misery",
+      "level": 4,
+      "initiative": 72,
+      "top": {
+        "actions": [{
+          "type": "attack",
+          "value": "X",
+          "ignoreArmor": true
+        }]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "element",
+            "elements": ["air"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 319,
+      "name": "Down to the Dirt",
+      "level": 4,
+      "initiative": 39,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "subActions": [
+              {
+                "type": "textBonus",
+                "text": "if your current hit point value is less than half (rounded up) your maximum hit point value",
+                "subActions": [
+                  {
+                    "type": "attack", 
+                    "value": 3, 
+                    "valueType": "add",
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "X",
+            "selfOnly": true,
+            "subActions": [
+              { 
+                "type": "text", 
+                "text": "X = number of negative conditions you have.", 
+                "small": true 
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 320,
+      "name": "Chained by Spite",
+      "level": 5,
+      "initiative": 15,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "retaliate",
+            "value": 2
+          },
+          {
+            "type": "element",
+            "elements": ["fire"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 321,
+      "name": "Chained by Despair",
+      "level": 5,
+      "initiative": 15,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "element",
+            "elements": ["air"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 322,
+      "name": "Hopelessness",
+      "level": 6,
+      "initiative": 83,
+      "top": {
+        "actions": [
+          { 
+            "type": "condition", 
+            "value": "bane", 
+            "selfOnly": true 
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          { 
+            "type": "sufferDamage", 
+            "value": 4 
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 323,
+      "name": "Phantom Limb",
+      "level": 6,
+      "initiative": 75,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "subActions": [
+              {
+                "type": "textBonus",
+                "text": "if you have disarm",
+                "subActions": [
+                  { 
+                    "type": "attack",
+                    "value": 2, 
+                    "valueType": "add", 
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 3,
+            "multiTarget": true
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 324,
+      "name": "Reject the Gift",
+      "level": 7,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 325,
+      "name": "Penance",
+      "level": 7,
+      "initiative": 12,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "ignoreArmor": true,
+            "multiTarget": true,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "attack", 
+                    "value": 1, 
+                    "valueType": "add", 
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "sufferDamage",
+            "value": "X",
+            "subActions": [
+              { 
+                "type": "text", 
+                "text": "X = number of enemies that suffered damage with this action.", "small": true 
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "retaliate",
+            "value": 3,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "text", 
+                    "text": "add 1 range",
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 326,
+      "name": "Wave of Anguish",
+      "level": 8,
+      "initiative": 68,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 4,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "attack", 
+                    "value": 2, 
+                    "valueType": "add", 
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "wound",
+            "selfOnly": true
+          },
+          {
+            "type": "element",
+            "elements": ["fire"]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 327,
+      "name": "Wracked with Pain",
+      "level": 8,
+      "initiative": 22,
+      "top": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "wound"
+          },
+          {
+            "type": "condition",
+            "value": "stun"
+          },
+          {
+            "type": "textBonus",
+            "text": "if your current hit point value is less than half (rounded up) your maximum hit point value",
+            "subActions": [
+              {
+                "type": "condition", 
+                "value": "brittle"
+              },
+              { 
+                "type": "xp", 
+                "value": 1 
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 5,
+            "selfOnly": true,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["fire"],
+                "consumeMode": "all",
+                "subActions": [
+                  { 
+                    "type": "heal", 
+                    "value": 2, 
+                    "valueType": "add", 
+                    "small": true 
+                  },
+                  { 
+                    "type": "xp", 
+                    "value": 1 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 328,
+      "name": "Redemption",
+      "level": 9,
+      "initiative": 33,
+      "top": {
+        "actions": [
+          { 
+            "type": "xp", 
+            "value": 2 
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 329,
+      "name": "The End of Everything",
+      "level": 9,
+      "initiative": 99,
+      "top": {
+        "actions": [
+          {
+            "type": "xp", 
+            "value": 2 
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,562 @@
+{
+  "characterClass": "trap",
+  "edition": "fh",
+  "handSize": 9,
+  "cards": [
+    {
+      "cardId": 273,
+      "name": "Caltrops",
+      "level": 1,
+      "initiative": 25,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 274,
+      "name": "Furry facade",
+      "level": 1,
+      "initiative": 85,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Shaggy Lure",
+              "health": 2,
+              "image": "summons/thumbnail/fh-shaggy-lure.png",
+              "notes": [
+                "Perform: Pull 2 (Range 2), at the end of its turn."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 275,
+      "name": "Boar Catcher",
+      "level": 1,
+      "initiative": 20,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 276,
+      "name": "Spike Pit",
+      "level": 1,
+      "initiative": 47,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 277,
+      "name": "Electrified net",
+      "level": 1,
+      "initiative": 53,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 278,
+      "name": "Honeypot",
+      "level": 1,
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 279,
+      "name": "Enticing Bait",
+      "level": 1,
+      "initiative": 30,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "condition",
+            "value": "muddle",
+            "multiTarget": true
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 280,
+      "name": "Exploding Decoy",
+      "level": 1,
+      "initiative": 62,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 281,
+      "name": "Flurry of Nails",
+      "level": 1,
+      "initiative": 68,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 282,
+      "name": "Dismantle",
+      "level": "X",
+      "initiative": 72,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "X"
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 283,
+      "name": "Spring Loaded",
+      "level": "X",
+      "initiative": 15,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 284,
+      "name": "Improvised Improvement",
+      "level": "X",
+      "initiative": 58,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 285,
+      "name": "Unavoidable Outcome",
+      "level": 2,
+      "initiative": 45,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 286,
+      "name": "Path of Pain",
+      "level": 2,
+      "initiative": 38,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 287,
+      "name": "Extra Teeth",
+      "level": 3,
+      "initiative": 22,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 288,
+      "name": "Pyrotechnics",
+      "level": 3,
+      "initiative": 80,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 289,
+      "name": "Dangerous Ground",
+      "level": 4,
+      "initiative": 31,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          },
+          {
+            "type": "attack",
+            "value": "X",
+            "subActions": [
+              { "type": "ignoreArmor" }]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 290,
+      "name": "Stalker's Spoils",
+      "level": 4,
+      "initiative": 10,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+           { 
+            "type": "heal", 
+            "value": 2, 
+            "selfOnly": true 
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 291,
+      "name": "Lure of the Snare",
+      "level": 5,
+      "initiative": 59,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "X",
+            "subActions": [
+              { "type": "ignoreArmor" }]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 292,
+      "name": "Proficient Hunter",
+      "level": 5,
+      "initiative": 26,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 293,
+      "name": "Persistent Pitfalls",
+      "level": 6,
+      "initiative": 13,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 294,
+      "name": "Cage of Thorns",
+      "level": 6,
+      "initiative": 55,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 295,
+      "name": "Grasping Hazards",
+      "level": 7,
+      "initiative": 8,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 296,
+      "name": "Foxhole",
+      "level": 7,
+      "initiative": 90,
+      "top": {
+        "actions": [
+          { 
+            "type": "attack", 
+            "value": "X", 
+            "multiTarget": 2 
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Defense Grid",
+              "health": 8,
+              "attack": 2,
+              "range": 3,
+              "image": "summons/thumbnail/fh-defense-grid.png",
+              "notes": [
+                "Create one 2dmg trap in an adjacent empty hex at end of turn."
+              ]
+            }
+          },
+          { 
+            "type": "xp", 
+            "value": 2 
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 297,
+      "name": "Spike Strip",
+      "level": 8,
+      "initiative": 67,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 298,
+      "name": "Magnetic Shards",
+      "level": 8,
+      "initiative": 37,
+      "top": {
+        "actions": [
+          { 
+            "type": "attack", 
+            "value": 2, 
+            "multiTarget": 3 
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 299,
+      "name": "Dangerous Cargo",
+      "level": 9,
+      "initiative": 23,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 300,
+      "name": "Mother of All Traps",
+      "level": 9,
+      "initiative": 86,
+      "top": {
+        "actions": [
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "X",
+            "multiTarget": true
+          }
+        ]
+      }
+    }
+  ]
+}
