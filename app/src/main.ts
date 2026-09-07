@@ -9,7 +9,7 @@ import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './app/app.routes';
 
 
-
+// temp comment for build
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
