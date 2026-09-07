@@ -58,7 +58,12 @@ export class AttackModalComponent {
     private damageService: DamageService
   ) {
     this.creature = appContext.selectedCreature;
-    this.selectedCharacterId = this.getDefaultSelectedCharacterId();
+    // Attacking an enemy is credited to whichever hero actually swung — a guess is
+    // as likely to be wrong as right, so the DM picks explicitly rather than the
+    // modal silently crediting "whoever this device is set to." Any other open (a
+    // monster's attack landing on a hero/summon, say) still defaults, since nothing
+    // there depends on picking the *attacker* right.
+    this.selectedCharacterId = this.creature?.aggressive ? null : this.getDefaultSelectedCharacterId();
 
     // The card execution panel's "Custom" button hands over the card's values.
     const prefill = appContext.attackModalPrefill;

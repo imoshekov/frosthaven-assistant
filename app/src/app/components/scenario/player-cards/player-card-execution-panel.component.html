@@ -249,6 +249,20 @@
         </span>
       </div>
 
+      <!-- "Infuse ICE or AIR": which one is the player's choice, not a default. One row
+           per element action printing consumeMode: 'any' — most halves have none. -->
+      <div class="infuse-choice" *ngFor="let row of chooseOneElementRows; trackBy: trackElementRow"
+           [class.unresolved]="!chosenInfuseElement(row.index)">
+        <span class="choice-label">Infuse:</span>
+        <button type="button"
+                *ngFor="let el of infuseChoicesFor(row.action)"
+                class="choice-btn"
+                [class.active]="chosenInfuseElement(row.index) === el"
+                (click)="chooseInfuseElement(row.index, el)">
+          <span class="icon" [ngClass]="'elem-' + el"></span>
+        </button>
+      </div>
+
       <!-- Summons are brought into play by Execute; they act on this hero's
            initiative, immediately before them. -->
       <div class="summon-preview" *ngIf="selectedSummons.length">

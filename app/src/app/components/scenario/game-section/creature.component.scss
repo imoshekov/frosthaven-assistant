@@ -1,9 +1,26 @@
+// The card fills the height its group's tile gives it, so its own background covers
+// the whole tile. Without this it sizes to its content and whatever is left over —
+// the height a taller neighbouring group forces on the row — shows the page through
+// as a black band under the card. Most visible on a summon, which is a row shorter
+// than a monster (no Attack button under it).
+:host {
+    display: block;
+    height: 100%;
+}
+
+:host > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .container {
     display: flex;
     justify-content: flex-start;
     background: var(--nonelite-color);
     flex-direction: column;
     width: 100%;
+    flex: 1;
 
     &.elite {
         background: var(--elite-color);
@@ -23,7 +40,18 @@
         border-radius: 0px 30px 30px 0;
         line-height: 20px;
         font-size: 20px;
-        height: 25px;
+        // Fills the full standee row height rather than centering at a fixed 25px,
+        // which left a sliver of the row's own background showing above and below
+        // the pill — barely visible against a monster's grey row, but obvious
+        // against a summon's coloured one.
+        align-self: stretch;
+        height: 100%;
+        box-sizing: border-box;
+        // Explicit rather than auto: switching to border-box changes how the browser
+        // sizes a bare <input> with no width set, and shrank it enough that the global
+        // 15px horizontal padding (input, label { padding: 10px 15px } in styles.scss)
+        // left no room to actually draw the digit.
+        width: 60px;
     }
 }
 
@@ -33,10 +61,20 @@
     gap: 4px;
     font-size: 1rem;
     width: 100%;
+    // Fills `.container`'s full height (rather than sizing to just the name row) so
+    // `.trait-filler` below has the room to actually take up whatever's left over.
+    flex: 1;
 
     .trait {
         text-align: center;
         user-select: none;
+    }
+
+    // Stands in for the trait rows once they're hidden (initiative revealed), growing
+    // to fill the rest of the column instead of leaving `.container`'s own background
+    // showing through as a gap.
+    .trait-filler {
+        flex: 1;
     }
 
     // The name is the only trait that can ever be interactive — it opens the card
@@ -60,6 +98,12 @@
         &.clickable {
             height: 42px;
             cursor: pointer;
+            // The divider a monster's own Attack button draws above itself
+            // (button.open-modal) — here instead of at the top of the tile, since the
+            // .trait-filler above should read as a continuation of the header's colour,
+            // not be cut off by a line right under it.
+            border-top: 1px solid var(--font-color);
+            margin-top: -4px;
 
             &:hover {
                 background: rgba(255, 255, 255, 0.08);
@@ -67,15 +111,6 @@
         }
     }
 
-    // Every class prints exactly 3 traits, so a clickable name is always followed by
-    // 3 sibling .trait rows. Measured baseline (non-clickable): each row is ~22.4px
-    // tall (1rem / 1.4 line-height, no padding), for a 4-row total of ~101.6px.
-    // Compress the 3 trait rows so the column's total height stays the same once the
-    // name grows to 42px: (101.6 - 42 - 3*4 gap) / 3 rows ≈ 15.85px per row, which at
-    // the same 1rem font-size means a line-height of ~0.99.
-    .name-trait.clickable ~ .trait {
-        line-height: 0.99;
-    }
 }
 
 input {
@@ -91,27 +126,16 @@ input {
     gap: 0.5rem;
 }
 
-// A summon token prints far less than a monster's full stat line, so its standee
-// row (standee number, HP, conditions) reads better compact.
-.container.summon {
-    .creature-standee {
-        height: 42px;
-    }
+// A summon's standee row is a monster's, at the same sizes: same row height, same HP
+// number, same condition icons. It is a figure on the board like any other, so it is
+// read at the same distance — nothing here is compacted.
 
-    .header {
-        .stat-input {
-            font-size: 15px;
-        }
-
-        app-conditions {
-            height: 42px;
-
-            ::ng-deep .container .conditions .condition-element {
-                width: 22px;
-                height: 22px;
-            }
-        }
-    }
+// A summon has no Attack button to fill the bottom of a taller row (see :host above),
+// so without this its standee/HP row sits at the top, leaving the leftover space below
+// it instead of where a monster's Attack button would be. Pushed to the bottom instead.
+.container.summon .creature-standee {
+    margin-top: auto;
+    border-top: 1px solid var(--font-color);
 }
 
 .header {
@@ -172,30 +196,6 @@ input {
     }
 }
 
-
-.summon-notes {
-    font-size: 0.7rem;
-    font-style: italic;
-    text-align: center;
-    opacity: 0.85;
-    padding: 0 0.5rem 0.4rem;
-    cursor: default;
-    line-height: 1.1;
-
-    // Bounded to ~2 lines total so several notes together can't stretch the row's
-    // height to match this card; the title attribute on the host element carries
-    // the full text on hover. Each note is its own line (div), so this is a
-    // max-height/overflow clamp rather than -webkit-line-clamp, which does not
-    // clamp reliably across separate block children.
-    max-height: 2.2em;
-    overflow: hidden;
-
-    div {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-}
 
 button.open-modal {
     height: 42px;

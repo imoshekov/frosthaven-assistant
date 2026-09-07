@@ -27,11 +27,26 @@ export class CreatureComponent {
   }
 
   /**
-   * Summons render like monsters: standee number, editable HP, conditions and a
-   * damage button. They are friendly, but they are figures on the board, not players.
+   * Summons render like monsters: standee number, editable HP and conditions. They
+   * are friendly, but they are figures on the board, not players.
    */
   get isMonsterLike(): boolean {
     return !!this.creature.aggressive || !!this.creature.isSummon;
+  }
+
+  /**
+   * A summon's row carries the same colour its group plate does — its owner's class
+   * colour, or the generic friendly colour if the owner can't be found. Without this
+   * the row falls back to the plain `friendly` background and reads as a black band
+   * hanging under a coloured plate. Mirrors `getSummonBackground` in the group header,
+   * which colours the plate itself.
+   */
+  get summonBackground(): string | null {
+    if (!this.creature.isSummon) return null;
+    const owner = this.creature.summonOwnerId
+      ? this.appContext.getCreatures().find(c => c.id === this.creature.summonOwnerId)
+      : null;
+    return owner ? `var(--${owner.type}-color)` : 'var(--friendly-color)';
   }
 
   /**

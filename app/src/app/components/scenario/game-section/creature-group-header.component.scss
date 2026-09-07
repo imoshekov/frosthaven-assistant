@@ -14,14 +14,9 @@
 
    // A hero whose turn is done keeps its place in initiative order but loses visual
    // weight. Inputs stay clickable: the DM must still be able to fix HP or XP after
-   // a turn has been marked complete.
+   // a turn has been marked complete. Dimmed only — no strikethrough on any of it.
    &.turn-completed {
      opacity: 0.45;
-
-     .name,
-     .stat-value {
-       text-decoration: line-through;
-     }
    }
 
    &.non-elite {
@@ -33,30 +28,20 @@
    }
 
    // A summon reads as one of the party's own (friendly colouring) but keeps the
-   // monster-style stat block, so a dashed border tells the two apart. Declared after
-   // .non-elite, which the ngClass also applies, so this background wins.
+   // monster-style stat block. Sizes are deliberately *not* overridden here: the
+   // portrait and the attack/move icons are the same size a monster's and a hero's
+   // are, so the three read as one board. Declared after .non-elite, which the
+   // ngClass also applies, so this background wins.
    &.summon {
      background: var(--friendly-color);
-     border: 2px dashed var(--secondary-color);
      box-sizing: border-box;
-     min-height: 100px;
      padding-bottom: 6px;
+     width: 100%;
 
      .summon-name {
-       font-size: 1rem;
+       font-size: 1.4rem;
        text-transform: capitalize;
        text-align: center;
-     }
-
-     img.profile {
-       width: 50px;
-       height: 50px;
-     }
-
-     .group-stats .icon.attack,
-     .group-stats .icon.move {
-       width: 24px;
-       height: 24px;
      }
    }
 

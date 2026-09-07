@@ -122,6 +122,38 @@ describe('CardActionComponent', () => {
     });
   });
 
+  describe('selfOnly condition', () => {
+    it('badges a condition flagged selfOnly', () => {
+      const el = render([{ type: 'condition', value: 'strengthen', selfOnly: true }]);
+      const icon = el.querySelector('.icon.strengthen')!;
+      expect(icon.classList.contains('self-only')).toBe(true);
+      expect(icon.getAttribute('title')).toBe('Targets self only');
+    });
+
+    it('does not badge an ordinary (target-facing) condition', () => {
+      const el = render([{ type: 'condition', value: 'poison' }]);
+      const icon = el.querySelector('.icon.poison')!;
+      expect(icon.classList.contains('self-only')).toBe(false);
+      expect(icon.getAttribute('title')).toBeFalsy();
+    });
+  });
+
+  describe('element consumeMode "any"', () => {
+    it('prints "or" between an infuse action\'s icons', () => {
+      const el = render([{ type: 'element', elements: ['ice', 'air'], consumeMode: 'any' }]);
+
+      expect(el.querySelector('.icon.elem-ice')).toBeTruthy();
+      expect(el.querySelector('.icon.elem-air')).toBeTruthy();
+      expect(el.textContent!.toLowerCase()).toContain('or');
+    });
+
+    it('prints no separator for an ordinary infuse-everything action', () => {
+      const el = render([{ type: 'element', elements: ['ice', 'air'] }]);
+
+      expect(el.querySelector('.or-label')).toBeNull();
+    });
+  });
+
   describe('self-damage', () => {
     it('renders a mandatory cost with the damage icon and its value', () => {
       const el = render([{ type: 'sufferDamage', value: 2 }]);

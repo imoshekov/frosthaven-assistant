@@ -159,6 +159,104 @@ describe('PlayerCardExecutionPanelComponent selfOnly heal/condition', () => {
   });
 });
 
+/**
+ * shackles "Cleansing Fire" bottom: "Heal 1. Heal 2." — two separate selfOnly `heal`
+ * actions on the same half, both landing on the acting hero. Regression coverage for
+ * a bug where only the first one was ever read, so the hero was healed 1 instead of 3.
+ */
+describe('PlayerCardExecutionPanelComponent multiple selfOnly heals on one half', () => {
+  let panel: PlayerCardExecutionPanelComponent;
+  let creatures: Creature[];
+  let elements: Element[];
+
+  const cleansingFire: CharacterAbilityCard = {
+    cardId: 319, name: 'Cleansing Fire', level: 1, initiative: 64,
+    top: { actions: [] },
+    bottom: {
+      actions: [
+        { type: 'heal', value: 1, selfOnly: true },
+        { type: 'heal', value: 2, selfOnly: true },
+      ],
+    },
+  };
+
+  const deck: CharacterDeck = {
+    characterClass: 'shackles', edition: 'fh',
+    cards: [cleansingFire],
+  };
+
+  beforeEach(() => {
+    elements = (Object.values(ElementType) as ElementType[]).map(type => ({ type, state: 0 as any }));
+    creatures = [
+      {
+        id: 'hero', type: 'shackles', aggressive: false, level: 1,
+        initiative: 64, secondaryInitiative: 0, cardAId: 319, cardBId: null,
+        hp: 4, maxHp: 10, totalXp: 0, sessionExperience: 0, conditions: [],
+      },
+    ];
+
+    const appContextStub: Partial<AppContext> = {
+      cardPanelCreatureId: 'hero',
+      creatures$: new Subject<Creature[]>().asObservable(),
+      customAttackResult$: new Subject<CustomAttackResult>().asObservable(),
+      getCreatures: () => creatures,
+      getElements: () => elements,
+      setElementState: () => { },
+      applyCreaturePatches: (patches) => {
+        for (const { creatureId, patch } of patches) {
+          const creature = creatures.find(c => c.id === creatureId);
+          if (creature) Object.assign(creature, patch);
+        }
+      },
+      buildAddConditionsPatch: () => ({}),
+      buildRemoveConditionsPatch: () => ({}),
+      autoBindHeroCards: () => Promise.resolve(),
+      recordDamage: () => { },
+      recordKill: () => { },
+      killCreature: () => { },
+      recordHalfExecution: () => { },
+    };
+
+    const deckServiceStub: Partial<CharacterDeckService> = {
+      loadDeck: () => Promise.resolve(deck),
+      getLoadedDeck: () => deck,
+      resolve: () => [],
+      cardById: (id) => deck.cards.find(c => c.cardId === id) ?? null,
+      hasPackedInitiatives: () => false,
+    };
+
+    TestBed.configureTestingModule({
+      imports: [PlayerCardExecutionPanelComponent],
+      providers: [
+        { provide: AppContext, useValue: appContextStub },
+        { provide: CharacterDeckService, useValue: deckServiceStub },
+        { provide: LogService, useValue: { appendDamageToLastBatch: () => { }, appendKillToLastBatch: () => { } } },
+      ],
+    });
+
+    panel = TestBed.createComponent(PlayerCardExecutionPanelComponent).componentInstance;
+    panel.selectTile({ source: 'A', half: 'bottom', card: cleansingFire, content: cleansingFire.bottom, label: 'Cleansing Fire' });
+  });
+
+  it('sums both selfOnly heals rather than reading just the first', () => {
+    expect(panel.selectedSelfHealValue).toBe(3);
+    expect(panel.healDisplayValue).toBe(3);
+  });
+
+  it('heals the hero for the combined total on execute', () => {
+    panel.execute();
+    expect(creatures.find(c => c.id === 'hero')!.hp).toBe(7); // 4 + 1 + 2
+  });
+
+  it('the +/- row adjusts the combined total, floored at 0', () => {
+    panel.adjustHeal(1);
+    expect(panel.selectedSelfHealValue).toBe(4);
+
+    panel.adjustHeal(-10); // would go well negative, floored at 0
+    expect(panel.selectedSelfHealValue).toBe(0);
+  });
+});
+
 /** A target-facing heal, adjusted the same way an attack's value is. */
 describe('PlayerCardExecutionPanelComponent heal +/- adjustment (target-facing)', () => {
   let panel: PlayerCardExecutionPanelComponent;

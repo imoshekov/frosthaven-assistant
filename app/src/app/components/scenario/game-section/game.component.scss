@@ -11,10 +11,6 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    // A group's natural width scales with how many figures it holds (one HP bar per
-    // figure), so cap it to that instead of letting flex-grow stretch a lone leftover
-    // figure — e.g. the last one wrapped alone onto its own row — to the full row width.
-    max-width: calc(var(--creature-count, 1) * 300px);
     &.friendly {
       flex-basis:0%;
     }
@@ -44,6 +40,20 @@
         border-right: 1px solid;
         border-color: var(--font-color);
       }
+    }
+  }
+
+  // A hero's own class colour should flow straight out of its group header rather
+  // than being cut off by the usual gap (and the tile's own top border) above the
+  // (also class-coloured) traits area — see CreatureComponent's `.trait-filler`. The
+  // divider those used to provide moves down to sit above the name instead, matching
+  // a monster's border above its Attack button. The group's own outer border already
+  // frames the header+list as one box, so losing this internal one costs nothing.
+  .creature-group.friendly .creature-container {
+    gap: 0;
+
+    .creature-list .creature {
+      border-top: none;
     }
   }
 

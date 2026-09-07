@@ -314,8 +314,18 @@ function main() {
               err(`${where} ${halfName}: elementBonus grants nothing (no subActions)`);
             }
           }
+          // `element` never *consumes* — `elementBonus` is the type for that — but
+          // `consumeMode: 'any'` on an `element` naming several is a real, separate
+          // thing: "infuse ICE or AIR" the player's choice, not "infuse both". 'all'
+          // (the default, so it need not be written) infuses every one named, same
+          // as always. A single-element `element` has nothing to choose between, so
+          // 'any' there is a typo, not a card.
           if (a.type === 'element' && a.consumeMode !== undefined) {
-            err(`${where} ${halfName}: 'element' infuses; use 'elementBonus' to consume`);
+            if (a.consumeMode !== 'all' && a.consumeMode !== 'any') {
+              err(`${where} ${halfName}: element's consumeMode must be 'all' or 'any'`);
+            } else if (a.consumeMode === 'any' && (!Array.isArray(a.elements) || a.elements.length < 2)) {
+              err(`${where} ${halfName}: element needs 2+ elements for consumeMode 'any' — nothing to choose between otherwise`);
+            }
           }
 
           // A textBonus is gated on a condition nothing in this app can compute, so

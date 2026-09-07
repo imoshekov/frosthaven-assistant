@@ -3,7 +3,7 @@
        creature.boss ? 'boss' : (creature.isElite ? 'elite' : 'non-elite'),
        creature.aggressive ? '' : 'friendly',
        creature.isSummon ? 'summon' : ''
-     ]" class="container">
+     ]" class="container" [style.background]="summonBackground">
         <!-- Summons take the monster row: a standee number, editable HP and
              conditions. They are real figures that take damage and can be healed. -->
         <div class="creature-standee stat" *ngIf="isMonsterLike; else traitsBlock">
@@ -24,27 +24,42 @@
         </div>
         <ng-template #traitsBlock>
             <div class="creature-traits">
-                <div class="trait name-trait" [class.clickable]="bothCardsSet()" (click)="openCardPanel()"
-                    [title]="bothCardsSet() ? 'Play card actions' : ''">
-                    <div class="icon attack" *ngIf="bothCardsSet()"></div>
-                    {{ creature.name }}
-                </div>
-                <div *ngFor="let trait of creature.traits" class="trait"
-                    [style.background]="'var(--' + creature.type + '-color)'">
-                    {{ trait }}
-                </div>
+                <ng-container *ngIf="!bothCardsSet(); else traitsHidden">
+                    <div class="trait name-trait" (click)="openCardPanel()">
+                        {{ creature.name }}
+                    </div>
+                    <!-- Traits are a pre-turn reminder (build notes, personal quest,
+                         etc.), listed under the name while the player is still picking
+                         their turn. -->
+                    <div *ngFor="let trait of creature.traits" class="trait"
+                        [style.background]="'var(--' + creature.type + '-color)'">
+                        {{ trait }}
+                    </div>
+                </ng-container>
+                <!-- Once the hero's initiative is revealed and actually set, their turn
+                     is underway: the traits give way to a plain colour extending the
+                     header, the same way a monster's own class-coloured row fills
+                     whatever height the group forces, and the name drops to the bottom
+                     — where a monster's Attack button sits — as the one clickable
+                     action left (opens the card execution panel). -->
+                <ng-template #traitsHidden>
+                    <div class="trait-filler" [style.background]="'var(--' + creature.type + '-color)'"></div>
+                    <div class="trait name-trait clickable" (click)="openCardPanel()" title="Play card actions">
+                        <div class="icon attack"></div>
+                        {{ creature.name }}
+                    </div>
+                </ng-template>
             </div>
         </ng-template>
 
     </div>
-    <!-- Literal prose printed on the token, e.g. a perform effect no stat field covers.
-         Clamped in the scss so a long note can't stretch the whole row's height; the
-         title attribute carries the full text for a hover tooltip. -->
-    <div class="summon-notes" *ngIf="creature.isSummon && creature.summonNotes?.length"
-        [title]="creature.summonNotes.join(' ')">
-        <div *ngFor="let note of creature.summonNotes">{{ note }}</div>
-    </div>
-    <button *ngIf="isMonsterLike" class="open-modal button attack" (click)="openConditionModal()">
+    <!-- A summon's printed prose stays in the card data but is not drawn on its row —
+         reference text the player reads off the card, not board state. -->
+
+    <!-- Only an enemy gets an Attack button. A summon is damaged the same way — its
+         HP field, right above — but there's nothing to attack it "for": it just
+         doesn't carry a button that reads as "attack this friendly figure". -->
+    <button *ngIf="creature.aggressive" class="open-modal button attack" (click)="openConditionModal()">
         <div class="icon attack"></div>Attack
     </button>
 </div>

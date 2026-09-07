@@ -93,6 +93,15 @@ export class CardActionComponent {
     return (action.elements ?? []).map(el => `elem-${el}`);
   }
 
+  /**
+   * Whether an `element` action prints "or" between its icons rather than "and" —
+   * `consumeMode: 'any'` infuses only whichever one the player picks, so the tile
+   * reads that choice the same way `elementBonus`'s "consume one of" already does.
+   */
+  isChooseOneElement(action: CardAction): boolean {
+    return action.type === 'element' && action.consumeMode === 'any';
+  }
+
   /** "consume ICE" vs "consume ICE or AIR", or "suffer" for the HP-paid bonus. */
   consumeLabel(action: CardAction): string {
     if (this.isSelfDamageBonus(action)) return 'suffer';
@@ -142,6 +151,15 @@ export class CardActionComponent {
    */
   hasIgnoreArmorFlag(action: CardAction): boolean {
     return !!action.ignoreArmor;
+  }
+
+  /**
+   * A `condition` flagged `selfOnly` — Strengthen, self-Muddle, etc. — always lands
+   * on the acting hero, never a picked target, so the tile marks its icon rather than
+   * leaving that distinction to the execution panel alone.
+   */
+  isSelfOnlyCondition(action: CardAction): boolean {
+    return action.type === 'condition' && !!action.selfOnly;
   }
 
   iconClassFor(action: CardAction): string | null {

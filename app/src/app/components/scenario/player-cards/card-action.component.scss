@@ -5,6 +5,18 @@
   gap: 0.25rem 0.4rem;
 }
 
+// icons.scss bakes the attack icon's colours (white blade, black hilt) for use
+// against dark card tiles and the monster/summon Attack button — both dark
+// backgrounds. This component is the one place it's read off a light, cream card
+// face, where the white blade all but disappears. Scoped to this component only
+// (Angular's view encapsulation keeps it off `.icon.attack` everywhere else,
+// recursive `app-card-action` instances included, since they share this same
+// component) — forced fully dark rather than recolouring toward the icon's own
+// mixed palette.
+.icon.attack {
+  filter: brightness(0);
+}
+
 .action {
   display: inline-flex;
   align-items: center;
@@ -30,6 +42,40 @@
     border: 1px solid currentColor;
     border-radius: 0.2rem;
     padding: 0 0.25rem;
+  }
+
+  // Between an `element` action's icons, only for `consumeMode: 'any'` — "infuse
+  // ICE or AIR." Plain multi-element infusing (the default) shows no separator.
+  .or-label {
+    font-size: 0.75rem;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  // A `condition` flagged `selfOnly` lands on the acting hero, not a picked target —
+  // easy to miss next to an ordinary (enemy- or ally-facing) condition icon that
+  // otherwise looks identical, so it gets its own small badge rather than relying on
+  // the title tooltip alone.
+  .icon.self-only {
+    position: relative;
+
+    &::after {
+      content: 'self';
+      position: absolute;
+      left: 50%;
+      bottom: -0.3rem;
+      transform: translateX(-50%);
+      font-size: 0.45rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(40, 40, 40, 0.85);
+      border-radius: 0.15rem;
+      padding: 0.05rem 0.15rem;
+      white-space: nowrap;
+    }
   }
 
   // The FH convention for a modifier riding on its parent action.

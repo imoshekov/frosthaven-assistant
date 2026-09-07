@@ -451,6 +451,45 @@
   }
 }
 
+// An `element` action printing `consumeMode: 'any'` ("infuse ICE or AIR") — same
+// look as the bonus row's own element-choice strip, but this one is never optional:
+// it's an effect the half always has, just short one decision.
+.infuse-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+
+  .choice-label {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .choice-btn {
+    padding: 0.1rem 0.25rem;
+    border-radius: 0.2rem;
+    border: 1px solid var(--content-box-shadow-1);
+    background: var(--secondary-color);
+    cursor: pointer;
+
+    .icon { width: 1.2rem; height: 1.2rem; }
+
+    &.active {
+      border-color: var(--primary-color);
+      border-width: 2px;
+      background: rgba(191, 77, 55, 0.2);
+    }
+  }
+
+  // Nothing has been picked yet, and Execute is refused until it is — the same
+  // "still needs input" signal the target strip's own unmet state would give.
+  &.unresolved .choice-label {
+    color: var(--primary-color);
+    font-weight: 700;
+    opacity: 1;
+  }
+}
+
 .targets {
   display: flex;
   flex-direction: column;

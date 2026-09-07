@@ -275,8 +275,11 @@ export interface CardAction {
    */
   elements?: ElementName[];
   /**
-   * `elementBonus` only. 'all' consumes every element in `elements`; 'any' consumes
-   * exactly one of them, which is the player's choice.
+   * `elementBonus`: 'all' consumes every element in `elements`; 'any' consumes
+   * exactly one of them, the player's choice. `element` reads the same 'all'/'any'
+   * the same way, aimed at infusing instead: 'all' (the default — need not be
+   * written) infuses every one named; 'any' infuses only whichever one the player
+   * picks. Meaningless — and rejected — on an `element` naming just one.
    */
   consumeMode?: 'all' | 'any';
 

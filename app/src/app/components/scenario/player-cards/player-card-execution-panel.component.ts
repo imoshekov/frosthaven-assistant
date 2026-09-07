@@ -104,6 +104,14 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   attackIndex = 0;
   /**
+   * Whether the half's separate heal-then-attack step (see `isHealBeforeAttack`) has
+   * already applied its heal. A half mixing a target-facing heal with an attack — e.g.
+   * shackles "Reversal of Fate": Heal 5 to an ally, Attack 5 to an enemy — needs two
+   * independent targets, so the heal resolves first as its own step before the attack
+   * (or attacks) that follow. Reset on every half selection.
+   */
+  healStepDone = false;
+  /**
    * Per-attack value adjustments from the +/- buttons, keyed by index into
    * `selectedAttacks` — for a bonus the card itself can't know about (an item, an
    * ally's buff). Deliberately outlives the individual strikes of a multi-target
@@ -168,6 +176,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * player picked. Keyed the same way.
    */
   bonusElementChoice = new Map<number, ElementType>();
+  /**
+   * For an `element` action printing more than one element with `consumeMode: 'any'`
+   * ("infuse ICE or AIR"), which one the player picked to actually infuse. Keyed by
+   * that action's index among `elementActions` — the same indexing scheme
+   * `bonusElementChoice` uses for bonuses, kept separate because infusing is never an
+   * opt-in bonus: it always happens, so there's no "taken" state to key off of, only
+   * which element.
+   */
+  infuseElementChoice = new Map<number, ElementType>();
 
   /** Candidates per slot, when an initiative resolves to more than one card. */
   candidatesA: CardCandidate[] = [];
@@ -358,6 +375,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.selectedTargetIds.clear();
     this.struckTargetIds.clear();
     this.attackIndex = 0;
+    this.healStepDone = false;
     this.attackAdjustments.clear();
     this.manualAttackValues.clear();
     this.manualHealValue = 0;
@@ -365,6 +383,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.healAdjustment = 0;
     this.takenBonuses.clear();
     this.bonusElementChoice.clear();
+    this.infuseElementChoice.clear();
     this.customOverride = null;
     this.applyRetaliate = true;
   }
@@ -416,9 +435,32 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return collectAttacks(this.selectedContent?.actions);
   }
 
-  /** The strike currently being resolved, or null for halves with no `attack` action. */
+  /**
+   * The strike currently being resolved, or null for halves with no `attack` action —
+   * and, deliberately, also null while `isResolvingHealStep` is true. That makes every
+   * attack-derived getter (`isResolvingAttack`, `needsModifier`, `isSequentialAttack`
+   * among them) read as "no attack yet" for the length of the heal step, with no need
+   * to special-case each of them separately.
+   */
   get currentAttack(): CardAction | null {
+    if (this.isResolvingHealStep) return null;
     return this.selectedAttacks[this.attackIndex] ?? null;
+  }
+
+  /**
+   * A half pairing a target-facing heal with an attack — e.g. shackles "Reversal of
+   * Fate": Heal 5 to an ally, Attack 5 to an enemy, on the same top action. The two
+   * effects land on different targets, so they cannot share one target pick the way an
+   * attack's own damage and conditions do; the heal is resolved as its own step before
+   * the attack(s) that follow.
+   */
+  get isHealBeforeAttack(): boolean {
+    return this.healActions.some(a => !a.selfOnly) && this.selectedAttacks.length > 0;
+  }
+
+  /** Whether the half is still waiting on its heal step, ahead of any attack. */
+  get isResolvingHealStep(): boolean {
+    return this.isHealBeforeAttack && !this.healStepDone;
   }
 
   get isMultiAttack(): boolean {
@@ -520,9 +562,12 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return index < this.attackIndex;
   }
 
-  /** The attack the panel is resolving right now — the only one Execute applies. */
+  /**
+   * The attack the panel is resolving right now — the only one Execute applies. False
+   * for all of them while `isResolvingHealStep` holds the half back on its heal.
+   */
   isAttackCurrent(index: number): boolean {
-    return index === this.attackIndex;
+    return !this.isResolvingHealStep && index === this.attackIndex;
   }
 
   /** Whether that specific attack hits several targets, one strike at a time. */
@@ -576,15 +621,24 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Every `selfOnly` heal on the half, summed — shackles "Cleansing Fire" prints two
+   * ("Heal 1. Heal 2."), both landing on the acting hero, so this must not stop at the
+   * first one the way a target-facing heal (at most one per half) safely can.
+   */
+  private get selfHealBase(): number {
+    return this.healActions
+      .filter(a => a.selfOnly)
+      .reduce((sum, heal) => sum + (isManualValue(heal) ? this.manualHealValue : actionValue(heal)), 0);
+  }
+
+  /**
    * A heal the card flags `selfOnly` — always the acting hero, never the picked
    * target, so it applies once at `finalizeHalf()` alongside XP/shield/retaliate
    * rather than through `computeTargetPatches`.
    */
   get selectedSelfHealValue(): number {
-    const heal = this.healActions.find(a => a.selfOnly);
-    if (!heal) return 0;
-    const base = isManualValue(heal) ? this.manualHealValue : actionValue(heal);
-    return Math.max(base + this.healAdjustment, 0);
+    if (!this.healActions.some(a => a.selfOnly)) return 0;
+    return Math.max(this.selfHealBase + this.healAdjustment, 0);
   }
 
   /** Whether the half prints a heal at all — target-facing or self-only — for the +/- row. */
@@ -604,13 +658,18 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
   /** Nudges the half's heal value, the same +/- idea `adjustAttack` offers an attack. */
   adjustHeal(delta: number): void {
-    const heal = this.healActions.find(a => !a.selfOnly) ?? this.healActions.find(a => a.selfOnly);
-    if (!heal) return;
+    const targetHeal = this.healActions.find(a => !a.selfOnly);
+    const hasSelfHeal = this.healActions.some(a => a.selfOnly);
+    if (!targetHeal && !hasSelfHeal) return;
 
     // Clamp so the printed value can be reduced to 0 but never past it, matching
-    // adjustAttack's floor.
-    const bonus = heal.selfOnly ? 0 : this.takenBonusHeal;
-    const base = isManualValue(heal) ? this.manualHealValue : actionValue(heal);
+    // adjustAttack's floor. Target-facing takes priority, same as `healDisplayValue` —
+    // a half printing both shares this one +/- row, same as `healAdjustment` already
+    // landing on whichever of `selectedHealValue`/`selectedSelfHealValue` applies.
+    const base = targetHeal
+      ? (isManualValue(targetHeal) ? this.manualHealValue : actionValue(targetHeal))
+      : this.selfHealBase;
+    const bonus = targetHeal ? this.takenBonusHeal : 0;
     const floor = -(base + bonus);
     this.healAdjustment = Math.max(this.healAdjustment + delta, floor);
   }
@@ -948,18 +1007,93 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       .filter((v): v is CreatureConditions => (this.conditionList as string[]).includes(v));
   }
 
-/**
+  /**
+   * Every `element` action on the half, in document order. Indexes `infuseElementChoice`
+   * — an `element` printing `consumeMode: 'any'` needs the player to pick which one of
+   * its listed elements actually gets infused.
+   */
+  get elementActions(): CardAction[] {
+    return collectActions(this.selectedContent?.actions, 'element');
+  }
+
+  /** An `element` action that names more than one element but infuses only the one picked. */
+  isChooseOneElement(action: CardAction): boolean {
+    return action.consumeMode === 'any' && (action.elements?.length ?? 0) > 1;
+  }
+
+  /** Every real element name an `element` action lists, filtering out anything malformed. */
+  private elementsOfAction(action: CardAction): ElementType[] {
+    const known = Object.values(ElementType) as string[];
+    return (action.elements ?? []).filter((e): e is ElementType => known.includes(e));
+  }
+
+  /** Elements offered by a `consumeMode: 'any'` `element` action, for its picker row. */
+  infuseChoicesFor(action: CardAction): ElementType[] {
+    return this.elementsOfAction(action);
+  }
+
+  /**
+   * Only the `element` actions that need a pick, paired with their index in
+   * `elementActions` — `chosenInfuseElement`/`chooseInfuseElement` are keyed against
+   * that full list, not this filtered one. Keeps the template from rendering an empty
+   * picker row for every ordinary (all-elements) `element` action, which is most of them.
+   */
+  get chooseOneElementRows(): { action: CardAction; index: number }[] {
+    return this.elementActions
+      .map((action, index) => ({ action, index }))
+      .filter(({ action }) => this.isChooseOneElement(action));
+  }
+
+  /** Which element the player picked for one `consumeMode: 'any'` `element` action. */
+  chosenInfuseElement(index: number): ElementType | null {
+    return this.infuseElementChoice.get(index) ?? null;
+  }
+
+  chooseInfuseElement(index: number, element: ElementType): void {
+    this.infuseElementChoice.set(index, element);
+  }
+
+  /**
+   * `chooseOneElementRows` returns a fresh `{ action, index }` object every call, so
+   * without this Angular's default identity-based `*ngFor` diffing tears the row's
+   * DOM down and rebuilds it on every change-detection pass — clicking a choice button
+   * would still update the underlying state correctly, but the button the player just
+   * pressed stops being the button Angular considers "active" a moment later. Tracking
+   * by the one thing that's actually stable across calls — the index itself — lets
+   * Angular reuse the same DOM node instead.
+   */
+  trackElementRow(_: number, row: { action: CardAction; index: number }): number {
+    return row.index;
+  }
+
+  /**
+   * Whether the half still needs a pick before it can execute — an `element` printing
+   * `consumeMode: 'any'` infuses nothing on its own, so leaving it unpicked would
+   * silently infuse nothing at all rather than defaulting to some guess.
+   */
+  get needsElementChoice(): boolean {
+    return this.elementActions.some((action, index) =>
+      this.isChooseOneElement(action) && !this.chosenInfuseElement(index)
+    );
+  }
+
+  /**
    * Elements the half infuses. Only `element` actions infuse — `elementBonus`
-   * *consumes*, and is handled by the opt-in bonus flow instead.
+   * *consumes*, and is handled by the opt-in bonus flow instead. An action naming
+   * several elements infuses all of them by default; `consumeMode: 'any'` narrows that
+   * to whichever single one the player picked (see `infuseElementChoice`), same as
+   * `elementBonus`'s "any" already lets the player choose which element it *consumes*.
    */
   get selectedElements(): ElementType[] {
-    const known = Object.values(ElementType) as string[];
     const out: ElementType[] = [];
-    for (const action of collectActions(this.selectedContent?.actions, 'element')) {
-      for (const element of action.elements ?? []) {
-        if (known.includes(element)) out.push(element as ElementType);
+    this.elementActions.forEach((action, index) => {
+      if (this.isChooseOneElement(action)) {
+        const chosen = this.chosenInfuseElement(index);
+        if (chosen) out.push(chosen);
+      } else {
+        out.push(...this.elementsOfAction(action));
       }
-    }
+    });
     return [...new Set(out)];
   }
 
@@ -1289,6 +1423,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     // An attack resolves off a drawn modifier card, so there is nothing to apply
     // until one is drawn — ±0 has to be picked deliberately, not assumed.
     if (this.awaitingModifier) return false;
+    // "Infuse ICE or AIR": which one is the player's call, not a default to assume.
+    if (this.needsElementChoice) return false;
     if (!this.customOverride && this.isSelectedUnauthored && this.selectedAttackValue <= 0 && !this.selectedHealValue) {
       // An unauthored half with no value typed (and no custom override) is still
       // skippable, not executable.
@@ -1302,6 +1438,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * than promising to execute the whole half.
    */
   get executeLabel(): string {
+    if (this.isResolvingHealStep) return 'Heal target';
     if (this.isSequentialAttack) return 'Attack target';
     return this.isLastAttack ? 'Execute' : 'Next Attack';
   }
@@ -1332,6 +1469,10 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   execute(): void {
     if (!this.canExecute) return;
+    if (this.isResolvingHealStep) {
+      this.resolveHealStep();
+      return;
+    }
     if (this.isSequentialAttack) {
       this.applyStrike();
       if (this.targetId) this.struckTargetIds.add(this.targetId);
@@ -1539,6 +1680,21 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Applies the half's heal step against its chosen ally, then hands off to the
+   * attack(s) that follow — `currentAttack` reads real again the moment
+   * `healStepDone` flips, so the target strip switches straight to offering enemies.
+   */
+  private resolveHealStep(): void {
+    this.applyStrike();
+    this.healStepDone = true;
+    this.targetId = null;
+    this.selectedTargetIds.clear();
+    this.struckTargetIds.clear();
+    this.modifier = null;
+    this.customOverride = null;
+  }
+
   /** Applies the current attack, then moves on to the next one in the half. */
   private resolveAttackStep(): void {
     this.applyStrike();
@@ -1732,6 +1888,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.modifier = null;
     this.customOverride = null;
     this.attackIndex = 0;
+    this.healStepDone = false;
     this.attackAdjustments.clear();
     this.manualAttackValues.clear();
     this.manualHealValue = 0;

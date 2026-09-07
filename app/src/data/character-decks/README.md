@@ -83,9 +83,24 @@ The rules the panel implements:
    consumes exactly one, and the panel asks the player which.
 
 An `element` action, by contrast, **infuses**: `{ "type": "element", "elements": ["ice"] }`.
-Never use `element` to mean consumption — the validator rejects an `element` carrying
-`consumeMode`. On execution the panel consumes before infusing, so a half that
-consumes one element and infuses another behaves correctly.
+Never use `element` to mean consumption — `elementBonus` is that. On execution the
+panel consumes before infusing, so a half that consumes one element and infuses
+another behaves correctly.
+
+Naming more than one element on an `element` action infuses all of them by default —
+the same "all" `consumeMode` already means for `elementBonus` needs no writing out.
+"Infuse ICE **or** AIR" instead is `consumeMode: "any"`, and the panel offers the same
+kind of picker `elementBonus`'s "any" does, except there is no cost to check first:
+infusing isn't gated on anything being available, so the picker always shows, and
+Execute is withheld until the player has actually picked one — an unresolved "any"
+infuses nothing, never a silent guess:
+
+```json
+{ "type": "element", "elements": ["ice", "air"], "consumeMode": "any" }
+```
+
+`consumeMode: "any"` on an `element` naming only one element is a typo, not a card —
+there's nothing to choose between, and the validator rejects it.
 
 Elements are not the only currency a bonus can be bought with — see Rule 7 for the
 same bargain priced in the hero's own HP.
@@ -587,7 +602,7 @@ data this app models. See "Not part of the schema" below.
 | `small` | The card convention for a modifier riding on its parent. Renders smaller. |
 | `text` | Literal prose. The only place prose lives — never a key. On a `textBonus`, the printed condition itself — required there. See Rule 9. |
 | `elements` | `element`: what is infused. `elementBonus`: what is consumed. One or more of the six elements below. |
-| `consumeMode` | `elementBonus` only: `all` or `any`. |
+| `consumeMode` | `elementBonus`: `all` or `any`, which element(s) it consumes. `element`: same values, which it infuses — `any` needs 2+ `elements`. See Rule 3. |
 | `enhancementTypes` | The enhancement-sticker slots printed on the action. Not applied by this app; kept because it's printed. One or more of the enhancement types below. |
 | `multiTarget` | More than one target for this action: `true` for however many apply, or an integer ≥ 2 for a printed cap ("up to 2 enemies"). See Rule 5. |
 | `selfOnly` | `heal`/`condition` only: applies to the acting hero instead of a picked target. No target selection is needed for it. The `sufferDamage` types are always the hero and must not carry it. |
@@ -625,7 +640,7 @@ The panel changes game state for these:
 | `attack` | Feeds the damage pipeline against the chosen target, via the modifier row. More than one `attack` in a half is resolved as independent strikes, one at a time — see Rule 4. `multiTarget: true` resolves one attack against several targets, one draw each — see Rule 5. |
 | `heal` | Raises the target's HP, capped at `maxHp`. Targets allies. `selfOnly: true` heals the acting hero instead — no target picked for it. |
 | `condition` | Applied to the target, skipping immunities. `selfOnly: true` applies it to the acting hero instead — no target picked for it. |
-| `element` | Infuses every element in `elements`. |
+| `element` | Infuses every element in `elements` — or, with `consumeMode: "any"`, only whichever one the player picks. See Rule 3. |
 | `elementBonus` | Offered when its elements are active; consumes them if the player takes it. See Rule 3. |
 | `sufferDamage` | HP the acting hero loses for playing the half. Mandatory, charged once per half, reduced by nothing. See Rule 7. `"value": "X"` lets the player supply it — see Rule 8. |
 | `sufferDamageBonus` | The same bargain as `elementBonus`, bought with `value` HP instead of elements. Offered only while the hero has more HP than it costs. See Rule 7. |

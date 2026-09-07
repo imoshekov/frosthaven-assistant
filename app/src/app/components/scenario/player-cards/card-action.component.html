@@ -77,11 +77,16 @@
   } @else {
     <span class="action" [class.small]="action.small">
       @if (action.type === 'element') {
-        @for (icon of elementIcons(action); track icon) {
+        @for (icon of elementIcons(action); track icon; let last = $last) {
           <span class="icon" [ngClass]="icon"></span>
+          @if (!last && isChooseOneElement(action)) {
+            <span class="or-label">or</span>
+          }
         }
       } @else if (iconClassFor(action)) {
-        <span class="icon" [ngClass]="iconClassFor(action)"></span>
+        <span class="icon" [ngClass]="iconClassFor(action)"
+              [class.self-only]="isSelfOnlyCondition(action)"
+              [attr.title]="isSelfOnlyCondition(action) ? 'Targets self only' : null"></span>
       } @else if (fallbackLabel(action)) {
         <span class="action-label">{{ fallbackLabel(action) }}</span>
       }
