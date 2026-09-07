@@ -236,6 +236,30 @@
       background: var(--confirm-button-color-2);
     }
   }
+
+  // Same shape as Submit, but visually secondary — playing no cards is the
+  // exception, not the usual action taken here.
+  .long-rest-btn {
+    flex: 1;
+    background: transparent;
+    border: 2px solid var(--secondary-color);
+    border-radius: 6px;
+    color: var(--font-color);
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    transition: border-color 0.12s;
+
+    &:hover {
+      border-color: var(--primary-color);
+    }
+  }
+}
+
+.long-rest-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Submitted label */
@@ -250,4 +274,65 @@
   opacity: 0.8;
   font-size: 0.72rem;
   margin: 0;
+}
+
+// --- Two-card initiative entry ---------------------------------------------
+
+.initiative-row.pair {
+  gap: 0.5rem;
+}
+
+.initiative-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+
+  // Same opacity the old "Leading:" label used, kept for visual consistency now
+  // that this is the only label in the pair.
+  .field-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.8;
+    color: var(--font-color);
+  }
+
+  // Anchors the badge to the input itself, not the whole field (which also has the
+  // label stacked above it).
+  .input-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  // Flags a typed initiative that matches no card this character could hold —
+  // likely a typo, since the physical deck is fixed. Yellow reads as "check this"
+  // without the alarm of the red validation text below the pair.
+  .unknown-badge {
+    position: absolute;
+    top: -0.35rem;
+    right: -0.35rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: #e8b923;
+    color: #3a2a00;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1rem;
+    text-align: center;
+    box-shadow: 0 0 0 2px var(--secondary-color, #2a2a2a);
+    pointer-events: none;
+  }
+}
+
+.validation {
+  margin: 0.2rem 0;
+  font-size: 0.68rem;
+  color: #e06666;
+}
+
+.submit-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

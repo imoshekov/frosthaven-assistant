@@ -1,0 +1,355 @@
+{
+  "characterClass": "meteor",
+  "edition": "fh",
+  "handSize": 10,
+  "cards": [
+    {
+      "cardId": 215,
+      "name": "Cooling",
+      "level": 1,
+      "initiative": 75,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 216,
+      "name": "Quenched Rage",
+      "level": 1,
+      "initiative": 30,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 217,
+      "name": "Flowing Fire",
+      "level": 1,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 218,
+      "name": "Eruption",
+      "level": 1,
+      "initiative": 47,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 219,
+      "name": "Lava Bomb",
+      "level": 1,
+      "initiative": 53,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 220,
+      "name": "Igneous Path",
+      "level": 1,
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 221,
+      "name": "Under Pressure",
+      "level": 1,
+      "initiative": 85,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 222,
+      "name": "Melted Armor",
+      "level": 1,
+      "initiative": 62,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 223,
+      "name": "Liquid Stone",
+      "level": 1,
+      "initiative": 28,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 224,
+      "name": "Cloud of Ash",
+      "level": 1,
+      "initiative": 23,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 225,
+      "name": "Wildfire",
+      "level": "X",
+      "initiative": 72,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 226,
+      "name": "Force of the Earth",
+      "level": "X",
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 227,
+      "name": "Metamorphic Rock",
+      "level": "X",
+      "initiative": 68,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 228,
+      "name": "Searing Smoke",
+      "level": 2,
+      "initiative": 45,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 229,
+      "name": "Deep Fury",
+      "level": 2,
+      "initiative": 38,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 230,
+      "name": "Living Magma",
+      "level": 3,
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 231,
+      "name": "Hardened Spike",
+      "level": 3,
+      "initiative": 80,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 232,
+      "name": "Hand of Flame",
+      "level": 4,
+      "initiative": 29,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 233,
+      "name": "Heat Wave",
+      "level": 4,
+      "initiative": 8,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 234,
+      "name": "Rain of Fire",
+      "level": 5,
+      "initiative": 21,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 235,
+      "name": "Magma Orbs",
+      "level": 5,
+      "initiative": 82,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 236,
+      "name": "Return to the Source",
+      "level": 6,
+      "initiative": 14,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 237,
+      "name": "Obsidian Shield",
+      "level": 6,
+      "initiative": 19,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 238,
+      "name": "Erupting Rage",
+      "level": 7,
+      "initiative": 70,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 239,
+      "name": "Swelter",
+      "level": 7,
+      "initiative": 32,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 240,
+      "name": "Feed the Beast",
+      "level": 8,
+      "initiative": 27,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 241,
+      "name": "Cinder Lance",
+      "level": 8,
+      "initiative": 90,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 242,
+      "name": "Stone Armor",
+      "level": 9,
+      "initiative": 9,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 243,
+      "name": "Calamity",
+      "level": 9,
+      "initiative": 35,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}

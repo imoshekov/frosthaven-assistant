@@ -38,6 +38,11 @@
                 "glob": "**/*.{png,jpg,jpeg,gif,bmp,webp,svg,tif,tiff}",
                 "input": "./src/images",
                 "output": "/images"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "./src/data/character-decks",
+                "output": "/data/character-decks"
               }
             ],
             "outputPath": "dist/app",

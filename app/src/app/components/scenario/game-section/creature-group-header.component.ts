@@ -8,6 +8,7 @@ import { DbService } from '../../../services/db.service';
 import { DataLoaderService } from '../../../services/data-loader.service';
 import { NotificationService } from '../../../services/notification.service';
 import { XpService } from '../../../services/xp.service';
+import { anyHeroPending, isHero, isInitiativeSubmitted } from '../../../types/turn-state.util';
 
 
 @Component({
@@ -22,7 +23,57 @@ export class CreatureGroupHeaderComponent {
 
   constructor(public appContext: AppContext, private dbService: DbService, private dataLoader: DataLoaderService, private notificationService: NotificationService, private xpService: XpService) { }
 
+  /**
+   * A summon is friendly but statted like a monster, so it takes the monster stat
+   * block (attack, move, shield, retaliate, inflicted conditions) rather than the
+   * hero block (level badge, XP bar).
+   */
+  get isMonsterLike(): boolean {
+    return !!this.creature.aggressive || !!this.creature.isSummon;
+  }
+
+  /** Hero-only chrome: level badge, XP bar and session XP. */
+  get isHeroCreature(): boolean {
+    return isHero(this.creature);
+  }
+
+  /** Summons have no initiative of their own — they act on their owner's. */
+  get showsInitiative(): boolean {
+    return !this.creature.isSummon;
+  }
+
+  /**
+   * Whether this hero has committed their turn — both cards submitted, or already
+   * revealed. Drives the eye-icon badge: `ready` (green fill) or `not-ready` (dark
+   * fill) — the two are exact opposites so the icon always has one background or
+   * the other, never neither. A prior version tested `hiddenInitiative == 0`
+   * directly, which is false for a freshly-added hero whose `hiddenInitiative` is
+   * still `undefined`/`null` rather than `0` — neither class matched, so the badge
+   * fell through to its bare, background-less default and looked "stuck
+   * transparent" no matter what `.not-ready` was styled with.
+   */
+  isInitiativeReady(creature: Creature): boolean {
+    return isInitiativeSubmitted(creature);
+  }
+
+  /**
+   * A summon's plate should read as its owner's, so it borrows the owner's class
+   * color instead of the generic friendly color used as a fallback if the owner
+   * can't be found (e.g. mid-removal).
+   */
+  getSummonBackground(creature: Creature): string | null {
+    if (!creature.isSummon || !creature.summonOwnerId) return null;
+    const owner = this.appContext.getCreatures().find(c => c.id === creature.summonOwnerId);
+    return owner ? `var(--${owner.type}-color)` : null;
+  }
+
   getCreaturePic(creature: Creature): string {
+    if (creature.isSummon) {
+      // Token art is optional on a card; fall back to the generic summon token.
+      return creature.summonImage
+        ? `./images/${creature.summonImage}`
+        : './images/summons/fh.png';
+    }
     if (creature.aggressive) {
       return `./images/monster/thumbnail/fh-${creature?.type}.png`
     }
@@ -46,9 +97,9 @@ export class CreatureGroupHeaderComponent {
    * nobody has submitted yet (fresh round state) or all have submitted.
    */
   get initiativesRevealed(): boolean {
-    const heroes = this.appContext.getCreatures().filter(c => !c.aggressive);
-    if (heroes.length === 0) return true;
-    return !heroes.some(c => c.hiddenInitiative > 0); // hide only while some have pending hidden initiative
+    const creatures = this.appContext.getCreatures();
+    if (creatures.filter(isHero).length === 0) return true;
+    return !anyHeroPending(creatures); // hide only while some have pending hidden initiative
   }
 
   onMonsterInitiativeBlur(creatureId: string, event: FocusEvent): void {
@@ -60,7 +111,8 @@ export class CreatureGroupHeaderComponent {
   hasExtraStats(creature: Creature): boolean {
     return (creature.armor + creature.roundArmor > 0) ||
       (creature.retaliate + creature.roundRetaliate > 0) ||
-      (creature.aggressive && creature.actions?.length > 0) ||
+      ((creature.aggressive || creature.isSummon) && creature.actions?.length > 0) ||
+      (creature.range > 0) ||
       (creature.flying)
   }
 

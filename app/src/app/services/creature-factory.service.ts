@@ -1,6 +1,7 @@
 // src/app/services/creature-factory.service.ts
 import { Injectable } from '@angular/core';
-import { Creature, CreatureConditions } from '../types/game-types';
+import { Creature, CreatureAction, CreatureConditions } from '../types/game-types';
+import { CardSummon } from '../types/character-card-types';
 import { DataFile, Monster, MonsterAbilityCard, MonsterAction, MonsterStat } from '../types/data-file-types';
 import { DataLoaderService } from '../services/data-loader.service';
 import { StringUtils } from './string-utils.service';
@@ -79,6 +80,75 @@ export class CreatureFactoryService {
     return creature;
   }
 
+
+  /**
+   * Builds a board figure from a card's printed summon.
+   *
+   * Deliberately *not* routed through `createCreature`, which derives its stats from
+   * the monster tables by type — a summon's stats come from the card that summons it
+   * and exist nowhere else. Friendly (`aggressive: false`) but flagged `isSummon`, so
+   * hero-only rules skip it while the monster-style stat rendering applies.
+   */
+  createSummon(summon: CardSummon, owner: Creature, standee: number): Creature {
+    const hp = Math.max(this.stringUtils.parseInt(summon.health ?? 0), 1);
+
+    // Conditions the summon inflicts render as icons on its row, the same way a
+    // monster's own condition actions do.
+    const conditionActions: CreatureAction[] = (summon.abilities ?? [])
+      .filter(a => a.type === 'condition' && a.value !== undefined)
+      .map(a => ({ type: 'condition', value: String(a.value) }));
+
+    // A pierce printed among the summon's abilities always applies to its own
+    // attack, so it rides along as a fixed stat rather than a card-side action.
+    const pierceAbility = (summon.abilities ?? []).find(a => a.type === 'pierce');
+    const pierce = pierceAbility ? this.stringUtils.parseInt(pierceAbility.value ?? 0) : 0;
+
+    return {
+      id: this.generateCreatureId(),
+      name: summon.name,
+      type: this.summonTypeSlug(summon.name),
+      standee,
+      level: owner.level ?? 1,
+      hp,
+      maxHp: hp,
+      attack: this.stringUtils.parseInt(summon.attack ?? 0),
+      pierce,
+      attackTarget: this.stringUtils.parseInt(summon.attackTarget ?? 1) || 1,
+      movement: this.stringUtils.parseInt(summon.movement ?? 0),
+      range: this.stringUtils.parseInt(summon.range ?? 0),
+      armor: this.stringUtils.parseInt(summon.armor ?? 0),
+      retaliate: this.stringUtils.parseInt(summon.retaliate ?? 0),
+      retaliateRange: this.stringUtils.parseInt(summon.retaliateRange ?? 0),
+      flying: summon.flying ?? false,
+      immunities: (summon.immunities ?? []).map(c => c as unknown as CreatureConditions),
+
+      aggressive: false,
+      isSummon: true,
+      summonOwnerId: owner.id,
+      summonImage: summon.image,
+      summonNotes: summon.notes ?? [],
+
+      // A summon never has its own initiative: ordering borrows the owner's.
+      initiative: 0,
+      hiddenInitiative: null,
+
+      isElite: false,
+      boss: false,
+      conditions: [],
+      conditionRounds: {},
+      roundArmor: 0,
+      roundRetaliate: 0,
+      actions: conditionActions,
+      abilityCards: [],
+      traits: [],
+      log: [],
+    };
+  }
+
+  /** 'Snow Fox' -> 'snow-fox', for CSS classes, grouping and image lookups. */
+  private summonTypeSlug(name: string): string {
+    return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
 
   createCreatureName(creatureInput: Partial<Creature>): string {
     let baseName: string = `${creatureInput.type} ${creatureInput.standee ?? ''}`;

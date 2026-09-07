@@ -43,6 +43,20 @@
     }
   }
 
+  // A hero's own class colour should flow straight out of its group header rather
+  // than being cut off by the usual gap (and the tile's own top border) above the
+  // (also class-coloured) traits area — see CreatureComponent's `.trait-filler`. The
+  // divider those used to provide moves down to sit above the name instead, matching
+  // a monster's border above its Attack button. The group's own outer border already
+  // frames the header+list as one box, so losing this internal one costs nothing.
+  .creature-group.friendly .creature-container {
+    gap: 0;
+
+    .creature-list .creature {
+      border-top: none;
+    }
+  }
+
   @media (max-width: 768px) {
     .creature-container {
       max-width: none;

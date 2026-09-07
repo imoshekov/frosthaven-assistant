@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameComponent } from './game-section/game.component';
 import { ElementComponent } from './element/element.component';
 import { AttackModalComponent } from './attack/attack-modal.component';
+import { PlayerCardExecutionPanelComponent } from './player-cards/player-card-execution-panel.component';
 import { LogComponent } from './log/log.component';
 import { AddMonsterComponent } from './add-monster/add-monster.component';
 import { AppContext } from '../../app-context';
@@ -25,6 +26,7 @@ import { Subscription } from 'rxjs';
     CommonModule,
     GameComponent,
     AttackModalComponent,
+    PlayerCardExecutionPanelComponent,
     AddMonsterComponent,
     LogComponent,
     RoundComponent,

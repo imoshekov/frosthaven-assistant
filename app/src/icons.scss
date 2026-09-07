@@ -81,81 +81,81 @@
         background-image: url("./images/fh/action/pierce.svg");
     }
 
+    &.ignoreArmor {
+        background-image: url("./images/fh/action/ignore-armor.svg");
+    }
+
     &.heart {
         background-image: url("./images/root/heart.svg");
         filter: drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color)) drop-shadow(0 0 1px var(--font-color));
     }
 
     &.flying {
-        background-image: url("./images/fh/action/fly.svg"),
-    }
-
-    &.target {
-        background-image: url("./images/fh/action/target.svg"),
-    }
-
-    &.undo {
-        background-image: url("./images/action/undo.svg"),
-    }
-
-    &.range {
-        background-image: url("./images/fh/action/range.svg"),
-    }
-
-    &.immune {
-        background-image: url("./images/fh/condition/immune.svg");
+        background-image: url("./images/fh/action/fly.svg");
     }
 
     &.target {
         background-image: url("./images/fh/action/target.svg");
     }
 
+    &.undo {
+        background-image: url("./images/action/undo.svg");
+    }
+
+    &.range {
+        background-image: url("./images/fh/action/range.svg");
+    }
+
+    &.immune {
+        background-image: url("./images/fh/condition/immune.svg");
+    }
+
     &.snowthistle {
-        background-image: url("./images/fh/loot/snowthistle.svg"),
+        background-image: url("./images/fh/loot/snowthistle.svg");
     }
 
     &.axenut {
-        background-image: url("./images/fh/loot/axenut.svg"),
+        background-image: url("./images/fh/loot/axenut.svg");
     }
 
     &.arrowvine {
-        background-image: url("./images/fh/loot/arrowvine.svg"),
+        background-image: url("./images/fh/loot/arrowvine.svg");
     }
 
     &.rockroot {
-        background-image: url("./images/fh/loot/rockroot.svg"),
+        background-image: url("./images/fh/loot/rockroot.svg");
     }
 
     &.corpsecap {
-        background-image: url("./images/fh/loot/corpsecap.svg"),
+        background-image: url("./images/fh/loot/corpsecap.svg");
     }
 
     &.flamefruit {
-        background-image: url("./images/fh/loot/flamefruit.svg"),
+        background-image: url("./images/fh/loot/flamefruit.svg");
     }
 
     &.metal {
-        background-image: url("./images/fh/loot/metal.svg"),
+        background-image: url("./images/fh/loot/metal.svg");
     }
 
     &.lumber {
-        background-image: url("./images/fh/loot/lumber.svg"),
+        background-image: url("./images/fh/loot/lumber.svg");
     }
 
     &.hide {
-        background-image: url("./images/fh/loot/hide.svg"),
+        background-image: url("./images/fh/loot/hide.svg");
     }
 
     &.gold {
-        background-image: url("./images/fh/loot/money.svg"),
+        background-image: url("./images/fh/loot/money.svg");
     }
 
     &.money {
-        background-image: url("./images/fh/loot/money.svg"),
+        background-image: url("./images/fh/loot/money.svg");
     }
     
     &.random_item {
-        background-image: url("./images/fh/loot/random_item.svg"),
+        background-image: url("./images/fh/loot/random_item.svg");
     }
 
     &.xp {
@@ -164,6 +164,83 @@
     }
 
     &.level{
-        background-image: url("./images/level.svg"),
+        background-image: url("./images/level.svg");
+    }
+    // --- Player ability card actions -------------------------------------
+    // The SVGs already existed under images/fh/action; only these classes were missing.
+
+    &.heal {
+        background-image: url("./images/fh/action/heal.svg");
+    }
+
+    &.push {
+        background-image: url("./images/fh/action/push.svg");
+    }
+
+    &.pull {
+        background-image: url("./images/fh/action/pull.svg");
+    }
+
+    &.jump {
+        background-image: url("./images/fh/action/jump.svg");
+    }
+
+    &.swing {
+        background-image: url("./images/fh/action/swing.svg");
+    }
+
+    &.teleport {
+        background-image: url("./images/fh/action/teleport.svg");
+    }
+
+    &.loot {
+        background-image: url("./images/fh/action/loot.svg");
+    }
+
+    // bless and curse are attack-modifier cards, not creature conditions, so they
+    // render on cards but are never applied as CreatureConditions.
+    &.bless {
+        background-image: url("./images/fh/action/bless.svg");
+    }
+
+    &.curse {
+        background-image: url("./images/fh/action/curse.svg");
+    }
+
+    // --- Elements (infuse / consume on card actions) ----------------------
+
+    &.elem-fire {
+        background-image: url("./images/fh/element/fire.svg");
+    }
+
+    &.elem-ice {
+        background-image: url("./images/fh/element/ice.svg");
+    }
+
+    &.elem-earth {
+        background-image: url("./images/fh/element/earth.svg");
+    }
+
+    &.elem-air {
+        background-image: url("./images/fh/element/air.svg");
+    }
+
+    &.elem-light {
+        background-image: url("./images/fh/element/light.svg");
+    }
+
+    &.elem-dark {
+        background-image: url("./images/fh/element/dark.svg");
+    }
+
+    // "either/or" element, e.g. an element action with value "ice:air".
+    &.elem-ice-air {
+        // The asset filename really does contain spaces; the SCSS resource resolver
+        // needs them literal (percent-encoding fails to resolve at build time).
+        background-image: url("./images/fh/element/ice or air.svg");
+    }
+
+    &.elem-consume {
+        background-image: url("./images/fh/element/consume.svg");
     }
 }

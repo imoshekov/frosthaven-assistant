@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AppContext } from '../app-context';
+import { isHero, isInitiativeSubmitted } from '../types/turn-state.util';
 import { Creature } from '../types/game-types';
 
 /**
@@ -56,10 +57,11 @@ export class InitiativeNagService implements OnDestroy {
    * pending — a single name is only meaningful when exactly one is left.
    */
   private findLoneStaller(creatures: Creature[]): Creature | null {
-    const heroes = creatures.filter(c => !c.aggressive);
+    const heroes = creatures.filter(isHero);
     if (heroes.length < 2) return null;
 
-    const pending = heroes.filter(c => !(c.hiddenInitiative > 0) && !(c.initiative > 0));
+    // A player who entered only one of their two cards is still holding everyone up.
+    const pending = heroes.filter(c => !isInitiativeSubmitted(c));
     return pending.length === 1 ? pending[0] : null;
   }
 
@@ -71,7 +73,7 @@ export class InitiativeNagService implements OnDestroy {
   private speakFor(creatureId: string | undefined): void {
     // findCreature throws when the hero was removed while the timer was running.
     const current = this.appContext.getCreatures().find(c => c.id === creatureId);
-    if (!current || current.hiddenInitiative > 0 || current.initiative > 0) {
+    if (!current || isInitiativeSubmitted(current)) {
       this.stop();
       return;
     }

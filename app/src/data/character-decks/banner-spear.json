@@ -1,0 +1,548 @@
+{
+  "characterClass": "banner-spear",
+  "edition": "fh",
+  "handSize": 10,
+  "cards": [
+    {
+      "cardId": 61,
+      "name": "At All Costs",
+      "level": 1,
+      "initiative": 60,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 3
+          },
+          {
+            "type": "forceBox",
+            "value": "",
+            "small": true,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Suffer {0} damage 1 for each ally whose hit point value increased with the heal ability."
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "reinforcement",
+              "health": 1,
+              "movement": 2
+            },
+            "small": true
+          }
+        ],
+        "xp": 1,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 62,
+      "name": "Rallying Cry",
+      "level": 1,
+      "initiative": 71,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "disarm"
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "banner-of-strength",
+              "health": 3,
+              "abilities": [
+                {
+                  "type": "text",
+                  "text": "All allies within Range 2 add Attack +1 to one of their attacks each turn.",
+                  "small": true
+                }
+              ]
+            },
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 63,
+      "name": "Unbreakable Wall",
+      "level": 1,
+      "initiative": 83,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "shield",
+            "value": 1
+          },
+          {
+            "type": "forceBox",
+            "value": "",
+            "small": true,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "All your ranged attacks have Range -1."
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 64,
+      "name": "Javelin",
+      "level": 1,
+      "initiative": 21,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "forceBox",
+            "value": 0,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 65,
+      "name": "Deflecting Maneuver",
+      "level": 1,
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 66,
+      "name": "Tip of the Spear",
+      "level": 1,
+      "initiative": 67,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 67,
+      "name": "Combined Effort",
+      "level": 1,
+      "initiative": 32,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 68,
+      "name": "Set for the Charge",
+      "level": 1,
+      "initiative": 6,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 69,
+      "name": "Pincer Movement",
+      "level": 1,
+      "initiative": 69,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 70,
+      "name": "Regroup",
+      "level": 1,
+      "initiative": 25,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 71,
+      "name": "Resolved Courage",
+      "level": "X",
+      "initiative": 10,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 72,
+      "name": "Incendiary Throw",
+      "level": "X",
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Torch Bearer",
+              "health": 5,
+              "attack": 1,
+              "movement": 2,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "wound"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 73,
+      "name": "Driving Inspiration",
+      "level": "X",
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Banner of Hope",
+              "health": 4,
+              "notes": [
+                "Passive. At the start of their turns, grants allies within Range 3 the choice to heal 1."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 74,
+      "name": "Meat Grinder",
+      "level": 2,
+      "initiative": 62,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 75,
+      "name": "Pinning Charge",
+      "level": 2,
+      "initiative": 17,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 76,
+      "name": "Let Them Come",
+      "level": 3,
+      "initiative": 24,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Banner of Courage",
+              "health": 7,
+              "notes": [
+                "Passive. All adjacent allies gain Shield 1."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 77,
+      "name": "Head of the Hammer",
+      "level": 3,
+      "initiative": 87,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 78,
+      "name": "Boldening Blow",
+      "level": 4,
+      "initiative": 72,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 79,
+      "name": "Air Support",
+      "level": 4,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Trained Falcon",
+              "health": 1,
+              "attack": 2,
+              "movement": 3,
+              "flying": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 80,
+      "name": "Explosive Epicenter",
+      "level": 5,
+      "initiative": 78,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 81,
+      "name": "Hold the Line",
+      "level": 5,
+      "initiative": 5,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 82,
+      "name": "Barricade",
+      "level": 6,
+      "initiative": 16,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Banner of Valor",
+              "health": 5,
+              "notes": [
+                "Passive. Negates the first source of damage to an adjacent ally each round."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 83,
+      "name": "Bolstering Shout",
+      "level": 6,
+      "initiative": 75,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 84,
+      "name": "Tri-Thrust",
+      "level": 7,
+      "initiative": 27,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 85,
+      "name": "Lead from Afar",
+      "level": 7,
+      "initiative": 80,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Longbowman",
+              "health": 4,
+              "attack": 2,
+              "movement": 2,
+              "range": 4,
+              "abilities": [
+                {
+                  "type": "condition",
+                  "value": "muddle"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 86,
+      "name": "Sweeping Aid",
+      "level": 8,
+      "initiative": 73,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 87,
+      "name": "Taunting Howl",
+      "level": 8,
+      "initiative": 11,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 88,
+      "name": "Take no Prisoners",
+      "level": 9,
+      "initiative": 85,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Banner of Doom",
+              "health": 9,
+              "notes": [
+                "Passive. All enemies within Range 4 suffer 1 damage at the start of their turns."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 89,
+      "name": "Hail of Spears",
+      "level": 9,
+      "initiative": 44,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}
