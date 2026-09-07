@@ -309,8 +309,7 @@
           {
             "type": "attack",
             "value": "X",
-            "subActions": [
-              { "type": "ignoreArmor" }]
+            "ignoreArmor": true
           }
         ]
       }
@@ -356,8 +355,7 @@
           {
             "type": "attack",
             "value": "X",
-            "subActions": [
-              { "type": "ignoreArmor" }]
+            "ignoreArmor": true
           }
         ]
       }

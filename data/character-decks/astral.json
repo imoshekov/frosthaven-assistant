@@ -17,7 +17,7 @@
           {
             "type": "xp", 
             "value": 2 
-          }
+          } 
         ]
       },
       "bottom": {
@@ -131,14 +131,21 @@
           {
             "type": "attack",
             "value": 3,
-            "multiTarget": true
+            "multiTarget": 3,
+            "subActions": [
+              { 
+                "type": "pierce", 
+                "value": 2 
+              }
+            ]
           },
           {
             "type": "xp",
-            "value": 2
+            "value": 1
           },
           {
             "type": "element",
+            "consumeMode": "any", 
             "elements": [
               "air",
               "dark"
@@ -147,7 +154,18 @@
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "text",
+            "text": "-1 pull, -1 range",
+            "subActions": [
+              {
+                "type": "element", 
+                "elements": ["air"] 
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -158,13 +176,24 @@
       "top": {
         "actions": [
           {
-            "type": "attack",
-            "value": 5
-          },
-          {
-            "type": "condition",
-            "value": "ward",
-            "selfOnly": true
+            "type": "elementBonus",
+            "elements": ["earth", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 5
+              },
+              {
+                "type": "condition",
+                "value": "ward",
+                "selfOnly": true
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
           }
         ]
       },
@@ -172,7 +201,20 @@
         "actions": [
           {
             "type": "heal",
-            "value": 2
+            "value": 2,
+            "multiTarget": 2,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "-1 target",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["earth"] 
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -185,14 +227,41 @@
       "top": {
         "actions": [
           {
-            "type": "attack",
-            "value": 4,
-            "multiTarget": true
+            "type": "elementBonus",
+            "elements": ["air", "earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 4,
+                "multiTarget": 2
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "text",
+            "text": "-1 movement",
+            "subActions": [
+              {
+                "type": "element", 
+                "elements": ["earth"] 
+              }
+            ]
+          },
+          {
+            "type": "condition",
+            "value": "immobilize",
+            "multiTarget": 2
+          }
+        ]
       }
     },
     {
@@ -201,16 +270,44 @@
       "level": 1,
       "initiative": 20,
       "top": {
-        "actions": []
+        "actions": [
+           {
+            "type": "condition",
+            "value": "disarm",
+            "subActions": [
+               {
+                "type": "text",
+                "text": "-2 range",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       "bottom": {
         "actions": [
           {
+            "type": "attack",
+            "value": 2,
+            "multiTarget": true,
+            "ignoreArmor": true
+          },
+          {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "earth",
               "dark"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       }
@@ -224,12 +321,37 @@
         "actions": [
           {
             "type": "attack",
-            "value": 4
+            "value": 4,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -242,18 +364,46 @@
           {
             "type": "attack",
             "value": 2,
-            "multiTarget": true
+            "multiTarget": true,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["air"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
         "actions": [
           {
+            "type": "attack",
+            "value": 1,
+            "multiTarget": true,
+            "ignoreArmor": true
+          },
+          {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "air",
               "earth"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       }
@@ -268,11 +418,34 @@
           {
             "type": "attack",
             "value": 3
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["earth"]
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["air"]
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -304,14 +477,22 @@
       "top": {
         "actions": [
           {
-            "type": "summon",
-            "summon": {
-              "name": "Animated Claymore",
-              "health": 2,
-              "attack": 3,
-              "movement": 3,
-              "armor": 1
-            }
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "summon",
+                "summon": {
+                  "name": "Animated Claymore",
+                  "image": "summons/thumbnail/fh-animated-claymore.png",
+                  "health": 2,
+                  "attack": 3,
+                  "movement": 3,
+                  "armor": 1
+                }
+              }
+            ]
           }
         ]
       },
@@ -320,7 +501,50 @@
           {
             "type": "heal",
             "value": 7,
-            "selfOnly": true
+            "selfOnly": true,
+            "subActions": [
+              {
+                "type": "heal",
+                "value": 2,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["air"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "heal",
+                "value": 2,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["earth"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "heal",
+                "value": 2,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -331,7 +555,23 @@
       "level": "X",
       "initiative": 78,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["dark"]
+              }
+            ]
+          }
+        ]
       },
       "bottom": {
         "actions": []
@@ -343,10 +583,30 @@
       "level": "X",
       "initiative": 17,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "brittle"
+          },
+          {
+            "type": "xp",
+            "value": 1
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "regenerate",
+            "selfOnly": true
+          },
+          {
+            "type": "condition",
+            "value": "ward",
+            "selfOnly": true
+          }
+        ]
       }
     },
     {
@@ -358,12 +618,46 @@
         "actions": [
           {
             "type": "heal",
-            "value": 5
+            "value": 5,
+            "subActions": [
+              {
+                "type": "heal",
+                "value": 2,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["earth"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["earth", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "ward",
+                "selfOnly": true
+              },
+              {
+                "type": "xp",
+                "value": 2
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -376,12 +670,46 @@
           {
             "type": "attack",
             "value": 3,
-            "multiTarget": true
+            "multiTarget": 3,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["air"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["earth", "air"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "immobilize",
+                "multiTarget": true
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -394,11 +722,27 @@
           {
             "type": "retaliate",
             "value": 1
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["dark"]
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "wound"
+          }
+        ]
       }
     },
     {
@@ -407,13 +751,88 @@
       "level": 3,
       "initiative": 35,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["dark"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["air"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["earth"]
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
       },
       "bottom": {
         "actions": [
           {
             "type": "attack",
             "value": 3
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["air"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["earth"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["dark"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["air"]
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
           }
         ]
       }
@@ -424,10 +843,54 @@
       "level": 4,
       "initiative": 85,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "disarm"
+              }
+            ]
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "condition",
+            "value": "muddle",
+            "multiTarget": 2,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "-1 pull, -1 range",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["air"] 
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "-1 target",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -439,12 +902,97 @@
         "actions": [
           {
             "type": "attack",
-            "value": 5
+            "value": 5,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["earth"] 
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "condition",
+            "value": "disarm",
+            "selfOnly": true
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["fire"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["fire"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["ice"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["ice"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["earth"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["air"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["air"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["light"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["light"]
+              }
+            ]
+          },
+          {
+            "type": "elementBonus",
+            "elements": ["dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "element",
+                "elements": ["dark"]
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -455,8 +1003,24 @@
       "top": {
         "actions": [
           {
+            "type": "elementBonus",
+            "elements": ["earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "regenerate",
+                "multiTarget": true
+              }
+            ]
+          },
+          {
             "type": "heal",
             "value": 2
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       },
@@ -474,15 +1038,47 @@
           {
             "type": "attack",
             "value": 4,
-            "multiTarget": true
+            "multiTarget": 2,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
         "actions": [
           {
-            "type": "attack",
-            "value": 4
+            "type": "elementBonus",
+            "elements": ["earth", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 4
+              },
+              {
+                "type": "condition",
+                "value": "stun"
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
           }
         ]
       }
@@ -493,10 +1089,51 @@
       "level": 6,
       "initiative": 91,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air", "earth"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "2 move after attacks"
+              }
+            ]
+          },
+          {
+            "type": "condition",
+            "value": "immobilize"
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "text",
+            "text": "-1 move",
+            "subActions": [
+              {
+                "type": "element", 
+                "elements": ["earth"] 
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "-1 move (ally)",
+            "subActions": [
+              {
+                "type": "element", 
+                "elements": ["air"] 
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -507,25 +1144,71 @@
       "top": {
         "actions": [
           {
-            "type": "attack",
-            "value": 2
-          },
-          {
-            "type": "attack",
-            "value": 2
-          },
-          {
-            "type": "attack",
-            "value": 2
-          },
-          {
-            "type": "xp",
-            "value": 2
+            "type": "elementBonus",
+            "elements": ["air", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 2,
+                "small": true,
+                "subActions": [
+                  {
+                    "type": "pierce",
+                    "value": 2,
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "attack",
+                "value": 2,
+                "small": true,
+                "subActions": [
+                  {
+                    "type": "pierce",
+                    "value": 2,
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "attack",
+                "value": 2,
+                "small": true,
+                "subActions": [
+                  {
+                    "type": "pierce",
+                    "value": 2,
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "xp",
+                "value": 2
+              }
+            ]
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "text",
+            "text": "-1 dmg",
+            "subActions": [
+              {
+                "type": "element", 
+                "elements": ["air"] 
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -546,6 +1229,7 @@
           },
           {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "earth",
               "dark"
@@ -556,11 +1240,26 @@
       "bottom": {
         "actions": [
           {
+            "type": "condition",
+            "value": "wound",
+            "multiTarget": true
+          },
+          {
+            "type": "condition",
+            "value": "immobilize",
+            "multiTarget": true
+          },
+          {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "earth",
               "dark"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       }
@@ -575,19 +1274,50 @@
           {
             "type": "attack",
             "value": 4,
-            "multiTarget": true
+            "multiTarget": 3
+          },
+          {
+            "type": "condition",
+            "value": "stun",
+            "multiTarget": 3
           },
           {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "earth",
               "dark"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       },
       "bottom": {
-        "actions": []
+        "actions": [
+          {
+            "type": "text",
+            "text": "-1 move",
+            "subActions": [
+              {
+                "type": "element",
+                "consumeMode": "any",
+                "elements": [
+                  "earth",
+                  "dark"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "attack",
+            "value": 1,
+            "multiTarget": true,
+            "ignoreArmor": true
+          }
+        ]
       }
     },
     {
@@ -601,12 +1331,17 @@
             "type": "summon",
             "summon": {
               "name": "Spiritbound Falchion",
+              "image": "summons/thumbnail/fh-spiritbound-falchion.png",
               "health": 6,
               "attack": 4,
               "movement": 3,
               "armor": 1,
               "flying": true
             }
+          },
+          {
+            "type": "xp", 
+            "value": 1
           }
         ]
       },
@@ -614,6 +1349,7 @@
         "actions": [
           {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "air",
               "dark"
@@ -631,10 +1367,15 @@
         "actions": [
           {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "air",
               "earth"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       },
@@ -643,14 +1384,19 @@
           {
             "type": "attack",
             "value": 4,
-            "multiTarget": true
+            "multiTarget": 3
           },
           {
             "type": "element",
+            "consumeMode": "any",
             "elements": [
               "air",
               "earth"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       }
@@ -661,13 +1407,68 @@
       "level": 9,
       "initiative": 94,
       "top": {
-        "actions": []
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": ["air", "earth", "dark"],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "+1 target to mele attacks"
+              }
+            ]
+          },
+          {
+            "type":"condition",
+            "value": "bless",
+            "selfOnly": true
+          },
+          {
+            "type": "xp",
+            "value": 2
+          }
+        ]
       },
       "bottom": {
         "actions": [
           {
             "type": "heal",
-            "value": 3
+            "value": 3,
+            "multiTarget": 3,
+            "subActions": [
+              {
+                "type": "heal",
+                "value": 1,
+                "valueType": "subtract",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["dark"] 
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "-1 target",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["earth"] 
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "text": "-2 range",
+                "subActions": [
+                  {
+                    "type": "element", 
+                    "elements": ["air"] 
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
@@ -681,19 +1482,84 @@
         "actions": [
           {
             "type": "attack",
-            "value": 6
+            "value": 6,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": ["air"],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "pierce",
+                    "value": 5,
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1,
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": ["earth"],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "condition",
+                    "value": "wound",
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": ["dark"],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "condition",
+                    "value": "disarm",
+                    "small": true
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       "bottom": {
         "actions": [
           {
+            "type": "attack",
+            "value": 4,
+            "multiTarget": true,
+            "ignoreArmor": true
+          },
+          {
+            "type": "condition",
+            "value": "stun",
+            "multiTarget": true
+          },
+          {
             "type": "element",
+            "consumeMode": "all",
             "elements": [
               "air",
               "earth",
               "dark"
             ]
+          },
+          {
+            "type": "xp",
+            "value": 1
           }
         ]
       }
