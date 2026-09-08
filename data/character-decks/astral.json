@@ -23,7 +23,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 movement",
             "subActions": [
               {
@@ -46,18 +46,25 @@
             "type": "shield",
             "value": 2,
             "subActions": [
-              { 
-                "type": "shield",
-                "value": 1, 
-                "valueType": "subtract" 
-              },
               {
-                "type": "element",
-                "elements": ["earth"]
-              },
-              {
-                "type": "xp",
-                "value": 1
+                "type": "bonus",
+                "subActions": [
+                  {
+                    "type": "shield",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["earth"],
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
               }
             ]
           }
@@ -101,18 +108,22 @@
             "value": 3,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
-                  { 
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
                     "type": "element",
                     "elements": ["dark"],
-                    "small": true 
+                    "small": true
                   },
-                  { 
-                    "type": "xp", 
-                    "value": 1 
+                  {
+                    "type": "xp",
+                    "value": 1
                   }
                 ]
               }
@@ -156,7 +167,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 pull, -1 range",
             "subActions": [
               {
@@ -205,7 +216,7 @@
             "multiTarget": 2,
             "subActions": [
               {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-1 target",
                 "subActions": [
                   {
@@ -247,7 +258,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 movement",
             "subActions": [
               {
@@ -276,7 +287,7 @@
             "value": "disarm",
             "subActions": [
                {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-2 range",
                 "subActions": [
                   {
@@ -324,13 +335,18 @@
             "value": 4,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["dark"] 
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["dark"],
+                    "small": true
                   }
                 ]
               }
@@ -367,13 +383,18 @@
             "multiTarget": true,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["air"] 
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["air"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -504,13 +525,18 @@
             "selfOnly": true,
             "subActions": [
               {
-                "type": "heal",
-                "value": 2,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["air"] 
+                    "type": "heal",
+                    "value": 2,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["air"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -519,13 +545,18 @@
                 ]
               },
               {
-                "type": "heal",
-                "value": 2,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["earth"] 
+                    "type": "heal",
+                    "value": 2,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["earth"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -534,13 +565,18 @@
                 ]
               },
               {
-                "type": "heal",
-                "value": 2,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["dark"] 
+                    "type": "heal",
+                    "value": 2,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["dark"],
+                    "small": true
                   }
                 ]
               }
@@ -621,13 +657,18 @@
             "value": 5,
             "subActions": [
               {
-                "type": "heal",
-                "value": 2,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["earth"] 
+                    "type": "heal",
+                    "value": 2,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["earth"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -673,13 +714,18 @@
             "multiTarget": 3,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["air"] 
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["air"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -869,7 +915,7 @@
             "multiTarget": 2,
             "subActions": [
               {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-1 pull, -1 range",
                 "subActions": [
                   {
@@ -879,7 +925,7 @@
                 ]
               },
               {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-1 target",
                 "subActions": [
                   {
@@ -905,13 +951,18 @@
             "value": 5,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["earth"] 
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["earth"],
+                    "small": true
                   }
                 ]
               }
@@ -1041,13 +1092,18 @@
             "multiTarget": 2,
             "subActions": [
               {
-                "type": "attack",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["dark"] 
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["dark"],
+                    "small": true
                   },
                   {
                     "type": "xp",
@@ -1114,7 +1170,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 move",
             "subActions": [
               {
@@ -1124,7 +1180,7 @@
             ]
           },
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 move (ally)",
             "subActions": [
               {
@@ -1195,7 +1251,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 dmg",
             "subActions": [
               {
@@ -1298,7 +1354,7 @@
       "bottom": {
         "actions": [
           {
-            "type": "text",
+            "type": "textBonus",
             "text": "-1 move",
             "subActions": [
               {
@@ -1438,18 +1494,23 @@
             "multiTarget": 3,
             "subActions": [
               {
-                "type": "heal",
-                "value": 1,
-                "valueType": "subtract",
+                "type": "bonus",
                 "subActions": [
                   {
-                    "type": "element", 
-                    "elements": ["dark"] 
+                    "type": "heal",
+                    "value": 1,
+                    "valueType": "subtract",
+                    "small": true
+                  },
+                  {
+                    "type": "element",
+                    "elements": ["dark"],
+                    "small": true
                   }
                 ]
               },
               {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-1 target",
                 "subActions": [
                   {
@@ -1459,7 +1520,7 @@
                 ]
               },
               {
-                "type": "text",
+                "type": "textBonus",
                 "text": "-2 range",
                 "subActions": [
                   {
