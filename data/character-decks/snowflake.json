@@ -1,0 +1,1521 @@
+{
+  "characterClass": "snowflake",
+  "edition": "fh",
+  "handSize": 11,
+  "cards": [
+    {
+      "cardId": 330,
+      "name": "Blizzard",
+      "level": 1,
+      "initiative": 71,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "muddle",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              },
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 331,
+      "name": "Enticing Breeze",
+      "level": 1,
+      "initiative": 76,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "extra",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Pull toward one of your allies.",
+                    "small": true
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "ice"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 2,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 332,
+      "name": "Chilling Impact",
+      "level": 1,
+      "initiative": 31,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "At the start of each of your turns, you may consume Ice. If you do, at the end of each of your forced movement abilities performed this turn, all enemies moved with the ability suffer Damage 1",
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 333,
+      "name": "Gathering Force",
+      "level": 1,
+      "initiative": 89,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "At the end of each of your turns, you may consume half of Ice or Air. Reduce all of your Push, Pull, and other forced movement effects by one.",
+            "small": true
+          }
+        ],
+        "xp": 1,
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Gain advantage on your next attack this round.",
+            "small": true
+          }
+        ],
+        "round": true
+      }
+    },
+    {
+      "cardId": 334,
+      "name": "Nature's Breath",
+      "level": 1,
+      "initiative": 90,
+      "top": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Snow Fox",
+              "health": "5",
+              "attack": "2",
+              "movement": "3"
+            },
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 335,
+      "name": "Lifting Gust",
+      "level": 1,
+      "initiative": 27,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      }
+    },
+    {
+      "cardId": 336,
+      "name": "Snowball",
+      "level": 1,
+      "initiative": 23,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond_plus"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "regenerate",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next five attacks, add +XAttack, where X is the number of use slots the character token has passed (0, 1, 2, 3, 4).",
+            "small": true,
+            "subActions": [
+              {
+                "type": "persistentTrack",
+                "slots": [
+                  {
+                    "xp": 1
+                  },
+                  {},
+                  {
+                    "xp": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 337,
+      "name": "Whiteout",
+      "level": 1,
+      "initiative": 21,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Control all targets of the attack ability:",
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 2
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 338,
+      "name": "Cross Winds",
+      "level": 1,
+      "initiative": 32,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Grant one ally:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 3,
+                "enhancementTypes": [
+                  "square"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 339,
+      "name": "Frigid Growth",
+      "level": 1,
+      "initiative": 70,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Create one 1-hex hazardous terrain tile in a featureless hex within Range 3.",
+            "small": true
+          },
+          {
+            "type": "condition",
+            "value": "strengthen",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Target one ally adjacent to the hex.",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 340,
+      "name": "Cold Therapy",
+      "level": 1,
+      "initiative": 20,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "muddle",
+                "small": true
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "ice"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 2,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Once at the start of each of your turns, you may consume Ice or consume Air to perform:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "heal",
+                "value": 2
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 341,
+      "name": "White Winds",
+      "level": "X",
+      "initiative": 11,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 2,
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "If an ally was the target of the heal ability, grant that ally:",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 342,
+      "name": "Blinding Vortex",
+      "level": "X",
+      "initiative": 31,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "ice"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 2,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "light"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "condition",
+                    "value": "disarm",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "lost": true
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 343,
+      "name": "The Spirit's Call",
+      "level": "X",
+      "initiative": 45,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "condition",
+                    "value": "curse",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "light"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      }
+    },
+    {
+      "cardId": 344,
+      "name": "Birds in a Tempest",
+      "level": 2,
+      "initiative": 18,
+      "top": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "2 White Owls",
+              "health": "3",
+              "attack": "2",
+              "movement": "3",
+              "flying": true
+            },
+            "small": true
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "All allies add Move +2 and Jump to their move abilities this round.",
+            "small": true
+          }
+        ],
+        "round": true
+      }
+    },
+    {
+      "cardId": 345,
+      "name": "Tornado",
+      "level": 2,
+      "initiative": 59,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "extra",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Control all targets of the attack ability:",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 346,
+      "name": "Cold Snap",
+      "level": 3,
+      "initiative": 86,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Create two 1-hex hazardous terrain tiles in adjacent featureless hexes.",
+            "small": true
+          },
+          {
+            "type": "text",
+            "text": "Up to three enemies occupying hazardous terrain suffer Damage 2.",
+            "small": true
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 2,
+            "enhancementTypes": [
+              "diamond_plus"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "strengthen",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 347,
+      "name": "Polar Vortex",
+      "level": 3,
+      "initiative": 61,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Designate a hex within Range 3.",
+            "small": true,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Pull toward the designated hex.",
+                "small": true
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "ice"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "attack",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 348,
+      "name": "Zephyr Barrier",
+      "level": 4,
+      "initiative": 40,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 1,
+            "enhancementTypes": [
+              "square"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "ward",
+                "small": true
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "heal",
+                    "value": 1,
+                    "valueType": "add",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Place this card in one adjacent character's active area and treat it as if they own the card. If removed from that character's active area, place it in the Snowdancer's lost pile.",
+            "small": true,
+            "subActions": [
+              {
+                "type": "shield",
+                "value": 1
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 349,
+      "name": "Biting Frost",
+      "level": 4,
+      "initiative": 16,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Grant one ally:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 6,
+                "enhancementTypes": [
+                  "diamond"
+                ],
+                "subActions": [
+                  {
+                    "type": "elementBonus",
+                    "elements": [
+                      "ice"
+                    ],
+                    "consumeMode": "all",
+                    "subActions": [
+                      {
+                        "type": "attack",
+                        "value": 2,
+                        "valueType": "add",
+                        "small": true
+                      },
+                      {
+                        "type": "xp",
+                        "value": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "All enemies occupying hazardous terrain gain Immobilize.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 350,
+      "name": "Whipping Gale",
+      "level": 5,
+      "initiative": 79,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 1,
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "At the start of each of your turns, you may consume Air to perform either:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "text",
+                "text": "or",
+                "small": true
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 351,
+      "name": "Shifting Snow",
+      "level": 5,
+      "initiative": 17,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move up to two hazardous terrain tiles within Range 4 into featureless hexes adjacent to them. If any enter the same hex as a figure, that figure suffers hazardous terrain Damage and gains Muddle.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Create one 1-hex hazardous terrain tile in an adjacent featureless hex.",
+            "small": true
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 352,
+      "name": "Refreshing Flurry",
+      "level": 6,
+      "initiative": 95,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 4,
+            "enhancementTypes": [
+              "diamond_plus"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "bless",
+                "small": true
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "summon",
+            "summon": {
+              "name": "Polar Cat",
+              "health": "6",
+              "attack": "2",
+              "movement": "3",
+              "abilities": [
+                {
+                  "type": "pierce",
+                  "value": 3,
+                  "valueType": "fixed"
+                },
+                {
+                  "type": "condition",
+                  "value": "wound",
+                  "valueType": "fixed"
+                }
+              ]
+            },
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 353,
+      "name": "Frozen Brand",
+      "level": 6,
+      "initiative": 33,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Grant one ally within Range 3:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "attack",
+                "value": 4,
+                "subActions": [
+                  {
+                    "type": "elementBonus",
+                    "elements": [
+                      "ice"
+                    ],
+                    "consumeMode": "all",
+                    "subActions": [
+                      {
+                        "type": "condition",
+                        "value": "immobilize"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 354,
+      "name": "Freezing Storm",
+      "level": 7,
+      "initiative": 81,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 4,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "elementBonus",
+            "elements": [
+              "ice"
+            ],
+            "consumeMode": "all",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Create one 1-hex hazardous terrain tile in an adjacent featureless hex",
+                "small": true
+              },
+              {
+                "type": "xp",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 355,
+      "name": "Storm Wall",
+      "level": 7,
+      "initiative": 30,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 2,
+            "subActions": [
+              {
+                "type": "pierce",
+                "value": 2,
+                "small": true
+              },
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "air"
+                ],
+                "consumeMode": "all",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "All enemies adjacent to the red hexes of the attack ability suffer Damage 1",
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Place this card in one adjacent character's active area and treat it as if they own the card. If removed from that character's active area, place it in the Snowdancer's lost pile.",
+            "small": true
+          },
+          {
+            "type": "text",
+            "text": "At the start of each of your turns, peform:",
+            "small": true,
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "ward",
+                "small": true
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 356,
+      "name": "Surging Blow",
+      "level": 8,
+      "initiative": 73,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3
+          },
+          {
+            "type": "attack",
+            "value": 3
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 3,
+            "enhancementTypes": [
+              "diamond_plus"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "strengthen",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 357,
+      "name": "The Endless White",
+      "level": 8,
+      "initiative": 5,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "All ranged abilities this round gain Range -1, to a minimum of Range 1",
+            "small": true,
+            "subActions": [
+              {
+                "type": "elementBonus",
+                "elements": [
+                  "ice",
+                  "air"
+                ],
+                "consumeMode": "any",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Range -2 instead, X Experience 1",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1,
+        "round": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 358,
+      "name": "Winds of Change",
+      "level": 9,
+      "initiative": 15,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 4,
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Control all targets of the attack ability:",
+            "small": true
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "air"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 2,
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": 4
+          },
+          {
+            "type": "text",
+            "text": "The target of the heal ability may lose one card from their hand or discard to Recover one card from their lost pils of level equal to or lower than the lost card.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 359,
+      "name": "Snowblind",
+      "level": 9,
+      "initiative": 83,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": 3,
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Target 2 enemies occupying or adjacent to the same hazardous terrain tile",
+                "small": true
+              },
+              {
+                "type": "condition",
+                "value": "disarm",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "forceBox",
+            "small": true,
+            "subActions": [
+              {
+                "type": "element",
+                "elements": [
+                  "ice"
+                ]
+              }
+            ]
+          }
+        ],
+        "xp": 1
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Whenever you or an ally perform a rest, the resting character may gain Bless.",
+            "small": true
+          }
+        ],
+        "xp": 2,
+        "lost": true,
+        "persistent": true
+      }
+    }
+  ]
+}
