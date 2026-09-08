@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - attacks-v2
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
