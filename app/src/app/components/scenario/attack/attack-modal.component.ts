@@ -96,9 +96,13 @@ export class AttackModalComponent {
     );
   }
 
-  /** Heroes and their summons — anyone whose attack can be credited to a player. */
+  /**
+   * Heroes and their summons — anyone whose attack can be credited to a player. A
+   * summon only belongs in the attacker strip if it actually has a printed attack —
+   * a healer or lure token with no attack stat has nothing to select it for.
+   */
   getHeroes(): Creature[] {
-    return this.appContext.getCreatures().filter(c => !c.aggressive);
+    return this.appContext.getCreatures().filter(c => !c.aggressive && (!c.isSummon || (c.attack ?? 0) > 0));
   }
 
   private getDefaultSelectedCharacterId(): string | null {

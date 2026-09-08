@@ -56,10 +56,14 @@
     <!-- A summon's printed prose stays in the card data but is not drawn on its row —
          reference text the player reads off the card, not board state. -->
 
-    <!-- Only an enemy gets an Attack button. A summon is damaged the same way — its
-         HP field, right above — but there's nothing to attack it "for": it just
-         doesn't carry a button that reads as "attack this friendly figure". -->
+    <!-- An enemy's button opens the modal targeting itself, since it's always the one
+         getting hit. A summon is the opposite — it's the one swinging — so its button
+         opens the same card execution panel a hero uses, showing its one printed
+         action instead of a hand of cards to pick between. -->
     <button *ngIf="creature.aggressive" class="open-modal button attack" (click)="openConditionModal()">
+        <div class="icon attack"></div>Attack
+    </button>
+    <button *ngIf="creature.isSummon" class="open-modal button attack" (click)="openCardPanel()">
         <div class="icon attack"></div>Attack
     </button>
 </div>

@@ -14,6 +14,7 @@ import {
   ConditionName,
   DEFAULT_ATTACK,
   DEFAULT_MOVE,
+  ExecutableActionType,
   BENEFICIAL_CONDITIONS,
   NON_CREATURE_CONDITIONS,
   actionValue,
@@ -212,8 +213,9 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(result => { this.customOverride = result; });
 
+    // A summon holds no deck and no hand of cards — nothing here applies to it.
     const hero = this.hero;
-    if (hero?.id && hero?.type) {
+    if (hero?.id && hero?.type && !hero.isSummon) {
       const heroId = hero.id;
       this.deckService.loadDeck(hero.type).then(() => {
         this.refreshCandidates();
@@ -243,8 +245,17 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return this.hero?.level ?? 1;
   }
 
+  /** Whether the panel's acting creature is a summon rather than a card-holding hero. */
+  get isSummonActing(): boolean {
+    return !!this.hero?.isSummon;
+  }
+
   get heroPortrait(): string {
-    return `./images/character/thumbnail/fh-${this.hero?.type}.png`;
+    const hero = this.hero;
+    if (hero?.isSummon) {
+      return hero.summonImage ? `./images/${hero.summonImage}` : './images/summons/fh.png';
+    }
+    return `./images/character/thumbnail/fh-${hero?.type}.png`;
   }
 
   onImgError(event: Event): void {
@@ -255,7 +266,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
   private refreshCandidates(): void {
     const hero = this.hero;
-    if (!hero?.type) {
+    if (!hero?.type || hero.isSummon) {
       this.candidatesA = [];
       this.candidatesB = [];
       return;
@@ -311,8 +322,17 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   /**
    * Ordered top-half-then-bottom-half (not per-card) so the 3-column grid lays out
    * every top action on the first row and every bottom action on the second.
+   *
+   * A summon holds no hand of cards to pick between — it has one printed attack,
+   * always available — so it gets a single synthetic tile instead of the hero's
+   * two-cards-plus-default grid.
    */
   get tiles(): HalfTile[] {
+    const hero = this.hero;
+    if (hero?.isSummon) {
+      return [{ source: 'default', half: 'top', card: null, content: this.petCard, label: hero.name || 'Attack' }];
+    }
+
     const bySlot = (slot: CardSlot, half: CardHalfName): HalfTile => {
       const card = this.cardFor(slot);
       return {
@@ -332,6 +352,56 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       bySlot('B', 'bottom'),
       { source: 'default', half: 'bottom', card: null, content: DEFAULT_MOVE, label: 'Default Move 2' },
     ];
+  }
+
+  /**
+   * A summon's one action, built from its own printed stat line rather than authored
+   * card data: its attack — with pierce, any inflicted condition (poison, wound, …)
+   * and a multi-target cap riding on it exactly as a card would print them — and its
+   * movement, the way `DEFAULT_MOVE` also reaches outside the schema for a board-only
+   * value this app doesn't otherwise model.
+   *
+   * `hero.pierce` and `hero.actions` are `CreatureFactoryService.createSummon`'s own
+   * split of the card's summon `abilities`: a printed pierce becomes the fixed stat,
+   * a printed condition becomes an action rendered as an icon on the summon's row —
+   * both need folding back onto the attack here, or they'd stay decoration instead of
+   * something Execute actually applies.
+   *
+   * Cached by hero id rather than rebuilt on every access: an authored card is one
+   * stable object for as long as it's bound, and `collectActionsScoped`/`currentAttack`
+   * compare an attack action against itself by reference to scope a nested pierce or
+   * condition to the right strike — a fresh object literal every read would never
+   * equal itself, and the attack's own subActions would silently stop applying.
+   */
+  private petCardCache: { heroId: string; card: CardHalf } | null = null;
+
+  private get petCard(): CardHalf {
+    const hero = this.hero;
+    if (!hero?.id) return { actions: [] };
+    if (this.petCardCache?.heroId === hero.id) return this.petCardCache.card;
+
+    const actions: CardAction[] = [];
+    if ((hero.attack ?? 0) > 0) {
+      const attack: CardAction = { type: ExecutableActionType.attack, value: hero.attack };
+      const subActions: CardAction[] = [];
+      if ((hero.pierce ?? 0) > 0) {
+        subActions.push({ type: ExecutableActionType.pierce, value: hero.pierce });
+      }
+      for (const ability of hero.actions ?? []) {
+        if (ability.type === 'condition' && ability.value !== undefined) {
+          subActions.push({ type: ExecutableActionType.condition, value: ability.value, small: true });
+        }
+      }
+      if (subActions.length > 0) attack.subActions = subActions;
+      if ((hero.attackTarget ?? 1) > 1) attack.multiTarget = hero.attackTarget;
+      actions.push(attack);
+    }
+    if ((hero.movement ?? 0) > 0) {
+      actions.push({ type: 'move', value: hero.movement });
+    }
+    const card: CardHalf = { actions };
+    this.petCardCache = { heroId: hero.id, card };
+    return card;
   }
 
   /** A half is spent when its own half slot was filled by this tile's card. */
@@ -1008,12 +1078,30 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Every `element` action on the half, in document order. Indexes `infuseElementChoice`
-   * — an `element` printing `consumeMode: 'any'` needs the player to pick which one of
-   * its listed elements actually gets infused.
+   * Every unconditional `element` action on the half, in document order — one nested
+   * inside a conditional bonus is excluded (see `takenBonusElements`): it only infuses
+   * once that specific bonus is taken, not just because it appears somewhere in the
+   * tree. Indexes `infuseElementChoice` — an `element` printing `consumeMode: 'any'`
+   * needs the player to pick which one of its listed elements actually gets infused.
    */
   get elementActions(): CardAction[] {
-    return collectActions(this.selectedContent?.actions, 'element');
+    return collectActionsScoped(this.selectedContent?.actions, 'element', null);
+  }
+
+  /**
+   * Elements the taken bonuses infuse — e.g. astral #202 "Guide the Flow" pays Earth
+   * to infuse Air. These are deliberately *not* part of `elementActions`: until the
+   * bonus is actually taken, the card cannot infuse them, the same reasoning
+   * `takenBonusConditions` already applies to a bonus-granted condition.
+   */
+  get takenBonusElements(): ElementType[] {
+    const out: ElementType[] = [];
+    for (const { bonus } of this.takenBonusList) {
+      for (const action of collectActions(bonus.subActions, 'element')) {
+        out.push(...this.elementsOfAction(action));
+      }
+    }
+    return out;
   }
 
   /** An `element` action that names more than one element but infuses only the one picked. */
@@ -1085,7 +1173,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * `elementBonus`'s "any" already lets the player choose which element it *consumes*.
    */
   get selectedElements(): ElementType[] {
-    const out: ElementType[] = [];
+    const out: ElementType[] = [...this.takenBonusElements];
     this.elementActions.forEach((action, index) => {
       if (this.isChooseOneElement(action)) {
         const chosen = this.chosenInfuseElement(index);
@@ -1098,13 +1186,24 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Summons the selected half brings into play. Created by `execute()` — a card action
-   * is the only way a summon ever enters play.
+   * Summons the selected half unconditionally brings into play. One nested inside a
+   * conditional bonus is excluded — see `takenBonusSummons` — the same gating
+   * `elementActions`/`takenBonusElements` split applies to an infuse.
    */
   get selectedSummons(): CardSummon[] {
-    return collectActions(this.selectedContent?.actions, 'summon')
-      .map(action => action.summon)
-      .filter((summon): summon is CardSummon => !!summon);
+    return [
+      ...collectActionsScoped(this.selectedContent?.actions, 'summon', null),
+      ...this.takenBonusSummons,
+    ].map(action => action.summon).filter((summon): summon is CardSummon => !!summon);
+  }
+
+  /** Summons the taken bonuses bring into play — e.g. astral #196 "Imbue with Life". */
+  get takenBonusSummons(): CardAction[] {
+    const out: CardAction[] = [];
+    for (const { bonus } of this.takenBonusList) {
+      out.push(...collectActions(bonus.subActions, 'summon'));
+    }
+    return out;
   }
 
   get needsTarget(): boolean {
@@ -1626,14 +1725,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       this.appContext.applyCreaturePatches(patches);
     }
 
-    if (totalDamage > 0 && this.hero?.type) {
-      this.appContext.recordDamage(this.hero.type, totalDamage);
-      this.logService.appendDamageToLastBatch(this.hero.type, totalDamage);
+    const creditType = this.creditType;
+    if (totalDamage > 0 && creditType) {
+      this.appContext.recordDamage(creditType, totalDamage);
+      this.logService.appendDamageToLastBatch(creditType, totalDamage);
     }
     for (const id of killedIds) {
-      if (this.hero?.type) {
-        this.appContext.recordKill(this.hero.type);
-        this.logService.appendKillToLastBatch(this.hero.type);
+      if (creditType) {
+        this.appContext.recordKill(creditType);
+        this.logService.appendKillToLastBatch(creditType);
       }
       this.appContext.killCreature(id);
     }
@@ -1641,6 +1741,19 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     // Self-damage is deliberately 0 here: it is a per-half cost, charged once by
     // finalizeHalf(), not by each strike of a multi-attack or multi-target half.
     this.recordExecution(effects, totalDamage, killedIds.length, 0, 0, 0, retaliateSuffered, 0, [], 0);
+  }
+
+  /**
+   * Whose stats a strike counts against. A summon has no stats of its own — its owner
+   * acts through it — so its damage and kills are credited to whoever summoned it,
+   * mirroring `creditTypeFor` in the attack modal.
+   */
+  private get creditType(): string | undefined {
+    const hero = this.hero;
+    if (!hero) return undefined;
+    if (!hero.isSummon) return hero.type;
+    const owner = this.appContext.getCreatures().find(c => c.id === hero.summonOwnerId);
+    return owner?.type;
   }
 
   /**
@@ -1663,12 +1776,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   ): void {
     const hero = this.hero;
     const selection = this.selected;
-    if (!hero?.id || !selection) return;
+    // A summon has no half-slot for this to file against — its action carries no
+    // spent state to undo, the same way a monster's Attack button records nothing.
+    if (!hero?.id || !selection || hero.isSummon) return;
 
+    const creditType = this.creditType;
     this.appContext.recordHalfExecution(hero.id, selection.half, {
       targets: effects,
-      damageCredited: this.hero?.type ? damageCredited : 0,
-      killsCredited: this.hero?.type ? killsCredited : 0,
+      damageCredited: creditType ? damageCredited : 0,
+      killsCredited: creditType ? killsCredited : 0,
       xpGained,
       shieldGained,
       retaliateGained,
@@ -1733,13 +1849,21 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
     const patches: { creatureId: string; patch: Partial<Creature> }[] = [];
 
-    const heroPatch: Partial<Creature> = selection.half === 'top'
-      ? { topHalfSlot: this.slotOf(selection.source), topHalfState: 'executed' }
-      : { bottomHalfSlot: this.slotOf(selection.source), bottomHalfState: 'executed' };
+    // A summon has no hand of cards and no turn economy to spend — its one action is
+    // always available again next attack, the same way a monster's Attack button
+    // carries no spent state. Only a hero's half marks a slot executed or folds in
+    // turn completion.
+    const heroPatch: Partial<Creature> = hero.isSummon
+      ? {}
+      : selection.half === 'top'
+        ? { topHalfSlot: this.slotOf(selection.source), topHalfState: 'executed' }
+        : { bottomHalfSlot: this.slotOf(selection.source), bottomHalfState: 'executed' };
 
     // Fold turn completion in, so one Undo reverses the completion too.
-    const otherHalf: CardHalfName = selection.half === 'top' ? 'bottom' : 'top';
-    if (isHalfSpent(hero, otherHalf)) heroPatch.isTurnCompleted = true;
+    if (!hero.isSummon) {
+      const otherHalf: CardHalfName = selection.half === 'top' ? 'bottom' : 'top';
+      if (isHalfSpent(hero, otherHalf)) heroPatch.isTurnCompleted = true;
+    }
 
     // Shield and retaliate from a card last the round, matching roundArmor semantics.
     // Shield's total includes whatever a taken bonus added or removed — a bonus can
@@ -1869,14 +1993,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
     // Credit the damage and any kill, mirroring the attack modal's ordering: the
     // creature patch must be emitted first so these attach to its batch.
-    if (totalDamage > 0 && hero.type) {
-      this.appContext.recordDamage(hero.type, totalDamage);
-      this.logService.appendDamageToLastBatch(hero.type, totalDamage);
+    const creditType = this.creditType;
+    if (totalDamage > 0 && creditType) {
+      this.appContext.recordDamage(creditType, totalDamage);
+      this.logService.appendDamageToLastBatch(creditType, totalDamage);
     }
     for (const id of killedIds) {
-      if (hero.type) {
-        this.appContext.recordKill(hero.type);
-        this.logService.appendKillToLastBatch(hero.type);
+      if (creditType) {
+        this.appContext.recordKill(creditType);
+        this.logService.appendKillToLastBatch(creditType);
       }
       this.appContext.killCreature(id);
     }

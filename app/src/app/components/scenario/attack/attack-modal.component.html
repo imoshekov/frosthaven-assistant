@@ -12,6 +12,7 @@
                     <img [src]="attackerPortrait(hero)"
                          [title]="hero.name"
                          (error)="$event.target.src='./images/bb/daemon-skull.svg'" />
+                    <div class="summon-name" *ngIf="hero.isSummon">{{ hero.name }}</div>
                 </div>
             </div>
         </div>

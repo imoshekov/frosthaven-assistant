@@ -60,9 +60,14 @@ export class CreatureComponent {
     return isInitiativeRevealed(this.creature);
   }
 
-  /** Opens the card execution panel. Only reachable once both cards are set. */
+  /**
+   * Opens the card execution panel. A hero needs both cards set — the panel is
+   * where the ambiguous ones get resolved, but nothing renders usefully before that.
+   * A summon holds no cards at all, so it has nothing to wait on: the panel just
+   * shows its one printed action instead of a hand to choose between.
+   */
   openCardPanel(): void {
-    if (!this.bothCardsSet()) return;
+    if (!this.creature.isSummon && !this.bothCardsSet()) return;
     this.appContext.cardPanelCreatureId = this.creature.id ?? null;
   }
 

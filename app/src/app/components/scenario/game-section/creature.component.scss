@@ -1,8 +1,7 @@
 // The card fills the height its group's tile gives it, so its own background covers
 // the whole tile. Without this it sizes to its content and whatever is left over —
 // the height a taller neighbouring group forces on the row — shows the page through
-// as a black band under the card. Most visible on a summon, which is a row shorter
-// than a monster (no Attack button under it).
+// as a black band under the card.
 :host {
     display: block;
     height: 100%;
@@ -130,9 +129,8 @@ input {
 // number, same condition icons. It is a figure on the board like any other, so it is
 // read at the same distance — nothing here is compacted.
 
-// A summon has no Attack button to fill the bottom of a taller row (see :host above),
-// so without this its standee/HP row sits at the top, leaving the leftover space below
-// it instead of where a monster's Attack button would be. Pushed to the bottom instead.
+// Pushed to the bottom so the standee/HP row sits just above the Attack button, the
+// same layout a monster's row already has, rather than leaving a gap between them.
 .container.summon .creature-standee {
     margin-top: auto;
     border-top: 1px solid var(--font-color);

@@ -8,7 +8,7 @@
       <img class="portrait" [src]="heroPortrait" [alt]="actingHero.name" (error)="onImgError($event)" />
       <div class="who">
         <div class="name">{{ actingHero.name }}</div>
-        <div class="sub">
+        <div class="sub" *ngIf="!isSummonActing">
           level {{ actingHero.level }}
           <span class="initiatives">
             <span class="init" title="Main Card initiative">
@@ -78,7 +78,9 @@
           </div>
         </div>
 
-        <div class="tile-actions">
+        <!-- A summon's one action carries no spent/turn state to skip or undo — same
+             as a monster's Attack button, it's just always there. -->
+        <div class="tile-actions" *ngIf="!isSummonActing">
           <button type="button" class="skip" *ngIf="!isTileSpent(tile)"
                   [disabled]="isTileDisabled(tile)" (click)="skip(tile)">
             Skip
@@ -455,10 +457,10 @@
 
     <!-- Footer ------------------------------------------------------------- -->
     <div class="panel-footer">
-      <button type="button" class="footer-btn" *ngIf="!isTurnComplete" (click)="endTurnEarly()">
+      <button type="button" class="footer-btn" *ngIf="!isSummonActing && !isTurnComplete" (click)="endTurnEarly()">
         End turn early
       </button>
-      <button type="button" class="footer-btn" *ngIf="isTurnComplete" (click)="reopenTurn()">
+      <button type="button" class="footer-btn" *ngIf="!isSummonActing && isTurnComplete" (click)="reopenTurn()">
         Reopen turn
       </button>
       <button type="button" class="footer-btn done" (click)="close()">Done</button>
