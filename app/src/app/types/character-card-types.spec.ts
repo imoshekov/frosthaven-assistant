@@ -4,6 +4,7 @@ import {
   bonusXp,
   collectAttacks,
   collectConditionalBonuses,
+  hasCardData,
   sumSelfDamage,
   sumUnconditionalXp,
 } from './character-card-types';
@@ -159,6 +160,32 @@ describe('character-card-types', () => {
     it('is zero for a half that costs nothing', () => {
       expect(sumSelfDamage([{ type: 'attack', value: 3 }])).toBe(0);
       expect(sumSelfDamage(undefined)).toBe(0);
+    });
+  });
+
+  /**
+   * Regression: a hand-edited half missing its `actions` array entirely — `{}` rather
+   * than `{ "actions": [] }` — used to throw reading `.length` off `undefined`, which
+   * crashed the whole card panel's rendering (every other tile along with it) rather
+   * than just degrading this one half to "no data yet", the way an empty `actions: []`
+   * stub already does.
+   */
+  describe('hasCardData', () => {
+    it('is true for a half with real actions', () => {
+      expect(hasCardData({ actions: [{ type: 'attack', value: 2 }] })).toBe(true);
+    });
+
+    it('is false for an authored-but-empty stub', () => {
+      expect(hasCardData({ actions: [] })).toBe(false);
+    });
+
+    it('is false, not a thrown error, for a half missing `actions` entirely', () => {
+      expect(hasCardData({} as any)).toBe(false);
+    });
+
+    it('is false for null/undefined', () => {
+      expect(hasCardData(null)).toBe(false);
+      expect(hasCardData(undefined)).toBe(false);
     });
   });
 });

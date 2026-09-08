@@ -104,7 +104,7 @@ describe('PlayerCardExecutionPanelComponent heal-then-attack halves', () => {
   });
 
   it('offers allies first, for the heal, not enemies', () => {
-    expect(panel.isResolvingHealStep).toBe(true);
+    expect(panel.isResolvingAllyStep).toBe(true);
     expect(panel.targetsAreHeroes).toBe(true);
     expect(panel.targetOptions.map(c => c.id)).toContain('ally');
     expect(panel.targetOptions.map(c => c.id)).not.toContain('mob');
@@ -121,7 +121,7 @@ describe('PlayerCardExecutionPanelComponent heal-then-attack halves', () => {
     panel.execute();
 
     expect(creatures.find(c => c.id === 'ally')!.hp).toBe(10); // 5 + 5, capped at max
-    expect(panel.isResolvingHealStep).toBe(false);
+    expect(panel.isResolvingAllyStep).toBe(false);
     expect(panel.targetsAreHeroes).toBe(false);
     expect(panel.targetOptions.map(c => c.id)).toContain('mob');
     expect(panel.targetOptions.map(c => c.id)).not.toContain('ally');

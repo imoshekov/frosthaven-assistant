@@ -311,11 +311,15 @@
               <span class="icon damage"></span>{{ bonusSelfDamageCost(bonus) }}
             </span>
             <ng-template #notSelfDamage>
-              <!-- No cost to pay — the card describes a condition and the player
-                   decides, by looking at the board, whether it's true right now. -->
-              <span class="consume text" *ngIf="isTextBonus(bonus); else elementCost">
-                {{ bonus.text }}
-              </span>
+              <!-- A plain `bonus` has nothing to pay and nothing to judge — the
+                   checkbox alone is the whole offer, so no cost label at all. -->
+              <ng-container *ngIf="!isPlainBonus(bonus)">
+                <!-- No cost to pay — the card describes a condition and the player
+                     decides, by looking at the board, whether it's true right now. -->
+                <span class="consume text" *ngIf="isTextBonus(bonus); else elementCost">
+                  {{ bonus.text }}
+                </span>
+              </ng-container>
             </ng-template>
             <ng-template #elementCost>
               <span class="consume">
@@ -352,7 +356,7 @@
            and drops the ones it has already struck. -->
       <div class="targets" *ngIf="needsTarget">
         <div class="targets-label">
-          {{ targetsAreHeroes ? 'Heal which ally?' : (isMultiSelect ? 'Attack which enemies?' : 'Attack which enemy?') }}
+          {{ targetsLabel }}
           <span class="hint" *ngIf="isSequentialAttack">
             one at a time — each target draws its own modifier
           </span>

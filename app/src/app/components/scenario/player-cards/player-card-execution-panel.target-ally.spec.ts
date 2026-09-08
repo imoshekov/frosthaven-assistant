@@ -151,11 +151,40 @@ describe('PlayerCardExecutionPanelComponent targetAlly conditions', () => {
     expect(creatures.find(c => c.id === 'mob')!.conditions).toEqual([]);
   });
 
-  it('stays on enemies when a targetAlly condition is mixed with an attack', () => {
+  /**
+   * Regression: this used to punt to "stays on enemies, DM applies the ally debuff by
+   * hand" — the same bug shackles #313 "Pleasure in Pain" hit for real. A `targetAlly`
+   * condition mixed with an attack now gets its own pre-attack step, same as a
+   * target-facing heal paired with an attack — see `isPreAttackStepNeeded`.
+   */
+  it('resolves the targetAlly condition against a picked ally before the attack', () => {
     panel.selected = { source: 'B', half: 'top' };
 
+    expect(panel.isResolvingAllyStep).toBe(true);
+    expect(panel.targetsAreHeroes).toBe(true);
+    expect(panel.targetOptions.map(c => c.id)).toContain('ally');
+    expect(panel.targetOptions.map(c => c.id)).not.toContain('mob');
+
+    panel.selectTarget('ally');
+    panel.execute();
+
+    expect(patchCalls.find(p => p.creatureId === 'ally')?.patch.conditions)
+      .toEqual([CreatureConditions.poison]);
+    expect(panel.isResolvingAllyStep).toBe(false);
     expect(panel.targetsAreHeroes).toBe(false);
     expect(panel.targetOptions.map(c => c.id)).toContain('mob');
+  });
+
+  it('does not re-apply the targetAlly condition to whoever the attack strikes', () => {
+    panel.selected = { source: 'B', half: 'top' };
+    panel.selectTarget('ally');
+    panel.execute(); // pre-attack step
+
+    panel.selectTarget('mob');
+    panel.setModifier(0);
+    panel.execute(); // attack step, finalizes the half
+
+    expect(creatures.find(c => c.id === 'mob')!.conditions).toEqual([]);
   });
 
   describe('targetAlly on an attack', () => {

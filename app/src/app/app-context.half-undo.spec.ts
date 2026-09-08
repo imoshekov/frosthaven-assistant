@@ -7,7 +7,7 @@ import { NotificationService } from './services/notification.service';
 import { DbService } from './services/db.service';
 import { XpService } from './services/xp.service';
 import { CharacterDeckService } from './services/character-deck.service';
-import { Creature, CreatureConditions } from './types/game-types';
+import { Creature, CreatureConditions, ElementState, ElementType } from './types/game-types';
 
 /**
  * Undoing a card half puts back everything it applied, not just the spent flag on the
@@ -48,6 +48,7 @@ describe('AppContext card-half undo', () => {
     selfConditionsGained: [],
     selfDamageSuffered: 0,
     selfHealConditionsRemoved: [],
+    elementsChanged: [],
     ...over,
   });
 
@@ -412,6 +413,80 @@ describe('AppContext card-half undo', () => {
       expect(appContext.getDamageTracker()['drifter']).toBe(8);      // bottom's still counted
       expect(appContext.getHalfExecution('hero', 'bottom')).toBeTruthy();
       expect(creature('hero')!.bottomHalfState).toBe('executed');
+    });
+  });
+
+  /**
+   * Elements a half consumed or infused, restored on Undo — unconditionally, at the
+   * user's explicit request, even though they're shared board state another player
+   * could have changed in between (see the tradeoff noted on `HalfExecution`).
+   */
+  describe('elements', () => {
+    beforeEach(() => {
+      appContext.setCreatures([hero(), mob()]);
+    });
+
+    const elementState = (type: ElementType) =>
+      appContext.getElements().find(e => e.type === type)?.state;
+
+    it('restores an infused element back to its pre-half state (None)', () => {
+      appContext.setElementState(ElementType.Air, ElementState.None);
+      appContext.recordHalfExecution('hero', 'top', execution({
+        elementsChanged: [{ type: ElementType.Air, previousState: ElementState.None }],
+      }));
+      appContext.setElementState(ElementType.Air, ElementState.Full); // what execute() actually did
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(elementState(ElementType.Air)).toBe(ElementState.None);
+    });
+
+    it('restores to the exact prior state, not just None — e.g. a Full element that decayed to Half', () => {
+      appContext.recordHalfExecution('hero', 'top', execution({
+        elementsChanged: [{ type: ElementType.Dark, previousState: ElementState.Half }],
+      }));
+      appContext.setElementState(ElementType.Dark, ElementState.None); // consumed
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(elementState(ElementType.Dark)).toBe(ElementState.Half);
+    });
+
+    it('restores every changed element independently — a bonus consuming one, infusing another', () => {
+      appContext.recordHalfExecution('hero', 'top', execution({
+        elementsChanged: [
+          { type: ElementType.Earth, previousState: ElementState.Full },
+          { type: ElementType.Air, previousState: ElementState.None },
+        ],
+      }));
+      appContext.setElementState(ElementType.Earth, ElementState.None); // consumed
+      appContext.setElementState(ElementType.Air, ElementState.Full);  // infused
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(elementState(ElementType.Earth)).toBe(ElementState.Full);
+      expect(elementState(ElementType.Air)).toBe(ElementState.None);
+    });
+
+    it('overwrites unconditionally, even if the element has changed again since execute', () => {
+      appContext.recordHalfExecution('hero', 'top', execution({
+        elementsChanged: [{ type: ElementType.Fire, previousState: ElementState.None }],
+      }));
+      appContext.setElementState(ElementType.Fire, ElementState.Full); // this half infused it
+      appContext.setElementState(ElementType.Fire, ElementState.Half); // someone/something else changed it since
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(elementState(ElementType.Fire)).toBe(ElementState.None);
+    });
+
+    it('leaves elements alone when the half changed none', () => {
+      appContext.setElementState(ElementType.Ice, ElementState.Full);
+      appContext.recordHalfExecution('hero', 'top', execution());
+
+      appContext.undoCardHalf('hero', 'top');
+
+      expect(elementState(ElementType.Ice)).toBe(ElementState.Full);
     });
   });
 });

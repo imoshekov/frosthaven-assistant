@@ -466,12 +466,17 @@
   }
 
   .choice-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.1rem 0.25rem;
     border-radius: 0.2rem;
     border: 1px solid var(--content-box-shadow-1);
     background: var(--secondary-color);
     cursor: pointer;
 
+    // A plain inline <span> ignores width/height — this needs to be a flex item
+    // (via the button's own display: inline-flex above) for its size to apply at all.
     .icon { width: 1.2rem; height: 1.2rem; }
 
     &.active {
@@ -902,12 +907,17 @@
     }
 
     .choice-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 0.1rem 0.25rem;
       border-radius: 0.2rem;
       border: 1px solid var(--content-box-shadow-1);
       background: var(--secondary-color);
       cursor: pointer;
 
+      // A plain inline <span> ignores width/height — needs to be a flex item (via
+      // this button's own display: inline-flex above) for its size to apply at all.
       .icon { width: 1.2rem; height: 1.2rem; }
 
       &.active {

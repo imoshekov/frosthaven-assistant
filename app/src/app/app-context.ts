@@ -56,9 +56,14 @@ export interface HalfEffectOnTarget {
  * multi-target attack hitting one enemy after another — so undoing gives back the
  * whole half's worth of damage in one go.
  *
- * Element infusions and summons are deliberately *not* in here: those are shared
- * board state that anything else can change between the execution and the undo, so
- * rewinding them blindly would clobber whatever happened in between.
+ * Summons are deliberately *not* in here — a summoned figure is its own creature by
+ * the time Undo would run, with its own HP/conditions/standee that may already have
+ * changed, so there is no single "put it back" for it the way a stat delta has.
+ * Elements *are* included, at the user's request: Undo restores each one to whatever
+ * state it was in immediately before this half touched it, unconditionally — even if
+ * something else has changed that element in the meantime, that later change is
+ * overwritten. Elements are shared board state, so this is a real, accepted tradeoff,
+ * not an oversight.
  */
 export interface HalfExecution {
     targets: HalfEffectOnTarget[];
@@ -93,6 +98,13 @@ export interface HalfExecution {
      * (an addition) since this is a removal Undo has to give back.
      */
     selfHealConditionsRemoved: CreatureConditions[];
+    /**
+     * Elements this half's execution consumed or infused, paired with the state each
+     * was in immediately before — captured once, before either the consuming or the
+     * infusing happens, so an element the half both consumes and infuses still
+     * restores to its true pre-half state rather than the mid-half one.
+     */
+    elementsChanged: { type: ElementType; previousState: ElementState }[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -666,6 +678,7 @@ export class AppContext {
                 })),
                 selfConditionsGained: [...effect.selfConditionsGained],
                 selfHealConditionsRemoved: [...effect.selfHealConditionsRemoved],
+                elementsChanged: [...effect.elementsChanged],
             });
             return;
         }
@@ -695,6 +708,15 @@ export class AppContext {
         existing.selfDamageSuffered += effect.selfDamageSuffered;
         existing.selfConditionsGained = [...new Set([...existing.selfConditionsGained, ...effect.selfConditionsGained])];
         existing.selfHealConditionsRemoved = [...new Set([...existing.selfHealConditionsRemoved, ...effect.selfHealConditionsRemoved])];
+        // Keeps the earliest-recorded state per element, same reasoning as a target's
+        // `hpBefore`: elements only ever change once per half (in finalizeHalf, not per
+        // strike), but a second entry for the same type must not overwrite the real
+        // pre-half state with something already mid-way through this half's own change.
+        for (const incoming of effect.elementsChanged) {
+            if (!existing.elementsChanged.some(e => e.type === incoming.type)) {
+                existing.elementsChanged.push(incoming);
+            }
+        }
     }
 
     /** What a half applied, for tests and for the panel's own bookkeeping. */
@@ -791,6 +813,12 @@ export class AppContext {
         if (heroType) {
             this.undoDamage(heroType, executed.damageCredited);
             for (let i = 0; i < executed.killsCredited; i++) this.undoKill(heroType);
+        }
+
+        // Elements: restored unconditionally to their pre-half state, at the user's
+        // request — see the tradeoff noted on `HalfExecution`.
+        for (const { type, previousState } of executed.elementsChanged) {
+            this.setElementState(type, previousState);
         }
     }
 

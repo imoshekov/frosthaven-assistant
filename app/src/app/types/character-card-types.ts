@@ -50,6 +50,15 @@ export enum ExecutableActionType {
    * Never applied automatically, same as `elementBonus`/`sufferDamageBonus`.
    */
   textBonus = 'textBonus',
+  /**
+   * An optional bonus with nothing to check and nothing to judge — always offered,
+   * free to take. For a card whose choice is genuinely unconditional: no element to
+   * consume, no HP to spend, no printed condition to read and decide is true. Where
+   * `textBonus` still asks the player to judge something ("if you are adjacent"),
+   * `bonus` asks nothing at all — it's simply "take this, or don't." Never applied
+   * automatically, same as the other three.
+   */
+  bonus = 'bonus',
   /** Immediate experience for the acting hero. */
   xp = 'xp',
   shield = 'shield',
@@ -124,16 +133,18 @@ export const BENEFICIAL_CONDITIONS: ReadonlySet<ConditionName> = new Set([
 ]);
 
 /**
- * The three action types that are an *offer* rather than an effect: the player may
- * take one — paying its cost (elements for `elementBonus`, HP for `sufferDamageBonus`)
- * or judging its printed condition true (`textBonus`) — and only then does anything
- * under it apply. Every "what does this half do" walk has to skip their subtrees, or a
- * card grants for free what it means to gate.
+ * The four action types that are an *offer* rather than an effect: the player may
+ * take one — paying its cost (elements for `elementBonus`, HP for `sufferDamageBonus`),
+ * judging its printed condition true (`textBonus`), or simply choosing to (`bonus`,
+ * unconditional) — and only then does anything under it apply. Every "what does this
+ * half do" walk has to skip their subtrees, or a card grants for free what it means to
+ * gate.
  */
 export const CONDITIONAL_BONUS_TYPES: ReadonlySet<string> = new Set([
   ExecutableActionType.elementBonus,
   ExecutableActionType.sufferDamageBonus,
   ExecutableActionType.textBonus,
+  ExecutableActionType.bonus,
 ]);
 
 /** Whether an action is an offer whose contents are locked behind taking it. */
@@ -362,9 +373,15 @@ export const DEFAULT_MOVE: CardHalf = {
   actions: [{ type: 'move', value: 2 }],
 };
 
-/** Whether a half has any real action data, as opposed to an empty/unauthored stub. */
+/**
+ * Whether a half has any real action data, as opposed to an empty/unauthored stub.
+ * Tolerates a half with no `actions` array at all (a malformed hand-edit — the
+ * validator rejects this in committed data, but a half being edited live shouldn't be
+ * able to crash the whole panel's rendering over it) the same way an unauthored stub
+ * already degrades to manual entry.
+ */
 export function hasCardData(half: CardHalf | null | undefined): boolean {
-  return !!half && half.actions.length > 0;
+  return !!half && Array.isArray(half.actions) && half.actions.length > 0;
 }
 
 /** Coerces an action value to a number, tolerating the data's mixed string/number form. */

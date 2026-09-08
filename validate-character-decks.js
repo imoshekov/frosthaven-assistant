@@ -33,7 +33,7 @@ const VALUE_TYPES = new Set(['plus', 'minus', 'add', 'subtract', 'fixed']);
 
 const EXECUTABLE_TYPES = new Set([
   'attack', 'heal', 'condition', 'element',
-  'elementBonus', 'sufferDamage', 'sufferDamageBonus', 'textBonus',
+  'elementBonus', 'sufferDamage', 'sufferDamageBonus', 'textBonus', 'bonus',
   'xp', 'pierce', 'shield', 'retaliate', 'ignoreArmor',
 ]);
 const DISPLAY_TYPES = new Set([
@@ -288,7 +288,7 @@ function main() {
           // class each, so neither names an icon after itself either.
           const iconExempt = new Set([
             'condition', 'element', 'elementBonus', 'sufferDamage', 'sufferDamageBonus',
-            'textBonus', 'xp',
+            'textBonus', 'bonus', 'xp',
           ]);
           if (EXECUTABLE_TYPES.has(a.type) && !iconExempt.has(a.type)) {
             usedIconTypes.add(a.type);
@@ -340,6 +340,17 @@ function main() {
             }
             if (a.elements !== undefined || a.consumeMode !== undefined || a.value !== undefined) {
               err(`${where} ${halfName}: textBonus is judged by the player, not paid for — drop elements/consumeMode/value`);
+            }
+          }
+
+          // A plain `bonus` has nothing to check and nothing to judge — no cost, no
+          // printed condition — so every field that would carry either is dead data.
+          if (a.type === 'bonus') {
+            if (!Array.isArray(a.subActions) || a.subActions.length === 0) {
+              err(`${where} ${halfName}: bonus grants nothing (no subActions)`);
+            }
+            if (a.elements !== undefined || a.consumeMode !== undefined || a.value !== undefined || a.text !== undefined) {
+              err(`${where} ${halfName}: bonus is unconditional — drop elements/consumeMode/value/text`);
             }
           }
 

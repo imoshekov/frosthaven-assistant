@@ -105,13 +105,14 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   attackIndex = 0;
   /**
-   * Whether the half's separate heal-then-attack step (see `isHealBeforeAttack`) has
-   * already applied its heal. A half mixing a target-facing heal with an attack — e.g.
-   * shackles "Reversal of Fate": Heal 5 to an ally, Attack 5 to an enemy — needs two
-   * independent targets, so the heal resolves first as its own step before the attack
-   * (or attacks) that follow. Reset on every half selection.
+   * Whether the half's separate pre-attack step (see `isPreAttackStepNeeded`) has
+   * already applied. A half mixing a target-facing heal, or an ally-directed condition,
+   * with an attack — e.g. shackles "Reversal of Fate": Heal 5 to an ally, Attack 5 to an
+   * enemy; or shackles "Pleasure in Pain": Poison an ally, then Attack every adjacent
+   * enemy — needs two independent targets, so the heal/condition resolves first as its
+   * own step before the attack (or attacks) that follow. Reset on every half selection.
    */
-  healStepDone = false;
+  preAttackStepDone = false;
   /**
    * Per-attack value adjustments from the +/- buttons, keyed by index into
    * `selectedAttacks` — for a bonus the card itself can't know about (an item, an
@@ -445,7 +446,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.selectedTargetIds.clear();
     this.struckTargetIds.clear();
     this.attackIndex = 0;
-    this.healStepDone = false;
+    this.preAttackStepDone = false;
     this.attackAdjustments.clear();
     this.manualAttackValues.clear();
     this.manualHealValue = 0;
@@ -507,30 +508,81 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
   /**
    * The strike currently being resolved, or null for halves with no `attack` action —
-   * and, deliberately, also null while `isResolvingHealStep` is true. That makes every
+   * and, deliberately, also null while `isResolvingAllyStep` is true. That makes every
    * attack-derived getter (`isResolvingAttack`, `needsModifier`, `isSequentialAttack`
-   * among them) read as "no attack yet" for the length of the heal step, with no need
-   * to special-case each of them separately.
+   * among them) read as "no attack yet" for the length of the pre-attack step, with no
+   * need to special-case each of them separately.
+   *
+   * Falls back to `standaloneBonusAttack` for a half whose only attack lives entirely
+   * inside a taken bonus — e.g. astral "Emerald Edge": `elementBonus` consuming
+   * Earth+Dark grants Attack 5 outright, with nothing else on the half for
+   * `collectAttacks` to find. Before the bonus is taken there is genuinely no attack to
+   * resolve, same as it always was — the fallback only ever returns something once
+   * `standaloneBonusAttack` itself does.
    */
   get currentAttack(): CardAction | null {
-    if (this.isResolvingHealStep) return null;
-    return this.selectedAttacks[this.attackIndex] ?? null;
+    if (this.isResolvingAllyStep) return null;
+    return this.selectedAttacks[this.attackIndex] ?? (this.attackIndex === 0 ? this.standaloneBonusAttack : null);
   }
 
   /**
-   * A half pairing a target-facing heal with an attack — e.g. shackles "Reversal of
-   * Fate": Heal 5 to an ally, Attack 5 to an enemy, on the same top action. The two
-   * effects land on different targets, so they cannot share one target pick the way an
-   * attack's own damage and conditions do; the heal is resolved as its own step before
-   * the attack(s) that follow.
+   * The `{ bonus, action }` pair behind `standaloneBonusAttack`, so `sumTakenBonus` can
+   * exclude that one bonus's own attack delta from `takenBonusAttack` — it is already
+   * fully represented as `currentAttack`'s base value there, not an addend on top of a
+   * separate ordinary attack the way `takenBonusAttack` normally means.
    */
-  get isHealBeforeAttack(): boolean {
-    return this.healActions.some(a => !a.selfOnly) && this.selectedAttacks.length > 0;
+  private get standaloneBonusAttackSource(): { bonus: CardAction; action: CardAction } | null {
+    if (this.selectedAttacks.length > 0) return null;
+    // Deliberately not `takenBonusList`/`selectedBonuses` — both are scoped by
+    // `currentAttack`, and `currentAttack` falls back to *this* getter, so going
+    // through them here would recurse forever. Scoping by `currentAttack` only ever
+    // matters for excluding another attack's own bonuses in a multi-attack half; with
+    // `selectedAttacks` empty (checked above) there are no ordinary attacks to exclude
+    // anything for, so collecting unscoped finds exactly the same bonuses.
+    const bonuses = collectConditionalBonuses(this.selectedContent?.actions);
+    for (let i = 0; i < bonuses.length; i++) {
+      if (!this.takenBonuses.has(i)) continue;
+      const bonus = bonuses[i];
+      if (!this.isBonusAvailable(bonus)) continue;
+      const action = bonus.subActions?.find(a => a.type === ExecutableActionType.attack);
+      if (action) return { bonus, action };
+    }
+    return null;
   }
 
-  /** Whether the half is still waiting on its heal step, ahead of any attack. */
-  get isResolvingHealStep(): boolean {
-    return this.isHealBeforeAttack && !this.healStepDone;
+  private get standaloneBonusAttack(): CardAction | null {
+    return this.standaloneBonusAttackSource?.action ?? null;
+  }
+
+  /**
+   * Conditions on the half aimed at an ally rather than a picked enemy — beneficial
+   * ones by default (ward, strengthen, …), or any explicitly flagged `targetAlly`
+   * (a curse or wound deliberately aimed at a teammate). Unscoped by `currentAttack`,
+   * same as `healActions`: like a self-heal, this lands once for the whole half, not
+   * once per strike of a multi-attack half.
+   */
+  private get allyDirectedConditionActions(): CardAction[] {
+    return collectActionsScoped(this.selectedContent?.actions, 'condition', null)
+      .filter(a => !a.selfOnly)
+      .filter(a => a.targetAlly || BENEFICIAL_CONDITIONS.has(String(a.value) as ConditionName));
+  }
+
+  /**
+   * A half pairing a target-facing heal, or an ally-directed condition, with an attack
+   * — e.g. shackles "Reversal of Fate": Heal 5 to an ally, Attack 5 to an enemy; or
+   * shackles "Pleasure in Pain": Poison an ally, then Attack every adjacent enemy. The
+   * two effects land on different targets, so they cannot share one target pick the way
+   * an attack's own damage and conditions do; the heal/condition resolves as its own
+   * step before the attack(s) that follow.
+   */
+  get isPreAttackStepNeeded(): boolean {
+    return (this.healActions.some(a => !a.selfOnly) || this.allyDirectedConditionActions.length > 0)
+      && this.selectedAttacks.length > 0;
+  }
+
+  /** Whether the half is still waiting on its pre-attack step, ahead of any attack. */
+  get isResolvingAllyStep(): boolean {
+    return this.isPreAttackStepNeeded && !this.preAttackStepDone;
   }
 
   get isMultiAttack(): boolean {
@@ -634,10 +686,10 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
   /**
    * The attack the panel is resolving right now — the only one Execute applies. False
-   * for all of them while `isResolvingHealStep` holds the half back on its heal.
+   * for all of them while `isResolvingAllyStep` holds the half back on its pre-step.
    */
   isAttackCurrent(index: number): boolean {
-    return !this.isResolvingHealStep && index === this.attackIndex;
+    return !this.isResolvingAllyStep && index === this.attackIndex;
   }
 
   /** Whether that specific attack hits several targets, one strike at a time. */
@@ -704,11 +756,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   /**
    * A heal the card flags `selfOnly` — always the acting hero, never the picked
    * target, so it applies once at `finalizeHalf()` alongside XP/shield/retaliate
-   * rather than through `computeTargetPatches`.
+   * rather than through `computeTargetPatches`. Folds in `takenBonusHeal` the same way
+   * `selectedHealValue` already does — e.g. meteor "Cloud of Ash" (Heal 7 self, minus
+   * 2 if you take one of its element bonuses) — or a taken bonus nested under a
+   * `selfOnly` heal would spend the element and award the XP while the heal itself
+   * silently stayed at its printed value.
    */
   get selectedSelfHealValue(): number {
     if (!this.healActions.some(a => a.selfOnly)) return 0;
-    return Math.max(this.selfHealBase + this.healAdjustment, 0);
+    return Math.max(this.selfHealBase + this.takenBonusHeal + this.healAdjustment, 0);
   }
 
   /** Whether the half prints a heal at all — target-facing or self-only — for the +/- row. */
@@ -739,7 +795,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     const base = targetHeal
       ? (isManualValue(targetHeal) ? this.manualHealValue : actionValue(targetHeal))
       : this.selfHealBase;
-    const bonus = targetHeal ? this.takenBonusHeal : 0;
+    const bonus = this.takenBonusHeal;
     const floor = -(base + bonus);
     this.healAdjustment = Math.max(this.healAdjustment + delta, floor);
   }
@@ -816,6 +872,14 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     return bonus.type === 'textBonus';
   }
 
+  /**
+   * A bonus with nothing to check at all — no element, no HP, no printed condition to
+   * judge. Always offered, same reasoning as `textBonus` minus the judgment call.
+   */
+  isPlainBonus(bonus: CardAction): boolean {
+    return bonus.type === 'bonus';
+  }
+
   /** What taking this bonus costs the hero in HP. Zero for an element bonus. */
   bonusSelfDamageCost(bonus: CardAction): number {
     return bonusSelfDamage(bonus);
@@ -846,14 +910,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * no exhaustion state to put them in — so the offer is withheld rather than silently
    * flooring the hero at 0 HP and leaving them standing. A `textBonus` has no cost to
    * check — the player's own judgment of the printed text *is* the check — so it is
-   * always available.
+   * always available. A plain `bonus` has nothing to check either — not even a
+   * judgment call — so it's always available too.
    */
   isBonusAvailable(bonus: CardAction): boolean {
     if (this.isSelfDamageBonus(bonus)) {
       const cost = this.bonusSelfDamageCost(bonus);
       return cost > 0 && (this.hero?.hp ?? 0) > cost;
     }
-    if (this.isTextBonus(bonus)) return true;
+    if (this.isTextBonus(bonus) || this.isPlainBonus(bonus)) return true;
     const elements = this.elementsOf(bonus);
     if (elements.length === 0) return false;
     return bonus.consumeMode === 'any'
@@ -946,8 +1011,12 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   private sumTakenBonus(type: string): number {
+    // See `standaloneBonusAttackSource`: that one bonus's own attack subAction is
+    // already `currentAttack`'s base value, not a delta to add on top of it.
+    const skipBonus = type === ExecutableActionType.attack ? this.standaloneBonusAttackSource?.bonus : null;
     let total = 0;
     for (const { bonus } of this.takenBonusList) {
+      if (bonus === skipBonus) continue;
       for (const action of bonus.subActions ?? []) {
         if (action.type === type) total += this.signedBonusDelta(action);
       }
@@ -968,15 +1037,31 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Conditions the taken bonuses inflict — e.g. snowflake #342 "Blinding Vortex"
-   * pays Light for a Disarm. These are deliberately *not* part of the half's own
-   * conditions (see `collectActionsScoped`): until the bonus is taken and the element
-   * spent, the card cannot apply them.
+   * Target-facing conditions the taken bonuses inflict — e.g. snowflake #342 "Blinding
+   * Vortex" pays Light for a Disarm. These are deliberately *not* part of the half's
+   * own conditions (see `collectActionsScoped`): until the bonus is taken and the
+   * element spent, the card cannot apply them. A bonus-granted condition flagged
+   * `selfOnly` — astral "Emerald Edge" pays Earth+Dark for Ward on the acting hero —
+   * is excluded here and folded into `takenBonusSelfConditions` instead, the same
+   * self/target split every other condition source already gets.
    */
   get takenBonusConditions(): CreatureConditions[] {
     const out: string[] = [];
     for (const { bonus } of this.takenBonusList) {
       for (const action of collectActions(bonus.subActions, 'condition')) {
+        if (action.selfOnly) continue;
+        if (action.value !== undefined) out.push(String(action.value));
+      }
+    }
+    return this.toCreatureConditions(out);
+  }
+
+  /** Same as `takenBonusConditions`, for the `selfOnly` half — see there. */
+  get takenBonusSelfConditions(): CreatureConditions[] {
+    const out: string[] = [];
+    for (const { bonus } of this.takenBonusList) {
+      for (const action of collectActions(bonus.subActions, 'condition')) {
+        if (!action.selfOnly) continue;
         if (action.value !== undefined) out.push(String(action.value));
       }
     }
@@ -1048,8 +1133,19 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * CreatureConditions entry.
    */
   get selectedConditions(): CreatureConditions[] {
+    const allyDirected = this.allyDirectedConditionActions;
     const printed = collectActionsScoped(this.selectedContent?.actions, 'condition', this.currentAttack)
       .filter(a => !a.selfOnly)
+      .filter(a => {
+        if (!allyDirected.includes(a)) return true;
+        // An ally-directed condition already got its own step — see
+        // `isPreAttackStepNeeded` — so once that step is behind us it must not also
+        // land on whoever the attack struck. Still included while resolving that step,
+        // and always on a half with no attack at all: the ordinary ally-buff half,
+        // where this is the only step there is.
+        if (!this.isPreAttackStepNeeded) return true;
+        return this.isResolvingAllyStep;
+      })
       .map(a => String(a.value));
     return [...new Set([...this.toCreatureConditions(printed), ...this.takenBonusConditions])];
   }
@@ -1058,12 +1154,15 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * Conditions the card flags `selfOnly` — always the acting hero, never the
    * picked target. Unscoped by `currentAttack`: like a self-heal, a self-inflicted
    * condition applies once for the whole half, at `finalizeHalf()`, not per strike.
+   * Includes `takenBonusSelfConditions`: a `selfOnly` condition nested inside a
+   * conditional bonus is invisible to the plain `collectActionsScoped` walk below
+   * (it stops at the bonus boundary), so it has to be added in separately once taken.
    */
   get selectedSelfConditions(): CreatureConditions[] {
     const printed = collectActionsScoped(this.selectedContent?.actions, 'condition', null)
       .filter(a => a.selfOnly)
       .map(a => String(a.value));
-    return this.toCreatureConditions(printed);
+    return [...new Set([...this.toCreatureConditions(printed), ...this.takenBonusSelfConditions])];
   }
 
   /**
@@ -1222,9 +1321,14 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * snowflake "Frigid Growth" (Strengthen) or "Storm Wall" (Ward). Without this the
    * target strip offered monsters and the buff landed on an enemy. A `targetAlly`
    * condition earns the same treatment even when it's a debuff — a card that curses
-   * or wounds a picked ally/summon rather than a foe. A half mixing either of those
-   * with an ordinary enemy-facing condition stays on enemies: that's an attack-shaped
-   * card, and the DM can apply the odd one out by hand.
+   * or wounds a picked ally/summon rather than a foe. Paired with an attack — e.g.
+   * shackles "Pleasure in Pain": Poison an ally, Attack every enemy — the ally-directed
+   * condition gets its own pre-attack step instead (see `isPreAttackStepNeeded`), the
+   * same way a target-facing heal already did; this getter only reaches the check below
+   * for a half with no attack at all. A no-attack half mixing an ally-directed
+   * condition with an ordinary enemy-facing one still stays on enemies — nothing here
+   * gives that combination its own two-step pick, so the DM applies the odd one out by
+   * hand.
    *
    * An `attack` flagged `targetAlly` is the same idea aimed at a strike rather than a
    * condition — a card that deliberately damages an ally/summon. It's read off
@@ -1235,6 +1339,13 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   get targetsAreHeroes(): boolean {
     if (this.isResolvingAttack) return !!this.currentAttack?.targetAlly;
+    // The pre-attack step exists specifically to give a heal or an ally-directed
+    // condition its own ally pick before the attack(s) that follow take over — see
+    // `isPreAttackStepNeeded`. It is only ever entered when there's ally work to do,
+    // so this can answer directly rather than re-deriving it from `selectedConditions`,
+    // which — mid pre-step — may also list a condition that isn't ally-directed at all
+    // (an ordinary enemy-facing one waiting for the attack step that follows).
+    if (this.isResolvingAllyStep) return true;
     if (this.selectedHealValue > 0 || this.hasManualTargetHeal) return true;
 
     const conditions = this.selectedConditions;
@@ -1537,9 +1648,21 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    * than promising to execute the whole half.
    */
   get executeLabel(): string {
-    if (this.isResolvingHealStep) return 'Heal target';
+    if (this.isResolvingAllyStep) {
+      // "Pleasure in Pain" has no heal at all on its pre-step, just an ally-directed
+      // condition — "Heal target" would be actively wrong there, not just imprecise.
+      return this.healActions.some(a => !a.selfOnly) ? 'Heal target' : 'Apply to ally';
+    }
     if (this.isSequentialAttack) return 'Attack target';
     return this.isLastAttack ? 'Execute' : 'Next Attack';
+  }
+
+  /** Same reasoning as `executeLabel`: the pre-attack step isn't always a heal. */
+  get targetsLabel(): string {
+    if (this.targetsAreHeroes) {
+      return this.healActions.some(a => !a.selfOnly) ? 'Heal which ally?' : 'Target which ally?';
+    }
+    return this.isMultiSelect ? 'Attack which enemies?' : 'Attack which enemy?';
   }
 
   /** Ends a multi-target attack: on to the next attack action, or done with the half. */
@@ -1568,8 +1691,8 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
    */
   execute(): void {
     if (!this.canExecute) return;
-    if (this.isResolvingHealStep) {
-      this.resolveHealStep();
+    if (this.isResolvingAllyStep) {
+      this.resolveAllyStep();
       return;
     }
     if (this.isSequentialAttack) {
@@ -1773,6 +1896,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     selfConditionsGained: CreatureConditions[],
     selfDamageSuffered: number,
     selfHealConditionsRemoved: CreatureConditions[] = [],
+    elementsChanged: { type: ElementType; previousState: ElementState }[] = [],
   ): void {
     const hero = this.hero;
     const selection = this.selected;
@@ -1791,17 +1915,19 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       selfConditionsGained,
       selfDamageSuffered,
       selfHealConditionsRemoved,
+      elementsChanged,
     });
   }
 
   /**
-   * Applies the half's heal step against its chosen ally, then hands off to the
-   * attack(s) that follow — `currentAttack` reads real again the moment
-   * `healStepDone` flips, so the target strip switches straight to offering enemies.
+   * Applies the half's pre-attack step (a heal, an ally-directed condition, or both)
+   * against its chosen ally, then hands off to the attack(s) that follow —
+   * `currentAttack` reads real again the moment `preAttackStepDone` flips, so the
+   * target strip switches straight to offering enemies.
    */
-  private resolveHealStep(): void {
+  private resolveAllyStep(): void {
     this.applyStrike();
-    this.healStepDone = true;
+    this.preAttackStepDone = true;
     this.targetId = null;
     this.selectedTargetIds.clear();
     this.struckTargetIds.clear();
@@ -1950,6 +2076,12 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     patches.push({ creatureId: hero.id, patch: heroPatch });
     this.appContext.applyCreaturePatches(patches);
 
+    // Snapshotted before either loop below touches anything, so an element the half
+    // both consumes and infuses still records its true pre-half state rather than the
+    // mid-half one — see `HalfExecution.elementsChanged`.
+    const elementsChanged = [...new Set([...this.elementsToConsume, ...this.selectedElements])]
+      .map(type => ({ type, previousState: this.elementState(type) }));
+
     // Filed before the kills below, so the record exists even if a target leaves the
     // board: Undo reads it to restore HP, conditions, XP, shield/retaliate and the
     // damage credited on the Stats screen.
@@ -1965,6 +2097,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       selfConditionsGained,
       selfDamage,
       selfHealConsumedConditions,
+      elementsChanged,
     );
 
     // Summons enter play only through a card action, which is here. Emitted after the
@@ -2006,7 +2139,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     this.modifier = null;
     this.customOverride = null;
     this.attackIndex = 0;
-    this.healStepDone = false;
+    this.preAttackStepDone = false;
     this.attackAdjustments.clear();
     this.manualAttackValues.clear();
     this.manualHealValue = 0;

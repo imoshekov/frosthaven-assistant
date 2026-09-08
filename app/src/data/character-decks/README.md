@@ -50,8 +50,8 @@ XP lives in two places, and the distinction is what makes it correct in play:
 The panel adds the hero's XP into the same state patch as the rest of the execution,
 so it lands in one undo batch and updates `sessionExperience`, `totalXp` and `level`
 together. `sumUnconditionalXp()` deliberately skips anything under a conditional bonus
-(`elementBonus`, `sufferDamageBonus` or `textBonus` — see Rules 3, 7 and 9); `bonusXp()`
-reports what a specific bonus would grant.
+(`elementBonus`, `sufferDamageBonus`, `textBonus` or `bonus` — see Rules 3, 7, 9 and 10);
+`bonusXp()` reports what a specific bonus would grant.
 
 ## Rule 3: conditional element bonuses
 
@@ -504,6 +504,49 @@ Bonuses list even though the card tile itself only prints the sentence above it,
 the nested subActions — unlike `attack`/`heal`, which render their subActions inline,
 `text` doesn't.
 
+## Rule 10: a bonus with nothing to check at all
+
+Some cards offer a trade that's neither paid for (Rules 3/7) nor gated on a printed
+condition to judge (Rule 9) — just a free choice, always available: meteor #224 "Cloud
+of Ash" prints *"Shield 2. You may give up 1 shield to infuse Earth and gain 1 XP."*
+There's nothing to consume (no element needs to already be active — that's what would
+make it an `elementBonus`) and nothing to read off the board and judge (that's what
+`textBonus` is for). It's simply "take this, or don't":
+
+```json
+{
+  "type": "shield",
+  "value": 2,
+  "subActions": [
+    {
+      "type": "bonus",
+      "subActions": [
+        { "type": "shield", "value": 1, "valueType": "subtract", "small": true },
+        { "type": "element", "elements": ["earth"], "small": true },
+        { "type": "xp", "value": 1 }
+      ]
+    }
+  ]
+}
+```
+
+Renders and behaves exactly like the other three conditional bonuses — a checkbox,
+`subActions` locked away until taken — with one difference: **it carries no cost field
+at all.** No `text` (nothing to judge), no `elements`/`consumeMode` (nothing to
+consume), no `value` (nothing to pay). The validator rejects all four on a `bonus`, and
+`isBonusAvailable()` always returns true for it — there's nothing that could ever grey
+it out.
+
+**Don't reach for this to mean "a nested action of the same type, valued negative."**
+`{ "type": "shield", "value": 2, "subActions": [{ "type": "shield", "value": 1,
+"valueType": "subtract" }, ...] }` with no `bonus`/`elementBonus`/`textBonus` wrapper is
+not a bonus at all as far as the panel is concerned — a same-type nested action isn't
+one of the four things `collectConditionalBonuses` looks for, so its `-1` is silently
+never applied while whatever rides beside it (an `element`, an `xp`) fires
+unconditionally, every time, with no way to decline it. That was a real, repeated
+authoring bug across several classes — always wrap the optional side of the trade in
+`bonus` (or `elementBonus`/`textBonus`, whichever actually matches the card's cost).
+
 ---
 
 ## Current state
@@ -597,8 +640,8 @@ data this app models. See "Not part of the schema" below.
 | --- | --- |
 | `type` | See the tables below. |
 | `value` | Number or string; always read through `actionValue()`, which coerces. For `condition`, one of the condition names below. For `sufferDamage`/`sufferDamageBonus`, the HP it costs the hero — see Rule 7. The literal `"X"` on an `attack`/`heal`/`sufferDamage` means the player supplies it at execution time — see Rule 8. |
-| `valueType` | On a bonus's own `subActions` (Rule 3/7/9), this is the sign, not just the display: `add`/`plus` (or no `valueType` at all) *adds* that much to the value it's nested under, `minus`/`subtract` *removes* it — "if you use it, remove 1 shield" is `{ "type": "shield", "value": 1, "valueType": "subtract" }`. The printed number is always a plain magnitude; `valueType` alone carries the direction. |
-| `subActions` | Modifiers *on this action* — an inflicted condition, a conditional bonus. On an `elementBonus`/`sufferDamageBonus`/`textBonus`, what taking it grants. Renders nested. |
+| `valueType` | On a bonus's own `subActions` (Rule 3/7/9/10), this is the sign, not just the display: `add`/`plus` (or no `valueType` at all) *adds* that much to the value it's nested under, `minus`/`subtract` *removes* it — "if you use it, remove 1 shield" is `{ "type": "shield", "value": 1, "valueType": "subtract" }`. The printed number is always a plain magnitude; `valueType` alone carries the direction. |
+| `subActions` | Modifiers *on this action* — an inflicted condition, a conditional bonus. On an `elementBonus`/`sufferDamageBonus`/`textBonus`/`bonus`, what taking it grants. Renders nested. |
 | `small` | The card convention for a modifier riding on its parent. Renders smaller. |
 | `text` | Literal prose. The only place prose lives — never a key. On a `textBonus`, the printed condition itself — required there. See Rule 9. |
 | `elements` | `element`: what is infused. `elementBonus`: what is consumed. One or more of the six elements below. |
@@ -645,6 +688,7 @@ The panel changes game state for these:
 | `sufferDamage` | HP the acting hero loses for playing the half. Mandatory, charged once per half, reduced by nothing. See Rule 7. `"value": "X"` lets the player supply it — see Rule 8. |
 | `sufferDamageBonus` | The same bargain as `elementBonus`, bought with `value` HP instead of elements. Offered only while the hero has more HP than it costs. See Rule 7. |
 | `textBonus` | The same offer as `elementBonus`, gated on a printed condition this app can't compute instead of a cost it can. Always offered; the player's checkbox is their own judgment call. See Rule 9. |
+| `bonus` | The same offer with nothing to check at all — no cost, no condition to judge. Always offered. See Rule 10. |
 | `xp` | Experience for the acting hero. |
 | `shield`, `retaliate` | Applied to the acting hero for the round. Either one nested under a bonus's `subActions` adds to (or, with `valueType: 'subtract'`, removes from) the half's printed value once the bonus is taken — shackles #317 "Reprisal" pays Air for `retaliate +1`. See the `valueType` row above. |
 | `summon` | Brings a real figure onto the board, on the owner's initiative. See Rule 6. |

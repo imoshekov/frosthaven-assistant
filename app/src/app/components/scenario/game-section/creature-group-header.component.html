@@ -87,10 +87,6 @@
         <div class="traits" *ngIf="isMonsterLike && creature.actions?.length">
           <div class="icon" *ngFor="let action of creature.actions" [class]="action.value"></div>
         </div>
-        <div class="traits" *ngIf="isMonsterLike && creature.immunities?.length">
-          <div class="icon immune" *ngFor="let immunity of creature.immunities"
-               [title]="'Immune to ' + immunity"></div>
-        </div>
       </div>
       <div class="stats">
         <div class="base-stat" [class.bordered]="creature.flying">

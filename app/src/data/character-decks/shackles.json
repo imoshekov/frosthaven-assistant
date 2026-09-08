@@ -167,17 +167,22 @@
             "selfOnly": true
           },
           {
-            "type": "condition",
-            "value": "immobilize",
-            "selfOnly": true,
+            "type": "bonus",
             "subActions": [
               {
-                "type": "element",
-                "elements": ["fire"]
-              },
-              {
-                "type": "xp",
-                "value": 1
+                "type": "condition",
+                "value": "immobilize",
+                "selfOnly": true,
+                "subActions": [
+                  {
+                    "type": "element",
+                    "elements": ["fire"]
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
               }
             ]
           }
@@ -191,18 +196,23 @@
             "selfOnly": true
           },
           {
-            "type": "condition",
-            "value": "muddle",
-            "selfOnly": true,
+            "type": "bonus",
             "subActions": [
               {
-                "type": "element",
-                "elements": ["air"],
-                "small": true
-              },
-              {
-                "type": "xp",
-                "value": 1
+                "type": "condition",
+                "value": "muddle",
+                "selfOnly": true,
+                "subActions": [
+                  {
+                    "type": "element",
+                    "elements": ["air"],
+                    "small": true
+                  },
+                  {
+                    "type": "xp",
+                    "value": 1
+                  }
+                ]
               }
             ]
           }
@@ -391,8 +401,11 @@
             "type": "elementBonus",
             "elements": ["air"],
             "consumeMode": "all",
-            "text": "Move +2",
             "subActions": [
+              {
+                "type": "text",
+                "text": "Move +2"
+              },
               {
                 "type": "xp",
                 "value": 1
