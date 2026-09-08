@@ -3,7 +3,7 @@ name: build-and-deploy-angular-app
 on:
   push:
     branches:
-      - main
+      - attacks-v2
 
 jobs:
   build-and-deploy:
