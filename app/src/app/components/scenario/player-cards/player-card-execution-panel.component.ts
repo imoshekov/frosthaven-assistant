@@ -1776,9 +1776,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   ): void {
     const hero = this.hero;
     const selection = this.selected;
-    // A summon has no half-slot for this to file against — its action carries no
-    // spent state to undo, the same way a monster's Attack button records nothing.
-    if (!hero?.id || !selection || hero.isSummon) return;
+    if (!hero?.id || !selection) return;
 
     const creditType = this.creditType;
     this.appContext.recordHalfExecution(hero.id, selection.half, {
@@ -1849,21 +1847,16 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
 
     const patches: { creatureId: string; patch: Partial<Creature> }[] = [];
 
-    // A summon has no hand of cards and no turn economy to spend — its one action is
-    // always available again next attack, the same way a monster's Attack button
-    // carries no spent state. Only a hero's half marks a slot executed or folds in
-    // turn completion.
-    const heroPatch: Partial<Creature> = hero.isSummon
-      ? {}
-      : selection.half === 'top'
-        ? { topHalfSlot: this.slotOf(selection.source), topHalfState: 'executed' }
-        : { bottomHalfSlot: this.slotOf(selection.source), bottomHalfState: 'executed' };
+    // Marks the half spent, same as a hero's — a summon's pet tile only ever plays
+    // its 'top' half, so the 'bottom' side of this never spends and `isTurnCompleted`
+    // below never folds in for it.
+    const heroPatch: Partial<Creature> = selection.half === 'top'
+      ? { topHalfSlot: this.slotOf(selection.source), topHalfState: 'executed' }
+      : { bottomHalfSlot: this.slotOf(selection.source), bottomHalfState: 'executed' };
 
     // Fold turn completion in, so one Undo reverses the completion too.
-    if (!hero.isSummon) {
-      const otherHalf: CardHalfName = selection.half === 'top' ? 'bottom' : 'top';
-      if (isHalfSpent(hero, otherHalf)) heroPatch.isTurnCompleted = true;
-    }
+    const otherHalf: CardHalfName = selection.half === 'top' ? 'bottom' : 'top';
+    if (isHalfSpent(hero, otherHalf)) heroPatch.isTurnCompleted = true;
 
     // Shield and retaliate from a card last the round, matching roundArmor semantics.
     // Shield's total includes whatever a taken bonus added or removed — a bonus can

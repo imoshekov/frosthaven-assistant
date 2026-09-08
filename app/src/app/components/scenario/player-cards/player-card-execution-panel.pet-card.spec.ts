@@ -11,8 +11,10 @@ import { Creature, Element, ElementState, ElementType } from '../../../types/gam
  * `creature.component`) is not a hero with a hand of cards to choose between: it gets
  * the same rich attack flow (modifier draw, targeting, damage) built from its own
  * printed attack/pierce/movement instead, as one synthetic tile rather than the usual
- * two-cards-plus-default grid — and none of a hero's turn economy (spent halves, XP,
- * turn completion) applies to it.
+ * two-cards-plus-default grid. Once executed, though, it behaves exactly like a hero's
+ * half: spent, with an Undo button, same as any card — the only things that don't
+ * apply to a summon are XP and the turn-completion badge, which need a second half it
+ * never has.
  */
 describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', () => {
   let panel: PlayerCardExecutionPanelComponent;
@@ -22,6 +24,7 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
   let patchCalls: { creatureId: string; patch: Partial<Creature> }[];
   let damageCredits: { type: string; damage: number }[];
   let halfExecutionCalls: unknown[];
+  let undoCalls: { creatureId: string; half: string }[];
   let loadDeckCalls: string[];
 
   const owner: Creature = {
@@ -39,6 +42,7 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
     patchCalls = [];
     damageCredits = [];
     halfExecutionCalls = [];
+    undoCalls = [];
     loadDeckCalls = [];
     elements = (Object.values(ElementType) as ElementType[])
       .map(type => ({ type, state: ElementState.None }));
@@ -67,6 +71,7 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
       recordKill: () => { },
       killCreature: () => { },
       recordHalfExecution: (...args: unknown[]) => { halfExecutionCalls.push(args); },
+      undoCardHalf: (creatureId, half) => { undoCalls.push({ creatureId, half }); },
     };
 
     const deckServiceStub: Partial<CharacterDeckService> = {
@@ -130,23 +135,37 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
     expect(fox.isTurnCompleted).toBe(false);
   });
 
-  it('never records a half execution — a summon\'s action has no spent state to undo', () => {
+  it('records a half execution on Execute, same as a hero\'s half', () => {
     panel.selectTile(panel.tiles[0]);
     panel.selectTarget('mob');
     panel.setModifier(0);
     panel.execute();
 
-    expect(halfExecutionCalls.length).toBe(0);
+    expect(halfExecutionCalls.length).toBe(1);
   });
 
-  it('the tile stays available (never spent) so the summon can attack again', () => {
-    panel.selectTile(panel.tiles[0]);
+  it('marks the tile spent once executed', () => {
+    const tile = panel.tiles[0];
+    expect(panel.isTileSpent(tile)).toBe(false);
+
+    panel.selectTile(tile);
     panel.selectTarget('mob');
     panel.setModifier(0);
     panel.execute();
 
-    expect(panel.isTileSpent(panel.tiles[0])).toBe(false);
-    expect(panel.isTileDisabled(panel.tiles[0])).toBe(false);
+    expect(panel.isTileSpent(panel.tiles[0])).toBe(true);
+  });
+
+  it('undoing the spent tile calls through to AppContext.undoCardHalf', () => {
+    const tile = panel.tiles[0];
+    panel.selectTile(tile);
+    panel.selectTarget('mob');
+    panel.setModifier(0);
+    panel.execute();
+
+    panel.undoHalf(panel.tiles[0]);
+
+    expect(undoCalls).toEqual([{ creatureId: 'fox', half: 'top' }]);
   });
 
   it('hides the hero-only turn-complete footer buttons', () => {

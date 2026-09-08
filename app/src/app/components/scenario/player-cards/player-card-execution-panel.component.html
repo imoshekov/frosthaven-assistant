@@ -78,9 +78,7 @@
           </div>
         </div>
 
-        <!-- A summon's one action carries no spent/turn state to skip or undo — same
-             as a monster's Attack button, it's just always there. -->
-        <div class="tile-actions" *ngIf="!isSummonActing">
+        <div class="tile-actions">
           <button type="button" class="skip" *ngIf="!isTileSpent(tile)"
                   [disabled]="isTileDisabled(tile)" (click)="skip(tile)">
             Skip
