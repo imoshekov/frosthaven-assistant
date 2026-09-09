@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
-import { Creature } from '../../../types/game-types';
+import { Creature, SUMMON_FALLBACK_IMAGE } from '../../../types/game-types';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
 import { FormsModule } from '@angular/forms';
 import { DbService } from '../../../services/db.service';
@@ -72,7 +72,7 @@ export class CreatureGroupHeaderComponent {
       // Token art is optional on a card; fall back to the generic summon token.
       return creature.summonImage
         ? `./images/${creature.summonImage}`
-        : './images/summons/fh.png';
+        : SUMMON_FALLBACK_IMAGE;
     }
     if (creature.aggressive) {
       return `./images/monster/thumbnail/fh-${creature?.type}.png`

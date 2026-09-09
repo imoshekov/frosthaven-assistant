@@ -58,7 +58,7 @@ describe('AppContext card-half undo', () => {
         AppContext,
         { provide: DataLoaderService, useValue: { getData: () => ({ characters: [] }) } },
         { provide: CreatureFactoryService, useValue: {} },
-        { provide: LogService, useValue: { init: () => { } } },
+        { provide: LogService, useValue: { init: () => { }, runWithoutLogging: (fn: () => void) => fn() } },
         { provide: NotificationService, useValue: { emitErrorMessage: () => { }, emitInfoMessage: () => { } } },
         { provide: DbService, useValue: { getCharacter: () => Promise.resolve([]) } },
         // Mirrors the real curve closely enough to prove the level is recomputed.

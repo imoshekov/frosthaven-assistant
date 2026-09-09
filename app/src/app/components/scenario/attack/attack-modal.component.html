@@ -21,12 +21,12 @@
             <div class="attack-inputs">
                 <div class="stat">
                     <div class="icon damage"></div>
-                    <input type="tel" [(ngModel)]="attack" (ngModelChange)="calculateDamage()" maxlength="3"
+                    <input type="tel" [(ngModel)]="attack" (ngModelChange)="onStatTyped()" maxlength="3"
                         class="stat-input" />
                 </div>
                 <div class="stat">
                     <div class="icon pierce"></div>
-                    <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="calculateDamage()" maxlength="3"
+                    <input type="tel" [(ngModel)]="armorPen" (ngModelChange)="onStatTyped()" maxlength="3"
                         [disabled]="ignoreArmor" class="stat-input" />
                     <button type="button" class="ignore-armor-btn" [class.active]="ignoreArmor"
                         (click)="toggleIgnoreArmor()"

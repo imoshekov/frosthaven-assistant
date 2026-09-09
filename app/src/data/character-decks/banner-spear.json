@@ -21,7 +21,7 @@
             "subActions": [
               {
                 "type": "text",
-                "text": "Suffer {0} damage 1 for each ally whose hit point value increased with the heal ability."
+                "text": "Suffer 1 damage for each ally whose hit point value increased with the heal ability."
               }
             ]
           }

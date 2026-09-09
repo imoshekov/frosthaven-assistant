@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
-import { LogEntry, LogService, ELEMENT_HOLD_STAT, HIDDEN_LOG_STATS } from '../../../services/log.service';
+import { LogEntry, LogService, ELEMENT_HOLD_STAT, isHiddenLogEntry } from '../../../services/log.service';
 import { CommonModule } from '@angular/common';
 import { ChevronToggleComponent } from '../../chevron-toggle/chevron-toggle.component';
 import { AppContext } from '../../../app-context';
@@ -49,7 +49,7 @@ export class LogComponent {
         // Card bookkeeping is audited so Undo can restore it, but rendering it would
         // flood the list — advancing a round touches nine fields per hero. Undo reads
         // logService.getLastBatch(), not this stream, so it still sees them.
-        const visible = logs.filter(l => !HIDDEN_LOG_STATS.has(l.stat));
+        const visible = logs.filter(l => !isHiddenLogEntry(l));
         if (!selected || selected.length === 0) return visible;
         const set = new Set(selected);
         return visible.filter(l => (l.creatureId ? set.has(l.creatureId) : false));

@@ -11,7 +11,7 @@ import { CharacterDeckService } from '../../../services/character-deck.service';
 import { StringUtils } from '../../../services/string-utils.service';
 import { InitiativeService } from '../../../services/initiative.service';
 import { DamageService } from '../../../services/damage.service';
-import { Creature } from '../../../types/game-types';
+import { Creature, SUMMON_FALLBACK_IMAGE } from '../../../types/game-types';
 
 /**
  * A summon has no damage stats of its own — its owner acts through it — so its attack
@@ -77,7 +77,7 @@ describe('AttackModalComponent summon attribution', () => {
   });
 
   it('gives a summon its card token art instead of a hero thumbnail', () => {
-    expect(component.attackerPortrait(fox())).toBe('./images/summons/fh.png');
+    expect(component.attackerPortrait(fox())).toBe(SUMMON_FALLBACK_IMAGE);
   });
 
   it('prefills the attack and pierce from the summon printed stats on selection', () => {

@@ -6,8 +6,8 @@ import { revealAllInitiatives, addMonster, openCardPanel } from './fixtures/card
  * legal top/bottom combination lock, execution against a target, and turn completion.
  *
  * The default party comes from the live Supabase profile, so nothing here assumes a
- * particular character class — most Frosthaven decks have no authored action data yet,
- * and the panel's manual-entry fallback is exercised when that is the case.
+ * particular character class, level or deck: attacks go through the mat's default
+ * action, and the same-card lock is checked by skipping rather than executing.
  */
 test.describe('player card actions', () => {
 
@@ -83,16 +83,12 @@ test.describe('player card actions', () => {
     // Two cards, two halves each, plus the two default actions from the mat.
     await expect(panel.locator('.half-tile')).toHaveCount(6);
 
-    // Take card B's top half.
-    await panel.locator('.half-tile').filter({ hasText: 'B · TOP' }).locator('.tile-body').click();
+    // Attack with the mat's default action. Which card a hero's initiative resolves
+    // to depends on the live party's class and level, and the resolved half may not
+    // attack at all (an XP-only or infuse-only half has no target strip) — the mat's
+    // "Default Attack 2" is the one top half that is always present and always attacks.
+    await panel.locator('.half-tile').filter({ hasText: 'mat · TOP' }).locator('.tile-body').click();
     await expect(panel.locator('.resolve')).toBeVisible();
-
-    // A half with no authored data needs its attack value read off the printed card.
-    const manual = panel.locator('.manual .stat-input');
-    if (await manual.count()) {
-      await manual.fill('5');
-      await manual.dispatchEvent('input');
-    }
 
     await panel.locator('.target-slot').first().click();
     await panel.locator('.modifier-btn', { hasText: '±0' }).first().click();
@@ -102,10 +98,7 @@ test.describe('player card actions', () => {
     await expect(hp).not.toHaveValue(hpBefore);
     await expect(panel.locator('.half-tile.spent').first()).toBeVisible();
 
-    // The same card cannot supply both halves of one turn.
-    await expect(
-      panel.locator('.half-tile').filter({ hasText: 'B · BOTTOM' })
-    ).toHaveClass(/disabled/);
+    // A default action pins no card, so both card bottoms stay open.
     await expect(
       panel.locator('.half-tile').filter({ hasText: 'A · BOTTOM' })
     ).not.toHaveClass(/disabled/);
@@ -119,6 +112,24 @@ test.describe('player card actions', () => {
     await expect(
       page.locator('app-creature-group-header .creature-details.turn-completed')
     ).toHaveCount(1);
+  });
+
+  test('the same card cannot supply both halves of one turn', async ({ page }) => {
+    await revealAllInitiatives(page);
+    await openCardPanel(page);
+    const panel = page.locator('app-player-card-execution-panel');
+
+    // Skipping pins the slot just as executing does, and works whatever the card's
+    // top half prints — so the lock is checked without depending on the party's deck.
+    await panel.locator('.half-tile').filter({ hasText: 'B · TOP' }).locator('button.skip').click();
+    await expect(panel.locator('.half-tile.spent').first()).toBeVisible();
+
+    await expect(
+      panel.locator('.half-tile').filter({ hasText: 'B · BOTTOM' })
+    ).toHaveClass(/disabled/);
+    await expect(
+      panel.locator('.half-tile').filter({ hasText: 'A · BOTTOM' })
+    ).not.toHaveClass(/disabled/);
   });
 
   test('un-grays a half with its own undo button', async ({ page }) => {
@@ -147,12 +158,8 @@ test.describe('player card actions', () => {
     await openCardPanel(page);
     const panel = page.locator('app-player-card-execution-panel');
 
-    await panel.locator('.half-tile').filter({ hasText: 'B · TOP' }).locator('.tile-body').click();
-    const manual = panel.locator('.manual .stat-input');
-    if (await manual.count()) {
-      await manual.fill('5');
-      await manual.dispatchEvent('input');
-    }
+    // The mat's default attack, for the same reason as the turn test above.
+    await panel.locator('.half-tile').filter({ hasText: 'mat · TOP' }).locator('.tile-body').click();
     await panel.locator('.target-slot').first().click();
     await panel.locator('.modifier-btn', { hasText: '±0' }).first().click();
     await panel.locator('button.execute').click();

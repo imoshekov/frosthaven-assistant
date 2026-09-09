@@ -217,6 +217,11 @@ function main() {
             if (typeof a[field] === 'string' && a[field].includes('%')) {
               err(`${where} ${halfName}: unresolved reference in ${field} — ${a[field]}`);
             }
+            // `{0}`-style slots are the upstream source's icon templating, which the
+            // panel never fills in — they would print literally.
+            if (typeof a[field] === 'string' && /\{\d+\}/.test(a[field])) {
+              err(`${where} ${halfName}: unfilled template placeholder in ${field} — ${a[field]}`);
+            }
           }
 
           if (a.type === 'condition' && typeof a.value === 'string' && !CONDITION_NAMES.has(a.value)) {
@@ -257,6 +262,22 @@ function main() {
             }
             if (a.valueType !== undefined) {
               err(`${where} ${halfName}: "value": "X" is the whole value; drop valueType`);
+            }
+            // The player has to know what to type, and the panel has no board to tell
+            // them — so the card's own definition of X should be there to read.
+            // Anywhere under the action counts — the drifter wraps it in an `extra`.
+            //
+            // A warning, not an error: the halves still missing it are authored data
+            // waiting on someone with the printed card in hand, and guessing the prose
+            // is worse than leaving the box unlabelled. Promote this to `err` once
+            // they're written, so new ones can't be added without it.
+            const explainsX = (function find(list) {
+              return (list ?? []).some(s =>
+                (s?.type === 'text' && typeof s.text === 'string' && /\bX\b/.test(s.text)) ||
+                find(s?.subActions));
+            })(a.subActions);
+            if (!explainsX) {
+              warn(`${where} ${halfName}: "value": "X" has no 'text' subAction saying what X is (Rule 8)`);
             }
           }
 

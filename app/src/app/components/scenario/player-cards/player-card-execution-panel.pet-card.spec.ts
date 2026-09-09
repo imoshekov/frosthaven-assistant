@@ -4,7 +4,7 @@ import { PlayerCardExecutionPanelComponent } from './player-card-execution-panel
 import { AppContext, CustomAttackResult } from '../../../app-context';
 import { CharacterDeckService } from '../../../services/character-deck.service';
 import { LogService } from '../../../services/log.service';
-import { Creature, Element, ElementState, ElementType } from '../../../types/game-types';
+import { Creature, Element, ElementState, ElementType, SUMMON_FALLBACK_IMAGE } from '../../../types/game-types';
 
 /**
  * A summon opened in the card execution panel (via its own "Attack" button — see
@@ -87,7 +87,14 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
       providers: [
         { provide: AppContext, useValue: appContextStub },
         { provide: CharacterDeckService, useValue: deckServiceStub },
-        { provide: LogService, useValue: { appendDamageToLastBatch: () => { }, appendKillToLastBatch: () => { } } },
+        {
+          provide: LogService,
+          useValue: {
+            appendDamageToLastBatch: () => { },
+            appendKillToLastBatch: () => { },
+            runWithoutLogging: (fn: () => void) => fn(),
+          },
+        },
       ],
     });
 
@@ -111,7 +118,7 @@ describe('PlayerCardExecutionPanelComponent — summon acting as a pet card', ()
   });
 
   it('uses the summon\'s token art, not a hero thumbnail', () => {
-    expect(panel.heroPortrait).toBe('./images/summons/fh.png');
+    expect(panel.heroPortrait).toBe(SUMMON_FALLBACK_IMAGE);
   });
 
   it('resolves an attack against a picked enemy, crediting damage to the owner', () => {

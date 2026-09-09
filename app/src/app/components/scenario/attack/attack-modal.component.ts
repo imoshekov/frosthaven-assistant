@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { Creature, CreatureConditions } from '../../../types/game-types';
+import { Creature, CreatureConditions, SUMMON_FALLBACK_IMAGE } from '../../../types/game-types';
 import { AppContext } from '../../../app-context';
 import { ConditionsComponent } from '../conditions/conditions.component';
 import { GlobalTelInputDirective } from '../../../directives/global-tel-input.directive';
@@ -38,6 +38,13 @@ export class AttackModalComponent {
    */
   public applyRetaliate = true;
   public selectedCharacterId: string | null = null;
+  /**
+   * True while `attack`/`armorPen` hold a summon's printed stat line rather than
+   * something the DM typed. Switching the attacker to a hero (or deselecting) clears
+   * those numbers again — they belong to the token, not to whoever is picked next.
+   * Values the DM entered by hand are never touched by that reset.
+   */
+  private statsFilledFromSummon = false;
   private tempConditions: CreatureConditions[] = [];
   /**
    * The one-shot conditions the pending attack will use up on the target (ward,
@@ -118,23 +125,36 @@ export class AttackModalComponent {
   /** Summon token art if selecting a summon; otherwise the usual hero thumbnail. */
   attackerPortrait(attacker: Creature): string {
     if (attacker.isSummon) {
-      return attacker.summonImage ? `./images/${attacker.summonImage}` : './images/summons/fh.png';
+      return attacker.summonImage ? `./images/${attacker.summonImage}` : SUMMON_FALLBACK_IMAGE;
     }
     return `./images/character/thumbnail/fh-${attacker.type}.png`;
   }
 
   selectCharacter(characterId: string | null): void {
     this.selectedCharacterId = this.selectedCharacterId === characterId ? null : characterId;
-    if (!characterId || this.selectedCharacterId !== characterId) return;
+
+    const attacker = this.selectedCharacterId
+      ? this.getHeroes().find(c => c.id === this.selectedCharacterId)
+      : undefined;
 
     // A summon's attack ability is printed on its token, so selecting it fills in
     // its numbers the same way the card panel does for a hero's card — the DM
     // shouldn't have to remember or re-type a figure's stat line. Any condition it
     // inflicts is still applied the normal way, by checking it below.
-    const attacker = this.getHeroes().find(c => c.id === characterId);
     if (attacker?.isSummon) {
       this.attack = attacker.attack ?? 0;
       this.armorPen = attacker.pierce ?? 0;
+      this.statsFilledFromSummon = true;
+      this.calculateDamage();
+      return;
+    }
+
+    // Moving off a summon — to a hero, or to nobody — must not leave the token's
+    // stat line in the inputs to be applied as the hero's attack.
+    if (this.statsFilledFromSummon) {
+      this.attack = 0;
+      this.armorPen = 0;
+      this.statsFilledFromSummon = false;
       this.calculateDamage();
     }
   }
@@ -163,14 +183,24 @@ export class AttackModalComponent {
     else this.tempConditions.push(condition);
   }
 
+  /**
+   * The DM edited the attack or pierce box. Whatever is there is now theirs, so a
+   * later attacker switch leaves it alone (see `statsFilledFromSummon`).
+   */
+  onStatTyped(): void {
+    this.statsFilledFromSummon = false;
+    this.calculateDamage();
+  }
+
   toggleIgnoreArmor(): void {
     this.ignoreArmor = !this.ignoreArmor;
     this.calculateDamage();
   }
 
-  attackCreature(): void {
+  /** Applies the attack. Returns false when there was no attack to apply. */
+  attackCreature(): boolean {
     if (this.attack <= 0) {
-      return;
+      return false;
     }
     const calculatedDamage = this.calculateDamage();
     const resultHp = this.creature.hp - calculatedDamage;
@@ -189,6 +219,7 @@ export class AttackModalComponent {
     }
 
     this.retaliateAgainstAttacker();
+    return true;
   }
 
   /**
@@ -242,10 +273,18 @@ export class AttackModalComponent {
     }
 
     const currentHp = this.creature?.hp ?? 0;
-    this.attackCreature();
-    this.tempConditions.forEach(condition => {
-      this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
-    });
+    const attacked = this.attackCreature();
+    // `toggleCreatureConditions` toggles, and `attackCreature` has just taken the
+    // consumed ward/brittle off the target — so a click that was meant to switch one
+    // of those *off* would flip it straight back on here. The attack already did what
+    // that click asked for, so those entries are skipped. Only when an attack actually
+    // went through: with nothing to apply, nothing was removed either.
+    const consumed = new Set(attacked ? this.consumedConditions : []);
+    this.tempConditions
+      .filter(condition => !consumed.has(condition))
+      .forEach(condition => {
+        this.creature && this.appContext.toggleCreatureConditions(this.creature.id!, condition);
+      });
     
     // Record full damage (not capped at monster HP) if a character is selected.
     // A summon has no stats of its own to credit, so its damage counts against

@@ -74,7 +74,15 @@ describe('PlayerCardExecutionPanelComponent — Undo restores element infusions'
         AppContext,
         { provide: DataLoaderService, useValue: { getData: () => ({ characters: [], monsters: [], decks: [] }) } },
         { provide: CreatureFactoryService, useValue: {} },
-        { provide: LogService, useValue: { init: () => { }, appendDamageToLastBatch: () => { }, appendKillToLastBatch: () => { } } },
+        {
+          provide: LogService,
+          useValue: {
+            init: () => { },
+            appendDamageToLastBatch: () => { },
+            appendKillToLastBatch: () => { },
+            runWithoutLogging: (fn: () => void) => fn(),
+          },
+        },
         { provide: NotificationService, useValue: { emitErrorMessage: () => { }, emitInfoMessage: () => { } } },
         { provide: DbService, useValue: { getCharacter: () => Promise.resolve([]) } },
         { provide: XpService, useValue: { levelFromXp: () => 1 } },

@@ -61,8 +61,8 @@
           <!-- Halves with real action data render it. -->
           <app-card-action *ngIf="hasData(tile.content)" [actions]="tile.content?.actions ?? []"></app-card-action>
 
-          <!-- 878 of 1008 Frosthaven halves have no action data yet, so say so plainly
-               rather than rendering an empty tile. -->
+          <!-- Most Frosthaven halves have no action data yet (see the deck README's
+               "Current state"), so say so plainly rather than rendering an empty tile. -->
           <div class="no-data" *ngIf="tile.content && !hasData(tile.content)">
             No card data yet — read the printed card and enter the value below.
           </div>
@@ -438,7 +438,7 @@
       </label>
 
       <!-- Positional actions cannot be applied; this app has no board. -->
-      <div class="note" *ngIf="!needsTarget && !selectedSummons.length && !totalSelfDamage && !isSelfDamageManual && hasData(tile.content)">
+      <div class="note" *ngIf="hasNothingToApply">
         Nothing to apply automatically — movement and positioning are resolved on the board.
       </div>
 

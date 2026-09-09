@@ -1,6 +1,17 @@
 import { MonsterAbilityCard } from "./data-file-types";
 import { CardSlot, HalfDisposition } from "./character-card-types";
 
+/**
+ * Portrait for a summon whose card provides no token art. One constant rather than the
+ * same string repeated in four components.
+ *
+ * Replaces `images/summons/fh.png`, which ships fine (the build copies `src/images`)
+ * but is a 100-byte 68×68 1-bit placeholder that draws as a blank square — so a summon
+ * without art showed nothing at all. This is the same skull the components already fall
+ * back to from their `(error)` handlers, so both paths now land on one real image.
+ */
+export const SUMMON_FALLBACK_IMAGE = './images/bb/daemon-skull.svg';
+
 export enum CreatureConditions {
   poison = "poison",
   wound = "wound",

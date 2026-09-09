@@ -27,7 +27,7 @@ const PACKED_INITIATIVE_CLASSES: ReadonlySet<string> = new Set(['blinkblade']);
  * Decks are served as JSON assets from `/data/character-decks/<class>.json` and fetched
  * lazily per class, rather than inlined into `data-loader.service.ts` — that service is
  * already 72k lines in the main bundle, and card data needs to stay hand-editable for
- * the ~87% of Frosthaven card halves that are not yet authored.
+ * the majority of Frosthaven card halves that are not yet authored.
  */
 @Injectable({ providedIn: 'root' })
 export class CharacterDeckService {
@@ -45,7 +45,15 @@ export class CharacterDeckService {
     const existing = this.decks.get(characterClass);
     if (existing) return existing;
 
-    const pending = this.fetchDeck(characterClass);
+    const pending = this.fetchDeck(characterClass).then(deck => {
+      // A failed fetch must not be remembered for the rest of the session: a flaky
+      // connection on first open would otherwise pin the class to manual entry until
+      // a reload. Forgetting the promise lets the next loadDeck() try again. A class
+      // with genuinely no data file re-fetches too, but that costs one 404 per open
+      // of its panel — cheap next to permanently losing a deck that does exist.
+      if (!deck) this.decks.delete(characterClass);
+      return deck;
+    });
     this.decks.set(characterClass, pending);
     return pending;
   }
@@ -97,7 +105,7 @@ export class CharacterDeckService {
   cardsForLevel(deck: CharacterDeck | null, heroLevel: number): CharacterAbilityCard[] {
     if (!deck) return [];
     const level = Number.isFinite(heroLevel) ? heroLevel : 1;
-    return deck.cards.filter(card => card.level === 'X' || Number(card.level) <= level);
+    return (deck.cards ?? []).filter(card => card.level === 'X' || Number(card.level) <= level);
   }
 
   /**

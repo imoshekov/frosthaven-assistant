@@ -70,7 +70,12 @@ describe('PlayerCardExecutionPanelComponent rulebook behaviour', () => {
         { provide: CreatureFactoryService, useValue: {} },
         {
           provide: LogService,
-          useValue: { init: () => { }, appendDamageToLastBatch: () => { }, appendKillToLastBatch: () => { } },
+          useValue: {
+            init: () => { },
+            appendDamageToLastBatch: () => { },
+            appendKillToLastBatch: () => { },
+            runWithoutLogging: (fn: () => void) => fn(),
+          },
         },
         { provide: NotificationService, useValue: { emitErrorMessage: () => { }, emitInfoMessage: () => { } } },
         { provide: DbService, useValue: { getCharacter: () => Promise.resolve([]) } },

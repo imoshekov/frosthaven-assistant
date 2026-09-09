@@ -397,7 +397,13 @@ and let the player type it when the half is resolved:
 ```
 
 Always pair it with a `text` subAction saying what X is — that prose is the only thing
-telling the player what to count, and Rule 1 means it has to be on the card itself.
+telling the player what to count, and Rule 1 means it has to be on the card itself. The
+validator **warns** for an `"X"` with no `text` mentioning X anywhere under it; a
+handful of trap and shackles halves are still missing theirs, waiting on someone with
+the printed card to hand. It is a warning rather than an error only for that reason —
+promote it to an error in `validate-character-decks.js` once they are written. The
+validator does **reject** `{0}`-style placeholders left over from the source's icon
+templating, since the panel prints them literally.
 
 The panel gives that strike a number box instead of a printed value, tagged `X`. What is
 typed then behaves as an ordinary attack value in every respect: the modifier card
@@ -551,17 +557,25 @@ authoring bug across several classes — always wrap the optional side of the tr
 
 ## Current state
 
-All 504 cards have correct `cardId`, `name`, `level` and `initiative`. Most **action
-bodies are still empty**, because the upstream source has not written them:
+All 504 cards have correct `cardId`, `name`, `level` and `initiative`. Around two
+thirds of the **action bodies are still empty**, because the upstream source has not
+written them. `node validate-character-decks.js` prints the live per-deck count; the
+table below is a snapshot:
 
 | Deck | Halves with data |
 | --- | --- |
-| `drifter` | 62 / 62 |
-| `snowflake` | 60 / 60 |
-| `banner-spear` | 8 / 58 |
-| the other 14 classes | 0 |
+| `drifter` | 61 / 62 |
+| `astral` | 57 / 60 |
+| `snowflake` | 54 / 60 |
+| `shackles` | 47 / 58 |
+| `prism` | 43 / 60 |
+| `trap` | 34 / 56 |
+| `banner-spear` | 14 / 58 |
+| `boneshaper` | 10 / 62 |
+| `deathwalker` | 2 / 60 |
+| the other 8 classes | 0 |
 
-**130 of 1008 halves (12.9%)** have real action data — a half either has an
+**322 of 1008 halves (31.9%)** have real action data — a half either has an
 `actions` array with content, or it's empty; there is no separate flag to track that,
 since it's fully derived from the data (`hasCardData()` in
 [`character-card-types.ts`](../../app/types/character-card-types.ts)). An empty half

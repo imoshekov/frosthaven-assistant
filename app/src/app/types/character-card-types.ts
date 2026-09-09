@@ -304,7 +304,8 @@ export interface CardAction {
 
 export interface CardHalf {
   /**
-   * Empty for halves with no action data yet (878 of 1008 at time of writing) — see
+   * Empty for halves with no action data yet (roughly two thirds of them; the deck
+   * validator prints the live count) — see
    * `hasCardData()`. The panel degrades to the card name plus manual entry and the
    * default actions for those.
    */
@@ -344,7 +345,12 @@ export type CharacterClassName =
 export interface CharacterDeck {
   characterClass: CharacterClassName;
   edition: string;
-  handSize?: number;
+  /**
+   * Cards in hand. A number for every class but Geminate, whose two forms each hold
+   * their own hand — written `"7|7"` in its deck file. Informational only; nothing
+   * in the app reads it yet.
+   */
+  handSize?: number | string;
   cards: CharacterAbilityCard[];
 }
 

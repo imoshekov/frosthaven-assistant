@@ -32,13 +32,36 @@ export const CREATURE_AUDIT_FIELDS = [
 ] as const satisfies readonly (keyof Creature)[];
 
 /**
- * Turn-state fields worth auditing (so Undo restores them) but not worth rendering:
- * advancing a round would otherwise flood the visible log with a dozen rows per hero.
+ * Bookkeeping fields worth auditing (so Undo restores them) but never worth rendering:
+ * which card id sits in which slot says nothing a player reads the journal for.
  * Filtered in LogComponent's display stream only — undo reads the unfiltered batch.
  */
 export const HIDDEN_LOG_STATS: ReadonlySet<string> = new Set([
-  'cardAId', 'cardBId', 'topHalfSlot', 'bottomHalfSlot', 'secondaryInitiative'
+  'cardAId', 'cardBId', 'topHalfSlot', 'bottomHalfSlot', 'secondaryInitiative',
 ]);
+
+/**
+ * Turn state that is worth reading when it is *set* and pure noise when it is
+ * *cleared*. Playing a half ('executed'), skipping one, and ending a turn early
+ * (`isTurnCompleted: true`) are all real moves a player may want to see. Clearing the
+ * same three is only ever `resetCreaturesForNewRound()` tidying up, which would
+ * otherwise file three rows per hero on every round advance.
+ */
+const TURN_STATE_STATS: ReadonlySet<string> = new Set([
+  'topHalfState', 'bottomHalfState', 'isTurnCompleted',
+]);
+
+/**
+ * Whether a journal row is bookkeeping rather than a move worth showing. Reads the
+ * entry's new value, not just its field, so the round advance stays quiet without
+ * hiding the deliberate turn-state changes that share those fields.
+ */
+export function isHiddenLogEntry(entry: Pick<LogEntry, 'stat' | 'value'>): boolean {
+  if (HIDDEN_LOG_STATS.has(entry.stat)) return true;
+  // Cleared back to null/false — a reset, not something anyone did.
+  if (TURN_STATE_STATS.has(entry.stat)) return !entry.value;
+  return false;
+}
 
 export type AuditKey = typeof CREATURE_AUDIT_FIELDS[number];
 

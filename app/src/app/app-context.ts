@@ -555,14 +555,31 @@ export class AppContext {
         const current = this.getCreatures().find(c => c.id === creatureId);
         if (!current || !current.type) return;
 
+        // A long rest (and a downed hero) submits the 99 sentinel to *both* slots — see
+        // `longRest()` and `resetCreaturesForNewRound()` — so that pair, not a lone 99,
+        // is what says "played no cards". Binding on it would pin a card to a hero who
+        // never played one. Testing a single slot instead would ban the two cards that
+        // genuinely print 99 (Shackles "The End of Everything", Blinkblade's slow 99):
+        // each resolves to exactly one candidate, and the panel's chooser only appears
+        // for two or more, so those halves could never be bound at all. Same pair test
+        // `revealHeroInitiatives()` uses to finalize the turn.
+        const isLongRest = current.initiative === LONG_REST_INITIATIVE
+            && current.secondaryInitiative === LONG_REST_INITIATIVE;
+
+        const resolveSlot = (initiative: number | null | undefined): number | undefined => {
+            if (!initiative || isLongRest) return undefined;
+            const candidates = this.deckService.resolve(current.type!, current.level ?? 1, initiative);
+            return candidates.length === 1 ? candidates[0].card.cardId : undefined;
+        };
+
         const patch: { cardAId?: number | null; cardBId?: number | null } = {};
         if (current.cardAId == null) {
-            const candidates = this.deckService.resolve(current.type, current.level ?? 1, current.initiative ?? 0);
-            if (candidates.length === 1) patch.cardAId = candidates[0].card.cardId;
+            const cardId = resolveSlot(current.initiative);
+            if (cardId !== undefined) patch.cardAId = cardId;
         }
         if (current.cardBId == null) {
-            const candidates = this.deckService.resolve(current.type, current.level ?? 1, current.secondaryInitiative ?? 0);
-            if (candidates.length === 1) patch.cardBId = candidates[0].card.cardId;
+            const cardId = resolveSlot(current.secondaryInitiative);
+            if (cardId !== undefined) patch.cardBId = cardId;
         }
         if (Object.keys(patch).length > 0) {
             this.bindHeroCards(creatureId, patch);
@@ -733,8 +750,17 @@ export class AppContext {
      *
      * A half that was skipped, or executed before this session, has nothing recorded;
      * then this reverses the flag alone, as it always did.
+     *
+     * Runs with logging paused, the same as the journal's own Undo: this *is* an undo,
+     * so it must not file fresh journal batches for the revives and patches it makes —
+     * those would read as new game actions, and undoing them from the journal would
+     * re-apply the half.
      */
     undoCardHalf(creatureId: string, half: CardHalfName): void {
+        this.logService.runWithoutLogging(() => this.undoCardHalfUnlogged(creatureId, half));
+    }
+
+    private undoCardHalfUnlogged(creatureId: string, half: CardHalfName): void {
         const key = this.halfKey(creatureId, half);
         const executed = this.halfExecutions.get(key);
         this.halfExecutions.delete(key);

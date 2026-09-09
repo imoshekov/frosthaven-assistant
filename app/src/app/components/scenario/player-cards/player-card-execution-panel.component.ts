@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AppContext, CustomAttackResult, HalfEffectOnTarget } from '../../../app-context';
-import { Creature, CreatureConditions, ElementState, ElementType } from '../../../types/game-types';
+import { Creature, CreatureConditions, ElementState, ElementType, SUMMON_FALLBACK_IMAGE } from '../../../types/game-types';
 import {
   CardAction,
   CardHalf,
@@ -254,7 +254,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
   get heroPortrait(): string {
     const hero = this.hero;
     if (hero?.isSummon) {
-      return hero.summonImage ? `./images/${hero.summonImage}` : './images/summons/fh.png';
+      return hero.summonImage ? `./images/${hero.summonImage}` : SUMMON_FALLBACK_IMAGE;
     }
     return `./images/character/thumbnail/fh-${hero?.type}.png`;
   }
@@ -1523,7 +1523,7 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
     if (creature.isSummon) {
       return creature.summonImage
         ? `./images/${creature.summonImage}`
-        : './images/summons/fh.png';
+        : SUMMON_FALLBACK_IMAGE;
     }
     return creature.aggressive
       ? `./images/monster/thumbnail/fh-${creature.type}.png`
@@ -1621,6 +1621,30 @@ export class PlayerCardExecutionPanelComponent implements OnInit, OnDestroy {
       breakdown.push(`${target.name}: ${result.damage}`);
     }
     return { damage: total, breakdown };
+  }
+
+  /**
+   * Whether Execute would change nothing at all for the selected half — a pure
+   * movement/positioning half, which this app has no board to apply. Anything the
+   * panel *does* apply counts against it: a target-facing effect, a summon, HP the
+   * half costs its player, and also the quieter ones — XP, an element infusion, a
+   * shield or retaliate for the round, a self-heal. Without those last five, a half
+   * like astral "Guide the Flow" (infuse Air) read as "nothing to apply" while
+   * Execute went on to infuse Air anyway.
+   */
+  get hasNothingToApply(): boolean {
+    if (!hasCardData(this.selectedContent)) return false;
+    if (this.needsTarget) return false;
+    if (this.selectedSummons.length > 0) return false;
+    if (this.totalSelfDamage > 0 || this.isSelfDamageManual) return false;
+    if (this.selectedXp + this.takenBonusXp > 0) return false;
+    if (this.selectedElements.length > 0 || this.needsElementChoice) return false;
+    if (this.totalShield !== 0 || this.totalRetaliate !== 0) return false;
+    if (this.selectedSelfHealValue > 0 || this.hasSelectedHeal) return false;
+    if (this.selectedSelfConditions.length > 0) return false;
+    // A bonus on offer is something the player can still decide to apply.
+    if (this.selectedBonuses.length > 0) return false;
+    return true;
   }
 
   get canExecute(): boolean {
