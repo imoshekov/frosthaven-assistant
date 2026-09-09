@@ -6,10 +6,25 @@
     align-items: center;
     justify-content: center;
     background: var(--dark-transparent-background);
+    // The host *is* the backdrop, so it has to swallow what it covers. Left at `none`
+    // (from when this was made full-screen to centre the dialog) every click fell
+    // straight through the dimmed layer to whatever sat underneath — the initiative
+    // bubble in the corner, and any creature row behind the dialog. `.content` below
+    // re-enables events for the dialog itself.
+    pointer-events: auto;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+// Vestigial: styles.scss styles *every* `.layout` as a fixed, full-viewport box at
+// z-index 99, and `display: contents` on `.modal` below leaves `.content` unpositioned
+// — so this empty div paints on top of the dialog. It went unnoticed while the host was
+// `pointer-events: none` and it inherited that; once the host started capturing events
+// it swallowed every click meant for the dialog. The host is this component's backdrop,
+// so this div only has to stay out of the way.
+.layout {
     pointer-events: none;
-    width: 100dvw;   /* ← add */
-    height: 100dvh;  /* ← add */
-    overflow: hidden; /* ← add */
 }
 
 .modal {

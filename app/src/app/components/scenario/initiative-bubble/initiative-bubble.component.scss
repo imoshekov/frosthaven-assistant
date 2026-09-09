@@ -2,7 +2,11 @@
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  z-index: 1000;
+  // Floats over the board, but under every dialog: at 1000 it drew on top of the card
+  // execution panel (900/901) and tied with add-monster and the confirmation dialog
+  // (1000 each, where DOM order put the bubble last and so on top). 500 clears the
+  // page's own layers — styles.scss uses 99/100 — while staying below all of them.
+  z-index: 500;
 }
 
 .initiative-bubble-wrapper {
