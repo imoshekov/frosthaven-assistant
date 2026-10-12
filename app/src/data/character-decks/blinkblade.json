@@ -1,0 +1,413 @@
+{
+  "characterClass": "blinkblade",
+  "edition": "fh",
+  "handSize": 10,
+  "cards": [
+    {
+      "cardId": 32,
+      "name": "Blurry Jab",
+      "level": 1,
+      "initiative": 2050,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 20,
+      "initiativeSlow": 50
+    },
+    {
+      "cardId": 33,
+      "name": "Twin Strike",
+      "level": 1,
+      "initiative": 2454,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 24,
+      "initiativeSlow": 54
+    },
+    {
+      "cardId": 34,
+      "name": "Sap Speed",
+      "level": 1,
+      "initiative": 4575,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 45,
+      "initiativeSlow": 75
+    },
+    {
+      "cardId": 35,
+      "name": "Kinetic Transfer",
+      "level": 1,
+      "initiative": 3666,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 36,
+      "initiativeSlow": 66
+    },
+    {
+      "cardId": 36,
+      "name": "Overdrive",
+      "level": 1,
+      "initiative": 6090,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 60,
+      "initiativeSlow": 90
+    },
+    {
+      "cardId": 37,
+      "name": "Power Leak",
+      "level": 1,
+      "initiative": 1747,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 17,
+      "initiativeSlow": 47
+    },
+    {
+      "cardId": 38,
+      "name": "Hit and Run",
+      "level": 1,
+      "initiative": 4171,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 41,
+      "initiativeSlow": 71
+    },
+    {
+      "cardId": 39,
+      "name": "Drive Recharge",
+      "level": 1,
+      "initiative": 6999,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 69,
+      "initiativeSlow": 99
+    },
+    {
+      "cardId": 40,
+      "name": "Cascading Reaction",
+      "level": 1,
+      "initiative": 1949,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 19,
+      "initiativeSlow": 49
+    },
+    {
+      "cardId": 41,
+      "name": "Temporal Displacement",
+      "level": 1,
+      "initiative": 4474,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 44,
+      "initiativeSlow": 74
+    },
+    {
+      "cardId": 42,
+      "name": "Experimental Adjustment",
+      "level": "X",
+      "initiative": 1242,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 12,
+      "initiativeSlow": 42
+    },
+    {
+      "cardId": 43,
+      "name": "Sand in the Hourglass",
+      "level": "X",
+      "initiative": 5282,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 52,
+      "initiativeSlow": 82
+    },
+    {
+      "cardId": 44,
+      "name": "Borrowed Time",
+      "level": "X",
+      "initiative": 232,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 2,
+      "initiativeSlow": 32
+    },
+    {
+      "cardId": 45,
+      "name": "Systems Reboot",
+      "level": 2,
+      "initiative": 5787,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 57,
+      "initiativeSlow": 87
+    },
+    {
+      "cardId": 46,
+      "name": "Reckless Augmentation",
+      "level": 2,
+      "initiative": 1040,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 10,
+      "initiativeSlow": 40
+    },
+    {
+      "cardId": 47,
+      "name": "Make It Count",
+      "level": 3,
+      "initiative": 5181,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 51,
+      "initiativeSlow": 81
+    },
+    {
+      "cardId": 48,
+      "name": "Double Time",
+      "level": 3,
+      "initiative": 2252,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 22,
+      "initiativeSlow": 52
+    },
+    {
+      "cardId": 49,
+      "name": "Precision Timing",
+      "level": 4,
+      "initiative": 1545,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 15,
+      "initiativeSlow": 45
+    },
+    {
+      "cardId": 50,
+      "name": "Potential Energy",
+      "level": 4,
+      "initiative": 3262,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 32,
+      "initiativeSlow": 62
+    },
+    {
+      "cardId": 51,
+      "name": "Breakneck Speed",
+      "level": 5,
+      "initiative": 333,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 3,
+      "initiativeSlow": 33
+    },
+    {
+      "cardId": 52,
+      "name": "Flashing Flurry",
+      "level": 5,
+      "initiative": 4070,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 40,
+      "initiativeSlow": 70
+    },
+    {
+      "cardId": 53,
+      "name": "Stab Them All",
+      "level": 6,
+      "initiative": 434,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 4,
+      "initiativeSlow": 34
+    },
+    {
+      "cardId": 54,
+      "name": "The Knife's Edge",
+      "level": 6,
+      "initiative": 6595,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 65,
+      "initiativeSlow": 95
+    },
+    {
+      "cardId": 55,
+      "name": "Phasing Blades",
+      "level": 7,
+      "initiative": 6393,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 63,
+      "initiativeSlow": 93
+    },
+    {
+      "cardId": 56,
+      "name": "Rushed to the End",
+      "level": 7,
+      "initiative": 3262,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 32,
+      "initiativeSlow": 62
+    },
+    {
+      "cardId": 57,
+      "name": "Quantum Uncertainty",
+      "level": 8,
+      "initiative": 3565,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 35,
+      "initiativeSlow": 65
+    },
+    {
+      "cardId": 58,
+      "name": "Fastest Alive",
+      "level": 8,
+      "initiative": 131,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 1,
+      "initiativeSlow": 31
+    },
+    {
+      "cardId": 59,
+      "name": "Reverse the Flow",
+      "level": 9,
+      "initiative": 5888,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 58,
+      "initiativeSlow": 88
+    },
+    {
+      "cardId": 60,
+      "name": "Fractured Timeline",
+      "level": 9,
+      "initiative": 5585,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      },
+      "initiativeFast": 55,
+      "initiativeSlow": 85
+    }
+  ]
+}

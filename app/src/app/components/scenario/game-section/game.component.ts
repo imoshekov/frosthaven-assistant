@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppContext } from '../../../app-context';
 import { Creature } from '../../../types/game-types';
+import { effectiveInitiative, effectiveSecondaryInitiative } from '../../../types/turn-state.util';
 import { Subject, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CreatureGroupHeaderComponent } from './creature-group-header.component';
@@ -40,7 +41,11 @@ export class GameComponent implements OnDestroy {
   private sortCreatures() {
     const groups: { [key: string]: Creature[] } = {};
     for (const creature of this.appContext.getCreatures()) {
-      const key = `${creature.type}-${creature.isElite}`;
+      // Summons are grouped per owner as well as per type: two heroes can each summon
+      // the same creature, and they act at different initiatives.
+      const key = creature.isSummon
+        ? `${creature.type}-${creature.isElite}-${creature.summonOwnerId}`
+        : `${creature.type}-${creature.isElite}`;
       if (!groups[key]) {
         groups[key] = [];
       }
@@ -64,16 +69,41 @@ export class GameComponent implements OnDestroy {
   }
 
   get sortedCreatureGroups() {
+    const all = this.appContext.getCreatures();
+
     return [...this.groupedCreatures].sort((a, b) => {
       const typeA = a.creatureType;
       const typeB = b.creatureType;
 
-      // 1. Initiative (asc)
-      if ((typeA.initiative ?? 0) !== (typeB.initiative ?? 0)) {
-        return (typeA.initiative ?? 0) - (typeB.initiative ?? 0);
+      // 1. Initiative (asc). A summon borrows its owner's, so the two land together.
+      const initA = effectiveInitiative(typeA, all);
+      const initB = effectiveInitiative(typeB, all);
+      if (initA !== initB) {
+        return initA - initB;
       }
 
-      // 2. Aggressive: false (characters) before true (monsters)
+      // 1b. Two players tied on their main (first) card break the tie on their second
+      // card's initiative — the real rule for two identical draws — before falling
+      // through to the arbitrary aggressive/name/standee ordering below. Applies to
+      // summons too (borrowing the owner's second card, same as the first), so tied
+      // heroes' summons still cluster with their own owner instead of every tied
+      // summon lumping together ahead of every tied hero. Excludes monsters — they
+      // have no second card to break a tie with.
+      if (!typeA.aggressive && !typeB.aggressive) {
+        const secondaryA = effectiveSecondaryInitiative(typeA, all);
+        const secondaryB = effectiveSecondaryInitiative(typeB, all);
+        if (secondaryA !== secondaryB) {
+          return secondaryA - secondaryB;
+        }
+      }
+
+      // 2. A summon acts just before the hero it belongs to, so it sorts ahead of any
+      //    non-summon sharing that initiative.
+      if (!!typeA.isSummon !== !!typeB.isSummon) {
+        return typeA.isSummon ? -1 : 1;
+      }
+
+      // 3. Aggressive: false (characters) before true (monsters)
       if (typeA.aggressive !== typeB.aggressive) {
         return typeA.aggressive ? 1 : -1;
       }

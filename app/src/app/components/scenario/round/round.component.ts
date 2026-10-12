@@ -56,14 +56,8 @@ export class RoundComponent implements OnInit, OnDestroy {
     }
 
     resetAllCreatures(): void {
-        const creatures = this.appContext.getCreatures().map(creature => ({
-            ...creature,
-            initiative: 0,
-            hiddenInitiative: (creature.aggressive ? null : 0 ),
-            roundArmor: 0,
-            roundRetaliate: 0
-        }));
-        this.appContext.setCreatures(creatures);
+        // Lives on AppContext so it stays next to the card turn-state fields it clears.
+        this.appContext.resetCreaturesForNewRound();
     }
 
     private resetElements(): void {

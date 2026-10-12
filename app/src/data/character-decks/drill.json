@@ -1,0 +1,343 @@
+{
+  "characterClass": "drill",
+  "edition": "fh",
+  "handSize": 9,
+  "cards": [
+    {
+      "cardId": 417,
+      "name": "Steam Armor",
+      "level": 1,
+      "initiative": 17,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 418,
+      "name": "Ancient Drill",
+      "level": 1,
+      "initiative": 90,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 419,
+      "name": "Rocket Boots",
+      "level": 1,
+      "initiative": 22,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 420,
+      "name": "Power Core",
+      "level": 1,
+      "initiative": 83,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 421,
+      "name": "Steel Piston",
+      "level": 1,
+      "initiative": 40,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 422,
+      "name": "Pressure Build Up",
+      "level": 1,
+      "initiative": 20,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 423,
+      "name": "Beam Axe",
+      "level": 1,
+      "initiative": 29,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 424,
+      "name": "Memory Drive",
+      "level": 1,
+      "initiative": 64,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 425,
+      "name": "Super Heat Transfer",
+      "level": 1,
+      "initiative": 25,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 426,
+      "name": "Processing",
+      "level": "X",
+      "initiative": 95,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 427,
+      "name": "Recursion",
+      "level": "X",
+      "initiative": 50,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 428,
+      "name": "Curious Gear",
+      "level": "X",
+      "initiative": 12,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 429,
+      "name": "Release Valve",
+      "level": 2,
+      "initiative": 30,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 430,
+      "name": "Bronze Plating",
+      "level": 2,
+      "initiative": 18,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 431,
+      "name": "Stress Vents",
+      "level": 3,
+      "initiative": 15,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 432,
+      "name": "Electrical Discharge",
+      "level": 3,
+      "initiative": 26,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 433,
+      "name": "Energy Conversion",
+      "level": 4,
+      "initiative": 23,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 434,
+      "name": "Magnetic Field",
+      "level": 4,
+      "initiative": 21,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 435,
+      "name": "Radiation",
+      "level": 5,
+      "initiative": 37,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 436,
+      "name": "Heat Conduction",
+      "level": 5,
+      "initiative": 11,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 437,
+      "name": "Scalding Blast",
+      "level": 6,
+      "initiative": 45,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 438,
+      "name": "Steam Core",
+      "level": 6,
+      "initiative": 71,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 439,
+      "name": "Heated Drill",
+      "level": 7,
+      "initiative": 80,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 440,
+      "name": "Cryogenic Hibernation",
+      "level": 7,
+      "initiative": 19,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 441,
+      "name": "Piston Barrage",
+      "level": 8,
+      "initiative": 33,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 442,
+      "name": "Curious Machinery",
+      "level": 8,
+      "initiative": 11,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 443,
+      "name": "Polarity Shift",
+      "level": 9,
+      "initiative": 79,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 444,
+      "name": "Unstable Core",
+      "level": 9,
+      "initiative": 10,
+      "top": {
+        "actions": []
+      },
+      "bottom": {
+        "actions": []
+      }
+    }
+  ]
+}

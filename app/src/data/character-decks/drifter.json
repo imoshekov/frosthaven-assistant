@@ -1,0 +1,1264 @@
+{
+  "characterClass": "drifter",
+  "edition": "fh",
+  "handSize": 12,
+  "cards": [
+    {
+      "cardId": 1,
+      "name": "Crushing Weight",
+      "level": 1,
+      "initiative": 71,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six melee attacks, add Attack +2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "2",
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 2,
+      "name": "Sustained Momentum",
+      "level": 1,
+      "initiative": 76,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six move abilities, add Move +2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 3,
+      "name": "Precision Aim",
+      "level": 1,
+      "initiative": 66,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "All your ranged attacks have Range +1. On your next six ranged attacks, add Attack +1.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 4,
+      "name": "Continuous Health",
+      "level": 1,
+      "initiative": 61,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six heals, add Heal +2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 5,
+      "name": "Relentless",
+      "level": 1,
+      "initiative": 89,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move the character token on two of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On the next six attacks targeting you performed by enemies within Range 2, gain Retaliate 2 Range 2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 6,
+      "name": "Unbreakable",
+      "level": 1,
+      "initiative": 90,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move the character token on two of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On the next six sources of Damage from attacks targeting you, gain Shield 1.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 7,
+      "name": "Vile Assault",
+      "level": 1,
+      "initiative": 27,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "poison",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "wound",
+                "small": true
+              }
+            ]
+          }
+        ],
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "2"
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 8,
+      "name": "Draining Arrows",
+      "level": 1,
+      "initiative": 23,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "1",
+            "enhancementTypes": [
+              "square"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "muddle",
+                "small": true
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "If you are adjacent to exactly one enemy, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 9,
+      "name": "Prudent Preparation",
+      "level": 1,
+      "initiative": 14,
+      "top": {
+        "actions": [
+          {
+            "type": "shield",
+            "value": "1",
+            "enhancementTypes": [
+              "diamond_plus"
+            ]
+          },
+          {
+            "type": "retaliate",
+            "value": "1",
+            "enhancementTypes": [
+              "diamond_plus"
+            ]
+          }
+        ],
+        "round": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "2",
+            "enhancementTypes": [
+              "circle"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 10,
+      "name": "Deadly Shot",
+      "level": 1,
+      "initiative": 32,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "1",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "poison",
+                "small": true
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": []
+      }
+    },
+    {
+      "cardId": 11,
+      "name": "Bloodletting",
+      "level": 1,
+      "initiative": 65,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "If you killed an enemy with the attack ability, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "1",
+            "enhancementTypes": [
+              "square"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "wound",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 12,
+      "name": "Violent Inheritance",
+      "level": 1,
+      "initiative": 70,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "1",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 13,
+      "name": "Fortitude",
+      "level": "X",
+      "initiative": 31,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "pierce",
+                "value": "2",
+                "small": true
+              },
+              {
+                "type": "boxFhSubActions",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Before applying any other bonuses, move the character token on one of your persistent abilities forward one slot: Range +2.",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Whenever you kill an enemy, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 14,
+      "name": "No Remorse",
+      "level": "X",
+      "initiative": 20,
+      "top": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond_plus"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 15,
+      "name": "Destructive Fury",
+      "level": "X",
+      "initiative": 19,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ],
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 16,
+      "name": "Shockwave",
+      "level": 2,
+      "initiative": 17,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six melee attacks targeting an enemy adjacent to any other enemy, one enemy adjacent to the target suffers Damage 2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "shield",
+            "value": "1",
+            "enhancementTypes": [
+              "circle"
+            ]
+          }
+        ],
+        "round": true
+      }
+    },
+    {
+      "cardId": 17,
+      "name": "Ever Forward",
+      "level": 2,
+      "initiative": 67,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2"
+          },
+          {
+            "type": "condition",
+            "value": "ward",
+            "enhancementTypes": [
+              "diamond_plus"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "1",
+            "enhancementTypes": [
+              "circle"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 18,
+      "name": "Fierce Barrage",
+      "level": 3,
+      "initiative": 32,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six ranged attack abilities, add Target +1.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 19,
+      "name": "Dual Bow",
+      "level": 3,
+      "initiative": 26,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "square"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move the character token on two of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 20,
+      "name": "Chunk of Flesh",
+      "level": 4,
+      "initiative": 62,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "heal",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond_plus"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On the next six sources of Damage from attacks targeting you, gain Shield 2.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 21,
+      "name": "Gift of the Prey",
+      "level": 4,
+      "initiative": 40,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3"
+          },
+          {
+            "type": "text",
+            "text": "If you killed an enemy with the attack ability, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "If you killed an enemy this round, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 22,
+      "name": "Survivalist",
+      "level": 5,
+      "initiative": 91,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six heals targeting figures without Ward, add Ward.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "X",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "where X is twice the number of tokens and tiles looted.",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 23,
+      "name": "Break Through",
+      "level": 5,
+      "initiative": 34,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "4",
+            "subActions": [
+              {
+                "type": "pierce",
+                "value": "2",
+                "small": true
+              },
+              {
+                "type": "boxFhSubActions",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Before applying any other bonuses, move the character token on one of your persistent abilities forward one slot: Wound",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "If you are adjacent to at least two enemies, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 24,
+      "name": "Accurate Strikes",
+      "level": 6,
+      "initiative": 56,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next six attacks targeting enemies with Shield, add Pierce 3.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Gain advantage on all your attacks this round.",
+            "small": true
+          }
+        ],
+        "round": true
+      }
+    },
+    {
+      "cardId": 25,
+      "name": "Consume Stamina",
+      "level": 6,
+      "initiative": 21,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "heal",
+            "value": "X",
+            "subActions": [
+              {
+                "type": "extra",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "where X is the amount of Damage suffered by targets of the attack ability.",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "retaliate",
+            "value": "2",
+            "enhancementTypes": [
+              "circle"
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Whenever an adjacent enemy dies this round, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ],
+        "round": true
+      }
+    },
+    {
+      "cardId": 26,
+      "name": "Like the Wind",
+      "level": 7,
+      "initiative": 77,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Immediately after your next six heal abilities, perform Move 3 Jump.",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "For each ally moved through during the move ability, move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 27,
+      "name": "Unending Fight",
+      "level": 7,
+      "initiative": 25,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "square"
+            ]
+          },
+          {
+            "type": "attack",
+            "value": "2",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "Move the character token on three of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ],
+        "lost": true
+      }
+    },
+    {
+      "cardId": 28,
+      "name": "Against All Odds",
+      "level": 8,
+      "initiative": 37,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "1",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Target all enemies within 2 hexes",
+                "small": true
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "For each enemy targeted with the attack ability, Move the character token on one of your persistent abilities backwards one slot.",
+            "small": true
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On the next six instances of an enemy entering a hex adjacent to you, that enemy suffers Damage 3",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      }
+    },
+    {
+      "cardId": 29,
+      "name": "Inevitable Conclusion",
+      "level": 8,
+      "initiative": 29,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "4",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "boxFhSubActions",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Before applying any other bonuses, move the character token on one of your persistent abilities forward one slot: Immobilize",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "lost": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "poison",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 30,
+      "name": "Everlasting",
+      "level": 9,
+      "initiative": 96,
+      "top": {
+        "actions": [
+          {
+            "type": "text",
+            "text": "On your next four sources of 4 or less Damage you suffer, negate the Damage",
+            "small": true
+          },
+          {
+            "type": "persistentTrack",
+            "slots": [
+              {
+                "xp": 1
+              },
+              {
+                "xp": 1
+              }
+            ]
+          }
+        ],
+        "lost": true,
+        "persistent": true
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "heal",
+            "value": "3",
+            "enhancementTypes": [
+              "diamond_plus"
+            ],
+            "subActions": [
+              {
+                "type": "condition",
+                "value": "regenerate",
+                "small": true
+              },
+              {
+                "type": "condition",
+                "value": "strengthen",
+                "small": true
+              },
+              {
+                "type": "boxFhSubActions",
+                "subActions": [
+                  {
+                    "type": "text",
+                    "text": "Before applying any other bonuses, move the character token on one of your persistent abilities forward one slot: Target +1.",
+                    "small": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cardId": 31,
+      "name": "Use Every Part",
+      "level": 9,
+      "initiative": 18,
+      "top": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "4",
+            "enhancementTypes": [
+              "diamond"
+            ]
+          },
+          {
+            "type": "heal",
+            "value": "4",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "Target all allies adjacent to at least one enemy targeted with the attack ability",
+                "small": true
+              }
+            ]
+          }
+        ]
+      },
+      "bottom": {
+        "actions": [
+          {
+            "type": "attack",
+            "value": "X",
+            "subActions": [
+              {
+                "type": "text",
+                "text": "where X is the number of hexes you moved during the move ability.",
+                "small": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

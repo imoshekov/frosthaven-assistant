@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Creature, CreatureConditions } from '../../../types/game-types';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 
-export class ConditionsComponent implements OnInit {
+export class ConditionsComponent implements OnInit, OnChanges {
   @Input() creature!: Creature;
   @Input() conditions: CreatureConditions[];
   @Input() immunities: CreatureConditions[];
@@ -24,12 +24,24 @@ export class ConditionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.creature?.conditions?.forEach(condition => {
-      this.activeConditions.push(condition);
-    })
-    this.creature?.immunities?.forEach(immunity => {
-      this.activeImmunities.push(immunity);
-    })
+    this.seedFromCreature();
+  }
+
+  /**
+   * Reseed when the bound creature changes. The local arrays used to be filled once in
+   * ngOnInit, which was fine where this component is recreated per open (the attack
+   * modal) but wrong anywhere it outlives a change of creature — the card execution
+   * panel switches targets without being destroyed.
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['creature'] && !changes['creature'].firstChange) {
+      this.seedFromCreature();
+    }
+  }
+
+  private seedFromCreature(): void {
+    this.activeConditions = [...(this.creature?.conditions ?? [])];
+    this.activeImmunities = [...(this.creature?.immunities ?? [])];
   }
 
   toggleCondition(condition: CreatureConditions) {

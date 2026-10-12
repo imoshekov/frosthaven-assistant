@@ -3,7 +3,9 @@ name: build-and-deploy-angular-app
 on:
   push:
     branches:
+      - main
       - attacks-v2
+  # Lets the workflow be started by hand from any branch, from the Actions tab.
   workflow_dispatch:
 
 jobs:

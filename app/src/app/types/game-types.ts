@@ -1,4 +1,16 @@
 import { MonsterAbilityCard } from "./data-file-types";
+import { CardSlot, HalfDisposition } from "./character-card-types";
+
+/**
+ * Portrait for a summon whose card provides no token art. One constant rather than the
+ * same string repeated in four components.
+ *
+ * Replaces `images/summons/fh.png`, which ships fine (the build copies `src/images`)
+ * but is a 100-byte 68×68 1-bit placeholder that draws as a blank square — so a summon
+ * without art showed nothing at all. This is the same skull the components already fall
+ * back to from their `(error)` handlers, so both paths now land on one real image.
+ */
+export const SUMMON_FALLBACK_IMAGE = './images/bb/daemon-skull.svg';
 
 export enum CreatureConditions {
   poison = "poison",
@@ -14,6 +26,18 @@ export enum CreatureConditions {
   strengthen = "strengthen",
   regenerate = "regenerate"
 }
+
+/**
+ * Conditions that only ever benefit their recipient. By the rules these can only be
+ * placed on allies (a hero/summon on another hero/summon, a monster on another
+ * monster) - never on an enemy of whoever is applying them.
+ */
+export const POSITIVE_CONDITIONS: CreatureConditions[] = [
+  CreatureConditions.ward,
+  CreatureConditions.invisible,
+  CreatureConditions.strengthen,
+  CreatureConditions.regenerate
+];
 
 export interface CreatureAction {
   type: string;
@@ -34,12 +58,32 @@ export interface Creature {
   standee?: number | string,
   type?: string;
   aggressive?: boolean;
+  /**
+   * True for a summoned figure. A summon is friendly like a hero (`aggressive` is
+   * false) but statted and managed like a monster, so most hero-only logic keys off
+   * `isHero()` rather than `!aggressive`. Summons only ever enter play through a card's
+   * summon action.
+   */
+  isSummon?: boolean;
+  /**
+   * The hero who summoned it. A summon has no initiative of its own — it acts on its
+   * owner's, immediately before them — so ordering borrows the owner's value.
+   */
+  summonOwnerId?: string;
+  /** Token art for a summon, as a path under `/images`, taken from the card. */
+  summonImage?: string;
+  /** Literal prose printed on a summon token that no stat field can express. */
+  summonNotes?: string[];
+  /** Attack range printed on a summon token. Monsters get range from ability cards. */
+  range?: number;
   isElite?: boolean; 
   level?: number; 
   hp?: number;
   maxHp?: number;
   attack?: number;
   attackTarget?: number;
+  /** Fixed armor penetration a summon's printed attack carries. Monsters get pierce from the attack-modifier deck instead. */
+  pierce?: number;
   movement?: number | null;
   initiative?: number;
   hiddenInitiative?: number | null;
@@ -63,6 +107,31 @@ export interface Creature {
   actions?: CreatureAction[];
   abilityCards?: MonsterAbilityCard[]; 
   totalXp?: number;
+
+  // --- Hero card turn state (predicates live in turn-state.util.ts) -----------
+  // Only meaningful when `aggressive` is false. Monster turns stay fully manual.
+
+  /** The second played card's initiative, before reveal. Mirrors `hiddenInitiative`. */
+  secondaryHiddenInitiative?: number | null;
+  /** The second played card's initiative, once revealed. Mirrors `initiative`. */
+  secondaryInitiative?: number;
+
+  /**
+   * The two played cards, held as ids rather than objects: the whole `Creature[]` is
+   * broadcast on every state change, and monsters already ship entire decks that way.
+   * `cardId` is unique across all 17 Frosthaven decks, so an id alone resolves a card.
+   */
+  cardAId?: number | null;
+  cardBId?: number | null;
+
+  /** Which card supplied the spent top half, and whether it was executed or skipped. */
+  topHalfSlot?: CardSlot | null;
+  topHalfState?: HalfDisposition | null;
+  bottomHalfSlot?: CardSlot | null;
+  bottomHalfState?: HalfDisposition | null;
+
+  /** Set when both halves are spent, or forced by "End Turn Early". */
+  isTurnCompleted?: boolean;
 }
 
 
